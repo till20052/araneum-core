@@ -1,0 +1,15 @@
+#before_script:
+#  - ./deploy/before.sh
+
+#stages:
+#  - build1
+#  - test1
+#  - deploy1
+
+build:
+  script:
+    - “echo 1”
+
+#deploy:
+#  script:
+#    - “echo 2”
