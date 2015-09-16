@@ -1,3 +1,8 @@
+araneum_user:
+    resource: "@AraneumUserBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 araneum_main:
     resource: "@AraneumMainBundle/Controller/"
     type:     annotation

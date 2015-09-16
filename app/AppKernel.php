@@ -17,7 +17,9 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Knp\RadBundle\KnpRadBundle(),
+
             new Araneum\Bundle\MainBundle\AraneumMainBundle(),
+            new Araneum\Bundle\MainBundle\AraneumUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
