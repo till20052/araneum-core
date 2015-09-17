@@ -53,10 +53,12 @@ class Component
 
     /**
      * @param mixed $id
+     * @return mixed
      */
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -69,10 +71,12 @@ class Component
 
     /**
      * @param mixed $name
+     * @return mixed
      */
     public function setName($name)
     {
         $this->name = $name;
+        return $this;
     }
 
     /**
@@ -85,10 +89,12 @@ class Component
 
     /**
      * @param mixed $option
+     * @return mixed
      */
     public function setOption($option)
     {
         $this->option = $option;
+        return $this;
     }
 
     /**
@@ -101,10 +107,12 @@ class Component
 
     /**
      * @param mixed $description
+     * @return mixed
      */
     public function setDescription($description)
     {
         $this->description = $description;
+        return $this;
     }
 
     /**
@@ -117,10 +125,12 @@ class Component
 
     /**
      * @param bool|true $enabled
+     * @return mixed
      */
     public function setEnabled($enabled=true)
     {
         $this->enabled = $enabled;
+        return $this;
     }
 
     /**
@@ -133,10 +143,12 @@ class Component
 
     /**
      * @param bool|true $default
+     * @return mixed
      */
     public function setDefault($default=true)
     {
         $this->default = $default;
+        return $this;
     }
 
 }
