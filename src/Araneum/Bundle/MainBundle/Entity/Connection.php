@@ -14,9 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Connection
 {
-    //DateTrait for created_at, update_at
-    //use Araneum\BaseBundle\EntityTrait\DateTrait;
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
