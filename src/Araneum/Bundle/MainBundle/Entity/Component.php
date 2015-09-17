@@ -1,12 +1,7 @@
 <?php
-/**
- * Author: andreyp
- * Date: 17.09.15
- * Time: 10:26
- * Version 1.0.0
- */
 
-namespace Entity;
+
+namespace Araneum\Bundle\MainBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,11 +18,14 @@ class Component
      */
     protected $id;
 
-
     /**
      * @ORM\Column(type="string", length=255)
      */
     protected $name;
+
+    /**
+     * @ORM\Column(type="string")
+     */
     protected $option;
 
     /**
@@ -39,8 +37,11 @@ class Component
      * @ORM\Column(type="boolean")
      */
     protected $enabled;
-    protected $default;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $default;
 
     /**
      * @return mixed
@@ -57,7 +58,6 @@ class Component
     {
         $this->id = $id;
     }
-
 
     /**
      * @return mixed
@@ -115,7 +115,6 @@ class Component
         return $this->enabled;
     }
 
-
     /**
      * @param bool|true $enabled
      */
@@ -123,7 +122,6 @@ class Component
     {
         $this->enabled = $enabled;
     }
-
 
     /**
      * @return bool
