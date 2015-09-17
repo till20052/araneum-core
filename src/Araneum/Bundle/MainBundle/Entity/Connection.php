@@ -25,7 +25,7 @@ class Connection
     protected $id;
 
     /**
-     * @ORM\Column(type="integer", name="`type`")
+     * @ORM\Column(type="integer", name="type")
      */
     protected $type;
 
