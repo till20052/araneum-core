@@ -59,16 +59,6 @@ class Connection
     protected $enabled;
 
     /**
-     * @ORM\Column(type="datetime", name="created_at")
-     */
-    protected $created_at;
-
-    /**
-     * @ORM\Column(type="datetime", name="updated_at")
-     */
-    protected $updated_at;
-
-    /**
      * Get id
      *
      * @return integer 
@@ -237,51 +227,5 @@ class Connection
     public function getEnabled()
     {
         return $this->enabled;
-    }
-
-    /**
-     * Set created_at
-     *
-     * @param \DateTime $createdAt
-     * @return Connection
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->created_at = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get created_at
-     *
-     * @return \DateTime 
-     */
-    public function getCreatedAt()
-    {
-        return $this->created_at;
-    }
-
-    /**
-     * Set updated_at
-     *
-     * @param \DateTime $updatedAt
-     * @return Connection
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updated_at = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updated_at
-     *
-     * @return \DateTime 
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updated_at;
     }
 }
