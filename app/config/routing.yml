@@ -2,3 +2,4 @@ araneum_main:
     resource: "@AraneumMainBundle/Controller/"
     type:     annotation
     prefix:   /
+
