@@ -6,9 +6,10 @@ use \FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Araneum\Bundle\UserBundle\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="araneum_user")
+ * @ORM\Table(name="araneum_users")
+ *
  */
 class User extends BaseUser
 {
