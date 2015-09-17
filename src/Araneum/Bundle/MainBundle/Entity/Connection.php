@@ -46,7 +46,7 @@ class Connection
     /**
      * @ORM\Column(type="string", name="user_name", length=100, nullable=true)
      */
-    protected $user_name;
+    protected $userName;
 
     /**
      * @ORM\Column(type="string", name="password", length=100)
@@ -161,26 +161,26 @@ class Connection
     }
 
     /**
-     * Set user_name
+     * Set userName
      *
      * @param string $userName
      * @return Connection
      */
     public function setUserName($userName)
     {
-        $this->user_name = $userName;
+        $this->userName = $userName;
 
         return $this;
     }
 
     /**
-     * Get user_name
+     * Get userName
      *
      * @return string 
      */
     public function getUserName()
     {
-        return $this->user_name;
+        return $this->userName;
     }
 
     /**
