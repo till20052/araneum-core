@@ -14,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Connection
 {
+    use \Araneum\BaseBundle\EntityTrait\DateTrait;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -37,12 +39,12 @@ class Connection
     protected $host;
 
     /**
-     * @ORM\Column(type="integer", name="port", length=100)
+     * @ORM\Column(type="integer", name="port", length=100, nullable=true)
      */
     protected $port;
 
     /**
-     * @ORM\Column(type="string", name="user_name", length=100)
+     * @ORM\Column(type="string", name="user_name", length=100, nullable=true)
      */
     protected $user_name;
 
