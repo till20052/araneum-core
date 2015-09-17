@@ -1,7 +1,6 @@
 <?php
-
-
 namespace Araneum\Bundle\MainBundle\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,7 +23,7 @@ class Component
     protected $name;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="json_array")
      */
     protected $option;
 
@@ -131,7 +130,7 @@ class Component
      * @param bool|true $enabled
      * @return mixed
      */
-    public function setEnabled($enabled=true)
+    public function setEnabled($enabled = true)
     {
         $this->enabled = $enabled;
 
@@ -150,11 +149,36 @@ class Component
      * @param bool|true $default
      * @return mixed
      */
-    public function setDefault($default=true)
+    public function setDefault($default = true)
     {
         $this->default = $default;
 
         return $this;
+    }
+
+    /**
+     * @param array
+     */
+    public function addOption(Array $val){
+            $this->option[]=$val;
+    }
+
+    /**
+     * @param mixed
+     * @return mixed
+     */
+    public function getOptionValueByKey($key){
+        if(isset($key) && is_array($this->option)) {
+
+            return $this->option[$key];
+        }
+    }
+
+    /**
+     * @param mixed $key
+     */
+    public function removeOption($key){
+        unset($this->option[$key]);
     }
 
 }
