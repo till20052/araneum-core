@@ -34,7 +34,7 @@ class Locale
     protected $locale;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default":true})
      */
     protected $enabled;
 
@@ -122,7 +122,7 @@ class Locale
      * 
      * @return boolean
      */
-    public function getEnabled()
+    public function isEnabled()
     {
         return $this->enabled;
     }
