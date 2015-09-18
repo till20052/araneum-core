@@ -119,7 +119,7 @@ class Cluster
      * @param boolean $enabled
      * @return Cluster
      */
-    public function setEnabled($enabled)
+    public function setEnabled($enabled = true)
     {
         $this->enabled = $enabled;
 
