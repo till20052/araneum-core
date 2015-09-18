@@ -15,13 +15,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Cluster
 {
     use \Araneum\Bundle\BaseBundle\DateTrait;
-    /**
-     * Create ArrayCollection object
-     */
-    public function __construct()
-    {
-        $this->host = new ArrayCollection();
-    }
 
     /**
      * @ORM\Id
@@ -36,7 +29,7 @@ class Cluster
     protected $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Connection", mappedBy="id", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Connection")
      * @ORM\JoinColumn(name="connection_id", referencedColumnName="id")
      */
     protected $host;
@@ -167,7 +160,7 @@ class Cluster
      */
     public function addHost(Connection $host)
     {
-        $this->host[] = $host;
+        $this->host = $host;
 
         return $this;
     }
