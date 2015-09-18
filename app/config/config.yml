@@ -10,7 +10,7 @@ parameters:
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -73,8 +73,15 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
-    spool:     { type: memory }
+    transport:  "%mailer_transport%"
+    encryption: "%mailer_encryption%"
+    auth_mode:  "%mailer_auth_mode%"
+    host:       "%mailer_host%"
+    username:   "%mailer_user%"
+    password:   "%mailer_password%"
+    spool:      { type: memory }
+    
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: Araneum\Bundle\UserBundle\Entity\User    
