@@ -17,14 +17,6 @@ class Cluster
     use \Araneum\BaseBundle\EntityTrait\DateTrait;
 
     /**
-     * Create ArrayCollection object
-     */
-    public function __construct()
-    {
-        $this->host = new ArrayCollection();
-    }
-
-    /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -37,7 +29,7 @@ class Cluster
     protected $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Connection", mappedBy="id", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Connection")
      * @ORM\JoinColumn(name="connection_id", referencedColumnName="id")
      */
     protected $host;
