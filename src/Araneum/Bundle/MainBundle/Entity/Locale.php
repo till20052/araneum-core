@@ -109,7 +109,7 @@ class Locale
      * @param boolean $enabled
      * @return Locale
      */
-    public function setEnabled($enabled)
+    public function setEnabled($enabled = true)
     {
         $this->enabled = $enabled;
 
