@@ -57,6 +57,7 @@ class Component
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -75,6 +76,7 @@ class Component
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -93,6 +95,7 @@ class Component
     public function setOption($option)
     {
         $this->option = $option;
+
         return $this;
     }
 
@@ -111,6 +114,7 @@ class Component
     public function setDescription($description)
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -129,6 +133,7 @@ class Component
     public function setEnabled($enabled = true)
     {
         $this->enabled = $enabled;
+
         return $this;
     }
 
@@ -147,15 +152,18 @@ class Component
     public function setDefault($default = true)
     {
         $this->default = $default;
+
         return $this;
     }
 
     /**
      * @param array
      */
-    public function addOption(Array $val)
+    public function addOption(array $val)
     {
-        $this->option[] = $val;
+        foreach($val as $key=>$value){
+            $this->option[$key]=$value;
+        }
     }
 
     /**
@@ -180,6 +188,7 @@ class Component
             $result = true;
             unset($this->option[$key]);
         }
+
         return $result;
     }
 }
