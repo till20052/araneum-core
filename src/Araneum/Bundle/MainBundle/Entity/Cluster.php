@@ -168,7 +168,7 @@ class Cluster
      */
     public function addHost(Connection $host)
     {
-        $this->host[] = $host;
+        $this->host = $host;
 
         return $this;
     }
