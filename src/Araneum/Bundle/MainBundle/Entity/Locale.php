@@ -15,6 +15,9 @@ class Locale
 {
     use \Araneum\BaseBundle\EntityTrait\DateTrait;
 
+    const ORIENT_LFT_TO_RGT = 1;
+    const ORIENT_RGT_TO_LFT = 2;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
