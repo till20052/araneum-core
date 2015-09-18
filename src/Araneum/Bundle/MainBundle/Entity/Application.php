@@ -28,7 +28,7 @@ class Application
     protected $cluster;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique=true)
      */
     protected $name;
 
@@ -38,7 +38,7 @@ class Application
     protected $domain;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="json_array")
      */
     protected $aliases;
 
@@ -80,12 +80,12 @@ class Application
     protected $owner;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="smallint")
      */
     protected $status;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $template;
 
@@ -183,7 +183,7 @@ class Application
      * @param mixed $aliases
      * @return mixed
      */
-    public function setAliases($aliases)
+    public function setAliases(ArrayCollection $aliases)
     {
         $this->aliases = $aliases;
 
