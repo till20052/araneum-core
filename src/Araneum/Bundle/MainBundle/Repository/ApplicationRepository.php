@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Entity;
+namespace Araneum\Bundle\MainBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

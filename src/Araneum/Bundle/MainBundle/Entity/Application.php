@@ -6,7 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Application class
- *
+ * @Doctrine\ORM\Mapping\Entity
+ * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ApplicationRepository")
  * @ORM\Table(name="araneum_applications")
  *
  */
