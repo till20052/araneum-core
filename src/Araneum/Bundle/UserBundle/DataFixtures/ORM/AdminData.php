@@ -9,7 +9,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 class AdminData implements FixtureInterface
 {
     /**
-     * {@inheritDoc
+     * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
