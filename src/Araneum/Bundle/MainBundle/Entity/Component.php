@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Class Component
  * @package Entity
  * @Doctrine\ORM\Mapping\Entity
+ * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ComponentRepository")
  * @ORM\Table(name="araneum_components")
  */
 class Component
@@ -56,7 +57,6 @@ class Component
     public function setId($id)
     {
         $this->id = $id;
-
         return $this;
     }
 
@@ -75,7 +75,6 @@ class Component
     public function setName($name)
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -94,7 +93,6 @@ class Component
     public function setOption($option)
     {
         $this->option = $option;
-
         return $this;
     }
 
@@ -113,7 +111,6 @@ class Component
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -132,7 +129,6 @@ class Component
     public function setEnabled($enabled = true)
     {
         $this->enabled = $enabled;
-
         return $this;
     }
 
@@ -151,24 +147,24 @@ class Component
     public function setDefault($default = true)
     {
         $this->default = $default;
-
         return $this;
     }
 
     /**
      * @param array
      */
-    public function addOption(Array $val){
-            $this->option[]=$val;
+    public function addOption(Array $val)
+    {
+        $this->option[] = $val;
     }
 
     /**
      * @param mixed
      * @return mixed
      */
-    public function getOptionValueByKey($key){
-        if(isset($key) && is_array($this->option)) {
-
+    public function getOptionValueByKey($key)
+    {
+        if (isset($key) && is_array($this->option)) {
             return $this->option[$key];
         }
     }
@@ -177,14 +173,13 @@ class Component
      * @param mixed $key
      * @return bool
      */
-    public function removeOption($key){
-        $result=false;
-
-        if(isset($this->option[$key])){
-            $result=true;
+    public function removeOption($key)
+    {
+        $result = false;
+        if (isset($this->option[$key])) {
+            $result = true;
             unset($this->option[$key]);
         }
-
         return $result;
     }
 }
