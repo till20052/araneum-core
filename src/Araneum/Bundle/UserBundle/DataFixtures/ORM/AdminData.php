@@ -6,7 +6,7 @@ use Araneum\Bundle\UserBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadUserData implements FixtureInterface
+class AdminData implements FixtureInterface
 {
     /**
      * {@inheritDoc}
