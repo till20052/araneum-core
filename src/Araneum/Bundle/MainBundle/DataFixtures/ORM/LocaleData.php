@@ -6,7 +6,7 @@ use Araneum\Bundle\MainBundle\Entity\Locale;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class LoadLocaleData implements FixtureInterface
+class LocaleData implements FixtureInterface
 {
     /**
      * {@inheritDoc}
