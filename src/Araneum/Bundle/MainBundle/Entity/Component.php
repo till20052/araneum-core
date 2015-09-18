@@ -1,6 +1,7 @@
 <?php
 namespace Araneum\Bundle\MainBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,6 +44,11 @@ class Component
      * @ORM\Column(type="boolean")
      */
     protected $default;
+
+
+    public function __construct(){
+        $this->setOption(new ArrayCollection());
+    }
 
     /**
      * Get id
