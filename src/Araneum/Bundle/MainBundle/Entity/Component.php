@@ -43,6 +43,8 @@ class Component
     protected $default;
 
     /**
+     * Get id
+     *
      * @return mixed
      */
     public function getId()
@@ -51,6 +53,8 @@ class Component
     }
 
     /**
+     * Set id
+     *
      * @param mixed $id
      * @return mixed
      */
@@ -62,6 +66,8 @@ class Component
     }
 
     /**
+     * Get name
+     *
      * @return mixed
      */
     public function getName()
@@ -70,6 +76,8 @@ class Component
     }
 
     /**
+     * Set name
+     *
      * @param mixed $name
      * @return mixed
      */
@@ -81,6 +89,8 @@ class Component
     }
 
     /**
+     * Get option
+     *
      * @return mixed
      */
     public function getOption()
@@ -89,6 +99,8 @@ class Component
     }
 
     /**
+     * Set option
+     *
      * @param mixed $option
      * @return mixed
      */
@@ -100,6 +112,8 @@ class Component
     }
 
     /**
+     * Get description
+     *
      * @return mixed
      */
     public function getDescription()
@@ -108,6 +122,8 @@ class Component
     }
 
     /**
+     * Set description
+     *
      * @param mixed $description
      * @return mixed
      */
@@ -119,6 +135,8 @@ class Component
     }
 
     /**
+     * Get enabled
+     *
      * @return bool
      */
     public function isEnabled()
@@ -127,6 +145,8 @@ class Component
     }
 
     /**
+     * Set enabled
+     *
      * @param bool|true $enabled
      * @return mixed
      */
@@ -138,6 +158,8 @@ class Component
     }
 
     /**
+     * Get default
+     *
      * @return bool
      */
     public function isDefault()
@@ -146,6 +168,8 @@ class Component
     }
 
     /**
+     * Set default
+     *
      * @param bool|true $default
      * @return mixed
      */
@@ -157,6 +181,8 @@ class Component
     }
 
     /**
+     * Add option
+     *
      * @param array
      */
     public function addOption(array $val)
@@ -167,6 +193,8 @@ class Component
     }
 
     /**
+     * Get option value by key
+     *
      * @param mixed
      * @return mixed
      */
@@ -178,6 +206,8 @@ class Component
     }
 
     /**
+     * Remove option by key
+     *
      * @param mixed $key
      * @return bool
      */
