@@ -208,8 +208,10 @@ class Component
      */
     public function getOptionValueByKey($key)
     {
-        if (isset($key) && is_array($this->option)) {
+        if (isset($this->option[$key])) {
             return $this->option[$key];
+        }else{
+            return false;
         }
     }
 
