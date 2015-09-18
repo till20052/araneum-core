@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Connection
- * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="araneum_connections")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ConnectionRepository")
@@ -224,7 +223,7 @@ class Connection
      *
      * @return boolean 
      */
-    public function getEnabled()
+    public function isEnabled()
     {
         return $this->enabled;
     }
