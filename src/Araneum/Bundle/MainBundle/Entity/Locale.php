@@ -13,6 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Locale
 {
+    const ORIENT_LFT_TO_RGT = 1;
+    const ORIENT_RGT_TO_LFT = 2;
+
     use \Araneum\BaseBundle\EntityTrait\DateTrait;
 
     /**

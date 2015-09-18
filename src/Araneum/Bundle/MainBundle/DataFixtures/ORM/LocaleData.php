@@ -8,9 +8,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class LoadLocaleData implements FixtureInterface
 {
-    const ORIENT_LFT_TO_RGT = 1;
-    const ORIENT_RGT_TO_LFT = 2;
-
     /**
      * {@inheritDoc}
      */
