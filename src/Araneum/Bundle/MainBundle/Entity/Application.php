@@ -66,10 +66,10 @@ class Application
     protected $locale;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Component")
+     * @ORM\ManyToMany(targetEntity="Component", cascade={"persist", "remove"})
      * @ORM\JoinTable(name="araneum_components",
-     *                  joinColumns={JoinColumn(name="component_id", referencedColumnName="id")},
-     *                  inverseJoinColumns={JoinColumn(name="application_id", referencedColumnName="id", unique=true)}
+     * joinColumns={JoinColumn(name="component_id", referencedColumnName="id")},
+     * inverseJoinColumns={JoinColumn(name="application_id", referencedColumnName="id", unique=true)}
      * )
      */
     protected $components;
