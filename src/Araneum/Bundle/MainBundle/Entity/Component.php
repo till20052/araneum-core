@@ -47,7 +47,7 @@ class Component
 
 
     public function __construct(){
-        $this->setOption(new ArrayCollection());
+        $this->setOption([]);
     }
 
     /**
@@ -196,7 +196,7 @@ class Component
     public function addOption(array $val)
     {
         foreach($val as $key=>$value){
-            $this->option[$key]=$value;
+            $this->option[$key] = $value;
         }
     }
 
