@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Component
  * @package Entity
- * @Doctrine\ORM\Mapping\Entityoperators
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ComponentRepository")
  * @ORM\Table(name="araneum_components")
  */
@@ -35,6 +34,13 @@ class Component
      */
     protected $description;
 
+
+    /**
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="Application", mappedBy="components", cascade={"persist", "remove"})
+     */
+    protected $applications;
+
     /**
      * @ORM\Column(type="boolean")
      */
@@ -48,6 +54,7 @@ class Component
 
     public function __construct(){
         $this->setOption([]);
+        $this->setApplications(new ArrayCollection());
     }
 
     /**
@@ -109,10 +116,10 @@ class Component
     /**
      * Set option
      *
-     * @param mixed $option
+     * @param array $option
      * @return mixed
      */
-    public function setOption($option)
+    public function setOption(array $option)
     {
         $this->option = $option;
 
@@ -138,6 +145,25 @@ class Component
     public function setDescription($description)
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getApplications()
+    {
+        return $this->applications;
+    }
+
+    /**
+     * @param ArrayCollection $applications
+     * @return Component
+     */
+    public function setApplications(ArrayCollection $applications)
+    {
+        $this->applications = $applications;
 
         return $this;
     }

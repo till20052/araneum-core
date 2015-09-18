@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Application
 {
-    use Araneum\BaseBundle\EntityTrait\DateTrait;
+    use \Araneum\BaseBundle\EntityTrait\DateTrait;
 
     /**
      * @ORM\Id
@@ -39,7 +39,7 @@ class Application
     protected $domain;
 
     /**
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(type="json_array", nullable=true)
      */
     protected $aliases;
 
@@ -66,16 +66,13 @@ class Application
     protected $locale;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Component", cascade={"persist", "remove"})
-     * @ORM\JoinTable(name="araneum_components",
-     * joinColumns={JoinColumn(name="component_id", referencedColumnName="id")},
-     * inverseJoinColumns={JoinColumn(name="application_id", referencedColumnName="id", unique=true)}
-     * )
+     * @ORM\ManyToMany(targetEntity="Component", inversedBy="applications", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="araneum_component_application")
      */
     protected $components;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
      */
     protected $owner;
