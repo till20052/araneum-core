@@ -1,5 +1,4 @@
 <?php
-
 namespace Araneum\Bundle\MainBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -60,8 +59,8 @@ class Application
     protected $enabled;
 
     /**
-     *@ORM\ManyToOne(targetEntity="Locale")
-     *@ORM\JoinColumn(name="locale_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Locale")
+     * @ORM\JoinColumn(name="locale_id", referencedColumnName="id")
      */
     protected $locale;
 
@@ -76,7 +75,7 @@ class Application
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_Id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
      */
     protected $owner;
 
@@ -89,6 +88,12 @@ class Application
      * @ORM\Column(type="string")
      */
     protected $template;
+
+    public function __construct()
+    {
+        $this->setComponents(new ArrayCollection());
+    }
+
 
     /**
      * @return mixed
@@ -105,6 +110,7 @@ class Application
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -123,6 +129,7 @@ class Application
     public function setCluster(Cluster $cluster)
     {
         $this->cluster = $cluster;
+
         return $this;
     }
 
@@ -141,6 +148,7 @@ class Application
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -159,6 +167,7 @@ class Application
     public function setDomain($domain)
     {
         $this->domain = $domain;
+
         return $this;
     }
 
@@ -177,6 +186,7 @@ class Application
     public function setAliases($aliases)
     {
         $this->aliases = $aliases;
+
         return $this;
     }
 
@@ -195,6 +205,7 @@ class Application
     public function setDb(Connection $db)
     {
         $this->db = $db;
+
         return $this;
     }
 
@@ -210,9 +221,10 @@ class Application
      * @param mixed $public
      * @return mixed
      */
-    public function setPublic($public=true)
+    public function setPublic($public = true)
     {
         $this->public = $public;
+
         return $this;
     }
 
@@ -228,9 +240,10 @@ class Application
      * @param mixed $enabled
      * @return mixed
      */
-    public function setEnabled($enabled=true)
+    public function setEnabled($enabled = true)
     {
         $this->enabled = $enabled;
+
         return $this;
     }
 
@@ -249,6 +262,7 @@ class Application
     public function setLocale(Locale $locale)
     {
         $this->locale = $locale;
+
         return $this;
     }
 
@@ -267,6 +281,7 @@ class Application
     public function setComponents(ArrayCollection $components)
     {
         $this->components = $components;
+
         return $this;
     }
 
@@ -285,6 +300,7 @@ class Application
     public function setOwner(User $owner)
     {
         $this->owner = $owner;
+
         return $this;
     }
 
@@ -303,6 +319,7 @@ class Application
     public function setStatus($status)
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -321,6 +338,7 @@ class Application
     public function setTemplate($template)
     {
         $this->template = $template;
+
         return $this;
     }
 }
