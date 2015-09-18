@@ -8,6 +8,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class LoadLocaleData implements FixtureInterface
 {
+    const ORIENT_LFT_TO_RGT = 1;
+    const ORIENT_RGT_TO_LFT = 2;
+
     /**
      * {@inheritDoc}
      */
@@ -18,8 +21,7 @@ class LoadLocaleData implements FixtureInterface
             $localeEn = new Locale();
             $localeEn->setName('en');
             $localeEn->setLocale('en_US');
-            $localeEn->setEnabled(true);
-            $localeEn->setOrientation(1);
+            $localeEn->setOrientation(Locale::ORIENT_LFT_TO_RGT);
             $localeEn->setEncoding('UTF-8');
             $manager->persist($localeEn);
             $manager->flush();
