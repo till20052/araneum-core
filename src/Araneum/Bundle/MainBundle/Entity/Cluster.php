@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Cluster
 {
-    use Araneum\BaseBundle\EntityTrait\DateTrait;
+    use \Araneum\BaseBundle\EntityTrait\DateTrait;
 
     /**
      * @ORM\Id
