@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Component
 {
-
     /**
      * @ORM\Column(type="integer")
      */
@@ -176,9 +175,16 @@ class Component
 
     /**
      * @param mixed $key
+     * @return bool
      */
     public function removeOption($key){
-        unset($this->option[$key]);
-    }
+        $result=false;
 
+        if(isset($this->option[$key])){
+            $result=true;
+            unset($this->option[$key]);
+        }
+
+        return $result;
+    }
 }
