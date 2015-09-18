@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Locale
- * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="araneum_locales")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\LocaleRepository")
