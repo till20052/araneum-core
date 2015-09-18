@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class Cluster
- * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="araneum_cluster")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ClusterRepository")
@@ -15,8 +14,9 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Cluster
 {
+    use \Araneum\Bundle\BaseBundle\DateTrait;
     /**
-     *
+     * Create ArrayCollection object
      */
     public function __construct()
     {
@@ -53,19 +53,9 @@ class Cluster
     protected $enabled;
 
     /**
-     * @ORM\Column(type="smallint", name="status", options={"comment":"1-online, 2-offline"})
+     * @ORM\Column(type="smallint", name="status", options={"comment":"1 - online, 2 - offline"})
      */
     protected $status;
-
-    /**
-     * @ORM\Column(type="datetime", name="created_at")
-     */
-    protected $created_at;
-
-    /**
-     * @ORM\Column(type="datetime", name="updated_at")
-     */
-    protected $updated_at;
 
     /**
      * Get id
@@ -141,7 +131,7 @@ class Cluster
      *
      * @return boolean
      */
-    public function getEnabled()
+    public function isEnabled()
     {
         return $this->enabled;
     }
@@ -170,58 +160,12 @@ class Cluster
     }
 
     /**
-     * Set created_at
-     *
-     * @param \DateTime $createdAt
-     * @return Cluster
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->created_at = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get created_at
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->created_at;
-    }
-
-    /**
-     * Set updated_at
-     *
-     * @param \DateTime $updatedAt
-     * @return Cluster
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updated_at = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updated_at
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updated_at;
-    }
-
-    /**
      * Add host
      *
-     * @param \Araneum\Bundle\MainBundle\Entity\Connection $host
+     * @param Connection $host
      * @return Cluster
      */
-    public function addHost(\Araneum\Bundle\MainBundle\Entity\Connection $host)
+    public function addHost(Connection $host)
     {
         $this->host[] = $host;
 
@@ -231,9 +175,9 @@ class Cluster
     /**
      * Remove host
      *
-     * @param \Araneum\Bundle\MainBundle\Entity\Connection $host
+     * @param Connection $host
      */
-    public function removeHost(\Araneum\Bundle\MainBundle\Entity\Connection $host)
+    public function removeHost(Connection $host)
     {
         $this->host->removeElement($host);
     }
