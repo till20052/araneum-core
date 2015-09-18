@@ -95,6 +95,8 @@ class Application
 
 
     /**
+     * Get id
+     *
      * @return mixed
      */
     public function getId()
@@ -103,6 +105,8 @@ class Application
     }
 
     /**
+     * Set id
+     *
      * @param mixed $id
      * @return mixed
      */
@@ -114,6 +118,8 @@ class Application
     }
 
     /**
+     * Get cluster
+     *
      * @return mixed
      */
     public function getCluster()
@@ -122,6 +128,8 @@ class Application
     }
 
     /**
+     * Set cluster
+     *
      * @param mixed $cluster
      * @return mixed
      */
@@ -133,6 +141,8 @@ class Application
     }
 
     /**
+     * Get name
+     *
      * @return mixed
      */
     public function getName()
@@ -141,6 +151,8 @@ class Application
     }
 
     /**
+     * Set name
+     *
      * @param mixed $name
      * @return mixed
      */
@@ -152,6 +164,8 @@ class Application
     }
 
     /**
+     * Get domain
+     *
      * @return mixed
      */
     public function getDomain()
@@ -160,6 +174,8 @@ class Application
     }
 
     /**
+     * Set domain
+     *
      * @param mixed $domain
      * @return mixed
      */
@@ -171,6 +187,8 @@ class Application
     }
 
     /**
+     * Get aliases
+     *
      * @return mixed
      */
     public function getAliases()
@@ -179,6 +197,8 @@ class Application
     }
 
     /**
+     * Set aliases
+     *
      * @param mixed $aliases
      * @return mixed
      */
@@ -190,6 +210,8 @@ class Application
     }
 
     /**
+     * Get Db
+     *
      * @return mixed
      */
     public function getDb()
@@ -198,6 +220,8 @@ class Application
     }
 
     /**
+     * Set Db
+     *
      * @param mixed $db
      * @return mixed
      */
@@ -209,6 +233,8 @@ class Application
     }
 
     /**
+     * Get public
+     *
      * @return mixed
      */
     public function isPublic()
@@ -217,6 +243,8 @@ class Application
     }
 
     /**
+     * Set public
+     *
      * @param mixed $public
      * @return mixed
      */
@@ -228,6 +256,8 @@ class Application
     }
 
     /**
+     * Get enabled
+     *
      * @return mixed
      */
     public function isEnabled()
@@ -236,6 +266,8 @@ class Application
     }
 
     /**
+     * Set enabled
+     *
      * @param mixed $enabled
      * @return mixed
      */
@@ -247,6 +279,8 @@ class Application
     }
 
     /**
+     * Get locale
+     *
      * @return mixed
      */
     public function getLocale()
@@ -255,6 +289,8 @@ class Application
     }
 
     /**
+     * Set locale
+     *
      * @param mixed $locale
      * @return mixed
      */
@@ -266,6 +302,8 @@ class Application
     }
 
     /**
+     * Get Components
+     *
      * @return mixed
      */
     public function getComponents()
@@ -274,6 +312,8 @@ class Application
     }
 
     /**
+     * Set components
+     *
      * @param mixed $components
      * @return mixed
      */
@@ -285,6 +325,8 @@ class Application
     }
 
     /**
+     * Get owner
+     *
      * @return mixed
      */
     public function getOwner()
@@ -293,6 +335,8 @@ class Application
     }
 
     /**
+     * Set owner
+     *
      * @param mixed $owner
      * @return mixed
      */
@@ -304,6 +348,8 @@ class Application
     }
 
     /**
+     * Get status
+     *
      * @return mixed
      */
     public function getStatus()
@@ -312,6 +358,8 @@ class Application
     }
 
     /**
+     * Set status
+     *
      * @param mixed $status
      * @return mixed
      */
@@ -323,6 +371,8 @@ class Application
     }
 
     /**
+     * Get template
+     *
      * @return mixed
      */
     public function getTemplate()
@@ -331,6 +381,8 @@ class Application
     }
 
     /**
+     * Set template
+     *
      * @param mixed $template
      * @return mixed
      */
