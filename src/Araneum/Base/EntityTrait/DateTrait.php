@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\BaseBundle\EntityTrait;
+namespace Araneum\Base\EntityTrait;
 
 trait DateTrait
 {

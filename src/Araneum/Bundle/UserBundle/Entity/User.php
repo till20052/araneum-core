@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\UserBundle\Entity;
 
+use Araneum\Base\EntityTrait\DateTrait;
 use \FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User extends BaseUser
 {
-    use \Araneum\BaseBundle\EntityTrait\DateTrait;
+    use DateTrait;
 
     /**
      * @ORM\Id
