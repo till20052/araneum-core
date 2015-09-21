@@ -15,13 +15,16 @@ security:
             pattern: ^/
             form_login:
                 provider: fos_userbundle
-                csrf_provider: security.csrf.token_manager # Use form.csrf_provider instead for Symfony <2.4
-
-            logout:       true
-            anonymous:    true
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
+                default_target_path: sonata_admin_dashboard
+                csrf_provider: security.csrf.token_manager
+            anonymous: true
+            logout:
+                path: fos_user_security_logout
+                target: sonata_admin_dashboard
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/[a-zA-Z]+/admin/, role: ROLE_ADMIN }
