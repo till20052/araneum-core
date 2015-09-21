@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Knp\RadBundle\KnpRadBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new SmartCore\Bundle\AcceleratorCacheBundle\AcceleratorCacheBundle(),
 
             new Araneum\Bundle\MainBundle\AraneumMainBundle(),
             new Araneum\Bundle\UserBundle\AraneumUserBundle(),
