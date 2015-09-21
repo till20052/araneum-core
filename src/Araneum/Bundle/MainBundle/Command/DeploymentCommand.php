@@ -37,7 +37,7 @@ class DeploymentCommand extends ContainerAwareCommand
             'doctrine:fixtures:load' => [
                 '--append' => true
              ],
-            'app/console cache:accelerator:clear' => [],
+            'cache:accelerator:clear' => [],
             'cache:clear' => [],
         ];
 
