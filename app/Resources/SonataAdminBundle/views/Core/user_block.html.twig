@@ -1,0 +1,16 @@
+{% block user_block %}
+    <li role="presentation" class="dropdown-header">
+        <i class="glyphicon glyphicon-globe"></i>Language
+    </li>
+    {% for locale in locales|split('|') %}
+        <li role="presentation">
+            <a role="menuitem"
+                href="{{ url(
+                    app.request.get('_route'),
+                    app.request.attributes.get('_route_params')|merge({'_locale': locale })
+                ) }}">
+                {{ locale|capitalize }}
+            </a>
+        </li>
+    {% endfor %}
+{% endblock %}
