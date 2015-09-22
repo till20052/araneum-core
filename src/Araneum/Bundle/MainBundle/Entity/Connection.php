@@ -18,6 +18,7 @@ class Connection
 
     const CONN_DB = 1;
     const CONN_HOST = 2;
+    const CONN_TO_STR = 'Create';
 
     /**
      * @ORM\Id
@@ -230,5 +231,19 @@ class Connection
     public function isEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * To string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        if(!empty($this->getName())) {
+            return $this->getName()." (".$this->getHost().")";
+        } else {
+            return self::CONN_TO_STR;
+        }
     }
 }
