@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Entity;
 
+use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Locale
 {
-    use \Araneum\BaseBundle\EntityTrait\DateTrait;
+    use DateTrait;
 
     const ORIENT_LFT_TO_RGT = 1;
     const ORIENT_RGT_TO_LFT = 2;

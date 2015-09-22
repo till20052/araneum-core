@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Entity;
 
+use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Connection
 {
-    use \Araneum\BaseBundle\EntityTrait\DateTrait;
+    use DateTrait;
 
     const CONN_DB = 1;
     const CONN_HOST = 2;
