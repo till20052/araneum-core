@@ -4,6 +4,8 @@ namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class Locale
@@ -11,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="araneum_locales")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\LocaleRepository")
  * @package Araneum\Bundle\MainBundle\Entity
+ * @UniqueEntity(fields="name", message="This locale name already exists")
+ * @UniqueEntity(fields="locale", message="This locale already exists")
  */
 class Locale
 {
@@ -27,12 +31,18 @@ class Locale
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", unique=true)
+     *
+     * @Assert\NotBlank(message="This field is required")
+     * @Assert\Length(min=2, max=20, minMessage="Name too short", maxMessage="Name too long")
      */
     protected $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string")
+     *
+     * @Assert\NotBlank(message="This field is required")
+     * @Assert\Locale()
      */
     protected $locale;
 
@@ -47,7 +57,10 @@ class Locale
     protected $orientation;
 
     /**
-     * @ORM\Column(type="string", length=255, options={"default":"UTF-8"})
+     * @ORM\Column(type="string", options={"default":"UTF-8"})
+     *
+     * @Assert\NotBlank(message="This field is required")
+     * @Assert\Length(min=2, max=30, minMessage="Encoding value too short", maxMessage="Encoding value too long")
      */
     protected $encoding;
 

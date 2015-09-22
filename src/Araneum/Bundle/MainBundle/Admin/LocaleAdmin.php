@@ -21,15 +21,18 @@ class LocaleAdmin extends Admin
         $formMapper
             ->add('name', 'text', ['label' => 'Name'])
             ->add('locale', 'text', ['label' => 'Locale'])
-            ->add('enabled')
-            ->add('orientation', 'choice', [
-                'choices' => [
-                    Locale::ORIENT_LFT_TO_RGT => 'Left to Right',
-                    Locale::ORIENT_RGT_TO_LFT => 'Right to Left'
+            ->add('enabled', null, ['required' => false])
+            ->add(
+                'orientation',
+                'choice',
+                [
+                    'choices' => [
+                        Locale::ORIENT_LFT_TO_RGT => 'Left to Right',
+                        Locale::ORIENT_RGT_TO_LFT => 'Right to Left'
+                    ]
                 ]
-            ])
-            ->add('encoding', 'text', ['label' => 'Encoding'])
-        ;
+            )
+            ->add('encoding', 'text', ['label' => 'Encoding']);
     }
 
     /**
@@ -59,25 +62,36 @@ class LocaleAdmin extends Admin
             ->addIdentifier('id')
             ->add('name', 'text', ['editable' => true])
             ->add('locale', 'text', ['editable' => true])
-            ->add('enabled', null, [
-                'required' => false,
-                'editable' => true,
-            ])
-            ->add('orientation', 'choice', [
-                'choices' => [
-                    Locale::ORIENT_LFT_TO_RGT => 'Left to Right',
-                    Locale::ORIENT_RGT_TO_LFT => 'Right to Left'
-                ],
-                'editable' => true
-            ])
+            ->add(
+                'enabled',
+                null,
+                [
+                    'required' => false,
+                    'editable' => true,
+                ]
+            )
+            ->add(
+                'orientation',
+                'choice',
+                [
+                    'choices' => [
+                        Locale::ORIENT_LFT_TO_RGT => 'Left to Right',
+                        Locale::ORIENT_RGT_TO_LFT => 'Right to Left'
+                    ],
+                    'editable' => true
+                ]
+            )
             ->add('encoding', 'text', ['editable' => true])
             ->add('createdAt')
-            ->add('_action', 'actions', [
+            ->add(
+                '_action',
+                'actions',
+                [
                     'actions' => [
                         'edit' => [],
                         'delete' => [],
                     ]
-                ])
-        ;
+                ]
+            );
     }
 }
