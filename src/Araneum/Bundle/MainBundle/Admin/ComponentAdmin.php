@@ -12,8 +12,12 @@ class ComponentAdmin extends Admin
 	protected function configureFormFields(FormMapper $formMapper)
 	{
 		$formMapper
-			->add('name', 'text', ['label' => 'Name'])
-			->add('description', 'textarea', ['label' => 'Description'])
+			->add('name', 'text', [
+				'label' => 'Name'
+			])
+			->add('description', 'textarea', [
+				'label' => 'Description'
+			])
 			->add('enabled', 'checkbox', [
 				'label' => 'Enabled',
 				'required' => false
@@ -28,10 +32,21 @@ class ComponentAdmin extends Admin
 	protected function configureDatagridFilters(DatagridMapper $datagridMapper)
 	{
 		$datagridMapper
-			->add('name', null, ['label' => 'Name'])
-			->add('description', null, ['label' => 'Description'])
-			->add('enabled', null, ['label' => 'Enabled'])
-			->add('default', null, ['label' => 'Default'])
+			->add('name', null, [
+				'label' => 'Name'
+			])
+			->add('description', null, [
+				'label' => 'Description'
+			])
+			->add('enabled', null, [
+				'label' => 'Enabled'
+			])
+			->add('default', null, [
+				'label' => 'Default'
+			])
+			->add('createdAt', null, [
+				'label' => 'Created At'
+			])
 		;
 	}
 
@@ -42,6 +57,9 @@ class ComponentAdmin extends Admin
 				'label' => 'ID'
 			])
 			->add('name', null, [
+				'editable' => true
+			])
+			->add('description', null, [
 				'editable' => true
 			])
 			->add('enabled', null, [

@@ -1,7 +1,7 @@
 <?php
 namespace Araneum\Bundle\MainBundle\Entity;
 
-use Araneum\BaseBundle\EntityTrait\DateTrait;
+use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
