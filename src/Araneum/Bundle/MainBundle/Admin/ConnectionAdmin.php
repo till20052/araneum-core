@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\MainBundle\Admin;
 
 use Araneum\Bundle\MainBundle\Entity\Connection;
+use Knp\Menu\ItemInterface as MenuItemInterface;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -154,7 +155,6 @@ class ConnectionAdmin extends Admin
                 'actions',
                 [
                     'actions' => [
-                        'show' => [],
                         'edit' => [],
                         'testConnection' => [
                             'template' => 'AraneumMainBundle:CRUD:list__action_testConnection.html.twig'
