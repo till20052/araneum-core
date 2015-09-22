@@ -3,6 +3,7 @@ imports:
 
 framework:
     profiler: { only_exceptions: false }
+    test: ~
 
 doctrine:
    dbal:
