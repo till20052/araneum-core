@@ -1,6 +1,7 @@
 <?php
 namespace Araneum\Bundle\MainBundle\Entity;
 
+use Araneum\BaseBundle\EntityTrait\DateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -9,9 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @package Entity
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ComponentRepository")
  * @ORM\Table(name="araneum_components")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Component
 {
+    use DateTrait;
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -27,7 +30,7 @@ class Component
     /**
      * @ORM\Column(type="json_array")
      */
-    protected $option;
+    protected $options;
 
     /**
      * @ORM\Column(type="text")
@@ -47,13 +50,13 @@ class Component
     protected $enabled;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", name="`default`")
      */
     protected $default;
 
 
     public function __construct(){
-        $this->setOption([]);
+        $this->setOptions([]);
         $this->setApplications(new ArrayCollection());
     }
 
@@ -108,20 +111,20 @@ class Component
      *
      * @return mixed
      */
-    public function getOption()
+    public function getOptions()
     {
-        return $this->option;
+        return $this->options;
     }
 
     /**
      * Set option
      *
-     * @param array $option
+     * @param array $options
      * @return mixed
      */
-    public function setOption(array $option)
+    public function setOptions(array $options)
     {
-        $this->option = $option;
+        $this->options = $options;
 
         return $this;
     }
@@ -212,50 +215,6 @@ class Component
         $this->default = $default;
 
         return $this;
-    }
-
-    /**
-     * Add option
-     *
-     * @param array
-     */
-    public function addOption(array $val)
-    {
-        foreach($val as $key=>$value){
-            $this->option[$key] = $value;
-        }
-    }
-
-    /**
-     * Get option value by key
-     *
-     * @param mixed
-     * @return mixed
-     */
-    public function getOptionValueByKey($key)
-    {
-        if (isset($this->option[$key])) {
-            return $this->option[$key];
-        }else{
-            return false;
-        }
-    }
-
-    /**
-     * Remove option by key
-     *
-     * @param mixed $key
-     * @return bool
-     */
-    public function removeOption($key)
-    {
-        $result = false;
-        if (isset($this->option[$key])) {
-            $result = true;
-            unset($this->option[$key]);
-        }
-
-        return $result;
     }
 
     /**
