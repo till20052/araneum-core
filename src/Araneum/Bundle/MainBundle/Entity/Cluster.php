@@ -4,12 +4,14 @@ namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Cluster
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="araneum_cluster")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ClusterRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @package Araneum\Bundle\MainBundle\Entity
  */
 class Cluster
@@ -31,12 +33,15 @@ class Cluster
 
     /**
      * @ORM\Column(type="string", name="name", unique=true, length=100)
+     * @Assert\NotBlank(message="This field is required")
+     * @Assert\Length(min=2, max=255, minMessage="Name too short", maxMessage="Name too long")
      */
     protected $name;
 
     /**
      * @ORM\OneToOne(targetEntity="Connection")
      * @ORM\JoinColumn(name="connection_id", referencedColumnName="id")
+     * @Assert\NotBlank(message="This field is required")
      */
     protected $host;
 

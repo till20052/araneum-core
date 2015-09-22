@@ -1,20 +1,22 @@
 services:
-    sonata.admin.cluster:
-      class: Araneum\Bundle\MainBundle\Admin\ClusterAdmin
-      tags:
-        - { name: sonata.admin, manager_type: orm, group: "Cluster", label: "Cluster" }
-      arguments:
-        - ~
-        - Araneum\Bundle\MainBundle\Entity\Cluster
-        - ~
+  sonata.admin.cluster:
+    class: Araneum\Bundle\MainBundle\Admin\ClusterAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Core", label: "Cluster" }
+    arguments:
+      - ~
+      - Araneum\Bundle\MainBundle\Entity\Cluster
+      - ~
+    calls:
+      - [setTranslationDomain, [AraneumMainBundle]]
 
-      sonata.admin.connection:
-        class: Araneum\Bundle\MainBundle\Admin\ConnectionAdmin
-        tags:
-          - { name: sonata.admin, manager_type: orm, group: "Connection", label: "Connection" }
-        arguments:
-          - ~
-          - Araneum\Bundle\MainBundle\Entity\Connection
-          - AraneumMainBundle:ConnectionAdmin
-        calls:
-          - [setTranslationDomain, [AraneumBundle]]
+  sonata.admin.connection:
+    class: Araneum\Bundle\MainBundle\Admin\ConnectionAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Core", label: "Connection" }
+    arguments:
+      - ~
+      - Araneum\Bundle\MainBundle\Entity\Connection
+      - ~
+    calls:
+      - [setTranslationDomain, [AraneumMainBundle]]
