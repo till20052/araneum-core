@@ -36,8 +36,7 @@ class Component
      * @ORM\Column(type="text")
      */
     protected $description;
-
-
+    
     /**
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Application", mappedBy="components", cascade={"persist", "remove"})
@@ -215,6 +214,50 @@ class Component
         $this->default = $default;
 
         return $this;
+    }
+
+    /**
+     * Add option
+     *
+     * @param array
+     */
+    public function addOption(array $val)
+    {
+        foreach($val as $key=>$value){
+            $this->option[$key] = $value;
+        }
+    }
+
+    /**
+     * Get option value by key
+     *
+     * @param mixed
+     * @return mixed
+     */
+    public function getOptionValueByKey($key)
+    {
+        if (isset($this->option[$key])) {
+            return $this->option[$key];
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * Remove option by key
+     *
+     * @param mixed $key
+     * @return bool
+     */
+    public function removeOption($key)
+    {
+        $result = false;
+        if (isset($this->option[$key])) {
+            $result = true;
+            unset($this->option[$key]);
+        }
+
+        return $result;
     }
 
     /**
