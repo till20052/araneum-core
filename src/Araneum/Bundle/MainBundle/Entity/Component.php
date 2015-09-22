@@ -1,9 +1,11 @@
 <?php
+
 namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Component
@@ -24,6 +26,8 @@ class Component
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="This field is required")
+     * @Assert\Length(min=2, max=255, minMessage="Name too short", maxMessage="Name too long")
      */
     protected $name;
 
