@@ -5,3 +5,14 @@ services:
     tags:
       - { name: sonata.admin, manager_type: orm, group: "Content", label: "Cluster" }
     arguments: [null, Araneum\Bundle\MainBundle\Entity\Cluster, null]
+
+   sonata.admin.connection:
+     class: Araneum\Bundle\MainBundle\Admin\ConnectionAdmin
+     tags:
+       - { name: sonata.admin, manager_type: orm, group: "Connection", label: "Connection" }
+     arguments:
+       - ~
+       - Araneum\Bundle\MainBundle\Entity\Connection
+       - ~
+     calls:
+       - [setTranslationDomain, [AraneumBundle]]

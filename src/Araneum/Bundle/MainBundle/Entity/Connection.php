@@ -15,6 +15,9 @@ class Connection
 {
     use \Araneum\BaseBundle\EntityTrait\DateTrait;
 
+    const CONN_DB = 1;
+    const CONN_HOST = 2;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
