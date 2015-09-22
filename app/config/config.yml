@@ -91,7 +91,8 @@ fos_user:
 
 accelerator_cache:
     host: %domain%
-    web_dir: %kernel.root_dir%/../web    user_class: Araneum\Bundle\UserBundle\Entity\User 
+    web_dir: %kernel.root_dir%/../web
+    user_class: Araneum\Bundle\UserBundle\Entity\User
        
 sonata_block:
     default_contexts: [cms]
