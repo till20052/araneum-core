@@ -46,7 +46,7 @@ class LocaleAdmin extends Admin
     }
 
     /**
-     * Locale list
+     * Show locale list
      *
      * @param ListMapper $listMapper
      */
