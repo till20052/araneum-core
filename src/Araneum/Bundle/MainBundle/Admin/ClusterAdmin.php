@@ -8,6 +8,9 @@
 
 namespace Araneum\Bundle\MainBundle\Admin;
 
+use Araneum\Bundle\MainBundle\AraneumMainBundle;
+use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Araneum\Bundle\MainBundle\Entity\Connection;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -23,12 +26,13 @@ class ClusterAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name', 'text', array('label' => 'Name'))
-            ->add('host', 'entity', array('class' => 'Araneum\Bundle\MainBundle\Entity\Connection', 'label'=>'Host'))
-            ->add('type', 'text', array('label'=>'Type'))
-            ->add('status', 'choice', array('choices'=>array(1=>'status1', 2=>'status2'), 'label'=>'Status'))
-            ->add('enabled', 'checkbox', array('label'=>'Enabled'))
-            ->add('created_at','text' );
+            ->add('name', 'text', ['label' => 'Name'])
+            //->add('host', 'entity', ['class' => 'Araneum\Bundle\MainBundle\Entity\Connection', 'label' => 'Host'])
+            ->add('host', 'sonata_type_collection', ['required' => false], array('edit' => 'inline', 'inline' => 'table', 'targetEntity'=> 'Araneum\MainBundle\Entity\Connection'))
+            ->add('type', 'choice', ['choices' => [Cluster::TYPE_MULTIPLE => 'Multiple', Cluster::TYPE_SINGLE => 'Single'], 'label' => 'Type'])
+            ->add('status', 'choice', ['choices' => [Cluster::STATUS_ONLINE => 'Online', Cluster::STATUS_OFFLINE => 'Offline'], 'label' => 'Status'])
+            ->add('enabled', 'checkbox', ['label' => 'Enabled'])
+            ->add('createdAt', 'sonata_type_date_picker', ['label' => 'Created at']);
     }
 
     /**
@@ -39,13 +43,12 @@ class ClusterAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('name', null, array('label' => 'Name'))
-            ->add('host', null, array('label' => 'Host'))
-            ->add('type', null, array('label' => 'Type'))
-            ->add('status', null, array('label' => 'Status'))
-            ->add('enabled', null, array('label' => 'Enabled'))
-            ->add('createdAt', 'doctrine_orm_date', array('input_type' => 'timestamp', 'label' => 'Created at'))
-        ;
+            ->add('name', null, ['label' => 'Name'])
+            ->add('host', null, ['label' => 'Host'])
+            ->add('type', null, ['label' => 'Type'])
+            ->add('status', null, ['label' => 'Status'])
+            ->add('enabled', null, ['label' => 'Enabled'])
+            ->add('createdAt', 'doctrine_orm_datetime_range', ['label' => 'Created at', 'field_type' => 'sonata_type_datetime_range_picker', 'pattern' => 'MM.dd.YYY']);
     }
 
     /**
@@ -57,17 +60,18 @@ class ClusterAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('name')
-            ->add('host')
-            ->add('type')
-            ->add('status')
-            ->add('enabled')
-            ->add('created_at')
-            ->add('_action', 'actions', array(
-                'actions'=>array(
-                    'show'=>array(),
-                    'edit'=>array()
-                )
-            ));
+            ->add('name', 'text', ['editable' => true])
+            ->add('host', 'text', ['editable' => true])
+            ->add('type', 'choice', ['choices' => [Cluster::TYPE_MULTIPLE => 'Multiple', Cluster::TYPE_SINGLE => 'Single'], 'label' => 'Type'])
+            ->add('status', 'choice', ['choices' => [Cluster::STATUS_ONLINE => 'Online', Cluster::STATUS_OFFLINE => 'Offline'], 'label' => 'Status'])
+            ->add('enabled', null, ['editable' => true])
+            ->add('createdAt', 'datetime', ['format' => 'm.d.Y'])
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => []
+                ]
+            ]);
     }
 }

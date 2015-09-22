@@ -227,4 +227,9 @@ class Connection
     {
         return $this->enabled;
     }
+
+    function __toString()
+    {
+        return $this->getName() . ' ('.$this->getHost() . ')';
+    }
 }

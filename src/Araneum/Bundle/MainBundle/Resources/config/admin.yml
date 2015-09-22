@@ -1,0 +1,7 @@
+#Araneum\Bundle\MainBundle\Admin\ClusterAdmin
+services:
+  sonata.admin.cluster:
+    class: Araneum\Bundle\MainBundle\Admin\ClusterAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "Content", label: "Cluster" }
+    arguments: [null, Araneum\Bundle\MainBundle\Entity\Cluster, null]
