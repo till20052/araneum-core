@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class Locale
+ *
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="araneum_locales")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\LocaleRepository")
@@ -22,6 +23,7 @@ class Locale
 
     const ORIENT_LFT_TO_RGT = 1;
     const ORIENT_RGT_TO_LFT = 2;
+    const LOC_TO_STR        = 'Create';
 
     /**
      * @ORM\Id
@@ -135,17 +137,17 @@ class Locale
 
     /**
      * Get enabled
-     * 
+     *
      * @return boolean
      */
     public function isEnabled()
     {
         return $this->enabled;
     }
-    
+
     /**
      * Set orientation
-     * 
+     *
      * @param smallint $orientation
      * @return Locale
      */
@@ -187,5 +189,19 @@ class Locale
     public function getEncoding()
     {
         return $this->encoding;
+    }
+
+    /**
+     * To string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        if (!empty($this->getName())) {
+            return $this->getName() . " (" . $this->getLocale() . ")";
+        } else {
+            return self::LOC_TO_STR;
+        }
     }
 }
