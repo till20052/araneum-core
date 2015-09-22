@@ -199,4 +199,13 @@ class Cluster
     {
         return $this->host;
     }
+
+    /**
+     * To string
+     *
+     * @return string $name
+     **/
+    public function __toString(){
+        return $this->getName();
+    }
 }
