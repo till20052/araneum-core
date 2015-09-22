@@ -38,7 +38,7 @@ class ConnectionAdmin extends Admin
             )
             ->add('name', 'text', ['label' => 'Name'])
             ->add('host', 'text', ['label' => 'Host'])
-            ->add('port', 'integer', ['label' => 'Post'])
+            ->add('port', 'integer', ['label' => 'Port'])
             ->add('userName', 'text', ['label' => 'User Name'])
             ->add('enabled', 'checkbox', ['label' => 'Enabled', 'required' => false])
             ->add('password', 'text', ['label' => 'Password']);
