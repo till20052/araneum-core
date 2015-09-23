@@ -93,17 +93,9 @@ accelerator_cache:
     host: %domain%
     web_dir: %kernel.root_dir%/../web
 
-sonata_admin:
-    dashboard:
-        groups:
-            Connection:
-                items:
-                    - sonata.admin.connection
-
 sonata_block:
     default_contexts: [cms]
     blocks:
         sonata.admin.block.admin_list:
             contexts:   [admin]
         sonata.block.service.connection:
-            contexts:   [connection]

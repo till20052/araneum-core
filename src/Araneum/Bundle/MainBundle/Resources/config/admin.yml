@@ -2,10 +2,8 @@ services:
     sonata.admin.connection:
         class: Araneum\Bundle\MainBundle\Admin\ConnectionAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Connection", label: "Connection" }
+            - { name: sonata.admin, manager_type: orm, group: "connection", label: "connection" }
         arguments:
             - ~
             - Araneum\Bundle\MainBundle\Entity\Connection
             - ~
-        calls:
-            - [setTranslationDomain, [AraneumBundle]]
