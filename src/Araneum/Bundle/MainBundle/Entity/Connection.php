@@ -71,6 +71,12 @@ class Connection
      */
     protected $enabled;
 
+
+    /**
+     * @ORM\OneToOne(targetEntity="Cluster", mappedBy="host")
+     */
+    protected $cluster;
+
     /**
      * Get id
      *
@@ -241,6 +247,23 @@ class Connection
     {
         return $this->enabled;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCluster()
+    {
+        return $this->cluster;
+    }
+
+    /**
+     * @param mixed $cluster
+     */
+    public function setCluster($cluster)
+    {
+        $this->cluster = $cluster;
+    }
+
 
     /**
      * To string

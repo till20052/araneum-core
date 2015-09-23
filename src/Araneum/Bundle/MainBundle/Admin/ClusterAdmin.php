@@ -13,6 +13,8 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
+
 
 class ClusterAdmin extends Admin
 {
@@ -24,26 +26,23 @@ class ClusterAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name', 'text', ['label' => 'Name'])
-            ->add('host', 'sonata_type_model', [], [
-                'target_entity' => 'Araneum\Bundle\MainBundle\Entity\Connection'
-            ])
-            ->add('type', 'choice', [
-                    'choices' => [
-                        Cluster::TYPE_MULTIPLE => 'Multiple',
-                        Cluster::TYPE_SINGLE => 'Single'
-                    ],
-                    'label' => 'Type'
-                ])
-            ->add('status', 'choice', [
-                    'choices' => [
-                            Cluster::STATUS_ONLINE => 'Online',
-                            Cluster::STATUS_OFFLINE => 'Offline'
+                ->add('name', 'text', ['label' => 'name'])
+                ->add('host', 'sonata_type_model', [], [])
+                ->add('type', 'choice', [
+                        'choices' => [
+                            Cluster::TYPE_MULTIPLE => 'multiple',
+                            Cluster::TYPE_SINGLE => 'single'
                         ],
-                    'label' => 'Status'
-                ])
-            ->add('enabled', 'checkbox', ['label' => 'Enabled', 'required' => false])
-            ->add('createdAt', 'sonata_type_date_picker', ['label' => 'Created at']);
+                        'label' => 'Type'
+                    ])
+                ->add('status', 'choice', [
+                        'choices' => [
+                            Cluster::STATUS_ONLINE => 'online',
+                            Cluster::STATUS_OFFLINE => 'offline'
+                        ],
+                        'label' => 'Status'
+                    ])
+                ->add('enabled', 'checkbox', ['label' => 'enabled', 'required' => false]);
     }
 
     /**
@@ -54,13 +53,13 @@ class ClusterAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('name', null, ['label' => 'Name'])
-            ->add('host', null, ['label' => 'Host'])
-            ->add('type', null, ['label' => 'Type'])
-            ->add('status', null, ['label' => 'Status'])
-            ->add('enabled', null, ['label' => 'Enabled'])
+            ->add('name', null, ['label' => 'name'])
+            ->add('host', null, ['label' => 'host'])
+            ->add('type', null, ['label' => 'type'])
+            ->add('status', null, ['label' => 'status'])
+            ->add('enabled', null, ['label' => 'enabled'])
             ->add('createdAt', 'doctrine_orm_datetime_range', [
-                'label' => 'Created at',
+                'label' => 'created_at',
                 'field_type' => 'sonata_type_datetime_range_picker',
                 'pattern' => 'MM.dd.YYY'
             ]);
@@ -79,15 +78,15 @@ class ClusterAdmin extends Admin
             ->add('host', 'text', ['editable' => true])
             ->add('type', 'choice', [
                     'choices' => [
-                            Cluster::TYPE_MULTIPLE => 'Multiple',
-                            Cluster::TYPE_SINGLE => 'Single'
+                            Cluster::TYPE_MULTIPLE => 'multiple',
+                            Cluster::TYPE_SINGLE => 'single'
                         ],
                     'label' => 'Type'
                 ])
             ->add('status', 'choice', [
                     'choices' => [
-                            Cluster::STATUS_ONLINE => 'Online',
-                            Cluster::STATUS_OFFLINE => 'Offline'
+                            Cluster::STATUS_ONLINE => 'online',
+                            Cluster::STATUS_OFFLINE => 'offline'
                         ],
                     'label' => 'Status'
                 ])
@@ -95,10 +94,24 @@ class ClusterAdmin extends Admin
             ->add('createdAt', 'datetime', ['format' => 'm.d.Y'])
             ->add('_action', 'actions', [
                     'actions' => [
-                        'show' => [],
                         'edit' => [],
+                        'check_status' => [
+                            'template' => 'AraneumMainBundle:Admin:checkStatus.html.twig'
+                        ],
                         'delete' => []
                     ]
                 ]);
+    }
+
+
+    /**
+     * Configure routes
+     *
+     * @param RouteCollection $collection
+     */
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection
+            ->add('checkStatus', 'checkStatus/{id}', ['_controller'=>'AraneumMainBundle:CRUD:checkStatus']);
     }
 }
