@@ -74,7 +74,6 @@ class Connection
 
     /**
      * @ORM\Column(type="boolean", name="enabled")
-     * @Assert\NotBlank()
      * @Assert\Type(type = "boolean")
      */
     protected $enabled;
