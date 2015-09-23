@@ -1,21 +1,22 @@
 <?php
+
 namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Component
  * @package Entity
- * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ComponentRepository")
  * @ORM\Table(name="araneum_components")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Component
 {
     use DateTrait;
-
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -25,19 +26,21 @@ class Component
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="This field is required")
+     * @Assert\Length(min=2, max=255, minMessage="Name too short", maxMessage="Name too long")
      */
     protected $name;
 
     /**
      * @ORM\Column(type="json_array")
      */
-    protected $option;
+    protected $options;
 
     /**
      * @ORM\Column(type="text")
      */
     protected $description;
-
+    
     /**
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Application", mappedBy="components", cascade={"persist", "remove"})
@@ -50,14 +53,13 @@ class Component
     protected $enabled;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", name="`default`")
      */
     protected $default;
 
 
-    public function __construct()
-    {
-        $this->setOption([]);
+    public function __construct(){
+        $this->setOptions([]);
         $this->setApplications(new ArrayCollection());
     }
 
@@ -112,20 +114,20 @@ class Component
      *
      * @return mixed
      */
-    public function getOption()
+    public function getOptions()
     {
-        return $this->option;
+        return $this->options;
     }
 
     /**
      * Set option
      *
-     * @param array $option
+     * @param array $options
      * @return mixed
      */
-    public function setOption(array $option)
+    public function setOptions(array $options)
     {
-        $this->option = $option;
+        $this->options = $options;
 
         return $this;
     }

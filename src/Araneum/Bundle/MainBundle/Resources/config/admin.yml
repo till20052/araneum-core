@@ -24,6 +24,13 @@ services:
         arguments:
             - ~
             - Araneum\Bundle\MainBundle\Entity\Locale
+    sonata.admin.component:
+        class: Araneum\Bundle\MainBundle\Admin\ComponentAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Components", label: "Component" }
+        arguments:
+            - ~
+            - Araneum\Bundle\MainBundle\Entity\Component
             - ~
         calls:
             - [ setTranslationDomain, [AraneumMainBundle]]
