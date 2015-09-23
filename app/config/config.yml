@@ -2,12 +2,12 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: @AraneumMainBundle/Resources/config/admin.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    locales: en|ru
 
 framework:
     #esi:             ~
@@ -36,9 +36,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-    form:
-      resources:
-        - 'SonataCoreBundle:Form:datepicker.html.twig'
+    globals:
+        locales: %locales%
 
 # Assetic Configuration
 assetic:
@@ -92,12 +91,11 @@ fos_user:
 
 accelerator_cache:
     host: %domain%
-    web_dir: %kernel.root_dir%/../web    user_class: Araneum\Bundle\UserBundle\Entity\User 
+    web_dir: %kernel.root_dir%/../web
+    user_class: Araneum\Bundle\UserBundle\Entity\User 
        
 sonata_block:
     default_contexts: [cms]
     blocks:
         sonata.admin.block.admin_list:
             contexts:   [admin]
-        sonata.block.service.connection:
-            contexts:   [connection]
