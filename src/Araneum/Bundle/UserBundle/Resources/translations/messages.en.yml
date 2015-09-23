@@ -1,0 +1,12 @@
+recovery_password: Recovery password
+activate: Activate
+email: Email
+username: User name
+fullName: Full name
+enabled: Enabled
+roles: Roles
+password: Password
+created_at: Created
+updated_at: Updated
+last_login: Last login
+actions: Actions
