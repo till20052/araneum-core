@@ -42,13 +42,21 @@ class LocaleAdmin extends Admin
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
+        $now = new \DateTime();
+
         $datagridMapper
             ->add('name')
             ->add('locale')
             ->add('enabled')
             ->add('orientation')
             ->add('encoding')
-            ->add('createdAt');
+            ->add(
+                'createdAt',
+                'doctrine_orm_date_range',
+                [
+                    'field_type' => 'sonata_type_date_range_picker'
+                ]
+            );
     }
 
     /**
@@ -82,7 +90,7 @@ class LocaleAdmin extends Admin
                 ]
             )
             ->add('encoding', 'text', ['editable' => true])
-            ->add('createdAt')
+            ->add('createdAt', 'datetime', ['format' => 'm/d/Y'])
             ->add(
                 '_action',
                 'actions',
