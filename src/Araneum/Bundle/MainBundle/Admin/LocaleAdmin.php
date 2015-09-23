@@ -54,7 +54,11 @@ class LocaleAdmin extends Admin
                 'createdAt',
                 'doctrine_orm_date_range',
                 [
-                    'field_type' => 'sonata_type_date_range_picker'
+                    'field_type' => 'sonata_type_date_range_picker',
+                ],
+                null,
+                [
+                    'format' => 'MM/dd/y'
                 ]
             );
     }
