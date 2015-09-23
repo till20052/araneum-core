@@ -3,7 +3,6 @@
 namespace Araneum\Bundle\MainBundle\Admin;
 
 use Araneum\Bundle\MainBundle\Entity\Connection;
-use Knp\Menu\ItemInterface as MenuItemInterface;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -107,12 +106,20 @@ class ConnectionAdmin extends Admin
                 [
                     'field_type' => 'sonata_type_date_range_picker',
                     'label' => 'Created At'
+                ],
+                null,
+                [
+                    'format' => 'M/d/y'
                 ]
             )
             ->add('updatedAt', 'doctrine_orm_date_range',
                 [
                     'field_type' => 'sonata_type_date_range_picker',
                     'label' => 'Updated At'
+                ],
+                null,
+                [
+                    'format' => 'M/d/y'
                 ]
             );
     }
