@@ -16,6 +16,12 @@ class Cluster
 {
     use DateTrait;
 
+    const STATUS_ONLINE = 1;
+    const STATUS_OFFLINE = 2;
+
+    const TYPE_SINGLE = 1;
+    const TYPE_MULTIPLE = 2;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -38,7 +44,7 @@ class Cluster
      * @ORM\Column(type="smallint", name="type", options={"comment":"1 - single, 2 - multiple"})
      *
      */
-    protected $type = 2;
+    protected $type = self::TYPE_MULTIPLE;
 
     /**
      * @ORM\Column(type="boolean", name="enabled")
@@ -166,6 +172,15 @@ class Cluster
     }
 
     /**
+     * Set host
+     *
+     * @param Connection $host
+     */
+    public function setHost(Connection $host){
+        $this->addHost($host);
+    }
+
+    /**
      * Remove host
      *
      * @param Connection $host
@@ -183,5 +198,14 @@ class Cluster
     public function getHost()
     {
         return $this->host;
+    }
+
+    /**
+     * To string
+     *
+     * @return string $name
+     **/
+    public function __toString(){
+        return $this->getName();
     }
 }
