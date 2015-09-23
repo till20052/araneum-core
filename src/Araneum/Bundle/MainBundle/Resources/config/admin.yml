@@ -1,20 +1,29 @@
 services:
     sonata.admin.cluster:
-      class: Araneum\Bundle\MainBundle\Admin\ClusterAdmin
-      tags:
-        - { name: sonata.admin, manager_type: orm, group: "Cluster", label: "Cluster" }
-      arguments:
-        - ~
-        - Araneum\Bundle\MainBundle\Entity\Cluster
-        - ~
-
-      sonata.admin.connection:
+        class: Araneum\Bundle\MainBundle\Admin\ClusterAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Cluster", label: "Cluster" }
+        arguments:
+            - ~
+            - Araneum\Bundle\MainBundle\Entity\Cluster
+            - ~
+    sonata.admin.connection:
         class: Araneum\Bundle\MainBundle\Admin\ConnectionAdmin
         tags:
-          - { name: sonata.admin, manager_type: orm, group: "Connection", label: "Connection" }
+            - { name: sonata.admin, manager_type: orm, group: "Connection", label: "Connection" }
         arguments:
-          - ~
-          - Araneum\Bundle\MainBundle\Entity\Connection
-          - AraneumMainBundle:ConnectionAdmin
+            - ~
+            - Araneum\Bundle\MainBundle\Entity\Connection
+            - AraneumMainBundle:ConnectionAdmin
         calls:
-          - [setTranslationDomain, [AraneumBundle]]
+            - [setTranslationDomain, [AraneumBundle]]
+    sonata.admin.locale:
+        class: Araneum\Bundle\MainBundle\Admin\LocaleAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Locale", label: "Locale" }
+        arguments:
+            - ~
+            - Araneum\Bundle\MainBundle\Entity\Locale
+            - ~
+        calls:
+            - [ setTranslationDomain, [AraneumMainBundle]]
