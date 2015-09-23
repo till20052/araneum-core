@@ -8,6 +8,8 @@ class DefaultControllerTest extends BaseController
 {
     /**
      * Test main page
+     *
+     * @runInSeparateProcess
      */
     public function testIndex()
     {
