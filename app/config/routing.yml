@@ -1,5 +1,13 @@
-araneum_main:
-    resource: "@AraneumMainBundle/Controller/"
-    type:     annotation
-    prefix:   /
+araneum_root:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: sonata_admin_dashboard
+        permanent: true
 
+araneum_locale:
+    prefix: /{_locale}
+    resource: routing_with_locale.yml
+    defaults: {_locale: en}
+    requirements:
+        _locale: %locales%
