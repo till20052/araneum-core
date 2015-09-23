@@ -14,8 +14,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="araneum_locales")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\LocaleRepository")
  * @package Araneum\Bundle\MainBundle\Entity
- * @UniqueEntity(fields="name", message="This locale name already exists")
- * @UniqueEntity(fields="locale", message="This locale already exists")
+ * @UniqueEntity(fields="name", message="this.locale.name.already.exists")
+ * @UniqueEntity(fields="locale", message="this.locale.already.exists")
  */
 class Locale
 {
@@ -33,18 +33,18 @@ class Locale
     protected $id;
 
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string", length=20, unique=true)
      *
-     * @Assert\NotBlank(message="This field is required")
-     * @Assert\Length(min=2, max=20, minMessage="Name too short", maxMessage="Name too long")
+     * @Assert\NotBlank(message="this.field.is.required")
+     * @Assert\Length(min=2, max=20, minMessage="locale.name.too.short", maxMessage="locale.name.too.long")
      */
     protected $name;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=7)
      *
-     * @Assert\NotBlank(message="This field is required")
-     * @Assert\Locale()
+     * @Assert\NotBlank(message="this.field.is.required")
+     * @Assert\Locale(message="incorrect.locale.format")
      */
     protected $locale;
 
@@ -59,10 +59,10 @@ class Locale
     protected $orientation;
 
     /**
-     * @ORM\Column(type="string", options={"default":"UTF-8"})
+     * @ORM\Column(type="string", length=30, options={"default":"UTF-8"})
      *
-     * @Assert\NotBlank(message="This field is required")
-     * @Assert\Length(min=2, max=30, minMessage="Encoding value too short", maxMessage="Encoding value too long")
+     * @Assert\NotBlank(message="this.field.is.required")
+     * @Assert\Length(min=2, max=30, minMessage="encoding.name.too.short", maxMessage="encoding.name.too.long")
      */
     protected $encoding;
 
@@ -128,7 +128,7 @@ class Locale
      * @param boolean $enabled
      * @return Locale
      */
-    public function setEnabled($enabled = true)
+    public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
 

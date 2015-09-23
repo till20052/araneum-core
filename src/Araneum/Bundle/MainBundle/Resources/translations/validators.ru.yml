@@ -1,0 +1,8 @@
+this.locale.name.already.exists: Данное название локали уже существует
+this.locale.already.exists: Данная локаль уже существует
+this.field.is.required: Это поле обязательно для заполнения
+incorrect.locale.format: Неправильный формат локали. Рекомендуемый формат en_US
+locale.name.too.short: Название локали слишком короткое. Минимум 2 символа
+locale.name.too.long: Название локали слишком длинное. Максимум 20 символов
+encoding.name.too.short: Название кодировки слишком короткое. Минимум 2 символа
+encoding.name.too.long: Название кодировки слишком длинное. Максимум 30 символов

@@ -19,20 +19,26 @@ class LocaleAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name', 'text', ['label' => 'Name'])
-            ->add('locale', 'text', ['label' => 'Locale'])
-            ->add('enabled', null, ['required' => false])
+            ->add('name', 'text', ['label' => 'name'])
+            ->add('locale', 'text', ['label' => 'locale'])
+            ->add('enabled', 'checkbox',
+                [
+                    'required' => false,
+                    'label' => 'enabled'
+                ]
+            )
             ->add(
                 'orientation',
                 'choice',
                 [
+                    'label' => 'orientation',
                     'choices' => [
                         Locale::ORIENT_LFT_TO_RGT => 'Left to Right',
                         Locale::ORIENT_RGT_TO_LFT => 'Right to Left'
                     ]
                 ]
             )
-            ->add('encoding', 'text', ['label' => 'Encoding']);
+            ->add('encoding', 'text', ['label' => 'encoding']);
     }
 
     /**
@@ -45,16 +51,17 @@ class LocaleAdmin extends Admin
         $now = new \DateTime();
 
         $datagridMapper
-            ->add('name')
-            ->add('locale')
-            ->add('enabled')
-            ->add('orientation')
-            ->add('encoding')
+            ->add('name', null, ['label' => 'name'])
+            ->add('locale', null, ['label' => 'locale'])
+            ->add('enabled', null, ['label' => 'enabled'])
+            ->add('orientation', null, ['label' => 'orientation'])
+            ->add('encoding', null, ['label' => 'encoding'])
             ->add(
                 'createdAt',
                 'doctrine_orm_date_range',
                 [
                     'field_type' => 'sonata_type_date_range_picker',
+                    'label' => 'createdAt',
                 ],
                 null,
                 [
@@ -72,12 +79,23 @@ class LocaleAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('name', 'text', ['editable' => true])
-            ->add('locale', 'text', ['editable' => true])
+            ->add('name', 'text',
+                [
+                    'label' => 'name',
+                    'editable' => true
+                ]
+            )
+            ->add('locale', 'text',
+                [
+                    'label' => 'locale',
+                    'editable' => true
+                ]
+            )
             ->add(
                 'enabled',
                 null,
                 [
+                    'label' => 'enabled',
                     'required' => false,
                     'editable' => true,
                 ]
@@ -86,6 +104,7 @@ class LocaleAdmin extends Admin
                 'orientation',
                 'choice',
                 [
+                    'label' => 'orientation',
                     'choices' => [
                         Locale::ORIENT_LFT_TO_RGT => 'Left to Right',
                         Locale::ORIENT_RGT_TO_LFT => 'Right to Left'
@@ -93,12 +112,23 @@ class LocaleAdmin extends Admin
                     'editable' => true
                 ]
             )
-            ->add('encoding', 'text', ['editable' => true])
-            ->add('createdAt', 'datetime', ['format' => 'm/d/Y'])
+            ->add('encoding', 'text',
+                [
+                    'label' => 'encoding',
+                    'editable' => true
+                ]
+            )
+            ->add('createdAt', 'datetime',
+                [
+                    'label' => 'createdAt',
+                    'format' => 'm/d/Y'
+                ]
+            )
             ->add(
                 '_action',
                 'actions',
                 [
+                    'label' => 'actions',
                     'actions' => [
                         'edit' => [],
                         'delete' => [],

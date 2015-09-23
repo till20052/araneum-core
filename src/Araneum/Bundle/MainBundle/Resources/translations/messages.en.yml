@@ -1,0 +1,9 @@
+name: Name
+locale: Locale
+enabled: Enabled
+orientation: Orientation
+encoding: Encoding
+createdAt: Created at
+date_range_start: From
+date_range_end: To
+actions: Actions
