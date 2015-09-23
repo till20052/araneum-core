@@ -6,5 +6,8 @@ offline: Offline
 enabled: Enabled
 host: Площадка
 type: Тип
-status: Статус
+status: Состояние
 created_at: Создано:
+check_status: Проверить состояние
+cluster: Кластер
+name: Имя

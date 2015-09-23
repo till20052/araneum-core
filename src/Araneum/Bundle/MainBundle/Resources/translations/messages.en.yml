@@ -2,8 +2,9 @@ multiple: Multiple
 single: Single
 online: Online
 offline: Offline
-enabled: Активный
+enabled: Enabled
 host: Host
 type: Type
 status: Status
 created_at: Created at
+name: Name

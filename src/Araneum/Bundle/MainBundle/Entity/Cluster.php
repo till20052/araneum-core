@@ -37,7 +37,7 @@ class Cluster
     /**
      * @ORM\Column(type="string", name="name", unique=true)
      * @Assert\NotBlank(message="This field is required")
-     * @Assert\Length(min=2, max=255, minMessage="name.too.short", maxMessage="name.too.long")
+     * @Assert\Length(min=2, max=255, minMessage="name_too_short", maxMessage="name_too_long")
      * @Assert\Type(type="string")
      */
     protected $name;
@@ -46,26 +46,26 @@ class Cluster
      * @ORM\OneToOne(targetEntity="Connection", inversedBy="cluster")
      * @ORM\JoinColumn(name="connection_id", referencedColumnName="id")
      * @Assert\NotBlank(message="This field is required")
-     * @Assert\Type(type="int", message="this.value.should.be.a.type {{ type }}")
+     * @Assert\Type(type="int", message="this_value_should_be_a_type {{ type }}")
      */
     protected $host;
 
     /**
      * @ORM\Column(type="smallint", name="type", options={"comment": "1 - single, 2 - multiple"})
-     * @Assert\Type(type="int", message="This value should be a type {{ type }}")
+     * @Assert\Type(type="int", message="this_value_should_be_a_type {{ type }}")
      */
     protected $type = self::TYPE_MULTIPLE;
 
     /**
      * @ORM\Column(type="boolean", name="enabled")
-     * @Assert\Type(type="bool", message="This value should be a type {{ type }}")
+     * @Assert\Type(type="bool", message="this_value_should_be_a_type {{ type }}")
      */
     protected $enabled;
 
     /**
      * @ORM\Column(type="smallint", name="status", options={"comment":"1 - online, 2 - offline"})
      * @Assert\NotBlank(message="This field is required")
-     * @Assert\Type(type="int", message="This value should be a type {{ type }}")
+     * @Assert\Type(type="int", message="this_value_should_be_a_type {{ type }}")
      */
     protected $status;
 
