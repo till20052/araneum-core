@@ -31,14 +31,14 @@ class DeploymentCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $commands = [
+            'cache:accelerator:clear' => [],
+            'cache:clear' => [],
             'doctrine:schema:update' => [
                 '--force' => true
             ],
             'doctrine:fixtures:load' => [
                 '--append' => true
              ],
-            'cache:accelerator:clear' => [],
-            'cache:clear' => [],
         ];
 
         foreach($commands as $command => $arguments) {
