@@ -1,0 +1,13 @@
+multiple: Multiple
+single: Single
+online: Online
+offline: Offline
+enabled: Enabled
+host: Host
+type: Type
+status: Status
+created_at: Created at
+check_status: Check status
+cluster: Cluster
+name: Name
+core: Core
