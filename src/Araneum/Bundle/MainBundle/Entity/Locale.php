@@ -14,8 +14,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="araneum_locales")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\LocaleRepository")
  * @package Araneum\Bundle\MainBundle\Entity
- * @UniqueEntity(fields="name", message="this.locale.name.already.exists")
- * @UniqueEntity(fields="locale", message="this.locale.already.exists")
+ * @UniqueEntity(fields="name")
+ * @UniqueEntity(fields="locale")
  */
 class Locale
 {
@@ -35,16 +35,16 @@ class Locale
     /**
      * @ORM\Column(type="string", length=20, unique=true)
      *
-     * @Assert\NotBlank(message="this.field.is.required")
-     * @Assert\Length(min=2, max=20, minMessage="locale.name.too.short", maxMessage="locale.name.too.long")
+     * @Assert\NotBlank()
+     * @Assert\Length(min=2, max=20)
      */
     protected $name;
 
     /**
      * @ORM\Column(type="string", length=7)
      *
-     * @Assert\NotBlank(message="this.field.is.required")
-     * @Assert\Locale(message="incorrect.locale.format")
+     * @Assert\NotBlank()
+     * @Assert\Locale(message="incorrect_locale_format")
      */
     protected $locale;
 
@@ -61,8 +61,8 @@ class Locale
     /**
      * @ORM\Column(type="string", length=30, options={"default":"UTF-8"})
      *
-     * @Assert\NotBlank(message="this.field.is.required")
-     * @Assert\Length(min=2, max=30, minMessage="encoding.name.too.short", maxMessage="encoding.name.too.long")
+     * @Assert\NotBlank()
+     * @Assert\Length(min=2, max=30)
      */
     protected $encoding;
 

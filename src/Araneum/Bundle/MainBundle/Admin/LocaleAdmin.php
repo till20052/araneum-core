@@ -21,7 +21,9 @@ class LocaleAdmin extends Admin
         $formMapper
             ->add('name', 'text', ['label' => 'name'])
             ->add('locale', 'text', ['label' => 'locale'])
-            ->add('enabled', 'checkbox',
+            ->add(
+                'enabled',
+                'checkbox',
                 [
                     'required' => false,
                     'label' => 'enabled'
@@ -33,8 +35,8 @@ class LocaleAdmin extends Admin
                 [
                     'label' => 'orientation',
                     'choices' => [
-                        Locale::ORIENT_LFT_TO_RGT => 'Left to Right',
-                        Locale::ORIENT_RGT_TO_LFT => 'Right to Left'
+                        Locale::ORIENT_LFT_TO_RGT => 'left_to_right',
+                        Locale::ORIENT_RGT_TO_LFT => 'right_to_left'
                     ]
                 ]
             )
@@ -54,7 +56,20 @@ class LocaleAdmin extends Admin
             ->add('name', null, ['label' => 'name'])
             ->add('locale', null, ['label' => 'locale'])
             ->add('enabled', null, ['label' => 'enabled'])
-            ->add('orientation', null, ['label' => 'orientation'])
+            ->add(
+                'orientation',
+                'doctrine_orm_choice',
+                [
+                    'label' => 'orientation',
+                ],
+                'sonata_type_translatable_choice',
+                [
+                    'choices' => [
+                        Locale::ORIENT_LFT_TO_RGT => 'left_to_right',
+                        Locale::ORIENT_RGT_TO_LFT => 'right_to_left'
+                    ]
+                ]
+            )
             ->add('encoding', null, ['label' => 'encoding'])
             ->add(
                 'createdAt',
@@ -79,13 +94,17 @@ class LocaleAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('name', 'text',
+            ->add(
+                'name',
+                'text',
                 [
                     'label' => 'name',
                     'editable' => true
                 ]
             )
-            ->add('locale', 'text',
+            ->add(
+                'locale',
+                'text',
                 [
                     'label' => 'locale',
                     'editable' => true
@@ -96,7 +115,6 @@ class LocaleAdmin extends Admin
                 null,
                 [
                     'label' => 'enabled',
-                    'required' => false,
                     'editable' => true,
                 ]
             )
@@ -104,21 +122,25 @@ class LocaleAdmin extends Admin
                 'orientation',
                 'choice',
                 [
+                    'editable' => true,
                     'label' => 'orientation',
                     'choices' => [
-                        Locale::ORIENT_LFT_TO_RGT => 'Left to Right',
-                        Locale::ORIENT_RGT_TO_LFT => 'Right to Left'
-                    ],
-                    'editable' => true
+                        Locale::ORIENT_LFT_TO_RGT => $this->getTranslator()->trans('left_to_right'),
+                        Locale::ORIENT_RGT_TO_LFT => $this->getTranslator()->trans('right_to_left'),
+                    ]
                 ]
             )
-            ->add('encoding', 'text',
+            ->add(
+                'encoding',
+                'text',
                 [
                     'label' => 'encoding',
                     'editable' => true
                 ]
             )
-            ->add('createdAt', 'datetime',
+            ->add(
+                'createdAt',
+                'datetime',
                 [
                     'label' => 'createdAt',
                     'format' => 'm/d/Y'

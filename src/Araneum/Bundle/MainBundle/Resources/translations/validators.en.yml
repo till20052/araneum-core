@@ -1,8 +1,1 @@
-this.locale.name.already.exists: This locale name already exists
-this.locale.already.exists: This locale already exists
-this.field.is.required: This field is required
-incorrect.locale.format: Incorrect locale format. Recommended format en_US
-locale.name.too.short: Locale name too short. Minimum 2 symbols
-locale.name.too.long: Locale name too long. Maximum 20 symbols
-encoding.name.too.short: Encoding name too short. Minimum 2 symbols
-encoding.name.too.long: Encoding name too long. Maximum 30 symbols
+incorrect_locale_format: Incorrect locale format. Recommended format en_US
