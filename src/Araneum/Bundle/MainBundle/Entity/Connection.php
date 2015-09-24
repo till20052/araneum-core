@@ -239,7 +239,7 @@ class Connection
      */
     public function setEnabled($enabled)
     {
-        $this->enabled = $enabled;
+        $this->enabled = (bool)$enabled;
 
         return $this;
     }
@@ -251,7 +251,7 @@ class Connection
      */
     public function isEnabled()
     {
-        return $this->enabled;
+        return (bool)$this->enabled;
     }
 
     /**
