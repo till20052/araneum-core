@@ -3,6 +3,7 @@ imports:
 
 framework:
     profiler: { only_exceptions: false }
+    test: ~
 
 doctrine:
    dbal:
@@ -10,3 +11,10 @@ doctrine:
 
 swiftmailer:
     disable_delivery: true
+
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
