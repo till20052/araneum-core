@@ -177,7 +177,7 @@ class ConnectionAdmin extends Admin
             )
             ->add(
                 'enabled',
-                'boolean',
+                null,
                 [
                     'label' => 'enabled',
                     'editable' => true
