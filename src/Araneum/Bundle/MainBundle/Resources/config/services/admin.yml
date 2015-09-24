@@ -1,0 +1,33 @@
+services:
+  araneum.main.admin.cluster:
+    class: Araneum\Bundle\MainBundle\Admin\ClusterAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "core", label: "cluster" }
+    arguments:
+      - ~
+      - Araneum\Bundle\MainBundle\Entity\Cluster
+      - ~
+    calls:
+      - [setConnectionRepository, [@araneum.main.repository.connection]]
+
+  araneum.main.admin.connection:
+    class: Araneum\Bundle\MainBundle\Admin\ConnectionAdmin
+    tags:
+      - { name: sonata.admin, manager_type: orm, group: "core", label: "connection" }
+    arguments:
+      - ~
+      - Araneum\Bundle\MainBundle\Entity\Connection
+      - ~
+  araneum.main.repository.connection:
+    class: Doctrine\ORM\EntityRepository
+    factory_service: doctrine.orm.default_entity_manager
+    factory_method: getRepository
+    arguments:
+      - Araneum\Bundle\MainBundle\Entity\Connection
+
+  araneum.main.repository.cluster:
+    class: Doctrine\ORM\EntityRepository
+    factory_service: doctrine.orm.default_entity_manager
+    factory_method: getRepository
+    arguments:
+      - Araneum\Bundle\MainBundle\Entity\Cluster

@@ -17,3 +17,11 @@ host: Host
 db_connection: DB connection
 host_connection: Host connection
 connection: Connection
+multiple: Multiple
+single: Single
+online: Online
+offline: Offline
+status: Status
+check_status: Check status
+cluster: Cluster
+core: Core

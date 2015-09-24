@@ -4,49 +4,66 @@ namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class Cluster
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="araneum_cluster")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ClusterRepository")
+ * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields="name")
  * @package Araneum\Bundle\MainBundle\Entity
  */
 class Cluster
 {
     use DateTrait;
 
+    const STATUS_ONLINE = 1;
+    const STATUS_OFFLINE = 2;
+
+    const TYPE_SINGLE = 1;
+    const TYPE_MULTIPLE = 2;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Assert\Type(type="int")
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="string", name="name", unique=true, length=100)
+     * @ORM\Column(type="string", name="name", unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=2, max=255)
+     * @Assert\Type(type="string")
      */
     protected $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="Connection")
+     * @ORM\OneToOne(targetEntity="Connection", inversedBy="cluster")
      * @ORM\JoinColumn(name="connection_id", referencedColumnName="id")
      */
     protected $host;
 
     /**
-     * @ORM\Column(type="smallint", name="type", options={"comment":"1 - single, 2 - multiple"})
-     *
+     * @ORM\Column(type="smallint", name="type", options={"comment": "1 - single, 2 - multiple"})
+     * @Assert\Type(type="int")
      */
-    protected $type = 2;
+    protected $type = self::TYPE_MULTIPLE;
 
     /**
      * @ORM\Column(type="boolean", name="enabled")
+     * @Assert\Type(type="bool")
      */
     protected $enabled;
 
     /**
      * @ORM\Column(type="smallint", name="status", options={"comment":"1 - online, 2 - offline"})
+     * @Assert\NotBlank()
+     * @Assert\Type(type="int")
      */
     protected $status;
 
@@ -153,12 +170,12 @@ class Cluster
     }
 
     /**
-     * Add host
+     * Set host
      *
      * @param Connection $host
-     * @return Cluster
+     * @return $this
      */
-    public function addHost(Connection $host)
+    public function setHost(Connection $host)
     {
         $this->host = $host;
 
@@ -166,22 +183,22 @@ class Cluster
     }
 
     /**
-     * Remove host
-     *
-     * @param Connection $host
-     */
-    public function removeHost(Connection $host)
-    {
-        $this->host->removeElement($host);
-    }
-
-    /**
      * Get host
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Connection
      */
     public function getHost()
     {
         return $this->host;
+    }
+
+    /**
+     * To string
+     *
+     * @return string $name
+     **/
+    public function __toString()
+    {
+        return 'Cluster'; //TODO необходимо подумать что выводить в этом методе
     }
 }

@@ -3,10 +3,10 @@
 namespace Araneum\Bundle\MainBundle\Admin;
 
 use Araneum\Bundle\MainBundle\Entity\Connection;
+use Knp\Menu\ItemInterface as MenuItemInterface;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;

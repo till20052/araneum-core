@@ -19,3 +19,11 @@ host: Хост
 db_connection: Соединение с базой данных
 host_connection: Соединение с хостом
 connection: Соединение
+multiple: Множественный
+single: Одиночный
+online: Online
+offline: Offline
+status: Состояние
+check_status: Проверить состояние
+cluster: Кластер
+core: Ядро
