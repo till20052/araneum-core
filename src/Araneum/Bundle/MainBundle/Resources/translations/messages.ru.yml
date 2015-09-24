@@ -11,3 +11,5 @@ check_status: Проверить состояние
 cluster: Кластер
 name: Имя
 core: Ядро
+date_range_start: С
+date_range_end: По

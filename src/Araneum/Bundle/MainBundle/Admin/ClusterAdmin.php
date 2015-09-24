@@ -94,25 +94,25 @@ class ClusterAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('name', 'text', ['editable' => true])
-            ->add('host', 'text', ['editable' => true])
+            ->add('name', 'text', ['editable' => true, 'label' => 'name'])
+            ->add('host', 'text', ['editable' => true, 'label' => 'host'])
             ->add('type', 'choice', [
                 'choices' => [
                     Cluster::TYPE_MULTIPLE => 'multiple',
                     Cluster::TYPE_SINGLE => 'single'
                 ],
-                'label' => 'Type'
+                'label' => 'type'
             ])
             ->add('status', 'choice', [
                 'choices' => [
                     Cluster::STATUS_ONLINE => 'online',
                     Cluster::STATUS_OFFLINE => 'offline'
                 ],
-                'label' => 'Status'
+                'label' => 'status'
             ])
-            ->add('enabled', null, ['editable' => true])
-            ->add('createdAt', 'datetime', ['format' => 'm.d.Y'])
-            ->add('_action', 'actions', [
+            ->add('enabled', null, ['editable' => true, 'label' => 'enabled', 'row_align' => 'center', 'text_align' => 'center'])
+            ->add('createdAt', 'datetime', ['format' => 'm.d.Y', 'label' => 'created_at'])
+            ->add('_action', 'actions', ['label' => 'action',
                 'actions' => [
                     'edit' => [],
                     'check_status' => [
