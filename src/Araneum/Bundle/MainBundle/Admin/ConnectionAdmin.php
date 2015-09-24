@@ -157,7 +157,7 @@ class ConnectionAdmin extends Admin
                     'actions' => [
                         'edit' => [],
                         'testConnection' => [
-                            'template' => 'AraneumMainBundle:Admin:testConnection.html.twig'
+                            'template' => 'AraneumMainBundle:AdminAction:testConnection.html.twig'
                         ],
                         'delete' => [],
                     ],
