@@ -33,23 +33,28 @@ class Connection
 
     /**
      * @ORM\Column(type="smallint", name="type")
+     * @Assert\Choice(callback = "getConnType")
+     * @Assert\NotBlank()
      */
     protected $type;
 
     /**
      * @ORM\Column(type="string", name="name", unique=true, length=100)
+     * @Assert\NotBlank()
      * @Assert\Length(min=3, max=100)
      */
     protected $name;
 
     /**
      * @ORM\Column(type="string", name="host", length=100)
+     * @Assert\NotBlank()
      * @Assert\Length(min=3, max=100)
      */
     protected $host;
 
     /**
      * @ORM\Column(type="integer", name="port", length=8, nullable=true)
+     * @Assert\Type(type = "integer")
      * @Assert\Length(min=2, max=8)
      */
     protected $port;
@@ -62,15 +67,16 @@ class Connection
 
     /**
      * @ORM\Column(type="string", name="password", length=100)
+     * @Assert\NotBlank()
      * @Assert\Length(min=6, max=100)
      */
     protected $password;
 
     /**
      * @ORM\Column(type="boolean", name="enabled")
+     * @Assert\Type(type = "boolean")
      */
     protected $enabled;
-
 
     /**
      * @ORM\OneToOne(targetEntity="Cluster", mappedBy="host")
@@ -246,6 +252,19 @@ class Connection
     public function isEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * Get type choices
+     *
+     * @return array
+     */
+    public static function getConnType()
+    {
+        return [
+            self::CONN_DB,
+            self::CONN_HOST
+        ];
     }
 
     /**

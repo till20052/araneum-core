@@ -5,10 +5,10 @@
     {% for locale in locales|split('|') %}
         <li role="presentation">
             <a role="menuitem"
-                href="{{ url(
-                    app.request.get('_route'),
-                    app.request.attributes.get('_route_params')|merge({'_locale': locale })
-                ) }}">
+               href="{{ url(
+               app.request.get('_route'),
+               app.request.attributes.get('_route_params')|merge({'_locale': locale })
+               ) }}">
                 {{ locale|capitalize }}
             </a>
         </li>

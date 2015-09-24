@@ -1,15 +1,29 @@
+recovery_password: Recovery password
+activate: Activate
+email: Email
+username: User name
+fullName: Full name
+enabled: Enabled
+roles: Roles
+password: Password
+created_at: Created
+updated_at: Updated
+last_login: Last login
+actions: Actions
+name: Name
+type: Type
+port: Port
+host: Host
+db_connection: DB connection
+host_connection: Host connection
+connection: Connection
 multiple: Multiple
 single: Single
 online: Online
 offline: Offline
-enabled: Enabled
-host: Host
-type: Type
 status: Status
-created_at: Created at
 check_status: Check status
 cluster: Cluster
-name: Name
 core: Core
 date_range_start: From
 date_range_end: Till

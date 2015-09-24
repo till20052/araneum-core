@@ -22,7 +22,7 @@ class ConnectionRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('con');
         $qb
-            ->leftJoin('AraneumMainBundle:Cluster', 'clu',  Expr\Join::WITH, 'clu.host = con.id')
+            ->leftJoin('AraneumMainBundle:Cluster', 'clu', Expr\Join::WITH, 'clu.host = con.id')
             ->where('con.type = :type')
             ->andWhere('con.enabled = true')
             ->andWhere('clu.id IS NULL')

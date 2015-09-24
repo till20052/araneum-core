@@ -19,6 +19,7 @@ class AraneumMainExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $loaderYaml = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loaderYaml = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config/services'));
         $loaderYaml->load('admin.yml');
     }

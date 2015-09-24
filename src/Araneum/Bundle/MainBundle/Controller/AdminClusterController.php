@@ -16,7 +16,8 @@ class AdminClusterController extends Controller
      *
      * @Route("/checkStatus/{id}", name="araneum_main_admin_cluster_checkStatus")
      */
-    public function checkStatusAction($id){
+    public function checkStatusAction($id)
+    {
 
         //TODO necessary to implement
         return new Response();

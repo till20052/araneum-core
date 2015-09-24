@@ -3,13 +3,13 @@
 namespace Araneum\Bundle\MainBundle\Admin;
 
 use Araneum\Bundle\MainBundle\Entity\Connection;
+use Knp\Menu\ItemInterface as MenuItemInterface;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
 
 /**
  * Class ConnectionAdmin
@@ -30,24 +30,26 @@ class ConnectionAdmin extends Admin
                 'type',
                 'choice',
                 [
-                    'label' => 'Type',
+                    'label' => 'type',
                     'choices' => [
-                        Connection::CONN_DB => 'DB connection',
-                        Connection::CONN_HOST => 'Host Connection'
+                        Connection::CONN_DB => 'db_connection',
+                        Connection::CONN_HOST => 'host_connection'
                     ]
                 ]
             )
-            ->add('name', 'text', ['label' => 'Name'])
-            ->add('host', 'text', ['label' => 'Host'])
-            ->add('port', 'integer', ['label' => 'Port'])
-            ->add('userName', 'text', ['label' => 'User Name'])
-            ->add('enabled', 'checkbox',
+            ->add('name', 'text', ['label' => 'name'])
+            ->add('host', 'text', ['label' => 'host'])
+            ->add('port', 'integer', ['label' => 'port'])
+            ->add('userName', 'text', ['label' => 'username'])
+            ->add(
+                'enabled',
+                'checkbox',
                 [
-                    'label' => 'Enabled',
+                    'label' => 'enabled',
                     'required' => false
                 ]
             )
-            ->add('password', 'text', ['label' => 'Password']);
+            ->add('password', 'text', ['label' => 'password']);
     }
 
     /**
@@ -62,19 +64,19 @@ class ConnectionAdmin extends Admin
                 'type',
                 'choice',
                 [
-                    'label' => 'Type',
+                    'label' => 'type',
                     'choices' => [
-                        Connection::CONN_DB => 'DB connection',
-                        Connection::CONN_HOST => 'Host Connection'
+                        Connection::CONN_DB => 'db_connection',
+                        Connection::CONN_HOST => 'host_connection'
                     ]
                 ]
             )
-            ->add('name', 'text', ['label' => 'Name'])
-            ->add('host', 'text', ['label' => 'Host'])
-            ->add('port', 'integer', ['label' => 'Post'])
-            ->add('userName', 'text', ['label' => 'User Name'])
-            ->add('enabled', 'checkbox', ['label' => 'Enabled'])
-            ->add('password', 'password', ['label' => 'Password']);
+            ->add('name', 'text', ['label' => 'name'])
+            ->add('host', 'text', ['label' => 'host'])
+            ->add('port', 'integer', ['label' => 'port'])
+            ->add('userName', 'text', ['label' => 'username'])
+            ->add('enabled', 'checkbox', ['label' => 'enabled'])
+            ->add('password', 'password', ['label' => 'password']);
     }
 
     /**
@@ -91,28 +93,40 @@ class ConnectionAdmin extends Admin
                 [],
                 'choice',
                 [
-                    'label' => 'Type',
+                    'label' => 'type',
                     'choices' => [
-                        Connection::CONN_DB => 'DB connection',
-                        Connection::CONN_HOST => 'Host Connection'
+                        Connection::CONN_DB => 'db_connection',
+                        Connection::CONN_HOST => 'host_connection'
                     ]
                 ]
             )
-            ->add('name', null, ['label' => 'Name'])
-            ->add('host', null, ['label' => 'Host'])
-            ->add('port', null, ['label' => 'Port'])
-            ->add('userName', null, ['label' => 'User Name'])
-            ->add('enabled', null, ['label' => 'Enabled'])
-            ->add('createdAt', 'doctrine_orm_date_range',
+            ->add('name', null, ['label' => 'name'])
+            ->add('host', null, ['label' => 'host'])
+            ->add('port', null, ['label' => 'port'])
+            ->add('userName', null, ['label' => 'username'])
+            ->add('enabled', null, ['label' => 'enabled'])
+            ->add(
+                'createdAt',
+                'doctrine_orm_date_range',
                 [
                     'field_type' => 'sonata_type_date_range_picker',
-                    'label' => 'Created At'
+                    'label' => 'created_at'
+                ],
+                null,
+                [
+                    'format' => 'MM/dd/yyyy'
                 ]
             )
-            ->add('updatedAt', 'doctrine_orm_date_range',
+            ->add(
+                'updatedAt',
+                'doctrine_orm_date_range',
                 [
                     'field_type' => 'sonata_type_date_range_picker',
-                    'label' => 'Updated At'
+                    'label' => 'updated_at'
+                ],
+                null,
+                [
+                    'format' => 'MM/dd/yyyy'
                 ]
             );
     }
@@ -130,30 +144,62 @@ class ConnectionAdmin extends Admin
                 'type',
                 'choice',
                 [
-                    'label' => 'Type',
+                    'label' => 'type',
                     'choices' => [
-                        Connection::CONN_DB => 'DB connection',
-                        Connection::CONN_HOST => 'Host Connection'
+                        Connection::CONN_DB => $this->getTranslator()->trans('db_connection'),
+                        Connection::CONN_HOST => $this->getTranslator()->trans('db_connection')
                     ]
                 ]
             )
-            ->add('name', 'text', ['editable' => true])
-            ->add('host', 'text', ['editable' => true])
-            ->add('port', 'integer', ['editable' => true])
-            ->add('userName', 'text', ['editable' => true])
+            ->add('name', 'text',
+                [
+                    'label' => 'name',
+                    'editable' => true
+                ]
+            )
+            ->add('host', 'text',
+                [
+                    'label' => 'host',
+                    'editable' => true
+                ]
+            )
+            ->add('port', 'integer',
+                [
+                    'label' => 'port',
+                    'editable' => true
+                ]
+            )
+            ->add('userName', 'text',
+                [
+                    'label' => 'username',
+                    'editable' => true
+                ]
+            )
             ->add(
                 'enabled',
                 'boolean',
                 [
+                    'label' => 'enabled',
                     'editable' => true
                 ]
             )
-            ->add('createdAt', 'datetime', ['format' => 'm/d/Y'])
-            ->add('updatedAt', 'datetime', ['format' => 'm/d/Y'])
+            ->add('createdAt', 'datetime',
+                [
+                    'label' => 'created_at',
+                    'format' => 'm/d/Y'
+                ]
+            )
+            ->add('updatedAt', 'datetime',
+                [
+                    'label' => 'updated_at',
+                    'format' => 'm/d/Y'
+                ]
+            )
             ->add(
                 '_action',
                 'actions',
                 [
+                    'label' => 'actions',
                     'actions' => [
                         'edit' => [],
                         'testConnection' => [
