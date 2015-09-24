@@ -116,7 +116,7 @@ class ClusterAdmin extends Admin
                 'actions' => [
                     'edit' => [],
                     'check_status' => [
-                        'template' => 'AraneumMainBundle:Admin:checkStatus.html.twig'
+                        'template' => 'AraneumMainBundle:AdminAction:checkStatus.html.twig'
                     ],
                     'delete' => []
                 ]
