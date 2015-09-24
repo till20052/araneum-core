@@ -92,9 +92,9 @@ fos_user:
     firewall_name: main
     user_class: Araneum\Bundle\UserBundle\Entity\User
 
-accelerator_cache:
-    host: %domain%
-    web_dir: %kernel.root_dir%/../web
+#accelerator_cache:
+#    host: %domain%
+#    web_dir: %kernel.root_dir%/../web
 
 sonata_block:
     default_contexts: [cms]

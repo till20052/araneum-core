@@ -1,9 +1,8 @@
-name.too.short: Слишком короткое имя
 multiple: Множественный
 single: Одиночный
 online: Online
 offline: Offline
-enabled: Enabled
+enabled: Активный
 host: Площадка
 type: Тип
 status: Состояние
@@ -11,3 +10,4 @@ created_at: Создано:
 check_status: Проверить состояние
 cluster: Кластер
 name: Имя
+core: Ядро

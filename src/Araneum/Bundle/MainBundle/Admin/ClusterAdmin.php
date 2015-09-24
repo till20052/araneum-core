@@ -9,6 +9,11 @@
 namespace Araneum\Bundle\MainBundle\Admin;
 
 use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Araneum\Bundle\MainBundle\Entity\Connection;
+use Araneum\Bundle\MainBundle\Repository\ClusterRepository;
+use Araneum\Bundle\MainBundle\Repository\ConnectionRepository;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -18,6 +23,14 @@ use Sonata\AdminBundle\Route\RouteCollection;
 
 class ClusterAdmin extends Admin
 {
+    /** @var ConnectionRepository */
+    private $connectionRepository;
+
+    public function setConnectionRepository(EntityRepository $connectionRepository)
+    {
+        $this->connectionRepository = $connectionRepository;
+    }
+
     /**
      * Fields to be shown on create/edit forms
      *
@@ -26,23 +39,30 @@ class ClusterAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-                ->add('name', 'text', ['label' => 'name'])
-                ->add('host', 'sonata_type_model', [], [])
-                ->add('type', 'choice', [
-                        'choices' => [
-                            Cluster::TYPE_MULTIPLE => 'multiple',
-                            Cluster::TYPE_SINGLE => 'single'
-                        ],
-                        'label' => 'Type'
-                    ])
-                ->add('status', 'choice', [
-                        'choices' => [
-                            Cluster::STATUS_ONLINE => 'online',
-                            Cluster::STATUS_OFFLINE => 'offline'
-                        ],
-                        'label' => 'Status'
-                    ])
-                ->add('enabled', 'checkbox', ['label' => 'enabled', 'required' => false]);
+            ->add('name', 'text', ['label' => 'name'])
+            ->add(
+                'host',
+                'sonata_type_model',
+                [
+                    'label' => 'host',
+                    'query' => $this->connectionRepository->getQueryByUnusedAndType(Connection::CONN_HOST),
+                ]
+            )
+            ->add('type', 'choice', [
+                'choices' => [
+                    Cluster::TYPE_MULTIPLE => 'multiple',
+                    Cluster::TYPE_SINGLE => 'single'
+                ],
+                'label' => 'type'
+            ])
+            ->add('status', 'choice', [
+                'choices' => [
+                    Cluster::STATUS_ONLINE => 'online',
+                    Cluster::STATUS_OFFLINE => 'offline'
+                ],
+                'label' => 'status'
+            ])
+            ->add('enabled', 'checkbox', ['label' => 'enabled', 'required' => false]);
     }
 
     /**
@@ -77,41 +97,29 @@ class ClusterAdmin extends Admin
             ->add('name', 'text', ['editable' => true])
             ->add('host', 'text', ['editable' => true])
             ->add('type', 'choice', [
-                    'choices' => [
-                            Cluster::TYPE_MULTIPLE => 'multiple',
-                            Cluster::TYPE_SINGLE => 'single'
-                        ],
-                    'label' => 'Type'
-                ])
+                'choices' => [
+                    Cluster::TYPE_MULTIPLE => 'multiple',
+                    Cluster::TYPE_SINGLE => 'single'
+                ],
+                'label' => 'Type'
+            ])
             ->add('status', 'choice', [
-                    'choices' => [
-                            Cluster::STATUS_ONLINE => 'online',
-                            Cluster::STATUS_OFFLINE => 'offline'
-                        ],
-                    'label' => 'Status'
-                ])
+                'choices' => [
+                    Cluster::STATUS_ONLINE => 'online',
+                    Cluster::STATUS_OFFLINE => 'offline'
+                ],
+                'label' => 'Status'
+            ])
             ->add('enabled', null, ['editable' => true])
             ->add('createdAt', 'datetime', ['format' => 'm.d.Y'])
             ->add('_action', 'actions', [
-                    'actions' => [
-                        'edit' => [],
-                        'check_status' => [
-                            'template' => 'AraneumMainBundle:Admin:checkStatus.html.twig'
-                        ],
-                        'delete' => []
-                    ]
-                ]);
-    }
-
-
-    /**
-     * Configure routes
-     *
-     * @param RouteCollection $collection
-     */
-    protected function configureRoutes(RouteCollection $collection)
-    {
-        $collection
-            ->add('checkStatus', 'checkStatus/{id}', ['_controller'=>'AraneumMainBundle:CRUD:checkStatus']);
+                'actions' => [
+                    'edit' => [],
+                    'check_status' => [
+                        'template' => 'AraneumMainBundle:Admin:checkStatus.html.twig'
+                    ],
+                    'delete' => []
+                ]
+            ]);
     }
 }

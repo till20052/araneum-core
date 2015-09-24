@@ -164,16 +164,4 @@ class ConnectionAdmin extends Admin
                 ]
             );
     }
-
-    /**
-     * Configure routes
-     *
-     * @param RouteCollection $collection
-     */
-    protected function configureRoutes(RouteCollection $collection)
-    {
-        $collection
-            ->add('testConnection', 'testConnection/{id}', ['_controller'=>'AraneumMainBundle:CRUD:testConnection']);
-    }
-
 }

@@ -1,4 +1,4 @@
-<a class="btn btn-sm btn-default" href="{{ admin.generateObjectUrl('checkStatus', object) }}">
+<a class="btn btn-sm btn-default" href="{{ url('araneum_main_admin_cluster_checkStatus', {'id': object.id}) }}">
     <i class="glyphicon glyphicon-check"></i>
     {{ ''|trans({}, 'AraneumMainBundle') }}
 </a>

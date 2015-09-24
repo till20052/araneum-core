@@ -1,4 +1,4 @@
-<a class="btn btn-sm btn-default" href="{{ admin.generateObjectUrl('testConnection', object) }}">
+<a class="btn btn-sm btn-default" href="{{ url('araneum_main_admin_connection_testConnection', {'id': object.id}) }}">
     <i class="glyphicon glyphicon-signal"></i>
     {{ 'Test Connection'|trans({}, 'AraneumMainBundle') }}
 </a>
