@@ -8,13 +8,22 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class UserAdmin extends Admin
 {
+    protected $formOptions = ['validation_groups' => ['Profile']];
+
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
             ->add('email', null, ['label' => 'email'])
             ->add('username', null, ['label' => 'username'])
             ->add('fullName', null, ['label' => 'fullName'])
-            ->add('enabled', null, ['label' => 'enabled'])
+            ->add(
+                'enabled',
+                'checkbox',
+                [
+                    'label' => 'enabled',
+                    'required' => false,
+                ]
+            )
             ->add('roles', null, ['label' => 'roles']);
 
         if ($this->getSubject()->getId() === null) {
@@ -58,13 +67,17 @@ class UserAdmin extends Admin
             )
             ->add('lastLogin', null, ['label' => 'last_login'])
             ->add('roles', null, ['label' => 'roles'])
-            ->add('createdAt', null,
+            ->add(
+                'createdAt',
+                null,
                 [
                     'format' => 'm/d/Y',
                     'label' => 'created_at'
                 ]
             )
-            ->add('updatedAt', null,
+            ->add(
+                'updatedAt',
+                null,
                 [
                     'format' => 'm/d/Y',
                     'label' => 'updated_at'
