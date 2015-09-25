@@ -56,7 +56,7 @@ class Cluster
 
     /**
      * @ORM\Column(type="boolean", name="enabled")
-     * @Assert\Type(type="bool")
+     * @Assert\Type(type="boolean")
      */
     protected $enabled;
 
@@ -78,6 +78,16 @@ class Cluster
     }
 
     /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
      * Set name
      *
      * @param string $name
@@ -91,13 +101,13 @@ class Cluster
     }
 
     /**
-     * Get name
+     * Get type
      *
-     * @return string
+     * @return integer
      */
-    public function getName()
+    public function getType()
     {
-        return $this->name;
+        return $this->type;
     }
 
     /**
@@ -114,16 +124,6 @@ class Cluster
     }
 
     /**
-     * Get type
-     *
-     * @return integer
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
      * Set enabled
      *
      * @param boolean $enabled
@@ -131,7 +131,7 @@ class Cluster
      */
     public function setEnabled($enabled = true)
     {
-        $this->enabled = $enabled;
+        $this->enabled = (bool)$enabled;
 
         return $this;
     }
@@ -143,7 +143,17 @@ class Cluster
      */
     public function isEnabled()
     {
-        return $this->enabled;
+        return (bool)$this->enabled;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**
@@ -160,13 +170,13 @@ class Cluster
     }
 
     /**
-     * Get status
+     * Get host
      *
-     * @return integer
+     * @return Connection
      */
-    public function getStatus()
+    public function getHost()
     {
-        return $this->status;
+        return $this->host;
     }
 
     /**
@@ -180,16 +190,6 @@ class Cluster
         $this->host = $host;
 
         return $this;
-    }
-
-    /**
-     * Get host
-     *
-     * @return Connection
-     */
-    public function getHost()
-    {
-        return $this->host;
     }
 
     /**
