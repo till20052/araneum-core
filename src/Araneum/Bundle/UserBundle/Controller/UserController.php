@@ -57,11 +57,4 @@ class UserController extends Controller
             ]
         );
     }
-
-    /**
-     *
-     */
-    public function profileUpdateAction($request)
-    {
-    }
 }
