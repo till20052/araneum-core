@@ -1,3 +1,0 @@
-profile_page:
-  pattern: ^/profile/
-  defaults: { _controller: AraneumMainBundle:Profile:index }

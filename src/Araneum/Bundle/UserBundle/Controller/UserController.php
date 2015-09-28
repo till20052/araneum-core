@@ -22,10 +22,6 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
 
-        if (!($this->getUser())) {
-            throw $this->createNotFoundException('Unable to find User entity.');
-        }
-
         $form = $this->createForm(new ProfileType(), $this->getUser());
 
         if ($request->getMethod() === 'POST') {
@@ -46,7 +42,7 @@ class UserController extends Controller
                 );
             }
 
-            $em->refresh($this->getUser()); // Add this line
+            $em->refresh($this->getUser());
         }
 
         return $this->render(

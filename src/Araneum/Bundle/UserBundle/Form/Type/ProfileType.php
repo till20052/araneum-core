@@ -10,6 +10,11 @@ use Symfony\Component\Form\FormTypeInterface;
 
 class ProfileType extends AbstractType
 {
+
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -40,6 +45,9 @@ class ProfileType extends AbstractType
             );
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
@@ -49,6 +57,9 @@ class ProfileType extends AbstractType
         );
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return 'araneum_user_form_profile';
