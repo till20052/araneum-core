@@ -9,47 +9,36 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class ComponentAdmin extends Admin
 {
+	/**
+	 * Create/Update Component Form
+	 *
+	 * @param FormMapper $formMapper
+	 */
 	protected function configureFormFields(FormMapper $formMapper)
 	{
 		$formMapper
 			->add('name', 'text', [
-				'label' => 'Name'
+				'label' => 'name'
 			])
 			->add('description', 'textarea', [
-				'label' => 'Description'
+				'label' => 'description',
+				'required' => false
 			])
 			->add('enabled', 'checkbox', [
-				'label' => 'Enabled',
+				'label' => 'enabled',
 				'required' => false
 			])
 			->add('default', 'checkbox', [
-				'label' => 'Default',
+				'label' => 'default',
 				'required' => false
-			])
-		;
+			]);
 	}
 
-	protected function configureDatagridFilters(DatagridMapper $datagridMapper)
-	{
-		$datagridMapper
-			->add('name', null, [
-				'label' => 'Name'
-			])
-			->add('description', null, [
-				'label' => 'Description'
-			])
-			->add('enabled', null, [
-				'label' => 'Enabled'
-			])
-			->add('default', null, [
-				'label' => 'Default'
-			])
-			->add('createdAt', null, [
-				'label' => 'Created At'
-			])
-		;
-	}
-
+	/**
+	 * Component List
+	 *
+	 * @param ListMapper $listMapper
+	 */
 	protected function configureListFields(ListMapper $listMapper)
 	{
 		$listMapper
@@ -57,28 +46,60 @@ class ComponentAdmin extends Admin
 				'label' => 'ID'
 			])
 			->add('name', null, [
+				'label' => 'name',
 				'editable' => true
 			])
 			->add('description', null, [
+				'label' => 'description',
 				'editable' => true
 			])
 			->add('enabled', null, [
-				'label' => 'Enabled',
+				'label' => 'enabled',
 				'editable' => true
 			])
 			->add('default', null, [
-				'lable' => 'Default',
+				'label' => 'default',
 				'editable' => true
 			])
-			->add('createdAt', null, [
-				'label' => 'Created At'
+			->add('createdAt', 'datetime', [
+				'label' => 'created_at',
+				'format' => 'm/d/Y'
 			])
 			->add('_action', 'actions', [
+				'label' => 'actions',
 				'actions' => [
 					'edit' => [],
 					'delete' => []
 				]
+			]);
+	}
+
+	/**
+	 * Component Filters
+	 *
+	 * @param DatagridMapper $datagridMapper
+	 */
+	protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+	{
+		$datagridMapper
+			->add('name', null, [
+				'label' => 'name'
 			])
-		;
+			->add('description', null, [
+				'label' => 'description'
+			])
+			->add('enabled', null, [
+				'label' => 'enabled'
+			])
+			->add('default', null, [
+				'label' => 'default'
+			])
+			->add('createdAt', 'doctrine_orm_datetime_range', [
+				'label' => 'created_at',
+				'field_type' => 'sonata_type_datetime_range_picker'
+			], null, [
+				'widget' => 'single_text',
+				'format' => 'MM/dd/yyyy'
+			]);
 	}
 }
