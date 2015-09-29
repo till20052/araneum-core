@@ -13,6 +13,8 @@ use Araneum\Bundle\UserBundle\Form\Type\ProfileType;
 class UserController extends Controller
 {
     /**
+     * Shows profile form
+     *
      * @Route("profile/", name="araneum_user_user_profileShow")
      * @Security("has_role('ROLE_ADMIN')")
      * @param Request $request
