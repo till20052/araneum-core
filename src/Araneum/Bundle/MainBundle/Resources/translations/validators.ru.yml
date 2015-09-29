@@ -1,3 +1,8 @@
 incorrect_locale_format: Неправильный формат локали. Рекомендуемый формат en_US
 component_name_empty: Имя компоненты не может быть пустым
 component_name_length: Имя компоненты может принимать значение от 2х до 255 знаков
+application_name_empty: Имя приложения не может быть пустым
+application_name_length: Имя приложения может принимать значение от 2х до 255 знаков
+application_domain_not_valid_url: Неправильный формат доменного имени
+application_name_empty: Шаблон приложения не может быть пустым
+application_name_length: Шаблон приложения может принимать значение от 2х до 255 знаков
