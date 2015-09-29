@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,10 +30,10 @@ class Cluster
     protected $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="Connection")
-     * @ORM\JoinColumn(name="connection_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="Connection", inversedBy="cluster", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="araneum_cluster_connection")
      */
-    protected $host;
+    protected $hosts;
 
     /**
      * @ORM\Column(type="smallint", name="type", options={"comment":"1 - single, 2 - multiple"})
@@ -50,7 +51,12 @@ class Cluster
      */
     protected $status;
 
-    /**
+    public function __construct()
+    {
+        $this->setHosts(new ArrayCollection());
+    }
+
+     /**
      * Get id
      *
      * @return integer
@@ -155,24 +161,14 @@ class Cluster
     /**
      * Add host
      *
-     * @param Connection $host
+     * @param ArrayCollection $hosts
      * @return Cluster
      */
-    public function addHost(Connection $host)
+    public function setHosts(ArrayCollection $hosts)
     {
-        $this->host = $host;
+        $this->hosts = $hosts;
 
         return $this;
-    }
-
-    /**
-     * Remove host
-     *
-     * @param Connection $host
-     */
-    public function removeHost(Connection $host)
-    {
-        $this->host->removeElement($host);
     }
 
     /**
@@ -180,8 +176,8 @@ class Cluster
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getHost()
+    public function getHosts()
     {
-        return $this->host;
+        return $this->hosts;
     }
 }
