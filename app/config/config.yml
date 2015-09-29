@@ -36,11 +36,11 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+        locales: %locales%
     form:
         resources:
             - 'SonataCoreBundle:Form:datepicker.html.twig'
-    globals:
-        locales: %locales%
 
 # Assetic Configuration
 assetic:
