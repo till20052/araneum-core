@@ -2,16 +2,21 @@
 
 namespace Araneum\Bundle\MainBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Araneum\Base\Tests\Controller\BaseController;
 
-class DefaultControllerTest extends WebTestCase
+class DefaultControllerTest extends BaseController
 {
+    /**
+     * Test main page
+     *
+     * @runInSeparateProcess
+     */
     public function testIndex()
     {
-        $client = static::createClient();
+        $client = $this->createAdminAuthorizedClient();
 
-        $crawler = $client->request('GET', '/hello/Fabien');
+        $crawler = $client->request('GET', '/en/admin/dashboard');
 
-        $this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
+        $this->assertTrue($crawler->filter('html:contains("Sonata Admin")')->count() > 0);
     }
 }
