@@ -65,6 +65,9 @@ class Connection
      */
     protected $clusters;
 
+    /**
+     * Connection constructor.
+     */
     public function __construct()
     {
         $this->setClusters(new ArrayCollection());
