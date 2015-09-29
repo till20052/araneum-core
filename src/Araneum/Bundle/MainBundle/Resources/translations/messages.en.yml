@@ -8,4 +8,20 @@ date_range_start: From
 date_range_end: To
 actions: Actions
 left_to_right: Left to right
-right_to_left: Right to left
+right_to_left: Right to left,
+cluster: Cluster
+type: Type
+domain: Domain
+database: Database
+public: Public
+owner: Owner
+status: Status
+template: Template
+created_at: Created At
+undefined: Undefined
+online: Online
+offline: Offline
+aliases: Aliases
+alias: Alias
+components: Components
+application: Application

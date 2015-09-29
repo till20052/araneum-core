@@ -42,4 +42,6 @@ services:
             arguments:
                 - ~
                 - Araneum\Bundle\MainBundle\Entity\Application
-                - ~
+                - SonataAdminBundle:CRUD
+            calls:
+                - [setContainer, [@service_container]]

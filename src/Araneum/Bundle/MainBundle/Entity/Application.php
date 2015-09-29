@@ -1,9 +1,13 @@
 <?php
+
 namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
+use Araneum\Bundle\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Application class
@@ -11,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ApplicationRepository")
  * @ORM\Table(name="araneum_applications")
  * @ORM\HasLifecycleCallbacks()
- *
+ * @UniqueEntity(fields="name")
  */
 class Application
 {
@@ -31,12 +35,20 @@ class Application
     protected $cluster;
 
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    protected $type;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="application_name_empty")
+     * @Assert\Length(min=2, max=255, minMessage="application_name_length", maxMessage="application_name_length")
      */
     protected $name;
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\Regex("/^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$/", message="application_domain_not_valid_url")
      */
     protected $domain;
 
@@ -80,12 +92,14 @@ class Application
     protected $owner;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="smallint", nullable=true)
      */
     protected $status;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="application_template_empty")
+     * @Assert\Length(min=2, max=255, minMessage="application_template_length", maxMessage="application_template_length")
      */
     protected $template;
 
@@ -94,7 +108,6 @@ class Application
         $this->setComponents(new ArrayCollection());
         $this->setAliases([]);
     }
-
 
     /**
      * Get id
@@ -140,6 +153,29 @@ class Application
         $this->cluster = $cluster;
 
         return $this;
+    }
+
+    /**
+     * Set type
+     *
+     * @param int $type
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return int
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
@@ -329,7 +365,7 @@ class Application
     /**
      * Get owner
      *
-     * @return mixed
+     * @return User
      */
     public function getOwner()
     {
@@ -339,8 +375,8 @@ class Application
     /**
      * Set owner
      *
-     * @param mixed $owner
-     * @return mixed
+     * @param User $owner
+     * @return $this
      */
     public function setOwner(User $owner)
     {

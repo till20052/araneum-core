@@ -9,3 +9,19 @@ date_range_end: До
 actions: Действия
 left_to_right: Слева направо
 right_to_left: Справа налево
+cluster: Кластер
+type: Тип
+domain: Домен
+database: База данных
+public: Публичная
+owner: Владелец
+status: Статус
+template: Шаблон
+created_at: Создана
+undefined: Неизвесно
+online: Online
+offline: Offline
+aliases: Псевдонимы
+alias: Псевдоним
+components: Компоненты
+application: Приложение
