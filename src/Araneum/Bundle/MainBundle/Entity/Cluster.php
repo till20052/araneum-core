@@ -51,6 +51,9 @@ class Cluster
      */
     protected $status;
 
+    /**
+     * Cluster constructor.
+     */
     public function __construct()
     {
         $this->setHosts(new ArrayCollection());
