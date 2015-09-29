@@ -4,6 +4,7 @@ namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class Connection
@@ -57,6 +58,20 @@ class Connection
      * @ORM\Column(type="boolean", name="enabled")
      */
     protected $enabled;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="Cluster", mappedBy="hosts", cascade={"detach"})
+     */
+    protected $clusters;
+
+    /**
+     * Connection constructor.
+     */
+    public function __construct()
+    {
+        $this->setClusters(new ArrayCollection());
+    }
 
     /**
      * Get id
@@ -227,5 +242,28 @@ class Connection
     public function isEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * Get Clusters
+     *
+     * @return ArrayCollection
+     */
+    public function getClusters()
+    {
+        return $this->clusters;
+    }
+
+    /**
+     * Set Clusters
+     *
+     * @param ArrayCollection $clusters
+     * @return Connection
+     */
+    public function setClusters(ArrayCollection $clusters)
+    {
+        $this->clusters = $clusters;
+
+        return $this;
     }
 }
