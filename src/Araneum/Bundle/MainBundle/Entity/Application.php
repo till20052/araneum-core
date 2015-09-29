@@ -1,4 +1,5 @@
 <?php
+
 namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @Doctrine\ORM\Mapping\Entity
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ApplicationRepository")
  * @ORM\Table(name="araneum_applications")
- *
+ * @ORM\HasLifecycleCallbacks()
  */
 class Application
 {
@@ -79,7 +80,7 @@ class Application
     protected $owner;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="smallint", nullable=true)
      */
     protected $status;
 
@@ -88,12 +89,14 @@ class Application
      */
     protected $template;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->setComponents(new ArrayCollection());
-        $this->setAliases(new ArrayCollection());
+        $this->setAliases([]);
     }
-
 
     /**
      * Get id
@@ -203,7 +206,7 @@ class Application
      * @param mixed $aliases
      * @return mixed
      */
-    public function setAliases(ArrayCollection $aliases)
+    public function setAliases($aliases)
     {
         $this->aliases = $aliases;
 

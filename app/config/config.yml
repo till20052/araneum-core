@@ -31,6 +31,7 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
+    test: ~
 
 # Twig Configuration
 twig:
@@ -40,7 +41,7 @@ twig:
         locales: %locales%
     form:
         resources:
-            - 'SonataCoreBundle:Form:datepicker.html.twig'
+          - 'SonataCoreBundle:Form:datepicker.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -101,4 +102,4 @@ sonata_block:
     blocks:
         sonata.admin.block.admin_list:
             contexts:   [admin]
-        # Your other blocks
+
