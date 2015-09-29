@@ -26,7 +26,7 @@ services:
             - Araneum\Bundle\MainBundle\Entity\Locale
             - ~
             
-    sonata.admin.component:
+    araneum.main.admin.component:
         class: Araneum\Bundle\MainBundle\Admin\ComponentAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: "Components", label: "Component" }
