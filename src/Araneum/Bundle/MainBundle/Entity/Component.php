@@ -1,17 +1,21 @@
 <?php
 namespace Araneum\Bundle\MainBundle\Entity;
 
+use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Component
  * @package Entity
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ComponentRepository")
  * @ORM\Table(name="araneum_components")
  */
 class Component
 {
+    use DateTrait;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -34,7 +38,6 @@ class Component
      */
     protected $description;
 
-
     /**
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Application", mappedBy="components", cascade={"persist", "remove"})
@@ -52,7 +55,8 @@ class Component
     protected $default;
 
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->setOption([]);
         $this->setApplications(new ArrayCollection());
     }

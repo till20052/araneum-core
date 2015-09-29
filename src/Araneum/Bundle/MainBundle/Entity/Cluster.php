@@ -2,8 +2,8 @@
 
 namespace Araneum\Bundle\MainBundle\Entity;
 
+use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class Cluster
@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Cluster
 {
-    use \Araneum\BaseBundle\EntityTrait\DateTrait;
+    use DateTrait;
 
     /**
      * @ORM\Id
