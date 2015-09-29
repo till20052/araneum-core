@@ -16,3 +16,12 @@ services:
             - ~
             - Araneum\Bundle\MainBundle\Entity\Component
             - ~
+
+    sonata.admin.application:
+            class: Araneum\Bundle\MainBundle\Admin\ApplicationAdmin
+            tags:
+                - { name: sonata.admin, manager_type: orm, group: "Applications", label: "Application" }
+            arguments:
+                - ~
+                - Araneum\Bundle\MainBundle\Entity\Application
+                - ~

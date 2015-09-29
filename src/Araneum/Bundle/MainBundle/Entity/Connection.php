@@ -249,6 +249,8 @@ class Connection
     }
 
     /**
+     * Get Cluster
+     *
      * @return mixed
      */
     public function getCluster()
@@ -257,6 +259,8 @@ class Connection
     }
 
     /**
+     * Set Cluster
+     *
      * @param mixed $cluster
      */
     public function setCluster($cluster)

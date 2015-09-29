@@ -61,7 +61,9 @@ class Component
 	 */
 	protected $default;
 
-
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		$this->setOptions([]);
@@ -157,7 +159,9 @@ class Component
 	public function getOptionValueByKey($key)
 	{
 		if ( ! isset($this->options[$key]))
+		{
 			return false;
+		}
 
 		return $this->options[$key];
 	}
@@ -171,7 +175,9 @@ class Component
 	public function removeOption($key)
 	{
 		if ( ! isset($this->options[$key]))
+		{
 			return false;
+		}
 
 		unset($this->options[$key]);
 
@@ -202,6 +208,8 @@ class Component
 	}
 
 	/**
+	 * Get Applications
+	 *
 	 * @return ArrayCollection
 	 */
 	public function getApplications()
@@ -210,6 +218,8 @@ class Component
 	}
 
 	/**
+	 * Set Applications
+	 *
 	 * @param ArrayCollection $applications
 	 * @return Component
 	 */
