@@ -35,7 +35,7 @@ class ComponentAdmin extends Admin
 	}
 
 	/**
-	 * Component List.
+	 * Component List
 	 *
 	 * @param ListMapper $listMapper
 	 */
