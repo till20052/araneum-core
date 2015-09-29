@@ -6,6 +6,7 @@ use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class Component
@@ -13,276 +14,287 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ComponentRepository")
  * @ORM\Table(name="araneum_components")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields="name")
  */
 class Component
 {
-    use DateTrait;
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+	use DateTrait;
+	/**
+	 * @ORM\Column(type="integer")
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	protected $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="This field is required")
-     * @Assert\Length(min=2, max=255, minMessage="Name too short", maxMessage="Name too long")
-     */
-    protected $name;
+	/**
+	 * @ORM\Column(type="string", length=255)
+	 * @Assert\NotBlank(message="component_name_empty")
+	 * @Assert\Length(min=2, max=255, minMessage="component_name_length", maxMessage="component_name_length")
+	 */
+	protected $name;
 
-    /**
-     * @ORM\Column(type="json_array")
-     */
-    protected $options;
+	/**
+	 * @ORM\Column(type="json_array")
+	 */
+	protected $options;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    protected $description;
-    
-    /**
-     * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Application", mappedBy="components", cascade={"persist", "remove"})
-     */
-    protected $applications;
+	/**
+	 * @ORM\Column(type="text", nullable=true)
+	 */
+	protected $description;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $enabled;
+	/**
+	 * @var ArrayCollection
+	 * @ORM\ManyToMany(targetEntity="Application", mappedBy="components", cascade={"persist", "remove"})
+	 */
+	protected $applications;
 
-    /**
-     * @ORM\Column(type="boolean", name="`default`")
-     */
-    protected $default;
+	/**
+	 * @ORM\Column(type="boolean")
+	 * @Assert\Type(type="boolean")
+	 */
+	protected $enabled;
 
+	/**
+	 * @ORM\Column(type="boolean", name="`default`")
+	 * @Assert\Type(type="boolean")
+	 */
+	protected $default;
 
-    public function __construct(){
-        $this->setOptions([]);
-        $this->setApplications(new ArrayCollection());
-    }
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->setOptions([]);
+		$this->setApplications(new ArrayCollection());
+	}
 
-    /**
-     * Get id
-     *
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Get id
+	 *
+	 * @return mixed
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * Set id
-     *
-     * @param mixed $id
-     * @return mixed
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
+	/**
+	 * Set id
+	 *
+	 * @param mixed $id
+	 * @return mixed
+	 */
+	public function setId($id)
+	{
+		$this->id = $id;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get name
-     *
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+	/**
+	 * Get name
+	 *
+	 * @return mixed
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
-    /**
-     * Set name
-     *
-     * @param mixed $name
-     * @return mixed
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
+	/**
+	 * Set name
+	 *
+	 * @param mixed $name
+	 * @return $this
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get option
-     *
-     * @return mixed
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
+	/**
+	 * Get option
+	 *
+	 * @return mixed
+	 */
+	public function getOptions()
+	{
+		return $this->options;
+	}
 
-    /**
-     * Set option
-     *
-     * @param array $options
-     * @return mixed
-     */
-    public function setOptions(array $options)
-    {
-        $this->options = $options;
+	/**
+	 * Set option
+	 *
+	 * @param array $options
+	 * @return mixed
+	 */
+	public function setOptions(array $options)
+	{
+		$this->options = $options;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get description
-     *
-     * @return mixed
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
+	/**
+	 * Add option
+	 *
+	 * @param array
+	 */
+	public function addOption(array $val)
+	{
+		foreach ($val as $key => $value)
+			$this->options[$key] = $value;
+	}
 
-    /**
-     * Set description
-     *
-     * @param mixed $description
-     * @return mixed
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
+	/**
+	 * Get option value by key
+	 *
+	 * @param mixed
+	 * @return mixed
+	 */
+	public function getOptionValueByKey($key)
+	{
+		if ( ! isset($this->options[$key]))
+		{
+			return false;
+		}
 
-        return $this;
-    }
+		return $this->options[$key];
+	}
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getApplications()
-    {
-        return $this->applications;
-    }
+	/**
+	 * Remove option by key
+	 *
+	 * @param mixed $key
+	 * @return bool
+	 */
+	public function removeOption($key)
+	{
+		if ( ! isset($this->options[$key]))
+		{
+			return false;
+		}
 
-    /**
-     * @param ArrayCollection $applications
-     * @return Component
-     */
-    public function setApplications(ArrayCollection $applications)
-    {
-        $this->applications = $applications;
+		unset($this->options[$key]);
 
-        return $this;
-    }
+		return true;
+	}
 
-    /**
-     * Get enabled
-     *
-     * @return bool
-     */
-    public function isEnabled()
-    {
-        return $this->enabled;
-    }
+	/**
+	 * Get description
+	 *
+	 * @return string
+	 */
+	public function getDescription()
+	{
+		return $this->description;
+	}
 
-    /**
-     * Set enabled
-     *
-     * @param bool|true $enabled
-     * @return mixed
-     */
-    public function setEnabled($enabled = true)
-    {
-        $this->enabled = $enabled;
+	/**
+	 * Set description
+	 *
+	 * @param mixed $description
+	 * @return $this
+	 */
+	public function setDescription($description)
+	{
+		$this->description = $description;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get default
-     *
-     * @return bool
-     */
-    public function isDefault()
-    {
-        return $this->default;
-    }
+	/**
+	 * Get Applications
+	 *
+	 * @return ArrayCollection
+	 */
+	public function getApplications()
+	{
+		return $this->applications;
+	}
 
-    /**
-     * Set default
-     *
-     * @param bool|true $default
-     * @return mixed
-     */
-    public function setDefault($default = true)
-    {
-        $this->default = $default;
+	/**
+	 * Set Applications
+	 *
+	 * @param ArrayCollection $applications
+	 * @return Component
+	 */
+	public function setApplications(ArrayCollection $applications)
+	{
+		$this->applications = $applications;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Add option
-     *
-     * @param array
-     */
-    public function addOption(array $val)
-    {
-        foreach($val as $key=>$value){
-            $this->option[$key] = $value;
-        }
-    }
+	/**
+	 * Get enabled
+	 *
+	 * @return bool
+	 */
+	public function isEnabled()
+	{
+		return $this->enabled;
+	}
 
-    /**
-     * Get option value by key
-     *
-     * @param mixed
-     * @return mixed
-     */
-    public function getOptionValueByKey($key)
-    {
-        if (isset($this->option[$key])) {
-            return $this->option[$key];
-        }else{
-            return false;
-        }
-    }
+	/**
+	 * Get enabled
+	 *
+	 * @return boolean
+	 */
+	public function getEnabled()
+	{
+		return $this->enabled;
+	}
 
-    /**
-     * Remove option by key
-     *
-     * @param mixed $key
-     * @return bool
-     */
-    public function removeOption($key)
-    {
-        $result = false;
-        if (isset($this->option[$key])) {
-            $result = true;
-            unset($this->option[$key]);
-        }
+	/**
+	 * Set enabled
+	 *
+	 * @param bool|true $enabled
+	 * @return $this
+	 */
+	public function setEnabled($enabled = true)
+	{
+		$this->enabled = (bool) $enabled;
 
-        return $result;
-    }
+		return $this;
+	}
 
-    /**
-     * Get enabled
-     *
-     * @return boolean 
-     */
-    public function getEnabled()
-    {
-        return $this->enabled;
-    }
+	/**
+	 * Get default
+	 *
+	 * @return boolean
+	 */
+	public function getDefault()
+	{
+		return $this->default;
+	}
 
-    /**
-     * Get default
-     *
-     * @return boolean 
-     */
-    public function getDefault()
-    {
-        return $this->default;
-    }
+	/**
+	 * Get default
+	 *
+	 * @return bool
+	 */
+	public function isDefault()
+	{
+		return $this->default;
+	}
+
+	/**
+	 * Set default
+	 *
+	 * @param bool|true $default
+	 * @return $this
+	 */
+	public function setDefault($default = true)
+	{
+		$this->default = (bool) $default;
+
+		return $this;
+	}
 
     /**
      * Get Name of Component

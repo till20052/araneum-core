@@ -1,4 +1,6 @@
 incorrect_locale_format: Incorrect locale format. Recommended format en_US
+component_name_empty: Component name can not be empty
+component_name_length: Length of component name should be in range of 2 to 255 characters
 application_name_empty: Application name can not be empty
 application_name_length: Length of application name should be in range of 2 to 255 characters
 application_domain_not_valid_url: This value is not a valid domain

@@ -1,16 +1,15 @@
-{% block user_block %}
-    <li role="presentation" class="dropdown-header">
-        <i class="glyphicon glyphicon-globe"></i>Language
-    </li>
-    {% for locale in locales|split('|') %}
-        <li role="presentation">
-            <a role="menuitem"
-                href="{{ url(
-                    app.request.get('_route'),
-                    app.request.attributes.get('_route_params')|merge({'_locale': locale })
-                ) }}">
-                {{ locale|capitalize }}
-            </a>
-        </li>
-    {% endfor %}
-{% endblock %}
+<div class="popover-title">
+    {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+</div>
+<li role="presentation">
+    <a href="{{ url('araneum_user_user_profileShow') }}">
+        <i class="glyphicon glyphicon-user fa-fw"></i>
+        {{ 'profile'|trans({}) }}
+    </a>
+</li>
+<li role="presentation">
+    <a href="{{ path('fos_user_security_logout') }}">
+        <i class="glyphicon glyphicon-log-out fa-fw"></i>
+        {{ 'logout'|trans({}) }}
+    </a>
+</li>
