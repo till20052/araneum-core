@@ -41,5 +41,4 @@ class ClusterFixtures extends AbstractFixture implements FixtureInterface, Depen
     {
         return ['Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures'];
     }
-
 }
