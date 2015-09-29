@@ -41,8 +41,6 @@ class UserController extends Controller
                     ]
                 );
             }
-
-            $em->refresh($this->getUser());
         }
 
         return $this->render(
