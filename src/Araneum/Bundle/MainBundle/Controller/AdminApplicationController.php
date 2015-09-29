@@ -15,7 +15,7 @@ class AdminApplicationController extends Controller
 	 * @Route("/admin/araneum/main/application/check_status_state/{id}", name="araneum_main_admin_application_check_status_state")
 	 *
 	 * @param $id
-	 * @return Response
+	 * @return JsonResponse
 	 */
 	public function checkStatusStateAction($id)
 	{
