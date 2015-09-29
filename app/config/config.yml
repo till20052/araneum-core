@@ -100,3 +100,6 @@ sonata_block:
         sonata.block.service.connection:
         sonata.block.service.cluster:
 
+accelerator_cache:
+    host: %domain%
+    web_dir: %kernel.root_dir%/../web

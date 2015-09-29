@@ -159,6 +159,29 @@ class ClusterAdminTest extends BaseController
     }
 
     /**
+     * @runInSeparateProcess
+     */
+    public function testFilterAction(){
+        $client = $this->createAdminAuthorizedClient();
+        $router = $client->getContainer()->get('router');
+        $crawler = $client->request('GET', $router->generate('admin_araneum_main_cluster_list', ['_locale' => 'en']));
+        $form = $crawler->selectButton('Filter')->form();
+        $scrawler = $client->submit($form, [
+            'filter[name][value]' => $name,
+            'filter[description][value]' => $host,
+            'filter[enabled][value]' => (int) $type,
+            'filter[default][value]' => (int) $status,
+            'filter[createdAt][value][start]' => $createdAt['start'],
+            'filter[createdAt][value][end]' => $createdAt['end']
+        ]);
+
+
+        /*var_dump($crawler);
+        die();*/
+    }
+
+
+    /**
      * Tear down After class
      *
      * clean test data Cluster

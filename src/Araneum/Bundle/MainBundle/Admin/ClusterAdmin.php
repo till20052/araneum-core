@@ -75,8 +75,15 @@ class ClusterAdmin extends Admin
         $datagridMapper
             ->add('name', null, ['label' => 'name'])
             ->add('host', null, ['label' => 'host'])
-            ->add('type', null, ['label' => 'type'])
-            ->add('status', null, ['label' => 'status'])
+            ->add('type', null, [], 'choice', [
+                'choices' => [
+                    Cluster::TYPE_MULTIPLE => 'multiple',
+                    Cluster::TYPE_SINGLE => 'single'
+                ],'label' => 'type'])
+            ->add('status',null, [], 'choice', ['choices' => [
+                Cluster::STATUS_ONLINE => 'online',
+                Cluster::STATUS_OFFLINE => 'offline'
+                ],'label' => 'status'])
             ->add('enabled', null, ['label' => 'enabled'])
             ->add('createdAt', 'doctrine_orm_datetime_range', [
                 'label' => 'created_at',
