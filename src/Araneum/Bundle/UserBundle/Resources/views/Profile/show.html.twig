@@ -1,0 +1,63 @@
+{% extends 'SonataAdminBundle::standard_layout.html.twig' %}
+{% block sonata_page_content %}
+    <section class="content-header">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <span class="navbar-brand">
+                    {{ "edit_profile"|trans({}) }}
+                </span>
+            </div>
+        </nav>
+    </section>
+    {% block sonata_admin_content %}
+        <section class="content">
+            <div class="sonata-ba-form">
+                <form action="{{ path('araneum_user_user_profileShow') }}" method="post" {{ form_enctype(form) }}>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <div class="box box-success">
+                                    <div class="sonata-ba-form-error">
+                                        {{ form_errors(form) }}
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="sonata-ba-collapsed-fields">
+                                            <div class="form-group">
+                                                {{ form_row(form.username) }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ form_row(form.fullName) }}
+                                            </div>
+                                            <div class="form-group">
+                                                {{ form_row(form.email) }}
+                                            </div>
+                                            <div class="well well-small form-actions">
+                                                <button type="submit" class="btn btn-success">
+                                                    <i class="fa fa-save"></i>
+                                                    {{ 'btn_update'|trans({}, 'SonataAdminBundle') }}
+                                                </button>
+                                                <a class="btn btn-success"
+                                                   href="{{ path('fos_user_resetting_request') }}">
+                                                    <i class="fa fa-key"></i>
+                                                    {{ 'btn_pass_restore'|trans({}) }}
+                                                </a>
+                                            </div>
+                                            {{ form_end(form) }}
+                                        </div>
+                                        {% for label, flashes in app.session.flashbag.all %}
+                                            {% for flash in flashes %}
+                                                <div class="alert alert-{{ label }}">
+                                                    {{ flash }}
+                                                </div>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    {% endblock sonata_admin_content %}
+{% endblock sonata_page_content %}

@@ -26,4 +26,9 @@ description: Description
 default: Default
 actions: Actions
 date_range_start: From
-date_range_end: To
+date_range_end: Toright_to_left: Right to left
+edit_profile: Edit profile
+btn_pass_restore: Forgot password?
+flash_edit_success: Profile changed
+profile: Profile
+logout: Logout
