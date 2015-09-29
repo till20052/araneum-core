@@ -22,7 +22,7 @@ class ProfileType extends AbstractType
                 'text',
                 [
                     'label' => 'login',
-                    'attr' => ['class' => ' form-control']
+                    'attr' => ['class' => 'form-control']
                 ]
             )
             ->add(
@@ -31,7 +31,7 @@ class ProfileType extends AbstractType
                 [
                     'required' => false,
                     'label' => 'full_name',
-                    'attr' => ['class' => ' form-control']
+                    'attr' => ['class' => 'form-control']
                 ]
             )
             ->add(
@@ -39,7 +39,7 @@ class ProfileType extends AbstractType
                 'text',
                 [
                     'label' => 'email',
-                    'attr' => ['class' => ' form-control']
+                    'attr' => ['class' => 'form-control']
                 ]
             );
     }
