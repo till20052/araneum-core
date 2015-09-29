@@ -32,19 +32,3 @@ btn_pass_restore: Forgot password?
 flash_edit_success: Profile changed
 profile: Profile
 logout: Logout
-cluster: Cluster
-type: Type
-domain: Domain
-database: Database
-public: Public
-owner: Owner
-status: Status
-template: Template
-created_at: Created At
-undefined: Undefined
-online: Online
-offline: Offline
-aliases: Aliases
-alias: Alias
-components: Components
-application: Application

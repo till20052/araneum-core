@@ -31,17 +31,3 @@ btn_pass_restore: Забыли пароль?
 flash_edit_success: Профиль изменен
 profile: Профиль
 logout: Выход
-cluster: Кластер
-type: Тип
-domain: Домен
-database: База данных
-public: Публичная
-owner: Владелец
-status: Статус
-template: Шаблон
-created_at: Создана
-undefined: Неизвесно
-aliases: Псевдонимы
-alias: Псевдоним
-components: Компоненты
-application: Приложение
