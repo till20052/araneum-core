@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @Doctrine\ORM\Mapping\Entity
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ApplicationRepository")
  * @ORM\Table(name="araneum_applications")
+ * @ORM\HasLifecycleCallbacks()
  *
  */
 class Application
@@ -40,7 +41,7 @@ class Application
     protected $domain;
 
     /**
-     * @ORM\Column(type="json_array", nullable=true)
+     * @ORM\Column(type="json_array")
      */
     protected $aliases;
 
@@ -91,7 +92,7 @@ class Application
     public function __construct()
     {
         $this->setComponents(new ArrayCollection());
-        $this->setAliases(new ArrayCollection());
+        $this->setAliases([]);
     }
 
 
@@ -203,7 +204,7 @@ class Application
      * @param mixed $aliases
      * @return mixed
      */
-    public function setAliases(ArrayCollection $aliases)
+    public function setAliases($aliases)
     {
         $this->aliases = $aliases;
 

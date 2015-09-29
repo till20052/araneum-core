@@ -28,11 +28,10 @@ class ClusterAdmin extends Admin
         $formMapper
             ->add('name', 'text', ['label' => 'Name'])
             //->add('host', 'entity', ['class' => 'Araneum\Bundle\MainBundle\Entity\Connection', 'label' => 'Host'])
-            ->add('host', 'sonata_type_collection', ['required' => false], array('edit' => 'inline', 'inline' => 'table', 'targetEntity'=> 'Araneum\Bundle\MainBundle\Entity\Connection', 'admin_code' => 'sonata.admin.connection'))
+            ->add('host', 'sonata_type_model')
             ->add('type', 'choice', ['choices' => [Cluster::TYPE_MULTIPLE => 'Multiple', Cluster::TYPE_SINGLE => 'Single'], 'label' => 'Type'])
             ->add('status', 'choice', ['choices' => [Cluster::STATUS_ONLINE => 'Online', Cluster::STATUS_OFFLINE => 'Offline'], 'label' => 'Status'])
-            ->add('enabled', 'checkbox', ['label' => 'Enabled'])
-            ->add('createdAt', 'sonata_type_date_picker', ['label' => 'Created at']);
+            ->add('enabled', 'checkbox', ['label' => 'Enabled']);
     }
 
     /**

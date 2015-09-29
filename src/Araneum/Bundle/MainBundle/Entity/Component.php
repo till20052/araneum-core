@@ -283,4 +283,14 @@ class Component
     {
         return $this->default;
     }
+
+    /**
+     * Get Name of Component
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
