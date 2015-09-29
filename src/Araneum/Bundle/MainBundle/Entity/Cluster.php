@@ -187,7 +187,8 @@ class Cluster
      * @param Connection $host
      * @return Cluster
      */
-    public function addHost(Connection $host){
+    public function addHost(Connection $host)
+    {
        $this->getHosts()->add($host);
 
        return $this;
@@ -199,7 +200,8 @@ class Cluster
      * @param Connection $host
      * @return Cluster
      */
-    public function removeHost(Connection $host){
+    public function removeHost(Connection $host)
+    {
         $this->getHosts()->removeElement($host);
 
         return $this;

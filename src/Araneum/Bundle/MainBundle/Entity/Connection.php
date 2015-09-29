@@ -242,6 +242,8 @@ class Connection
     }
 
     /**
+     * Get Clusters
+     *
      * @return ArrayCollection
      */
     public function getClusters()
@@ -250,6 +252,8 @@ class Connection
     }
 
     /**
+     * Set Clusters
+     *
      * @param ArrayCollection $clusters
      * @return Connection
      */
