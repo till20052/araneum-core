@@ -19,17 +19,28 @@ class LocaleAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name', 'text', ['label' => 'Name'])
-            ->add('locale', 'text', ['label' => 'Locale'])
-            ->add('enabled')
-            ->add('orientation', 'choice', [
-                'choices' => [
-                    Locale::ORIENT_LFT_TO_RGT => 'Left to Right',
-                    Locale::ORIENT_RGT_TO_LFT => 'Right to Left'
+            ->add('name', 'text', ['label' => 'name'])
+            ->add('locale', 'text', ['label' => 'locale'])
+            ->add(
+                'enabled',
+                'checkbox',
+                [
+                    'required' => false,
+                    'label' => 'enabled'
                 ]
-            ])
-            ->add('encoding', 'text', ['label' => 'Encoding'])
-        ;
+            )
+            ->add(
+                'orientation',
+                'choice',
+                [
+                    'label' => 'orientation',
+                    'choices' => [
+                        Locale::ORIENT_LFT_TO_RGT => 'left_to_right',
+                        Locale::ORIENT_RGT_TO_LFT => 'right_to_left'
+                    ]
+                ]
+            )
+            ->add('encoding', 'text', ['label' => 'encoding']);
     }
 
     /**
@@ -39,13 +50,39 @@ class LocaleAdmin extends Admin
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
+        $now = new \DateTime();
+
         $datagridMapper
-            ->add('name')
-            ->add('locale')
-            ->add('enabled')
-            ->add('orientation')
-            ->add('encoding')
-            ->add('createdAt');
+            ->add('name', null, ['label' => 'name'])
+            ->add('locale', null, ['label' => 'locale'])
+            ->add('enabled', null, ['label' => 'enabled'])
+            ->add(
+                'orientation',
+                'doctrine_orm_choice',
+                [
+                    'label' => 'orientation',
+                ],
+                'sonata_type_translatable_choice',
+                [
+                    'choices' => [
+                        Locale::ORIENT_LFT_TO_RGT => 'left_to_right',
+                        Locale::ORIENT_RGT_TO_LFT => 'right_to_left'
+                    ]
+                ]
+            )
+            ->add('encoding', null, ['label' => 'encoding'])
+            ->add(
+                'createdAt',
+                'doctrine_orm_date_range',
+                [
+                    'field_type' => 'sonata_type_date_range_picker',
+                    'label' => 'createdAt',
+                ],
+                null,
+                [
+                    'format' => 'MM/dd/y'
+                ]
+            );
     }
 
     /**
@@ -57,27 +94,68 @@ class LocaleAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('name', 'text', ['editable' => true])
-            ->add('locale', 'text', ['editable' => true])
-            ->add('enabled', null, [
-                'required' => false,
-                'editable' => true,
-            ])
-            ->add('orientation', 'choice', [
-                'choices' => [
-                    Locale::ORIENT_LFT_TO_RGT => 'Left to Right',
-                    Locale::ORIENT_RGT_TO_LFT => 'Right to Left'
-                ],
-                'editable' => true
-            ])
-            ->add('encoding', 'text', ['editable' => true])
-            ->add('createdAt')
-            ->add('_action', 'actions', [
+            ->add(
+                'name',
+                'text',
+                [
+                    'label' => 'name',
+                    'editable' => true
+                ]
+            )
+            ->add(
+                'locale',
+                'text',
+                [
+                    'label' => 'locale',
+                    'editable' => true
+                ]
+            )
+            ->add(
+                'enabled',
+                null,
+                [
+                    'label' => 'enabled',
+                    'editable' => true,
+                ]
+            )
+            ->add(
+                'orientation',
+                'choice',
+                [
+                    'editable' => true,
+                    'label' => 'orientation',
+                    'choices' => [
+                        Locale::ORIENT_LFT_TO_RGT => $this->getTranslator()->trans('left_to_right'),
+                        Locale::ORIENT_RGT_TO_LFT => $this->getTranslator()->trans('right_to_left'),
+                    ]
+                ]
+            )
+            ->add(
+                'encoding',
+                'text',
+                [
+                    'label' => 'encoding',
+                    'editable' => true
+                ]
+            )
+            ->add(
+                'createdAt',
+                'datetime',
+                [
+                    'label' => 'createdAt',
+                    'format' => 'm/d/Y'
+                ]
+            )
+            ->add(
+                '_action',
+                'actions',
+                [
+                    'label' => 'actions',
                     'actions' => [
                         'edit' => [],
                         'delete' => [],
                     ]
-                ])
-        ;
+                ]
+            );
     }
 }

@@ -1,0 +1,11 @@
+name: Название
+locale: Локаль
+enabled: Включено
+orientation: Ориентация
+encoding: Кодировка
+createdAt: Создано
+date_range_start: От
+date_range_end: До
+actions: Действия
+left_to_right: Слева направо
+right_to_left: Справа налево

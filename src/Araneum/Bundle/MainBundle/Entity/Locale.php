@@ -4,13 +4,18 @@ namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class Locale
+ *
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="araneum_locales")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\LocaleRepository")
  * @package Araneum\Bundle\MainBundle\Entity
+ * @UniqueEntity(fields="name")
+ * @UniqueEntity(fields="locale")
  */
 class Locale
 {
@@ -18,6 +23,7 @@ class Locale
 
     const ORIENT_LFT_TO_RGT = 1;
     const ORIENT_RGT_TO_LFT = 2;
+    const LOC_TO_STR        = 'Create';
 
     /**
      * @ORM\Id
@@ -27,12 +33,18 @@ class Locale
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=20, unique=true)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min=2, max=20)
      */
     protected $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=7)
+     *
+     * @Assert\NotBlank()
+     * @Assert\Locale(message="incorrect_locale_format")
      */
     protected $locale;
 
@@ -47,7 +59,10 @@ class Locale
     protected $orientation;
 
     /**
-     * @ORM\Column(type="string", length=255, options={"default":"UTF-8"})
+     * @ORM\Column(type="string", length=30, options={"default":"UTF-8"})
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min=2, max=30)
      */
     protected $encoding;
 
@@ -113,7 +128,7 @@ class Locale
      * @param boolean $enabled
      * @return Locale
      */
-    public function setEnabled($enabled = true)
+    public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
 
@@ -122,17 +137,17 @@ class Locale
 
     /**
      * Get enabled
-     * 
+     *
      * @return boolean
      */
     public function isEnabled()
     {
         return $this->enabled;
     }
-    
+
     /**
      * Set orientation
-     * 
+     *
      * @param smallint $orientation
      * @return Locale
      */
@@ -174,5 +189,19 @@ class Locale
     public function getEncoding()
     {
         return $this->encoding;
+    }
+
+    /**
+     * To string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        if (!empty($this->getName())) {
+            return $this->getName() . " (" . $this->getLocale() . ")";
+        } else {
+            return self::LOC_TO_STR;
+        }
     }
 }

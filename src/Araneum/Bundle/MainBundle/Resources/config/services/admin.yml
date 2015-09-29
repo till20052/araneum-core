@@ -7,6 +7,7 @@ services:
             - ~
             - Araneum\Bundle\MainBundle\Entity\Cluster
             - ~
+            
     sonata.admin.connection:
         class: Araneum\Bundle\MainBundle\Admin\ConnectionAdmin
         tags:
@@ -14,9 +15,8 @@ services:
         arguments:
             - ~
             - Araneum\Bundle\MainBundle\Entity\Connection
-            - AraneumMainBundle:ConnectionAdmin
-        calls:
-            - [setTranslationDomain, [AraneumBundle]]
+            - ~
+            
     sonata.admin.locale:
         class: Araneum\Bundle\MainBundle\Admin\LocaleAdmin
         tags:
@@ -24,6 +24,8 @@ services:
         arguments:
             - ~
             - Araneum\Bundle\MainBundle\Entity\Locale
+            - ~
+            
     sonata.admin.component:
         class: Araneum\Bundle\MainBundle\Admin\ComponentAdmin
         tags:
@@ -32,5 +34,3 @@ services:
             - ~
             - Araneum\Bundle\MainBundle\Entity\Component
             - ~
-        calls:
-            - [ setTranslationDomain, [AraneumMainBundle]]
