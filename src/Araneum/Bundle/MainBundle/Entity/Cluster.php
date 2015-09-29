@@ -180,4 +180,28 @@ class Cluster
     {
         return $this->hosts;
     }
+
+    /**
+     * Add single host in collection
+     *
+     * @param Connection $host
+     * @return Cluster
+     */
+    public function addHost(Connection $host){
+       $this->getHosts()->add($host);
+
+       return $this;
+    }
+
+    /**
+     * Remove single host
+     *
+     * @param Connection $host
+     * @return Cluster
+     */
+    public function removeHost(Connection $host){
+        $this->getHosts()->removeElement($host);
+
+        return $this;
+    }
 }
