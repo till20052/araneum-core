@@ -7,6 +7,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    locales: en|ru
 
 framework:
     #esi:             ~
@@ -30,14 +31,14 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
+    test: ~
 
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-    form:
-        resources:
-            - 'SonataCoreBundle:Form:datepicker.html.twig'
+    globals:
+        locales: %locales%
 
 # Assetic Configuration
 assetic:
@@ -91,8 +92,8 @@ fos_user:
 
 accelerator_cache:
     host: %domain%
-    web_dir: %kernel.root_dir%/../web    user_class: Araneum\Bundle\UserBundle\Entity\User 
-       
+    web_dir: %kernel.root_dir%/../web
+
 sonata_block:
     default_contexts: [cms]
     blocks:
