@@ -1,0 +1,16 @@
+name: Name
+locale: Locale
+enabled: Enabled
+orientation: Orientation
+encoding: Encoding
+createdAt: Created at
+date_range_start: From
+date_range_end: To
+actions: Actions
+left_to_right: Left to right
+right_to_left: Right to left
+edit_profile: Edit profile
+btn_pass_restore: Forgot password?
+flash_edit_success: Profile changed
+profile: Profile
+logout: Logout
