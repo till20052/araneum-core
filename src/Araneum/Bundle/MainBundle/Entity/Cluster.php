@@ -3,63 +3,68 @@
 namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Cluster
- * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="araneum_cluster")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ClusterRepository")
+ * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields="name")
  * @package Araneum\Bundle\MainBundle\Entity
  */
 class Cluster
 {
     use DateTrait;
 
+    const STATUS_ONLINE = 1;
+    const STATUS_OFFLINE = 2;
+
+    const TYPE_SINGLE = 1;
+    const TYPE_MULTIPLE = 2;
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Assert\Type(type="int")
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="string", name="name", unique=true, length=100)
+     * @ORM\Column(type="string", name="name", unique=true, length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=2, max=255)
+     * @Assert\Type(type="string")
      */
     protected $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Connection", inversedBy="cluster", cascade={"detach"})
-     * @ORM\JoinTable(name="araneum_cluster_connection")
+     * @ORM\OneToOne(targetEntity="Connection", inversedBy="cluster")
+     * @ORM\JoinColumn(name="connection_id", referencedColumnName="id")
      */
-    protected $hosts;
+    protected $host;
 
     /**
-     * @ORM\Column(type="smallint", name="type", options={"comment":"1 - single, 2 - multiple"})
-     *
+     * @ORM\Column(type="smallint", name="type", options={"comment": "1 - single, 2 - multiple"})
+     * @Assert\Type(type="int")
      */
-    protected $type = 2;
+    protected $type = self::TYPE_MULTIPLE;
 
     /**
      * @ORM\Column(type="boolean", name="enabled")
+     * @Assert\Type(type="bool")
      */
     protected $enabled;
 
     /**
      * @ORM\Column(type="smallint", name="status", options={"comment":"1 - online, 2 - offline"})
+     * @Assert\NotBlank()
+     * @Assert\Type(type="int")
      */
     protected $status;
 
     /**
-     * Cluster constructor.
-     */
-    public function __construct()
-    {
-        $this->setHosts(new ArrayCollection());
-    }
-
-     /**
      * Get id
      *
      * @return integer
@@ -162,14 +167,14 @@ class Cluster
     }
 
     /**
-     * Add host
+     * Set host
      *
-     * @param ArrayCollection $hosts
-     * @return Cluster
+     * @param Connection $host
+     * @return $this
      */
-    public function setHosts(ArrayCollection $hosts)
+    public function setHost(Connection $host)
     {
-        $this->hosts = $hosts;
+        $this->host = $host;
 
         return $this;
     }
@@ -177,36 +182,20 @@ class Cluster
     /**
      * Get host
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Connection
      */
-    public function getHosts()
+    public function getHost()
     {
-        return $this->hosts;
+        return $this->host;
     }
 
     /**
-     * Add single host in collection
+     * To string
      *
-     * @param Connection $host
-     * @return Cluster
-     */
-    public function addHost(Connection $host)
+     * @return string $name
+     **/
+    public function __toString()
     {
-       $this->getHosts()->add($host);
-
-       return $this;
-    }
-
-    /**
-     * Remove single host
-     *
-     * @param Connection $host
-     * @return Cluster
-     */
-    public function removeHost(Connection $host)
-    {
-        $this->getHosts()->removeElement($host);
-
-        return $this;
+        return 'Cluster'; //TODO необходимо подумать что выводить в этом методе
     }
 }
