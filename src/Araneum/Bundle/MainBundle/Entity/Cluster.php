@@ -124,6 +124,16 @@ class Cluster
     }
 
     /**
+     * Get type
+     *
+     * @return integer
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
      * Set enabled
      *
      * @param boolean $enabled
