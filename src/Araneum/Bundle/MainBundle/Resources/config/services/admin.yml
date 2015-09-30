@@ -1,4 +1,22 @@
 services:
+    sonata.admin.cluster:
+        class: Araneum\Bundle\MainBundle\Admin\ClusterAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Cluster", label: "Cluster" }
+        arguments:
+            - ~
+            - Araneum\Bundle\MainBundle\Entity\Cluster
+            - ~
+            
+    sonata.admin.connection:
+        class: Araneum\Bundle\MainBundle\Admin\ConnectionAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Connection", label: "Connection" }
+        arguments:
+            - ~
+            - Araneum\Bundle\MainBundle\Entity\Connection
+            - ~
+            
     sonata.admin.locale:
         class: Araneum\Bundle\MainBundle\Admin\LocaleAdmin
         tags:
@@ -7,7 +25,7 @@ services:
             - ~
             - Araneum\Bundle\MainBundle\Entity\Locale
             - ~
-
+            
     araneum.main.admin.component:
         class: Araneum\Bundle\MainBundle\Admin\ComponentAdmin
         tags:

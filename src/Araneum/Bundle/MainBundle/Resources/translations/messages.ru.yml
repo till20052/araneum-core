@@ -24,10 +24,8 @@ name: Имя
 core: Ядро
 description: Описание
 default: По умолчанию
-actions: Действия
 date_range_start: С
 date_range_end: По
-right_to_left: Справа налево
 edit_profile: Редактирование профиля
 btn_pass_restore: Забыли пароль?
 flash_edit_success: Профиль изменен
