@@ -25,7 +25,10 @@
         "sonata-project/admin-bundle": "^2.3",
         "sonata-project/doctrine-orm-admin-bundle": "^2.3",
         "doctrine/doctrine-fixtures-bundle": "^2.2",
-        "smart-core/accelerator-cache-bundle": "^1.0"
+        "smart-core/accelerator-cache-bundle": "^1.0",
+        "friendsofsymfony/rest-bundle": "^1.7",
+        "nelmio/api-doc-bundle": "^2.9",
+        "jms/serializer-bundle": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

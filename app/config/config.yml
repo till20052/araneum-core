@@ -36,8 +36,6 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-    globals:
-        locales: %locales%
 
 # Assetic Configuration
 assetic:
@@ -99,3 +97,9 @@ sonata_block:
         sonata.admin.block.admin_list:
             contexts:   [admin]
         # Your other blocks
+
+fos_rest:
+    routing_loader:
+        default_format: json
+
+nelmio_api_doc: ~
