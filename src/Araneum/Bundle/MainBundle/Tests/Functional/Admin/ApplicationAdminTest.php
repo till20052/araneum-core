@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Tests\Functional\Admin\Application;
+namespace Araneum\Bundle\MainBundle\Tests\Functional\Admin;
 
 use Araneum\Base\Tests\Controller\BaseAdminController;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
