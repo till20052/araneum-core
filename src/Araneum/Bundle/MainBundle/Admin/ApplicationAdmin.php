@@ -30,14 +30,10 @@ class ApplicationAdmin extends Admin
 				)
 				->add('name', 'text', ['label' => 'name'])
 				->add('domain', 'text', ['label' => 'domain'])
-				->add('aliases', 'collection',
+				->add('aliases', 'text',
 					[
 						'label' => 'aliases',
-						'required' => false,
-						'type' => 'text',
-						'allow_add'  => true,
-						'allow_delete' => true,
-						'options' => ['label' => 'alias']
+						'required' => false
 					]
 				)
 				->add('public', 'checkbox',
