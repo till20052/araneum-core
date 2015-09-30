@@ -15,7 +15,7 @@ class ComponentAdminTest extends BaseAdminController
 	const COMPONENT_TEST_NAME = 'TestComponentTempName';
 
 	/**
-	 * Set of arguments for testCreate method
+	 * Set of arguments for testCreate method.
 	 *
 	 * @return array
 	 */
