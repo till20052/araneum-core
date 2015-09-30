@@ -4,6 +4,8 @@ namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class Cluster
@@ -196,6 +198,6 @@ class Cluster
      **/
     public function __toString()
     {
-        return 'Cluster'; //TODO необходимо подумать что выводить в этом методе
+        return $this->name;
     }
 }
