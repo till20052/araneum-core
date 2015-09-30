@@ -20,7 +20,7 @@ class ApplicationAdminTest extends BaseAdminController
 				[
 					'name' => 'Test Application',
 					'domain' => 'domain.com',
-//					'aliases' => ['www.domain.com', 'www2.domain.com'],
+					'aliases' => 'www.domain.com',
 					'public' => true,
 					'enabled' => true,
 					'template' => 'template.html'
