@@ -53,7 +53,7 @@ class Application
     protected $domain;
 
     /**
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(type="string", length=255)
      */
     protected $aliases;
 
