@@ -16,7 +16,6 @@ use Araneum\Bundle\MainBundle\Entity\Cluster;
 use Araneum\Bundle\MainBundle\Entity\Connection;
 use Doctrine\ORM\EntityNotFoundException;
 
-
 class ClusterAdminTest extends BaseAdminController
 {
     protected $createRoute = 'admin_araneum_main_cluster_create';
@@ -34,8 +33,10 @@ class ClusterAdminTest extends BaseAdminController
      */
     public function createDataSource()
     {
-        $connection = static::createClient()->getContainer()->get('doctrine.orm.entity_manager')
-            ->getRepository('AraneumMainBundle:Connection')->findOneByName(ConnectionFixtures::TEST_CONN_NAME);
+        $connection = static::createClient()->getContainer()
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('AraneumMainBundle:Connection')
+            ->findOneByName(ConnectionFixtures::TEST_CONN_NAME);
 
         if (!isset($connection)) {
             throw new EntityNotFoundException('Connection entity not found');
@@ -71,11 +72,15 @@ class ClusterAdminTest extends BaseAdminController
      */
     public function filterDataSource()
     {
-        $connection = static::createClient()->getContainer()->get('doctrine.orm.entity_manager')
-            ->getRepository('AraneumMainBundle:Connection')->findOneByName(ConnectionFixtures::TEST_CONN_NAME);
+        $connection = static::createClient()->getContainer()
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('AraneumMainBundle:Connection')
+            ->findOneByName(ConnectionFixtures::TEST_CONN_NAME);
 
-        $cluster = static::createClient()->getContainer()->get('doctrine.orm.entity_manager')
-            ->getRepository('AraneumMainBundle:Cluster')->findOneByName(ClusterFixtures::TEST_CLU_NAME);
+        $cluster = static::createClient()->getContainer()
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('AraneumMainBundle:Cluster')
+            ->findOneByName(ClusterFixtures::TEST_CLU_NAME);
 
 
         return [
@@ -113,8 +118,10 @@ class ClusterAdminTest extends BaseAdminController
      */
     public function updateDataSource()
     {
-        $cluster = static::createClient()->getContainer()->get('doctrine.orm.entity_manager')
-            ->getRepository('AraneumMainBundle:Cluster')->findOneByName(ClusterFixtures::TEST_TEMP_CLU_NAME);
+        $cluster = static::createClient()->getContainer()
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('AraneumMainBundle:Cluster')
+            ->findOneByName(ClusterFixtures::TEST_TEMP_CLU_NAME);
 
         return [
             'Update temporary entity to new name' => [
@@ -143,8 +150,10 @@ class ClusterAdminTest extends BaseAdminController
      */
     public function deleteDataSource()
     {
-        $cluster = static::createClient()->getContainer()->get('doctrine.orm.entity_manager')
-            ->getRepository('AraneumMainBundle:Cluster')->findOneByName(ClusterFixtures::DELETE_CLU_NAME);
+        $cluster = static::createClient()->getContainer()
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('AraneumMainBundle:Cluster')
+            ->findOneByName(ClusterFixtures::DELETE_CLU_NAME);
 
         return $cluster;
     }

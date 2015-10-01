@@ -73,11 +73,11 @@ class ClusterAdmin extends Admin
                 'choices' => [
                     Cluster::TYPE_MULTIPLE => 'multiple',
                     Cluster::TYPE_SINGLE => 'single'
-                ],'label' => 'type'])
-            ->add('status',null, [], 'choice', ['choices' => [
+                ], 'label' => 'type'])
+            ->add('status', null, [], 'choice', ['choices' => [
                 Cluster::STATUS_ONLINE => 'online',
                 Cluster::STATUS_OFFLINE => 'offline'
-                ],'label' => 'status'])
+            ], 'label' => 'status'])
             ->add('enabled', null, ['label' => 'enabled'])
             ->add('created_at', 'doctrine_orm_datetime_range', [
                 'label' => 'created_at',
@@ -95,8 +95,14 @@ class ClusterAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('name', 'text', ['editable' => true, 'label' => 'name'])
-            ->add('hosts', 'sonata_type_model', ['editable' => false, 'label' => 'host'])
+            ->add('name', 'text', [
+                'editable' => true,
+                'label' => 'name'
+            ])
+            ->add('hosts', 'sonata_type_model', [
+                'editable' => false,
+                'label' => 'host'
+            ])
             ->add('type', 'choice', [
                 'choices' => [
                     Cluster::TYPE_MULTIPLE => 'multiple',
@@ -117,8 +123,12 @@ class ClusterAdmin extends Admin
                 'row_align' => 'center',
                 'text_align' => 'center'
             ])
-            ->add('created_at', 'datetime', ['format' => 'm.d.Y', 'label' => 'created_at'])
-            ->add('_action', 'actions', ['label' => 'action',
+            ->add('created_at', 'datetime', [
+                'format' => 'm.d.Y',
+                'label' => 'created_at'
+            ])
+            ->add('_action', 'actions', [
+                'label' => 'action',
                 'actions' => [
                     'edit' => [],
                     'check_status' => [

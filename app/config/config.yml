@@ -31,7 +31,6 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
-    test: ~
 
 # Twig Configuration
 twig:

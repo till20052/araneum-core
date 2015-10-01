@@ -110,7 +110,6 @@ class Application
     public function __construct()
     {
         $this->setComponents(new ArrayCollection());
-        $this->setAliases(new ArrayCollection());
     }
 
     /**
