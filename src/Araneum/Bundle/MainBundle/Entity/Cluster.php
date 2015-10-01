@@ -209,4 +209,14 @@ class Cluster
 
         return $this;
     }
+
+    /**
+     * Get Cluster Name
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
