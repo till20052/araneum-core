@@ -34,28 +34,23 @@ class Connection
 
     /**
      * @ORM\Column(type="smallint", name="type")
-     * @Assert\Choice(callback = "getConnType")
-     * @Assert\NotBlank()
      */
     protected $type;
 
     /**
      * @ORM\Column(type="string", name="name", unique=true, length=100)
-     * @Assert\NotBlank()
      * @Assert\Length(min=3, max=100)
      */
     protected $name;
 
     /**
      * @ORM\Column(type="string", name="host", length=100)
-     * @Assert\NotBlank()
      * @Assert\Length(min=3, max=100)
      */
     protected $host;
 
     /**
      * @ORM\Column(type="integer", name="port", length=8, nullable=true)
-     * @Assert\Type(type = "integer")
      * @Assert\Length(min=2, max=8)
      */
     protected $port;
@@ -68,20 +63,18 @@ class Connection
 
     /**
      * @ORM\Column(type="string", name="password", length=100)
-     * @Assert\NotBlank()
      * @Assert\Length(min=6, max=100)
      */
     protected $password;
 
     /**
      * @ORM\Column(type="boolean", name="enabled")
-     * @Assert\Type(type = "boolean")
      */
     protected $enabled;
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Cluster", mappedBy="connection", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Cluster", mappedBy="hosts", cascade={"detach"})
      */
     protected $clusters;
 
@@ -249,7 +242,7 @@ class Connection
      */
     public function setEnabled($enabled)
     {
-        $this->enabled = (bool)$enabled;
+        $this->enabled = $enabled;
 
         return $this;
     }
@@ -261,23 +254,12 @@ class Connection
      */
     public function isEnabled()
     {
-        return (bool)$this->enabled;
+        return $this->enabled;
     }
 
     /**
-     * Get type choices
+     * Get Clusters
      *
-     * @return array
-     */
-    public static function getConnType()
-    {
-        return [
-            self::CONN_DB,
-            self::CONN_HOST
-        ];
-    }
-
-    /**
      * @return ArrayCollection
      */
     public function getClusters()
@@ -286,6 +268,8 @@ class Connection
     }
 
     /**
+     * Set Clusters
+     *
      * @param ArrayCollection $clusters
      * @return Connection
      */

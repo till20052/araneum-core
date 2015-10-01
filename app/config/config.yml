@@ -100,6 +100,8 @@ sonata_block:
             contexts:   [admin]
         sonata.block.service.cluster:
 
-accelerator_cache:
-    host: %domain%
-    web_dir: %kernel.root_dir%/../web
+fos_rest:
+    routing_loader:
+        default_format: json
+
+nelmio_api_doc: ~

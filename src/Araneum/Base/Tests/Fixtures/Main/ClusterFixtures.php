@@ -3,6 +3,7 @@
 namespace Araneum\Base\Tests\Fixtures\Main;
 
 use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;

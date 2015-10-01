@@ -201,7 +201,7 @@ class Cluster
     }
 
     /**
-     * add single host in collection
+     * Add single host in collection
      *
      * @param Connection $host
      * @return Cluster
@@ -224,12 +224,12 @@ class Cluster
     }
 
     /**
-     * To string
+     * Get Cluster Name
      *
-     * @return string $name
-     **/
+     * @return string
+     */
     public function __toString()
     {
-        return 'Cluster'; //TODO необходимо подумать что выводить в этом методе
+        return $this->name;
     }
 }
