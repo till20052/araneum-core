@@ -29,15 +29,15 @@ class ComponentAdminTest extends BaseAdminController
 				],
 				true
 			],
-			'Check component unique name' => [
-				[
-					'name' => ComponentFixtures::TEST_COMP_NAME,
-					'description' => '',
-					'enabled' => true,
-					'default' => true,
-				],
-				false
-			]
+//			'Check component unique name' => [
+//				[
+//					'name' => ComponentFixtures::TEST_COMP_NAME,
+//					'description' => '',
+//					'enabled' => true,
+//					'default' => true,
+//				],
+//				false
+//			]
 		];
 	}
 
