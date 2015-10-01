@@ -122,7 +122,7 @@ class ComponentAdminTest extends BaseAdminController
 				false,
 				$tempComponent
 			],
-			'return tmp component name' => [
+			'Set first values of temp component' => [
 				[
 					'name' => ComponentFixtures::TEST_COMP_TEMP_NAME,
 					'description' => ComponentFixtures::TEST_COMP_TEMP_DESC,
