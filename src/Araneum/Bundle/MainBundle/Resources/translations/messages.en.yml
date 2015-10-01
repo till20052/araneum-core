@@ -9,8 +9,43 @@ date_range_end: To
 actions: Actions
 left_to_right: Left to right
 right_to_left: Right to left
+multiple: Multiple
+single: Single
+online: Online
+offline: Offline
+enabled: Enabled
+host: Host
+type: Type
+status: Status
+created_at: Created at
+check_status: Check status
+cluster: Cluster
+name: Name
+core: Core
+description: Description
+default: Default
+actions: Actions
+date_range_start: From
+date_range_end: Toright_to_left: Right to left
 edit_profile: Edit profile
 btn_pass_restore: Forgot password?
 flash_edit_success: Profile changed
 profile: Profile
 logout: Logout
+right_to_left: Right to left,
+cluster: Cluster
+type: Type
+domain: Domain
+database: Database
+public: Public
+owner: Owner
+status: Status
+template: Template
+created_at: Created At
+undefined: Undefined
+online: Online
+offline: Offline
+aliases: Aliases
+alias: Alias
+components: Components
+application: Application

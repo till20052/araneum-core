@@ -4,17 +4,26 @@ namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class Connection
+ *
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="araneum_connections")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ConnectionRepository")
+ * @UniqueEntity(fields="name")
  * @package Araneum\Bundle\MainBundle\Entity
  */
 class Connection
 {
     use DateTrait;
+
+    const CONN_DB     = 1;
+    const CONN_HOST   = 2;
+    const CONN_TO_STR = 'Create';
 
     /**
      * @ORM\Id
@@ -30,26 +39,31 @@ class Connection
 
     /**
      * @ORM\Column(type="string", name="name", unique=true, length=100)
+     * @Assert\Length(min=3, max=100)
      */
     protected $name;
 
     /**
      * @ORM\Column(type="string", name="host", length=100)
+     * @Assert\Length(min=3, max=100)
      */
     protected $host;
 
     /**
-     * @ORM\Column(type="integer", name="port", length=100, nullable=true)
+     * @ORM\Column(type="integer", name="port", length=8, nullable=true)
+     * @Assert\Length(min=2, max=8)
      */
     protected $port;
 
     /**
      * @ORM\Column(type="string", name="user_name", length=100, nullable=true)
+     * @Assert\Length(min=3, max=100)
      */
     protected $userName;
 
     /**
      * @ORM\Column(type="string", name="password", length=100)
+     * @Assert\Length(min=6, max=100)
      */
     protected $password;
 
@@ -59,9 +73,23 @@ class Connection
     protected $enabled;
 
     /**
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="Cluster", mappedBy="hosts", cascade={"detach"})
+     */
+    protected $clusters;
+
+    /**
+     * Connection constructor.
+     */
+    public function __construct()
+    {
+        $this->setClusters(new ArrayCollection());
+    }
+
+    /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -84,7 +112,7 @@ class Connection
     /**
      * Get type
      *
-     * @return integer 
+     * @return integer
      */
     public function getType()
     {
@@ -107,7 +135,7 @@ class Connection
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -130,7 +158,7 @@ class Connection
     /**
      * Get host
      *
-     * @return string 
+     * @return string
      */
     public function getHost()
     {
@@ -153,7 +181,7 @@ class Connection
     /**
      * Get port
      *
-     * @return integer 
+     * @return integer
      */
     public function getPort()
     {
@@ -176,7 +204,7 @@ class Connection
     /**
      * Get userName
      *
-     * @return string 
+     * @return string
      */
     public function getUserName()
     {
@@ -199,7 +227,7 @@ class Connection
     /**
      * Get password
      *
-     * @return string 
+     * @return string
      */
     public function getPassword()
     {
@@ -222,10 +250,47 @@ class Connection
     /**
      * Get enabled
      *
-     * @return boolean 
+     * @return boolean
      */
     public function isEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * Get Clusters
+     *
+     * @return ArrayCollection
+     */
+    public function getClusters()
+    {
+        return $this->clusters;
+    }
+
+    /**
+     * Set Clusters
+     *
+     * @param ArrayCollection $clusters
+     * @return Connection
+     */
+    public function setClusters(ArrayCollection $clusters)
+    {
+        $this->clusters = $clusters;
+
+        return $this;
+    }
+
+    /**
+     * To string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        if (!empty($this->getName())) {
+            return $this->getName() . " (" . $this->getHost() . ")";
+        } else {
+            return self::CONN_TO_STR;
+        }
     }
 }
