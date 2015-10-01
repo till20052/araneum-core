@@ -11,7 +11,6 @@ namespace Araneum\Bundle\MainBundle\Tests\Functional\Admin;
 use Araneum\Base\Tests\Controller\BaseAdminController;
 use Araneum\Base\Tests\Fixtures\Main\ClusterFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures;
-use Araneum\Bundle\MainBundle\Tests\Functional\Utils\Data;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
 use Araneum\Bundle\MainBundle\Entity\Connection;
 use Doctrine\ORM\EntityNotFoundException;
