@@ -3,6 +3,7 @@
 namespace Araneum\Base\Tests\Fixtures\Main;
 
 use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -24,7 +25,7 @@ class ClusterFixtures extends AbstractFixture implements FixtureInterface, Depen
         if (empty($cluster)) {
             $cluster = new Cluster();
             $cluster->setName(self::TEST_CLU_NAME);
-            $cluster->setHosts($this->getReference('connectionHost'));
+            $cluster->setHosts(new ArrayCollection([$this->getReference('connectionHost')]));
             $cluster->setType(self::TEST_CLU_TYPE);
             $cluster->setEnabled(self::TEST_CLU_ENABLED);
             $cluster->setStatus(self::TEST_CLU_STATUS);
