@@ -200,7 +200,7 @@ class ApplicationAdminTest extends BaseAdminController
 				false,
 				$tempApplication
 			],
-			'return temp application name' => [
+			'Set first values of temp application' => [
 				[
 					'name' => ApplicationFixtures::TEST_APP_TEMP_NAME,
 					'domain' => ApplicationFixtures::TEST_APP_TEMP_DOMAIN,
