@@ -8,7 +8,6 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class ClusterFixtures extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
@@ -18,6 +17,7 @@ class ClusterFixtures extends AbstractFixture implements FixtureInterface, Depen
     const TEST_CLU_STATUS = 1;
 
     const TEST_TEMP_CLU_NAME = 'TestTempName';
+    const DELETE_CLU_NAME = 'DeleteClusterName';
 
     /**
      * {@inheritDoc}
@@ -49,6 +49,17 @@ class ClusterFixtures extends AbstractFixture implements FixtureInterface, Depen
             $manager->flush();
         }
 
+        $deleteCluster = $manager->getRepository('AraneumMainBundle:Cluster')->findOneByName(self::DELETE_CLU_NAME);
+        if (empty($deleteCluster)) {
+            $deleteCluster = new Cluster();
+            $deleteCluster->setName(self::DELETE_CLU_NAME);
+            $deleteCluster->setHosts(new ArrayCollection([$this->getReference('connectionHost')]));
+            $deleteCluster->setType(self::TEST_CLU_TYPE);
+            $deleteCluster->setEnabled(self::TEST_CLU_ENABLED);
+            $deleteCluster->setStatus(self::TEST_CLU_STATUS);
+            $manager->persist($deleteCluster);
+            $manager->flush();
+        }
     }
 
     /**

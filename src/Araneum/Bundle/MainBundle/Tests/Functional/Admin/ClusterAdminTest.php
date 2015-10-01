@@ -144,7 +144,7 @@ class ClusterAdminTest extends BaseAdminController
     public function deleteDataSource()
     {
         $cluster = static::createClient()->getContainer()->get('doctrine.orm.entity_manager')
-            ->getRepository('AraneumMainBundle:Cluster')->findOneByName(ClusterFixtures::TEST_CLU_NAME);
+            ->getRepository('AraneumMainBundle:Cluster')->findOneByName(ClusterFixtures::DELETE_CLU_NAME);
 
         return $cluster;
     }
