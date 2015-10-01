@@ -40,7 +40,11 @@ class ClusterAdmin extends Admin
     {
         $formMapper
             ->add('name', 'text', ['label' => 'name'])
-            ->add('hosts', 'sonata_type_model', ['multiple' => true, 'by_reference' => false, 'required' => false])
+            ->add('hosts', 'sonata_type_model', [
+                'multiple' => true,
+                'by_reference' => false,
+                'required' => false
+            ])
             ->add('type', 'choice', [
                 'choices' => [
                     Cluster::TYPE_MULTIPLE => 'multiple',
@@ -55,7 +59,10 @@ class ClusterAdmin extends Admin
                 ],
                 'label' => 'status'
             ])
-            ->add('enabled', 'checkbox', ['label' => 'enabled', 'required' => false]);
+            ->add('enabled', 'checkbox', [
+                'label' => 'enabled',
+                'required' => false
+            ]);
     }
 
     /**

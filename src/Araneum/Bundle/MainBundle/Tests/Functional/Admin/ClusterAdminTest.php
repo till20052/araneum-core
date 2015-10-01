@@ -50,7 +50,8 @@ class ClusterAdminTest extends BaseAdminController
                     'status' => 1,
                     'enabled' => true
                 ],
-                true],
+                true
+            ],
             'Check entity unique name' => [
                 [
                     'name' => self::CLUSTER_TEST_NAME,
@@ -59,7 +60,8 @@ class ClusterAdminTest extends BaseAdminController
                     'status' => 1,
                     'enabled' => true
                 ],
-                false]
+                false
+            ]
         ];
     }
 
@@ -93,9 +95,10 @@ class ClusterAdminTest extends BaseAdminController
                     'filter[created_at][value][start]' => '01/01/1971',
                     'filter[created_at][value][end]' => date('m/d/Y', time() + 86400)
                 ],
-                true, $cluster],
-            'Try find non exist entity' =>
-            [
+                true,
+                $cluster
+            ],
+            'Try find non exist entity' => [
                 [
                     'filter[name][value]' => md5(uniqid(null, true)),
                     'filter[hosts][value]' => $connection->getId(),
@@ -105,7 +108,9 @@ class ClusterAdminTest extends BaseAdminController
                     'filter[created_at][value][start]' => '01/01/1971',
                     'filter[created_at][value][end]' => date('m/d/Y', time() + 86400)
                 ],
-                false, $cluster]
+                false,
+                $cluster
+            ]
         ];
     }
 
@@ -130,7 +135,9 @@ class ClusterAdminTest extends BaseAdminController
                     'status' => 1,
                     'enabled' => true
                 ],
-                true, $cluster],
+                true,
+                $cluster
+            ],
             'Update temporary entity to exist name' => [
                 [
                     'name' => ClusterFixtures::TEST_CLU_NAME,
@@ -138,7 +145,9 @@ class ClusterAdminTest extends BaseAdminController
                     'status' => 1,
                     'enabled' => true
                 ],
-                false, $cluster]
+                false,
+                $cluster
+            ]
         ];
     }
 
