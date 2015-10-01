@@ -13,7 +13,7 @@ class ApplicationFixtures extends AbstractFixture implements FixtureInterface, D
 {
     const TEST_APP_NAME = 'TestApplicationName';
     const TEST_APP_DOMAIN = 'test.domain.com';
-    const TEST_APP_ALIASES = ['www.test.domain.com', 'www2.test.domain.com'];
+    const TEST_APP_ALIASES = 'www.test.domain.com, www2.test.domain.com';
     const TEST_APP_PUBLIC = true;
     const TEST_APP_ENABLED = true;
     const TEST_APP_STATUS = 1;
