@@ -24,27 +24,5 @@ class AdminData implements FixtureInterface
             $manager->persist($userAdmin);
             $manager->flush();
         }
-        $emailUser = $manager->getRepository('AraneumUserBundle:User')->findOneByUsername('emailuser');
-        if (empty($emailUser)) {
-            $emailUser = new User();
-            $emailUser->setUsername('emailuser');
-            $emailUser->setPlainPassword('emailuser_123');
-            $emailUser->setEmail('emailuser@araneum.dev');
-            $emailUser->setRoles(['ROLE_ADMIN']);
-            $emailUser->setEnabled(true);
-            $manager->persist($emailUser);
-            $manager->flush();
-        }
-        $emptyUser = $manager->getRepository('AraneumUserBundle:User')->findOneByUsername('emptyuser');
-        if (empty($emptyUser)) {
-            $emptyUser = new User();
-            $emptyUser->setUsername('emptyuser');
-            $emptyUser->setPlainPassword('emptyuser_123');
-            $emptyUser->setEmail('emptyuser@araneum.dev');
-            $emptyUser->setRoles(['ROLE_ADMIN']);
-            $emptyUser->setEnabled(true);
-            $manager->persist($emptyUser);
-            $manager->flush();
-        }
     }
 }
