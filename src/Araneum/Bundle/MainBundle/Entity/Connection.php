@@ -6,6 +6,7 @@ use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class Connection
@@ -71,11 +72,19 @@ class Connection
      */
     protected $enabled;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="Cluster", mappedBy="hosts", cascade={"detach"})
+     */
+    protected $clusters;
 
     /**
-     * @ORM\OneToOne(targetEntity="Cluster", mappedBy="host")
+     * Connection constructor.
      */
-    protected $cluster;
+    public function __construct()
+    {
+        $this->setClusters(new ArrayCollection());
+    }
 
     /**
      * Get id
@@ -249,37 +258,25 @@ class Connection
     }
 
     /**
-     * Get Cluster
+     * Get Clusters
      *
-     * @return mixed
+     * @return ArrayCollection
      */
-    public function getCluster()
+    public function getClusters()
     {
-        return $this->cluster;
+        return $this->clusters;
     }
 
     /**
-     * Set Cluster
+     * Set Clusters
      *
-     * @param mixed $cluster
+     * @param ArrayCollection $clusters
+     * @return Connection
      */
-    public function setCluster($cluster)
+    public function setClusters(ArrayCollection $clusters)
     {
-        $this->cluster = $cluster;
-    }
+        $this->clusters = $clusters;
 
-
-    /**
-     * To string
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        if (!empty($this->getName())) {
-            return $this->getName() . " (" . $this->getHost() . ")";
-        } else {
-            return self::CONN_TO_STR;
-        }
+        return $this;
     }
 }
