@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Application class
+ *
  * @Doctrine\ORM\Mapping\Entity
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ApplicationRepository")
  * @ORM\Table(name="araneum_applications")
