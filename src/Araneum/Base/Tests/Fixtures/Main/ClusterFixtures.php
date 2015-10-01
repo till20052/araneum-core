@@ -24,7 +24,7 @@ class ClusterFixtures extends AbstractFixture implements FixtureInterface, Depen
         if (empty($cluster)) {
             $cluster = new Cluster();
             $cluster->setName(self::TEST_CLU_NAME);
-            $cluster->setHost($this->getReference('connectionHost'));
+            $cluster->setHosts($this->getReference('connectionHost'));
             $cluster->setType(self::TEST_CLU_TYPE);
             $cluster->setEnabled(self::TEST_CLU_ENABLED);
             $cluster->setStatus(self::TEST_CLU_STATUS);
