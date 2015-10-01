@@ -11,3 +11,7 @@ araneum_locale:
     defaults: {_locale: en}
     requirements:
         _locale: %locales%
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
