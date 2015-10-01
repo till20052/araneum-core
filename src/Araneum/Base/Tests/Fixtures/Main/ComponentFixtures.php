@@ -14,12 +14,18 @@ class ComponentFixtures extends AbstractFixture implements FixtureInterface
     const TEST_COMP_ENABLED = true;
     const TEST_COMP_DEFAULT = true;
 
+    const TEST_COMP_TEMP_NAME = 'TestTempComponent';
+    const TEST_COMP_TEMP_DESC = 'Test temp component description';
+    const TEST_COMP_TEMP_ENABLED = true;
+    const TEST_COMP_TEMP_DEFAULT = true;
+
     /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
         $component = $manager->getRepository('AraneumMainBundle:Component')->findOneByName(self::TEST_COMP_NAME);
+
         if (empty($component)) {
             $component = new Component();
             $component->setName(self::TEST_COMP_NAME);
@@ -29,6 +35,19 @@ class ComponentFixtures extends AbstractFixture implements FixtureInterface
             $manager->persist($component);
             $manager->flush();
         }
+
         $this->addReference('component', $component);
+
+        $tempComponent = $manager->getRepository('AraneumMainBundle:Component')->findOneByName(self::TEST_COMP_TEMP_NAME);
+
+        if (empty($tempComponent)) {
+            $tempComponent = new Component();
+            $tempComponent->setName(self::TEST_COMP_TEMP_NAME);
+            $tempComponent->setDescription(self::TEST_COMP_TEMP_DESC);
+            $tempComponent->setEnabled(self::TEST_COMP_TEMP_ENABLED);
+            $tempComponent->setDefault(self::TEST_COMP_TEMP_DEFAULT);
+            $manager->persist($tempComponent);
+            $manager->flush();
+        }
     }
 }

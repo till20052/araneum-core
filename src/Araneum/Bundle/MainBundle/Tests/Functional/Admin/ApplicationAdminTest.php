@@ -18,6 +18,8 @@ class ApplicationAdminTest extends BaseAdminController
 	protected $deleteRoute = 'admin_araneum_main_application_delete';
 	protected $listRoute   = 'admin_araneum_main_application_list';
 
+	const TEST_APP_NAME = 'TestApplicationName';
+
 	/**
 	 * Set of arguments for testCreate method
 	 *
@@ -44,8 +46,7 @@ class ApplicationAdminTest extends BaseAdminController
 		return [
 			'Check simple creation' => [
 				[
-					// Check simple creation
-					'name' => 'TestApplicationCreation#'.md5(microtime(true)),
+					'name' => self::TEST_APP_NAME.'#'.md5(self::TEST_APP_NAME),
 					'domain' => 'test-app-creation.com',
 					'aliases' => 'www.test-app-creation.com, ww2.test-app-creation.com',
 					'public' => true,
@@ -60,7 +61,6 @@ class ApplicationAdminTest extends BaseAdminController
 			],
 			'Check application unique name' => [
 				[
-					// Check application unique name
 					'name' => ApplicationFixtures::TEST_APP_NAME,
 					'domain' => 'domain.com',
 					'aliases' => 'www.domain.com, ww2.domain.com',
@@ -76,7 +76,6 @@ class ApplicationAdminTest extends BaseAdminController
 			],
 			'Check domain validator' => [
 				[
-					// Check domain validator
 					'name' => 'TestApplicationCreation#'.md5(microtime()),
 					'domain' => 'test_app_creation',
 					'public' => true,
@@ -228,6 +227,6 @@ class ApplicationAdminTest extends BaseAdminController
 			->getContainer()
 			->get('doctrine.orm.entity_manager')
 			->getRepository('AraneumMainBundle:Application')
-			->findOneByName(ApplicationFixtures::TEST_APP_TEMP_NAME);
+			->findOneByName(self::TEST_APP_NAME.'#'.md5(self::TEST_APP_NAME));
 	}
 }
