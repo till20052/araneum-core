@@ -9,8 +9,6 @@
 namespace Araneum\Bundle\MainBundle\Admin;
 
 use Araneum\Bundle\MainBundle\Entity\Cluster;
-use Araneum\Bundle\MainBundle\Entity\Connection;
-use Araneum\Bundle\MainBundle\Repository\ClusterRepository;
 use Araneum\Bundle\MainBundle\Repository\ConnectionRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
@@ -18,8 +16,6 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
-
 
 class ClusterAdmin extends Admin
 {
@@ -83,7 +79,7 @@ class ClusterAdmin extends Admin
                 Cluster::STATUS_OFFLINE => 'offline'
                 ],'label' => 'status'])
             ->add('enabled', null, ['label' => 'enabled'])
-            ->add('createdAt', 'doctrine_orm_datetime_range', [
+            ->add('created_at', 'doctrine_orm_datetime_range', [
                 'label' => 'created_at',
                 'field_type' => 'sonata_type_datetime_range_picker',
                 'pattern' => 'MM.dd.YYY'
@@ -121,7 +117,7 @@ class ClusterAdmin extends Admin
                 'row_align' => 'center',
                 'text_align' => 'center'
             ])
-            ->add('createdAt', 'datetime', ['format' => 'm.d.Y', 'label' => 'created_at'])
+            ->add('created_at', 'datetime', ['format' => 'm.d.Y', 'label' => 'created_at'])
             ->add('_action', 'actions', ['label' => 'action',
                 'actions' => [
                     'edit' => [],

@@ -16,6 +16,8 @@ class ClusterFixtures extends AbstractFixture implements FixtureInterface, Depen
     const TEST_CLU_ENABLED = true;
     const TEST_CLU_STATUS = 1;
 
+    const TEST_TEMP_CLU_NAME = 'TestTempName';
+
     /**
      * {@inheritDoc}
      */
@@ -33,6 +35,19 @@ class ClusterFixtures extends AbstractFixture implements FixtureInterface, Depen
             $manager->flush();
         }
         $this->addReference('cluster', $cluster);
+
+        $clusterTmp = $manager->getRepository('AraneumMainBundle:Cluster')->findOneByName(self::TEST_TEMP_CLU_NAME);
+        if (empty($clusterTmp)) {
+            $clusterTmp = new Cluster();
+            $clusterTmp->setName(self::TEST_TEMP_CLU_NAME);
+            $clusterTmp->setHosts(new ArrayCollection([$this->getReference('connectionHost')]));
+            $clusterTmp->setType(self::TEST_CLU_TYPE);
+            $clusterTmp->setEnabled(self::TEST_CLU_ENABLED);
+            $clusterTmp->setStatus(self::TEST_CLU_STATUS);
+            $manager->persist($clusterTmp);
+            $manager->flush();
+        }
+
     }
 
     /**

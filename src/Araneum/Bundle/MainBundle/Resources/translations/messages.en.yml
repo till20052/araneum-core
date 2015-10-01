@@ -6,10 +6,12 @@ fullName: Full name
 enabled: Enabled
 roles: Roles
 password: Password
-created_at: Created
+created_at: Created at
 updated_at: Updated
 last_login: Last login
 actions: Actions
+date_range_start: From
+date_range_end: To
 name: Name
 type: Type
 port: Port
@@ -17,40 +19,23 @@ host: Host
 db_connection: DB connection
 host_connection: Host connection
 connection: Connection
-name: Name
 locale: Locale
-enabled: Enabled
 orientation: Orientation
 encoding: Encoding
-createdAt: Created at
-date_range_start: From
-date_range_end: To
-actions: Actions
 left_to_right: Left to right
 right_to_left: Right to left
 multiple: Multiple
 single: Single
-online: Online
-offline: Offline
-enabled: Enabled
-host: Host
-type: Type
 status: Status
-created_at: Created at
 check_status: Check status
 cluster: Cluster
-name: Name
 core: Core
-date_range_start: From
-date_range_end: Till
-
 description: Description
 default: Default
-actions: Actions
-date_range_start: From
-date_range_end: Toright_to_left: Right to left
 edit_profile: Edit profile
 btn_pass_restore: Forgot password?
 flash_edit_success: Profile changed
 profile: Profile
 logout: Logout
+online: Online
+offline: Offline
