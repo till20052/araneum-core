@@ -45,11 +45,11 @@ class UserAdminTest extends BaseAdminController
                     true,
                     $user,
                 ],
-                'not exit entity' => [
+                'not exist entity' => [
                     [
                         'filter[email][value]' => 'NotExist',
                     ],
-                    true,
+                    false,
                     $user,
                 ],
             ];

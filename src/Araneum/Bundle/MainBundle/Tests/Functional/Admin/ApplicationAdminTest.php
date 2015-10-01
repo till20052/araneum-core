@@ -8,8 +8,7 @@ use Araneum\Base\Tests\Fixtures\Main\ClusterFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ComponentFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures;
 use Araneum\Base\Tests\Fixtures\Main\LocaleFixtures;
-use Araneum\Base\Tests\Fixtures\Main\UserFixtures;
-use Doctrine\ORM\EntityNotFoundException;
+use Araneum\Base\Tests\Fixtures\User\UserFixtures;
 
 class ApplicationAdminTest extends BaseAdminController
 {
