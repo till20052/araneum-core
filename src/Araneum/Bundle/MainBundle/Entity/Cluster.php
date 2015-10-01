@@ -6,6 +6,7 @@ use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class Cluster
@@ -43,10 +44,10 @@ class Cluster
     protected $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="Connection", inversedBy="cluster")
-     * @ORM\JoinColumn(name="connection_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="Connection", inversedBy="cluster", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="araneum_cluster_connection")
      */
-    protected $host;
+    protected $hosts;
 
     /**
      * @ORM\Column(type="smallint", name="type", options={"comment": "1 - single, 2 - multiple"})
@@ -68,6 +69,14 @@ class Cluster
     protected $status;
 
     /**
+     * Cluster constructor.
+     */
+    public function __construct()
+    {
+        $this->setHosts(new ArrayCollection());
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -75,16 +84,6 @@ class Cluster
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**
@@ -101,13 +100,13 @@ class Cluster
     }
 
     /**
-     * Get type
+     * Get name
      *
-     * @return integer
+     * @return string
      */
-    public function getType()
+    public function getName()
     {
-        return $this->type;
+        return $this->name;
     }
 
     /**
@@ -157,16 +156,6 @@ class Cluster
     }
 
     /**
-     * Get status
-     *
-     * @return integer
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
      * Set status
      *
      * @param integer $status
@@ -180,26 +169,59 @@ class Cluster
     }
 
     /**
-     * Get host
+     * Get status
      *
-     * @return Connection
+     * @return integer
      */
-    public function getHost()
+    public function getStatus()
     {
-        return $this->host;
+        return $this->status;
     }
 
     /**
-     * Set host
+     * Add host
      *
-     * @param Connection $host
-     * @return $this
+     * @param ArrayCollection $hosts
+     * @return Cluster
      */
-    public function setHost(Connection $host)
+    public function setHosts(ArrayCollection $hosts)
     {
-        $this->host = $host;
+        $this->hosts = $hosts;
 
         return $this;
+    }
+
+    /**
+     * Get host
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getHosts()
+    {
+        return $this->hosts;
+    }
+
+    /**
+     * add single host in collection
+     *
+     * @param Connection $host
+     * @return Cluster
+     */
+    public function addHost(Connection $host)
+    {
+        $this->getHosts()->add($host);
+
+        return $this;
+    }
+
+    /**
+     * Remove single host from collection
+     *
+     * @param Connection $host
+     */
+    public function removeHost(Connection $host)
+    {
+        $this->getHosts()->removeElement($host);
     }
 
     /**

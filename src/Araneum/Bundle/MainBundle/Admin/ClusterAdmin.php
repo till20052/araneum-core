@@ -40,14 +40,7 @@ class ClusterAdmin extends Admin
     {
         $formMapper
             ->add('name', 'text', ['label' => 'name'])
-            ->add(
-                'host',
-                'sonata_type_model',
-                [
-                    'label' => 'host',
-                    'query' => $this->connectionRepository->getQueryByUnusedAndType(Connection::CONN_HOST),
-                ]
-            )
+            ->add('hosts', 'sonata_type_model', ['multiple' => true, 'by_reference' => false, 'required' => false])
             ->add('type', 'choice', [
                 'choices' => [
                     Cluster::TYPE_MULTIPLE => 'multiple',
@@ -74,7 +67,7 @@ class ClusterAdmin extends Admin
     {
         $datagridMapper
             ->add('name', null, ['label' => 'name'])
-            ->add('host', null, ['label' => 'host'])
+            ->add('hosts', null, ['label' => 'host'])
             ->add('type', null, [], 'choice', [
                 'choices' => [
                     Cluster::TYPE_MULTIPLE => 'multiple',
@@ -102,7 +95,7 @@ class ClusterAdmin extends Admin
         $listMapper
             ->addIdentifier('id')
             ->add('name', 'text', ['editable' => true, 'label' => 'name'])
-            ->add('host', 'text', ['editable' => false, 'label' => 'host'])
+            ->add('hosts', 'sonata_type_model', ['editable' => false, 'label' => 'host'])
             ->add('type', 'choice', [
                 'choices' => [
                     Cluster::TYPE_MULTIPLE => 'multiple',

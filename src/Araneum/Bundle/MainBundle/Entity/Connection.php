@@ -6,6 +6,7 @@ use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class Connection
@@ -79,14 +80,23 @@ class Connection
     protected $enabled;
 
     /**
-     * @ORM\OneToOne(targetEntity="Cluster", mappedBy="host")
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="Cluster", mappedBy="connection", cascade={"persist", "remove"})
      */
-    protected $cluster;
+    protected $clusters;
+
+    /**
+     * Connection constructor.
+     */
+    public function __construct()
+    {
+        $this->setClusters(new ArrayCollection());
+    }
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -109,7 +119,7 @@ class Connection
     /**
      * Get type
      *
-     * @return integer
+     * @return integer 
      */
     public function getType()
     {
@@ -132,7 +142,7 @@ class Connection
     /**
      * Get name
      *
-     * @return string
+     * @return string 
      */
     public function getName()
     {
@@ -155,7 +165,7 @@ class Connection
     /**
      * Get host
      *
-     * @return string
+     * @return string 
      */
     public function getHost()
     {
@@ -178,7 +188,7 @@ class Connection
     /**
      * Get port
      *
-     * @return integer
+     * @return integer 
      */
     public function getPort()
     {
@@ -201,7 +211,7 @@ class Connection
     /**
      * Get userName
      *
-     * @return string
+     * @return string 
      */
     public function getUserName()
     {
@@ -224,7 +234,7 @@ class Connection
     /**
      * Get password
      *
-     * @return string
+     * @return string 
      */
     public function getPassword()
     {
@@ -247,7 +257,7 @@ class Connection
     /**
      * Get enabled
      *
-     * @return boolean
+     * @return boolean 
      */
     public function isEnabled()
     {
@@ -268,21 +278,23 @@ class Connection
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
-    public function getCluster()
+    public function getClusters()
     {
-        return $this->cluster;
+        return $this->clusters;
     }
 
     /**
-     * @param mixed $cluster
+     * @param ArrayCollection $clusters
+     * @return Connection
      */
-    public function setCluster($cluster)
+    public function setClusters(ArrayCollection $clusters)
     {
-        $this->cluster = $cluster;
-    }
+        $this->clusters = $clusters;
 
+        return $this;
+    }
 
     /**
      * To string

@@ -8,187 +8,136 @@
 
 namespace Araneum\Bundle\MainBundle\Tests\Functional\Admin;
 
-use Araneum\Base\Tests\Controller\BaseController;
-use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Araneum\Base\Tests\Controller\BaseAdminController;
+use Araneum\Base\Tests\Fixtures\Main\ClusterFixtures;
+use Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures;
 use Araneum\Bundle\MainBundle\Tests\Functional\Utils\Data;
-use Symfony;
+use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Araneum\Bundle\MainBundle\Entity\Connection;
 
 
-class ClusterAdminTest extends BaseController
+class ClusterAdminTest extends BaseAdminController
 {
+    protected $createRoute = 'admin_araneum_main_cluster_create';
+    protected $updateRoute = 'admin_araneum_main_cluster_edit';
+    protected $deleteRoute = 'admin_araneum_main_cluster_delete';
+    protected $listRoute = 'admin_araneum_main_cluster_list';
 
-    private $prefix;
-    static $client;
-    static $connId;
-    const FILTER_CONNECTION = ['name' => 'functionalTestConnection'];
-    const FILTER_CLUSTER_NAME = ['name' => 'clusterTestName'];
-    const TYPE_MULTIPLE = 2;
-    const STATUS_ONLINE = 1;
-
+    const CLUSTER_TEST_NAME = 'TestConnectionTmp';
 
     /**
-     * Setup befor class
-     */
-    public static function setUpBeforeClass(){
-        $client = static::createClient();
-        Data\ManageTestEntities::deleteClusterByName($client->getContainer()->get('doctrine.orm.default_entity_manager'), self::FILTER_CLUSTER_NAME);
-        $conn = Data\ManageTestEntities::CreateConnection($client->getContainer()->get('doctrine.orm.default_entity_manager'), self::FILTER_CONNECTION);
-        self::$connId = $conn->getId();
-    }
-
-    /**
-     * @beforeClass
-     * @param $form
-     * @return mixed
-     */
-    private function getFormPrefix($form)
-    {
-        $this->prefix = key(array_slice($form->getPhpValues(), 1, 1));
-    }
-
-    /**
-     * @dataProvider saveProvider
-     * @param $name
-     * @param $type
-     * @param $status
-     * @param $enabled
-     * @param $expects
-     * @runInSeparateProcess
-     */
-    public function testCreateAction($name, $type, $status, $enabled, $expects){
-
-        $client = $this->createAdminAuthorizedClient();
-
-        $router = $client->getContainer()->get('router');
-
-        $crawler = $client->request('GET', $router->generate('admin_araneum_main_cluster_create'));
-
-        $form = $crawler->selectButton('btn_create_and_edit')->form();
-
-        $this->getFormPrefix($form);
-
-        $prefix = $this->prefix;
-
-        $scrawler = $client->submit($form, [
-                $prefix.'[name]' => $name['name'],
-                $prefix.'[host]' => self::$connId,
-                $prefix.'[type]' => $type,
-                $prefix.'[status]' =>$status,
-                $prefix.'[enabled]' => $enabled,
-        ]);
-        $this->assertEquals(count($crawler->filter('.alert-danger'))==0, $expects);
-
-        $client = static::createClient();
-        Data\ManageTestEntities::deleteClusterByName($client->getContainer()->get('doctrine.orm.default_entity_manager'), self::FILTER_CLUSTER_NAME);
-    }
-
-
-    /**
-     * @runInSeparateProcess
-     */
-    public function testUpdateAction(){
-
-        $client = static::createClient();
-
-        $cluster = Data\ManageTestEntities::CreateCluster($client->getContainer()->get('doctrine.orm.default_entity_manager'), self::FILTER_CLUSTER_NAME, self::FILTER_CONNECTION);
-
-        $clusterId = $cluster->getId();
-
-        $client = $this->createAdminAuthorizedClient();
-
-        $router = $client->getContainer()->get('router');
-
-        $crawler = $client->request('GET', $router->generate('admin_araneum_main_cluster_edit', array('id' => $clusterId)));
-
-        $form = $crawler->selectButton('btn_update_and_edit')->form();
-
-        $this->getFormPrefix($form);
-
-        $prefix = $this->prefix;
-
-        $name = self::FILTER_CLUSTER_NAME;
-
-        $scrawler = $client->submit($form, [
-            $prefix.'[name]' => $name['name'],
-            $prefix.'[type]' => Cluster::TYPE_SINGLE,
-            $prefix.'[status]' =>Cluster::STATUS_OFFLINE,
-            $prefix.'[enabled]' => false,
-        ]);
-        $this->assertEquals(count($crawler->filter('.alert-danger'))==0, true);
-
-    }
-
-
-    /**
-     * Save provider method for @dataProvider
+     * Return data for create test method
      *
      * @return array
      */
-    public function saveProvider(){
+    public function createDataSource()
+    {
+        $connection = static::createClient()->getContainer()->get('doctrine.orm.entity_manager')
+            ->getRepository('AraneumMainBundle:Connection')->findOneByName(ConnectionFixtures::TEST_CONN_NAME);
+
         return [
             [
-                self::FILTER_CLUSTER_NAME,
-                2,
-                true,
-                self::STATUS_ONLINE,
-                true
-            ],
+                [
+                    'name' => self::CLUSTER_TEST_NAME,
+                    'hosts' => [$connection->getId()],
+                    'type' => 2,
+                    'status' => 1,
+                    'enabled' => true
+                ],
+                true],
             [
-                self::FILTER_CLUSTER_NAME,
-                self::TYPE_MULTIPLE,
-                '1',
-                self::STATUS_ONLINE,
-                true
-            ],
-            [
-                self::FILTER_CLUSTER_NAME,
-                self::TYPE_MULTIPLE,
-                true,
-                '1',
-                true
-            ],
-            [
-                self::FILTER_CLUSTER_NAME,
-                self::TYPE_MULTIPLE,
-                true,
-                self::STATUS_ONLINE,
-                true
-            ]
+                [
+                    'name' => self::CLUSTER_TEST_NAME,
+                    'hosts' => [$connection->getId()],
+                    'type' => 2,
+                    'status' => 1,
+                    'enabled' => true
+                ],
+                false]
         ];
-
     }
 
     /**
-     * @runInSeparateProcess
-     */
-    public function testFilterAction(){
-        $client = $this->createAdminAuthorizedClient();
-        $router = $client->getContainer()->get('router');
-        $crawler = $client->request('GET', $router->generate('admin_araneum_main_cluster_list', ['_locale' => 'en']));
-        $form = $crawler->selectButton('Filter')->form();
-        $scrawler = $client->submit($form, [
-            'filter[name][value]' => $name,
-            'filter[description][value]' => $host,
-            'filter[enabled][value]' => (int) $type,
-            'filter[default][value]' => (int) $status,
-            'filter[createdAt][value][start]' => $createdAt['start'],
-            'filter[createdAt][value][end]' => $createdAt['end']
-        ]);
-
-
-        /*var_dump($crawler);
-        die();*/
-    }
-
-
-    /**
-     * Tear down After class
+     * Return data for filter method
      *
-     * clean test data Cluster
+     * @return array
      */
-    public static function tearDownAfterClass()
+    public function filterDataSource()
     {
-        $client = static::createClient();
-        Data\ManageTestEntities::deleteClusterByName($client->getContainer()->get('doctrine.orm.default_entity_manager'), self::FILTER_CLUSTER_NAME);
+        $cluster = static::createClient()->getContainer()->get('doctrine.orm.entity_manager')
+            ->getRepository('AraneumMainBundle:Cluster')->findOneByName(ClusterFixtures::TEST_CLU_NAME);
+
+        $connection = static::createClient()->getContainer()->get('doctrine.orm.entity_manager')
+            ->getRepository('AraneumMainBundle:Connection')->findOneByName(ConnectionFixtures::TEST_CONN_NAME);
+
+        return [
+            [
+                [
+                    'filter[name][value]' => ClusterFixtures::TEST_CLU_NAME,
+                    'filter[hosts][value]' => $connection->getId(),
+                    'filter[enabled][value]' => ClusterFixtures::TEST_CLU_ENABLED,
+                    'filter[status][value]' => ClusterFixtures::TEST_CLU_STATUS,
+                    'filter[type][value]' => ClusterFixtures::TEST_CLU_TYPE,
+                    'filter[createdAt][value][start]' => '01/01/1971',
+                    'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
+                ],
+                true, $cluster],
+            [
+                [
+                    'filter[name][value]' => md5(uniqid(null, true)),
+                    'filter[hosts][value]' => $connection->getId(),
+                    'filter[enabled][value]' => ClusterFixtures::TEST_CLU_ENABLED,
+                    'filter[status][value]' => ClusterFixtures::TEST_CLU_STATUS,
+                    'filter[type][value]' => ClusterFixtures::TEST_CLU_TYPE,
+                    'filter[createdAt][value][start]' => '01/01/1971',
+                    'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
+                ],
+                false, $cluster]
+        ];
+    }
+
+    /**
+     * Return data for update method
+     *
+     * @return array
+     */
+    public function updateDataSource()
+    {
+        $connection = static::createClient()->getContainer()->get('doctrine.orm.entity_manager')
+            ->getRepository('AraneumMainBundle:Connection')->findOneByName(ConnectionFixtures::TEST_CONN_NAME);
+
+        return [
+            [
+                [
+                    'name' => self::CLUSTER_TEST_NAME . '1',
+                    'hosts' => [$connection->getId()],
+                    'type' => 2,
+                    'status' => 1,
+                    'enabled' => true
+                ],
+                true],
+            [
+                [
+                    'name' => self::CLUSTER_TEST_NAME . '1',
+                    'hosts' => [$connection->getId()],
+                    'type' => 2,
+                    'status' => 1,
+                    'enabled' => true
+                ],
+                false]
+        ];
+    }
+
+    /**
+     * Return entity for testDelete method
+     *
+     * @return mixed
+     */
+    public function deleteDataSource()
+    {
+        $cluster = static::createClient()->getContainer()->get('doctrine.orm.entity_manager')
+            ->getRepository('AraneumMainBundle:Cluster')->findOneByName(ClusterFixtures::TEST_CLU_NAME);
+
+        return $cluster;
     }
 }

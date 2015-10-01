@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class ClusterFixtures extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
@@ -24,7 +25,7 @@ class ClusterFixtures extends AbstractFixture implements FixtureInterface, Depen
         if (empty($cluster)) {
             $cluster = new Cluster();
             $cluster->setName(self::TEST_CLU_NAME);
-            $cluster->setHost($this->getReference('connectionHost'));
+            $cluster->setHosts(new ArrayCollection([$this->getReference('connectionHost')]));
             $cluster->setType(self::TEST_CLU_TYPE);
             $cluster->setEnabled(self::TEST_CLU_ENABLED);
             $cluster->setStatus(self::TEST_CLU_STATUS);
