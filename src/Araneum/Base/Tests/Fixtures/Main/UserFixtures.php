@@ -9,12 +9,12 @@ use Knp\RadBundle\DataFixtures\AbstractFixture;
 
 class UserFixtures extends AbstractFixture implements FixtureInterface
 {
-    const TEST_USER_NAME = 'TestUserName';
-    const TEST_USER_EMAIL = 'TestUserEmail';
+    const TEST_USER_NAME     = 'TestUserName';
+    const TEST_USER_EMAIL    = 'TestUserEmail';
     const TEST_USER_FULLNAME = 'TestUserFullName';
     const TEST_USER_PASSWORD = 'TestUserPassword';
-    const TEST_USER_ENABLED = true;
-    const TEST_USER_ROLES = ['ROLE_USER'];
+    const TEST_USER_ENABLED  = true;
+    const TEST_USER_ROLES    = ['ROLE_USER'];
 
     /**
      * {@inheritDoc}
@@ -30,10 +30,31 @@ class UserFixtures extends AbstractFixture implements FixtureInterface
             $user->setPassword(self::TEST_USER_PASSWORD);
             $user->setEnabled(self::TEST_USER_ENABLED);
             $user->setRoles(self::TEST_USER_ROLES);
-            $manager->persist($user);
-            $manager->flush();
-
         }
+        $emailUser = $manager->getRepository('AraneumUserBundle:User')->findOneByUsername('emailuser');
+
+        if (empty($emailUser)) {
+            $emailUser = new User();
+            $emailUser->setUsername('emailuser');
+            $emailUser->setPlainPassword('emailuser_123');
+            $emailUser->setEmail('emailuser@araneum.dev');
+            $emailUser->setRoles(['ROLE_ADMIN']);
+            $emailUser->setEnabled(true);
+        }
+        $emptyUser = $manager->getRepository('AraneumUserBundle:User')->findOneByUsername('emptyuser');
+
+        if (empty($emptyUser)) {
+            $emptyUser = new User();
+            $emptyUser->setUsername('emptyuser');
+            $emptyUser->setPlainPassword('emptyuser_123');
+            $emptyUser->setEmail('emptyuser@araneum.dev');
+            $emptyUser->setRoles(['ROLE_ADMIN']);
+            $emptyUser->setEnabled(true);
+        }
+        $manager->persist($user);
+        $manager->persist($emailUser);
+        $manager->persist($emptyUser);
+        $manager->flush();
         $this->addReference('owner', $user);
     }
 }
