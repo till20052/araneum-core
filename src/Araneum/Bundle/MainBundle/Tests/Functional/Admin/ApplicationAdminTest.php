@@ -17,8 +17,6 @@ class ApplicationAdminTest extends BaseAdminController
 	protected $deleteRoute = 'admin_araneum_main_application_delete';
 	protected $listRoute   = 'admin_araneum_main_application_list';
 
-	const APP_TEST_NAME = 'TestApplicationTempName';
-
 	/**
 	 * Set of arguments for testCreate method
 	 *
@@ -46,12 +44,12 @@ class ApplicationAdminTest extends BaseAdminController
 			[
 				[
 					// Check simple creation
-					'name' => self::APP_TEST_NAME,
-					'domain' => 'domain.com',
-					'aliases' => 'www.domain.com, ww2.domain.com',
+					'name' => 'TestApplicationCreation#'.md5(microtime(true)),
+					'domain' => 'test-app-creation.com',
+					'aliases' => 'www.test-app-creation.com, ww2.test-app-creation.com',
 					'public' => true,
 					'enabled' => true,
-					'template' => 'template.html',
+					'template' => 'TestApplicationCreationTemplate',
 					'cluster' => $cluster->getId(),
 					'db' => $db->getId(),
 					'locale' => $locale->getId(),
@@ -62,7 +60,7 @@ class ApplicationAdminTest extends BaseAdminController
 			[
 				[
 					// Check application unique name
-					'name' => self::APP_TEST_NAME,
+					'name' => ApplicationFixtures::TEST_APP_NAME,
 					'domain' => 'domain.com',
 					'aliases' => 'www.domain.com, ww2.domain.com',
 					'public' => true,
@@ -78,11 +76,11 @@ class ApplicationAdminTest extends BaseAdminController
 			[
 				[
 					// Check domain validator
-					'name' => md5(microtime(true)),
-					'domain' => 'domain',
+					'name' => 'TestApplicationCreation#'.md5(microtime()),
+					'domain' => 'test_app_creation',
 					'public' => true,
 					'enabled' => true,
-					'template' => 'template.html',
+					'template' => 'TestApplicationCreationTemplate',
 					'cluster' => $cluster->getId(),
 					'db' => $db->getId(),
 					'locale' => $locale->getId(),
@@ -116,11 +114,11 @@ class ApplicationAdminTest extends BaseAdminController
 		$owner = $manager->getRepository('AraneumUserBundle:User')
 			->findOneByEmail(UserFixtures::TEST_USER_EMAIL);
 
-		$fxtApplication = $manager->getRepository('AraneumMainBundle:Application')
+		$application = $manager->getRepository('AraneumMainBundle:Application')
 			->findOneByName(ApplicationFixtures::TEST_APP_NAME);
 
-		$tmpApplication = $manager->getRepository('AraneumMainBundle:Application')
-			->findOneByName(self::APP_TEST_NAME);
+		$tempApplication = $manager->getRepository('AraneumMainBundle:Application')
+			->findOneByName(ApplicationFixtures::TEST_APP_TEMP_NAME);
 
 		return [
 			[
@@ -139,7 +137,7 @@ class ApplicationAdminTest extends BaseAdminController
 					'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
 				],
 				true,
-				$fxtApplication
+				$application
 			],
 			[
 				[
@@ -157,7 +155,7 @@ class ApplicationAdminTest extends BaseAdminController
 					'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
 				],
 				false,
-				$tmpApplication
+				$tempApplication
 			]
 		];
 	}
@@ -173,14 +171,14 @@ class ApplicationAdminTest extends BaseAdminController
 
 		$manager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
-		$tmpApplication = $manager->getRepository('AraneumMainBundle:Application')
-			->findOneByName(self::APP_TEST_NAME);
+		$tempApplication = $manager->getRepository('AraneumMainBundle:Application')
+			->findOneByName(ApplicationFixtures::TEST_APP_TEMP_NAME);
 
 		return [
 			[
 				[
 					// Check simple modification
-					'name' => md5(microtime(true)),
+					'name' => 'TestApplicationModification#'.md5(microtime(true)),
 					'domain' => 'domain.com',
 					'aliases' => 'www.domain.com, ww2.domain.com',
 					'public' => true,
@@ -188,7 +186,7 @@ class ApplicationAdminTest extends BaseAdminController
 					'template' => 'template.html'
 				],
 				true,
-				$tmpApplication
+				$tempApplication
 			],
 			[
 				[
@@ -201,20 +199,20 @@ class ApplicationAdminTest extends BaseAdminController
 					'template' => 'template.html'
 				],
 				false,
-				$tmpApplication
+				$tempApplication
 			],
 			[
 				[
-					// return tmp application name
-					'name' => self::APP_TEST_NAME,
-					'domain' => 'domain.com',
-					'aliases' => 'www.domain.com, ww2.domain.com',
-					'public' => false,
-					'enabled' => false,
-					'template' => 'template.html'
+					// return temp application name
+					'name' => ApplicationFixtures::TEST_APP_TEMP_NAME,
+					'domain' => ApplicationFixtures::TEST_APP_TEMP_DOMAIN,
+					'aliases' => ApplicationFixtures::TEST_APP_TEMP_ALIASES,
+					'public' => ApplicationFixtures::TEST_APP_TEMP_PUBLIC,
+					'enabled' => ApplicationFixtures::TEST_APP_TEMP_ENABLED,
+					'template' => ApplicationFixtures::TEST_APP_TEMP_TEMPLATE
 				],
 				true,
-				$tmpApplication
+				$tempApplication
 			]
 		];
 	}
@@ -232,6 +230,6 @@ class ApplicationAdminTest extends BaseAdminController
 			->getContainer()
 			->get('doctrine.orm.entity_manager')
 			->getRepository('AraneumMainBundle:Application')
-			->findOneByName(self::APP_TEST_NAME);
+			->findOneByName(ApplicationFixtures::TEST_APP_TEMP_NAME);
 	}
 }

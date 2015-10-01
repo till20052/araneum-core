@@ -77,7 +77,7 @@ class ApplicationAdmin extends Admin
 	protected function configureListFields(ListMapper $list)
 	{
 		$list
-			->add('id', null, ['label' => 'id'])
+			->addIdentifier('id')
 			->add('cluster', null, ['label' => 'cluster'])
 			->add('type', null, ['label' => 'type'])
 			->add('name', null, ['label' => 'name'])
