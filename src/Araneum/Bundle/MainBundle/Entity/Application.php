@@ -4,12 +4,14 @@ namespace Araneum\Bundle\MainBundle\Entity;
 use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Entity\User;
 
 /**
  * Application class
  * @Doctrine\ORM\Mapping\Entity
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ApplicationRepository")
  * @ORM\Table(name="araneum_applications")
+ * @ORM\HasLifecycleCallbacks()
  *
  */
 class Application
@@ -91,7 +93,7 @@ class Application
     public function __construct()
     {
         $this->setComponents(new ArrayCollection());
-        $this->setAliases(new ArrayCollection());
+        $this->setAliases([]);
     }
 
 
@@ -203,7 +205,7 @@ class Application
      * @param mixed $aliases
      * @return mixed
      */
-    public function setAliases(ArrayCollection $aliases)
+    public function setAliases(array $aliases)
     {
         $this->aliases = $aliases;
 
