@@ -12,6 +12,8 @@ class ComponentAdminTest extends BaseAdminController
 	protected $deleteRoute = 'admin_araneum_main_component_delete';
 	protected $listRoute   = 'admin_araneum_main_component_list';
 
+	const TEST_COMP_NAME = 'TestComponentName';
+
 	/**
 	 * Set of arguments for testCreate method
 	 *
@@ -22,7 +24,7 @@ class ComponentAdminTest extends BaseAdminController
 		return [
 			'Simple component creation' => [
 				[
-					'name' => md5(microtime(true)),
+					'name' => self::TEST_COMP_NAME.'#'.md5(self::TEST_COMP_NAME),
 					'description' => '',
 					'enabled' => true,
 					'default' => true,
@@ -148,6 +150,6 @@ class ComponentAdminTest extends BaseAdminController
 			->getContainer()
 			->get('doctrine.orm.entity_manager')
 			->getRepository('AraneumMainBundle:Component')
-			->findOneByName(ComponentFixtures::TEST_COMP_TEMP_NAME);
+			->findOneByName(self::TEST_COMP_NAME.'#'.md5(self::TEST_COMP_NAME));
 	}
 }
