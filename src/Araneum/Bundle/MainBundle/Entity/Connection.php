@@ -281,12 +281,16 @@ class Connection
     }
 
     /**
-     * Get Cluster Name
+     * To string
      *
      * @return string
      */
     public function __toString()
     {
-        return $this->name;
+        if (!empty($this->getName())) {
+            return $this->getName() . " (" . $this->getHost() . ")";
+        } else {
+            return self::CONN_TO_STR;
+        }
     }
 }

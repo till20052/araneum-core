@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-
 class AdminConnectionController extends Controller
 {
 
@@ -19,8 +18,6 @@ class AdminConnectionController extends Controller
      */
     public function testConnectionAction($id)
     {
-
-        //TODO necessary to implement
         return new Response();
     }
 }
