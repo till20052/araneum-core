@@ -11,7 +11,6 @@ namespace Araneum\Bundle\MainBundle\Admin;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
 use Araneum\Bundle\MainBundle\Repository\ConnectionRepository;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
