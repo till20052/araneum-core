@@ -31,7 +31,6 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
-    test: ~
 
 # Twig Configuration
 twig:
@@ -102,4 +101,10 @@ sonata_block:
     blocks:
         sonata.admin.block.admin_list:
             contexts:   [admin]
+        # Your other blocks
 
+fos_rest:
+    routing_loader:
+        default_format: json
+
+nelmio_api_doc: ~

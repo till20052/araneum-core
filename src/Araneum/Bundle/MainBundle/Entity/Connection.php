@@ -21,8 +21,8 @@ class Connection
 {
     use DateTrait;
 
-    const CONN_DB = 1;
-    const CONN_HOST = 2;
+    const CONN_DB     = 1;
+    const CONN_HOST   = 2;
     const CONN_TO_STR = 'Create';
 
     /**

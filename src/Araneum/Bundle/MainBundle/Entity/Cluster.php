@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -42,10 +43,10 @@ class Cluster
     protected $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="Connection", inversedBy="cluster")
-     * @ORM\JoinColumn(name="connection_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="Connection", inversedBy="cluster", cascade={"detach"})
+     * @ORM\JoinTable(name="araneum_cluster_connection")
      */
-    protected $host;
+    protected $hosts;
 
     /**
      * @ORM\Column(type="smallint", name="type", options={"comment": "1 - single, 2 - multiple"})
@@ -67,6 +68,14 @@ class Cluster
     protected $status;
 
     /**
+     * Cluster constructor.
+     */
+    public function __construct()
+    {
+        $this->setHosts(new ArrayCollection());
+    }
+
+     /**
      * Get id
      *
      * @return integer
@@ -169,14 +178,14 @@ class Cluster
     }
 
     /**
-     * Set host
+     * Add host
      *
-     * @param Connection $host
-     * @return $this
+     * @param ArrayCollection $hosts
+     * @return Cluster
      */
-    public function setHost(Connection $host)
+    public function setHosts(ArrayCollection $hosts)
     {
-        $this->host = $host;
+        $this->hosts = $hosts;
 
         return $this;
     }
@@ -184,20 +193,36 @@ class Cluster
     /**
      * Get host
      *
-     * @return Connection
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getHost()
+    public function getHosts()
     {
-        return $this->host;
+        return $this->hosts;
     }
 
     /**
-     * To string
+     * Add single host in collection
      *
-     * @return string $name
-     **/
-    public function __toString()
+     * @param Connection $host
+     * @return Cluster
+     */
+    public function addHost(Connection $host)
     {
-        return 'Cluster'; //TODO необходимо подумать что выводить в этом методе
+       $this->getHosts()->add($host);
+
+       return $this;
+    }
+
+    /**
+     * Remove single host
+     *
+     * @param Connection $host
+     * @return Cluster
+     */
+    public function removeHost(Connection $host)
+    {
+        $this->getHosts()->removeElement($host);
+
+        return $this;
     }
 }
