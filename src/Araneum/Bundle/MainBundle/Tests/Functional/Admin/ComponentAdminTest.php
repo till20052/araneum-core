@@ -10,7 +10,7 @@ class ComponentAdminTest extends BaseAdminController
 	protected $createRoute = 'admin_araneum_main_component_create';
 	protected $updateRoute = 'admin_araneum_main_component_edit';
 	protected $deleteRoute = 'admin_araneum_main_component_delete';
-	protected $listRoute   = 'admin_araneum_main_component_list';
+	protected $listRoute = 'admin_araneum_main_component_list';
 
 	const TEST_COMP_NAME = 'TestComponentName';
 
@@ -22,24 +22,24 @@ class ComponentAdminTest extends BaseAdminController
 	public function createDataSource()
 	{
 		return [
-			'Simple component creation' => [
-				[
-					'name' => self::TEST_COMP_NAME.'#'.md5(self::TEST_COMP_NAME),
-					'description' => '',
-					'enabled' => true,
-					'default' => true,
+				'Simple component creation' => [
+						[
+								'name' => self::TEST_COMP_NAME . '#' . md5(self::TEST_COMP_NAME),
+								'description' => '',
+								'enabled' => true,
+								'default' => true,
+						],
+						true
 				],
-				true
-			],
-			'Check component unique name' => [
-				[
-					'name' => ComponentFixtures::TEST_COMP_NAME,
-					'description' => '',
-					'enabled' => true,
-					'default' => true,
-				],
-				false
-			]
+				'Check component unique name' => [
+						[
+								'name' => ComponentFixtures::TEST_COMP_NAME,
+								'description' => '',
+								'enabled' => true,
+								'default' => true,
+						],
+						false
+				]
 		];
 	}
 
@@ -55,36 +55,36 @@ class ComponentAdminTest extends BaseAdminController
 		$manager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
 		$fxtComponent = $manager->getRepository('AraneumMainBundle:Component')
-			->findOneByName(ComponentFixtures::TEST_COMP_NAME);
+				->findOneByName(ComponentFixtures::TEST_COMP_NAME);
 
 		$tempComponent = $manager->getRepository('AraneumMainBundle:Component')
-			->findOneByName(ComponentFixtures::TEST_COMP_TEMP_NAME);
+				->findOneByName(ComponentFixtures::TEST_COMP_TEMP_NAME);
 
-		return  [
-			'try to find first fixture.' => [
-				[
-					'filter[name][value]' => ComponentFixtures::TEST_COMP_NAME,
-					'filter[description][value]' => ComponentFixtures::TEST_COMP_DESC,
-					'filter[enabled][value]' => ComponentFixtures::TEST_COMP_ENABLED,
-					'filter[default][value]' => ComponentFixtures::TEST_COMP_DEFAULT,
-					'filter[createdAt][value][start]' => '01/01/1971',
-					'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
+		return [
+				'try to find first fixture.' => [
+						[
+								'filter[name][value]' => ComponentFixtures::TEST_COMP_NAME,
+								'filter[description][value]' => ComponentFixtures::TEST_COMP_DESC,
+								'filter[enabled][value]' => ComponentFixtures::TEST_COMP_ENABLED,
+								'filter[default][value]' => ComponentFixtures::TEST_COMP_DEFAULT,
+								'filter[createdAt][value][start]' => '01/01/1971',
+								'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
+						],
+						true,
+						$fxtComponent
 				],
-				true,
-				$fxtComponent
-			],
-			'try to find temp fixture by first fixture values' => [
-				[
-					'filter[name][value]' => ComponentFixtures::TEST_COMP_NAME,
-					'filter[description][value]' => ComponentFixtures::TEST_COMP_DESC,
-					'filter[enabled][value]' => ComponentFixtures::TEST_COMP_ENABLED,
-					'filter[default][value]' => ComponentFixtures::TEST_COMP_DEFAULT,
-					'filter[createdAt][value][start]' => '01/01/1971',
-					'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
-				],
-				false,
-				$tempComponent
-			]
+				'try to find temp fixture by first fixture values' => [
+						[
+								'filter[name][value]' => ComponentFixtures::TEST_COMP_NAME,
+								'filter[description][value]' => ComponentFixtures::TEST_COMP_DESC,
+								'filter[enabled][value]' => ComponentFixtures::TEST_COMP_ENABLED,
+								'filter[default][value]' => ComponentFixtures::TEST_COMP_DEFAULT,
+								'filter[createdAt][value][start]' => '01/01/1971',
+								'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
+						],
+						false,
+						$tempComponent
+				]
 		];
 	}
 
@@ -100,40 +100,40 @@ class ComponentAdminTest extends BaseAdminController
 		$manager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
 		$tempComponent = $manager->getRepository('AraneumMainBundle:Component')
-			->findOneByName(ComponentFixtures::TEST_COMP_TEMP_NAME);
+				->findOneByName(ComponentFixtures::TEST_COMP_TEMP_NAME);
 
 		return [
-			'Check simple modification' => [
-				[
-					'name' => md5(microtime(true)),
-					'description' => '',
-					'enabled' => true,
-					'default' => true,
+				'Check simple modification' => [
+						[
+								'name' => md5(microtime(true)),
+								'description' => '',
+								'enabled' => true,
+								'default' => true,
+						],
+						true,
+						$tempComponent
 				],
-				true,
-				$tempComponent
-			],
-			'Check update temp component name if component with this name already exists' => [
-				[
-					// Check component unique name
-					'name' => ComponentFixtures::TEST_COMP_NAME,
-					'description' => '',
-					'enabled' => true,
-					'default' => true,
+				'Check update temp component name if component with this name already exists' => [
+						[
+							// Check component unique name
+								'name' => ComponentFixtures::TEST_COMP_NAME,
+								'description' => '',
+								'enabled' => true,
+								'default' => true,
+						],
+						false,
+						$tempComponent
 				],
-				false,
-				$tempComponent
-			],
-			'Set first values of temp component' => [
-				[
-					'name' => ComponentFixtures::TEST_COMP_TEMP_NAME,
-					'description' => ComponentFixtures::TEST_COMP_TEMP_DESC,
-					'enabled' => ComponentFixtures::TEST_COMP_TEMP_ENABLED,
-					'default' => ComponentFixtures::TEST_COMP_TEMP_DEFAULT,
-				],
-				true,
-				$tempComponent
-			]
+				'Set first values of temp component' => [
+						[
+								'name' => ComponentFixtures::TEST_COMP_TEMP_NAME,
+								'description' => ComponentFixtures::TEST_COMP_TEMP_DESC,
+								'enabled' => ComponentFixtures::TEST_COMP_TEMP_ENABLED,
+								'default' => ComponentFixtures::TEST_COMP_TEMP_DEFAULT,
+						],
+						true,
+						$tempComponent
+				]
 		];
 	}
 
@@ -147,9 +147,9 @@ class ComponentAdminTest extends BaseAdminController
 		$client = static::createClient();
 
 		return $client
-			->getContainer()
-			->get('doctrine.orm.entity_manager')
-			->getRepository('AraneumMainBundle:Component')
-			->findOneByName(self::TEST_COMP_NAME.'#'.md5(self::TEST_COMP_NAME));
+				->getContainer()
+				->get('doctrine.orm.entity_manager')
+				->getRepository('AraneumMainBundle:Component')
+				->findOneByName(self::TEST_COMP_NAME . '#' . md5(self::TEST_COMP_NAME));
 	}
 }
