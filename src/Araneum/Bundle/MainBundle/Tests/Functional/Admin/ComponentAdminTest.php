@@ -13,7 +13,7 @@ class ComponentAdminTest extends BaseAdminController
 	protected $listRoute   = 'admin_araneum_main_component_list';
 
 	/**
-	 * Set of arguments for testCreate method.
+	 * Set of arguments for testCreate method
 	 *
 	 * @return array
 	 */
