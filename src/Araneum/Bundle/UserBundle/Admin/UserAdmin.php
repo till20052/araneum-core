@@ -15,7 +15,7 @@ class UserAdmin extends Admin
         $formMapper
             ->add('email', null, ['label' => 'email'])
             ->add('username', null, ['label' => 'username'])
-            ->add('fullName', null, ['label' => 'fullName'])
+            ->add('fullName', null, ['label' => 'full_name'])
             ->add(
                 'enabled',
                 'checkbox',
@@ -35,7 +35,7 @@ class UserAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('fullName', null, ['label' => 'fullName'])
+            ->add('fullName', null, ['label' => 'full_name'])
             ->add('email', null, ['label' => 'email'])
             ->add('enabled', null, ['label' => 'enabled'])
             ->add(
@@ -56,7 +56,7 @@ class UserAdmin extends Admin
         $listMapper
             ->addIdentifier('id')
             ->add('email', null, ['label' => 'email'])
-            ->add('fullName', null, ['label' => 'fullName'])
+            ->add('fullName', null, ['label' => 'full_name'])
             ->add(
                 'enabled',
                 null,
