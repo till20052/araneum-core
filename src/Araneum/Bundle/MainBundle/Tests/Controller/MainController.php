@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\UserBundle\Tests\Functional\Admin;
+namespace Araneum\Bundle\MainBundle\Tests\Controller;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Symfony\Component\DomCrawler\Link;

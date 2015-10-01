@@ -6,6 +6,7 @@ use Araneum\Base\Tests\Controller\BaseController;
 use Araneum\Bundle\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\DomCrawler\Link;
 
 class UserControllerUpdateTest extends BaseController
 {
@@ -27,48 +28,42 @@ class UserControllerUpdateTest extends BaseController
     public static function dataSource()
     {
         return [
-            [
-                // Unique username
-                'authLogin' => 'admin',
-                'username' => 'emailuser',
-                'email' => 'admin@araneum.dev',
-                '__expected_value' => false,
+            'Check unique username' => [
+                    'authLogin' => 'admin',
+                    'username' => 'emailuser',
+                    'email' => 'admin@araneum.dev',
+                    '__expected_value' => false,
             ],
-            [
-                // Username update
-                'authLogin' => 'admin',
-                'username' => 'new_admin',
-                'email' => 'admin@araneum.dev',
-                '__expected_value' => true,
+            'Try username edit' => [
+                    'authLogin' => 'admin',
+                    'username' => 'new_admin',
+                    'email' => 'admin@araneum.dev',
+                    '__expected_value' => true,
             ],
-            [
-                // Too short profile name
-                'authLogin' => 'new_admin',
-                'username' => '1',
-                'email' => 'admin@araneum.dev',
-                '__expected_value' => false,
+            'Try short username' => [
+                    'authLogin' => 'new_admin',
+                    'username' => '1',
+                    'email' => 'admin@araneum.dev',
+                    '__expected_value' => false,
             ],
-            [
-                // Empty email
-                'authLogin' => 'new_admin',
-                'username' => 'admin_123',
-                'email' => '',
-                '__expected_value' => false,
+            'Try empty email' => [
+                    'authLogin' => 'new_admin',
+                    'username' => 'admin_123',
+                    'email' => '',
+                    '__expected_value' => false,
             ],
-            [
-                // Non-email
-                'authLogin' => 'new_admin',
-                'username' => 'admin_123',
-                'email' => 'emptyuserraraneum@.dev',
-                '__expected_value' => false,
+            'Try not valid email' => [
+                    'authLogin' => 'new_admin',
+                    'username' => 'admin_123',
+                    'email' => 'emptyuserraraneum@.dev',
+                    '__expected_value' => false,
             ],
-            [
-                // Unique email
-                'authLogin' => 'new_admin',
-                'username' => 'admin_123',
-                'email' => 'emptyuser@araneum.dev',
-                '__expected_value' => false,
-            ],
+            'Check unique email' => [
+                    'authLogin' => 'new_admin',
+                    'username' => 'admin_123',
+                    'email' => 'emptyuser@araneum.dev',
+                    '__expected_value' => false,
+            ]
         ];
     }
 
@@ -83,6 +78,31 @@ class UserControllerUpdateTest extends BaseController
             ->get('doctrine.orm.entity_manager');
 
         self::$repository = self::$manager->getRepository('AraneumUserBundle:User');
+    }
+
+    /**
+     * Test for Password recovery link
+     *
+     * @runInSeparateProcess
+     */
+    public function testRecovery()
+    {
+        $client = $this->createAdminAuthorizedClient();
+        $router = $client->getContainer()->get('router');
+
+        $crawler = $client->request(
+            'GET',
+            $router->generate('sonata_admin_dashboard', ['_locale' => 'en'])
+        );
+
+        $crawler = $client->request(
+            'GET',
+            $router->generate('araneum_user_user_profileShow', ['_locale' => 'en'])
+        );
+
+        $link = $crawler->selectLink('Forgot password?')->link();
+
+        $this->assertEquals($router->match($this->getUrl($link))['_route'], 'fos_user_resetting_request');
     }
 
     /**
@@ -118,5 +138,16 @@ class UserControllerUpdateTest extends BaseController
         );
 
         $this->assertEquals($expectedValue, count($client->submit($form)->filter('.alert-notice')) > 0);
+    }
+
+    /**
+     * Get route from Url
+     *
+     * @param Link $link
+     * @return mixed
+     */
+    public function getUrl(Link $link)
+    {
+        return parse_url($link->getUri())['path'];
     }
 }
