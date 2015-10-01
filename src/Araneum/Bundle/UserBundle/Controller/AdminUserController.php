@@ -2,9 +2,9 @@
 
 namespace Araneum\Bundle\UserBundle\Controller;
 
-use Sonata\AdminBundle\Controller\CRUDController as AdminController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class CRUDController extends AdminController
+class AdminUserController extends Controller
 {
     public function activateUserAction()
     {

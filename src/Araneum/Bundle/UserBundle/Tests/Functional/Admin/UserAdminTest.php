@@ -16,12 +16,15 @@ class UserAdminTest extends BaseAdminController
      */
     public function filterDataSource()
     {
-        $user = self::createClient()->getContainer()->get('doctrine.orm.entity_manager')
-            ->getRepository('AraneumUserBundle:User')->findOneBy(['email' => UserFixtures::TEST_USER_EMAIL_FILTER]);
+        $user = self::createClient()
+            ->getContainer()
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('AraneumUserBundle:User')
+            ->findOneBy(['email' => UserFixtures::TEST_USER_EMAIL_FILTER]);
 
         return
             [
-                [
+                'fullname and email and createAt' => [
                     [
                         'filter[email][value]' => UserFixtures::TEST_USER_EMAIL_FILTER,
                         'filter[enabled][value]' => UserFixtures::TEST_USER_ENABLED_FILTER,
@@ -31,13 +34,20 @@ class UserAdminTest extends BaseAdminController
                     true,
                     $user,
                 ],
-                [
+                'by part of fullname, email and by date' => [
                     [
                         'filter[email][value]' => substr(UserFixtures::TEST_USER_EMAIL_FILTER, 15),
                         'filter[fullName][value]' => substr(UserFixtures::TEST_USER_FULLNAME_FILTER, 15),
                         'filter[enabled][value]' => UserFixtures::TEST_USER_ENABLED_FILTER,
                         'filter[createdAt][value][start]' => '24/08/1979',
                         'filter[createdAt][value][end]' => '24/08/2015',
+                    ],
+                    true,
+                    $user,
+                ],
+                'not exit entity' => [
+                    [
+                        'filter[email][value]' => 'NotExist',
                     ],
                     true,
                     $user,
@@ -52,7 +62,7 @@ class UserAdminTest extends BaseAdminController
     {
         return
             [
-                [
+                'normal' => [
                     [
                         'email' => 'testUserAdminCreate@test.com',
                         'username' => 'testUserAdminNameCreate',
@@ -61,7 +71,7 @@ class UserAdminTest extends BaseAdminController
                     ],
                     true
                 ],
-                [
+                'exist email' => [
                     [
                         'email' => UserFixtures::TEST_USER_NAME,
                         'username' => 'testUserAdminNameCreateUniq',
@@ -70,7 +80,7 @@ class UserAdminTest extends BaseAdminController
                     ],
                     false
                 ],
-                [
+                'exist username' => [
                     [
                         'email' => 'testUserAdminCreateUniq@test.com',
                         'username' => UserFixtures::TEST_USER_NAME,
@@ -79,7 +89,7 @@ class UserAdminTest extends BaseAdminController
                     ],
                     false
                 ],
-                [
+                'not valid email' => [
                     [
                         'email' => 'nonValidEmail',
                         'username' => 'testUserAdminNameCreateUniq',
@@ -88,7 +98,7 @@ class UserAdminTest extends BaseAdminController
                     ],
                     false
                 ],
-                [
+                'short password' => [
                     [
                         'email' => 'testUserAdminCreateUniq@test.com',
                         'username' => 'testUserAdminNameCreateUniq',
@@ -97,7 +107,7 @@ class UserAdminTest extends BaseAdminController
                     ],
                     false
                 ],
-                [
+                'empty email' => [
                     [
                         'email' => '',
                         'username' => 'testUserAdminNameCreateUniq',
@@ -106,7 +116,7 @@ class UserAdminTest extends BaseAdminController
                     ],
                     false
                 ],
-                [
+                'empty username' => [
                     [
                         'email' => 'testUserAdminCreateUniq@test.com',
                         'username' => '',
@@ -123,12 +133,15 @@ class UserAdminTest extends BaseAdminController
      */
     public function updateDataSource()
     {
-        $user = static::createClient()->getContainer()->get('doctrine.orm.entity_manager')
-            ->getRepository('AraneumUserBundle:User')->findOneBy(['username' => UserFixtures::TEST_USER_NAME_UPDATE]);
+        $user = static::createClient()
+            ->getContainer()
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('AraneumUserBundle:User')
+            ->findOneBy(['username' => UserFixtures::TEST_USER_NAME_UPDATE]);
 
         return
             [
-                [
+                'normal' => [
                     [
                         'email' => 'userAdminTestAfterUpdate@test.com',
                         'username' => 'userAdminTestAfterUpdate',
@@ -137,7 +150,7 @@ class UserAdminTest extends BaseAdminController
                     true,
                     $user,
                 ],
-                [
+                'exist email' => [
                     [
                         'email' => UserFixtures::TEST_USER_EMAIL,
                         'fullName' => 'TestFullName',
@@ -145,7 +158,7 @@ class UserAdminTest extends BaseAdminController
                     false,
                     $user,
                 ],
-                [
+                'exist username' => [
                     [
                         'username' => UserFixtures::TEST_USER_NAME,
                         'fullName' => 'TestFullName',
@@ -153,7 +166,7 @@ class UserAdminTest extends BaseAdminController
                     false,
                     $user,
                 ],
-                [
+                'not valid email' => [
                     [
                         'email' => 'NOTVALID',
                         'fullName' => 'TestFullName',
@@ -169,11 +182,10 @@ class UserAdminTest extends BaseAdminController
      */
     public function deleteDataSource()
     {
-        $user = self::createClient()->getContainer()->get('doctrine.orm.entity_manager')
-            ->getRepository('AraneumUserBundle:User')->findOneBy(
-                ['username' => UserFixtures::TEST_USER_NAME_DELETE]
-            );
-
-        return $user;
+        return self::createClient()
+            ->getContainer()
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('AraneumUserBundle:User')
+            ->findOneBy(['username' => UserFixtures::TEST_USER_NAME_DELETE]);
     }
 }
