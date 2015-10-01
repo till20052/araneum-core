@@ -157,7 +157,7 @@ class ConnectionAdminTest extends BaseAdminController
             ->getContainer()
             ->get('doctrine.orm.entity_manager')
             ->getRepository('AraneumMainBundle:Connection')
-            ->findOneBy(['name' => 'TestConnection']);
+            ->findOneBy(['name' => 'functionalTestConnection']);
 
         return $connection;
     }
