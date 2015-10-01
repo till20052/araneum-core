@@ -40,7 +40,7 @@ twig:
         locales: %locales%
     form:
         resources:
-        - 'SonataCoreBundle:Form:datepicker.html.twig'
+          - 'SonataCoreBundle:Form:datepicker.html.twig'
 
 # Assetic Configuration
 assetic:

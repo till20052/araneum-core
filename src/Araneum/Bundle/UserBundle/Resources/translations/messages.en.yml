@@ -1,8 +1,9 @@
+login: Login
+full_name: Full name
+email: E-mail
 recovery_password: Recovery password
 activate: Activate
-email: Email
 username: User name
-fullName: Full name
 enabled: Enabled
 roles: Roles
 password: Password

@@ -1,8 +1,9 @@
+login: Логин
+full_name: Полное имя
+email: Почта
 recovery_password: Востановление пароля
 activate: Активировать
-email: Почта
 username: Имя пользовтаеля
-fullName: Полное имя
 enabled: Включен
 roles: Роли
 password: Пароль
