@@ -18,7 +18,6 @@ class AdminClusterController extends Controller
      */
     public function checkStatusAction($id)
     {
-
         //TODO necessary to implement
         return new Response();
     }
