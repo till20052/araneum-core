@@ -144,10 +144,10 @@ class ComponentAdminTest extends BaseAdminController
 	{
 		$client = static::createClient();
 
-//		return $client
-//			->getContainer()
-//			->get('doctrine.orm.entity_manager')
-//			->getRepository('AraneumMainBundle:Component')
-//			->findOneByName(ComponentFixtures::TEST_COMP_TEMP_NAME);
+		return $client
+			->getContainer()
+			->get('doctrine.orm.entity_manager')
+			->getRepository('AraneumMainBundle:Component')
+			->findOneByName(ComponentFixtures::TEST_COMP_TEMP_NAME);
 	}
 }
