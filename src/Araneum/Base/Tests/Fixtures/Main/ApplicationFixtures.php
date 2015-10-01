@@ -19,12 +19,23 @@ class ApplicationFixtures extends AbstractFixture implements FixtureInterface, D
     const TEST_APP_STATUS = 1;
     const TEST_APP_TEMPLATE = 'TestTemplate';
 
+    const TEST_APP_TEMP_NAME = 'TestTempApplicationName';
+    const TEST_APP_TEMP_DOMAIN = 'temp.domain.com';
+    const TEST_APP_TEMP_ALIASES = 'www.temp.domain.com, www2.temp.domain.com';
+    const TEST_APP_TEMP_PUBLIC = false;
+    const TEST_APP_TEMP_ENABLED = false;
+    const TEST_APP_TEMP_STATUS = 1;
+    const TEST_APP_TEMP_TEMPLATE = 'TestTempTemplate';
+
     /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        $app = $manager->getRepository('AraneumMainBundle:Application')->findOneByName(self::TEST_APP_NAME);
+        $app = $manager
+            ->getRepository('AraneumMainBundle:Application')
+            ->findOneByName(self::TEST_APP_NAME);
+
         if (empty($app)) {
             $app = new Application();
             $app->setName(self::TEST_APP_NAME);
@@ -34,6 +45,28 @@ class ApplicationFixtures extends AbstractFixture implements FixtureInterface, D
             $app->setEnabled(self::TEST_APP_ENABLED);
             $app->setStatus(self::TEST_APP_STATUS);
             $app->setTemplate(self::TEST_APP_TEMPLATE);
+            $app->setCluster($this->getReference('cluster'));
+            $app->setDb($this->getReference('connectionDb'));
+            $app->setLocale($this->getReference('locale'));
+            $app->setComponents(new ArrayCollection([$this->getReference('component')]));
+            $app->setOwner($this->getReference('owner'));
+            $manager->persist($app);
+            $manager->flush();
+        }
+
+        $app = $manager
+            ->getRepository('AraneumMainBundle:Application')
+            ->findOneByName(self::TEST_APP_TEMP_NAME);
+
+        if (empty($app)) {
+            $app = new Application();
+            $app->setName(self::TEST_APP_TEMP_NAME);
+            $app->setDomain(self::TEST_APP_TEMP_DOMAIN);
+            $app->setAliases(self::TEST_APP_TEMP_ALIASES);
+            $app->setPublic(self::TEST_APP_TEMP_PUBLIC);
+            $app->setEnabled(self::TEST_APP_TEMP_ENABLED);
+            $app->setStatus(self::TEST_APP_TEMP_STATUS);
+            $app->setTemplate(self::TEST_APP_TEMP_TEMPLATE);
             $app->setCluster($this->getReference('cluster'));
             $app->setDb($this->getReference('connectionDb'));
             $app->setLocale($this->getReference('locale'));

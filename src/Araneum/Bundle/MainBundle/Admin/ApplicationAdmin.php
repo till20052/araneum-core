@@ -102,7 +102,7 @@ class ApplicationAdmin extends Admin
 					'label' => 'status',
 					'choices' => [
 						Application::STATUS_UNDEFINED => 'undefined',
-						Application::STATUS_OFFLINE => 'offline',
+						Application::STATUS_ONLINE => 'offline',
 						Application::STATUS_OFFLINE => 'online'
 					]
 				]
@@ -148,7 +148,7 @@ class ApplicationAdmin extends Admin
 			->add('status', 'doctrine_orm_choice', ['label' => 'status'], 'choice',
 				['choices' =>
 					[
-						Application::STATUS_OFFLINE => 'offline',
+						Application::STATUS_ONLINE => 'offline',
 						Application::STATUS_OFFLINE => 'online'
 					]
 				]
