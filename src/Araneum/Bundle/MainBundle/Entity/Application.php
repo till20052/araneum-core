@@ -84,7 +84,7 @@ class Application
     protected $locale;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Component", inversedBy="applications", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Component", inversedBy="applications", cascade={"persist"})
      * @ORM\JoinTable(name="araneum_component_application")
      */
     protected $components;
