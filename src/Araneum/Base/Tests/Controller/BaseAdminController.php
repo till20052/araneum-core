@@ -149,7 +149,7 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
         $client->submit($form, ['_method' => 'DELETE']);
 
         $entityFromDb = $client->getContainer()->get('doctrine.orm.entity_manager')
-            ->getRepository('AraneumUserBundle:User')->find($entity->getId());
+            ->getRepository(get_class($entity))->find($entity->getId());
 
         $this->assertTrue(empty($entityFromDb));
     }
