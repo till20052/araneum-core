@@ -5,40 +5,27 @@ namespace Araneum\Bundle\MainBundle\Entity;
 use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class Cluster
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="araneum_cluster")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ClusterRepository")
- * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity(fields="name")
  * @package Araneum\Bundle\MainBundle\Entity
  */
 class Cluster
 {
     use DateTrait;
 
-    const STATUS_ONLINE = 1;
-    const STATUS_OFFLINE = 2;
-
-    const TYPE_SINGLE = 1;
-    const TYPE_MULTIPLE = 2;
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Assert\Type(type="int")
      */
     protected $id;
 
     /**
-     * @ORM\Column(type="string", name="name", unique=true, length=255)
-     * @Assert\NotBlank()
-     * @Assert\Length(min=2, max=255)
-     * @Assert\Type(type="string")
+     * @ORM\Column(type="string", name="name", unique=true, length=100)
      */
     protected $name;
 
@@ -49,21 +36,18 @@ class Cluster
     protected $hosts;
 
     /**
-     * @ORM\Column(type="smallint", name="type", options={"comment": "1 - single, 2 - multiple"})
-     * @Assert\Type(type="int")
+     * @ORM\Column(type="smallint", name="type", options={"comment":"1 - single, 2 - multiple"})
+     *
      */
-    protected $type = self::TYPE_MULTIPLE;
+    protected $type = 2;
 
     /**
      * @ORM\Column(type="boolean", name="enabled")
-     * @Assert\Type(type="bool")
      */
     protected $enabled;
 
     /**
      * @ORM\Column(type="smallint", name="status", options={"comment":"1 - online, 2 - offline"})
-     * @Assert\NotBlank()
-     * @Assert\Type(type="int")
      */
     protected $status;
 
@@ -224,5 +208,15 @@ class Cluster
         $this->getHosts()->removeElement($host);
 
         return $this;
+    }
+
+    /**
+     * Get Cluster Name
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
     }
 }

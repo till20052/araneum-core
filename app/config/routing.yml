@@ -13,6 +13,11 @@ araneum_locale:
     requirements:
         _locale: %locales%
 
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
+
 _knp_rad_assistant:
     resource: "@KnpRadBundle/Resources/config/routing/assistant.xml"
     prefix: /_assistant
+    

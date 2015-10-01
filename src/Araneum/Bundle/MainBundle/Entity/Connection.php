@@ -279,4 +279,18 @@ class Connection
 
         return $this;
     }
+
+    /**
+     * To string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        if (!empty($this->getName())) {
+            return $this->getName() . " (" . $this->getHost() . ")";
+        } else {
+            return self::CONN_TO_STR;
+        }
+    }
 }

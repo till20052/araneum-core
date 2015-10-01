@@ -1,3 +1,10 @@
 incorrect_locale_format: Incorrect locale format. Recommended format en_US
 component_name_empty: Component name can not be empty
 component_name_length: Length of component name should be in range of 2 to 255 characters
+application_name_empty: Application name can not be empty
+application_name_length_min: Length of application name should be more than {{ limit }} characters
+application_name_length_max: Length of application name can not be more than {{ limit }} characters
+application_domain_not_valid_url: This value is not a valid domain
+application_template_empty: Application template can not be empty
+application_template_length_min: Length of application template should be more than {{ limit }} characters
+application_template_length_max: Length of application template can not be more than {{ limit }} characters
