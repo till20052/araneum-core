@@ -21,6 +21,9 @@ class Application
 {
     use DateTrait;
 
+    const STATUS_UNDEFINED = '';
+    const STATUS_OFFLINE = 0;
+    const STATUS_ONLINE = 1;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
