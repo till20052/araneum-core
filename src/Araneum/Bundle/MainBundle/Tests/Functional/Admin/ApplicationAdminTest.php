@@ -42,7 +42,7 @@ class ApplicationAdminTest extends BaseAdminController
 			->findOneByName(ComponentFixtures::TEST_COMP_NAME);
 
 		return [
-			[
+			'Check simple creation' => [
 				[
 					// Check simple creation
 					'name' => 'TestApplicationCreation#'.md5(microtime(true)),
@@ -58,7 +58,7 @@ class ApplicationAdminTest extends BaseAdminController
 				],
 				true
 			],
-			[
+			'Check application unique name' => [
 				[
 					// Check application unique name
 					'name' => ApplicationFixtures::TEST_APP_NAME,
@@ -74,7 +74,7 @@ class ApplicationAdminTest extends BaseAdminController
 				],
 				false
 			],
-			[
+			'Check domain validator' => [
 				[
 					// Check domain validator
 					'name' => 'TestApplicationCreation#'.md5(microtime()),
@@ -122,7 +122,7 @@ class ApplicationAdminTest extends BaseAdminController
 			->findOneByName(ApplicationFixtures::TEST_APP_TEMP_NAME);
 
 		return [
-			[
+			'Check filter searching application by this application values' => [
 				[
 					'filter[cluster][value]' => $cluster->getId(),
 					'filter[name][value]' => ApplicationFixtures::TEST_APP_NAME,
@@ -140,7 +140,7 @@ class ApplicationAdminTest extends BaseAdminController
 				true,
 				$application
 			],
-			[
+			'Search another application by first filters' => [
 				[
 					'filter[cluster][value]' => $cluster->getId(),
 					'filter[name][value]' => ApplicationFixtures::TEST_APP_NAME,
@@ -176,9 +176,8 @@ class ApplicationAdminTest extends BaseAdminController
 			->findOneByName(ApplicationFixtures::TEST_APP_TEMP_NAME);
 
 		return [
-			[
+			'Check simple modification' => [
 				[
-					// Check simple modification
 					'name' => 'TestApplicationModification#'.md5(microtime(true)),
 					'domain' => 'domain.com',
 					'aliases' => 'www.domain.com, ww2.domain.com',
@@ -189,9 +188,8 @@ class ApplicationAdminTest extends BaseAdminController
 				true,
 				$tempApplication
 			],
-			[
+			'Check updating name if application with this name exists' => [
 				[
-					// Check updating name if application with this name exists
 					'name' => ApplicationFixtures::TEST_APP_NAME,
 					'domain' => 'domain.com',
 					'aliases' => 'www.domain.com, ww2.domain.com',
@@ -202,9 +200,8 @@ class ApplicationAdminTest extends BaseAdminController
 				false,
 				$tempApplication
 			],
-			[
+			'return temp application name' => [
 				[
-					// return temp application name
 					'name' => ApplicationFixtures::TEST_APP_TEMP_NAME,
 					'domain' => ApplicationFixtures::TEST_APP_TEMP_DOMAIN,
 					'aliases' => ApplicationFixtures::TEST_APP_TEMP_ALIASES,
