@@ -11,6 +11,9 @@ class ConnectionAdminTest extends BaseAdminController
     protected $updateRoute = 'admin_araneum_main_connection_edit';
     protected $deleteRoute = 'admin_araneum_main_connection_delete';
 
+    /**
+     * @inheritdoc
+     */
     public function filterDataSource()
     {
         $connection = self::createClient()
@@ -54,6 +57,9 @@ class ConnectionAdminTest extends BaseAdminController
             ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function createDataSource()
     {
         return
@@ -103,6 +109,9 @@ class ConnectionAdminTest extends BaseAdminController
             ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function updateDataSource()
     {
         $connection = self::createClient()
@@ -151,6 +160,9 @@ class ConnectionAdminTest extends BaseAdminController
             ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function deleteDataSource()
     {
         $connection = self::createClient()
