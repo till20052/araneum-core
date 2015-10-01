@@ -12,7 +12,7 @@ class ConnectionAdminTest extends BaseAdminController
     protected $deleteRoute = 'admin_araneum_main_connection_delete';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function filterDataSource()
     {
@@ -58,7 +58,7 @@ class ConnectionAdminTest extends BaseAdminController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createDataSource()
     {
@@ -110,7 +110,7 @@ class ConnectionAdminTest extends BaseAdminController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function updateDataSource()
     {
@@ -161,7 +161,7 @@ class ConnectionAdminTest extends BaseAdminController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function deleteDataSource()
     {
