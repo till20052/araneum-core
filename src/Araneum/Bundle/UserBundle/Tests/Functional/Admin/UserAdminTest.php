@@ -27,7 +27,7 @@ class UserAdminTest extends BaseAdminController
                 'fullname and email and createAt' => [
                     [
                         'filter[email][value]' => UserFixtures::TEST_USER_EMAIL_FILTER,
-                        'filter[enabled][value]' => UserFixtures::TEST_USER_ENABLED_FILTER,
+                        'filter[enabled][value]' => (int)UserFixtures::TEST_USER_ENABLED_FILTER,
                         'filter[createdAt][value][start]' => '24/08/1979',
                         'filter[createdAt][value][end]' => '24/08/2015',
                     ],
@@ -38,7 +38,7 @@ class UserAdminTest extends BaseAdminController
                     [
                         'filter[email][value]' => substr(UserFixtures::TEST_USER_EMAIL_FILTER, 15),
                         'filter[fullName][value]' => substr(UserFixtures::TEST_USER_FULLNAME_FILTER, 15),
-                        'filter[enabled][value]' => UserFixtures::TEST_USER_ENABLED_FILTER,
+                        'filter[enabled][value]' => (int)UserFixtures::TEST_USER_ENABLED_FILTER,
                         'filter[createdAt][value][start]' => '24/08/1979',
                         'filter[createdAt][value][end]' => '24/08/2015',
                     ],
