@@ -23,9 +23,14 @@ use Sonata\AdminBundle\Route\RouteCollection;
 
 class ClusterAdmin extends Admin
 {
-    /** @var ConnectionRepository */
+    /**
+     * @var ConnectionRepository
+     */
     private $connectionRepository;
 
+    /**
+     * @param EntityRepository $connectionRepository
+     */
     public function setConnectionRepository(EntityRepository $connectionRepository)
     {
         $this->connectionRepository = $connectionRepository;

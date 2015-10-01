@@ -96,7 +96,7 @@ class Connection
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -119,7 +119,7 @@ class Connection
     /**
      * Get type
      *
-     * @return integer 
+     * @return integer
      */
     public function getType()
     {
@@ -142,7 +142,7 @@ class Connection
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -165,7 +165,7 @@ class Connection
     /**
      * Get host
      *
-     * @return string 
+     * @return string
      */
     public function getHost()
     {
@@ -188,7 +188,7 @@ class Connection
     /**
      * Get port
      *
-     * @return integer 
+     * @return integer
      */
     public function getPort()
     {
@@ -211,7 +211,7 @@ class Connection
     /**
      * Get userName
      *
-     * @return string 
+     * @return string
      */
     public function getUserName()
     {
@@ -234,7 +234,7 @@ class Connection
     /**
      * Get password
      *
-     * @return string 
+     * @return string
      */
     public function getPassword()
     {
@@ -257,7 +257,7 @@ class Connection
     /**
      * Get enabled
      *
-     * @return boolean 
+     * @return boolean
      */
     public function isEnabled()
     {

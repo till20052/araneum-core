@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class Cluster
- * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="araneum_cluster")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ClusterRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -36,7 +35,7 @@ class Cluster
     protected $id;
 
     /**
-     * @ORM\Column(type="string", name="name", unique=true)
+     * @ORM\Column(type="string", name="name", unique=true, length=255)
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=255)
      * @Assert\Type(type="string")

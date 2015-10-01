@@ -1,7 +1,7 @@
 recovery_password: Востановление пароля
 activate: Активировать
 email: Почта
-username: Имя пользовтаеля
+username: Имя пользователя
 fullName: Полное имя
 enabled: Включен
 roles: Роли
@@ -24,6 +24,19 @@ single: Одиночный
 online: Online
 offline: Offline
 status: Состояние
+created_at: Создано:
 check_status: Проверить состояние
 cluster: Кластер
 core: Ядро
+locale: Локаль
+orientation: Ориентация
+encoding: Кодировка
+left_to_right: Слева направо
+right_to_left: Справа налево
+description: Описание
+default: По умолчанию
+edit_profile: Редактирование профиля
+btn_pass_restore: Забыли пароль?
+flash_edit_success: Профиль изменен
+profile: Профиль
+logout: Выход
