@@ -301,7 +301,7 @@ class Component
 	 *
 	 * @return string
 	 */
-	function __toString()
+	public function __toString()
 	{
 		return $this->name ?: 'Create Component';
 	}

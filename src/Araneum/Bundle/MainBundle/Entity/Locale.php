@@ -196,7 +196,7 @@ class Locale
      *
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         return $this->name ? $this->name . " (" . $this->locale . ")" : 'Create Locale';
     }
