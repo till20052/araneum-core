@@ -28,10 +28,10 @@ file that was distributed with this source code.
     {% endblock %}
 
     {% block stylesheets %}
-
         {% for stylesheet in admin_pool.getOption('stylesheets', []) %}
             <link rel="stylesheet" href="{{ asset(stylesheet) }}">
         {% endfor %}
+        <link rel="stylesheet" href="{{ asset('bundles/araneummain/css/sonata-extends.css') }}">
 
     {% endblock %}
 
@@ -101,7 +101,7 @@ file that was distributed with this source code.
             {% spaceless %}
                 <a class="logo" href="{{ url('sonata_admin_dashboard') }}">
                     {% if 'single_image' == admin_pool.getOption('title_mode') or 'both' == admin_pool.getOption('title_mode') %}
-                        <img src="{{ asset(admin_pool.titlelogo) }}" alt="{{ admin_pool.title }}">
+                        <img src="{{ asset(admin_pool.titlelogo) }}" alt="{{ admin_pool.title }}" class="top7">
                     {% endif %}
                     {% if 'single_text' == admin_pool.getOption('title_mode') or 'both' == admin_pool.getOption('title_mode') %}
                         <span>{{ admin_pool.title }}</span>
