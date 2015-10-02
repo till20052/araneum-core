@@ -192,16 +192,12 @@ class Locale
     }
 
     /**
-     * To string
+     * Convert entity to string
      *
      * @return string
      */
     public function __toString()
     {
-        if (!empty($this->getName())) {
-            return $this->getName() . " (" . $this->getLocale() . ")";
-        } else {
-            return self::LOC_TO_STR;
-        }
+        return $this->name ? $this->name . " (" . $this->locale . ")" : 'Create Locale';
     }
 }
