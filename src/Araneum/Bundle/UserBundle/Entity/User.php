@@ -18,6 +18,9 @@ class User extends BaseUser
 {
     use DateTrait;
 
+    const ROLE_USER = 'ROLE_USER';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
