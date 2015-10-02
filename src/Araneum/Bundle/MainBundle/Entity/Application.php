@@ -1,21 +1,30 @@
 <?php
+
 namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
+use Araneum\Bundle\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Application class
+ * Application class.
+ *
  * @Doctrine\ORM\Mapping\Entity
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ApplicationRepository")
  * @ORM\Table(name="araneum_applications")
- *
+ * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields="name")
  */
 class Application
 {
     use DateTrait;
 
+    const STATUS_UNDEFINED = '';
+    const STATUS_OFFLINE = 0;
+    const STATUS_ONLINE = 1;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -30,17 +39,25 @@ class Application
     protected $cluster;
 
     /**
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    protected $type;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=2, max=255)
      */
     protected $name;
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\Regex("/^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$/", message="application_domain_not_valid_url")
      */
     protected $domain;
 
     /**
-     * @ORM\Column(type="json_array", nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     protected $aliases;
 
@@ -67,7 +84,7 @@ class Application
     protected $locale;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Component", inversedBy="applications", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Component", inversedBy="applications", cascade={"persist"})
      * @ORM\JoinTable(name="araneum_component_application")
      */
     protected $components;
@@ -79,21 +96,24 @@ class Application
     protected $owner;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="smallint", nullable=true)
      */
     protected $status;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=2, max=255)
      */
     protected $template;
 
+    /**
+     * Application constructor.
+     */
     public function __construct()
     {
         $this->setComponents(new ArrayCollection());
-        $this->setAliases(new ArrayCollection());
     }
-
 
     /**
      * Get id
@@ -139,6 +159,29 @@ class Application
         $this->cluster = $cluster;
 
         return $this;
+    }
+
+    /**
+     * Set type
+     *
+     * @param int $type
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return int
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
@@ -203,7 +246,7 @@ class Application
      * @param mixed $aliases
      * @return mixed
      */
-    public function setAliases(ArrayCollection $aliases)
+    public function setAliases($aliases)
     {
         $this->aliases = $aliases;
 
@@ -328,7 +371,7 @@ class Application
     /**
      * Get owner
      *
-     * @return mixed
+     * @return User
      */
     public function getOwner()
     {
@@ -338,8 +381,8 @@ class Application
     /**
      * Set owner
      *
-     * @param mixed $owner
-     * @return mixed
+     * @param User $owner
+     * @return $this
      */
     public function setOwner(User $owner)
     {

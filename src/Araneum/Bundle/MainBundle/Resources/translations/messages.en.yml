@@ -1,0 +1,43 @@
+recovery_password: Recovery password
+activate: Activate
+email: Email
+username: User name
+fullName: Full name
+enabled: Enabled
+roles: Roles
+password: Password
+created_at: Created at
+updated_at: Updated
+last_login: Last login
+actions: Actions
+date_range_start: From
+date_range_end: To
+name: Name
+type: Type
+port: Port
+host: Host
+db_connection: DB connection
+host_connection: Host connection
+connection: Connection
+locale: Locale
+orientation: Orientation
+encoding: Encoding
+left_to_right: Left to right
+right_to_left: Right to left
+multiple: Multiple
+single: Single
+status: Status
+check_status: Check status
+cluster: Cluster
+core: Core
+description: Description
+default: Default
+edit_profile: Edit profile
+btn_pass_restore: Forgot password?
+flash_edit_success: Profile changed
+profile: Profile
+logout: Logout
+online: Online
+offline: Offline
+check_status: Check status
+test_connection: Test connection
