@@ -78,7 +78,7 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
     }
 
     /**
-     * Base test of filter in Sonata Admin
+     * Base test of filter in Sonata Admin.
      *
      * @dataProvider filterDataSource
      * @runInSeparateProcess

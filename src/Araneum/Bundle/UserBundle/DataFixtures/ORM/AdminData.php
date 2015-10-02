@@ -19,7 +19,7 @@ class AdminData implements FixtureInterface
             $userAdmin->setUsername('admin');
             $userAdmin->setPlainPassword('admin_123');
             $userAdmin->setEmail('admin@araneum.dev');
-            $userAdmin->setRoles(['ROLE_ADMIN']);
+            $userAdmin->setRoles([User::ROLE_ADMIN]);
             $userAdmin->setEnabled(true);
             $manager->persist($userAdmin);
             $manager->flush();
