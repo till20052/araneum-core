@@ -148,7 +148,7 @@ class Locale
     /**
      * Set orientation
      *
-     * @param smallint $orientation
+     * @param int $orientation
      * @return Locale
      */
     public function setOrientation($orientation)
@@ -161,7 +161,7 @@ class Locale
     /**
      * Get orientation
      *
-     * @return smallint
+     * @return int
      */
     public function getOrientation()
     {
