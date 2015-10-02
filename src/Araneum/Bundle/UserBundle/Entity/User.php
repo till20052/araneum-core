@@ -53,4 +53,14 @@ class User extends BaseUser
 
         return $this;
     }
+
+    /**
+     * Convert entity to string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->username ?: 'CreateUser';
+    }
 }

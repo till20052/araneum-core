@@ -281,16 +281,12 @@ class Connection
     }
 
     /**
-     * To string
+     * Convert entity to string
      *
      * @return string
      */
-    public function __toString()
+    function __toString()
     {
-        if (!empty($this->getName())) {
-            return $this->getName() . " (" . $this->getHost() . ")";
-        } else {
-            return self::CONN_TO_STR;
-        }
+        return $this->name ? $this->name . " (" . $this->host . ")" : 'Create Connection';
     }
 }

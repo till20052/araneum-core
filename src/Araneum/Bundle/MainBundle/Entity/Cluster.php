@@ -224,12 +224,12 @@ class Cluster
     }
 
     /**
-     * Get Cluster Name
+     * Convert entity to string
      *
      * @return string
      */
-    public function __toString()
+    function __toString()
     {
-        return $this->name;
+        return $this->name ?: 'Create Cluster';
     }
 }
