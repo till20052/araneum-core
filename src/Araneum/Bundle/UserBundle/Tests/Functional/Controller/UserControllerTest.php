@@ -29,39 +29,39 @@ class UserControllerUpdateTest extends BaseController
     {
         return [
             'Check unique username' => [
-                'authLogin' => 'admin',
+                'authLogin' => 'emptyuser',
                 'username' => 'emailuser',
-                'email' => 'admin@araneum.dev',
+                'email' => 'emptyuser@araneum.dev',
                 '__expected_value' => false,
             ],
             'Try username edit' => [
-                'authLogin' => 'admin',
-                'username' => 'new_admin',
-                'email' => 'admin@araneum.dev',
+                'authLogin' => 'emptyuser',
+                'username' => 'new_emptyuser',
+                'email' => 'emptyuser@araneum.dev',
                 '__expected_value' => true,
             ],
             'Try short username' => [
-                'authLogin' => 'new_admin',
+                'authLogin' => 'new_emptyuser',
                 'username' => '1',
-                'email' => 'admin@araneum.dev',
+                'email' => 'emptyuser@araneum.dev',
                 '__expected_value' => false,
             ],
             'Try empty email' => [
-                'authLogin' => 'new_admin',
-                'username' => 'admin_123',
+                'authLogin' => 'new_emptyuser',
+                'username' => 'new_emptyuser',
                 'email' => '',
                 '__expected_value' => false,
             ],
             'Try not valid email' => [
-                'authLogin' => 'new_admin',
-                'username' => 'admin_123',
+                'authLogin' => 'new_emptyuser',
+                'username' => 'new_emptyuser',
                 'email' => 'emptyuserraraneum@.dev',
                 '__expected_value' => false,
             ],
             'Check unique email' => [
-                'authLogin' => 'new_admin',
-                'username' => 'admin_123',
-                'email' => 'emptyuser@araneum.dev',
+                'authLogin' => 'new_emptyuser',
+                'username' => 'new_emptyuser',
+                'email' => 'emailuser@araneum.dev',
                 '__expected_value' => false,
             ]
         ];
