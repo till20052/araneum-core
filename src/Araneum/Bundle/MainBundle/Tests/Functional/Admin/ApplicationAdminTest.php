@@ -13,12 +13,11 @@ use Doctrine\ORM\EntityNotFoundException;
 
 class ApplicationAdminTest extends BaseAdminController
 {
+    const TEST_APP_NAME = 'TestApplicationName';
     protected $createRoute = 'admin_araneum_main_application_create';
     protected $updateRoute = 'admin_araneum_main_application_edit';
     protected $deleteRoute = 'admin_araneum_main_application_delete';
     protected $listRoute = 'admin_araneum_main_application_list';
-
-    const TEST_APP_NAME = 'TestApplicationName';
 
     /**
      * Set of arguments for testCreate method

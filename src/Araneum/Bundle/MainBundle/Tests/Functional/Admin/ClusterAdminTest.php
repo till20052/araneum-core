@@ -17,12 +17,11 @@ use Doctrine\ORM\EntityNotFoundException;
 
 class ClusterAdminTest extends BaseAdminController
 {
+    const CLUSTER_TEST_NAME = 'TestCluTmp';
     protected $createRoute = 'admin_araneum_main_cluster_create';
     protected $updateRoute = 'admin_araneum_main_cluster_edit';
     protected $deleteRoute = 'admin_araneum_main_cluster_delete';
     protected $listRoute = 'admin_araneum_main_cluster_list';
-
-    const CLUSTER_TEST_NAME = 'TestCluTmp';
 
     /**
      * Set data for create entity
