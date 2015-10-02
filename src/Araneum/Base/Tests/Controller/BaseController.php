@@ -13,7 +13,7 @@ class BaseController extends WebTestCase
      * @param string $authLogin
      * @return \Symfony\Bundle\FrameworkBundle\Client
      */
-    protected static function createAdminAuthorizedClient($authLogin = 'admin')
+    protected static function createAdminAuthorizedClient($authLogin = 'emptyuser')
     {
         $client = static::createClient();
         $container = $client->getContainer();
