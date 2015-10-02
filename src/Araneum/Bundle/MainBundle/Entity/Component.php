@@ -56,7 +56,7 @@ class Component
 	protected $enabled;
 
 	/**
-	 * @ORM\Column(type="boolean", name="`default`")
+	 * @ORM\Column(type="boolean", name="`default`" )
 	 * @Assert\Type(type="boolean")
 	 */
 	protected $default;
