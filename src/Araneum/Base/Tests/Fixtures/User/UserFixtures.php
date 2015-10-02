@@ -9,19 +9,19 @@ use Knp\RadBundle\DataFixtures\AbstractFixture;
 
 class UserFixtures extends AbstractFixture implements FixtureInterface
 {
-    const TEST_USER_NAME            = 'TestUserName';
-    const TEST_USER_EMAIL           = 'TestUserEmail@test.com';
-    const TEST_USER_FULLNAME        = 'TestUserFullName';
-    const TEST_USER_PASSWORD        = 'TestUserPassword';
-    const TEST_USER_ENABLED         = true;
-    const TEST_USER_ROLES           = ['ROLE_USER'];
+    const TEST_USER_NAME     = 'TestUserName';
+    const TEST_USER_EMAIL    = 'test@user.email';
+    const TEST_USER_FULLNAME = 'TestUserFullName';
+    const TEST_USER_PASSWORD = 'TestUserPassword';
+    const TEST_USER_ENABLED  = true;
+    const TEST_USER_ROLES    = ['ROLE_USER'];
     const TEST_USER_NAME_DELETE     = 'TestUserNameForDelete';
     const TEST_USER_EMAIL_FILTER    = 'TestUserEmailForFilter@test.com';
     const TEST_USER_FULLNAME_FILTER = 'TestUserFullnameForFilter';
     const TEST_USER_ENABLED_FILTER  = true;
     const TEST_USER_NAME_UPDATE     = 'TestUserNameForUpdate';
     const TEST_USER_EMAIL_UPDATE    = 'TestUserEmailForUpdate@test.com';
-
+  
     /**
      * {@inheritDoc}
      */
@@ -79,6 +79,28 @@ class UserFixtures extends AbstractFixture implements FixtureInterface
             $userForUpdate->setEnabled(self::TEST_USER_ENABLED);
             $userForUpdate->setRoles(self::TEST_USER_ROLES);
             $manager->persist($userForUpdate);
+        }
+        
+        $emailUser = $manager->getRepository('AraneumUserBundle:User')->findOneByUsername('emailuser');
+        if (empty($emailUser)) {
+            $emailUser = new User();
+            $emailUser->setUsername('emailuser');
+            $emailUser->setPlainPassword('emailuser_123');
+            $emailUser->setEmail('emailuser@araneum.dev');
+            $emailUser->setRoles(['ROLE_ADMIN']);
+            $emailUser->setEnabled(true);
+            $manager->persist($emailUser);
+        }
+        
+        $emptyUser = $manager->getRepository('AraneumUserBundle:User')->findOneByUsername('emptyuser');
+        if (empty($emptyUser)) {
+            $emptyUser = new User();
+            $emptyUser->setUsername('emptyuser');
+            $emptyUser->setPlainPassword('emptyuser_123');
+            $emptyUser->setEmail('emptyuser@araneum.dev');
+            $emptyUser->setRoles(['ROLE_ADMIN']);
+            $emptyUser->setEnabled(true);
+            $manager->persist($emptyUser);
         }
 
         $manager->flush();
