@@ -150,25 +150,33 @@ class ConnectionAdmin extends Admin
                     ]
                 ]
             )
-            ->add('name', 'text',
+            ->add(
+                'name',
+                'text',
                 [
                     'label' => 'name',
                     'editable' => true
                 ]
             )
-            ->add('host', 'text',
+            ->add(
+                'host',
+                'text',
                 [
                     'label' => 'host',
                     'editable' => true
                 ]
             )
-            ->add('port', 'integer',
+            ->add(
+                'port',
+                'integer',
                 [
                     'label' => 'port',
                     'editable' => true
                 ]
             )
-            ->add('userName', 'text',
+            ->add(
+                'userName',
+                'text',
                 [
                     'label' => 'username',
                     'editable' => true
@@ -182,13 +190,17 @@ class ConnectionAdmin extends Admin
                     'editable' => true
                 ]
             )
-            ->add('createdAt', 'datetime',
+            ->add(
+                'createdAt',
+                'datetime',
                 [
                     'label' => 'created_at',
                     'format' => 'm/d/Y'
                 ]
             )
-            ->add('updatedAt', 'datetime',
+            ->add(
+                'updatedAt',
+                'datetime',
                 [
                     'label' => 'updated_at',
                     'format' => 'm/d/Y'

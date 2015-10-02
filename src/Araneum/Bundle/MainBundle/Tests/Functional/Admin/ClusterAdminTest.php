@@ -82,7 +82,6 @@ class ClusterAdminTest extends BaseAdminController
             ->getRepository('AraneumMainBundle:Cluster')
             ->findOneByName(ClusterFixtures::TEST_CLU_NAME);
 
-
         return [
             'Try find entity fixture' => [
                 [

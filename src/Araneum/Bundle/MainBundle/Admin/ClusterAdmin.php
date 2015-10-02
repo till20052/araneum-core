@@ -40,29 +40,45 @@ class ClusterAdmin extends Admin
     {
         $formMapper
             ->add('name', 'text', ['label' => 'name'])
-            ->add('hosts', 'sonata_type_model', [
-                'multiple' => true,
-                'by_reference' => false,
-                'required' => false
-            ])
-            ->add('type', 'choice', [
-                'choices' => [
-                    Cluster::TYPE_MULTIPLE => 'multiple',
-                    Cluster::TYPE_SINGLE => 'single'
-                ],
-                'label' => 'type'
-            ])
-            ->add('status', 'choice', [
-                'choices' => [
-                    Cluster::STATUS_ONLINE => 'online',
-                    Cluster::STATUS_OFFLINE => 'offline'
-                ],
-                'label' => 'status'
-            ])
-            ->add('enabled', 'checkbox', [
-                'label' => 'enabled',
-                'required' => false
-            ]);
+            ->add(
+                'hosts',
+                'sonata_type_model',
+                [
+                    'multiple' => true,
+                    'by_reference' => false,
+                    'required' => false
+                ]
+            )
+            ->add(
+                'type',
+                'choice',
+                [
+                    'choices' => [
+                        Cluster::TYPE_MULTIPLE => 'multiple',
+                        Cluster::TYPE_SINGLE => 'single'
+                    ],
+                    'label' => 'type'
+                ]
+            )
+            ->add(
+                'status',
+                'choice',
+                [
+                    'choices' => [
+                        Cluster::STATUS_ONLINE => 'online',
+                        Cluster::STATUS_OFFLINE => 'offline'
+                    ],
+                    'label' => 'status'
+                ]
+            )
+            ->add(
+                'enabled',
+                'checkbox',
+                [
+                    'label' => 'enabled',
+                    'required' => false
+                ]
+            );
     }
 
     /**
@@ -75,21 +91,42 @@ class ClusterAdmin extends Admin
         $datagridMapper
             ->add('name', null, ['label' => 'name'])
             ->add('hosts', null, ['label' => 'host'])
-            ->add('type', null, [], 'choice', [
-                'choices' => [
-                    Cluster::TYPE_MULTIPLE => 'multiple',
-                    Cluster::TYPE_SINGLE => 'single'
-                ], 'label' => 'type'])
-            ->add('status', null, [], 'choice', ['choices' => [
-                Cluster::STATUS_ONLINE => 'online',
-                Cluster::STATUS_OFFLINE => 'offline'
-            ], 'label' => 'status'])
+            ->add(
+                'type',
+                null,
+                [],
+                'choice',
+                [
+                    'choices' => [
+                        Cluster::TYPE_MULTIPLE => 'multiple',
+                        Cluster::TYPE_SINGLE => 'single'
+                    ],
+                    'label' => 'type'
+                ]
+            )
+            ->add(
+                'status',
+                null,
+                [],
+                'choice',
+                [
+                    'choices' => [
+                        Cluster::STATUS_ONLINE => 'online',
+                        Cluster::STATUS_OFFLINE => 'offline'
+                    ],
+                    'label' => 'status'
+                ]
+            )
             ->add('enabled', null, ['label' => 'enabled'])
-            ->add('created_at', 'doctrine_orm_datetime_range', [
-                'label' => 'created_at',
-                'field_type' => 'sonata_type_datetime_range_picker',
-                'pattern' => 'MM.dd.YYY'
-            ]);
+            ->add(
+                'created_at',
+                'doctrine_orm_datetime_range',
+                [
+                    'label' => 'created_at',
+                    'field_type' => 'sonata_type_datetime_range_picker',
+                    'pattern' => 'MM.dd.YYY'
+                ]
+            );
     }
 
     /**
@@ -101,47 +138,75 @@ class ClusterAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('id')
-            ->add('name', 'text', [
-                'editable' => true,
-                'label' => 'name'
-            ])
-            ->add('hosts', 'sonata_type_model', [
-                'editable' => false,
-                'label' => 'host'
-            ])
-            ->add('type', 'choice', [
-                'choices' => [
-                    Cluster::TYPE_MULTIPLE => 'multiple',
-                    Cluster::TYPE_SINGLE => 'single'
-                ],
-                'label' => 'type'
-            ])
-            ->add('status', 'choice', [
-                'choices' => [
-                    Cluster::STATUS_ONLINE => 'online',
-                    Cluster::STATUS_OFFLINE => 'offline'
-                ],
-                'label' => 'status'
-            ])
-            ->add('enabled', null, [
-                'editable' => true,
-                'label' => 'enabled',
-                'row_align' => 'center',
-                'text_align' => 'center'
-            ])
-            ->add('created_at', 'datetime', [
-                'format' => 'm.d.Y',
-                'label' => 'created_at'
-            ])
-            ->add('_action', 'actions', [
-                'label' => 'action',
-                'actions' => [
-                    'edit' => [],
-                    'check_status' => [
-                        'template' => 'AraneumMainBundle:AdminAction:checkStatus.html.twig'
-                    ],
-                    'delete' => []
+            ->add(
+                'name',
+                'text',
+                [
+                    'editable' => true,
+                    'label' => 'name'
                 ]
-            ]);
+            )
+            ->add(
+                'hosts',
+                'sonata_type_model',
+                [
+                    'editable' => false,
+                    'label' => 'host'
+                ]
+            )
+            ->add(
+                'type',
+                'choice',
+                [
+                    'choices' => [
+                        Cluster::TYPE_MULTIPLE => 'multiple',
+                        Cluster::TYPE_SINGLE => 'single'
+                    ],
+                    'label' => 'type'
+                ]
+            )
+            ->add(
+                'status',
+                'choice',
+                [
+                    'choices' => [
+                        Cluster::STATUS_ONLINE => 'online',
+                        Cluster::STATUS_OFFLINE => 'offline'
+                    ],
+                    'label' => 'status'
+                ]
+            )
+            ->add(
+                'enabled',
+                null,
+                [
+                    'editable' => true,
+                    'label' => 'enabled',
+                    'row_align' => 'center',
+                    'text_align' => 'center'
+                ]
+            )
+            ->add(
+                'created_at',
+                'datetime',
+                [
+                    'format' => 'm.d.Y',
+                    'label' => 'created_at'
+                ]
+            )
+            ->add(
+                '_action',
+                'actions',
+                [
+                    'label' => 'action',
+                    'actions' => [
+                        'edit' => [],
+                        'check_status' => [
+                            'template' => 'AraneumMainBundle:AdminAction:checkStatus.html.twig'
+                        ],
+                        'delete' => []
+                    ]
+                ]
+            );
     }
 }
