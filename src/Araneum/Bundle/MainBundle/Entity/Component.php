@@ -45,7 +45,7 @@ class Component
 
 	/**
 	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Application", mappedBy="components", cascade={"persist", "remove"})
+	 * @ORM\ManyToMany(targetEntity="Application", mappedBy="components", cascade={"persist"})
 	 */
 	protected $applications;
 

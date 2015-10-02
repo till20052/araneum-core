@@ -1,3 +1,15 @@
 login: Логин
 full_name: Полное имя
 email: Почта
+recovery_password: Востановление пароля
+activate: Активировать
+username: Имя пользовтаеля
+enabled: Включен
+roles: Роли
+password: Пароль
+created_at: Создано
+updated_at: Обновлено
+last_login: Последний логин
+actions: Дейстия
+date_range_start: С
+date_range_end: До
