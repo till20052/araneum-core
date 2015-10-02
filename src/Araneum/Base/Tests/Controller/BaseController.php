@@ -10,9 +10,10 @@ class BaseController extends WebTestCase
     /**
      * Return admin authorized client
      *
+     * @param string $authLogin
      * @return \Symfony\Bundle\FrameworkBundle\Client
      */
-    protected function createAdminAuthorizedClient()
+    protected static function createAdminAuthorizedClient($authLogin = 'admin')
     {
         $client = static::createClient();
         $container = $client->getContainer();
@@ -24,7 +25,7 @@ class BaseController extends WebTestCase
         $loginManager = $container->get('fos_user.security.login_manager');
         $firewallName = $container->getParameter('fos_user.firewall_name');
 
-        $user = $userManager->findUserBy(['username' => 'admin']);
+        $user = $userManager->findUserBy(['username' => $authLogin]);
         $loginManager->loginUser($firewallName, $user);
 
         $container->get('session')->set(
