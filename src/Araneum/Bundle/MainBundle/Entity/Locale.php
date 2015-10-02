@@ -198,6 +198,6 @@ class Locale
      */
     function __toString()
     {
-        return $this->name ? $this->name . " (" . $this->locale . ")" : 'Create Application';
+        return $this->name ? $this->name . " (" . $this->locale . ")" : 'Create Locale';
     }
 }
