@@ -35,3 +35,4 @@ security:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/[a-zA-Z]+/admin/, role: ROLE_ADMIN }
+        - { path: ^/api, role: ROLE_ADMIN }
