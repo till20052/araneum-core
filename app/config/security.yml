@@ -11,6 +11,13 @@ security:
             id: fos_user.user_provider.username
 
     firewalls:
+        api:
+            pattern: ^/api
+            anonymous: ~
+            http_basic:
+                realm: "Araneum.Core API secure"
+            stateless: true
+
         main:
             pattern: ^/
             form_login:
