@@ -181,7 +181,7 @@ class ApplicationAdmin extends Admin
                             'edit' => [],
                             'check_status_state' =>
                                 [
-                                    'template' => 'AraneumMainBundle:AdminApplication:check_status_state.html.twig'
+                                    'template' => 'AraneumMainBundle:AdminAction:checkStatusApplication.html.twig'
                                 ],
                             'delete' => [],
                         ]

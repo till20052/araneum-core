@@ -45,8 +45,8 @@ class Application
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="application_name_empty")
-     * @Assert\Length(min=2, max=255, minMessage="application_name_length_min", maxMessage="application_name_length_max")
+     * @Assert\NotBlank()
+     * @Assert\Length(min=2, max=255)
      */
     protected $name;
 
@@ -102,8 +102,8 @@ class Application
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="application_template_empty")
-     * @Assert\Length(min=2, max=255, minMessage="application_template_length_min", maxMessage="application_template_length_max")
+     * @Assert\NotBlank()
+     * @Assert\Length(min=2, max=255)
      */
     protected $template;
 

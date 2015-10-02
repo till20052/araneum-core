@@ -28,8 +28,8 @@ class Component
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Assert\NotBlank(message="component_name_empty")
-	 * @Assert\Length(min=2, max=255, minMessage="component_name_length", maxMessage="component_name_length")
+	 * @Assert\NotBlank()
+	 * @Assert\Length(min=2, max=255)
 	 */
 	protected $name;
 

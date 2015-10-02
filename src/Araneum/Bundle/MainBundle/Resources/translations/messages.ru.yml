@@ -39,3 +39,5 @@ profile: Профиль
 logout: Выход
 online: Online
 offline: Offline
+check_status: Check status
+test_connection: Проверить соединение

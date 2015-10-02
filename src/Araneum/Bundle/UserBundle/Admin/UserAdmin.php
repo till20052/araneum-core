@@ -10,6 +10,11 @@ class UserAdmin extends Admin
 {
     protected $formOptions = ['validation_groups' => ['Profile']];
 
+    /**
+     * Create/Update form
+     *
+     * @param FormMapper $formMapper
+     */
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
@@ -31,7 +36,11 @@ class UserAdmin extends Admin
         }
     }
 
-    // Fields to be shown on filter forms
+    /**
+     * Filters for list
+     *
+     * @param DatagridMapper $datagridMapper
+     */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
@@ -50,7 +59,11 @@ class UserAdmin extends Admin
             );
     }
 
-    // Fields to be shown on lists
+    /**
+     * Show list
+     *
+     * @param ListMapper $listMapper
+     */
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
