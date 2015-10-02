@@ -107,10 +107,12 @@ class Application
      */
     protected $template;
 
+    /**
+     * Application constructor.
+     */
     public function __construct()
     {
         $this->setComponents(new ArrayCollection());
-        $this->setAliases([]);
     }
 
     /**

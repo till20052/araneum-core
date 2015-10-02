@@ -40,7 +40,7 @@ twig:
         locales: %locales%
     form:
         resources:
-          - 'SonataCoreBundle:Form:datepicker.html.twig'
+        - 'SonataCoreBundle:Form:datepicker.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -92,16 +92,16 @@ fos_user:
     firewall_name: main
     user_class: Araneum\Bundle\UserBundle\Entity\User
 
-accelerator_cache:
-    host: %domain%
-    web_dir: %kernel.root_dir%/../web
-
 sonata_block:
     default_contexts: [cms]
     blocks:
         sonata.admin.block.admin_list:
             contexts:   [admin]
-        # Your other blocks
+        sonata.block.service.cluster:
+
+accelerator_cache:
+    host: %domain%
+    web_dir: %kernel.root_dir%/../web
 
 fos_rest:
     routing_loader:

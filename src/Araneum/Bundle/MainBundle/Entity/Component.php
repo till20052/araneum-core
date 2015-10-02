@@ -80,15 +80,15 @@ class Component
 		return $this->id;
 	}
 
-	/**
-	 * Set id
-	 *
-	 * @param mixed $id
-	 * @return mixed
-	 */
-	public function setId($id)
-	{
-		$this->id = $id;
+    /**
+     * Set id
+     *
+     * @param mixed $id
+     * @return mixed
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
 
 		return $this;
 	}
