@@ -92,10 +92,6 @@ fos_user:
     firewall_name: main
     user_class: Araneum\Bundle\UserBundle\Entity\User
 
-sonata_admin:
-    title:      Araneum Core
-    title_logo: favicon.ico
-
 sonata_block:
     default_contexts: [cms]
     blocks:
