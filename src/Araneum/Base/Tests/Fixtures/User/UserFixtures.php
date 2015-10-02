@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Base\Tests\Fixtures\Main;
+namespace Araneum\Base\Tests\Fixtures\User;
 
 use Araneum\Bundle\UserBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
