@@ -36,7 +36,9 @@ class RecursivePagesTest extends BaseController
 	 */
 	private function click($link, $byRequest = false)
 	{
-		$url = parse_url($byRequest ? $link : explode("#", $link->getUri())[0])['path'];
+		$parsedUrl = parse_url($byRequest ? $link : explode("#", $link->getUri())[0]);
+
+		$url = $parsedUrl['path'] . ( ! isset($parsedUrl['query']) ?: '?' . $parsedUrl['query']);
 
 		if(isset($this->register[$url]) || in_array($url, $this->excludedUrls))
 			return;
