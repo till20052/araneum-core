@@ -57,9 +57,9 @@ class RecursivePagesTest extends BaseController
 
 		$this->click($router->generate('sonata_admin_dashboard'), true);
 
-		foreach($this->register as $status)
+		foreach($this->register as $url => $status)
 		{
-			$this->assertTrue(in_array($status, $this->statuses));
+			var_dump($url);
 		}
 	}
 }
