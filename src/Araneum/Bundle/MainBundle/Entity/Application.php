@@ -466,6 +466,11 @@ class Application
         return $this;
     }
 
+    /**
+     * Generate unique key for Application
+     *
+     * @return string
+     */
     private function generateUniqueKey()
     {
         return uniqid(sha1(time()), true);
