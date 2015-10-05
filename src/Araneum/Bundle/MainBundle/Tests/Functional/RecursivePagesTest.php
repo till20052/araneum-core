@@ -5,6 +5,7 @@ namespace Araneum\Bundle\MainBundle\Tests\Functional;
 use Araneum\Base\Tests\Controller\BaseController;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\DomCrawler\Link;
+use Symfony\Component\HttpFoundation\Response;
 
 class RecursivePagesTest extends BaseController
 {
@@ -12,9 +13,22 @@ class RecursivePagesTest extends BaseController
 	 * @var Client.
 	 */
 	private $client;
-	private $statuses = [200, 201, 202, 203, 204, 205, 206, 207, 226];
+
 	private $register = [];
 	private $excludedUrls = [];
+
+	private $success = [
+		Response::HTTP_OK,
+		Response::HTTP_CREATED,
+		Response::HTTP_ACCEPTED,
+		Response::HTTP_NON_AUTHORITATIVE_INFORMATION,
+		Response::HTTP_NO_CONTENT,
+		Response::HTTP_RESET_CONTENT,
+		Response::HTTP_PARTIAL_CONTENT,
+		Response::HTTP_MULTI_STATUS,
+		Response::HTTP_ALREADY_REPORTED,
+		Response::HTTP_IM_USED
+	];
 
 	/**
 	 * @param string|Link $link
@@ -59,7 +73,7 @@ class RecursivePagesTest extends BaseController
 
 		foreach($this->register as $url => $status)
 		{
-			echo $status, "\t", $url, "\n";
+			$this->assertTrue(in_array($status, $this->success), $status . "\t" . $url . "\n");
 		}
 	}
 }
