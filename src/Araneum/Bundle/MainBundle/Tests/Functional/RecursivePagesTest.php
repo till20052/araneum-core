@@ -59,7 +59,7 @@ class RecursivePagesTest extends BaseController
 
 		foreach($this->register as $url => $status)
 		{
-			echo $url, "\t", $url, "\n";
+			echo $status, "\t", $url, "\n";
 		}
 	}
 }
