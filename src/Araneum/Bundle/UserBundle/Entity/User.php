@@ -20,6 +20,7 @@ class User extends BaseUser
 
     const ROLE_USER = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_API = 'ROLE_API';
 
     /**
      * @ORM\Id

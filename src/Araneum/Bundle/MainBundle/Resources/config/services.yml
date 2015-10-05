@@ -1,7 +1,4 @@
-parameters:
-    araneum.main.application.class: Araneum\Bundle\MainBundle\Entity\Application
-
 services:
     araneum.main.handler.application:
         class: Araneum\Bundle\MainBundle\Handler\ApplicationHandler
-        arguments: [@doctrine.orm.entity_manager, %araneum.main.application.class%]
+        arguments: [@doctrine.orm.entity_manager, Araneum\Bundle\MainBundle\Entity\Application]

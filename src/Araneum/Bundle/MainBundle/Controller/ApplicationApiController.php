@@ -34,7 +34,7 @@ class ApplicationApiController extends FOSRestController
      *   tags={"ApplicationApi"}
      * )
      *
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_API')")
      *
      * @Rest\Get("/api/application/config/{apiKey}")
      * @Rest\View(templateVar="application")

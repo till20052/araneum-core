@@ -22,7 +22,18 @@ class AdminData implements FixtureInterface
             $userAdmin->setRoles([User::ROLE_ADMIN]);
             $userAdmin->setEnabled(true);
             $manager->persist($userAdmin);
-            $manager->flush();
         }
+
+        $userApi = $manager->getRepository('AraneumUserBundle:User')->findOneByUsername('apiuser');
+        if (empty($userApi)) {
+            $userApi = new User();
+            $userApi->setUsername('apiuser');
+            $userApi->setPlainPassword('apiuser_321');
+            $userApi->setEmail('apiuser@araneum.dev');
+            $userApi->setRoles([User::ROLE_API]);
+            $userApi->setEnabled(true);
+            $manager->persist($userApi);
+        }
+        $manager->flush();
     }
 }
