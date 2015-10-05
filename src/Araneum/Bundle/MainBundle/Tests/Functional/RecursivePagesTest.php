@@ -4,14 +4,12 @@ namespace Araneum\Bundle\MainBundle\Tests\Functional;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Symfony\Bundle\FrameworkBundle\Client;
-use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Link;
-use Symfony\Component\HttpFoundation\Response;
 
 class RecursivePagesTest extends BaseController
 {
 	/**
-	 * @var Client
+	 * @var Client.
 	 */
 	private $client;
 	private $statuses = [200, 201, 202, 203, 204, 205, 206, 207, 226];
