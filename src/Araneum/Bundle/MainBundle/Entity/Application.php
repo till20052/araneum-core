@@ -461,7 +461,7 @@ class Application
      */
     public function setApiKey($apiKey = null)
     {
-        is_null($apiKey) ? $this->apiKey = $this->generateUniqueKey() : $this->apiKey = $apiKey;
+        $this->apiKey = is_null($apiKey) ? $this->generateUniqueKey() : $apiKey;
 
         return $this;
     }
