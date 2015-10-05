@@ -5,7 +5,7 @@ namespace Araneum\Bundle\MainBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ApplicationApiController extends FOSRestController
 {
@@ -34,7 +34,9 @@ class ApplicationApiController extends FOSRestController
      *   tags={"ApplicationApi"}
      * )
      *
-     * @Rest\Get("/api/application/config/get/{apiKey}")
+     * @Security("has_role('ROLE_ADMIN')")
+     *
+     * @Rest\Get("/api/application/config/{apiKey}")
      * @Rest\View(templateVar="application")
      *
      * @param string $apiKey The application apiKey
@@ -42,10 +44,6 @@ class ApplicationApiController extends FOSRestController
      */
     public function getConfigAction($apiKey)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-
         return $this->container
             ->get('araneum.main.handler.application')
             ->get($apiKey);

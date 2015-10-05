@@ -23,6 +23,5 @@ _knp_rad_assistant:
 
 api:
     resource: '@AraneumMainBundle/Controller/ApplicationApiController.php'
-#    prefix: /api/application
     type: rest
     defaults: {_format: json}

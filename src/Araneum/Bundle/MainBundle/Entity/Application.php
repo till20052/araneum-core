@@ -108,7 +108,7 @@ class Application
     protected $template;
 
     /**
-     * @ORM\Column(type="string", name="api_key", length=255)
+     * @ORM\Column(type="string", name="api_key", length=70)
      */
     protected $apiKey;
 
