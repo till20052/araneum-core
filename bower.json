@@ -13,6 +13,8 @@
   ],
   "dependencies": {
     "angular": "angularjs#~1.4.5",
-    "bootstrap": "~3.3.5"
+    "bootstrap": "~3.3.5",
+    "jquery-validation": "~1.14.0"
+
   }
 }

@@ -14,3 +14,4 @@ actions: Actions
 remember_me: Remember me
 sign_in: Sign in
 to: to
+field_required: Fild required
