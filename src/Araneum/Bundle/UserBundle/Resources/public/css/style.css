@@ -36,6 +36,10 @@ body {
     margin-right: 30px;
 }
 
+.pull-left {
+    margin-bottom: 13px;
+}
+
 #msgbox li {
     list-style: none;
 }

@@ -16,26 +16,6 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <strong>{{ 'sign_in'|trans }} {{ 'to'|trans }} Araneum.Core</strong>
-
-                        <div class="dropdown">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                Lang
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                {% for locale in locales|split('|') %}
-                                    <li role="presentation">
-                                        <a role="menuitem" href="{{ url(
-                                        app.request.get('_route'),
-                                        app.request.attributes.get('_route_params')|merge({'_locale': locale })
-                                        ) }}">
-                                            {{ locale|capitalize }}
-                                        </a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
                     </div>
                     <div class="panel-body">
                         <form role="form" action="{{ path("fos_user_security_check") }}" id="loginForm" method="POST">
