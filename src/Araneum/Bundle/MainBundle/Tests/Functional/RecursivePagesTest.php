@@ -3,38 +3,65 @@
 namespace Araneum\Bundle\MainBundle\Tests\Functional;
 
 use Araneum\Base\Tests\Controller\BaseController;
+use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\DomCrawler\Link;
+use Symfony\Component\HttpFoundation\Response;
 
 class RecursivePagesTest extends BaseController
 {
+	/**
+	 * @var Client
+	 */
+	private $client;
+	private $statuses = [200, 201, 202, 203, 204, 205, 206, 207, 226];
 	private $register = [];
+	private $excludedUrls = [];
+
+	/**
+	 * @param string|Link $link
+	 * @param bool|false $byRequest
+	 */
+	private function click($link, $byRequest = false)
+	{
+		$url = $byRequest ? $link : explode("#", $link->getUri())[0];
+
+		if(isset($this->register[$url]) || in_array($url, $this->excludedUrls))
+			return;
+
+		$crawler = $byRequest
+			? $this->client->request('GET', $url)
+			: $this->client->click($link);
+
+		$this->register[$url] = $this->client->getResponse()->getStatusCode();
+
+		foreach($crawler->filter('a')->links() as $token)
+		{
+			$this->click($token);
+		}
+	}
 
 	/**
 	 * @runInSeparateProcess
 	 */
 	public function testPages()
 	{
-		$client = $this->createAdminAuthorizedClient();
+		$this->client = $this->createAdminAuthorizedClient();
 
-		$crawler = $client
-			->request('GET',
-				$client
-					->getContainer()
-					->get('router')
-					->generate('sonata_admin_dashboard')
-			);
+		$container = $this->client->getContainer();
 
-		$list = $crawler->filter('a')->each(function($node){
-			return $node->link();
-		});
+		$router = $container->get('router');
 
-		$titles = [];
-		foreach($list as $link)
+		foreach(explode('|', $container->getParameter('locales')) as $locale)
 		{
-			$crawler = $client->click($link);
-
-			$titles[] = trim($crawler->filter('head > title')->text());
+			$this->excludedUrls[] = $router->generate('fos_user_security_logout', ['_locale' => $locale]);
 		}
 
-		var_dump($titles);die;
+		$this->click($router->generate('sonata_admin_dashboard'), true);
+
+		foreach($this->register as $status)
+		{
+			$this->assertTrue(in_array($status, $this->statuses));
+		}
 	}
 }
