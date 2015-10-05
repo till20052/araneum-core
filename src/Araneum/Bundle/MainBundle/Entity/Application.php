@@ -108,11 +108,17 @@ class Application
     protected $template;
 
     /**
+     * @ORM\Column(type="string", name="api_key", length=255)
+     */
+    protected $apiKey;
+
+    /**
      * Application constructor.
      */
     public function __construct()
     {
         $this->setComponents(new ArrayCollection());
+        $this->setApiKey();
     }
 
     /**
@@ -435,6 +441,34 @@ class Application
         $this->template = $template;
 
         return $this;
+    }
+
+    /**
+     * Get apiKey
+     *
+     * @return mixed
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * Set apiKey
+     *
+     * @param mixed $apiKey
+     * @return mixed
+     */
+    public function setApiKey($apiKey = null)
+    {
+        is_null($apiKey) ? $this->apiKey = $this->generateUniqueKey() : $this->apiKey = $apiKey;
+
+        return $this;
+    }
+
+    private function generateUniqueKey()
+    {
+        return uniqid(sha1(time()), true);
     }
 
     /**

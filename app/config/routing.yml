@@ -20,4 +20,9 @@ NelmioApiDocBundle:
 _knp_rad_assistant:
     resource: "@KnpRadBundle/Resources/config/routing/assistant.xml"
     prefix: /_assistant
-    
+
+api:
+    resource: '@AraneumMainBundle/Controller/ApplicationApiController.php'
+#    prefix: /api/application
+    type: rest
+    defaults: {_format: json}
