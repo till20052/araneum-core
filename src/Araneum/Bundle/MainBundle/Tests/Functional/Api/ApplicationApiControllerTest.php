@@ -20,7 +20,7 @@ class ApplicationApiControllerTest extends BaseController
      */
     public function testGet()
     {
-        $client = self::createAdminAuthorizedClient('apiuser');
+        $client = self::createAdminAuthorizedClient('api');
 
         $client->request(
             'GET',
