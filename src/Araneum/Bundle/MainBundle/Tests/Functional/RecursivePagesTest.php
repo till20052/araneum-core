@@ -23,19 +23,6 @@ class RecursivePagesTest extends BaseController
 	private $register = [];
 	private $excludedUrls = [];
 
-	private $success = [
-		Response::HTTP_OK,
-		Response::HTTP_CREATED,
-		Response::HTTP_ACCEPTED,
-		Response::HTTP_NON_AUTHORITATIVE_INFORMATION,
-		Response::HTTP_NO_CONTENT,
-		Response::HTTP_RESET_CONTENT,
-		Response::HTTP_PARTIAL_CONTENT,
-		Response::HTTP_MULTI_STATUS,
-		Response::HTTP_ALREADY_REPORTED,
-		Response::HTTP_IM_USED
-	];
-
 	/**
 	 * Prepare url
 	 *
