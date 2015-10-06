@@ -29,7 +29,8 @@
         "friendsofsymfony/rest-bundle": "^1.7",
         "nelmio/api-doc-bundle": "^2.9",
         "jms/serializer-bundle": "^1.0",
-        "lexik/maintenance-bundle": "^1.0"
+        "lexik/maintenance-bundle": "^1.0",
+        "oldsound/rabbitmq-bundle": "1.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
