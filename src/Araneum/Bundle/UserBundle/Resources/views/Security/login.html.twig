@@ -2,9 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {% stylesheets '@AraneumUserBundle/Resources/public/css/style.css' %}
-    <link rel="stylesheet" href="{{ asset_url }}"/>
-    {% endstylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/araneumuser/css/style.css') }}"/>
 {% endblock %}
 
 {% block body %}
@@ -21,9 +19,8 @@
                             <fieldset>
                                 <div class="row">
                                     <div class="center-block">
-                                        {% image '@AraneumUserBundle/Resources/public/images/no-user.png' %}
-                                        <img class="profile-img" src="{{ asset_url }}" alt=""/>
-                                        {% endimage %}
+                                        <img class="profile-img"
+                                             src="{{ asset('bundles/araneumuser/images/no-user.png') }}" alt=""/>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -88,9 +85,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% javascripts
-    'assets/vendor/jquery-validation/dist/jquery.validate.min.js'
-    '@AraneumUserBundle/Resources/public/js/validateLogin.js' %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    <script src="{{ asset('assets/vendor/jquery-validation/dist/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('bundles/araneumuser/js/validateLogin.js') }}"></script>
 {% endblock %}
