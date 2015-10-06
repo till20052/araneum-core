@@ -96,7 +96,7 @@ class RecursivePagesTest extends BaseController
 		$this->router = $container->get('router');
 		$locales = explode('|', $container->getParameter('locales'));
 
-		foreach(['fos_user_security_logout', 'admin_araneum_user_user_export'] as $token)
+		foreach(['fos_user_security_logout'] as $token)
 		{
 			foreach($locales as $locale)
 			{
