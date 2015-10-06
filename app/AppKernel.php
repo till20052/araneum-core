@@ -28,9 +28,11 @@ class AppKernel extends Kernel
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+            new Lexik\Bundle\MaintenanceBundle\LexikMaintenanceBundle(),
 
             new Araneum\Bundle\MainBundle\AraneumMainBundle(),
             new Araneum\Bundle\UserBundle\AraneumUserBundle(),
+            new Araneum\Bundle\MailBundle\AraneumMailBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -92,6 +92,10 @@ fos_user:
     firewall_name: main
     user_class: Araneum\Bundle\UserBundle\Entity\User
 
+sonata_admin:
+    title:      Araneum Core
+    title_logo: favicon.ico
+
 sonata_block:
     default_contexts: [cms]
     blocks:
@@ -107,3 +111,8 @@ fos_rest:
         default_format: json
 
 nelmio_api_doc: ~
+
+lexik_maintenance:
+    driver:
+        class: '\Lexik\Bundle\MaintenanceBundle\Drivers\FileDriver' # class for file driver
+        options: {file_path: %kernel.root_dir%/cache/lock}          # file_path is the complete path for create the file
