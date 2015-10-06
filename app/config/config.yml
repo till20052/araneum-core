@@ -46,7 +46,6 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: true
-    bundles:        [FOSUserBundle]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
