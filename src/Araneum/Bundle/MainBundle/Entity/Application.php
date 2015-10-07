@@ -438,10 +438,12 @@ class Application
     }
 
     /**
-     * To string
+     * Convert entity to string
+     *
+     * @return string
      */
     public function __toString()
     {
-        return $this->getName();
+        return $this->name ?: 'Create Application';
     }
 }
