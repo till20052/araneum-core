@@ -107,6 +107,5 @@ class ApplicationHandlerTest extends BaseController
     {
         $applicationHandler = new ApplicationHandler($this->manager, self::APP_CLASS);
         $applicationHandler->get(self::API_KEY);
-        throw new NotFoundHttpException('Not Application found for this apiKey');
     }
 }
