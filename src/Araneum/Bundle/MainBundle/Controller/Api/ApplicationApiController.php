@@ -1,11 +1,13 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Controller;
+namespace Araneum\Bundle\MainBundle\Controller\Api;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ApplicationApiController extends FOSRestController
 {
@@ -35,9 +37,9 @@ class ApplicationApiController extends FOSRestController
      *   tags={"ApplicationApi"}
      * )
      *
-     * @Security("has_role('ROLE_API')")
+     * @Route("/application/config/{apiKey}", name="araneum_main_api_application")
+     * @Method({"GET"})
      *
-     * @Rest\Get("/api/application/config/{apiKey}")
      * @Rest\View(templateVar="application")
      *
      * @param string $apiKey The application apiKey
