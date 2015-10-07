@@ -1,0 +1,9 @@
+first_name: First name
+last_name: Last name
+country: Country
+email: E-mail
+phone: Phone
+callback: Callback
+created_at: Created at
+delivered_at: Delivered at
+application: Application

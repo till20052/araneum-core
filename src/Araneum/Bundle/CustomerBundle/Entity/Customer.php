@@ -5,6 +5,8 @@ namespace Araneum\Bundle\CustomerBundle\Entity;
 use Araneum\Base\EntityTrait\DateTrait;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Customer
@@ -12,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table("araneum_customers")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\CustomerBundle\Repository\CustomerRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields="email")
  */
 class Customer
 {
@@ -58,6 +61,7 @@ class Customer
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @Assert\Email()
      */
     private $email;
 
@@ -75,6 +79,12 @@ class Customer
      */
     private $callback;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", name="delivered_at", nullable=true)
+     */
+    private $deliveredAt;
 
     /**
      * Get id
@@ -245,5 +255,25 @@ class Customer
     public function getCallback()
     {
         return $this->callback;
+    }
+
+    /**
+     * @return null|\DateTime
+     */
+    public function getDeliveredAt()
+    {
+        return $this->deliveredAt;
+    }
+
+    /**
+     * @param null|\DateTime $deliveredAt
+     *
+     * @return $this
+     */
+    public function setDeliveredAt($deliveredAt)
+    {
+        $this->deliveredAt = $deliveredAt;
+
+        return $this;
     }
 }
