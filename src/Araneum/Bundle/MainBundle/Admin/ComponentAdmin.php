@@ -25,6 +25,15 @@ class ComponentAdmin extends Admin
                 ]
             )
             ->add(
+                'applications',
+                'sonata_type_model',
+                [
+                    'multiple' => true,
+                    'by_reference' => false,
+                    'required' => false
+                ]
+            )
+            ->add(
                 'description',
                 'textarea',
                 [
@@ -70,6 +79,14 @@ class ComponentAdmin extends Admin
                 null,
                 [
                     'label' => 'name',
+                    'editable' => true
+                ]
+            )
+            ->add(
+                'applications',
+                null,
+                [
+                    'labels' => 'applications',
                     'editable' => true
                 ]
             )
@@ -131,6 +148,13 @@ class ComponentAdmin extends Admin
                 null,
                 [
                     'label' => 'name'
+                ]
+            )
+            ->add(
+                'applications',
+                null,
+                [
+                    'label' => 'applications'
                 ]
             )
             ->add(

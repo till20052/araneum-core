@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+
 /**
  * Class Component
  * @package Entity
@@ -44,8 +45,9 @@ class Component
 	protected $description;
 
 	/**
-	 * @var ArrayCollection
-	 * @ORM\ManyToMany(targetEntity="Application", mappedBy="components", cascade={"persist"})
+	 * @var
+	 * @ORM\ManyToMany(targetEntity="Application", inversedBy="components", cascade={"persist"})
+	 * @ORM\JoinTable(name="araneum_component_application")
 	 */
 	protected $applications;
 
@@ -67,7 +69,6 @@ class Component
 	public function __construct()
 	{
 		$this->setOptions([]);
-		$this->setApplications(new ArrayCollection());
 	}
 
 	/**
@@ -220,10 +221,10 @@ class Component
 	/**
 	 * Set Applications
 	 *
-	 * @param ArrayCollection $applications
+	 * @param $applications
 	 * @return Component
 	 */
-	public function setApplications(ArrayCollection $applications)
+	public function setApplications($applications)
 	{
 		$this->applications = $applications;
 

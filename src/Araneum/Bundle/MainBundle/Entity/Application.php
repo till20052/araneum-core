@@ -436,4 +436,12 @@ class Application
 
         return $this;
     }
+
+    /**
+     * To string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }
