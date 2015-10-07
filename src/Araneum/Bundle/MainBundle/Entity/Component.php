@@ -56,7 +56,7 @@ class Component
 	protected $enabled;
 
 	/**
-	 * @ORM\Column(type="boolean", name="`default`")
+	 * @ORM\Column(type="boolean", name="`default`" )
 	 * @Assert\Type(type="boolean")
 	 */
 	protected $default;
@@ -296,13 +296,13 @@ class Component
 		return $this;
 	}
 
-    /**
-     * Get Name of Component
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->name;
-    }
+	/**
+	 * Convert entity to string
+	 *
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->name ?: 'Create Component';
+	}
 }
