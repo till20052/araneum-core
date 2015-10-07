@@ -1,7 +1,3 @@
-araneum_customer:
-    resource: "@AraneumCustomerBundle/Resources/config/routing.yml"
-    prefix:   /
-
 araneum_root:
     path: /
     defaults:

@@ -1,3 +1,0 @@
-araneum_customer_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: AraneumCustomerBundle:Default:index }
