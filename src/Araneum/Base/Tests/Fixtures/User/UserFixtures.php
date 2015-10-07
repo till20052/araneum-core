@@ -21,7 +21,10 @@ class UserFixtures extends AbstractFixture implements FixtureInterface
     const TEST_USER_ENABLED_FILTER  = true;
     const TEST_USER_NAME_UPDATE     = 'TestUserNameForUpdate';
     const TEST_USER_EMAIL_UPDATE    = 'TestUserEmailForUpdate@test.com';
-  
+    const ADMIN_USER_NAME     = "AdminName";
+    const ADMIN_USER_PASSWORD = 'admin_123';
+
+
     /**
      * {@inheritDoc}
      */
@@ -101,6 +104,17 @@ class UserFixtures extends AbstractFixture implements FixtureInterface
             $emptyUser->setRoles(['ROLE_ADMIN']);
             $emptyUser->setEnabled(true);
             $manager->persist($emptyUser);
+        }
+
+        $adminUser = $manager->getRepository('AraneumUserBundle:User')->findOneByUsername(self::ADMIN_USER_NAME);
+        if (empty($adminUser)) {
+            $adminUser = new User();
+            $adminUser->setUsername(self::ADMIN_USER_NAME);
+            $adminUser->setPlainPassword(self::ADMIN_USER_PASSWORD);
+            $adminUser->setEmail('adminuser@araneum.dev');
+            $adminUser->setRoles(['ROLE_ADMIN']);
+            $adminUser->setEnabled(true);
+            $manager->persist($adminUser);
         }
 
         $manager->flush();
