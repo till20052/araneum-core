@@ -34,6 +34,7 @@ class AppKernel extends Kernel
             new Araneum\Bundle\MainBundle\AraneumMainBundle(),
             new Araneum\Bundle\UserBundle\AraneumUserBundle(),
             new Araneum\Bundle\MailBundle\AraneumMailBundle(),
+            new Araneum\Bundle\CustomerBundle\AraneumCustomerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
