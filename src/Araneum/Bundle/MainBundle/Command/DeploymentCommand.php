@@ -33,7 +33,6 @@ class DeploymentCommand extends ContainerAwareCommand
         $commands = [
             'doctrine:cache:clear-metadata' => [],
             'doctrine:cache:clear-query' => [],
-            'doctrine:cache:clear-result' => [],
             'cache:accelerator:clear' => [],
             'cache:clear' => [
                 '--no-debug' => true
