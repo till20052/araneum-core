@@ -113,31 +113,3 @@ fos_rest:
         view_response_listener: true
 
 nelmio_api_doc: ~
-
-old_sound_rabbit_mq:
-    connections:
-        default:
-            host:     '192.168.70.137'
-            port:     5672
-            user:     'core_araneum'
-            password: 'core_araneum'
-            vhost:    '/'
-            lazy:     true
-            connection_timeout: 3
-            read_write_timeout: 3
-
-            # requires php-amqplib v2.4.1+ and PHP5.4+
-            keepalive: false
-
-            # requires php-amqplib v2.4.1+
-            heartbeat: 0
-    producers:
-        upload_picture:
-            connection:       default
-            exchange_options: {name: 'upload-picture', type: direct}
-    consumers:
-        upload_picture:
-            connection:       default
-            exchange_options: {name: 'upload-picture', type: direct}
-            queue_options:    {name: 'upload-picture'}
-            callback:         upload_picture_service
