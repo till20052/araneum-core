@@ -114,4 +114,25 @@ class UserAdmin extends Admin
                 ]
             );
     }
+
+    /**
+     * Get list of field for export
+     *
+     * @return array
+     */
+    public function getExportFields()
+    {
+        return [
+            'id',
+            'fullName',
+            'username',
+            'email',
+            'enabled',
+            'locked',
+            'lastLogin',
+            'roles',
+            'createdAt',
+            'updatedAt',
+        ];
+    }
 }
