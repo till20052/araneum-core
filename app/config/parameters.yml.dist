@@ -18,6 +18,7 @@ parameters:
     mailer_auth_mode:  login
 
     domain: http://core.mc.araneum.dev
+    session_prefix: core.mc.araneum.dev
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
