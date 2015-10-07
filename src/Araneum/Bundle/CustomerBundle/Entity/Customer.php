@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Customer
  *
- * @ORM\Table()
+ * @ORM\Table("araneum_customers")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\CustomerBundle\Repository\CustomerRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -50,7 +50,7 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="country", type="string", length=255, nullable=true)
+     * @ORM\Column(name="country", type="string", length=32, nullable=true)
      */
     private $country;
 
