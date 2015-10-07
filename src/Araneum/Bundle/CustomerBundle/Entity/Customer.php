@@ -89,10 +89,10 @@ class Customer
     /**
      * Set application
      *
-     * @param integer $application
+     * @param Application $application
      * @return Customer
      */
-    public function setApplication($application)
+    public function setApplication(Application $application)
     {
         $this->application = $application;
 
@@ -102,7 +102,7 @@ class Customer
     /**
      * Get application
      *
-     * @return integer 
+     * @return Application
      */
     public function getApplication()
     {
