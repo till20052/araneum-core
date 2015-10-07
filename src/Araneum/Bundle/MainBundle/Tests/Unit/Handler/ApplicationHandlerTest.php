@@ -6,6 +6,7 @@ use Araneum\Base\Tests\Controller\BaseController;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Handler\ApplicationHandler;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ApplicationHandlerTest extends BaseController
 {
@@ -93,5 +94,17 @@ class ApplicationHandlerTest extends BaseController
         $appConfig = $applicationHandler->get(self::API_KEY);
 
         $this->assertEquals($testAppConfig, $appConfig);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @expectedExceptionCode \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND
+     * @expectedExceptionMessage Not Application found for this apiKey
+     */
+    public function testGetException()
+    {
+        $applicationHandler = new ApplicationHandler($this->manager, self::APP_CLASS);
+        $applicationHandler->get(self::API_KEY);
+        throw new NotFoundHttpException('Not Application found for this apiKey');
     }
 }

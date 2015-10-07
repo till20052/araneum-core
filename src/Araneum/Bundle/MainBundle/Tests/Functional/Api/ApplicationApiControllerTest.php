@@ -32,31 +32,45 @@ class ApplicationApiControllerTest extends BaseController
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
-        $this->assertTrue(isset($decoded['id']));
-        $this->assertTrue(isset($decoded['name']));
-        $this->assertTrue(isset($decoded['aliases']));
-        $this->assertTrue(isset($decoded['domain']));
-        $this->assertTrue(isset($decoded['public']));
-        $this->assertTrue(isset($decoded['enabled']));
-        $this->assertTrue(isset($decoded['status']));
-        $this->assertTrue(isset($decoded['template']));
-        $this->assertTrue(isset($decoded['db']));
-        $this->assertTrue(isset($decoded['locale']));
-        $this->assertTrue(isset($decoded['components']));
-        $this->assertTrue(isset($decoded['cluster']));
-        $this->assertTrue(isset($decoded['owner']));
-        $this->assertTrue(is_int($decoded['id']));
-        $this->assertTrue(is_string($decoded['name']));
-        $this->assertTrue(is_string($decoded['aliases']));
-        $this->assertTrue(is_string($decoded['domain']));
-        $this->assertTrue(is_bool($decoded['public']));
-        $this->assertTrue(is_bool($decoded['enabled']));
-        $this->assertTrue(is_int($decoded['status']));
-        $this->assertTrue(is_string($decoded['template']));
-        $this->assertTrue(is_array($decoded['db']));
-        $this->assertTrue(is_array($decoded['locale']));
-        $this->assertTrue(is_array($decoded['components']));
-        $this->assertTrue(is_array($decoded['cluster']));
-        $this->assertTrue(is_array($decoded['owner']));
+        $arrayStructure = $this->getArrayStructure();
+        foreach ($arrayStructure as $k => $v) {
+            $this->assertTrue(isset($decoded[$k]));
+            if ($arrayStructure[$k] == 'int') {
+                $this->assertTrue(is_int($decoded[$k]));
+            }
+            if ($arrayStructure[$k] == 'string') {
+                $this->assertTrue(is_string($decoded[$k]));
+            }
+            if ($arrayStructure[$k] == 'bool') {
+                $this->assertTrue(is_bool($decoded[$k]));
+            }
+            if ($arrayStructure[$k] == 'array') {
+                $this->assertTrue(is_array($decoded[$k]));
+            }
+        }
+    }
+
+    /**
+     * Get array structure for checked
+     *
+     * @return array
+     */
+    private function getArrayStructure()
+    {
+        return [
+            'id' => 'int',
+            'name' => 'string',
+            'aliases' => 'string',
+            'domain' => 'string',
+            'public' => 'bool',
+            'enabled' => 'bool',
+            'status' => 'int',
+            'template' => 'string',
+            'db' => 'array',
+            'locale' => 'array',
+            'components' => 'array',
+            'cluster' => 'array',
+            'owner' => 'array'
+        ];
     }
 }

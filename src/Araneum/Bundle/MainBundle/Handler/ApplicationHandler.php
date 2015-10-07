@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\MainBundle\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ApplicationHandler
@@ -37,7 +38,7 @@ class ApplicationHandler
         $entity = $this->repository->findOneBy(['apiKey' => $apiKey]);
 
         if (!$entity) {
-            throw new NotFoundHttpException('Not Application found for this apiKey');
+            throw new NotFoundHttpException('Not Application found for this apiKey', null, Response::HTTP_NOT_FOUND);
         }
 
         $application =

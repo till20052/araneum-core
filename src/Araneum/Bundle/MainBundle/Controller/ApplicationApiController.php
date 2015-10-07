@@ -13,7 +13,8 @@ class ApplicationApiController extends FOSRestController
      * Get Application config by apiKey
      *
      * @ApiDoc(
-     *   resource = true,
+     *   resource = "Application",
+     *   section = "MainBundle",
      *   description = "Gets a Application config for a given key",
      *   output = "Araneum\Bundle\MainBundle\Entity\Application",
      *   statusCodes = {
