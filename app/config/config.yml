@@ -119,12 +119,12 @@ lexik_maintenance:
 old_sound_rabbit_mq:
     connections:
         default:
-            host:     192.168.70.137
+            host:     127.0.0.1
             port:     5672
-            user:     'core_araneum'
-            password: 'core_araneum'
+            user:     'guest'
+            password: 'guest'
             vhost:    '/'
-            lazy:     true
+            lazy:     false
             connection_timeout: 3
             read_write_timeout: 3
 
