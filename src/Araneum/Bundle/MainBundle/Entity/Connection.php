@@ -74,7 +74,7 @@ class Connection
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Cluster", mappedBy="connection", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Cluster", mappedBy="connection", cascade={"detach"})
      */
     protected $clusters;
 
