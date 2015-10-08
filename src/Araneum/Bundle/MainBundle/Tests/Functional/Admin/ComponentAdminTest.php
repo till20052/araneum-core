@@ -106,6 +106,8 @@ class ComponentAdminTest extends BaseAdminController
                 [
                     'name' => md5(microtime(true)),
                     'description' => '',
+                    'options][0][key' => 'test_option_update_key_1',
+                    'options][0][value' => 'test_option_update_value_1',
                     'enabled' => true,
                     'default' => true,
                 ],
