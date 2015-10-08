@@ -20,9 +20,7 @@ class ComponentAdmin extends Admin
             ->add(
                 'name',
                 'text',
-                [
-                    'label' => 'name'
-                ]
+                ['label' => 'name']
             )
             ->add(
                 'applications',
@@ -70,9 +68,7 @@ class ComponentAdmin extends Admin
             ->addIdentifier(
                 'id',
                 null,
-                [
-                    'label' => 'ID'
-                ]
+                ['label' => 'ID']
             )
             ->add(
                 'name',
@@ -146,37 +142,27 @@ class ComponentAdmin extends Admin
             ->add(
                 'name',
                 null,
-                [
-                    'label' => 'name'
-                ]
+                ['label' => 'name']
             )
             ->add(
                 'applications',
                 null,
-                [
-                    'label' => 'applications'
-                ]
+                ['label' => 'applications']
             )
             ->add(
                 'description',
                 null,
-                [
-                    'label' => 'description'
-                ]
+                ['label' => 'description']
             )
             ->add(
                 'enabled',
                 null,
-                [
-                    'label' => 'enabled'
-                ]
+                ['label' => 'enabled']
             )
             ->add(
                 'default',
                 null,
-                [
-                    'label' => 'default'
-                ]
+                ['label' => 'default']
             )
             ->add(
                 'createdAt',

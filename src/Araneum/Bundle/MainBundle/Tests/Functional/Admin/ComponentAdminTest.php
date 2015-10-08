@@ -27,7 +27,6 @@ class ComponentAdminTest extends BaseAdminController
         $application = $manager->getRepository('AraneumMainBundle:Application')
             ->findOneByName(ApplicationFixtures::TEST_APP_NAME);
 
-
         return [
             'Simple component creation' => [
                 [

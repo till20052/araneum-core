@@ -43,7 +43,7 @@ class Cluster
     protected $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Connection", inversedBy="cluster", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Connection", invercedBy="cluster", cascade={"persist"})
      * @ORM\JoinTable(name="araneum_cluster_connection")
      */
     protected $hosts;
