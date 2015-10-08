@@ -74,7 +74,7 @@ class Connection
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Cluster", mappetBy="hosts", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Cluster", mappedBy="hosts", cascade={"persist"})
      */
     protected $clusters;
 
