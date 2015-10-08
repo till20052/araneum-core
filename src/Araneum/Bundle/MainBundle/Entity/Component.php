@@ -139,15 +139,10 @@ class Component
 		return $this;
 	}
 
-	/**
-	 * Add option
-	 *
-	 * @param array
-	 */
-	public function addOption(array $val)
+
+	public function addOption($value)
 	{
-		foreach ($val as $key => $value)
-			$this->options[$key] = $value;
+		$this->options[] = $value;
 	}
 
 	/**
