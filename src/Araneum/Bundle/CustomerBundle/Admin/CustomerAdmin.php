@@ -17,42 +17,56 @@ class CustomerAdmin extends Admin
 	protected function configureFormFields(FormMapper $form)
 	{
 		$form
-			->add('firstName', 'text',
+			->add(
+				'firstName',
+				'text',
 				[
 					'label' => 'first_name',
 					'required' => false
 				]
 			)
-			->add('lastName', 'text',
+			->add(
+				'lastName',
+				'text',
 				[
 					'label' => 'last_name',
 					'required' => false
 				]
 			)
-			->add('country', 'text',
+			->add(
+				'country',
+				'text',
 				[
 					'label' => 'country',
 					'required' => false
 				]
 			)
 			->add('email', 'text', ['label' => 'email'])
-			->add('phone', 'text',
+			->add(
+				'phone',
+				'text',
 				[
 					'label' => 'phone',
 					'required' => false
 				]
 			)
-			->add('callback', 'checkbox',
+			->add(
+				'callback',
+				'checkbox',
 				[
 					'label' => 'callback',
 					'required' => false
 				]
 			)
-			->add('deliveredAt', 'sonata_type_date_picker', [
-				'format' => 'MM/dd/yyyy',
-				'label' => 'delivered_at',
-				'required' => false
-			])
+			->add(
+				'deliveredAt',
+				'sonata_type_date_picker',
+				[
+					'format' => 'MM/dd/yyyy',
+					'label' => 'delivered_at',
+					'required' => false
+				]
+			)
 			->end()
 			->with('application')
 				->add('application', 'sonata_type_model', ['label' => 'application'])
@@ -69,38 +83,50 @@ class CustomerAdmin extends Admin
 	{
 		$list
 			->addIdentifier('id')
-			->add('firstName', null,
+			->add(
+				'firstName',
+				null,
 				[
 					'label' => 'first_name',
 					'editable' => true
 				]
 			)
-			->add('lastName', null,
+			->add(
+				'lastName',
+				null,
 				[
 					'label' => 'last_name',
 					'editable' => true
 				]
 			)
 			->add('email', null, ['label' => 'email'])
-			->add('phone', null,
+			->add(
+				'phone',
+				null,
 				[
 					'label' => 'phone',
 					'editable' => true
 				]
 			)
-			->add('country', null,
+			->add(
+				'country',
+				null,
 				[
 					'label' => 'country',
 					'editable' => true
 				]
 			)
-			->add('createdAt', 'datetime',
+			->add(
+				'createdAt',
+				'datetime',
 				[
 					'label' => 'created_at',
 					'format' => 'm/d/Y'
 				]
 			)
-			->add('deliveredAt', 'datetime',
+			->add(
+				'deliveredAt',
+				'datetime',
 				[
 					'label' => 'delivered_at',
 					'format' => 'm/d/Y',
@@ -135,21 +161,27 @@ class CustomerAdmin extends Admin
 			->add('email', null, ['label' => 'email'])
 			->add('phone', null, ['label' => 'phone'])
 			->add('country', null, ['label' => 'country'])
-			->add('createdAt', 'doctrine_orm_datetime_range',
+			->add(
+				'createdAt',
+				'doctrine_orm_datetime_range',
 				[
 					'label' => 'created_at',
 					'field_type' => 'sonata_type_datetime_range_picker'
-				], null,
+				],
+				null,
 				[
 					'widget' => 'single_text',
 					'format' => 'MM/dd/yyyy'
 				]
 			)
-			->add('deliveredAt', 'doctrine_orm_datetime_range',
+			->add(
+				'deliveredAt',
+				'doctrine_orm_datetime_range',
 				[
 					'label' => 'delivered_at',
 					'field_type' => 'sonata_type_datetime_range_picker'
-				], null,
+				],
+				null,
 				[
 					'widget' => 'single_text',
 					'format' => 'MM/dd/yyyy'
