@@ -13,3 +13,10 @@ last_login: Последний логин
 actions: Дейстия
 date_range_start: С
 date_range_end: До
+remember_me: Запомнить меня
+sign_in: Войти
+to: в
+field_required: Поле обязательно
+type_username_or_email: Введите логин или Email
+username_or_email: Логин или Email
+sign_in: Войти

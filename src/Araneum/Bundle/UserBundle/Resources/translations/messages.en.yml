@@ -11,3 +11,12 @@ created_at: Created
 updated_at: Updated
 last_login: Last login
 actions: Actions
+date_range_start: From
+date_range_end: To
+remember_me: Remember me
+sign_in: Sign in
+to: to
+field_required: Fild required
+type_username_or_email: Type username or Email
+username_or_email: Username or Email
+sign_in: Sign in
