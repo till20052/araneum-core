@@ -3646,7 +3646,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "snc/redis-bundle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
