@@ -119,6 +119,7 @@ old_sound_rabbit_mq:
             lazy:     true
             connection_timeout: 3
             read_write_timeout: 3
+
             keepalive: false
             heartbeat: 0
 
