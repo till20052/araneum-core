@@ -7,7 +7,8 @@ $(document).ready(function () {
             },
             'fos_user_resetting_form[new][second]': {
                 required: true,
-                minlength: 3
+                minlength: 3,
+                equalTo: "#fos_user_resetting_form_new_first"
             }
         },
         errorElement: 'p',
