@@ -258,6 +258,8 @@ class Customer
     }
 
     /**
+     * Get deliveredAt
+     *
      * @return null|\DateTime
      */
     public function getDeliveredAt()
@@ -266,8 +268,9 @@ class Customer
     }
 
     /**
-     * @param null|\DateTime $deliveredAt
+     * Set deliveredAt
      *
+     * @param null|\DateTime $deliveredAt
      * @return $this
      */
     public function setDeliveredAt($deliveredAt)
