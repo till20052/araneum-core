@@ -117,7 +117,7 @@ class Component
 	}
 
 	/**
-	 * Get option
+	 * Get options
 	 *
 	 * @return mixed
 	 */
@@ -127,56 +127,16 @@ class Component
 	}
 
 	/**
-	 * Set option
+	 * Set options
 	 *
 	 * @param array $options
-	 * @return mixed
+	 * @return $this
 	 */
 	public function setOptions(array $options)
 	{
 		$this->options = $options;
 
 		return $this;
-	}
-
-
-	public function addOption($value)
-	{
-		$this->options[] = $value;
-	}
-
-	/**
-	 * Get option value by key
-	 *
-	 * @param mixed
-	 * @return mixed
-	 */
-	public function getOptionValueByKey($key)
-	{
-		if ( ! isset($this->options[$key]))
-		{
-			return false;
-		}
-
-		return $this->options[$key];
-	}
-
-	/**
-	 * Remove option by key
-	 *
-	 * @param mixed $key
-	 * @return bool
-	 */
-	public function removeOption($key)
-	{
-		if ( ! isset($this->options[$key]))
-		{
-			return false;
-		}
-
-		unset($this->options[$key]);
-
-		return true;
 	}
 
 	/**

@@ -2,11 +2,15 @@
 
 namespace Araneum\Bundle\MainBundle\Admin;
 
+use Araneum\Bundle\MainBundle\Form\DataTransformer\ComponentOptionsTransformer;
 use Araneum\Bundle\MainBundle\Form\Type\ComponentOptionType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class ComponentAdmin extends Admin
 {
@@ -17,6 +21,31 @@ class ComponentAdmin extends Admin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $subject = $this->getSubject();
+
+        $formMapper
+            ->getFormBuilder()
+            ->addEventListener(
+                FormEvents::POST_SET_DATA,
+                function(FormEvent $event) use ($formMapper, $subject)
+                {
+                    $options = new ArrayCollection();
+
+                    foreach($subject->getOptions() as $key => $value)
+                    {
+                        $options[] = [
+                            'key' => $key,
+                            'value' => $value
+                        ];
+                    }
+
+                    $event
+                        ->getForm()
+                        ->get('options')
+                        ->setData($options);
+                }
+            );
+
         $formMapper
             ->add('name', 'text', ['label' => 'name'])
             ->add(
@@ -35,6 +64,7 @@ class ComponentAdmin extends Admin
                     'type' => new ComponentOptionType(),
                     'allow_add' => true,
                     'allow_delete' => true,
+                    'by_reference' => false,
                     'options' => [
                         'label' => false
                     ]
@@ -56,6 +86,10 @@ class ComponentAdmin extends Admin
                     'required' => false
                 ]
             );
+
+        $formMapper
+            ->get('options')
+            ->addModelTransformer(new ComponentOptionsTransformer());
     }
 
     /**
