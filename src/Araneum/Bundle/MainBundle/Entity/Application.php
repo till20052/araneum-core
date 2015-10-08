@@ -118,7 +118,6 @@ class Application
     public function __construct()
     {
         $this->setComponents(new ArrayCollection());
-        $this->setApiKey();
     }
 
     /**
