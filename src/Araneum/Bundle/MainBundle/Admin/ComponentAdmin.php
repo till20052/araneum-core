@@ -62,7 +62,7 @@ class ComponentAdmin extends Admin
                 'id',
                 null,
                 [
-                    'label' => 'ID'
+                    'label' => 'id'
                 ]
             )
             ->add(

@@ -94,27 +94,29 @@ class ClusterAdmin extends Admin
             ->add(
                 'type',
                 null,
-                [],
+                [
+                    'label' => 'type'
+                ],
                 'choice',
                 [
                     'choices' => [
                         Cluster::TYPE_MULTIPLE => 'multiple',
                         Cluster::TYPE_SINGLE => 'single'
-                    ],
-                    'label' => 'type'
+                    ]
                 ]
             )
             ->add(
                 'status',
                 null,
-                [],
+                [
+                    'label' => 'status'
+                ],
                 'choice',
                 [
                     'choices' => [
                         Cluster::STATUS_ONLINE => 'online',
                         Cluster::STATUS_OFFLINE => 'offline'
-                    ],
-                    'label' => 'status'
+                    ]
                 ]
             )
             ->add('enabled', null, ['label' => 'enabled'])
