@@ -122,12 +122,12 @@ snc_redis:
     clients:
         default:
             type: predis
-            alias: default
+            alias: default_%session_prefix%
             dsn: redis://localhost
             logging: %kernel.debug%
         cache:
             type: predis
-            alias: cache
+            prefix: cache_%session_prefix%
             dsn: redis://secret@localhost/1
             options:
                 profile: 2.2
@@ -144,10 +144,8 @@ snc_redis:
     doctrine:
         metadata_cache:
             client: cache
-            prefix: metadata_%session_prefix%
             entity_manager: default          # the name of your entity_manager connection
             document_manager: default        # the name of your document_manager connection
         query_cache:
             client: cache
-            prefix: query_%session_prefix%
             entity_manager: default
