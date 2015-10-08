@@ -119,30 +119,16 @@ lexik_maintenance:
 old_sound_rabbit_mq:
     connections:
         default:
-            host:     127.0.0.1
+            host:     'localhost'
             port:     5672
-            user:     'guest'
-            password: 'guest'
+            user:     'admin'
+            password: '12345'
             vhost:    '/'
-            lazy:     false
+            lazy:     true
             connection_timeout: 3
             read_write_timeout: 3
-
-            # requires php-amqplib v2.4.1+ and PHP5.4+
             keepalive: false
-
-            # requires php-amqplib v2.4.1+
             heartbeat: 0
-    producers:
-        sample:
-            connection:       default
-            exchange_options: {name: 'sample_exchange', type: direct, auto_delete: false, durable: true}
-    consumers:
-        sample:
-            connection:       default
-            exchange_options: {name: 'sample_exchange', type: direct}
-            queue_options:    {name: 'sample', auto_delete: false}
-            callback:         rabbit.callback.service
 
 snc_redis:
     clients:
