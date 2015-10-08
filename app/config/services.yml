@@ -4,5 +4,6 @@ parameters:
 #    parameter_name: value
 
 services:
-  rabbit.callback.service:
-    class: Araneum\Bundle\MainBundle\RabbitMQ\Callback\Service
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
