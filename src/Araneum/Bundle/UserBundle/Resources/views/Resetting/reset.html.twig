@@ -1,4 +1,8 @@
-{% extends "AraneumUserBundle:Resetting:request.html.twig" %}
+{% extends "AraneumUserBundle:Resetting:resettingBase.html.twig" %}
+
+{% block panel_header %}
+    {{ 'recovery_password'|trans }}
+{% endblock panel_header %}
 
 {% block panel_body %}
 	<form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST"
@@ -44,6 +48,10 @@
 		</fieldset>
 	{{ form_end(form) }}
 {% endblock panel_body %}
+
+{% block panel_footer %}
+    <a href="{{ path('fos_user_security_login') }}">{{ 'sign_in'|trans }}</a>
+{% endblock panel_footer %}
 
 {% block javascripts %}
     {{ parent() }}

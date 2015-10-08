@@ -1,11 +1,4 @@
-{% extends "AraneumUserBundle::signInParent.html.twig" %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    {% stylesheets 'bundles/araneumuser/css/passwordReset.css' %}
-    <link rel="stylesheet" href="{{ asset_url }}"/>
-    {% endstylesheets %}
-{% endblock stylesheets %}
+{% extends "AraneumUserBundle:Resetting:resettingBase.html.twig" %}
 
 {% block panel_header %}
     {{ 'recovery_password'|trans }}
@@ -53,6 +46,6 @@
 {% block javascripts %}
     {{ parent() }}
     {% javascripts %}
-    <script src="{{ asset('bundles/araneumuser/js/validatePasswordReset.js') }}"></script>
+        <script src="{{ asset('bundles/araneumuser/js/validatePasswordReset.js') }}"></script>
     {% endjavascripts %}
 {% endblock javascripts %}

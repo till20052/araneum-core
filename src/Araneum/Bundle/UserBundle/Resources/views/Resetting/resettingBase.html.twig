@@ -1,18 +1,25 @@
 {% extends "::base.html.twig" %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets 'bundles/araneumuser/css/passwordReset.css' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock stylesheets %}
+
 {% block body %}
     <div class="container">
         <div class="row">
             <div class="col-sm-6 col-md-4 col-md-offset-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <strong>{% block panel_header %}{% endblock %} | Araneum.Core</strong>
+                        <strong>{% block panel_header %}{% endblock panel_header %} | Araneum.Core</strong>
                     </div>
                     <div class="panel-body">
-                        {% block panel_body %}{% endblock %}
+                        {% block panel_body %}{% endblock panel_body %}
                     </div>
                     <div class="panel-footer ">
-                        {% block panel_footer %}{% endblock %}
+                        {% block panel_footer %}{% endblock panel_footer %}
                     </div>
                 </div>
             </div>
@@ -22,8 +29,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% javascripts
-    'assets/vendor/jquery-validation/dist/jquery.validate.min.js' %}
-    <script src="{{ asset_url }}"></script>
+    {% javascripts 'assets/vendor/jquery-validation/dist/jquery.validate.min.js' %}
+        <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
