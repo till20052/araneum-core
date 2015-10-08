@@ -81,7 +81,7 @@ fos_user:
 
 sonata_admin:
     title:      Araneum Core
-    title_logo: favicon.ico
+    title_logo: logo_title.png
 
 sonata_block:
     default_contexts: [cms]
