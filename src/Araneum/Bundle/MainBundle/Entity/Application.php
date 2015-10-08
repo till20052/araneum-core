@@ -110,7 +110,7 @@ class Application
     /**
      * @ORM\Column(type="string", name="api_key", length=70)
      */
-    protected $apiKey = 'api_key_default';
+    protected $apiKey;
 
     /**
      * Application constructor.
