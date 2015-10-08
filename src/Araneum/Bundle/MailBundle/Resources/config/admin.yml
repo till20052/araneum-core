@@ -1,0 +1,9 @@
+services:
+  araneum.mail.admin.mail:
+      class: Araneum\Bundle\MailBundle\Admin\MailAdmin
+      tags:
+          - { name: sonata.admin, manager_type: orm, group: "Mail", label: "Mail" }
+      arguments:
+          - ~
+          - Araneum\Bundle\MailBundle\Entity\Mail
+          - ~

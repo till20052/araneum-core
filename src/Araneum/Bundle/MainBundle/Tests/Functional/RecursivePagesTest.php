@@ -45,7 +45,7 @@ class RecursivePagesTest extends BaseController
 		$url = $this->prepareUrl($url);
 
 		if(
-			isset($this->register[$url])
+			isset($this->register[parse_url($url)['path']])
 			|| in_array(parse_url($url)['path'], $this->excludedUrls)
 		){
 			return false;
@@ -75,7 +75,7 @@ class RecursivePagesTest extends BaseController
 
 		$response = $this->client->getResponse();
 
-		$this->register[$url] = [
+		$this->register[parse_url($url)['path']] = [
 			'status_code' => $response->getStatusCode(),
 			'is_successful' => $response->isSuccessful()
 		];
@@ -116,7 +116,7 @@ class RecursivePagesTest extends BaseController
 
 		foreach($this->register as $url => $data)
 		{
-			$this->assertTrue($data['is_successful'], $data['status_code'] . "\t" . $url . "\n");
-		}
+            $this->assertTrue($data['is_successful'], $data['status_code'] . "\t" . $url . "\n");
+        }
 	}
 }
