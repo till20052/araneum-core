@@ -62,6 +62,6 @@ class User extends BaseUser
      */
     public function __toString()
     {
-        return $this->username ?: 'CreateUser';
+        return $this->username ?: 'Create User';
     }
 }
