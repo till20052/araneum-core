@@ -26,7 +26,8 @@ class CustomerAdminTest extends BaseAdminController
 
 		$manager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
-		$application = $manager->getRepository('AraneumMainBundle:Application')
+		$application = $manager
+			->getRepository('AraneumMainBundle:Application')
 			->findOneByName(ApplicationFixtures::TEST_APP_NAME);
 
 		return [
@@ -63,13 +64,16 @@ class CustomerAdminTest extends BaseAdminController
 
 		$manager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
-		$customer = $manager->getRepository('AraneumCustomerBundle:Customer')
+		$customer = $manager
+			->getRepository('AraneumCustomerBundle:Customer')
 			->findOneByEmail(CustomerFixtures::TEST_EMAIL);
 
-		$anotherCustomer = $manager->getRepository('AraneumCustomerBundle:Customer')
+		$anotherCustomer = $manager
+			->getRepository('AraneumCustomerBundle:Customer')
 			->findOneByEmail(CustomerFixtures::TEST_2_EMAIL);
 
-		$application = $manager->getRepository('AraneumMainBundle:Application')
+		$application = $manager
+			->getRepository('AraneumMainBundle:Application')
 			->findOneByName(ApplicationFixtures::TEST_APP_NAME);
 
 		return [
@@ -119,7 +123,8 @@ class CustomerAdminTest extends BaseAdminController
 
 		$manager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
-		$customer = $manager->getRepository('AraneumCustomerBundle:Customer')
+		$customer = $manager
+			->getRepository('AraneumCustomerBundle:Customer')
 			->findOneByEmail(CustomerFixtures::TEST_2_EMAIL);
 
 		return [
