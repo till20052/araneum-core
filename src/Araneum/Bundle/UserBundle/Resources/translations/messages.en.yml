@@ -11,3 +11,6 @@ created_at: Created
 updated_at: Updated
 last_login: Last login
 actions: Actions
+type_username_or_email: Type username or Email
+username_or_email: Username or Email
+sign_in: Sign in
