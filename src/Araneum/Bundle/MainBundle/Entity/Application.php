@@ -118,6 +118,7 @@ class Application
     public function __construct()
     {
         $this->setComponents(new ArrayCollection());
+        $this->setApiKey();
     }
 
     /**
@@ -455,7 +456,7 @@ class Application
     /**
      * Set apiKey
      *
-     * @param string $apiKey
+     * @param mixed $apiKey
      * @return mixed
      */
     public function setApiKey($apiKey = null)
