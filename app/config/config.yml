@@ -111,10 +111,10 @@ lexik_maintenance:
 old_sound_rabbit_mq:
     connections:
         default:
-            host:     'localhost'
-            port:     5672
-            user:     'admin'
-            password: '12345'
+            host:     "%rabbitmq_host%"
+            port:     "%rabbitmq_port%"
+            user:     "%rabbitmq_user%"
+            password: "%rabbitmq_password%"
             vhost:    '/'
             lazy:     true
             connection_timeout: 3
