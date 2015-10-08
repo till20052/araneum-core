@@ -24,7 +24,6 @@ class UserFixtures extends AbstractFixture implements FixtureInterface
     const ADMIN_USER_NAME     = "AdminName";
     const ADMIN_USER_PASSWORD = 'admin_123';
 
-
     /**
      * {@inheritDoc}
      */
