@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {% stylesheets '@AraneumUserBundle/Resources/public/css/passwordReset.css' %}
+    {% stylesheets 'bundles/araneumuser/css/passwordReset.css' %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
 {% endblock stylesheets %}
@@ -52,8 +52,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% javascripts
-    '@AraneumUserBundle/Resources/public/js/validatePasswordReset.js' %}
-    <script src="{{ asset_url }}"></script>
+    {% javascripts %}
+    <script src="{{ asset('bundles/araneumuser/js/validatePasswordReset.js') }}"></script>
     {% endjavascripts %}
 {% endblock javascripts %}

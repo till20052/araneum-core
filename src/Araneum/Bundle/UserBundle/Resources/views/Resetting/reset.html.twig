@@ -47,7 +47,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% javascripts '@AraneumUserBundle/Resources/public/js/validateNewPassword.js' %}
-    	<script src="{{ asset_url }}"></script>
+    {% javascripts  %}
+    	<script src="{{ asset('bundles/araneumuser/js/validateNewPassword.js') }}"></script>
     {% endjavascripts %}
 {% endblock javascripts %}
