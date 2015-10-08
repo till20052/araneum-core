@@ -1,0 +1,17 @@
+login: Login
+full_name: Full name
+email: E-mail
+recovery_password: Recovery password
+activate: Activate
+username: User name
+enabled: Enabled
+roles: Roles
+password: Password
+created_at: Created
+updated_at: Updated
+last_login: Last login
+actions: Actions
+remember_me: Remember me
+sign_in: Sign in
+to: to
+field_required: Fild required
