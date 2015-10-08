@@ -1,0 +1,9 @@
+first_name: Имя
+last_name: Фамилия
+country: Страна
+email: E-mail
+phone: Телефон
+callback: Перезвонить
+created_at: Создана
+delivered_at: Доставлено
+application: Приложение
