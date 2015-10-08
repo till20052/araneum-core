@@ -31,6 +31,6 @@ class ComponentOptionType extends AbstractType
 	 */
 	public function getName()
 	{
-		return 'arneum_main_form_component_option';
+		return 'araneum_main_form_component_option';
 	}
 }
