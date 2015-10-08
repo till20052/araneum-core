@@ -110,7 +110,7 @@ class Application
     /**
      * @ORM\Column(type="string", name="api_key", length=70)
      */
-    protected $apiKey;
+    protected $apiKey = 'api_key_default';
 
     /**
      * Application constructor.
@@ -455,7 +455,7 @@ class Application
     /**
      * Set apiKey
      *
-     * @param mixed $apiKey
+     * @param string $apiKey
      * @return mixed
      */
     public function setApiKey($apiKey = null)
