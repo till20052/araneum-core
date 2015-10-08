@@ -3498,8 +3498,6 @@
                 "templating"
             ],
             "time": "2015-09-15 06:50:16"
-            "time": "2015-09-22 13:59:32"
-            "time": "2015-09-15 06:50:16"
         },
         {
             "name": "videlalvaro/php-amqplib",
