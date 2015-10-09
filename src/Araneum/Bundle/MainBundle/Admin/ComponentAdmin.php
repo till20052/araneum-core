@@ -49,6 +49,15 @@ class ComponentAdmin extends Admin
         $formMapper
             ->add('name', 'text', ['label' => 'name'])
             ->add(
+                'applications',
+                'sonata_type_model',
+                [
+                    'multiple' => true,
+                    'by_reference' => false,
+                    'required' => false
+                ]
+            )
+            ->add(
                 'description',
                 'textarea',
                 [
@@ -100,7 +109,7 @@ class ComponentAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id', null, ['label' => 'ID'])
+            ->addIdentifier('id', null, ['label' => 'id'])
             ->add(
                 'name',
                 null,
@@ -109,14 +118,8 @@ class ComponentAdmin extends Admin
                     'editable' => true
                 ]
             )
-            ->add(
-                'description',
-                null,
-                [
-                    'label' => 'description',
-                    'editable' => true
-                ]
-            )
+            ->add('applications', null, ['labels' => 'applications'])
+            ->add('description', null, ['label' => 'description'])
             ->add(
                 'enabled',
                 null,
@@ -163,6 +166,7 @@ class ComponentAdmin extends Admin
     {
         $datagridMapper
             ->add('name', null, ['label' => 'name'])
+            ->add('applications', null, ['label' => 'applications'])
             ->add('description', null, ['label' => 'description'])
             ->add('enabled', null, ['label' => 'enabled'])
             ->add('default', null, ['label' => 'default'])
