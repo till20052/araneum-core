@@ -149,6 +149,6 @@ class ComponentAdminTest extends BaseAdminController
             ->getContainer()
             ->get('doctrine.orm.entity_manager')
             ->getRepository('AraneumMainBundle:Component')
-            ->findOneByName(self::TEST_COMP_NAME . '#' . md5(self::TEST_COMP_NAME));
+            ->findOneByName(self::TEST_COMP_NAME . '_' . md5(self::TEST_COMP_NAME));
     }
 }
