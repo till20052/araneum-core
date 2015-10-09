@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Admin;
 
+use Araneum\Bundle\MainBundle\Entity\Component;
 use Araneum\Bundle\MainBundle\Form\DataTransformer\ComponentOptionsTransformer;
 use Araneum\Bundle\MainBundle\Form\Type\ComponentOptionType;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,6 +10,7 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Validator\ErrorElement;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
@@ -183,5 +185,28 @@ class ComponentAdmin extends Admin
                     'format' => 'MM/dd/yyyy'
                 ]
             );
+    }
+
+    /**
+     * Component form validator
+     *
+     * @param ErrorElement $errorElement
+     * @param Component $object
+     */
+    public function validate(ErrorElement $errorElement, $object)
+    {
+        $regexPattern = '/^([A-z])([\w\d]+)$/';
+
+        foreach($object->getOptions() as $key => $value)
+        {
+            if(
+                preg_match($regexPattern, $key)
+                && preg_match($regexPattern, $value)
+            ){
+                continue;
+            }
+
+            $errorElement->addViolation('One or more tokens of options have not valid key or value');
+        }
     }
 }
