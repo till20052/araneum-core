@@ -30,6 +30,7 @@ class Component
 	 * @ORM\Column(type="string", length=255)
 	 * @Assert\NotBlank()
 	 * @Assert\Length(min=2, max=255)
+	 * @Assert\Regex(pattern="/^\w([\w\d\s]+)$/")
 	 */
 	protected $name;
 
