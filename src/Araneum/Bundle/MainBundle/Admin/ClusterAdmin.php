@@ -139,7 +139,7 @@ class ClusterAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
+            ->addIdentifier('id', null, ['label' => 'id'])
             ->add(
                 'name',
                 'text',
@@ -200,7 +200,7 @@ class ClusterAdmin extends Admin
                 '_action',
                 'actions',
                 [
-                    'label' => 'action',
+                    'label' => 'actions',
                     'actions' => [
                         'edit' => [],
                         'check_status' => [
