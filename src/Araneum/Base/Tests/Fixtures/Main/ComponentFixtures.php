@@ -44,11 +44,13 @@ class ComponentFixtures extends AbstractFixture implements FixtureInterface
             $tempComponent = new Component();
             $tempComponent->setName(self::TEST_COMP_TEMP_NAME);
             $tempComponent->setDescription(self::TEST_COMP_TEMP_DESC);
-            $tempComponent->setOptions([
-                'test_option_key_1' => 'test_option_value_1',
-                'test_option_key_2' => 'test_option_value_2',
-                'test_option_key_3' => 'test_option_value_3'
-            ]);
+            $tempComponent->setOptions(
+                [
+                    'test_option_key_1' => 'test_option_value_1',
+                    'test_option_key_2' => 'test_option_value_2',
+                    'test_option_key_3' => 'test_option_value_3'
+                ]
+            );
             $tempComponent->setEnabled(self::TEST_COMP_TEMP_ENABLED);
             $tempComponent->setDefault(self::TEST_COMP_TEMP_DEFAULT);
             $manager->persist($tempComponent);
