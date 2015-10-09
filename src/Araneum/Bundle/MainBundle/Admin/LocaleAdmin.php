@@ -72,7 +72,7 @@ class LocaleAdmin extends Admin
             )
             ->add('encoding', null, ['label' => 'encoding'])
             ->add(
-                'created_at',
+                'createdAt',
                 'doctrine_orm_date_range',
                 [
                     'field_type' => 'sonata_type_date_range_picker',
@@ -145,7 +145,7 @@ class LocaleAdmin extends Admin
                 ]
             )
             ->add(
-                'created_at',
+                'createdAt',
                 'datetime',
                 [
                     'label' => 'created_at',

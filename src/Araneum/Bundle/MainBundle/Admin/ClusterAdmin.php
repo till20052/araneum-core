@@ -121,7 +121,7 @@ class ClusterAdmin extends Admin
             )
             ->add('enabled', null, ['label' => 'enabled'])
             ->add(
-                'created_at',
+                'createdAt',
                 'doctrine_orm_datetime_range',
                 [
                     'label' => 'created_at',
@@ -189,7 +189,7 @@ class ClusterAdmin extends Admin
                 ]
             )
             ->add(
-                'created_at',
+                'createdAt',
                 'datetime',
                 [
                     'format' => 'm.d.Y',
