@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\MainBundle\Tests\Functional;
 
 use Araneum\Base\Tests\Controller\BaseAdminController;
+use Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures;
 
 class ConnectionAdminTest extends BaseAdminController
 {
@@ -169,8 +170,48 @@ class ConnectionAdminTest extends BaseAdminController
             ->getContainer()
             ->get('doctrine.orm.entity_manager')
             ->getRepository('AraneumMainBundle:Connection')
-            ->findOneBy(['name' => 'functionalTestConnection']);
+            ->findOneByName(ConnectionFixtures::TEST_CONN_FREE_NAME);
 
         return $connection;
+    }
+
+    /**
+     * Test persist connection
+     *
+     * @runInSeparateProcess
+     */
+    public function testDeletePersistConnection()
+    {
+        $connection = self::createClient()
+            ->getContainer()
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('AraneumMainBundle:Connection')
+            ->findOneByName(ConnectionFixtures::TEST_CONN_DB_NAME);
+
+        $client = $this->createAdminAuthorizedClient();
+
+        $crawler = $client->request(
+            'GET',
+            $client->getContainer()
+                ->get('router')
+                ->generate(
+                    $this->deleteRoute,
+                    [
+                        'id' => $connection->getId(),
+                        '_locale' => 'en',
+                    ]
+                )
+        );
+
+        $form = $crawler->selectButton('Yes, delete')->form();
+        $client->submit($form, ['_method' => 'DELETE']);
+
+        $entityFromDb = $client
+            ->getContainer()
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository(get_class($connection))
+            ->find($connection->getId());
+
+        $this->assertFalse(empty($entityFromDb));
     }
 }
