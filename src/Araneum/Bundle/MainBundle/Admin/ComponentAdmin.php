@@ -17,13 +17,7 @@ class ComponentAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add(
-                'name',
-                'text',
-                [
-                    'label' => 'name'
-                ]
-            )
+            ->add('name', 'text', ['label' => 'name'])
             ->add(
                 'description',
                 'textarea',
@@ -58,13 +52,7 @@ class ComponentAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier(
-                'id',
-                null,
-                [
-                    'label' => 'ID'
-                ]
-            )
+            ->addIdentifier('id', null, ['label' => 'ID'])
             ->add(
                 'name',
                 null,
@@ -73,14 +61,7 @@ class ComponentAdmin extends Admin
                     'editable' => true
                 ]
             )
-            ->add(
-                'description',
-                null,
-                [
-                    'label' => 'description',
-                    'editable' => true
-                ]
-            )
+            ->add('description', null, ['label' => 'description',])
             ->add(
                 'enabled',
                 null,
@@ -126,34 +107,10 @@ class ComponentAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add(
-                'name',
-                null,
-                [
-                    'label' => 'name'
-                ]
-            )
-            ->add(
-                'description',
-                null,
-                [
-                    'label' => 'description'
-                ]
-            )
-            ->add(
-                'enabled',
-                null,
-                [
-                    'label' => 'enabled'
-                ]
-            )
-            ->add(
-                'default',
-                null,
-                [
-                    'label' => 'default'
-                ]
-            )
+            ->add('name', null, ['label' => 'name'])
+            ->add('description', null, ['label' => 'description'])
+            ->add('enabled', null, ['label' => 'enabled'])
+            ->add('default', null, ['label' => 'default'])
             ->add(
                 'createdAt',
                 'doctrine_orm_datetime_range',
