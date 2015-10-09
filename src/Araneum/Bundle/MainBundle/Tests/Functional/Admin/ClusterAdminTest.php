@@ -90,8 +90,8 @@ class ClusterAdminTest extends BaseAdminController
                     'filter[enabled][value]' => ClusterFixtures::TEST_CLU_ENABLED,
                     'filter[status][value]' => ClusterFixtures::TEST_CLU_STATUS,
                     'filter[type][value]' => ClusterFixtures::TEST_CLU_TYPE,
-                    'filter[created_at][value][start]' => '01/01/1971',
-                    'filter[created_at][value][end]' => date('m/d/Y', time() + 86400)
+                    'filter[createdAt][value][start]' => '01/01/1971',
+                    'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
                 ],
                 true,
                 $cluster
@@ -103,8 +103,8 @@ class ClusterAdminTest extends BaseAdminController
                     'filter[enabled][value]' => ClusterFixtures::TEST_CLU_ENABLED,
                     'filter[status][value]' => ClusterFixtures::TEST_CLU_STATUS,
                     'filter[type][value]' => ClusterFixtures::TEST_CLU_TYPE,
-                    'filter[created_at][value][start]' => '01/01/1971',
-                    'filter[created_at][value][end]' => date('m/d/Y', time() + 86400)
+                    'filter[createdAt][value][start]' => '01/01/1971',
+                    'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
                 ],
                 false,
                 $cluster
