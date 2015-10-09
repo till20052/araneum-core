@@ -17,11 +17,7 @@ class ComponentAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add(
-                'name',
-                'text',
-                ['label' => 'name']
-            )
+            ->add('name', 'text', ['label' => 'name'])
             ->add(
                 'applications',
                 'sonata_type_model',
@@ -65,13 +61,7 @@ class ComponentAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier(
-                'id',
-                null,
-                [
-                    'label' => 'id'
-                ]
-            )
+            ->addIdentifier('id', null, ['label' => 'id'])
             ->add(
                 'name',
                 null,
@@ -80,22 +70,8 @@ class ComponentAdmin extends Admin
                     'editable' => true
                 ]
             )
-            ->add(
-                'applications',
-                null,
-                [
-                    'labels' => 'applications',
-                    'editable' => true
-                ]
-            )
-            ->add(
-                'description',
-                null,
-                [
-                    'label' => 'description',
-                    'editable' => true
-                ]
-            )
+            ->add('applications', null, ['labels' => 'applications'])
+            ->add('description', null, ['label' => 'description'])
             ->add(
                 'enabled',
                 null,
@@ -146,7 +122,6 @@ class ComponentAdmin extends Admin
             ->add('description', null, ['label' => 'description'])
             ->add('enabled', null, ['label' => 'enabled'])
             ->add('default', null, ['label' => 'default'])
-            
             ->add(
                 'createdAt',
                 'doctrine_orm_datetime_range',

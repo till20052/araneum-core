@@ -30,7 +30,7 @@ class ComponentAdminTest extends BaseAdminController
         return [
             'Simple component creation' => [
                 [
-                    'name' => self::TEST_COMP_NAME . '#' . md5(self::TEST_COMP_NAME),
+                    'name' => self::TEST_COMP_NAME . '_' . md5(self::TEST_COMP_NAME),
                     'applications' => $application->getId(),
                     'description' => '',
                     'enabled' => true,
@@ -121,8 +121,8 @@ class ComponentAdminTest extends BaseAdminController
         return [
             'Check simple modification' => [
                 [
-                    'name' => md5(microtime(true)),
                     'applications' => $application->getId(),
+                    'name' => 'TestCheckModification_'.md5(microtime(true)),
                     'description' => '',
                     'enabled' => true,
                     'default' => true,
@@ -169,6 +169,6 @@ class ComponentAdminTest extends BaseAdminController
             ->getContainer()
             ->get('doctrine.orm.entity_manager')
             ->getRepository('AraneumMainBundle:Component')
-            ->findOneByName(self::TEST_COMP_NAME . '#' . md5(self::TEST_COMP_NAME));
+            ->findOneByName(self::TEST_COMP_NAME . '_' . md5(self::TEST_COMP_NAME));
     }
 }
