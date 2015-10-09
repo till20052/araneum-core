@@ -23,7 +23,7 @@ class ComponentAdminTest extends BaseAdminController
         return [
             'Simple component creation' => [
                 [
-                    'name' => self::TEST_COMP_NAME . '#' . md5(self::TEST_COMP_NAME),
+                    'name' => self::TEST_COMP_NAME . '_' . md5(self::TEST_COMP_NAME),
                     'description' => '',
                     'enabled' => true,
                     'default' => true,
@@ -104,7 +104,7 @@ class ComponentAdminTest extends BaseAdminController
         return [
             'Check simple modification' => [
                 [
-                    'name' => md5(microtime(true)),
+                    'name' => 'TestCheckModification_'.md5(microtime(true)),
                     'description' => '',
                     'enabled' => true,
                     'default' => true,
