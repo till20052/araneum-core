@@ -41,3 +41,11 @@ online: Online
 offline: Offline
 check_status: Check status
 test_connection: Проверить соединение
+domain: Домен
+aliases: Алиасы
+public: Публичный
+template: Шаблон
+database: База данных
+components: Компоненты
+id: ID
+owner: Владелец
