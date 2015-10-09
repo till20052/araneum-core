@@ -48,3 +48,4 @@ template: Шаблон
 database: База данных
 components: Компоненты
 id: ID
+owner: Владелец
