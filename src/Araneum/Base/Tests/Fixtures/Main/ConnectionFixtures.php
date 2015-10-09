@@ -21,6 +21,7 @@ class ConnectionFixtures extends AbstractFixture implements FixtureInterface
     const TEST_CONN_DB_USERNAME = 'TestDbConnectionUserName';
     const TEST_CONN_PASS = 'TestConnectionPassword';
     const TEST_CONN_DB_PASS = 'TestDbConnectionPassword';
+    const TEST_CONN_FREE_NAME = 'TestConnectionFreeName';
 
     /**
      * {@inheritDoc}
@@ -29,13 +30,8 @@ class ConnectionFixtures extends AbstractFixture implements FixtureInterface
     {
         $connectionHost = $manager
             ->getRepository('AraneumMainBundle:Connection')
-            ->findOneByName(self::TEST_CONN_HOST_TYPE);
-
-        $connectionDb = $manager
-            ->getRepository('AraneumMainBundle:Connection')
-            ->findOneByName(self::TEST_CONN_DB_TYPE);
-
-        if (empty($connection)) {
+            ->findOneByName(self::TEST_CONN_NAME);
+        if (empty($connectionHost)) {
             $connectionHost = new Connection();
             $connectionHost->setType(self::TEST_CONN_HOST_TYPE);
             $connectionHost->setName(self::TEST_CONN_NAME);
@@ -44,7 +40,14 @@ class ConnectionFixtures extends AbstractFixture implements FixtureInterface
             $connectionHost->setEnabled(self::TEST_CONN_ENABLED);
             $connectionHost->setUserName(self::TEST_CONN_USERNAME);
             $connectionHost->setPassword(self::TEST_CONN_PASS);
+            $manager->persist($connectionHost);
+            $manager->flush();
+        }
 
+        $connectionDb = $manager
+            ->getRepository('AraneumMainBundle:Connection')
+            ->findOneByName(self::TEST_CONN_DB_NAME);
+        if (empty($connectionDb)) {
             $connectionDb = new Connection();
             $connectionDb->setType(self::TEST_CONN_DB_TYPE);
             $connectionDb->setName(self::TEST_CONN_DB_NAME);
@@ -53,11 +56,27 @@ class ConnectionFixtures extends AbstractFixture implements FixtureInterface
             $connectionDb->setEnabled(self::TEST_CONN_ENABLED);
             $connectionDb->setUserName(self::TEST_CONN_DB_USERNAME);
             $connectionDb->setPassword(self::TEST_CONN_DB_PASS);
-
-            $manager->persist($connectionHost);
             $manager->persist($connectionDb);
             $manager->flush();
         }
+
+        $connectionFree = $manager
+            ->getRepository('AraneumMainBundle:Connection')
+            ->findOneByName(self::TEST_CONN_FREE_NAME);
+        if (empty($connectionFree)) {
+            $connectionFree = new Connection();
+            $connectionFree->setType(self::TEST_CONN_HOST_TYPE);
+            $connectionFree->setName(self::TEST_CONN_FREE_NAME);
+            $connectionFree->setHost(self::TEST_CONN_HOST);
+            $connectionFree->setPort(self::TEST_CONN_PORT);
+            $connectionFree->setEnabled(self::TEST_CONN_ENABLED);
+            $connectionFree->setUserName(self::TEST_CONN_USERNAME);
+            $connectionFree->setPassword(self::TEST_CONN_PASS);
+            $manager->persist($connectionFree);
+            $manager->flush();
+        }
+
+
         $this->addReference('connectionHost', $connectionHost);
         $this->addReference('connectionDb', $connectionDb);
     }

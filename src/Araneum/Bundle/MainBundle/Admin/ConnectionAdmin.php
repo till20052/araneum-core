@@ -147,7 +147,7 @@ class ConnectionAdmin extends Admin
                     'label' => 'type',
                     'choices' => [
                         Connection::CONN_DB => $this->getTranslator()->trans('db_connection'),
-                        Connection::CONN_HOST => $this->getTranslator()->trans('db_connection')
+                        Connection::CONN_HOST => $this->getTranslator()->trans('host_connection')
                     ]
                 ]
             )

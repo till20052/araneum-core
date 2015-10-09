@@ -20,8 +20,15 @@ class ComponentAdmin extends Admin
             ->add(
                 'name',
                 'text',
+                ['label' => 'name']
+            )
+            ->add(
+                'applications',
+                'sonata_type_model',
                 [
-                    'label' => 'name'
+                    'multiple' => true,
+                    'by_reference' => false,
+                    'required' => false
                 ]
             )
             ->add(
@@ -70,6 +77,14 @@ class ComponentAdmin extends Admin
                 null,
                 [
                     'label' => 'name',
+                    'editable' => true
+                ]
+            )
+            ->add(
+                'applications',
+                null,
+                [
+                    'labels' => 'applications',
                     'editable' => true
                 ]
             )
@@ -127,9 +142,11 @@ class ComponentAdmin extends Admin
     {
         $datagridMapper
             ->add('name', null, ['label' => 'name'])
+            ->add('applications', null, ['label' => 'applications'])
             ->add('description', null, ['label' => 'description'])
             ->add('enabled', null, ['label' => 'enabled'])
             ->add('default', null, ['label' => 'default'])
+            
             ->add(
                 'createdAt',
                 'doctrine_orm_datetime_range',

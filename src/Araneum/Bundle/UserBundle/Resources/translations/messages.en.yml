@@ -12,6 +12,11 @@ updated_at: Updated
 last_login: Last login
 actions: Actions
 remember_me: Remember me
+date_range_start: С
+date_range_end: До
 sign_in: Sign in
 to: to
 field_required: Fild required
+type_username_or_email: Type username or Email
+username_or_email: Username or Email
+sign_in: Sign in
