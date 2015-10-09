@@ -139,13 +139,7 @@ class ConnectionAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier(
-                'id',
-                null,
-                [
-                    'label' => 'id'
-                ]
-            )
+            ->addIdentifier('id', null, ['label' => 'id'])
             ->add(
                 'type',
                 'choice',

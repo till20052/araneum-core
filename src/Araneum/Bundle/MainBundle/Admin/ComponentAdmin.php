@@ -126,34 +126,10 @@ class ComponentAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add(
-                'name',
-                null,
-                [
-                    'label' => 'name'
-                ]
-            )
-            ->add(
-                'description',
-                null,
-                [
-                    'label' => 'description'
-                ]
-            )
-            ->add(
-                'enabled',
-                null,
-                [
-                    'label' => 'enabled'
-                ]
-            )
-            ->add(
-                'default',
-                null,
-                [
-                    'label' => 'default'
-                ]
-            )
+            ->add('name', null, ['label' => 'name'])
+            ->add('description', null, ['label' => 'description'])
+            ->add('enabled', null, ['label' => 'enabled'])
+            ->add('default', null, ['label' => 'default'])
             ->add(
                 'createdAt',
                 'doctrine_orm_datetime_range',

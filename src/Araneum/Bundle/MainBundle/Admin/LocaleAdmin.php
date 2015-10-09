@@ -93,13 +93,7 @@ class LocaleAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier(
-                'id',
-                null,
-                [
-                    'label' => 'id'
-                ]
-            )
+            ->addIdentifier('id', null, ['label' => 'id'])
             ->add(
                 'name',
                 'text',
