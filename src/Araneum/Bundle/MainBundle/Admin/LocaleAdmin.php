@@ -76,7 +76,7 @@ class LocaleAdmin extends Admin
                 'doctrine_orm_date_range',
                 [
                     'field_type' => 'sonata_type_date_range_picker',
-                    'label' => 'createdAt',
+                    'label' => 'created_at',
                 ],
                 null,
                 [
@@ -93,7 +93,7 @@ class LocaleAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
+            ->addIdentifier('id', null, ['label' => 'id'])
             ->add(
                 'name',
                 'text',
@@ -142,7 +142,7 @@ class LocaleAdmin extends Admin
                 'createdAt',
                 'datetime',
                 [
-                    'label' => 'createdAt',
+                    'label' => 'created_at',
                     'format' => 'm/d/Y'
                 ]
             )
