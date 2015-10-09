@@ -3,7 +3,9 @@
 namespace Araneum\Bundle\MainBundle\Tests\Functional\Admin;
 
 use Araneum\Base\Tests\Controller\BaseAdminController;
+use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ComponentFixtures;
+use Araneum\Bundle\MainBundle\Entity\Application;
 
 class ComponentAdminTest extends BaseAdminController
 {
