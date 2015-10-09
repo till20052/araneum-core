@@ -62,7 +62,7 @@ class Application
     protected $aliases;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Connection")
+     * @ORM\ManyToOne(targetEntity="Connection", cascade={"persist", "detach"})
      * @ORM\JoinColumn(name="connection_id", referencedColumnName="id")
      */
     protected $db;
