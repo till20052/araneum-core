@@ -20,10 +20,16 @@ class ComponentAdminTest extends BaseAdminController
      */
     public function createDataSource()
     {
+        $client = static::createClient();
+        $manager = $client->getContainer()->get('doctrine.orm.entity_manager');
+        $application = $manager->getRepository('AraneumMainBundle:Application')
+            ->findOneByName(ApplicationFixtures::TEST_APP_NAME);
+
         return [
             'Simple component creation' => [
                 [
                     'name' => self::TEST_COMP_NAME . '_' . md5(self::TEST_COMP_NAME),
+                    'applications' => $application->getId(),
                     'description' => '',
                     'enabled' => true,
                     'default' => true,
@@ -33,6 +39,7 @@ class ComponentAdminTest extends BaseAdminController
             'Check component unique name' => [
                 [
                     'name' => ComponentFixtures::TEST_COMP_NAME,
+                    'applications' => $application->getId(),
                     'description' => '',
                     'enabled' => true,
                     'default' => true,
@@ -59,10 +66,14 @@ class ComponentAdminTest extends BaseAdminController
         $tempComponent = $manager->getRepository('AraneumMainBundle:Component')
             ->findOneByName(ComponentFixtures::TEST_COMP_TEMP_NAME);
 
+        $application = $manager->getRepository('AraneumMainBundle:Application')
+            ->findOneByName(ApplicationFixtures::TEST_APP_NAME);
+
         return [
             'try to find first fixture.' => [
                 [
                     'filter[name][value]' => ComponentFixtures::TEST_COMP_NAME,
+                    'filter[applications][value]' => $application->getId(),
                     'filter[description][value]' => ComponentFixtures::TEST_COMP_DESC,
                     'filter[enabled][value]' => ComponentFixtures::TEST_COMP_ENABLED,
                     'filter[default][value]' => ComponentFixtures::TEST_COMP_DEFAULT,
@@ -75,6 +86,7 @@ class ComponentAdminTest extends BaseAdminController
             'try to find temp fixture by first fixture values' => [
                 [
                     'filter[name][value]' => ComponentFixtures::TEST_COMP_NAME,
+                    'filter[applications][value]' => $application->getId(),
                     'filter[description][value]' => ComponentFixtures::TEST_COMP_DESC,
                     'filter[enabled][value]' => ComponentFixtures::TEST_COMP_ENABLED,
                     'filter[default][value]' => ComponentFixtures::TEST_COMP_DEFAULT,
@@ -101,9 +113,13 @@ class ComponentAdminTest extends BaseAdminController
         $tempComponent = $manager->getRepository('AraneumMainBundle:Component')
             ->findOneByName(ComponentFixtures::TEST_COMP_TEMP_NAME);
 
+        $application = $manager->getRepository('AraneumMainBundle:Application')
+            ->findOneByName(ApplicationFixtures::TEST_APP_NAME);
+
         return [
             'Check simple modification' => [
                 [
+                    'applications' => $application->getId(),
                     'name' => 'TestCheckModification_'.md5(microtime(true)),
                     'description' => '',
                     'enabled' => true,
@@ -116,6 +132,7 @@ class ComponentAdminTest extends BaseAdminController
                 [
                     // Check component unique name
                     'name' => ComponentFixtures::TEST_COMP_NAME,
+                    'applications' => $application->getId(),
                     'description' => '',
                     'enabled' => true,
                     'default' => true,
@@ -126,6 +143,7 @@ class ComponentAdminTest extends BaseAdminController
             'Set first values of temp component' => [
                 [
                     'name' => ComponentFixtures::TEST_COMP_TEMP_NAME,
+                    'applications' => $application->getId(),
                     'description' => ComponentFixtures::TEST_COMP_TEMP_DESC,
                     'enabled' => ComponentFixtures::TEST_COMP_TEMP_ENABLED,
                     'default' => ComponentFixtures::TEST_COMP_TEMP_DEFAULT,

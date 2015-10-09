@@ -45,7 +45,6 @@ class Component
 	protected $description;
 
 	/**
-	 * @var ArrayCollection
 	 * @ORM\ManyToMany(targetEntity="Application", mappedBy="components", cascade={"persist"})
 	 */
 	protected $applications;
@@ -221,10 +220,10 @@ class Component
 	/**
 	 * Set Applications
 	 *
-	 * @param ArrayCollection $applications
+	 * @param $applications
 	 * @return Component
 	 */
-	public function setApplications(ArrayCollection $applications)
+	public function setApplications($applications)
 	{
 		$this->applications = $applications;
 

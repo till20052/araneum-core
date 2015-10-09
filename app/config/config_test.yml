@@ -10,7 +10,7 @@ doctrine:
        logging: "%kernel.debug%"
 
 swiftmailer:
-    disable_delivery: true
+    disable_delivery: false
 
 monolog:
     handlers:
