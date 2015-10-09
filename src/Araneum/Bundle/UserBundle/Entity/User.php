@@ -20,6 +20,7 @@ class User extends BaseUser
 
     const ROLE_USER = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_API = 'ROLE_API';
 
     /**
      * @ORM\Id
@@ -61,6 +62,6 @@ class User extends BaseUser
      */
     public function __toString()
     {
-        return $this->username ?: 'CreateUser';
+        return $this->username ?: 'Create User';
     }
 }

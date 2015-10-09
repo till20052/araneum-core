@@ -328,4 +328,15 @@ class Mail
         $this->setSender(new \DateTime());
         $this->setStatus(self::STATUS_SENT);
     }
+
+    /**
+     * Convert entity to string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->id ? $this->id . ' ' . $this->headline : 'Create Mail';
+    }
+
 }
