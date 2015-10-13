@@ -19,7 +19,7 @@ class UserAdmin extends Admin
     /**
      * Create/Update form
      *
-     * @param FormMapper $formMapper
+     * @param FormMapper $formMapper.
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
