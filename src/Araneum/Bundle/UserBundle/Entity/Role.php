@@ -2,7 +2,6 @@
 
 namespace Araneum\Bundle\UserBundle\Entity;
 
-use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -51,6 +50,12 @@ class Role
         return $this->id;
     }
 
+    /**
+     * Set id
+     *
+     * @param $id
+     * @return $this
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -81,8 +86,13 @@ class Role
         return $this->name;
     }
 
+    /**
+     * Get role name
+     *
+     * @return string
+     */
     public function __toString()
     {
-        return (string)$this->name;
+        return (string) $this->name;
     }
 }

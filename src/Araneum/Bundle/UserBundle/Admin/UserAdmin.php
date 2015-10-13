@@ -1,10 +1,16 @@
 <?php
 namespace Araneum\Bundle\UserBundle\Admin;
 
+use Araneum\Bundle\UserBundle\Form\DataTransformer\UserRolesTransformer;
+use Araneum\Bundle\UserBundle\Repository\RoleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class UserAdmin extends Admin
 {
@@ -17,6 +23,30 @@ class UserAdmin extends Admin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $subject = $this->getSubject();
+
+        $roleRepository = $this->getRoleRepository();
+
+        $formMapper
+            ->getFormBuilder()
+            ->addEventListener(
+                FormEvents::POST_SET_DATA,
+                function(FormEvent $event) use ($formMapper, $subject, $roleRepository)
+                {
+                    $roles = new ArrayCollection();
+
+                    foreach($subject->getRoles() as $roleName)
+                    {
+                        $roles->add($roleRepository->findOneByName($roleName));
+                    }
+
+                    $event
+                        ->getForm()
+                        ->get('roles')
+                        ->setData($roles);
+                }
+            );
+
         $formMapper
             ->add('email', null, ['label' => 'email'])
             ->add('username', null, ['label' => 'username'])
@@ -34,6 +64,10 @@ class UserAdmin extends Admin
         if ($this->getSubject()->getId() === null) {
             $formMapper->add('plainPassword', 'text', ['label' => 'password']);
         }
+
+        $formMapper
+            ->get('roles')
+            ->addModelTransformer(new UserRolesTransformer());
     }
 
     /**
@@ -134,5 +168,36 @@ class UserAdmin extends Admin
             'createdAt',
             'updatedAt',
         ];
+    }
+
+    /**
+     * Get Service Container
+     *
+     * @return ContainerInterface
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * @return RoleRepository
+     */
+    public function getRoleRepository()
+    {
+        return $this
+            ->getContainer()
+            ->get('doctrine')
+            ->getRepository('AraneumUserBundle:Role');
+    }
+
+    /**
+     * Set Service Container
+     *
+     * @param ContainerInterface $container
+     */
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
     }
 }

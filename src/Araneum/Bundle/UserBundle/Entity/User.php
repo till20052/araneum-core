@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\UserBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
+use Doctrine\ORM\Event\PreFlushEventArgs;
 use \FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -22,6 +23,15 @@ class User extends BaseUser
     const ROLE_USER = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_API = 'ROLE_API';
+
+    /**
+     * @var array
+     */
+    public static $roleNames = [
+        self::ROLE_USER,
+        self::ROLE_ADMIN,
+        self::ROLE_API
+    ];
 
     /**
      * @ORM\Id
@@ -44,7 +54,12 @@ class User extends BaseUser
     protected $roles;
 
     /**
-     * User constructor.
+     * @var array
+     */
+    private $rolesBuffer;
+
+    /**
+     * @inheritdoc
      */
     public function __construct()
     {
@@ -53,6 +68,28 @@ class User extends BaseUser
     }
 
     /**
+     * Pre Flush Event
+     *
+     * @param PreFlushEventArgs $preFlushEventArgs
+     * @ORM\PreFlush
+     */
+    public function beforeFlush(PreFlushEventArgs $preFlushEventArgs)
+    {
+        $roleRepository = $preFlushEventArgs
+            ->getEntityManager()
+            ->getRepository('AraneumUserBundle:Role');
+
+        $this->roles->clear();
+
+        foreach($this->getRoles() as $roleName)
+        {
+            $this->roles->add($roleRepository->findOneByName($roleName));
+        }
+    }
+
+    /**
+     * Get fullName
+     *
      * @return string
      */
     public function getFullName()
@@ -61,8 +98,9 @@ class User extends BaseUser
     }
 
     /**
-     * @param string $fullName
+     * Set fullName
      *
+     * @param string $fullName
      * @return User
      */
     public function setFullName($fullName)
@@ -73,87 +111,94 @@ class User extends BaseUser
     }
 
     /**
+     * Get user roles
+     *
      * @return array
      */
     public function getRoles()
     {
-        $roles = [];
-        foreach ($this->roles->toArray() as $k => $role) {
-
-            $roles[$role->getId()] = $role->getName();
+        if(isset($this->rolesBuffer) && is_array($this->rolesBuffer)){
+            return $this->rolesBuffer;
         }
 
-        return $roles;
+        $this->rolesBuffer = [];
+
+        foreach($this->roles as $role)
+        {
+            $this->rolesBuffer[] = $role->getName();
+        }
+
+        return $this->rolesBuffer;
     }
 
     /**
-     * @param array $roles
+     * Set user roles
      *
+     * @param array $roles
      * @return User
      */
     public function setRoles(array $roles)
     {
-
-        //TODO  override
-        $this->roles = new ArrayCollection($roles);
-
-        return $this;
-    }
-
-    public function getRolesCollection()
-    {
-        return $this->roles->first();
-    }
-
-    /**
-     * @param string $role
-     * @return $this
-     */
-    public function removeRole($role)
-    {
-//        die(var_dump($role));
-
-        //TODO исправь!!!
-        $role = $this->roles->filter(
-
-            function (Role $r) use ($role) {
-                if ($role instanceof Role) {
-                    return $r->getRole() === $role->getRole();
-                } else {
-                    return $r->getRole() === strtoupper($role);
-                }
-            }
-
-        )->first();
-        if ($role) {
-            $this->roles->removeElement($role);
+        foreach($roles as $role)
+        {
+            $this->addRole($role);
         }
 
         return $this;
     }
 
     /**
+     * Add user role
+     *
      * @param string $role
      * @return $this
      */
     public function addRole($role)
     {
-        if (!$role instanceof Role) {
-            $role = new Role($role);
+        if( ! $this->hasRole($role)){
+            $this->rolesBuffer[] = $role;
         }
-
-        $this->roles->add($role);
 
         return $this;
     }
 
     /**
-     * @param string $role
+     * Remove user role
+     *
+     * @param string $roleName
+     * @return $this
+     */
+    public function removeRole($roleName)
+    {
+        foreach($this->getRoles() as $i => $name)
+        {
+            if($roleName != $name){
+                continue;
+            }
+
+            unset($this->rolesBuffer[$i]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Check has user role
+     *
+     * @param string $roleName
      * @return bool
      */
-    public function hasRole($role)
+    public function hasRole($roleName)
     {
-        return in_array(strtoupper($role), $this->getRoles()->toArray(), true);
+        foreach($this->getRoles() as $name)
+        {
+            if($roleName != $name)
+                continue;
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
