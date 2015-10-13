@@ -37,6 +37,7 @@ class Locale
      *
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=20)
+     * @Assert\Regex(pattern="/^\w([\w\d\s]+)$/")
      */
     protected $name;
 
@@ -192,16 +193,12 @@ class Locale
     }
 
     /**
-     * To string
+     * Convert entity to string
      *
      * @return string
      */
     public function __toString()
     {
-        if (!empty($this->getName())) {
-            return $this->getName() . " (" . $this->getLocale() . ")";
-        } else {
-            return self::LOC_TO_STR;
-        }
+        return $this->name ? $this->name . " (" . $this->locale . ")" : 'Create Locale';
     }
 }

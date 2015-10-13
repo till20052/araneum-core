@@ -89,10 +89,11 @@ class ConnectionAdmin extends Admin
             ->add(
                 'type',
                 'doctrine_orm_choice',
-                [],
+                [
+                    'label' => 'type'
+                ],
                 'choice',
                 [
-                    'label' => 'type',
                     'choices' => [
                         Connection::CONN_DB => 'db_connection',
                         Connection::CONN_HOST => 'host_connection'
@@ -138,7 +139,7 @@ class ConnectionAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
+            ->addIdentifier('id', null, ['label' => 'id'])
             ->add(
                 'type',
                 'choice',
@@ -146,7 +147,7 @@ class ConnectionAdmin extends Admin
                     'label' => 'type',
                     'choices' => [
                         Connection::CONN_DB => $this->getTranslator()->trans('db_connection'),
-                        Connection::CONN_HOST => $this->getTranslator()->trans('db_connection')
+                        Connection::CONN_HOST => $this->getTranslator()->trans('host_connection')
                     ]
                 ]
             )

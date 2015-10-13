@@ -62,7 +62,7 @@ class Application
     protected $aliases;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Connection")
+     * @ORM\ManyToOne(targetEntity="Connection", cascade={"persist", "detach"})
      * @ORM\JoinColumn(name="connection_id", referencedColumnName="id")
      */
     protected $db;
@@ -108,11 +108,17 @@ class Application
     protected $template;
 
     /**
+     * @ORM\Column(type="string", name="api_key", length=70)
+     */
+    protected $apiKey;
+
+    /**
      * Application constructor.
      */
     public function __construct()
     {
         $this->setComponents(new ArrayCollection());
+        $this->setApiKey();
     }
 
     /**
@@ -435,5 +441,48 @@ class Application
         $this->template = $template;
 
         return $this;
+    }
+
+    /**
+     * Get apiKey
+     *
+     * @return mixed
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * Set apiKey
+     *
+     * @param mixed $apiKey
+     * @return mixed
+     */
+    public function setApiKey($apiKey = null)
+    {
+        $this->apiKey = is_null($apiKey) ? $this->generateUniqueKey() : $apiKey;
+
+        return $this;
+    }
+
+    /**
+     * Generate unique key for Application
+     *
+     * @return string
+     */
+    private function generateUniqueKey()
+    {
+        return uniqid(sha1(time()), true);
+    }
+
+    /**
+     * Convert entity to string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name ?: 'Create Application';
     }
 }

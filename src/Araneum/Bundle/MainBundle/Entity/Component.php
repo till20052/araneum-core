@@ -30,6 +30,7 @@ class Component
 	 * @ORM\Column(type="string", length=255)
 	 * @Assert\NotBlank()
 	 * @Assert\Length(min=2, max=255)
+	 * @Assert\Regex(pattern="/^\w([\w\d\s]+)$/")
 	 */
 	protected $name;
 
@@ -44,7 +45,6 @@ class Component
 	protected $description;
 
 	/**
-	 * @var ArrayCollection
 	 * @ORM\ManyToMany(targetEntity="Application", mappedBy="components", cascade={"persist"})
 	 */
 	protected $applications;
@@ -56,7 +56,7 @@ class Component
 	protected $enabled;
 
 	/**
-	 * @ORM\Column(type="boolean", name="`default`")
+	 * @ORM\Column(type="boolean", name="`default`" )
 	 * @Assert\Type(type="boolean")
 	 */
 	protected $default;
@@ -117,7 +117,7 @@ class Component
 	}
 
 	/**
-	 * Get option
+	 * Get options
 	 *
 	 * @return mixed
 	 */
@@ -127,61 +127,16 @@ class Component
 	}
 
 	/**
-	 * Set option
+	 * Set options
 	 *
 	 * @param array $options
-	 * @return mixed
+	 * @return $this
 	 */
 	public function setOptions(array $options)
 	{
 		$this->options = $options;
 
 		return $this;
-	}
-
-	/**
-	 * Add option
-	 *
-	 * @param array
-	 */
-	public function addOption(array $val)
-	{
-		foreach ($val as $key => $value)
-			$this->options[$key] = $value;
-	}
-
-	/**
-	 * Get option value by key
-	 *
-	 * @param mixed
-	 * @return mixed
-	 */
-	public function getOptionValueByKey($key)
-	{
-		if ( ! isset($this->options[$key]))
-		{
-			return false;
-		}
-
-		return $this->options[$key];
-	}
-
-	/**
-	 * Remove option by key
-	 *
-	 * @param mixed $key
-	 * @return bool
-	 */
-	public function removeOption($key)
-	{
-		if ( ! isset($this->options[$key]))
-		{
-			return false;
-		}
-
-		unset($this->options[$key]);
-
-		return true;
 	}
 
 	/**
@@ -220,10 +175,10 @@ class Component
 	/**
 	 * Set Applications
 	 *
-	 * @param ArrayCollection $applications
+	 * @param $applications
 	 * @return Component
 	 */
-	public function setApplications(ArrayCollection $applications)
+	public function setApplications($applications)
 	{
 		$this->applications = $applications;
 
@@ -296,13 +251,13 @@ class Component
 		return $this;
 	}
 
-    /**
-     * Get Name of Component
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->name;
-    }
+	/**
+	 * Convert entity to string
+	 *
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->name ?: 'Create Component';
+	}
 }

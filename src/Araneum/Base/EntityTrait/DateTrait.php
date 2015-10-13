@@ -2,6 +2,9 @@
 
 namespace Araneum\Base\EntityTrait;
 
+/**
+ * Trait for createAt and updateAt fields in Entities
+ */
 trait DateTrait
 {
     /**

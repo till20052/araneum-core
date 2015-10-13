@@ -41,3 +41,11 @@ online: Online
 offline: Offline
 check_status: Check status
 test_connection: Test connection
+domain: Domain
+aliases: Aliases
+public: Public
+template: Template
+database: Database
+components: Components
+id: ID
+owner: Owner

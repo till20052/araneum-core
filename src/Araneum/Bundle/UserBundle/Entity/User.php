@@ -21,6 +21,7 @@ class User extends BaseUser
 
     const ROLE_USER = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_API = 'ROLE_API';
 
     /**
      * @ORM\Id
@@ -153,5 +154,15 @@ class User extends BaseUser
     public function hasRole($role)
     {
         return in_array(strtoupper($role), $this->getRoles()->toArray(), true);
+    }
+
+    /**
+     * Convert entity to string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->username ?: 'Create User';
     }
 }

@@ -67,7 +67,7 @@ class UserAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
+            ->addIdentifier('id', null, ['label' => 'id'])
             ->add('email', null, ['label' => 'email'])
             ->add('fullName', null, ['label' => 'full_name'])
             ->add(
@@ -113,5 +113,26 @@ class UserAdmin extends Admin
                     'label' => 'actions'
                 ]
             );
+    }
+
+    /**
+     * Get list of field for export
+     *
+     * @return array
+     */
+    public function getExportFields()
+    {
+        return [
+            'id',
+            'fullName',
+            'username',
+            'email',
+            'enabled',
+            'locked',
+            'lastLogin',
+            'roles',
+            'createdAt',
+            'updatedAt',
+        ];
     }
 }
