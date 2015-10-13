@@ -8,6 +8,12 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class UserRolesTransformer implements DataTransformerInterface
 {
+	/**
+	 * Transform roles
+	 *
+	 * @param mixed $value
+	 * @return void|ArrayCollection
+	 */
 	public function transform($value)
 	{
 		if( ! ($value instanceof ArrayCollection)){
@@ -17,6 +23,12 @@ class UserRolesTransformer implements DataTransformerInterface
 		return $value;
 	}
 
+	/**
+	 * Reverse transform roles
+	 *
+	 * @param mixed $roles
+	 * @return array
+	 */
 	public function reverseTransform($roles)
 	{
 		$list = [];
