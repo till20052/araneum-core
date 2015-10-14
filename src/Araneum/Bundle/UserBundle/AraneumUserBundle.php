@@ -8,12 +8,16 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class AraneumUserBundle extends Bundle
 {
-
+    /**
+     * Builds the bundle.
+     *
+     * @param ContainerBuilder $container
+     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
+
         $mappings = [
-//            realpath(__DIR__ . '/Resources/config/doctrine') => 'FOS\UserBundle\Model',
             realpath(__DIR__ . '/Resources/config/doctrine/model') => 'FOS\UserBundle\Entity',
         ];
 
