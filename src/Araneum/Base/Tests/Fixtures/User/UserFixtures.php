@@ -14,7 +14,7 @@ class UserFixtures extends AbstractFixture implements FixtureInterface
     const TEST_USER_FULLNAME = 'TestUserFullName';
     const TEST_USER_PASSWORD = 'TestUserPassword';
     const TEST_USER_ENABLED  = true;
-    const TEST_USER_ROLES    = [User::ROLE_ADMIN];
+    const TEST_USER_ROLES    = [User::ROLE_USER];
     const TEST_USER_NAME_DELETE     = 'TestUserNameForDelete';
     const TEST_USER_EMAIL_FILTER    = 'TestUserEmailForFilter@test.com';
     const TEST_USER_FULLNAME_FILTER = 'TestUserFullnameForFilter';
