@@ -19,7 +19,7 @@ class ApplicationHandlerTest extends BaseController
     protected $repository;
 
     /**
-     * Method that called before tests
+     * Method that called before tests.
      *
      * {@inheritdoc}
      */
