@@ -18,7 +18,7 @@ class ApplicationFixtures extends AbstractFixture implements FixtureInterface, D
     const TEST_APP_ENABLED = true;
     const TEST_APP_STATUS = 1;
     const TEST_APP_TEMPLATE = 'TestTemplate';
-    const TEST_APP_API_KEY = '111111111111111';
+    const TEST_APP_APP_KEY      = '111111111111111';
 
     const TEST_APP_TEMP_NAME = 'TestTempApplicationName';
     const TEST_APP_TEMP_DOMAIN = 'temp.domain.com';
@@ -27,7 +27,7 @@ class ApplicationFixtures extends AbstractFixture implements FixtureInterface, D
     const TEST_APP_TEMP_ENABLED = false;
     const TEST_APP_TEMP_STATUS = 1;
     const TEST_APP_TEMP_TEMPLATE = 'TestTempTemplate';
-    const TEST_APP_TEMP_API_KEY = '1111111111111111111';
+    const TEST_APP_TEMP_APP_KEY = '1111111111111111111';
 
     /**
      * {@inheritDoc}
@@ -52,7 +52,7 @@ class ApplicationFixtures extends AbstractFixture implements FixtureInterface, D
             $app->setLocale($this->getReference('locale'));
             $app->setComponents(new ArrayCollection([$this->getReference('component')]));
             $app->setOwner($this->getReference('owner'));
-            $app->setApiKey(self::TEST_APP_API_KEY);
+            $app->setAppKey(self::TEST_APP_APP_KEY);
             $manager->persist($app);
             $manager->flush();
         }
@@ -76,7 +76,7 @@ class ApplicationFixtures extends AbstractFixture implements FixtureInterface, D
             $app->setLocale($this->getReference('locale'));
             $app->setComponents(new ArrayCollection([$this->getReference('component')]));
             $app->setOwner($this->getReference('owner'));
-            $app->setApiKey(self::TEST_APP_TEMP_API_KEY);
+            $app->setAppKey(self::TEST_APP_TEMP_APP_KEY);
             $manager->persist($app);
             $manager->flush();
         }

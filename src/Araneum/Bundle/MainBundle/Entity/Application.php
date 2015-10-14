@@ -108,9 +108,14 @@ class Application
     protected $template;
 
     /**
-     * @ORM\Column(type="string", name="api_key", length=70)
+     * @ORM\Column(type="string", name="app_key", length=70)
      */
-    protected $apiKey;
+    protected $appKey;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\CustomerBundle\Entity\Customer", mappedBy="application")
+     */
+    protected $customers;
 
     /**
      * Application constructor.
@@ -118,7 +123,8 @@ class Application
     public function __construct()
     {
         $this->setComponents(new ArrayCollection());
-        $this->setApiKey();
+        $this->setAppKey();
+        $this->setCustomers(new ArrayCollection());
     }
 
     /**
@@ -444,24 +450,24 @@ class Application
     }
 
     /**
-     * Get apiKey
+     * Get appKey
      *
      * @return mixed
      */
-    public function getApiKey()
+    public function getAppKey()
     {
-        return $this->apiKey;
+        return $this->appKey;
     }
 
     /**
-     * Set apiKey
+     * Set appKey
      *
-     * @param mixed $apiKey
+     * @param mixed $appKey
      * @return mixed
      */
-    public function setApiKey($apiKey = null)
+    public function setAppKey($appKey = null)
     {
-        $this->apiKey = is_null($apiKey) ? $this->generateUniqueKey() : $apiKey;
+        $this->appKey = is_null($appKey) ? $this->generateUniqueKey() : $appKey;
 
         return $this;
     }
@@ -475,6 +481,30 @@ class Application
     {
         return uniqid(sha1(time()), true);
     }
+
+    /**
+     * Get customers
+     *
+     * @return ArrayCollection
+     */
+    public function getCustomers()
+    {
+        return $this->customers;
+    }
+
+    /**
+     * Set customers
+     *
+     * @param ArrayCollection $customers
+     * @return Application
+     */
+    public function setCustomers(ArrayCollection $customers)
+    {
+        $this->customers = $customers;
+
+        return $this;
+    }
+
 
     /**
      * Convert entity to string

@@ -24,5 +24,11 @@ _knp_rad_assistant:
 araneum_main_api:
     resource: "@AraneumMainBundle/Controller/Api"
     type: annotation
-    prefix: /api/main
+    prefix: /api
+    defaults: {_format: json}
+
+araneum_customers_api:
+    resource: "@AraneumCustomerBundle/Controller"
+    type:     annotation
+    prefix:   /api
     defaults: {_format: json}

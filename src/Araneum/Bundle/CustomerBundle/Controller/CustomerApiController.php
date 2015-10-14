@@ -2,15 +2,22 @@
 
 namespace Araneum\Bundle\CustomerBundle\Controller;
 
-use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\HttpFoundation\Response;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Controller\FOSRestController;
+use Symfony\Component\HttpFoundation\Request;
+use Araneum\Bundle\CustomerBundle\Form\CustomerType;
+use Araneum\Bundle\CustomerBundle\Entity\Customer;
 
 class CustomerApiController extends FOSRestController
 {
 
     /**
-     * Get Application config by apiKey
+     * Get Application config by appKey
      *
      * @ApiDoc(
      *   resource = "Customer",
@@ -30,19 +37,32 @@ class CustomerApiController extends FOSRestController
      *      }
      *   },
      *   parameters={
-     *      {"name"="apiKey", "dataType"="string", "required"=true, "description"="apiKey"}
+     *      {"name"="appKey", "dataType"="string", "required"=true, "description"="appKey"}
      *   },
      *   tags={"ApplicationApi"}
      * )
      *
-     * @Route("/customer/data/{apiKey}")
+     * @Route("/customers/data")
+     * @Method({"POST"})
      *
-     * @Method({"GET"})
+     * @Rest\View(templateVar="customer")
      *
-     * @param string $apiKey
-     * @param        $customerData
+     * @param Request $request
+     * @return mixed
      */
-    public function getDataAction($apiKey, $customerData)
+    public function setCustomerAction(Request $request)
     {
+        $appKey = $request->query->get('appKey', $request);
+
+        $postParameters = $request->request->all();
+
+        $customer = new Customer();
+
+        $form = $this->createForm(new CustomerType(), $customer);
+
+        return $this->container
+            ->get('araneum.customer.handler')
+            ->getCustomer($appKey, $postParameters, $form, $customer);
     }
+
 }

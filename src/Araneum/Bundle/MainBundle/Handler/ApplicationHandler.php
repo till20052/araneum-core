@@ -30,15 +30,15 @@ class ApplicationHandler
     /**
      * Get Application
      *
-     * @param string $apiKey the application apiKey
+     * @param string $appKey the application appKey
      * @return array
      */
-    public function get($apiKey)
+    public function get($appKey)
     {
-        $entity = $this->repository->findOneBy(['apiKey' => $apiKey]);
+        $entity = $this->repository->findOneBy(['appKey' => $appKey]);
 
         if (!$entity) {
-            throw new NotFoundHttpException('Not Application found for this apiKey', null, Response::HTTP_NOT_FOUND);
+            throw new NotFoundHttpException('Not Application found for this appKey', null, Response::HTTP_NOT_FOUND);
         }
 
         $application =
