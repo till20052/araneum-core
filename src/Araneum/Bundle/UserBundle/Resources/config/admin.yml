@@ -6,6 +6,6 @@ services:
         arguments:
             - ~
             - Araneum\Bundle\UserBundle\Entity\User
-            - SonataAdminBundle:CRUD
+            - ~
         calls:
             - [setContainer, [@service_container]]
