@@ -19,7 +19,7 @@ host: Хост
 db_connection: Соединение с базой данных
 host_connection: Соединение с хостом
 connection: Соединение
-locale: Локаль
+locales: Локали
 orientation: Ориентация
 encoding: Кодировка
 left_to_right: Слева направо

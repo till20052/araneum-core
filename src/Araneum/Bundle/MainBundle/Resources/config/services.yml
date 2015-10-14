@@ -2,3 +2,7 @@ services:
     araneum.main.handler.application:
         class: Araneum\Bundle\MainBundle\Handler\ApplicationHandler
         arguments: [@doctrine.orm.entity_manager, Araneum\Bundle\MainBundle\Entity\Application]
+
+    araneum.main.handler.cluster:
+            class: Araneum\Bundle\MainBundle\Handler\ClusterHandler
+            arguments: [@doctrine.orm.entity_manager, Araneum\Bundle\MainBundle\Entity\Cluster]

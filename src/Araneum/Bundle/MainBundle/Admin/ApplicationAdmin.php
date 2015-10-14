@@ -103,8 +103,15 @@ class ApplicationAdmin extends Admin
             ->with('database')
             ->add('db', 'sonata_type_model', ['label' => 'database'])
             ->end()
-            ->with('locale')
-            ->add('locale', 'sonata_type_model', ['label' => 'locale'])
+            ->with('locales')
+            ->add(
+                'locales',
+                'sonata_type_model',
+                [
+                    'label' => 'locales',
+                    'multiple' => true
+                ]
+            )
             ->end()
             ->with('components')
             ->add(
@@ -148,7 +155,7 @@ class ApplicationAdmin extends Admin
                     'editable' => true
                 ]
             )
-            ->add('locale', null, ['label' => 'locale'])
+            ->add('locales', null, ['label' => 'locales'])
             ->add('owner', null, ['label' => 'owner'])
             ->add(
                 'status',
@@ -202,7 +209,7 @@ class ApplicationAdmin extends Admin
             ->add('db', null, ['label' => 'database'])
             ->add('public', null, ['label' => 'public'])
             ->add('enabled', null, ['label' => 'enabled'])
-            ->add('locale', null, ['label' => 'locale'])
+            ->add('locales', null, ['label' => 'locales'])
             ->add('owner', null, ['label' => 'owner'])
             ->add(
                 'status',

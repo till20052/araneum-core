@@ -78,10 +78,11 @@ class Application
     protected $enabled;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Locale")
-     * @ORM\JoinColumn(name="locale_id", referencedColumnName="id")
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="Locale", inversedBy="applications", cascade={"persist"})
+     * @ORM\JoinTable(name="araneum_applications_locales")
      */
-    protected $locale;
+    protected $locales;
 
     /**
      * @ORM\ManyToMany(targetEntity="Component", inversedBy="applications", cascade={"persist"})
@@ -262,7 +263,7 @@ class Application
     /**
      * Get Db
      *
-     * @return mixed
+     * @return Connection
      */
     public function getDb()
     {
@@ -272,8 +273,8 @@ class Application
     /**
      * Set Db
      *
-     * @param mixed $db
-     * @return mixed
+     * @param Connection $db
+     * @return $this
      */
     public function setDb(Connection $db)
     {
@@ -329,24 +330,24 @@ class Application
     }
 
     /**
-     * Get locale
+     * Get locales
      *
-     * @return mixed
+     * @return ArrayCollection
      */
-    public function getLocale()
+    public function getLocales()
     {
-        return $this->locale;
+        return $this->locales;
     }
 
     /**
-     * Set locale
+     * Set locales
      *
-     * @param mixed $locale
-     * @return mixed
+     * @param ArrayCollection $locales
+     * @return $this
      */
-    public function setLocale(Locale $locale)
+    public function setLocales(ArrayCollection $locales)
     {
-        $this->locale = $locale;
+        $this->locales = $locales;
 
         return $this;
     }
@@ -354,7 +355,7 @@ class Application
     /**
      * Get Components
      *
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getComponents()
     {
@@ -364,8 +365,8 @@ class Application
     /**
      * Set components
      *
-     * @param mixed $components
-     * @return mixed
+     * @param ArrayCollection $components
+     * @return $this
      */
     public function setComponents(ArrayCollection $components)
     {

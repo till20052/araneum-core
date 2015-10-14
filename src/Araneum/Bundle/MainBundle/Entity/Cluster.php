@@ -68,11 +68,18 @@ class Cluster
     protected $status;
 
     /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Application", mappedBy="cluster", cascade={"persist"})
+     */
+    protected $applications;
+
+    /**
      * Cluster constructor.
      */
     public function __construct()
     {
         $this->setHosts(new ArrayCollection());
+        $this->setApplications(new ArrayCollection());
     }
 
     /**
@@ -231,5 +238,28 @@ class Cluster
     public function __toString()
     {
         return $this->name ?: 'Create Cluster';
+    }
+
+    /**
+     * Set applications
+     *
+     * @param ArrayCollection $applications
+     * @return $this
+     */
+    public function setApplications(ArrayCollection $applications)
+    {
+        $this->applications = $applications;
+
+        return $this;
+    }
+
+    /**
+     * Get applications
+     *
+     * @return ArrayCollection
+     */
+    public function getApplications()
+    {
+        return $this->applications;
     }
 }
