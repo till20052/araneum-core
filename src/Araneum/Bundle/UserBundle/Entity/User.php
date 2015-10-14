@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * User class
+ * User class.
  *
  * @ORM\Entity(repositoryClass="Araneum\Bundle\UserBundle\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks
