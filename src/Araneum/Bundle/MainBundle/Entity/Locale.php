@@ -37,6 +37,7 @@ class Locale
      *
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=20)
+     * @Assert\Regex(pattern="/^\w([\w\d\s]+)$/")
      */
     protected $name;
 
