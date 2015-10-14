@@ -68,10 +68,25 @@ class User extends BaseUser
     }
 
     /**
+     * After load data
+     *
+     * @ORM\PostLoad
+     */
+    public function afterLoad()
+    {
+        $this->rolesBuffer = [];
+
+        foreach($this->roles as $role)
+        {
+            $this->rolesBuffer[] = $role->getName();
+        }
+    }
+
+    /**
      * Pre Flush Event
      *
-     * @param PreFlushEventArgs $preFlushEventArgs
      * @ORM\PreFlush
+     * @param PreFlushEventArgs $preFlushEventArgs
      */
     public function beforeFlush(PreFlushEventArgs $preFlushEventArgs)
     {
@@ -117,13 +132,16 @@ class User extends BaseUser
      */
     public function getRoles()
     {
-        if(isset($this->rolesBuffer) && is_array($this->rolesBuffer)){
+        if(
+            isset($this->rolesBuffer)
+            && is_array($this->rolesBuffer)
+        ){
             return $this->rolesBuffer;
         }
 
         $this->rolesBuffer = [];
 
-        foreach($this->roles as $role)
+        foreach ($this->roles as $role)
         {
             $this->rolesBuffer[] = $role->getName();
         }
@@ -139,7 +157,9 @@ class User extends BaseUser
      */
     public function setRoles(array $roles)
     {
-        foreach($roles as $role)
+        $this->rolesBuffer = [];
+
+        foreach ($roles as $role)
         {
             $this->addRole($role);
         }
@@ -155,7 +175,10 @@ class User extends BaseUser
      */
     public function addRole($role)
     {
-        if( ! $this->hasRole($role)){
+        $role = strtoupper($role);
+
+        if( ! in_array($role, $this->getRoles(), true))
+        {
             $this->rolesBuffer[] = $role;
         }
 
@@ -165,18 +188,15 @@ class User extends BaseUser
     /**
      * Remove user role
      *
-     * @param string $roleName
+     * @param string $role
      * @return $this
      */
-    public function removeRole($roleName)
+    public function removeRole($role)
     {
-        foreach($this->getRoles() as $i => $name)
+        if(false !== $key = array_search(strtoupper($role), $this->getRoles(), true))
         {
-            if($roleName != $name){
-                continue;
-            }
-
-            unset($this->rolesBuffer[$i]);
+            unset($this->rolesBuffer[$key]);
+            $this->rolesBuffer = array_values($this->rolesBuffer);
         }
 
         return $this;
@@ -185,20 +205,12 @@ class User extends BaseUser
     /**
      * Check has user role
      *
-     * @param string $roleName
+     * @param string $role
      * @return bool
      */
-    public function hasRole($roleName)
+    public function hasRole($role)
     {
-        foreach($this->getRoles() as $name)
-        {
-            if($roleName != $name)
-                continue;
-
-            return true;
-        }
-
-        return false;
+        return in_array(strtoupper($role), $this->getRoles(), true);
     }
 
     /**
