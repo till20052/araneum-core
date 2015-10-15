@@ -4,7 +4,6 @@ namespace Araneum\Bundle\MainBundle\Tests\Functional\Api;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Araneum\Base\Tests\Fixtures\Main\ClusterFixtures;
-use Araneum\Bundle\MainBundle\Entity\Application;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Araneum\Bundle\MainBundle\Repository\ClusterRepository;
