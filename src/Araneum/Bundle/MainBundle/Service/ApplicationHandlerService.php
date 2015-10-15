@@ -30,7 +30,7 @@ class ApplicationHandlerService
     /**
      * Get Application
      *
-     * @param string $appKey the application apiKey
+     * @param string $appKey the application appKey
      * @return array
      */
     public function get($appKey)

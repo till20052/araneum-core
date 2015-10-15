@@ -89,7 +89,7 @@ class ApplicationHandlerTest extends BaseController
         $this->repository
             ->expects($this->once())
             ->method("findOneBy")
-            ->with($this->equalTo(['apiKey' => self::API_KEY]))
+            ->with($this->equalTo(['appKey' => self::API_KEY]))
             ->will($this->returnValue($application));
         $appConfig = $applicationHandler->get(self::API_KEY);
 
@@ -101,7 +101,7 @@ class ApplicationHandlerTest extends BaseController
      *
      * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @expectedExceptionCode \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND
-     * @expectedExceptionMessage Not Application found for this apiKey
+     * @expectedExceptionMessage Not Application found for this appKey
      */
     public function testGetException()
     {

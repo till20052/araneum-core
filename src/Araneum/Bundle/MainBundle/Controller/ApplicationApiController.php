@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApplicationApiController extends FOSRestController
 {
     /**
-     * Get Application config by apiKey
+     * Get Application config by appKey
      *
      * @ApiDoc(
      *   resource = "Application",
@@ -45,7 +45,7 @@ class ApplicationApiController extends FOSRestController
      *
      * @Rest\View()
      *
-     * @param string $appKey The application apiKey
+     * @param string $appKey The application appKey
      * @return array
      */
     public function getConfigAction($appKey)
