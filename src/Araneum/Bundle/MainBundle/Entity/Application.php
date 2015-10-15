@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Araneum\Bundle\MainBundle\Entity\Cluster;
 
 /**
  * Application class.
@@ -148,7 +149,7 @@ class Application
     /**
      * Get cluster
      *
-     * @return mixed
+     * @return Cluster
      */
     public function getCluster()
     {
@@ -158,8 +159,8 @@ class Application
     /**
      * Set cluster
      *
-     * @param mixed $cluster
-     * @return mixed
+     * @param Cluster $cluster
+     * @return $this
      */
     public function setCluster(Cluster $cluster)
     {

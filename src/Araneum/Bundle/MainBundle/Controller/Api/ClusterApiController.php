@@ -36,10 +36,13 @@ class ClusterApiController extends FOSRestController
 	 *   tags={"ClusterApi"}
 	 * )
 	 *
-	 * @Route("/cluster/applications_configs_list/{clusterId}", name="araneum_main_api_cluster")
-	 * @Method({"GET"})
+	 * @Route(
+	 *      "/cluster/applications_configs_list/{clusterId}",
+	 *      name="araneum_main_api_cluster_applications_configs_list"
+	 * )
+	 * @Method("GET")
 	 *
-	 * @Rest\View(templateVar="cluster")
+	 * @Rest\View()
 	 *
 	 * @param int $clusterId The cluster id
 	 * @return array
