@@ -13,12 +13,12 @@ class RemoteApplicationManager
     /**
      * Constructor
      *
-     * @param $doctrine
+     * @param $manager
      */
-    public function __construct(ObjectManager $doctrine)
+    public function __construct(ObjectManager $manager)
     {
-        $this->manager = $doctrine;
-        $this->repository = $doctrine->getRepository('AraneumMainBundle:Application');
+        $this->manager = $manager;
+        $this->repository = $manager->getRepository('AraneumMainBundle:Application');
     }
 
     /**
