@@ -61,11 +61,7 @@ class RemoteApplicationManager
         if ($appEntity instanceof Application) {
             $entity = $appEntity;
         } else {
-            if (is_string($appEntity)) {
-                $entity = $this->repository->findOneBy(['app_key' => $appEntity]);
-            } else {
-                $entity = new Application();
-            }
+            $entity = $this->repository->findOneBy(['app_key' => $appEntity]);
         }
 
         return $entity;
@@ -74,11 +70,19 @@ class RemoteApplicationManager
     /**
      * Delete application
      *
-     * @param $appKey
+     * @param mixed
      * @return bool
      */
-    public function deleteApplication($appKey)
+    public function deleteApplication($appEntity)
     {
+        if (is_string($appEntity)) {
+            $appEntity = $this->repository->findOneBy(['app_key' => $appEntity]);
+        }
+
+        if ($appEntity instanceof Application) {
+            $this->manager->remove($appEntity);
+        }
+
         return true;
     }
 
