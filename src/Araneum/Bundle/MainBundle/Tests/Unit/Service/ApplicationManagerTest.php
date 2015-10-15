@@ -4,11 +4,11 @@ namespace Araneum\Bundle\MainBundle\Tests\Unit\Service;
 
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Araneum\Bundle\MainBundle\Entity\Application;
-use Araneum\Bundle\MainBundle\Service\ApplicationManager;
+use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ApplicationManagerTest extends \PHPUnit_Framework_TestCase
+class ApplicationManagerServiceTest extends \PHPUnit_Framework_TestCase
 {
     protected $doctrineMock;
     protected $repositoryMock;
@@ -33,7 +33,7 @@ class ApplicationManagerTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('AraneumMainBundle:Application'))
             ->will($this->returnValue($this->repositoryMock));
 
-        $this->applicationManager = new ApplicationManager($this->doctrineMock);
+        $this->applicationManager = new ApplicationManagerService($this->doctrineMock);
     }
 
     public function testFindOne()

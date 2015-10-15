@@ -7,14 +7,14 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 
-class ApplicationManager
+class ApplicationManagerService
 {
     /** @var  Registry */
     private $doctrine;
     private $repository;
 
     /**
-     * ApplicationManager constructor
+     * ApplicationManagerService constructor
      *
      * @param $doctrine
      */

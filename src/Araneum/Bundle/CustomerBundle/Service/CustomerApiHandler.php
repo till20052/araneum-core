@@ -1,10 +1,10 @@
 <?php
 
-namespace Araneum\Bundle\CustomerBundle\Handler;
+namespace Araneum\Bundle\CustomerBundle\Service;
 
 use Araneum\Bundle\CustomerBundle\Form\CustomerType;
 use Doctrine\ORM\EntityManager;
-use Araneum\Bundle\MainBundle\Service\ApplicationManager;
+use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
 use Araneum\Bundle\CustomerBundle\Entity\Customer;
 use Symfony\Component\Form\Exception\AlreadySubmittedException;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +12,7 @@ use Araneum\Bundle\CustomerBundle\Exception\InvalidFormException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
 
-class CustomerHandler
+class CustomerApiHandler
 {
     protected $entityManager;
     protected $appManager;
@@ -21,9 +21,9 @@ class CustomerHandler
      * Class construct
      *
      * @param EntityManager      $entityManager
-     * @param ApplicationManager $appManager
+     * @param ApplicationManagerService $appManager
      */
-    public function __construct(EntityManager $entityManager, ApplicationManager $appManager)
+    public function __construct(EntityManager $entityManager, ApplicationManagerService $appManager)
     {
         $this->entityManager = $entityManager;
         $this->appManager = $appManager;

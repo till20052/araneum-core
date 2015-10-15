@@ -42,7 +42,7 @@ class CustomerApiController extends FOSRestController
      *   tags={"ApplicationApi"}
      * )
      *
-     * @Route("/customers/data", name="araneum_customer_api_customer")
+     * @Route("/customers/data")
      * @Method({"POST"})
      *
      * @Rest\View(templateVar="customer")
@@ -61,7 +61,7 @@ class CustomerApiController extends FOSRestController
         $form = $this->createForm(new CustomerType(), $customer);
 
         return $this->container
-            ->get('araneum.customer.handler')
+            ->get('araneum.customer.api.handler')
             ->getCustomer($appKey, $postParameters, $form, $customer);
     }
 

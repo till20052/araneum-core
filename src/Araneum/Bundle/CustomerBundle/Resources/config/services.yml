@@ -1,4 +1,4 @@
 services:
-  araneum.customer.handler:
-    class: Araneum\Bundle\CustomerBundle\Handler\CustomerHandler
+  araneum.customer.api.handler:
+    class: Araneum\Bundle\CustomerBundle\Service\CustomerApiHandler
     arguments: [@doctrine.orm.entity_manager, @araneum.main.service.application]
