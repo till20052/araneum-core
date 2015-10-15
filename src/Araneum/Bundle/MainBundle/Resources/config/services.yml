@@ -2,3 +2,6 @@ services:
     araneum.main.handler.application:
         class: Araneum\Bundle\MainBundle\Handler\ApplicationHandler
         arguments: [@doctrine.orm.entity_manager, Araneum\Bundle\MainBundle\Entity\Application]
+    araneum.main.service.api.application:
+        class: Araneum\Bundle\MainBundle\Service\ApiApplicationManager
+        arguments: [@doctrine.orm.entity_manager]
