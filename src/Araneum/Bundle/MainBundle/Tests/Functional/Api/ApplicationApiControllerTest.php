@@ -11,7 +11,7 @@ class ApplicationApiControllerTest extends BaseController
     /**
      * @var string uri to call rest api method
      */
-    protected $configGetUri = '/api/main/application/config/';
+    protected $configGetUri = '/en/api/application/config/';
 
     /**
      * Test ApplicationApiController

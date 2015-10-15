@@ -31,3 +31,13 @@ fos_user_resetting:
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
+
+araneum_customers_api:
+    resource: "@AraneumCustomerBundle/Controller"
+    type:     annotation
+    defaults: {_format: json}
+
+araneum_main_api:
+    resource: "@AraneumMainBundle/Controller"
+    type: annotation
+    defaults: {_format: json}

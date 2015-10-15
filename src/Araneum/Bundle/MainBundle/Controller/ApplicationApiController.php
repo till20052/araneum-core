@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Controller\Api;
+namespace Araneum\Bundle\MainBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -37,7 +37,7 @@ class ApplicationApiController extends FOSRestController
      *   tags={"ApplicationApi"}
      * )
      *
-     * @Route("/application/config/{appKey}", name="araneum_main_api_application")
+     * @Route("/api/application/config/{appKey}", name="araneum_main_api_application")
      * @Method({"GET"})
      *
      * @Rest\View(templateVar="application")

@@ -42,7 +42,7 @@ class CustomerApiController extends FOSRestController
      *   tags={"ApplicationApi"}
      * )
      *
-     * @Route("/customers/data")
+     * @Route("/api/customers/data")
      * @Method({"POST"})
      *
      * @Rest\View(templateVar="customer")

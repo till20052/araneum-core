@@ -89,7 +89,7 @@ class ApplicationHandlerTest extends BaseController
         $this->repository
             ->expects($this->once())
             ->method("findOneBy")
-            ->with($this->equalTo(['apiKey' => self::API_KEY]))
+            ->with($this->equalTo(['appKey' => self::API_KEY]))
             ->will($this->returnValue($application));
         $appConfig = $applicationHandler->get(self::API_KEY);
 

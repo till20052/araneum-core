@@ -19,7 +19,6 @@ class ApplicationFixtures extends AbstractFixture implements FixtureInterface, D
     const TEST_APP_STATUS = 1;
     const TEST_APP_TEMPLATE = 'TestTemplate';
     const TEST_APP_APP_KEY      = '111111111111111';
-
     const TEST_APP_TEMP_NAME = 'TestTempApplicationName';
     const TEST_APP_TEMP_DOMAIN = 'temp.domain.com';
     const TEST_APP_TEMP_ALIASES = 'www.temp.domain.com, www2.temp.domain.com';
