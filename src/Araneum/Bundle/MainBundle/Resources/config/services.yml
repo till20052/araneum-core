@@ -4,5 +4,5 @@ services:
         arguments: [@doctrine.orm.entity_manager, Araneum\Bundle\MainBundle\Entity\Application]
 
     araneum.main.cluster.handler:
-            class: Araneum\Bundle\MainBundle\Service\ClusterHandlerService
-            arguments: [@doctrine.orm.entity_manager, Araneum\Bundle\MainBundle\Entity\Cluster]
+        class: Araneum\Bundle\MainBundle\Service\ClusterHandlerService
+        arguments: [@doctrine.orm.entity_manager, Araneum\Bundle\MainBundle\Entity\Cluster]
