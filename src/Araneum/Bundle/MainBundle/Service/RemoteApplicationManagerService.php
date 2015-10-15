@@ -5,6 +5,11 @@ namespace Araneum\Bundle\MainBundle\Service;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * Class RemoteApplicationManagerService
+ *
+ * @package Araneum\Bundle\MainBundle\Service
+ */
 class RemoteApplicationManagerService
 {
     private $repository;
@@ -24,15 +29,12 @@ class RemoteApplicationManagerService
     /**
      * Create application
      *
-     * @param
-     * @return Application
+     * @param Application $appEntity
+     * @return mixed
      */
-    public function create($appEntity)
+    public function create(Application $appEntity)
     {
-        $this->manager->persist($appEntity);
-        $this->manager->flush();
-
-        return $appEntity;
+        return 222;
     }
 
     /**
@@ -66,19 +68,19 @@ class RemoteApplicationManagerService
     }
 
     /**
-     * Delete application
+     * Remove application
      *
      * @param mixed
      * @return bool
      */
-    public function deleteApplication($appEntity)
+    public function remove($appEntity)
     {
         if (is_string($appEntity)) {
             $appEntity = $this->repository->findOneBy(['appKey' => $appEntity]);
         }
 
         if ($appEntity instanceof Application) {
-            $this->manager->remove($appEntity);
+            //$this->manager->remove($appEntity);
         }
 
         return true;
