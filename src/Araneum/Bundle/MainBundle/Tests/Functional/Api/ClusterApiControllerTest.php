@@ -8,9 +8,8 @@ use Araneum\Bundle\MainBundle\Entity\Application;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Araneum\Bundle\MainBundle\Repository\ClusterRepository;
-use Araneum\Bundle\MainBundle\Entity\Cluster;
-use Araneum\Bundle\MainBundle\Entity\Locale;
-use Araneum\Bundle\MainBundle\Entity\Component;
+use Araneum\Bundle\MainBundle\Entity\Cluster;;
+use Araneum\Bundle\MainBundle\Handler\ClusterHandler;
 
 class ClusterApiControllerTest extends BaseController
 {
@@ -23,6 +22,11 @@ class ClusterApiControllerTest extends BaseController
 	 * @var ClusterRepository
 	 */
 	private $repository;
+
+	/**
+	 * @var ClusterHandler
+	 */
+	private $handler;
 
 	/**
 	 * Create request and return response from cluster api
@@ -47,63 +51,14 @@ class ClusterApiControllerTest extends BaseController
 	}
 
 	/**
-	 * Get expected structure
-	 *
-	 * @param Application $application
-	 * @return array
-	 */
-	private function getStructure(Application $application)
-	{
-		$structure = [
-			'domain' => $application->getDomain(),
-			'template' => $application->getTemplate(),
-			'aliases' => $application->getAliases(),
-			'app_key' => $application->getApiKey(),
-			'cluster' => [
-				'id' => $application->getCluster()->getId()
-			],
-			'db' => [
-				'name' => $application->getDb()->getName(),
-				'host' => $application->getDb()->getHost(),
-				'port' => $application->getDb()->getPort(),
-				'user_name' => $application->getDb()->getUserName(),
-				'password' => $application->getDb()->getPassword(),
-			],
-			'locale' => [],
-			'components' => []
-		];
-
-		/** @var Locale $locale */
-		foreach($application->getLocales() as $locale)
-		{
-			$structure['locales'][] = [
-				'name' => $locale->getName(),
-				'locale' => $locale->getLocale(),
-				'orientation' => $locale->getOrientation(),
-				'encoding' => $locale->getEncoding()
-			];
-		}
-
-		/** @var Component $component */
-		foreach($application->getComponents() as $component)
-		{
-			$structure['components'][] = [
-				'name' => $component->getName(),
-				'options' => $component->getOptions()
-			];
-		}
-
-		return $structure;
-	}
-
-	/**
 	 * Initialize requirements
 	 */
 	protected function setUp()
 	{
 		$this->client = self::createAdminAuthorizedClient('api');
-		$this->repository = $this->client
-			->getContainer()
+		$container = $this->client->getContainer();
+		$this->handler = $container->get('araneum.main.handler.cluster');
+		$this->repository = $container
 			->get('doctrine.orm.entity_manager')
 			->getRepository('AraneumMainBundle:Cluster');
 	}
@@ -137,7 +92,7 @@ class ClusterApiControllerTest extends BaseController
 		foreach(json_decode($response->getContent(), true) as $i => $application)
 		{
 			$this->assertTrue(
-				$application === $this->getStructure($cluster->getApplications()[$i]),
+				$application === $this->handler->getApplicationConfigStructure($cluster->getApplications()[$i]),
 				'Structure or value of structure is not equals'
 			);
 		}

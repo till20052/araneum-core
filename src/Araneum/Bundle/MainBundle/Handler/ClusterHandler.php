@@ -28,6 +28,56 @@ class ClusterHandler
 	}
 
 	/**
+	 * Get application config structure
+	 *
+	 * @param Application $application
+	 * @return array
+	 */
+	public function getApplicationConfigStructure(Application $application)
+	{
+		$structure = [
+			'domain' => $application->getDomain(),
+			'template' => $application->getTemplate(),
+			'aliases' => $application->getAliases(),
+			'app_key' => $application->getApiKey(),
+			'cluster' => [
+				'id' => $application->getCluster()->getId()
+			],
+			'db' => [
+				'name' => $application->getDb()->getName(),
+				'host' => $application->getDb()->getHost(),
+				'port' => $application->getDb()->getPort(),
+				'user_name' => $application->getDb()->getUserName(),
+				'password' => $application->getDb()->getPassword(),
+			],
+			'locale' => [],
+			'components' => []
+		];
+
+		/** @var Locale $locale */
+		foreach($application->getLocales() as $locale)
+		{
+			$structure['locales'][] = [
+				'name' => $locale->getName(),
+				'locale' => $locale->getLocale(),
+				'orientation' => $locale->getOrientation(),
+				'encoding' => $locale->getEncoding()
+			];
+		}
+
+		/** @var Component $component */
+		foreach($application->getComponents() as $component)
+		{
+			$structure['components'][] = [
+				'name' => $component->getName(),
+				'options' => $component->getOptions()
+			];
+		}
+
+		return $structure;
+	}
+
+	/**
 	 * Get configurations list of applications which cluster contains
 	 *
 	 * @param $clusterId
@@ -46,46 +96,7 @@ class ClusterHandler
 		/** @var Application $application */
 		foreach($cluster->getApplications() as $application)
 		{
-			$token = [
-				'domain' => $application->getDomain(),
-				'template' => $application->getTemplate(),
-				'aliases' => $application->getAliases(),
-				'app_key' => $application->getApiKey(),
-				'cluster' => [
-					'id' => $cluster->getId()
-				],
-				'db' => [
-					'name' => $application->getDb()->getName(),
-					'host' => $application->getDb()->getHost(),
-					'port' => $application->getDb()->getPort(),
-					'user_name' => $application->getDb()->getUserName(),
-					'password' => $application->getDb()->getPassword(),
-				],
-				'locale' => [],
-				'components' => []
-			];
-
-			/** @var Locale $locale */
-			foreach($application->getLocales() as $locale)
-			{
-				$token['locales'][] = [
-					'name' => $locale->getName(),
-					'locale' => $locale->getLocale(),
-					'orientation' => $locale->getOrientation(),
-					'encoding' => $locale->getEncoding()
-				];
-			}
-
-			/** @var Component $component */
-			foreach($application->getComponents() as $component)
-			{
-				$token['components'][] = [
-					'name' => $component->getName(),
-					'options' => $component->getOptions()
-				];
-			}
-
-			$list[] = $token;
+			$list[] = $this->getApplicationConfigStructure($application);
 		}
 
 		return $list;
