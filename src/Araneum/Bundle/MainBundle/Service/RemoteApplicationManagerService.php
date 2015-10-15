@@ -5,7 +5,7 @@ namespace Araneum\Bundle\MainBundle\Service;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class RemoteApplicationManager
+class RemoteApplicationManagerService
 {
     private $repository;
     private $manager;
