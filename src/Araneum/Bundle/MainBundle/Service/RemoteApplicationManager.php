@@ -10,7 +10,6 @@ class RemoteApplicationManager
     private $repository;
     private $manager;
 
-
     /**
      * Constructor
      *
@@ -95,5 +94,4 @@ class RemoteApplicationManager
     {
         return null;
     }
-
 }
