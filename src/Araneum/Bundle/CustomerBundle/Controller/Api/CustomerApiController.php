@@ -42,7 +42,7 @@ class CustomerApiController extends FOSRestController
      *   tags={"ApplicationApi"}
      * )
      *
-     * @Route("/customers/data")
+     * @Route("/customers/data", name="araneum_customer_api_customer")
      * @Method({"POST"})
      *
      * @Rest\View(templateVar="customer")
