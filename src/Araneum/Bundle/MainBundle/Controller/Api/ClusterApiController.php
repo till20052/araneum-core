@@ -53,7 +53,7 @@ class ClusterApiController extends FOSRestController
 			->get('araneum.main.cluster.handler')
 			->getApplicationsConfigsList($clusterId);
 
-		if( ! $list)
+		if($list === false)
 			throw new NotFoundHttpException('Cluster not found');
 
 		return $list;
