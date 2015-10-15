@@ -37,10 +37,12 @@ class ApplicationApiController extends FOSRestController
      *   tags={"ApplicationApi"}
      * )
      *
-     * @Route("/application/config/{apiKey}", name="araneum_main_api_application")
-     * @Method({"GET"})
+     * @Rest\Get(
+     *      "/application/config/{apiKey}",
+     *      name="araneum_main_api_application"
+     * )
      *
-     * @Rest\View(templateVar="application")
+     * @Rest\View()
      *
      * @param string $apiKey The application apiKey
      * @return array

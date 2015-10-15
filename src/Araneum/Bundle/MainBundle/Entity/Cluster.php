@@ -244,7 +244,7 @@ class Cluster
      * Set applications
      *
      * @param ArrayCollection $applications
-     * @return $this
+     * @return Cluster $this
      */
     public function setApplications(ArrayCollection $applications)
     {
@@ -261,5 +261,44 @@ class Cluster
     public function getApplications()
     {
         return $this->applications;
+    }
+
+    /**
+     * Add application
+     *
+     * @param Application $application
+     * @return Cluster $this
+     */
+    public function addApplication(Application $application)
+    {
+        if( ! $this->hasApplication($application)){
+            $this->applications->add($application);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove application
+     *
+     * @param Application $application
+     * @return Cluster $this
+     */
+    public function removeApplication(Application $application)
+    {
+        $this->applications->removeElement($application);
+
+        return $this;
+    }
+
+    /**
+     * Check is cluster has application
+     *
+     * @param Application $application
+     * @return bool
+     */
+    public function hasApplication(Application $application)
+    {
+        return $this->applications->contains($application);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Controller\Api;
+namespace Araneum\Bundle\MainBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -36,11 +36,10 @@ class ClusterApiController extends FOSRestController
 	 *   tags={"ClusterApi"}
 	 * )
 	 *
-	 * @Route(
+	 * @Rest\Get(
 	 *      "/cluster/applications_configs_list/{clusterId}",
 	 *      name="araneum_main_api_cluster_applications_configs_list"
 	 * )
-	 * @Method("GET")
 	 *
 	 * @Rest\View()
 	 *
@@ -53,8 +52,9 @@ class ClusterApiController extends FOSRestController
 			->get('araneum.main.cluster.handler')
 			->getApplicationsConfigsList($clusterId);
 
-		if($list === false)
+		if($list === false){
 			throw new NotFoundHttpException('Cluster not found');
+		}
 
 		return $list;
 	}
