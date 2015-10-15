@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Controller\Api;
+namespace Araneum\Bundle\MainBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -32,25 +32,26 @@ class ApplicationApiController extends FOSRestController
      *      }
      *   },
      *   parameters={
-     *      {"name"="apiKey", "dataType"="string", "required"=true, "description"="apiKey"}
+     *      {"name"="appKey", "dataType"="string", "required"=true, "description"="appKey"}
      *   },
      *   tags={"ApplicationApi"}
      * )
      *
      * @Rest\Get(
-     *      "/application/config/{apiKey}",
-     *      name="araneum_main_api_application"
+     *      "/application/config/{appKey}",
+     *      name="araneum_main_api_application",
+     *      defaults={"_format"="json", "_locale":"en"}
      * )
      *
      * @Rest\View()
      *
-     * @param string $apiKey The application apiKey
+     * @param string $appKey The application apiKey
      * @return array
      */
-    public function getConfigAction($apiKey)
+    public function getConfigAction($appKey)
     {
         return $this->container
             ->get('araneum.main.application.handler')
-            ->get($apiKey);
+            ->get($appKey);
     }
 }

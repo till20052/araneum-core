@@ -38,7 +38,8 @@ class ClusterApiController extends FOSRestController
 	 *
 	 * @Rest\Get(
 	 *      "/cluster/applications_configs_list/{clusterId}",
-	 *      name="araneum_main_api_cluster_applications_configs_list"
+	 *      name="araneum_main_api_cluster_applications_configs_list",
+	 *      defaults={"_format"="json", "_locale"="en"}
 	 * )
 	 *
 	 * @Rest\View()

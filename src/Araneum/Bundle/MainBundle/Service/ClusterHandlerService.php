@@ -39,7 +39,7 @@ class ClusterHandlerService
 			'domain' => $application->getDomain(),
 			'template' => $application->getTemplate(),
 			'aliases' => $application->getAliases(),
-			'app_key' => $application->getApiKey(),
+			'app_key' => $application->getAppKey(),
 			'cluster' => [
 				'id' => $application->getCluster()->getId()
 			],

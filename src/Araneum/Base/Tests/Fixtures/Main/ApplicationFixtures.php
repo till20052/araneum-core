@@ -52,7 +52,7 @@ class ApplicationFixtures extends AbstractFixture implements FixtureInterface, D
             $app->setLocales(new ArrayCollection([$this->getReference('locale')]));
             $app->setComponents(new ArrayCollection([$this->getReference('component')]));
             $app->setOwner($this->getReference('owner'));
-            $app->setApiKey(self::TEST_APP_API_KEY);
+            $app->setAppKey(self::TEST_APP_API_KEY);
             $manager->persist($app);
             $manager->flush();
         }
@@ -76,7 +76,7 @@ class ApplicationFixtures extends AbstractFixture implements FixtureInterface, D
             $app->setLocales(new ArrayCollection([$this->getReference('locale')]));
             $app->setComponents(new ArrayCollection([$this->getReference('component')]));
             $app->setOwner($this->getReference('owner'));
-            $app->setApiKey(self::TEST_APP_TEMP_API_KEY);
+            $app->setAppKey(self::TEST_APP_TEMP_API_KEY);
             $manager->persist($app);
             $manager->flush();
         }

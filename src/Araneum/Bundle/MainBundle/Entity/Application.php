@@ -110,9 +110,9 @@ class Application
     protected $template;
 
     /**
-     * @ORM\Column(type="string", name="api_key", length=70)
+     * @ORM\Column(type="string", name="app_key", length=70)
      */
-    protected $apiKey;
+    protected $appKey;
 
     /**
      * Application constructor.
@@ -120,7 +120,7 @@ class Application
     public function __construct()
     {
         $this->setComponents(new ArrayCollection());
-        $this->setApiKey();
+        $this->setAppKey();
     }
 
     /**
@@ -446,24 +446,24 @@ class Application
     }
 
     /**
-     * Get apiKey
+     * Get appKey
      *
      * @return mixed
      */
-    public function getApiKey()
+    public function getAppKey()
     {
-        return $this->apiKey;
+        return $this->appKey;
     }
 
     /**
-     * Set apiKey
+     * Set appKey
      *
-     * @param mixed $apiKey
+     * @param mixed $appKey
      * @return mixed
      */
-    public function setApiKey($apiKey = null)
+    public function setAppKey($appKey = null)
     {
-        $this->apiKey = is_null($apiKey) ? $this->generateUniqueKey() : $apiKey;
+        $this->appKey = is_null($appKey) ? $this->generateUniqueKey() : $appKey;
 
         return $this;
     }

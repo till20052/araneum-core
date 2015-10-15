@@ -24,7 +24,10 @@ class ApplicationApiControllerTest extends BaseController
 
         $client->request(
             'GET',
-            $this->configGetUri . ApplicationFixtures::TEST_APP_API_KEY
+            $client
+                ->getContainer()
+                ->get('router')
+                ->generate('araneum_main_api_application', ['appKey' => ApplicationFixtures::TEST_APP_API_KEY])
         );
         $response = $client->getResponse();
         $content = $response->getContent();
