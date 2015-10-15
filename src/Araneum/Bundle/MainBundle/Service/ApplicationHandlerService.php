@@ -1,12 +1,12 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Handler;
+namespace Araneum\Bundle\MainBundle\Service;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ApplicationHandler
+class ApplicationHandlerService
 {
     protected $manager;
 
