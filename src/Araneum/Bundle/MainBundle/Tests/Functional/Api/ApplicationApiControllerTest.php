@@ -24,7 +24,7 @@ class ApplicationApiControllerTest extends BaseController
 
         $client->request(
             'GET',
-            $this->configGetUri . ApplicationFixtures::TEST_APP_API_KEY
+            $this->configGetUri . ApplicationFixtures::TEST_APP_APP_KEY
         );
         $response = $client->getResponse();
         $content = $response->getContent();
