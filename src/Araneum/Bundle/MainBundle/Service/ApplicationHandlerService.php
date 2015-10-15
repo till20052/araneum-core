@@ -1,12 +1,12 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Handler;
+namespace Araneum\Bundle\MainBundle\Service;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ApplicationHandler
+class ApplicationHandlerService
 {
     protected $manager;
 
@@ -41,23 +41,22 @@ class ApplicationHandler
             throw new NotFoundHttpException('Not Application found for this apiKey', null, Response::HTTP_NOT_FOUND);
         }
 
-        $application =
-            [
-                'id' => $entity->getId(),
-                'name' => $entity->getName(),
-                'type' => $entity->getType(),
-                'aliases' => $entity->getAliases(),
-                'cluster' => $entity->getCluster(),
-                'db' => $entity->getDb(),
-                'domain' => $entity->getDomain(),
-                'public' => $entity->isPublic(),
-                'enabled' => $entity->isEnabled(),
-                'locale' => $entity->getLocale(),
-                'components' => $entity->getComponents(),
-                'owner' => $entity->getOwner(),
-                'status' => $entity->getStatus(),
-                'template' => $entity->getTemplate()
-            ];
+        $application = [
+            'id' => $entity->getId(),
+            'name' => $entity->getName(),
+            'type' => $entity->getType(),
+            'aliases' => $entity->getAliases(),
+            'cluster' => $entity->getCluster(),
+            'db' => $entity->getDb(),
+            'domain' => $entity->getDomain(),
+            'public' => $entity->isPublic(),
+            'enabled' => $entity->isEnabled(),
+            'locales' => $entity->getLocales(),
+            'components' => $entity->getComponents(),
+            'owner' => $entity->getOwner(),
+            'status' => $entity->getStatus(),
+            'template' => $entity->getTemplate()
+        ];
 
         return $application;
     }

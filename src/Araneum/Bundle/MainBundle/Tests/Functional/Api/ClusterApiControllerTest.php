@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Araneum\Bundle\MainBundle\Repository\ClusterRepository;
 use Araneum\Bundle\MainBundle\Entity\Cluster;;
-use Araneum\Bundle\MainBundle\Handler\ClusterHandler;
+use Araneum\Bundle\MainBundle\Service\ClusterHandlerService;
 
 class ClusterApiControllerTest extends BaseController
 {
@@ -23,7 +23,7 @@ class ClusterApiControllerTest extends BaseController
 	private $repository;
 
 	/**
-	 * @var ClusterHandler
+	 * @var ClusterHandlerService
 	 */
 	private $handler;
 
@@ -56,7 +56,7 @@ class ClusterApiControllerTest extends BaseController
 	{
 		$this->client = self::createAdminAuthorizedClient('api');
 		$container = $this->client->getContainer();
-		$this->handler = $container->get('araneum.main.handler.cluster');
+		$this->handler = $container->get('araneum.main.cluster.handler');
 		$this->repository = $container
 			->get('doctrine.orm.entity_manager')
 			->getRepository('AraneumMainBundle:Cluster');

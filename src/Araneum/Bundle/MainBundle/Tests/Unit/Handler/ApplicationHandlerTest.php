@@ -4,7 +4,7 @@ namespace Araneum\Bundle\MainBundle\Tests\Unit\Handler;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Araneum\Bundle\MainBundle\Entity\Application;
-use Araneum\Bundle\MainBundle\Handler\ApplicationHandler;
+use Araneum\Bundle\MainBundle\Service\ApplicationHandlerService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -45,7 +45,7 @@ class ApplicationHandlerTest extends BaseController
      */
     public function testGet()
     {
-        $applicationHandler = new ApplicationHandler($this->manager, self::APP_CLASS);
+        $applicationHandler = new ApplicationHandlerService($this->manager, self::APP_CLASS);
 
         $cluster = $this->getMock('Araneum\Bundle\MainBundle\Entity\Cluster');
         $component = $this->getMock('Araneum\Bundle\MainBundle\Entity\Component');
@@ -63,7 +63,7 @@ class ApplicationHandlerTest extends BaseController
         $application->setDomain('testname.test');
         $application->setPublic();
         $application->setEnabled();
-        $application->setLocale($locale);
+        $application->setLocales(new ArrayCollection([$locale]));
         $application->setComponents(new ArrayCollection([$component]));
         $application->setOwner($owner);
         $application->setStatus(1);
@@ -79,7 +79,7 @@ class ApplicationHandlerTest extends BaseController
             'domain' => 'testname.test',
             'public' => true,
             'enabled' => true,
-            'locale' => $locale,
+            'locales' => new ArrayCollection([$locale]),
             'components' => new ArrayCollection([$component]),
             'owner' => $owner,
             'status' => 1,
@@ -105,7 +105,7 @@ class ApplicationHandlerTest extends BaseController
      */
     public function testGetException()
     {
-        $applicationHandler = new ApplicationHandler($this->manager, self::APP_CLASS);
+        $applicationHandler = new ApplicationHandlerService($this->manager, self::APP_CLASS);
         $applicationHandler->get(self::API_KEY);
     }
 }

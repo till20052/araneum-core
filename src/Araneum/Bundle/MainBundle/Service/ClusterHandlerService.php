@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Handler;
+namespace Araneum\Bundle\MainBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Araneum\Bundle\MainBundle\Repository\ClusterRepository;
@@ -9,7 +9,7 @@ use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Entity\Locale;
 use Araneum\Bundle\MainBundle\Entity\Component;
 
-class ClusterHandler
+class ClusterHandlerService
 {
 	/**
 	 * @var ClusterRepository
