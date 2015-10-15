@@ -4,31 +4,37 @@ namespace Araneum\Bundle\MainBundle\Service;
 
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Araneum\Bundle\MainBundle\Entity\Application;
+use Doctrine\Common\Persistence\ObjectManager;
 
-class ApiApplicationManager
+class RemoteApplicationManager
 {
     private $repository;
+    private $manager;
+
 
     /**
      * Constructor
      *
      * @param $doctrine
      */
-    public function __construct($doctrine)
+    public function __construct(ObjectManager $doctrine)
     {
+        $this->manager = $doctrine;
         $this->repository = $doctrine->getRepository('AraneumMainBundle:Application');
     }
 
     /**
      * Create application
      *
+     * @param
      * @return Application
      */
-    public function createApplication()
+    public function create($appEntity)
     {
-        $entity = $this->repository->findOneByName(ApplicationFixtures::TEST_APP_NAME);
+        $this->manager->persist($appEntity);
+        $this->manager->flush();
 
-        return $entity;
+        return $appEntity;
     }
 
     /**
@@ -37,7 +43,7 @@ class ApiApplicationManager
      * @param $appKey
      * @return Application
      */
-    public function getApplication($appKey)
+    public function get($appKey)
     {
         $entity = $this->repository->findOneBy(['app_key' => $appKey]);
 
@@ -47,12 +53,20 @@ class ApiApplicationManager
     /**
      * Update application
      *
-     * @param $appKey
+     * @param mixed
      * @return Application
      */
-    public function updateApplication($appKey)
+    public function update($appEntity)
     {
-        $entity = $this->repository->findOneBy(['app_key' => $appKey]);
+        if ($appEntity instanceof Application) {
+            $entity = $appEntity;
+        } else {
+            if (is_string($appEntity)) {
+                $entity = $this->repository->findOneBy(['app_key' => $appEntity]);
+            } else {
+                $entity = new Application();
+            }
+        }
 
         return $entity;
     }
