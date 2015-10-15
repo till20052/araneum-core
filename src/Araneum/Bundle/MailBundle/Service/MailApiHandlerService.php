@@ -23,11 +23,8 @@ class MailApiHandlerService
      * @param FormFactoryInterface $formFactory
      * @param                      $applicationManager
      */
-    public function __construct(
-        EntityManager $manager,
-        FormFactoryInterface $formFactory,
-        $applicationManager
-    ) {
+    public function __construct(EntityManager $manager, FormFactoryInterface $formFactory, $applicationManager)
+    {
         $this->manager = $manager;
         $this->formFactory = $formFactory;
         $this->applicationManager = $applicationManager;
