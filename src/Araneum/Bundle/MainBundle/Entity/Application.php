@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
 
 /**
- * Application class.
+ * Application class
  *
  * @Doctrine\ORM\Mapping\Entity
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ApplicationRepository")
