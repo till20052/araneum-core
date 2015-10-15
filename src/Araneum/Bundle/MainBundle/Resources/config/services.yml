@@ -3,6 +3,6 @@ services:
         class: Araneum\Bundle\MainBundle\Handler\ApplicationHandler
         arguments: [@doctrine.orm.entity_manager, Araneum\Bundle\MainBundle\Entity\Application]
 
-    araneum.main.service.remote_application_manager_service:
+    araneum.main.remote_application_manager:
         class: Araneum\Bundle\MainBundle\Service\RemoteApplicationManagerService
         arguments: [@doctrine.orm.entity_manager]
