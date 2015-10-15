@@ -101,7 +101,7 @@ class ApplicationHandlerTest extends BaseController
      *
      * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @expectedExceptionCode \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND
-     * @expectedExceptionMessage Not Application found for this apiKey
+     * @expectedExceptionMessage Not Application found for this appKey
      */
     public function testGetException()
     {
