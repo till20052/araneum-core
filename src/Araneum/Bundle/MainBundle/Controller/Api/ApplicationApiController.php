@@ -48,7 +48,7 @@ class ApplicationApiController extends FOSRestController
     public function getConfigAction($apiKey)
     {
         return $this->container
-            ->get('araneum.main.handler.application')
+            ->get('araneum.main.application.handler')
             ->get($apiKey);
     }
 }
