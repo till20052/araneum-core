@@ -8,6 +8,12 @@ araneum_main:
     type:     annotation
     prefix:   /
 
+araneum_mail:
+    resource: "@AraneumMailBundle/Controller"
+    type: annotation
+    prefix: /mail
+    defaults: {_format: json}
+
 admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
     prefix: /admin

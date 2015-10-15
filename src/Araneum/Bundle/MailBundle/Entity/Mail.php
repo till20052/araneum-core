@@ -4,6 +4,7 @@ namespace Araneum\Bundle\MailBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
 use Araneum\Bundle\MainBundle\Entity\Application;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="araneum_mails")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MailBundle\Repository\MailRepository")
- * @ORM\HasLifecycleCallbacks()
+ * @ORM\HasLifecycleCallbacks
  */
 class Mail
 {
@@ -41,22 +42,24 @@ class Mail
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min="10", max = 255)
      * @ORM\Column(name="sender", type="string", length=255)
      */
     private $sender;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min="10", max = 255)
      * @ORM\Column(name="target", type="string", length=255)
      */
     private $target;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="headline", type="string", length=255)
+     * @Assert\Length(max = 255)
+     * @ORM\Column(name="headline", type="string", length=255, nullable=true)
      */
     private $headline;
 
@@ -76,7 +79,7 @@ class Mail
 
     /**
      * @var string
-     *
+     * @Assert\Length(max = 255)
      * @ORM\Column(name="attachment", type="string", length=255, nullable=true)
      */
     private $attachment;
