@@ -4,7 +4,7 @@ namespace Araneum\Bundle\CustomerBundle\Tests\Unit\Handler;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
-use Araneum\Bundle\CustomerBundle\Service\CustomerApiHandler;
+use Araneum\Bundle\CustomerBundle\Service\CustomerApiHandlerService;
 use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,7 +83,7 @@ class CustomerHandlerTest extends BaseController
         $this->entityManager->expects($this->once())
             ->method('flush');
 
-        $customerHandler = new CustomerApiHandler($this->entityManager, $applicationManager);
+        $customerHandler = new CustomerApiHandlerService($this->entityManager, $applicationManager);
 
         $this->assertInstanceOf(
             'Araneum\Bundle\CustomerBundle\Entity\Customer',
@@ -118,7 +118,7 @@ class CustomerHandlerTest extends BaseController
 
         $applicationManager = $this->applicationManager;
 
-        $customerHandler = new CustomerApiHandler($this->entityManager, $applicationManager);
+        $customerHandler = new CustomerApiHandlerService($this->entityManager, $applicationManager);
 
         $this->assertInstanceOf(
             'Araneum\Bundle\CustomerBundle\Entity\Customer',

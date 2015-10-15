@@ -12,13 +12,13 @@ class ApplicationManagerServiceTest extends \PHPUnit_Framework_TestCase
 {
     protected $doctrineMock;
     protected $repositoryMock;
-
     protected $applicationManager;
-
     protected $repository;
-
     protected $appKey = ApplicationFixtures::TEST_APP_APP_KEY;
 
+    /**
+     * Set up
+     */
     public function setUp()
     {
         $this->doctrineMock = $this->getMockBuilder('Doctrine\Bundle\DoctrineBundle\Registry')
@@ -36,6 +36,9 @@ class ApplicationManagerServiceTest extends \PHPUnit_Framework_TestCase
         $this->applicationManager = new ApplicationManagerService($this->doctrineMock);
     }
 
+    /**
+     * Test find oneOr404 method
+     */
     public function testFindOne()
     {
         $application = new Application();
@@ -66,5 +69,4 @@ class ApplicationManagerServiceTest extends \PHPUnit_Framework_TestCase
         $actual = $this->applicationManager->findOneOr404(['appKey' => $this->appKey]);
         $this->assertEquals($application, $actual);
     }
-
 }

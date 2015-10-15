@@ -22,6 +22,11 @@ class CustomerType extends AbstractType
             ->add('callback');
     }
 
+    /**
+     * Set default options for form
+     *
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(

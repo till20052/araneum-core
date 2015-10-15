@@ -12,7 +12,7 @@ use Araneum\Bundle\CustomerBundle\Exception\InvalidFormException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
 
-class CustomerApiHandler
+class CustomerApiHandlerService
 {
     protected $entityManager;
     protected $appManager;

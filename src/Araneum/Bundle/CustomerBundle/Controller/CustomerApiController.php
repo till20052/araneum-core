@@ -61,7 +61,7 @@ class CustomerApiController extends FOSRestController
         $form = $this->createForm(new CustomerType(), $customer);
 
         return $this->container
-            ->get('araneum.customer.api.handler')
+            ->get('araneum.customer.customer.api_handler')
             ->getCustomer($appKey, $postParameters, $form, $customer);
     }
 
