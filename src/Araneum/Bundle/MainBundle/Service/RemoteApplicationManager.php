@@ -2,7 +2,6 @@
 
 namespace Araneum\Bundle\MainBundle\Service;
 
-use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -45,7 +44,7 @@ class RemoteApplicationManager
      */
     public function get($appKey)
     {
-        $entity = $this->repository->findOneBy(['app_key' => $appKey]);
+        $entity = $this->repository->findOneBy(['appKey' => $appKey]);
 
         return $entity;
     }
@@ -61,7 +60,7 @@ class RemoteApplicationManager
         if ($appEntity instanceof Application) {
             $entity = $appEntity;
         } else {
-            $entity = $this->repository->findOneBy(['app_key' => $appEntity]);
+            $entity = $this->repository->findOneBy(['appKey' => $appEntity]);
         }
 
         return $entity;
@@ -76,7 +75,7 @@ class RemoteApplicationManager
     public function deleteApplication($appEntity)
     {
         if (is_string($appEntity)) {
-            $appEntity = $this->repository->findOneBy(['app_key' => $appEntity]);
+            $appEntity = $this->repository->findOneBy(['appKey' => $appEntity]);
         }
 
         if ($appEntity instanceof Application) {
