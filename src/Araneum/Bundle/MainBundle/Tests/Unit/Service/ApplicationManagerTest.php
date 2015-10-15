@@ -38,6 +38,7 @@ class ApplicationManagerServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test find oneOr404 method
+     * assert return good application
      */
     public function testFindOne()
     {
@@ -53,6 +54,9 @@ class ApplicationManagerServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test find oneOr404
+     * assert return bad application and trow exception
+     *
      * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @expectedExceptionCode \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND
      * @expectedExceptionMessage Not Application found for this appKey
