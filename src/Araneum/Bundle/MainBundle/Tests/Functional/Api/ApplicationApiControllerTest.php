@@ -67,7 +67,7 @@ class ApplicationApiControllerTest extends BaseController
             'status' => 'int',
             'template' => 'string',
             'db' => 'array',
-            'locale' => 'array',
+            'locales' => 'array',
             'components' => 'array',
             'cluster' => 'array',
             'owner' => 'array'
