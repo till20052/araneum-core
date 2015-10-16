@@ -1,4 +1,20 @@
 services:
     araneum.main.application.handler:
         class: Araneum\Bundle\MainBundle\Service\ApplicationHandlerService
-        arguments: [@doctrine.orm.entity_manager, Araneum\Bundle\MainBundle\Entity\Application]
+        arguments:
+            - @doctrine.orm.entity_manager
+            - Araneum\Bundle\MainBundle\Entity\Application
+
+    araneum.main.application.remote_manager:
+        class: Araneum\Bundle\MainBundle\Service\RemoteApplicationManagerService
+        arguments:
+            - @doctrine.orm.entity_manager
+
+    araneum.main.application.event_listener:
+        class: Araneum\Bundle\MainBundle\Service\ApplicationEventListenerService
+        arguments:
+            - @service_container
+        tags:
+            - { name: kernel.event_listener, event: sonata.admin.event.persistence.post_persist, method: postPersist }
+            - { name: kernel.event_listener, event: sonata.admin.event.persistence.post_update, method: postUpdate }
+            - { name: kernel.event_listener, event: sonata.admin.event.persistence.post_remove, method: postRemove }

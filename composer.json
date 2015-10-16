@@ -32,7 +32,8 @@
         "lexik/maintenance-bundle": "^1.0",
         "oldsound/rabbitmq-bundle": "1.*",
         "snc/redis-bundle": "1.1.x-dev",
-        "predis/predis": "1.*"
+        "predis/predis": "1.*",
+        "eightpoints/guzzle-bundle": "^4.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
