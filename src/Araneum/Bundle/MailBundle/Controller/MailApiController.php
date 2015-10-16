@@ -35,8 +35,7 @@ class MailApiController extends FOSRestController
      *      {"name"="apiKey", "dataType"="string", "required"=true, "description"="apiKey"}
      *   }
      * )
-     * @Route("api/v1/mail", name="araneum_mail_api_mail_post")
-     * @Method({"POST"})
+     * @Rest\Post("api/v1/mail", name="araneum_mail_api_mail_post")
      * @Rest\View(statusCode=201)
      *
      * @return array

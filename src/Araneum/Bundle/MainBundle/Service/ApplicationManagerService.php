@@ -6,7 +6,7 @@ use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ApplicationManager
+class ApplicationManagerService
 {
     /** @var  Registry */
     private $doctrine;

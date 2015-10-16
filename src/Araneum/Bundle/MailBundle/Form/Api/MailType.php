@@ -8,6 +8,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MailType extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -33,11 +36,17 @@ class MailType extends AbstractType
             ->add('attachment');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['data_class' => 'Araneum\Bundle\MailBundle\Entity\Mail']);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return 'araneum_mail_form_mail_api';
