@@ -41,7 +41,7 @@ class CustomerApiController extends FOSRestController
      *   tags={"ApplicationApi"}
      * )
      *
-     * @Post("/api/customers/insert/{appKey}")
+     * @Rest\Post("/api/customers/insert/{appKey}")
      *
      * @Rest\View(templateVar="customer")
      *

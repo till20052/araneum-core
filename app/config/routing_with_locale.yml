@@ -36,8 +36,3 @@ araneum_customers_api:
     resource: "@AraneumCustomerBundle/Controller"
     type:     annotation
     defaults: {_format: json}
-
-araneum_main_api:
-    resource: "@AraneumMainBundle/Controller"
-    type: annotation
-    defaults: {_format: json}
