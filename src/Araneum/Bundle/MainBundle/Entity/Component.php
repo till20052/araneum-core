@@ -30,6 +30,7 @@ class Component
 	 * @ORM\Column(type="string", length=255)
 	 * @Assert\NotBlank()
 	 * @Assert\Length(min=2, max=255)
+	 * @Assert\Regex(pattern="/^\w([\w\d\s]+)$/")
 	 */
 	protected $name;
 
@@ -116,7 +117,7 @@ class Component
 	}
 
 	/**
-	 * Get option
+	 * Get options
 	 *
 	 * @return mixed
 	 */
@@ -126,61 +127,16 @@ class Component
 	}
 
 	/**
-	 * Set option
+	 * Set options
 	 *
 	 * @param array $options
-	 * @return mixed
+	 * @return $this
 	 */
 	public function setOptions(array $options)
 	{
 		$this->options = $options;
 
 		return $this;
-	}
-
-	/**
-	 * Add option
-	 *
-	 * @param array
-	 */
-	public function addOption(array $val)
-	{
-		foreach ($val as $key => $value)
-			$this->options[$key] = $value;
-	}
-
-	/**
-	 * Get option value by key
-	 *
-	 * @param mixed
-	 * @return mixed
-	 */
-	public function getOptionValueByKey($key)
-	{
-		if ( ! isset($this->options[$key]))
-		{
-			return false;
-		}
-
-		return $this->options[$key];
-	}
-
-	/**
-	 * Remove option by key
-	 *
-	 * @param mixed $key
-	 * @return bool
-	 */
-	public function removeOption($key)
-	{
-		if ( ! isset($this->options[$key]))
-		{
-			return false;
-		}
-
-		unset($this->options[$key]);
-
-		return true;
 	}
 
 	/**

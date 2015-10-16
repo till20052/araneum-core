@@ -2,10 +2,17 @@
 
 namespace Araneum\Bundle\MainBundle\Admin;
 
+use Araneum\Bundle\MainBundle\Entity\Component;
+use Araneum\Bundle\MainBundle\Form\DataTransformer\ComponentOptionsTransformer;
+use Araneum\Bundle\MainBundle\Form\Type\ComponentOptionType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Validator\ErrorElement;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class ComponentAdmin extends Admin
 {
@@ -16,12 +23,33 @@ class ComponentAdmin extends Admin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $subject = $this->getSubject();
+
         $formMapper
-            ->add(
-                'name',
-                'text',
-                ['label' => 'name']
-            )
+            ->getFormBuilder()
+            ->addEventListener(
+                FormEvents::POST_SET_DATA,
+                function(FormEvent $event) use ($formMapper, $subject)
+                {
+                    $options = new ArrayCollection();
+
+                    foreach($subject->getOptions() as $key => $value)
+                    {
+                        $options[] = [
+                            'key' => $key,
+                            'value' => $value
+                        ];
+                    }
+
+                    $event
+                        ->getForm()
+                        ->get('options')
+                        ->setData($options);
+                }
+            );
+
+        $formMapper
+            ->add('name', 'text', ['label' => 'name'])
             ->add(
                 'applications',
                 'sonata_type_model',
@@ -40,6 +68,20 @@ class ComponentAdmin extends Admin
                 ]
             )
             ->add(
+                'options',
+                'collection',
+                [
+                    'label' => 'options',
+                    'type' => new ComponentOptionType(),
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference' => false,
+                    'options' => [
+                        'label' => false
+                    ]
+                ]
+            )
+            ->add(
                 'enabled',
                 'checkbox',
                 [
@@ -55,6 +97,10 @@ class ComponentAdmin extends Admin
                     'required' => false
                 ]
             );
+
+        $formMapper
+            ->get('options')
+            ->addModelTransformer(new ComponentOptionsTransformer());
     }
 
     /**
@@ -65,13 +111,7 @@ class ComponentAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier(
-                'id',
-                null,
-                [
-                    'label' => 'id'
-                ]
-            )
+            ->addIdentifier('id', null, ['label' => 'id'])
             ->add(
                 'name',
                 null,
@@ -80,22 +120,8 @@ class ComponentAdmin extends Admin
                     'editable' => true
                 ]
             )
-            ->add(
-                'applications',
-                null,
-                [
-                    'label' => 'applications',
-                    'editable' => true
-                ]
-            )
-            ->add(
-                'description',
-                null,
-                [
-                    'label' => 'description',
-                    'editable' => true
-                ]
-            )
+            ->add('applications', null, ['labels' => 'applications'])
+            ->add('description', null, ['label' => 'description'])
             ->add(
                 'enabled',
                 null,
@@ -146,7 +172,6 @@ class ComponentAdmin extends Admin
             ->add('description', null, ['label' => 'description'])
             ->add('enabled', null, ['label' => 'enabled'])
             ->add('default', null, ['label' => 'default'])
-            
             ->add(
                 'createdAt',
                 'doctrine_orm_datetime_range',
@@ -160,5 +185,28 @@ class ComponentAdmin extends Admin
                     'format' => 'MM/dd/yyyy'
                 ]
             );
+    }
+
+    /**
+     * Component form validator
+     *
+     * @param ErrorElement $errorElement
+     * @param Component $object
+     */
+    public function validate(ErrorElement $errorElement, $object)
+    {
+        $regexPattern = '/^([A-z])([\w\d]+)$/';
+
+        foreach($object->getOptions() as $key => $value)
+        {
+            if(
+                preg_match($regexPattern, $key)
+                && preg_match($regexPattern, $value)
+            ){
+                continue;
+            }
+
+            $errorElement->addViolation('One or more tokens of options have not valid key or value');
+        }
     }
 }
