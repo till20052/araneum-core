@@ -49,3 +49,4 @@ database: Database
 components: Components
 id: ID
 owner: Owner
+applications: Applications
