@@ -84,7 +84,7 @@ class ComponentAdmin extends Admin
                 'applications',
                 null,
                 [
-                    'labels' => 'applications',
+                    'label' => 'applications',
                     'editable' => true
                 ]
             )

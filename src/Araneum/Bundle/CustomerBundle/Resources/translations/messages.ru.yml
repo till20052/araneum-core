@@ -4,7 +4,7 @@ country: Страна
 email: E-mail
 phone: Телефон
 callback: Перезвонить
-created_at: Создана
+created_at: Создано
 delivered_at: Доставлено
 application: Приложение
 id: ID
