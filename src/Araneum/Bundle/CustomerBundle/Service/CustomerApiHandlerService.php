@@ -38,7 +38,7 @@ class CustomerApiHandlerService
      * @param Customer $customer
      * @return array
      */
-    public function getCustomer($appKey, array $parameters, $form, $customer)
+    public function get($appKey, array $parameters, $form, $customer)
     {
         $appManager = $this->appManager;
         $application = $appManager->findOneOr404(['appKey' => $appKey]);

@@ -2,20 +2,19 @@
 
 namespace Araneum\Bundle\CustomerBundle\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\Request;
-use Araneum\Bundle\CustomerBundle\Form\CustomerType;
 use Araneum\Bundle\CustomerBundle\Entity\Customer;
+use Araneum\Bundle\CustomerBundle\Form\CustomerType;
 
 class CustomerApiController extends FOSRestController
 {
-
     /**
      * Get Application config by appKey
      *
@@ -42,27 +41,25 @@ class CustomerApiController extends FOSRestController
      *   tags={"ApplicationApi"}
      * )
      *
-     * @Route("/api/customers/data")
-     * @Method({"POST"})
+     * @Post("/api/customers/insert/{appKey}")
      *
      * @Rest\View(templateVar="customer")
      *
+     * @param string $appKey
      * @param Request $request
      * @return mixed
      */
-    public function setCustomerAction(Request $request)
+    public function setCustomerAction($appKey, Request $request)
     {
-        $appKey = $request->query->get('appKey', $request);
+
+        //$appKey = $request->query->get('appKey', $request);
 
         $postParameters = $request->request->all();
-
         $customer = new Customer();
-
         $form = $this->createForm(new CustomerType(), $customer);
 
         return $this->container
             ->get('araneum.customer.customer.api_handler')
-            ->getCustomer($appKey, $postParameters, $form, $customer);
+            ->get($appKey, $postParameters, $form, $customer);
     }
-
 }
