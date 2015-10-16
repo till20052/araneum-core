@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\CustomerBundle\Controller;
 
+use Araneum\Base\Exception\InvalidFormException;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -10,6 +11,7 @@ use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\Request;
 use Araneum\Bundle\CustomerBundle\Entity\Customer;
 use Araneum\Bundle\CustomerBundle\Form\CustomerType;
+use FOS\RestBundle\View\View;
 
 class CustomerApiController extends FOSRestController
 {
@@ -50,11 +52,13 @@ class CustomerApiController extends FOSRestController
     public function setCustomerAction($appKey, Request $request)
     {
         $postParameters = $request->request->all();
-        $customer = new Customer();
-        $form = $this->createForm(new CustomerType(), $customer);
 
-        return $this->container
-            ->get('araneum.customer.customer.api_handler')
-            ->get($appKey, $postParameters, $form, $customer);
+        try {
+            $this->container
+                ->get('araneum.customer.customer.api_handler')
+                ->post($appKey, $postParameters);
+        } catch (InvalidFormException $e) {
+            return View::create($e->getForm(), 400);
+        }
     }
 }
