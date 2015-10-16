@@ -2,29 +2,47 @@
 
 namespace Araneum\Bundle\MainBundle\Service;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Araneum\Bundle\MainBundle\Repository\ApplicationRepository;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ApplicationHandlerService
+class ApplicationApiHandlerService
 {
-    protected $manager;
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
 
-    protected $entityClass;
-
+    /**
+     * @var ApplicationRepository
+     */
     protected $repository;
 
     /**
      * Class construct
      *
-     * @param ObjectManager $manager
-     * @param $entityClass
+     * @param EntityManager $entityManager
      */
-    public function __construct(ObjectManager $manager, $entityClass)
+    public function __construct(EntityManager $entityManager)
     {
-        $this->manager = $manager;
-        $this->entityClass = $entityClass;
-        $this->repository = $this->manager->getRepository($entityClass);
+        $this->entityManager = $entityManager;
+    }
+
+    /**
+     * Get Application Repository
+     *
+     * @return ApplicationRepository
+     */
+    public function getRepository()
+    {
+        if($this->repository instanceof ApplicationRepository){
+            return $this->repository;
+        }
+
+        $this->repository = $this->entityManager->getRepository('AraneumMainBundle:Application');
+
+        return $this->repository;
     }
 
     /**
@@ -35,7 +53,7 @@ class ApplicationHandlerService
      */
     public function get($appKey)
     {
-        $entity = $this->repository->findOneBy(['appKey' => $appKey]);
+        $entity = $this->getRepository()->findOneBy(['appKey' => $appKey]);
 
         if (!$entity) {
             throw new NotFoundHttpException('Not Application found for this appKey', null, Response::HTTP_NOT_FOUND);

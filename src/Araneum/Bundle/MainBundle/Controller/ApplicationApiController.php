@@ -5,9 +5,6 @@ namespace Araneum\Bundle\MainBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\Routing\Annotation\Route;
 
 class ApplicationApiController extends FOSRestController
 {
@@ -40,7 +37,7 @@ class ApplicationApiController extends FOSRestController
      * @Rest\Get(
      *      "/application/config/{appKey}",
      *      name="araneum_main_api_application",
-     *      defaults={"_format"="json", "_locale":"en"}
+     *      defaults={"_format"="json", "_locale"="en"}
      * )
      *
      * @Rest\View()

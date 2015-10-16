@@ -9,8 +9,13 @@ use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Entity\Locale;
 use Araneum\Bundle\MainBundle\Entity\Component;
 
-class ClusterHandlerService
+class ClusterApiHandlerService
 {
+	/**
+	 * @var EntityManager
+	 */
+	private $entityManager;
+
 	/**
 	 * @var ClusterRepository
 	 */
@@ -20,11 +25,26 @@ class ClusterHandlerService
 	 * Cluster handler constructor
 	 *
 	 * @param EntityManager $entityManager
-	 * @param string $clusterClass
 	 */
-	public function __construct(EntityManager $entityManager, $clusterClass)
+	public function __construct(EntityManager $entityManager)
 	{
-		$this->repository = $entityManager->getRepository($clusterClass);
+		$this->entityManager = $entityManager;
+	}
+
+	/**
+	 * Get Cluster Repository
+	 *
+	 * @return ClusterRepository
+	 */
+	public function getRepository()
+	{
+		if($this->repository instanceof ClusterRepository){
+			return $this->repository;
+		}
+
+		$this->repository = $this->entityManager->getRepository('AraneumMainBundle:Cluster');
+
+		return $this->repository;
 	}
 
 	/**
@@ -86,7 +106,7 @@ class ClusterHandlerService
 	public function getApplicationsConfigsList($clusterId)
 	{
 		/** @var Cluster $cluster */
-		$cluster = $this->repository->find($clusterId);
+		$cluster = $this->getRepository()->find($clusterId);
 
 		if(empty($cluster))
 			return false;

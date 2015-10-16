@@ -4,13 +4,13 @@ namespace Araneum\Bundle\MainBundle\Tests\Unit\Handler;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Araneum\Bundle\MainBundle\Entity\Application;
-use Araneum\Bundle\MainBundle\Service\ApplicationHandlerService;
+use Araneum\Bundle\MainBundle\Service\ApplicationApiHandlerService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ApplicationHandlerTest extends BaseController
 {
-    const APP_CLASS = 'Araneum\Bundle\MainBundle\Entity\Application';
+    const APP_CLASS = 'AraneumMainBundle:Application';
 
     const API_KEY = '111111111111111';
 
@@ -26,7 +26,7 @@ class ApplicationHandlerTest extends BaseController
     public function setUp()
     {
         $this->manager = $this
-            ->getMockBuilder('Doctrine\Common\Persistence\ObjectManager')
+            ->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
         $this->repository = $this
@@ -45,7 +45,7 @@ class ApplicationHandlerTest extends BaseController
      */
     public function testGet()
     {
-        $applicationHandler = new ApplicationHandlerService($this->manager, self::APP_CLASS);
+        $applicationHandler = new ApplicationApiHandlerService($this->manager);
 
         $cluster = $this->getMock('Araneum\Bundle\MainBundle\Entity\Cluster');
         $component = $this->getMock('Araneum\Bundle\MainBundle\Entity\Component');
@@ -105,7 +105,7 @@ class ApplicationHandlerTest extends BaseController
      */
     public function testGetException()
     {
-        $applicationHandler = new ApplicationHandlerService($this->manager, self::APP_CLASS);
+        $applicationHandler = new ApplicationApiHandlerService($this->manager);
         $applicationHandler->get(self::API_KEY);
     }
 }

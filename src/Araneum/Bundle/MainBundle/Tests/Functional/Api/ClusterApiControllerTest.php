@@ -7,8 +7,8 @@ use Araneum\Base\Tests\Fixtures\Main\ClusterFixtures;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Araneum\Bundle\MainBundle\Repository\ClusterRepository;
-use Araneum\Bundle\MainBundle\Entity\Cluster;;
-use Araneum\Bundle\MainBundle\Service\ClusterHandlerService;
+use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Araneum\Bundle\MainBundle\Service\ClusterApiHandlerService;
 
 class ClusterApiControllerTest extends BaseController
 {
@@ -23,7 +23,7 @@ class ClusterApiControllerTest extends BaseController
 	private $repository;
 
 	/**
-	 * @var ClusterHandlerService
+	 * @var ClusterApiHandlerService
 	 */
 	private $handler;
 
