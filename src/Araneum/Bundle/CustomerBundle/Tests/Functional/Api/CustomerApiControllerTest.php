@@ -52,7 +52,7 @@ class CustomerApiControllerTest extends BaseController
                     'callback' => true,
                     'phone' => '322223'
                 ],
-                Response::HTTP_OK
+                Response::HTTP_CREATED
             ],
             'testFailCreate' => [
                 [
@@ -63,7 +63,7 @@ class CustomerApiControllerTest extends BaseController
                     'callback' => true,
                     'phone' => CustomerFixtures::TEST_PHONE
                 ],
-                Response::HTTP_INTERNAL_SERVER_ERROR
+                Response::HTTP_BAD_REQUEST
             ]
         ];
     }

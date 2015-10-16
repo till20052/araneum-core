@@ -54,9 +54,12 @@ class CustomerApiController extends FOSRestController
         $postParameters = $request->request->all();
 
         try {
-            $this->container
+            $form = $this->container
                 ->get('araneum.customer.customer.api_handler')
                 ->post($appKey, $postParameters);
+
+            return View::create($form, 201);
+
         } catch (InvalidFormException $e) {
             return View::create($e->getForm(), 400);
         }
