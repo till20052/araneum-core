@@ -1,14 +1,13 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Tests\Unit\Handler;
+namespace Araneum\Bundle\MainBundle\Tests\Unit\Service;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Service\ApplicationApiHandlerService;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ApplicationHandlerTest extends BaseController
+class ApplicationApiHandlerTest extends BaseController
 {
     const APP_CLASS = 'AraneumMainBundle:Application';
 

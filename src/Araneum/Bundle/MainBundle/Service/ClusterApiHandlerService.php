@@ -57,8 +57,8 @@ class ClusterApiHandlerService
 	{
 		$structure = [
 			'domain' => $application->getDomain(),
-			'template' => $application->getTemplate(),
 			'aliases' => $application->getAliases(),
+			'template' => $application->getTemplate(),
 			'app_key' => $application->getAppKey(),
 			'cluster' => [
 				'id' => $application->getCluster()->getId()
@@ -70,7 +70,7 @@ class ClusterApiHandlerService
 				'user_name' => $application->getDb()->getUserName(),
 				'password' => $application->getDb()->getPassword(),
 			],
-			'locale' => [],
+			'locales' => [],
 			'components' => []
 		];
 
@@ -108,8 +108,9 @@ class ClusterApiHandlerService
 		/** @var Cluster $cluster */
 		$cluster = $this->getRepository()->find($clusterId);
 
-		if(empty($cluster))
+		if(empty($cluster)){
 			return false;
+		}
 
 		$list = [];
 

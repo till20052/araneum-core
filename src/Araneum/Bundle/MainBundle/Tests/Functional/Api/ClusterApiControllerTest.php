@@ -56,7 +56,7 @@ class ClusterApiControllerTest extends BaseController
 	{
 		$this->client = self::createAdminAuthorizedClient('api');
 		$container = $this->client->getContainer();
-		$this->handler = $container->get('araneum.main.cluster.handler');
+		$this->handler = $container->get('araneum.main.cluster.api_handler');
 		$this->repository = $container
 			->get('doctrine.orm.entity_manager')
 			->getRepository('AraneumMainBundle:Cluster');

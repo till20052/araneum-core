@@ -1,8 +1,8 @@
 services:
-    araneum.main.application.handler:
+    araneum.main.application.api_handler:
         class: Araneum\Bundle\MainBundle\Service\ApplicationApiHandlerService
         arguments: [@doctrine.orm.entity_manager]
 
-    araneum.main.cluster.handler:
+    araneum.main.cluster.api_handler:
         class: Araneum\Bundle\MainBundle\Service\ClusterApiHandlerService
         arguments: [@doctrine.orm.entity_manager]

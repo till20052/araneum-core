@@ -48,7 +48,7 @@ class ClusterApiController extends FOSRestController
 	public function applicationsConfigsListAction($clusterId)
 	{
 		$list = $this->container
-			->get('araneum.main.cluster.handler')
+			->get('araneum.main.cluster.api_handler')
 			->getApplicationsConfigsList($clusterId);
 
 		if($list === false){

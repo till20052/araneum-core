@@ -218,7 +218,7 @@ class Application
     /**
      * Get domain
      *
-     * @return mixed
+     * @return string
      */
     public function getDomain()
     {
@@ -228,8 +228,8 @@ class Application
     /**
      * Set domain
      *
-     * @param mixed $domain
-     * @return mixed
+     * @param string $domain
+     * @return Application $this
      */
     public function setDomain($domain)
     {
@@ -251,8 +251,8 @@ class Application
     /**
      * Set aliases
      *
-     * @param mixed $aliases
-     * @return mixed
+     * @param string $aliases
+     * @return Application $this
      */
     public function setAliases($aliases)
     {
@@ -425,7 +425,7 @@ class Application
     /**
      * Get template
      *
-     * @return mixed
+     * @return string
      */
     public function getTemplate()
     {
@@ -435,8 +435,8 @@ class Application
     /**
      * Set template
      *
-     * @param mixed $template
-     * @return mixed
+     * @param string $template
+     * @return Application $this
      */
     public function setTemplate($template)
     {
@@ -458,8 +458,8 @@ class Application
     /**
      * Set appKey
      *
-     * @param mixed $appKey
-     * @return mixed
+     * @param null|string $appKey
+     * @return Application $this
      */
     public function setAppKey($appKey = null)
     {
