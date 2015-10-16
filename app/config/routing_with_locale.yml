@@ -7,6 +7,7 @@ araneum_main:
     resource: "@AraneumMainBundle/Controller/"
     type:     annotation
     prefix:   /
+    defaults: {_format: json}
 
 admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
