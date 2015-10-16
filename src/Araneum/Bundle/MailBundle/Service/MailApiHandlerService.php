@@ -5,7 +5,7 @@ namespace Araneum\Bundle\MailBundle\Service;
 use Araneum\Base\Exception\InvalidFormException;
 use Araneum\Bundle\MailBundle\Entity\Mail;
 use Araneum\Bundle\MailBundle\Form\Api\MailType;
-use Araneum\Bundle\MainBundle\Service\ApplicationManager;
+use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormFactoryInterface;
 
@@ -13,7 +13,7 @@ class MailApiHandlerService
 {
     protected $manager;
     protected $formFactory;
-    /** @var  ApplicationManager */
+    /** @var  ApplicationManagerService */
     protected $applicationManager;
 
     /**

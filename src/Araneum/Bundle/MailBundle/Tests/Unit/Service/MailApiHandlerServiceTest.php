@@ -41,7 +41,7 @@ class MailApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->formMock));
 
-        $this->applicationManagerMock = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Service\ApplicationManager')
+        $this->applicationManagerMock = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Service\ApplicationManagerService')
             ->disableOriginalConstructor()
             ->getMock();
 
