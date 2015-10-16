@@ -5,9 +5,7 @@ namespace Araneum\Bundle\CustomerBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\Request;
 use Araneum\Bundle\CustomerBundle\Entity\Customer;
@@ -51,9 +49,6 @@ class CustomerApiController extends FOSRestController
      */
     public function setCustomerAction($appKey, Request $request)
     {
-
-        //$appKey = $request->query->get('appKey', $request);
-
         $postParameters = $request->request->all();
         $customer = new Customer();
         $form = $this->createForm(new CustomerType(), $customer);
