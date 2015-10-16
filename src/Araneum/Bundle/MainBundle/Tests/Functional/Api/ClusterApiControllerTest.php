@@ -71,24 +71,22 @@ class ClusterApiControllerTest extends BaseController
 	{
 		/** @var Cluster $cluster */
 		$cluster = $this->repository->findOneByName(ClusterFixtures::TEST_CLU_NAME);
-
 		$response = $this->createRequest(
 			'araneum_main_api_cluster_applications_configs_list',
 			[
 				'clusterId' => $cluster->getId()
 			]
 		);
+		$content = $response->getContent();
 
-		$statusCode = $response->getStatusCode();
-
-		$this->assertEquals($statusCode, Response::HTTP_OK, 'Status code is not 200');
+		$this->assertEquals(
+			Response::HTTP_OK,
+			$response->getStatusCode(),
+			$content
+		);
 		$this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
 
-		if($statusCode != Response::HTTP_OK){
-			return;
-		}
-
-		foreach(json_decode($response->getContent(), true) as $i => $application)
+		foreach(json_decode($content, true) as $i => $application)
 		{
 			$this->assertTrue(
 				$application === $this->handler->getApplicationConfigStructure($cluster->getApplications()[$i]),
@@ -112,9 +110,8 @@ class ClusterApiControllerTest extends BaseController
 		);
 
 		$this->assertEquals(
-			$response->getStatusCode(),
 			Response::HTTP_NOT_FOUND,
-			'Status code is not 404'
+			$response->getStatusCode()
 		);
 	}
 }
