@@ -37,7 +37,11 @@ class ApplicationApiController extends FOSRestController
      *   tags={"ApplicationApi"}
      * )
      *
-     * @Rest\Get("api/application/config/{appKey}", name="araneum_main_api_application")
+     * @Rest\Get(
+     *          "api/application/config/{appKey}",
+     *          name="araneum_main_api_application",
+     *          defaults={"_format"="json"}
+     *          )
      *
      * @Rest\View(templateVar="application")
      *
