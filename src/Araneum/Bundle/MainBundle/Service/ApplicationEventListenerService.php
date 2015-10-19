@@ -2,7 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Service;
 
-use Sonata\AdminBundle\Event\PersistenceEvent;
+use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ApplicationEventListenerService
@@ -19,17 +19,14 @@ class ApplicationEventListenerService
 
 	public function postPersist()
 	{
-		$this->remoteManager->create();
 	}
 
-	public function postUpdate(PersistenceEvent $event)
+	public function postUpdate(ApplicationEvent $applicationEvent)
 	{
-		var_dump($event->getObject());die;
-		$this->remoteManager->update();
+		var_dump($applicationEvent);die;
 	}
 
 	public function postRemove()
 	{
-		$this->remoteManager->remove();
 	}
 }

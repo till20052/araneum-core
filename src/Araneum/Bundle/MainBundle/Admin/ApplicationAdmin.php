@@ -3,20 +3,26 @@
 namespace Araneum\Bundle\MainBundle\Admin;
 
 use Araneum\Bundle\MainBundle\Entity\Application;
+use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ApplicationAdmin extends Admin
 {
     /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
+    /**
      * Set Application Owner before insert
      *
      * @param Application $application
-     * @return true
+     * @return void
      */
     public function prePersist($application)
     {
@@ -27,8 +33,15 @@ class ApplicationAdmin extends Admin
                 ->getToken()
                 ->getUser()
         );
+    }
 
-        return true;
+    /**
+     * @param Application $application
+     * @return void
+     */
+    public function postUpdate($application)
+    {
+        $this->dispatcher->dispatch('araneum.main.application.event.post_update', new ApplicationEvent($application));
     }
 
     /**
@@ -49,6 +62,11 @@ class ApplicationAdmin extends Admin
     public function setContainer(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
+    {
+        $this->dispatcher = $eventDispatcherInterface;
     }
 
     /**

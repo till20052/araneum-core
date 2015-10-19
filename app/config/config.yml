@@ -136,11 +136,3 @@ snc_redis:
         client: session
         prefix: %session_prefix%
         ttl: 1200
-
-guzzle:
-    clients:
-        api:
-            headers:
-                Accept: "application/json"
-            options:
-                timeout: 30

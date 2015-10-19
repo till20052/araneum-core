@@ -34,6 +34,8 @@ services:
             - ~
             - Araneum\Bundle\MainBundle\Entity\Component
             - ~
+        calls:
+            - [setDispatcher, [@event_dispatcher]]
 
     araneum.main.admin.application:
             class: Araneum\Bundle\MainBundle\Admin\ApplicationAdmin
@@ -42,6 +44,7 @@ services:
             arguments:
                 - ~
                 - Araneum\Bundle\MainBundle\Entity\Application
-                - SonataAdminBundle:CRUD
+                - ~
             calls:
                 - [setContainer, [@service_container]]
+                - [setDispatcher, [@event_dispatcher]]

@@ -15,6 +15,4 @@ services:
         arguments:
             - @service_container
         tags:
-            - { name: kernel.event_listener, event: sonata.admin.event.persistence.post_persist, method: postPersist }
-            - { name: kernel.event_listener, event: sonata.admin.event.persistence.post_update, method: postUpdate }
-            - { name: kernel.event_listener, event: sonata.admin.event.persistence.post_remove, method: postRemove }
+            - { name: kernel.event_listener, event: araneum.main.application.event.post_update, method: postUpdate }

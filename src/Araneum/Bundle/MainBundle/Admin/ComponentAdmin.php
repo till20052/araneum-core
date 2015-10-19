@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\MainBundle\Admin;
 
 use Araneum\Bundle\MainBundle\Entity\Component;
+use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 use Araneum\Bundle\MainBundle\Form\DataTransformer\ComponentOptionsTransformer;
 use Araneum\Bundle\MainBundle\Form\Type\ComponentOptionType;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,11 +12,17 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
 class ComponentAdmin extends Admin
 {
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
     /**
      * Create/Update Component Form
      *
@@ -208,5 +215,18 @@ class ComponentAdmin extends Admin
 
             $errorElement->addViolation('One or more tokens of options have not valid key or value');
         }
+    }
+
+    public function setDispatcher(EventDispatcherInterface $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+    }
+
+    public function postUpdate($object)
+    {
+        $this->dispatcher->dispatch(
+            'araneum.main.application.event.post_update',
+            new ApplicationEvent($object)
+        );
     }
 }
