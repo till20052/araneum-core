@@ -40,7 +40,7 @@ class MailApiHandlerService
      */
     public function post($appkey, array $parameters)
     {
-        $application = $this->applicationManager->findOneOr404(['apiKey' => $appkey]);
+        $application = $this->applicationManager->findOneOr404(['appKey' => $appkey]);
 
         $mail = new Mail();
         $mail->setApplication($application);
