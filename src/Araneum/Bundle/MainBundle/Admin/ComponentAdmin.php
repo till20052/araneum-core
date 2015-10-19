@@ -4,6 +4,7 @@ namespace Araneum\Bundle\MainBundle\Admin;
 
 use Araneum\Bundle\MainBundle\Entity\Component;
 use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
+use Araneum\Bundle\MainBundle\Event\ComponentEvent;
 use Araneum\Bundle\MainBundle\Form\DataTransformer\ComponentOptionsTransformer;
 use Araneum\Bundle\MainBundle\Form\Type\ComponentOptionType;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,12 +17,71 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
+/**
+ * Class ComponentAdmin
+ * @package Araneum\Bundle\MainBundle\Admin
+ */
 class ComponentAdmin extends Admin
 {
     /**
      * @var EventDispatcherInterface
      */
     private $dispatcher;
+
+	/**
+	 * Invoke method after creation of component
+	 *
+	 * @param Component $component
+	 * @return void
+	 */
+	public function postPersist($component)
+	{
+		$this->dispatcher
+			->dispatch(
+				ApplicationEvent::POST_UPDATE,
+				new ComponentEvent($component)
+			);
+	}
+
+	/**
+	 * Invoke method after modification of component
+	 *
+	 * @param Component $component
+	 * @return void
+	 */
+	public function postUpdate($component)
+	{
+		$this->dispatcher
+			->dispatch(
+				ApplicationEvent::POST_UPDATE,
+				new ComponentEvent($component)
+			);
+	}
+
+	/**
+	 * Invoke method after deletion of component
+	 *
+	 * @param Component $component
+	 * @return void
+	 */
+	public function postRemove($component)
+	{
+		$this->dispatcher
+			->dispatch(
+				ApplicationEvent::POST_UPDATE,
+				new ComponentEvent($component)
+			);
+	}
+
+	/**
+	 * Set Event Dispatcher
+	 *
+	 * @param EventDispatcherInterface $eventDispatcherInterface
+	 */
+	public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
+	{
+		$this->dispatcher = $eventDispatcherInterface;
+	}
 
     /**
      * Create/Update Component Form
@@ -215,18 +275,5 @@ class ComponentAdmin extends Admin
 
             $errorElement->addViolation('One or more tokens of options have not valid key or value');
         }
-    }
-
-    public function setDispatcher(EventDispatcherInterface $dispatcher)
-    {
-        $this->dispatcher = $dispatcher;
-    }
-
-    public function postUpdate($object)
-    {
-        $this->dispatcher->dispatch(
-            'araneum.main.application.event.post_update',
-            new ApplicationEvent($object)
-        );
     }
 }

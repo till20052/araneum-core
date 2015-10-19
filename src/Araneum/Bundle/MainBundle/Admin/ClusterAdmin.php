@@ -1,27 +1,78 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andreyp
- * Date: 18.09.15
- * Time: 17:29
- */
 
 namespace Araneum\Bundle\MainBundle\Admin;
 
 use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
+use Araneum\Bundle\MainBundle\Event\ClusterEvent;
 use Araneum\Bundle\MainBundle\Repository\ConnectionRepository;
 use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Class ClusterAdmin
+ * @package Araneum\Bundle\MainBundle\Admin
+ */
 class ClusterAdmin extends Admin
 {
     /**
      * @var ConnectionRepository
      */
     private $connectionRepository;
+
+	/**
+	 * @var EventDispatcherInterface
+	 */
+	private $dispatcher;
+
+	/**
+	 * Invoke method after creation of cluster
+	 *
+	 * @param Cluster $cluster
+	 * @return void
+	 */
+	public function postPersist($cluster)
+	{
+		$this->dispatcher
+			->dispatch(
+				ApplicationEvent::POST_UPDATE,
+				new ClusterEvent($cluster)
+			);
+	}
+
+	/**
+	 * Invoke method after modification of cluster
+	 *
+	 * @param Cluster $cluster
+	 * @return void
+	 */
+	public function postUpdate($cluster)
+	{
+		$this->dispatcher
+			->dispatch(
+				ApplicationEvent::POST_UPDATE,
+				new ClusterEvent($cluster)
+			);
+	}
+
+	/**
+	 * Invoke method after deletion of cluster
+	 *
+	 * @param Cluster $cluster
+	 * @return void
+	 */
+	public function postRemove($cluster)
+	{
+		$this->dispatcher
+			->dispatch(
+				ApplicationEvent::POST_UPDATE,
+				new ClusterEvent($cluster)
+			);
+	}
 
     /**
      * @param EntityRepository $connectionRepository
@@ -30,6 +81,16 @@ class ClusterAdmin extends Admin
     {
         $this->connectionRepository = $connectionRepository;
     }
+
+	/**
+	 * Set Event Dispatcher
+	 *
+	 * @param EventDispatcherInterface $eventDispatcherInterface
+	 */
+	public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
+	{
+		$this->dispatcher = $eventDispatcherInterface;
+	}
 
     /**
      * Fields to be shown on create/edit forms

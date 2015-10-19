@@ -3,20 +3,81 @@
 namespace Araneum\Bundle\MainBundle\Admin;
 
 use Araneum\Bundle\MainBundle\Entity\Connection;
+use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
+use Araneum\Bundle\MainBundle\Event\ConnectionEvent;
 use Sonata\AdminBundle\Admin\Admin;
-use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class ConnectionAdmin
- *
  * @package Araneum\Bundle\MainBundle\Admin
  */
 class ConnectionAdmin extends Admin
 {
+	/**
+	 * @var EventDispatcherInterface
+	 */
+	private $dispatcher;
+
+	/**
+	 * Invoke method after creation of connection
+	 *
+	 * @param Connection $connection
+	 * @return void
+	 */
+	public function postPersist($connection)
+	{
+		$this->dispatcher
+			->dispatch(
+				ApplicationEvent::POST_UPDATE,
+				new ConnectionEvent($connection)
+			);
+	}
+
+	/**
+	 * Invoke method after modification of connection
+	 *
+	 * @param Connection $connection
+	 * @return void
+	 */
+	public function postUpdate($connection)
+	{
+		$this->dispatcher
+			->dispatch(
+				ApplicationEvent::POST_UPDATE,
+				new ConnectionEvent($connection)
+			);
+	}
+
+	/**
+	 * Invoke method after deletion of connection
+	 *
+	 * @param Connection $connection
+	 * @return void
+	 */
+	public function postRemove($connection)
+	{
+		$this->dispatcher
+			->dispatch(
+				ApplicationEvent::POST_UPDATE,
+				new ConnectionEvent($connection)
+			);
+	}
+
+	/**
+	 * Set Event Dispatcher
+	 *
+	 * @param EventDispatcherInterface $eventDispatcherInterface
+	 */
+	public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
+	{
+		$this->dispatcher = $eventDispatcherInterface;
+	}
+
     /**
      * Create/Update form
      *

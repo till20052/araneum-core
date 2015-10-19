@@ -11,15 +11,24 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Class ApplicationAdmin
+ * @package Araneum\Bundle\MainBundle\Admin
+ */
 class ApplicationAdmin extends Admin
 {
+	/**
+	 * @var ContainerInterface
+	 */
+	private $container;
+
     /**
      * @var EventDispatcherInterface
      */
     private $dispatcher;
 
     /**
-     * Set Application Owner before insert
+     * Invoke method before creation of application
      *
      * @param Application $application
      * @return void
@@ -27,32 +36,57 @@ class ApplicationAdmin extends Admin
     public function prePersist($application)
     {
         $application->setOwner(
-            $this
-                ->getContainer()
-                ->get('security.context')
+            $this->container
+                ->get('security.token_storage')
                 ->getToken()
                 ->getUser()
         );
     }
 
-    /**
+	/**
+	 * Invoke method after creation of application
+	 *
+	 * @param Application $application
+	 * @return void
+	 */
+	public function postPersist($application)
+	{
+		$this->dispatcher
+			->dispatch(
+				ApplicationEvent::POST_PERSIST,
+				new ApplicationEvent($application)
+			);
+	}
+
+	/**
+	 * Invoke method after modification of application
+	 *
      * @param Application $application
      * @return void
      */
     public function postUpdate($application)
     {
-        $this->dispatcher->dispatch('araneum.main.application.event.post_update', new ApplicationEvent($application));
+        $this->dispatcher
+            ->dispatch(
+                ApplicationEvent::POST_UPDATE,
+                new ApplicationEvent($application)
+            );
     }
 
-    /**
-     * Get Service Container
-     *
-     * @return ContainerInterface
-     */
-    public function getContainer()
-    {
-        return $this->container;
-    }
+	/**
+	 * Invoke method after deletion of application
+	 *
+	 * @param Application $application
+	 * @return void
+	 */
+	public function postRemove($application)
+	{
+		$this->dispatcher
+			->dispatch(
+				ApplicationEvent::POST_REMOVE,
+				new ApplicationEvent($application)
+			);
+	}
 
     /**
      * Set Service Container
@@ -64,6 +98,11 @@ class ApplicationAdmin extends Admin
         $this->container = $container;
     }
 
+	/**
+	 * Set Event Dispatcher
+	 *
+	 * @param EventDispatcherInterface $eventDispatcherInterface
+	 */
     public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
     {
         $this->dispatcher = $eventDispatcherInterface;

@@ -2,8 +2,11 @@
 
 namespace Araneum\Bundle\MainBundle\Service;
 
+use Araneum\Bundle\MainBundle\Event\AdminEventInterface;
 use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\Event;
+use Araneum\Bundle\MainBundle\Entity\Application;
 
 class ApplicationEventListenerService
 {
@@ -12,21 +15,70 @@ class ApplicationEventListenerService
 	 */
 	private $remoteManager;
 
-	public function __construct(ContainerInterface $container)
+	/**
+	 * Get applications
+	 *
+	 * @param Event|AdminEventInterface|ApplicationEvent| $event
+	 * @return array
+	 */
+	private function getApplications(Event $event)
+	{
+		$applications = [];
+
+		if($event instanceof ApplicationEvent)
+			$applications[] = $event->getApplication();
+		elseif($event instanceof AdminEventInterface)
+			$applications = $event->getApplications();
+
+		return $applications;
+	}
+
+	/**
+	 * Constructor of ApplicationEventListenerService
+	 *
+	 * @param ContainerInterface $container
+	 */
+	public function __construct($container)
 	{
 		$this->remoteManager = $container->get('araneum.main.application.remote_manager');
 	}
 
-	public function postPersist()
+	/**
+	 * Invoke method after creation of applications
+	 *
+	 * @param Event $event
+	 */
+	public function postPersist(Event $event)
 	{
+		/** @var Application $application */
+		foreach($this->getApplications($event) as $application){
+			$this->remoteManager->create($application->getApiKey());
+		}
 	}
 
-	public function postUpdate(ApplicationEvent $applicationEvent)
+	/**
+	 * Invoke method after modification of applications
+	 *
+	 * @param Event $event
+	 */
+	public function postUpdate(Event $event)
 	{
-		var_dump($applicationEvent);die;
+		/** @var Application $application */
+		foreach($this->getApplications($event) as $application){
+			$this->remoteManager->update($application->getApiKey());
+		}
 	}
 
-	public function postRemove()
+	/**
+	 * Invoke method after deletion of applications
+	 *
+	 * @param Event $event
+	 */
+	public function postRemove(Event $event)
 	{
+		/** @var Application $application */
+		foreach($this->getApplications($event) as $application){
+			$this->remoteManager->remove($application->getApiKey());
+		}
 	}
 }

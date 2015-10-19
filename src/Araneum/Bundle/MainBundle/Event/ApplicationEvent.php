@@ -3,12 +3,14 @@
 namespace Araneum\Bundle\MainBundle\Event;
 
 use Araneum\Bundle\MainBundle\Entity\Application;
-use Araneum\Bundle\MainBundle\Entity\Cluster;
-use Araneum\Bundle\MainBundle\Entity\Component;
 use Symfony\Component\EventDispatcher\Event;
 
 class ApplicationEvent extends Event
 {
+	const POST_PERSIST = 'araneum.main.application.event.post_persist';
+	const POST_UPDATE = 'araneum.main.application.event.post_update';
+	const POST_REMOVE = 'araneum.main.application.event.post_remove';
+
 	/**
 	 * @var Application
 	 */
@@ -17,10 +19,20 @@ class ApplicationEvent extends Event
 	/**
 	 * Constructor of Application Event
 	 *
-	 * @param Application|Component $object
+	 * @param Application $application
 	 */
-	public function __construct($object)
+	public function __construct(Application $application)
 	{
+		$this->application = $application;
+	}
 
+	/**
+	 * Get application
+	 *
+	 * @return Application
+	 */
+	public function getApplication()
+	{
+		return $this->application;
 	}
 }

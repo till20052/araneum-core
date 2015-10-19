@@ -7,6 +7,8 @@ services:
             - ~
             - Araneum\Bundle\MainBundle\Entity\Cluster
             - ~
+        calls:
+            - [setDispatcher, [@event_dispatcher]]
             
     araneum.main.admin.connection:
         class: Araneum\Bundle\MainBundle\Admin\ConnectionAdmin
@@ -16,6 +18,8 @@ services:
             - ~
             - Araneum\Bundle\MainBundle\Entity\Connection
             - ~
+        calls:
+            - [setDispatcher, [@event_dispatcher]]
             
     araneum.main.admin.locale:
         class: Araneum\Bundle\MainBundle\Admin\LocaleAdmin
