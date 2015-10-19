@@ -9,7 +9,7 @@ password: Пароль
 created_at: Создано
 updated_at: Обновлено
 last_login: Последний логин
-actions: Дейстия
+actions: Действия
 date_range_start: С
 date_range_end: До
 name: Имя
@@ -49,3 +49,4 @@ database: База данных
 components: Компоненты
 id: ID
 owner: Владелец
+applications: Приложения

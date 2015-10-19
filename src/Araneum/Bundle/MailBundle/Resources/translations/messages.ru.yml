@@ -1,6 +1,6 @@
 application: Сайт
 from: От
-to: К
+to: Кому
 headline: Заголовок
 sent_at: Отправлено в
 text_body: Текстовое содержание
@@ -10,3 +10,4 @@ new: Новый
 pending: Ожидаеться
 sent: Отправлено
 read: Прочитано
+id: ID
