@@ -262,13 +262,11 @@ class ComponentAdmin extends Admin
      */
     public function validate(ErrorElement $errorElement, $object)
     {
-        $regexPattern = '/^([A-z])([\w\d]+)$/';
-
         foreach($object->getOptions() as $key => $value)
         {
             if(
-                preg_match($regexPattern, $key)
-                && preg_match($regexPattern, $value)
+                preg_match('/^([A-z])([\w\d\/\_]+)$/', $key)
+                && preg_match('/^([\w\d\/\_]+)$/', $value)
             ){
                 continue;
             }

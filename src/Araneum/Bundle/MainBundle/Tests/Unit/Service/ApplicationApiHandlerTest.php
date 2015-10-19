@@ -1,16 +1,15 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Tests\Unit\Handler;
+namespace Araneum\Bundle\MainBundle\Tests\Unit\Service;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Araneum\Bundle\MainBundle\Entity\Application;
-use Araneum\Bundle\MainBundle\Service\ApplicationHandlerService;
+use Araneum\Bundle\MainBundle\Service\ApplicationApiHandlerService;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ApplicationHandlerTest extends BaseController
+class ApplicationApiHandlerTest extends BaseController
 {
-    const APP_CLASS = 'Araneum\Bundle\MainBundle\Entity\Application';
+    const APP_CLASS = 'AraneumMainBundle:Application';
 
     const API_KEY = '111111111111111';
 
@@ -26,7 +25,7 @@ class ApplicationHandlerTest extends BaseController
     public function setUp()
     {
         $this->manager = $this
-            ->getMockBuilder('Doctrine\Common\Persistence\ObjectManager')
+            ->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
         $this->repository = $this
@@ -41,11 +40,11 @@ class ApplicationHandlerTest extends BaseController
     }
 
     /**
-     * Test ApplicationHandlerService verifies that returns an array of the desired keys and values
+     * Test ApplicationApiHandlerService verifies that returns an array of the desired keys and values
      */
     public function testGet()
     {
-        $applicationHandler = new ApplicationHandlerService($this->manager, self::APP_CLASS);
+        $applicationHandler = new ApplicationApiHandlerService($this->manager);
 
         $cluster = $this->getMock('Araneum\Bundle\MainBundle\Entity\Cluster');
         $component = $this->getMock('Araneum\Bundle\MainBundle\Entity\Component');
@@ -63,7 +62,7 @@ class ApplicationHandlerTest extends BaseController
         $application->setDomain('testname.test');
         $application->setPublic();
         $application->setEnabled();
-        $application->setLocale($locale);
+        $application->setLocales(new ArrayCollection([$locale]));
         $application->setComponents(new ArrayCollection([$component]));
         $application->setOwner($owner);
         $application->setStatus(1);
@@ -79,7 +78,7 @@ class ApplicationHandlerTest extends BaseController
             'domain' => 'testname.test',
             'public' => true,
             'enabled' => true,
-            'locale' => $locale,
+            'locales' => new ArrayCollection([$locale]),
             'components' => new ArrayCollection([$component]),
             'owner' => $owner,
             'status' => 1,
@@ -89,7 +88,7 @@ class ApplicationHandlerTest extends BaseController
         $this->repository
             ->expects($this->once())
             ->method("findOneBy")
-            ->with($this->equalTo(['apiKey' => self::API_KEY]))
+            ->with($this->equalTo(['appKey' => self::API_KEY]))
             ->will($this->returnValue($application));
         $appConfig = $applicationHandler->get(self::API_KEY);
 
@@ -101,11 +100,11 @@ class ApplicationHandlerTest extends BaseController
      *
      * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * @expectedExceptionCode \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND
-     * @expectedExceptionMessage Not Application found for this apiKey
+     * @expectedExceptionMessage Not Application found for this appKey
      */
     public function testGetException()
     {
-        $applicationHandler = new ApplicationHandlerService($this->manager, self::APP_CLASS);
+        $applicationHandler = new ApplicationApiHandlerService($this->manager);
         $applicationHandler->get(self::API_KEY);
     }
 }
