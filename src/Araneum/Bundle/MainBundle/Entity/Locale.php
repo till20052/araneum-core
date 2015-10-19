@@ -37,6 +37,7 @@ class Locale
      *
      * @Assert\NotBlank()
      * @Assert\Length(min=2, max=20)
+     * @Assert\Regex(pattern="/^\w([\w\d\s]+)$/")
      */
     protected $name;
 
@@ -65,6 +66,11 @@ class Locale
      * @Assert\Length(min=2, max=30)
      */
     protected $encoding;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Application", mappedBy="locales", cascade={"persist"})
+     */
+    protected $applications;
 
     /**
      * Get id

@@ -19,7 +19,7 @@ host: Host
 db_connection: DB connection
 host_connection: Host connection
 connection: Connection
-locale: Locale
+locales: Locales
 orientation: Orientation
 encoding: Encoding
 left_to_right: Left to right
@@ -41,3 +41,12 @@ online: Online
 offline: Offline
 check_status: Check status
 test_connection: Test connection
+domain: Domain
+aliases: Aliases
+public: Public
+template: Template
+database: Database
+components: Components
+id: ID
+owner: Owner
+applications: Applications

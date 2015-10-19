@@ -67,7 +67,7 @@ class UserAdminTest extends BaseAdminController
                         'email' => 'testUserAdminCreate@test.com',
                         'username' => 'testUserAdminNameCreate',
                         'fullName' => 'TestFullName',
-                        'plainPassword' => 'pswd',
+                        'plainPassword' => 'pAs$w0rd',
                     ],
                     true
                 ],
@@ -76,7 +76,7 @@ class UserAdminTest extends BaseAdminController
                         'email' => UserFixtures::TEST_USER_NAME,
                         'username' => 'testUserAdminNameCreateUniq',
                         'fullName' => 'TestFullName',
-                        'plainPassword' => 'pswd',
+                        'plainPassword' => 'pAs$w0rd',
                     ],
                     false
                 ],
@@ -85,7 +85,7 @@ class UserAdminTest extends BaseAdminController
                         'email' => 'testUserAdminCreateUniq@test.com',
                         'username' => UserFixtures::TEST_USER_NAME,
                         'fullName' => 'TestFullName',
-                        'plainPassword' => 'pswd',
+                        'plainPassword' => 'pAs$w0rd',
                     ],
                     false
                 ],
@@ -94,7 +94,7 @@ class UserAdminTest extends BaseAdminController
                         'email' => 'nonValidEmail',
                         'username' => 'testUserAdminNameCreateUniq',
                         'fullName' => 'TestFullName',
-                        'plainPassword' => 'pswd',
+                        'plainPassword' => 'pAs$w0rd',
                     ],
                     false
                 ],
@@ -112,7 +112,7 @@ class UserAdminTest extends BaseAdminController
                         'email' => '',
                         'username' => 'testUserAdminNameCreateUniq',
                         'fullName' => 'TestFullName',
-                        'plainPassword' => 'pswd',
+                        'plainPassword' => 'pAs$w0rd',
                     ],
                     false
                 ],
@@ -121,7 +121,7 @@ class UserAdminTest extends BaseAdminController
                         'email' => 'testUserAdminCreateUniq@test.com',
                         'username' => '',
                         'fullName' => 'TestFullName',
-                        'plainPassword' => 'pswd',
+                        'plainPassword' => 'pAs$w0rd',
                     ],
                     false
                 ],

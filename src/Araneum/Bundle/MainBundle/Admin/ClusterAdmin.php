@@ -94,32 +94,34 @@ class ClusterAdmin extends Admin
             ->add(
                 'type',
                 null,
-                [],
+                [
+                    'label' => 'type'
+                ],
                 'choice',
                 [
                     'choices' => [
                         Cluster::TYPE_MULTIPLE => 'multiple',
                         Cluster::TYPE_SINGLE => 'single'
-                    ],
-                    'label' => 'type'
+                    ]
                 ]
             )
             ->add(
                 'status',
                 null,
-                [],
+                [
+                    'label' => 'status'
+                ],
                 'choice',
                 [
                     'choices' => [
                         Cluster::STATUS_ONLINE => 'online',
                         Cluster::STATUS_OFFLINE => 'offline'
-                    ],
-                    'label' => 'status'
+                    ]
                 ]
             )
             ->add('enabled', null, ['label' => 'enabled'])
             ->add(
-                'created_at',
+                'createdAt',
                 'doctrine_orm_datetime_range',
                 [
                     'label' => 'created_at',
@@ -137,7 +139,7 @@ class ClusterAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
+            ->addIdentifier('id', null, ['label' => 'id'])
             ->add(
                 'name',
                 'text',
@@ -187,7 +189,7 @@ class ClusterAdmin extends Admin
                 ]
             )
             ->add(
-                'created_at',
+                'createdAt',
                 'datetime',
                 [
                     'format' => 'm.d.Y',
@@ -198,7 +200,7 @@ class ClusterAdmin extends Admin
                 '_action',
                 'actions',
                 [
-                    'label' => 'action',
+                    'label' => 'actions',
                     'actions' => [
                         'edit' => [],
                         'check_status' => [
