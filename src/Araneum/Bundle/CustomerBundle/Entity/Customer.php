@@ -39,14 +39,19 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="first_name", type="string", length=30, nullable=true)
+     * @Assert\Length(min=2, max=30)
+     * @Assert\Regex(pattern="/^\w([\w\d\s]+)$/")
+
      */
     private $firstName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="last_name", type="string", length=30, nullable=true)
+     * @Assert\Length(min=2, max=30)
+     * @Assert\Regex(pattern="/^\w([\w\d\s]+)$/")
      */
     private $lastName;
 
@@ -69,6 +74,8 @@ class Customer
      * @var string
      *
      * @ORM\Column(name="phone", type="string", length=24, nullable=true)
+     * @Assert\Length(max=24)
+     * @Assert\Regex(pattern="/^[0-9\-\+\(\)]{9,17}$/")
      */
     private $phone;
 
