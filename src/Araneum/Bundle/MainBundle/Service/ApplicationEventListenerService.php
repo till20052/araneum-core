@@ -52,7 +52,7 @@ class ApplicationEventListenerService
 	{
 		/** @var Application $application */
 		foreach($this->getApplications($event) as $application){
-			$this->remoteManager->create($application->getApiKey());
+			$this->remoteManager->create($application->getAppKey());
 		}
 	}
 
@@ -65,7 +65,7 @@ class ApplicationEventListenerService
 	{
 		/** @var Application $application */
 		foreach($this->getApplications($event) as $application){
-			$this->remoteManager->update($application->getApiKey());
+			$this->remoteManager->update($application->getAppKey());
 		}
 	}
 
@@ -78,7 +78,7 @@ class ApplicationEventListenerService
 	{
 		/** @var Application $application */
 		foreach($this->getApplications($event) as $application){
-			$this->remoteManager->remove($application->getApiKey());
+			$this->remoteManager->remove($application->getAppKey());
 		}
 	}
 }

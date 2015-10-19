@@ -80,7 +80,7 @@ class ApplicationEventListenerServiceTest extends \PHPUnit_Framework_TestCase
 
 		$this->application = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Application');
 		$this->application->expects($this->atLeastOnce())
-			->method('getApiKey')
+			->method('getAppKey')
 			->will($this->returnValue(ApplicationFixtures::TEST_APP_API_KEY));
 
 		$this->cluster = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Cluster');
