@@ -19,7 +19,7 @@ host: Host
 db_connection: DB connection
 host_connection: Host connection
 connection: Connection
-locale: Locale
+locales: Locales
 orientation: Orientation
 encoding: Encoding
 left_to_right: Left to right
