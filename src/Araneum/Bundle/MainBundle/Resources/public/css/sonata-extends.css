@@ -2,17 +2,14 @@
     margin-top: 7px;
 }
 
-.box {
-    float: left;
-    display: inline-block;
-    position: relative;
+.custom-box {
     background: #ffffff;
     border-top: 2px solid #c1c1c1;
     margin-bottom: 20px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    width: auto;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    margin-left: 20px;
+    margin-left: 10px;
+    min-width: 218px;
 }
