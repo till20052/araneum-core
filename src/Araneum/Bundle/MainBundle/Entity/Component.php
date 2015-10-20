@@ -176,7 +176,7 @@ class Component
 	 * Set Applications
 	 *
 	 * @param $applications
-	 * @return Component
+	 * @return Component $this
 	 */
 	public function setApplications($applications)
 	{

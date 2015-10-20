@@ -8,9 +8,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Araneum\Bundle\MainBundle\Entity\Cluster;
 
 /**
- * Application class.
+ * Application class
  *
  * @Doctrine\ORM\Mapping\Entity
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ApplicationRepository")
@@ -78,10 +79,11 @@ class Application
     protected $enabled;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Locale")
-     * @ORM\JoinColumn(name="locale_id", referencedColumnName="id")
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="Locale", inversedBy="applications", cascade={"persist"})
+     * @ORM\JoinTable(name="araneum_applications_locales")
      */
-    protected $locale;
+    protected $locales;
 
     /**
      * @ORM\ManyToMany(targetEntity="Component", inversedBy="applications", cascade={"persist"})
@@ -108,9 +110,14 @@ class Application
     protected $template;
 
     /**
-     * @ORM\Column(type="string", name="api_key", length=70)
+     * @ORM\Column(type="string", name="app_key", length=70)
      */
-    protected $apiKey;
+    protected $appKey;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\CustomerBundle\Entity\Customer", mappedBy="application")
+     */
+    protected $customers;
 
     /**
      * Application constructor.
@@ -118,7 +125,8 @@ class Application
     public function __construct()
     {
         $this->setComponents(new ArrayCollection());
-        $this->setApiKey();
+        $this->setAppKey();
+        $this->setCustomers(new ArrayCollection());
     }
 
     /**
@@ -147,7 +155,7 @@ class Application
     /**
      * Get cluster
      *
-     * @return mixed
+     * @return Cluster
      */
     public function getCluster()
     {
@@ -157,8 +165,8 @@ class Application
     /**
      * Set cluster
      *
-     * @param mixed $cluster
-     * @return mixed
+     * @param Cluster $cluster
+     * @return $this
      */
     public function setCluster(Cluster $cluster)
     {
@@ -216,7 +224,7 @@ class Application
     /**
      * Get domain
      *
-     * @return mixed
+     * @return string
      */
     public function getDomain()
     {
@@ -226,8 +234,8 @@ class Application
     /**
      * Set domain
      *
-     * @param mixed $domain
-     * @return mixed
+     * @param string $domain
+     * @return Application $this
      */
     public function setDomain($domain)
     {
@@ -249,8 +257,8 @@ class Application
     /**
      * Set aliases
      *
-     * @param mixed $aliases
-     * @return mixed
+     * @param string $aliases
+     * @return Application $this
      */
     public function setAliases($aliases)
     {
@@ -262,7 +270,7 @@ class Application
     /**
      * Get Db
      *
-     * @return mixed
+     * @return Connection
      */
     public function getDb()
     {
@@ -272,8 +280,8 @@ class Application
     /**
      * Set Db
      *
-     * @param mixed $db
-     * @return mixed
+     * @param Connection $db
+     * @return $this
      */
     public function setDb(Connection $db)
     {
@@ -329,24 +337,24 @@ class Application
     }
 
     /**
-     * Get locale
+     * Get locales
      *
-     * @return mixed
+     * @return ArrayCollection
      */
-    public function getLocale()
+    public function getLocales()
     {
-        return $this->locale;
+        return $this->locales;
     }
 
     /**
-     * Set locale
+     * Set locales
      *
-     * @param mixed $locale
-     * @return mixed
+     * @param ArrayCollection $locales
+     * @return $this
      */
-    public function setLocale(Locale $locale)
+    public function setLocales(ArrayCollection $locales)
     {
-        $this->locale = $locale;
+        $this->locales = $locales;
 
         return $this;
     }
@@ -354,7 +362,7 @@ class Application
     /**
      * Get Components
      *
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getComponents()
     {
@@ -364,8 +372,8 @@ class Application
     /**
      * Set components
      *
-     * @param mixed $components
-     * @return mixed
+     * @param ArrayCollection $components
+     * @return $this
      */
     public function setComponents(ArrayCollection $components)
     {
@@ -423,7 +431,7 @@ class Application
     /**
      * Get template
      *
-     * @return mixed
+     * @return string
      */
     public function getTemplate()
     {
@@ -433,8 +441,8 @@ class Application
     /**
      * Set template
      *
-     * @param mixed $template
-     * @return mixed
+     * @param string $template
+     * @return Application $this
      */
     public function setTemplate($template)
     {
@@ -444,24 +452,24 @@ class Application
     }
 
     /**
-     * Get apiKey
+     * Get appKey
      *
      * @return mixed
      */
-    public function getApiKey()
+    public function getAppKey()
     {
-        return $this->apiKey;
+        return $this->appKey;
     }
 
     /**
-     * Set apiKey
+     * Set appKey
      *
-     * @param mixed $apiKey
-     * @return mixed
+     * @param null|string $appKey
+     * @return Application $this
      */
-    public function setApiKey($apiKey = null)
+    public function setAppKey($appKey = null)
     {
-        $this->apiKey = is_null($apiKey) ? $this->generateUniqueKey() : $apiKey;
+        $this->appKey = is_null($appKey) ? $this->generateUniqueKey() : $appKey;
 
         return $this;
     }
@@ -475,6 +483,30 @@ class Application
     {
         return uniqid(sha1(time()), true);
     }
+
+    /**
+     * Get customers
+     *
+     * @return ArrayCollection
+     */
+    public function getCustomers()
+    {
+        return $this->customers;
+    }
+
+    /**
+     * Set customers
+     *
+     * @param ArrayCollection $customers
+     * @return Application
+     */
+    public function setCustomers(ArrayCollection $customers)
+    {
+        $this->customers = $customers;
+
+        return $this;
+    }
+
 
     /**
      * Convert entity to string

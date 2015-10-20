@@ -68,6 +68,11 @@ class Locale
     protected $encoding;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Application", mappedBy="locales", cascade={"persist"})
+     */
+    protected $applications;
+
+    /**
      * Get id
      *
      * @return integer

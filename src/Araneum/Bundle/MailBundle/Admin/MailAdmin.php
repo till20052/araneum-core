@@ -80,7 +80,7 @@ class MailAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('id')
+            ->addIdentifier('id', null, ['label' => 'id'])
             ->add('application', null, ['label' => 'application'])
             ->add('sender', null, ['label' => 'from'])
             ->add('target', null, ['label' => 'to'])

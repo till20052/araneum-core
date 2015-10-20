@@ -82,7 +82,7 @@ class CustomerAdmin extends Admin
 	protected function configureListFields(ListMapper $list)
 	{
 		$list
-			->addIdentifier('id')
+			->addIdentifier('id', null, ['label' => 'id'])
 			->add(
 				'firstName',
 				null,
