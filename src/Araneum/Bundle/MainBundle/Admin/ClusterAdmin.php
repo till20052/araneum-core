@@ -18,6 +18,20 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 
 class ClusterAdmin extends Admin
 {
+
+    public function getBatchActions()
+    {
+        return array_merge(
+            parent::getBatchActions(),
+            [
+                'checkStatus' => [
+                    'label' => 'Check Status',
+                    'ask_confirmation' => true
+                ]
+            ]
+        );
+    }
+
     /**
      * @var ConnectionRepository
      */

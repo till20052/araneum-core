@@ -20,4 +20,8 @@ class AdminClusterController extends Controller
         //TODO necessary to implement
         return new Response();
     }
+
+    public function batchActionCheckStatus()
+    {
+    }
 }
