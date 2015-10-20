@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -25,13 +26,12 @@ class AdminClusterController extends Controller
     /**
      * Check Status
      *
-     * @param array $normalizedSelectedIds
-     * @param array $allEntitiesSelected
      * @return Response
-     * @Route("/batchActionCheckStatus", name="araneum_main_admin_cluster_batchActionCheckStatus")
+     * @Route("/admin/araneum/main/cluster/batch", condition="request.request.get('data') matches '/checkStatus/'" ,name="araneum_main_admin_cluster_batchAction")
      */
-    public function batchActionCheckStatus(array $normalizedSelectedIds, $allEntitiesSelected)
+    public function batchActionCheckStatus()
     {
+        die(var_dump(123123123123));
         var_dump($normalizedSelectedIds);
 
         return new Response();
