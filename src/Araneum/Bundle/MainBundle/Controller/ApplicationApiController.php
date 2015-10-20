@@ -38,7 +38,7 @@ class ApplicationApiController extends FOSRestController
      * )
      *
      * @Rest\Get(
-     *      "/application/config/{appKey}",
+     *      "/api/application/config/{appKey}",
      *      name="araneum_main_api_application",
      *      defaults={"_format"="json", "_locale"="en"}
      * )
