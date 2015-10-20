@@ -17,11 +17,23 @@ class AdminClusterController extends Controller
      */
     public function checkStatusAction($id)
     {
+        var_dump($id);
         //TODO necessary to implement
         return new Response();
     }
 
-    public function batchActionCheckStatus()
+    /**
+     * Check Status
+     *
+     * @param array $normalizedSelectedIds
+     * @param array $allEntitiesSelected
+     * @return Response
+     * @Route("/batchActionCheckStatus", name="araneum_main_admin_cluster_batchActionCheckStatus")
+     */
+    public function batchActionCheckStatus(array $normalizedSelectedIds, $allEntitiesSelected)
     {
+        var_dump($normalizedSelectedIds);
+
+        return new Response();
     }
 }
