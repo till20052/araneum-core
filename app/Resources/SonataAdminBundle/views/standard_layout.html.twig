@@ -349,7 +349,9 @@ file that was distributed with this source code.
 
 <script>
     $(function () {
-
+        $('a[id^=btn-]').click(function () {
+            var url = $(this).attr('data-url');
+        });
     });
 </script>
 
