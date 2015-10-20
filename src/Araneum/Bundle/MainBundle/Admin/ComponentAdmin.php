@@ -2,9 +2,9 @@
 
 namespace Araneum\Bundle\MainBundle\Admin;
 
+use Araneum\Bundle\MainBundle\ApplicationEvents;
 use Araneum\Bundle\MainBundle\Entity\Component;
 use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
-use Araneum\Bundle\MainBundle\Event\ComponentEvent;
 use Araneum\Bundle\MainBundle\Form\DataTransformer\ComponentOptionsTransformer;
 use Araneum\Bundle\MainBundle\Form\Type\ComponentOptionType;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -36,11 +36,14 @@ class ComponentAdmin extends Admin
 	 */
 	public function postPersist($component)
 	{
-		$this->dispatcher
-			->dispatch(
-				ApplicationEvent::POST_UPDATE,
-				new ComponentEvent($component)
-			);
+		$this->dispatcher->dispatch(
+			ApplicationEvents::POST_PERSIST,
+			(new ApplicationEvent())
+				->setApplications(
+					$component->getApplications()
+						->toArray()
+				)
+		);
 	}
 
 	/**
@@ -51,11 +54,14 @@ class ComponentAdmin extends Admin
 	 */
 	public function postUpdate($component)
 	{
-		$this->dispatcher
-			->dispatch(
-				ApplicationEvent::POST_UPDATE,
-				new ComponentEvent($component)
-			);
+		$this->dispatcher->dispatch(
+			ApplicationEvents::POST_UPDATE,
+			(new ApplicationEvent())
+				->setApplications(
+					$component->getApplications()
+						->toArray()
+				)
+		);
 	}
 
 	/**
@@ -66,11 +72,14 @@ class ComponentAdmin extends Admin
 	 */
 	public function postRemove($component)
 	{
-		$this->dispatcher
-			->dispatch(
-				ApplicationEvent::POST_UPDATE,
-				new ComponentEvent($component)
-			);
+		$this->dispatcher->dispatch(
+			ApplicationEvents::POST_REMOVE,
+			(new ApplicationEvent())
+				->setApplications(
+					$component->getApplications()
+						->toArray()
+				)
+		);
 	}
 
 	/**

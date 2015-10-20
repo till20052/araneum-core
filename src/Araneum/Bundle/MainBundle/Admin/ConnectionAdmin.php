@@ -5,7 +5,6 @@ namespace Araneum\Bundle\MainBundle\Admin;
 use Araneum\Bundle\MainBundle\ApplicationEvents;
 use Araneum\Bundle\MainBundle\Entity\Connection;
 use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
-use Araneum\Bundle\MainBundle\Event\ConnectionEvent;
 use Doctrine\ORM\EntityManager;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -31,6 +30,19 @@ class ConnectionAdmin extends Admin
 	private $dispatcher;
 
 	/**
+	 * Get Array of Applications by Cluster Id
+	 *
+	 * @param $id
+	 * @return array
+	 */
+	public function getApplications($id)
+	{
+		return $this->entityManager
+			->getRepository('AraneumMainBundle:Connection')
+			->getApplications($id);
+	}
+
+	/**
 	 * Invoke method after creation of connection
 	 *
 	 * @param Connection $connection
@@ -38,11 +50,13 @@ class ConnectionAdmin extends Admin
 	 */
 	public function postPersist($connection)
 	{
-		$this->dispatcher
-			->dispatch(
-				ApplicationEvents::POST_UPDATE,
-				new ConnectionEvent($connection)
-			);
+		$this->dispatcher->dispatch(
+			ApplicationEvents::POST_PERSIST,
+			(new ApplicationEvent())
+				->setApplications(
+					$this->getApplications($connection->getId())
+				)
+		);
 	}
 
 	/**
@@ -53,14 +67,13 @@ class ConnectionAdmin extends Admin
 	 */
 	public function postUpdate($connection)
 	{
-		$repository = $this->entityManager->getRepository(get_class($connection));
-
-		$applications = $repository->getApplications($connection->getId());
-
-		$event = (new ApplicationEvent())
-			->setApplications($applications);
-
-		$this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
+		$this->dispatcher->dispatch(
+			ApplicationEvents::POST_UPDATE,
+			(new ApplicationEvent())
+				->setApplications(
+					$this->getApplications($connection->getId())
+				)
+		);
 	}
 
 	/**
@@ -71,11 +84,13 @@ class ConnectionAdmin extends Admin
 	 */
 	public function postRemove($connection)
 	{
-		$this->dispatcher
-			->dispatch(
-				ApplicationEvents::POST_UPDATE,
-				new ConnectionEvent($connection)
-			);
+		$this->dispatcher->dispatch(
+			ApplicationEvents::POST_REMOVE,
+			(new ApplicationEvent())
+				->setApplications(
+					$this->getApplications($connection->getId())
+				)
+		);
 	}
 
 	/**

@@ -38,12 +38,14 @@ class ConnectionRepository extends EntityRepository
 	 */
 	public function getApplications($id)
 	{
-		$qb = $this->createQueryBuilder('c');
+		$q = $this->createQueryBuilder('cn')
+			->select('a')
+			->innerJoin('cn.clusters', 'cl')
+			->innerJoin('AraneumMainBundle:Application', 'a', Expr\Join::WITH, 'a.cluster = cl.id')
+			->where('cn.id = :id')
+			->setParameter('id', $id)
+			->getQuery();
 
-		$qb->where('c.id = :id');
-
-		var_dump($qb->getQuery()->execute(['id' => $id]));die;
-
-		return [];
+		return $q->getResult();
 	}
 }

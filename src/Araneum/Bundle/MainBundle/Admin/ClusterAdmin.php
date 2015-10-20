@@ -2,9 +2,9 @@
 
 namespace Araneum\Bundle\MainBundle\Admin;
 
+use Araneum\Bundle\MainBundle\ApplicationEvents;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
 use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
-use Araneum\Bundle\MainBundle\Event\ClusterEvent;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -30,11 +30,14 @@ class ClusterAdmin extends Admin
 	 */
 	public function postPersist($cluster)
 	{
-		$this->dispatcher
-			->dispatch(
-				ApplicationEvent::POST_UPDATE,
-				new ClusterEvent($cluster)
-			);
+		$this->dispatcher->dispatch(
+			ApplicationEvents::POST_PERSIST,
+			(new ApplicationEvent())
+				->setApplications(
+					$cluster->getApplications()
+						->toArray()
+				)
+		);
 	}
 
 	/**
@@ -45,11 +48,14 @@ class ClusterAdmin extends Admin
 	 */
 	public function postUpdate($cluster)
 	{
-		$this->dispatcher
-			->dispatch(
-				ApplicationEvent::POST_UPDATE,
-				new ClusterEvent($cluster)
-			);
+		$this->dispatcher->dispatch(
+			ApplicationEvents::POST_UPDATE,
+			(new ApplicationEvent())
+				->setApplications(
+					$cluster->getApplications()
+						->toArray()
+				)
+		);
 	}
 
 	/**
@@ -60,11 +66,14 @@ class ClusterAdmin extends Admin
 	 */
 	public function postRemove($cluster)
 	{
-		$this->dispatcher
-			->dispatch(
-				ApplicationEvent::POST_UPDATE,
-				new ClusterEvent($cluster)
-			);
+		$this->dispatcher->dispatch(
+			ApplicationEvents::POST_REMOVE,
+			(new ApplicationEvent())
+				->setApplications(
+					$cluster->getApplications()
+						->toArray()
+				)
+		);
 	}
 
 	/**

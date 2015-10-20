@@ -3,10 +3,8 @@
 namespace Araneum\Bundle\MainBundle\Tests\Unit\Service;
 
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
+use Araneum\Bundle\MainBundle\ApplicationEvents;
 use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
-use Araneum\Bundle\MainBundle\Event\ClusterEvent;
-use Araneum\Bundle\MainBundle\Event\ComponentEvent;
-use Araneum\Bundle\MainBundle\Event\ConnectionEvent;
 use Araneum\Bundle\MainBundle\Service\ApplicationEventListenerService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -30,11 +28,14 @@ class ApplicationEventListenerServiceTest extends \PHPUnit_Framework_TestCase
 	 */
 	private function dispatch($event)
 	{
-		$this->dispatcher->dispatch(ApplicationEvent::POST_PERSIST, $event);
-		$this->dispatcher->dispatch(ApplicationEvent::POST_UPDATE, $event);
-		$this->dispatcher->dispatch(ApplicationEvent::POST_REMOVE, $event);
+		$this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
+		$this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
+		$this->dispatcher->dispatch(ApplicationEvents::POST_REMOVE, $event);
 	}
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function setUp()
 	{
 		$remoteManager = $this->getMock('\Araneum\Bundle\MainBundle\Service\RemoteApplicationManagerService');
@@ -57,21 +58,21 @@ class ApplicationEventListenerServiceTest extends \PHPUnit_Framework_TestCase
 
 		$this->dispatcher = new EventDispatcher();
 		$this->dispatcher->addListener(
-			ApplicationEvent::POST_PERSIST,
+			ApplicationEvents::POST_PERSIST,
 			[
 				$listener,
 				'postPersist'
 			]
 		);
 		$this->dispatcher->addListener(
-			ApplicationEvent::POST_UPDATE,
+			ApplicationEvents::POST_UPDATE,
 			[
 				$listener,
 				'postUpdate'
 			]
 		);
 		$this->dispatcher->addListener(
-			ApplicationEvent::POST_REMOVE,
+			ApplicationEvents::POST_REMOVE,
 			[
 				$listener,
 				'postRemove'
@@ -82,40 +83,19 @@ class ApplicationEventListenerServiceTest extends \PHPUnit_Framework_TestCase
 		$this->application->expects($this->atLeastOnce())
 			->method('getAppKey')
 			->will($this->returnValue(ApplicationFixtures::TEST_APP_API_KEY));
-
-		$this->cluster = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Cluster');
-		$this->cluster->expects($this->any())
-			->method('getApplications')
-			->will($this->returnValue(new ArrayCollection([$this->application])));
 	}
 
+	/**
+	 * Test Application Event Listener
+	 */
 	public function testApplicationEvent()
 	{
-		$this->dispatch(new ApplicationEvent($this->application));
-	}
+		$event = new ApplicationEvent();
 
-	public function testClusterEvent()
-	{
-		$this->dispatch(new ClusterEvent($this->cluster));
-	}
+		$event->setApplications(
+			[$this->application]
+		);
 
-	public function testComponentEvent()
-	{
-		$component = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Component');
-		$component->expects($this->atLeastOnce())
-			->method('getApplications')
-			->will($this->returnValue(new ArrayCollection([$this->application])));
-
-		$this->dispatch(new ComponentEvent($component));
-	}
-
-	public function testConnectionEvent()
-	{
-		$connection = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Connection');
-		$connection->expects($this->atLeastOnce())
-			->method('getClusters')
-			->will($this->returnValue(new ArrayCollection([$this->cluster])));
-
-		$this->dispatch(new ConnectionEvent($connection));
+		$this->dispatch($event);
 	}
 }

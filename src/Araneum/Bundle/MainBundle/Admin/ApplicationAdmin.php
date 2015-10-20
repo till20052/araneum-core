@@ -2,14 +2,15 @@
 
 namespace Araneum\Bundle\MainBundle\Admin;
 
+use Araneum\Bundle\MainBundle\ApplicationEvents;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
  * Class ApplicationAdmin
@@ -18,9 +19,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class ApplicationAdmin extends Admin
 {
 	/**
-	 * @var ContainerInterface
+	 * @var TokenStorage
 	 */
-	private $container;
+	private $tokenStorage;
 
     /**
      * @var EventDispatcherInterface
@@ -36,9 +37,8 @@ class ApplicationAdmin extends Admin
     public function prePersist($application)
     {
         $application->setOwner(
-            $this->container
-                ->get('security.token_storage')
-                ->getToken()
+            $this->tokenStorage
+	            ->getToken()
                 ->getUser()
         );
     }
@@ -51,11 +51,13 @@ class ApplicationAdmin extends Admin
 	 */
 	public function postPersist($application)
 	{
-		$this->dispatcher
-			->dispatch(
-				ApplicationEvent::POST_PERSIST,
-				new ApplicationEvent($application)
-			);
+		$this->dispatcher->dispatch(
+			ApplicationEvents::POST_PERSIST,
+			(new ApplicationEvent())
+				->setApplications(
+					[$application]
+				)
+		);
 	}
 
 	/**
@@ -66,11 +68,13 @@ class ApplicationAdmin extends Admin
      */
     public function postUpdate($application)
     {
-        $this->dispatcher
-            ->dispatch(
-                ApplicationEvent::POST_UPDATE,
-                new ApplicationEvent($application)
-            );
+	    $this->dispatcher->dispatch(
+		    ApplicationEvents::POST_UPDATE,
+		    (new ApplicationEvent())
+			    ->setApplications(
+				    [$application]
+			    )
+	    );
     }
 
 	/**
@@ -81,21 +85,23 @@ class ApplicationAdmin extends Admin
 	 */
 	public function postRemove($application)
 	{
-		$this->dispatcher
-			->dispatch(
-				ApplicationEvent::POST_REMOVE,
-				new ApplicationEvent($application)
-			);
+		$this->dispatcher->dispatch(
+			ApplicationEvents::POST_REMOVE,
+			(new ApplicationEvent())
+				->setApplications(
+					[$application]
+				)
+		);
 	}
 
     /**
      * Set Service Container
      *
-     * @param ContainerInterface $container
+     * @param TokenStorage $tokenStorage
      */
-    public function setContainer(ContainerInterface $container)
+    public function setSecurityToken(TokenStorage $tokenStorage)
     {
-        $this->container = $container;
+        $this->tokenStorage = $tokenStorage;
     }
 
 	/**

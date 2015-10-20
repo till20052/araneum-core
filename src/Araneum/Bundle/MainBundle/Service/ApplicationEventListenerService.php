@@ -2,10 +2,8 @@
 
 namespace Araneum\Bundle\MainBundle\Service;
 
-use Araneum\Bundle\MainBundle\Event\AdminEventInterface;
 use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\EventDispatcher\Event;
 use Araneum\Bundle\MainBundle\Entity\Application;
 
 class ApplicationEventListenerService
@@ -14,24 +12,6 @@ class ApplicationEventListenerService
 	 * @var RemoteApplicationManagerService
 	 */
 	private $remoteManager;
-
-	/**
-	 * Get applications
-	 *
-	 * @param Event|AdminEventInterface|ApplicationEvent| $event
-	 * @return array
-	 */
-	private function getApplications(Event $event)
-	{
-		$applications = [];
-
-		if($event instanceof ApplicationEvent)
-			$applications[] = $event->getApplication();
-		elseif($event instanceof AdminEventInterface)
-			$applications = $event->getApplications();
-
-		return $applications;
-	}
 
 	/**
 	 * Constructor of ApplicationEventListenerService
@@ -46,12 +26,12 @@ class ApplicationEventListenerService
 	/**
 	 * Invoke method after creation of applications
 	 *
-	 * @param Event $event
+	 * @param ApplicationEvent $event
 	 */
-	public function postPersist(Event $event)
+	public function postPersist(ApplicationEvent $event)
 	{
 		/** @var Application $application */
-		foreach($this->getApplications($event) as $application){
+		foreach($event->getApplications() as $application){
 			$this->remoteManager->create($application->getAppKey());
 		}
 	}
@@ -59,12 +39,12 @@ class ApplicationEventListenerService
 	/**
 	 * Invoke method after modification of applications
 	 *
-	 * @param Event $event
+	 * @param ApplicationEvent $event
 	 */
-	public function postUpdate(Event $event)
+	public function postUpdate(ApplicationEvent $event)
 	{
 		/** @var Application $application */
-		foreach($this->getApplications($event) as $application){
+		foreach($event->getApplications() as $application){
 			$this->remoteManager->update($application->getAppKey());
 		}
 	}
@@ -72,12 +52,12 @@ class ApplicationEventListenerService
 	/**
 	 * Invoke method after deletion of applications
 	 *
-	 * @param Event $event
+	 * @param ApplicationEvent $event
 	 */
-	public function postRemove(Event $event)
+	public function postRemove(ApplicationEvent $event)
 	{
 		/** @var Application $application */
-		foreach($this->getApplications($event) as $application){
+		foreach($event->getApplications() as $application){
 			$this->remoteManager->remove($application->getAppKey());
 		}
 	}
