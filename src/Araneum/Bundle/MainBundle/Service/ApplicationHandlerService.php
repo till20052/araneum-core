@@ -37,7 +37,7 @@ class ApplicationHandlerService
     {
         $entity = $this->repository->findOneBy(['apiKey' => $apiKey]);
 
-        if (!$entity) {
+        if (empty($entity)) {
             throw new NotFoundHttpException('Not Application found for this apiKey', null, Response::HTTP_NOT_FOUND);
         }
 
