@@ -13,3 +13,7 @@
     margin-left: 10px;
     min-width: 218px;
 }
+
+.custom-box h3 {
+    padding-left: 20px;
+}
