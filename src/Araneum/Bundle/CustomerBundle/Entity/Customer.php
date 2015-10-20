@@ -67,6 +67,7 @@ class Customer
      *
      * @ORM\Column(name="email", type="string", length=255, unique=true)
      * @Assert\Email()
+     * @Assert\NotBlank()
      */
     private $email;
 
