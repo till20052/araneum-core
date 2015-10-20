@@ -6,6 +6,7 @@ use Araneum\Bundle\MainBundle\Entity\Connection;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -17,6 +18,19 @@ use Sonata\AdminBundle\Form\FormMapper;
  */
 class ConnectionAdmin extends Admin
 {
+    public function getBatchActions()
+    {
+        return array_merge(
+            parent::getBatchActions(),
+            [
+                'checkStatus' => [
+                    'label' => 'Check Status',
+                    'ask_confirmation' => true
+                ]
+            ]
+        );
+    }
+
     /**
      * Create/Update form
      *
