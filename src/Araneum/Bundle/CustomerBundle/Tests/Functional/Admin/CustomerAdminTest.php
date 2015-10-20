@@ -38,7 +38,7 @@ class CustomerAdminTest extends BaseAdminController
 					'lastName' => 'TestCustomerLastName',
 					'country' => 'TestCustomerCountry',
 					'email' => self::TEST_CUSTOMER_EMAIL . '@' . md5(self::TEST_CUSTOMER_EMAIL) . '.com',
-					'phone' => 'TestCustomerPhone',
+					'phone' => '+380995554455',
 					'callback' => true,
 				],
 				true
@@ -134,7 +134,7 @@ class CustomerAdminTest extends BaseAdminController
 					'lastName' => 'TestCustomer2UpdateLastName',
 					'country' => 'TestCustomer2UpdateCountry',
 					'email' => self::TEST_CUSTOMER_EMAIL . '@' . md5(microtime(true)) . '.com',
-					'phone' => 'TestCustomer2UpdatePhone',
+					'phone' => '+380667754444',
 					'callback' => ! CustomerFixtures::TEST_2_CALLBACK
 				],
 				true,

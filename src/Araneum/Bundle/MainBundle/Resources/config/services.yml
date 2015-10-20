@@ -6,6 +6,10 @@ services:
     araneum.main.cluster.api_handler:
         class: Araneum\Bundle\MainBundle\Service\ClusterApiHandlerService
         arguments: [@doctrine.orm.entity_manager]
+
+    araneum.main.application.manager:
+        class: Araneum\Bundle\MainBundle\Service\ApplicationManagerService
+        arguments: [@doctrine.orm.entity_manager]
     
     araneum.main.application.remote_manager:
         class: Araneum\Bundle\MainBundle\Service\RemoteApplicationManagerService
