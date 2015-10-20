@@ -38,12 +38,12 @@ class ApplicationApiController extends FOSRestController
      * )
      *
      * @Rest\Get(
-     *          "api/application/config/{appKey}",
-     *          name="araneum_main_api_application",
-     *          defaults={"_format"="json"}
-     *          )
+     *      "/application/config/{appKey}",
+     *      name="araneum_main_api_application",
+     *      defaults={"_format"="json", "_locale"="en"}
+     * )
      *
-     * @Rest\View(templateVar="application")
+     * @Rest\View()
      *
      * @param string $appKey The application appKey
      * @return array
@@ -51,7 +51,7 @@ class ApplicationApiController extends FOSRestController
     public function getConfigAction($appKey)
     {
         return $this->container
-            ->get('araneum.main.handler.application')
+            ->get('araneum.main.application.api_handler')
             ->get($appKey);
     }
 }

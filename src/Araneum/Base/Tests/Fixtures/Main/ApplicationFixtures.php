@@ -48,7 +48,7 @@ class ApplicationFixtures extends AbstractFixture implements FixtureInterface, D
             $app->setTemplate(self::TEST_APP_TEMPLATE);
             $app->setCluster($this->getReference('cluster'));
             $app->setDb($this->getReference('connectionDb'));
-            $app->setLocale($this->getReference('locale'));
+            $app->setLocales(new ArrayCollection([$this->getReference('locale')]));
             $app->setComponents(new ArrayCollection([$this->getReference('component')]));
             $app->setOwner($this->getReference('owner'));
             $app->setAppKey(self::TEST_APP_APP_KEY);
@@ -72,7 +72,7 @@ class ApplicationFixtures extends AbstractFixture implements FixtureInterface, D
             $app->setTemplate(self::TEST_APP_TEMP_TEMPLATE);
             $app->setCluster($this->getReference('cluster'));
             $app->setDb($this->getReference('connectionDb'));
-            $app->setLocale($this->getReference('locale'));
+            $app->setLocales(new ArrayCollection([$this->getReference('locale')]));
             $app->setComponents(new ArrayCollection([$this->getReference('component')]));
             $app->setOwner($this->getReference('owner'));
             $app->setAppKey(self::TEST_APP_TEMP_APP_KEY);

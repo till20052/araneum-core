@@ -14,7 +14,7 @@ class ApplicationManagerService
     private $repository;
 
     /**
-     * ApplicationManagerService constructor
+     * ApplicationManager constructor
      *
      * @param $doctrine
      */

@@ -14,7 +14,7 @@ class UserFixtures extends AbstractFixture implements FixtureInterface
     const TEST_USER_FULLNAME = 'TestUserFullName';
     const TEST_USER_PASSWORD = 'TestUserPassword';
     const TEST_USER_ENABLED  = true;
-    const TEST_USER_ROLES    = ['ROLE_USER'];
+    const TEST_USER_ROLES    = [User::ROLE_USER];
     const TEST_USER_NAME_DELETE     = 'TestUserNameForDelete';
     const TEST_USER_EMAIL_FILTER    = 'TestUserEmailForFilter@test.com';
     const TEST_USER_FULLNAME_FILTER = 'TestUserFullnameForFilter';
@@ -89,7 +89,7 @@ class UserFixtures extends AbstractFixture implements FixtureInterface
             $emailUser->setUsername('emailuser');
             $emailUser->setPlainPassword('emailuser_123');
             $emailUser->setEmail('emailuser@araneum.dev');
-            $emailUser->setRoles(['ROLE_ADMIN']);
+            $emailUser->setRoles([User::ROLE_ADMIN]);
             $emailUser->setEnabled(true);
             $manager->persist($emailUser);
         }
@@ -100,7 +100,7 @@ class UserFixtures extends AbstractFixture implements FixtureInterface
             $emptyUser->setUsername('emptyuser');
             $emptyUser->setPlainPassword('emptyuser_123');
             $emptyUser->setEmail('emptyuser@araneum.dev');
-            $emptyUser->setRoles(['ROLE_ADMIN']);
+            $emptyUser->setRoles([User::ROLE_ADMIN]);
             $emptyUser->setEnabled(true);
             $manager->persist($emptyUser);
         }
@@ -111,7 +111,7 @@ class UserFixtures extends AbstractFixture implements FixtureInterface
             $adminUser->setUsername(self::ADMIN_USER_NAME);
             $adminUser->setPlainPassword(self::ADMIN_USER_PASSWORD);
             $adminUser->setEmail('adminuser@araneum.dev');
-            $adminUser->setRoles(['ROLE_ADMIN']);
+            $adminUser->setRoles([User::ROLE_ADMIN]);
             $adminUser->setEnabled(true);
             $manager->persist($adminUser);
         }

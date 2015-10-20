@@ -1,1 +1,4 @@
 services:
+  araneum.mail.mail.api_handler:
+    class: Araneum\Bundle\MailBundle\Service\MailApiHandlerService
+    arguments: [@doctrine.orm.entity_manager, @form.factory, @araneum.main.application.manager]

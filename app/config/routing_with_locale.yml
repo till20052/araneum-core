@@ -13,6 +13,11 @@ araneum_customers:
     type:     annotation
     prefix:   /
 
+araneum_mail:
+    resource: "@AraneumMailBundle/Controller"
+    type: annotation
+    prefix: /mail
+
 admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
     prefix: /admin
