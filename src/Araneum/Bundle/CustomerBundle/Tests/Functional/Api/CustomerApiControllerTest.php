@@ -50,7 +50,7 @@ class CustomerApiControllerTest extends BaseController
                     'country' => 'country',
                     'email' => 'email@email.com',
                     'callback' => true,
-                    'phone' => '322223'
+                    'phone' => '+380993222234'
                 ],
                 Response::HTTP_CREATED
             ],
