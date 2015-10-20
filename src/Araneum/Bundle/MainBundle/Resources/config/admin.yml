@@ -19,6 +19,7 @@ services:
             - Araneum\Bundle\MainBundle\Entity\Connection
             - ~
         calls:
+            - [setEntityManager, [@doctrine.orm.entity_manager]]
             - [setDispatcher, [@event_dispatcher]]
             
     araneum.main.admin.locale:

@@ -2,9 +2,11 @@
 
 namespace Araneum\Bundle\MainBundle\Admin;
 
+use Araneum\Bundle\MainBundle\ApplicationEvents;
 use Araneum\Bundle\MainBundle\Entity\Connection;
 use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 use Araneum\Bundle\MainBundle\Event\ConnectionEvent;
+use Doctrine\ORM\EntityManager;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
@@ -18,6 +20,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ConnectionAdmin extends Admin
 {
+	/**
+	 * @var EntityManager
+	 */
+	private $entityManager;
+
 	/**
 	 * @var EventDispatcherInterface
 	 */
@@ -33,7 +40,7 @@ class ConnectionAdmin extends Admin
 	{
 		$this->dispatcher
 			->dispatch(
-				ApplicationEvent::POST_UPDATE,
+				ApplicationEvents::POST_UPDATE,
 				new ConnectionEvent($connection)
 			);
 	}
@@ -46,11 +53,14 @@ class ConnectionAdmin extends Admin
 	 */
 	public function postUpdate($connection)
 	{
-		$this->dispatcher
-			->dispatch(
-				ApplicationEvent::POST_UPDATE,
-				new ConnectionEvent($connection)
-			);
+		$repository = $this->entityManager->getRepository(get_class($connection));
+
+		$applications = $repository->getApplications($connection->getId());
+
+		$event = (new ApplicationEvent())
+			->setApplications($applications);
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
 	}
 
 	/**
@@ -63,9 +73,19 @@ class ConnectionAdmin extends Admin
 	{
 		$this->dispatcher
 			->dispatch(
-				ApplicationEvent::POST_UPDATE,
+				ApplicationEvents::POST_UPDATE,
 				new ConnectionEvent($connection)
 			);
+	}
+
+	/**
+	 * Set Entity Manager
+	 *
+	 * @param EntityManager $entityManager
+	 */
+	public function setEntityManager(EntityManager $entityManager)
+	{
+		$this->entityManager = $entityManager;
 	}
 
 	/**

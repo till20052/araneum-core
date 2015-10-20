@@ -30,4 +30,20 @@ class ConnectionRepository extends EntityRepository
 
         return $qb->getQuery();
     }
+
+	/**
+	 *
+	 * @param $id
+	 * @return array
+	 */
+	public function getApplications($id)
+	{
+		$qb = $this->createQueryBuilder('c');
+
+		$qb->where('c.id = :id');
+
+		var_dump($qb->getQuery()->execute(['id' => $id]));die;
+
+		return [];
+	}
 }

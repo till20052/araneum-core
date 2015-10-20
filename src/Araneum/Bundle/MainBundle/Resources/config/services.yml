@@ -9,13 +9,11 @@ services:
     
     araneum.main.application.remote_manager:
         class: Araneum\Bundle\MainBundle\Service\RemoteApplicationManagerService
-        arguments:
-            - @doctrine.orm.entity_manager
+        arguments: [@doctrine.orm.entity_manager]
 
     araneum.main.application.event_listener:
         class: Araneum\Bundle\MainBundle\Service\ApplicationEventListenerService
-        arguments:
-            - @service_container
+        arguments: [@service_container]
         tags:
             - { name: kernel.event_listener, event: araneum.main.application.event.post_persist, method: postPersist }
             - { name: kernel.event_listener, event: araneum.main.application.event.post_update, method: postUpdate }

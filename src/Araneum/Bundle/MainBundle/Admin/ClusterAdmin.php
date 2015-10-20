@@ -5,8 +5,6 @@ namespace Araneum\Bundle\MainBundle\Admin;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
 use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 use Araneum\Bundle\MainBundle\Event\ClusterEvent;
-use Araneum\Bundle\MainBundle\Repository\ConnectionRepository;
-use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -19,11 +17,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ClusterAdmin extends Admin
 {
-    /**
-     * @var ConnectionRepository
-     */
-    private $connectionRepository;
-
 	/**
 	 * @var EventDispatcherInterface
 	 */
@@ -73,14 +66,6 @@ class ClusterAdmin extends Admin
 				new ClusterEvent($cluster)
 			);
 	}
-
-    /**
-     * @param EntityRepository $connectionRepository
-     */
-    public function setConnectionRepository(EntityRepository $connectionRepository)
-    {
-        $this->connectionRepository = $connectionRepository;
-    }
 
 	/**
 	 * Set Event Dispatcher
