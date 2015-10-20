@@ -32,6 +32,7 @@ class ConnectionRepository extends EntityRepository
     }
 
 	/**
+	 * Get Applications
 	 *
 	 * @param $id
 	 * @return array
