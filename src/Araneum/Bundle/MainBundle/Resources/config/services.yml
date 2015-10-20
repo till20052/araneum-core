@@ -6,3 +6,7 @@ services:
     araneum.main.cluster.api_handler:
         class: Araneum\Bundle\MainBundle\Service\ClusterApiHandlerService
         arguments: [@doctrine.orm.entity_manager]
+
+    araneum.main.application.checker:
+        class: Araneum\Bundle\MainBundle\Service\ApplicationCheckerService
+        arguments: [@doctrine.orm.entity_manager]

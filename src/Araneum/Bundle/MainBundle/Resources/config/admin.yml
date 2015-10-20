@@ -16,6 +16,8 @@ services:
             - ~
             - Araneum\Bundle\MainBundle\Entity\Connection
             - ~
+        calls:
+            - [setTemplate, [list, AraneumMainBundle:Admin:list.html.twig]]
             
     araneum.main.admin.locale:
         class: Araneum\Bundle\MainBundle\Admin\LocaleAdmin
