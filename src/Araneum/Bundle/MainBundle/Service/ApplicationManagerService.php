@@ -5,6 +5,7 @@ namespace Araneum\Bundle\MainBundle\Service;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Response;
 
 class ApplicationManagerService
 {
@@ -33,7 +34,7 @@ class ApplicationManagerService
     {
         $entity = $this->getRepository()->findOneBy($criteria);
         if (empty($entity)) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException('Not Application found for this appKey', null, Response::HTTP_NOT_FOUND);
         }
 
         return $entity;

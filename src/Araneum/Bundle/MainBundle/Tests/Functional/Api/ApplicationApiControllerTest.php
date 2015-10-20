@@ -11,7 +11,7 @@ class ApplicationApiControllerTest extends BaseController
     /**
      * @var string uri to call rest api method
      */
-    protected $configGetUri = '/api/main/application/config/';
+    protected $configGetUri = '/en/api/application/config/';
 
     /**
      * Test ApplicationApiController
@@ -24,10 +24,7 @@ class ApplicationApiControllerTest extends BaseController
 
         $client->request(
             'GET',
-            $client
-                ->getContainer()
-                ->get('router')
-                ->generate('araneum_main_api_application', ['appKey' => ApplicationFixtures::TEST_APP_API_KEY])
+            $this->configGetUri . ApplicationFixtures::TEST_APP_APP_KEY
         );
         $response = $client->getResponse();
         $content = $response->getContent();

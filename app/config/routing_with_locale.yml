@@ -8,6 +8,11 @@ araneum_main:
     type:     annotation
     prefix:   /
 
+araneum_customers:
+    resource: "@AraneumCustomerBundle/Controller"
+    type:     annotation
+    prefix:   /
+
 araneum_mail:
     resource: "@AraneumMailBundle/Controller"
     type: annotation
