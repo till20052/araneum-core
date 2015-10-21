@@ -6,7 +6,6 @@ use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Araneum\Bundle\MainBundle\ApplicationEvents;
 use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 use Araneum\Bundle\MainBundle\Service\ApplicationEventListenerService;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\Event;
 
