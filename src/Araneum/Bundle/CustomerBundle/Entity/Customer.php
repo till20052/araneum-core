@@ -1,5 +1,4 @@
 <?php
-
 namespace Araneum\Bundle\CustomerBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
