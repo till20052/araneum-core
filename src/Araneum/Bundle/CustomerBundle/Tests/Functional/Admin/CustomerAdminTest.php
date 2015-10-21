@@ -133,7 +133,7 @@ class CustomerAdminTest extends BaseAdminController
 					'firstName' => 'TestCustomer2UpdateFirstName',
 					'lastName' => 'TestCustomer2UpdateLastName',
 					'country' => 'TestCustomer2UpdateCountry',
-					'email' => self::TEST_CUSTOMER_EMAIL . '@' . md5(microtime(true)) . '.com',
+					'email' => self::TEST_CUSTOMER_EMAIL . '@araneum.com',
 					'phone' => '+380667754444',
 					'callback' => ! CustomerFixtures::TEST_2_CALLBACK
 				],
