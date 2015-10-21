@@ -18,7 +18,16 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 
 class ClusterAdmin extends Admin
 {
+    /**
+     * @var ConnectionRepository
+     */
+    private $connectionRepository;
 
+    /**
+     * Get Batch
+     *
+     * @return array
+     */
     public function getBatchActions()
     {
         return array_merge(
@@ -31,11 +40,6 @@ class ClusterAdmin extends Admin
             ]
         );
     }
-
-    /**
-     * @var ConnectionRepository
-     */
-    private $connectionRepository;
 
     /**
      * @param EntityRepository $connectionRepository

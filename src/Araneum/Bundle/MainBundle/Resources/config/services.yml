@@ -14,3 +14,7 @@ services:
     araneum.main.application.manager:
         class: Araneum\Bundle\MainBundle\Service\ApplicationManagerService
         arguments: [@doctrine.orm.entity_manager]
+
+    araneum.main.application.checker:
+        class: Araneum\Bundle\MainBundle\Service\ApplicationCheckerService
+        arguments: [@doctrine.orm.entity_manager]

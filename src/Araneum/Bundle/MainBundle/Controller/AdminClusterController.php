@@ -2,12 +2,12 @@
 
 namespace Araneum\Bundle\MainBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sonata\AdminBundle\Admin;
+use Symfony\Component\Routing\Annotation\Route;
 
-class AdminClusterController extends Controller
+class AdminClusterController extends BaseCheckerController
 {
     /**
      * Check Status
@@ -18,21 +18,30 @@ class AdminClusterController extends Controller
      */
     public function checkStatusAction($id)
     {
-        var_dump($id);
-        //TODO necessary to implement
+        $this->container
+            ->get('araneum.main.application.checker')
+            ->checkCluster($id);
+
         return new Response();
     }
 
     /**
-     * Check Status
+     * Check Statuses
      *
+     * @param Request $request
      * @return Response
-     * @Route("/admin/araneum/main/cluster/batch", condition="request.request.get('data') matches '/checkStatus/'" ,name="araneum_main_admin_cluster_batchAction")
+     * @Route("/admin/araneum/main/cluster/batch", condition="request.request.get('data') matches '/checkStatus/'"
+     *     ,name="araneum_main_admin_cluster_batchAction")
      */
-    public function batchActionCheckStatus()
+    public function batchActionCheckStatus(Request $request)
     {
-        die(var_dump(123123123123));
-        var_dump($normalizedSelectedIds);
+        $idx = parent::getIdxElements($request, 'araneum.main.admin.cluster');
+
+        foreach ($idx as $id) {
+            $this->container
+                ->get('araneum.main.application.checker')
+                ->checkCluster($id);
+        }
 
         return new Response();
     }

@@ -18,6 +18,11 @@ use Sonata\AdminBundle\Form\FormMapper;
  */
 class ConnectionAdmin extends Admin
 {
+    /**
+     * Get Batch
+     *
+     * @return array
+     */
     public function getBatchActions()
     {
         return array_merge(
