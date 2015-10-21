@@ -8,7 +8,7 @@ use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 
 class CustomerAdminTest extends BaseAdminController
 {
-	const TEST_CUSTOMER_EMAIL = 'TestCustomerEmail@araneum.com';
+	const TEST_CUSTOMER_EMAIL = 'customertmpemail@mailtest.com';
 
 	protected $createRoute = 'admin_araneum_customer_customer_create';
 	protected $updateRoute = 'admin_araneum_customer_customer_edit';
@@ -132,9 +132,9 @@ class CustomerAdminTest extends BaseAdminController
 				[
 					'firstName' => 'TestCustomer2UpdateFirstName',
 					'lastName' => 'TestCustomer2UpdateLastName',
-					'country' => 'TestCustomer2UpdateCountry',
-					'email' => self::TEST_CUSTOMER_EMAIL,
-					//'phone' => '+380667754444',
+					'country' => 'AnotherCustomerUpdateCountry',
+					'email' => 'testAnotherMail@mailtest.com',
+					'phone' => '+380667754444',
 					'callback' => ! CustomerFixtures::TEST_2_CALLBACK
 				],
 				true,
@@ -153,7 +153,7 @@ class CustomerAdminTest extends BaseAdminController
 					'lastName' => CustomerFixtures::TEST_2_LAST_NAME,
 					'country' => CustomerFixtures::TEST_2_COUNTRY,
 					'email' => CustomerFixtures::TEST_2_EMAIL,
-					//'phone' => CustomerFixtures::TEST_2_PHONE,
+					'phone' => CustomerFixtures::TEST_2_PHONE,
 					'callback' => CustomerFixtures::TEST_2_CALLBACK
 				],
 				true,
