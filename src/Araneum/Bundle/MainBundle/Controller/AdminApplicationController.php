@@ -4,11 +4,14 @@ namespace Araneum\Bundle\MainBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Araneum\Base\Controller\AdminBaseController;
 
-class AdminApplicationController extends BaseCheckerController
+class AdminApplicationController extends AdminBaseController
 {
+
     /**
      * Check Application Status State
      *
@@ -19,9 +22,14 @@ class AdminApplicationController extends BaseCheckerController
      */
     public function checkStatusStateAction($id)
     {
-        return $this->container
+        $this->container
             ->get('araneum.main.application.checker')
             ->checkApplication($id);
+
+        $request = $this->get('request');
+        $referer = $request->headers->get('referer');
+
+        return new RedirectResponse($referer);
     }
 
     /**
@@ -34,7 +42,7 @@ class AdminApplicationController extends BaseCheckerController
      */
     public function batchActionCheckStatus(Request $request)
     {
-        $idx = parent::getIdxElements($request, 'araneum.main.admin.application');
+        $idx = $this->getIdxElements(json_decode($request->request->get('data')), 'araneum.main.admin.application');
 
         foreach ($idx as $id) {
             $this->container
@@ -42,6 +50,11 @@ class AdminApplicationController extends BaseCheckerController
                 ->checkApplication($id);
         }
 
-        return new Response();
+        return new RedirectResponse(
+            $this->admin->generateUrl(
+                'list',
+                ['filter' => $this->admin->getFilterParameters()]
+            )
+        );
     }
 }

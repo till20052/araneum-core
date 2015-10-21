@@ -6,8 +6,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sonata\AdminBundle\Admin;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Araneum\Base\Controller\AdminBaseController;
 
-class AdminClusterController extends BaseCheckerController
+class AdminClusterController extends AdminBaseController
 {
     /**
      * Check Status
@@ -22,7 +24,10 @@ class AdminClusterController extends BaseCheckerController
             ->get('araneum.main.application.checker')
             ->checkCluster($id);
 
-        return new Response();
+        $request = $this->get('request');
+        $referer = $request->headers->get('referer');
+
+        return new RedirectResponse($referer);
     }
 
     /**
@@ -35,7 +40,7 @@ class AdminClusterController extends BaseCheckerController
      */
     public function batchActionCheckStatus(Request $request)
     {
-        $idx = parent::getIdxElements($request, 'araneum.main.admin.cluster');
+        $idx = parent::getIdxElements(json_decode($request->request->get('data')), 'araneum.main.admin.cluster');
 
         foreach ($idx as $id) {
             $this->container
@@ -43,6 +48,11 @@ class AdminClusterController extends BaseCheckerController
                 ->checkCluster($id);
         }
 
-        return new Response();
+        return new RedirectResponse(
+            $this->admin->generateUrl(
+                'list',
+                ['filter' => $this->admin->getFilterParameters()]
+            )
+        );
     }
 }

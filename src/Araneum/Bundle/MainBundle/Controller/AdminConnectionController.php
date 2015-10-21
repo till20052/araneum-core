@@ -6,8 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Araneum\Base\Controller\AdminBaseController;
 
-class AdminConnectionController extends BaseCheckerController
+class AdminConnectionController extends AdminBaseController
 {
 
     /**
@@ -19,9 +21,14 @@ class AdminConnectionController extends BaseCheckerController
      */
     public function testConnectionAction($id)
     {
-        return $this->container
+        $this->container
             ->get('araneum.main.application.checker')
             ->checkConnection($id);
+
+        $request = $this->get('request');
+        $referer = $request->headers->get('referer');
+
+        return new RedirectResponse($referer);
     }
 
     /**
@@ -34,7 +41,7 @@ class AdminConnectionController extends BaseCheckerController
      */
     public function batchActionCheckStatus(Request $request)
     {
-        $idx = parent::getIdxElements($request, 'araneum.main.admin.connection');
+        $idx = parent::getIdxElements(json_decode($request->request->get('data')), 'araneum.main.admin.connection');
 
         foreach ($idx as $id) {
             $this->container
@@ -42,6 +49,11 @@ class AdminConnectionController extends BaseCheckerController
                 ->checkConnection($id);
         }
 
-        return new Response();
+        return new RedirectResponse(
+            $this->admin->generateUrl(
+                'list',
+                ['filter' => $this->admin->getFilterParameters()]
+            )
+        );
     }
 }
