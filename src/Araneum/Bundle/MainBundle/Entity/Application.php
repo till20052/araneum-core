@@ -120,12 +120,18 @@ class Application
     protected $appKey;
 
     /**
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\CustomerBundle\Entity\Customer", mappedBy="application")
+     */
+    protected $customers;
+
+    /**
      * Application constructor.
      */
     public function __construct()
     {
         $this->setComponents(new ArrayCollection());
         $this->setAppKey();
+        $this->setCustomers(new ArrayCollection());
     }
 
     /**
@@ -505,6 +511,30 @@ class Application
     {
         return uniqid(sha1(time()), true);
     }
+
+    /**
+     * Get customers
+     *
+     * @return ArrayCollection
+     */
+    public function getCustomers()
+    {
+        return $this->customers;
+    }
+
+    /**
+     * Set customers
+     *
+     * @param ArrayCollection $customers
+     * @return Application
+     */
+    public function setCustomers(ArrayCollection $customers)
+    {
+        $this->customers = $customers;
+
+        return $this;
+    }
+
 
     /**
      * Convert entity to string
