@@ -3,7 +3,6 @@
 namespace Araneum\Bundle\MainBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,11 +19,9 @@ class AdminApplicationController extends BaseCheckerController
      */
     public function checkStatusStateAction($id)
     {
-        return new JsonResponse(
-            [
-                'state' => 1
-            ]
-        );
+        return $this->container
+            ->get('araneum.main.application.checker')
+            ->checkApplication($id);
     }
 
     /**
