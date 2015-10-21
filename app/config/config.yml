@@ -82,6 +82,9 @@ fos_user:
 sonata_admin:
     title:      Araneum Core
     title_logo: logo_title.png
+    dashboard:
+        blocks:
+        - { position: top, type: sonata.admin.block.admin_list }
 
 sonata_block:
     default_contexts: [cms]
