@@ -8,7 +8,7 @@ use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 
 class CustomerAdminTest extends BaseAdminController
 {
-	const TEST_CUSTOMER_EMAIL = 'TestCustomerEmail';
+	const TEST_CUSTOMER_EMAIL = 'TestCustomerEmail@araneum.com';
 
 	protected $createRoute = 'admin_araneum_customer_customer_create';
 	protected $updateRoute = 'admin_araneum_customer_customer_edit';
@@ -37,7 +37,7 @@ class CustomerAdminTest extends BaseAdminController
 					'firstName' => 'TestCustomerFirstName',
 					'lastName' => 'TestCustomerLastName',
 					'country' => 'TestCustomerCountry',
-					'email' => self::TEST_CUSTOMER_EMAIL . '@' . md5(self::TEST_CUSTOMER_EMAIL) . '.com',
+					'email' => self::TEST_CUSTOMER_EMAIL,
 					'phone' => '+380995554455',
 					'callback' => true,
 				],
@@ -133,7 +133,7 @@ class CustomerAdminTest extends BaseAdminController
 					'firstName' => 'TestCustomer2UpdateFirstName',
 					'lastName' => 'TestCustomer2UpdateLastName',
 					'country' => 'TestCustomer2UpdateCountry',
-					'email' => self::TEST_CUSTOMER_EMAIL . '@araneum.com',
+					'email' => self::TEST_CUSTOMER_EMAIL,
 					'phone' => '+380667754444',
 					'callback' => ! CustomerFixtures::TEST_2_CALLBACK
 				],
@@ -175,6 +175,6 @@ class CustomerAdminTest extends BaseAdminController
 			->getContainer()
 			->get('doctrine.orm.entity_manager')
 			->getRepository('AraneumCustomerBundle:Customer')
-			->findOneByEmail(self::TEST_CUSTOMER_EMAIL . '@' . md5(self::TEST_CUSTOMER_EMAIL) . '.com');
+			->findOneByEmail(self::TEST_CUSTOMER_EMAIL);
 	}
 }
