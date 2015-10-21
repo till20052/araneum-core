@@ -1,5 +1,5 @@
 <a class="btn btn-sm btn-default" href="{{ url('araneum_main_admin_connection_testConnection', {'id': object.id}) }}"
-   title="{{ 'test_connection'|trans }}"
-   {% if object.type is constant('AraneumMainBundle:Connection::CONN_DB') %}disabled="disabled"{% endif %}>
+   {% if object.type is constant('CONN_DB', object) %}disabled="disabled"
+   title="{{ 'test_db_not_allowed'|trans }}" {% else %} title="{{ 'test_connection'|trans }}" {% endif %}>
     <i class="glyphicon glyphicon-signal"></i>
 </a>

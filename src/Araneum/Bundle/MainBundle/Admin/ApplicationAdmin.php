@@ -13,6 +13,24 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ApplicationAdmin extends Admin
 {
     /**
+     * Get Batch
+     *
+     * @return array
+     */
+    public function getBatchActions()
+    {
+        return array_merge(
+            parent::getBatchActions(),
+            [
+                'checkStatus' => [
+                    'label' => 'Check Status',
+                    'ask_confirmation' => true
+                ]
+            ]
+        );
+    }
+
+    /**
      * Set Application Owner before insert
      *
      * @param Application $application

@@ -6,8 +6,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
-class AdminApplicationController extends Controller
+class AdminApplicationController extends BaseCheckerController
 {
     /**
      * Check Application Status State
@@ -24,5 +25,26 @@ class AdminApplicationController extends Controller
                 'state' => 1
             ]
         );
+    }
+
+    /**
+     * Check Application Statuses
+     *
+     * @param Request $request
+     * @return Response
+     * @Route("/admin/araneum/main/application/batch", condition="request.request.get('data') matches '/checkStatus/'"
+     *     ,name="araneum_main_admin_application_batchAction")
+     */
+    public function batchActionCheckStatus(Request $request)
+    {
+        $idx = parent::getIdxElements($request, 'araneum.main.admin.application');
+
+        foreach ($idx as $id) {
+            $this->container
+                ->get('araneum.main.application.checker')
+                ->checkApplication($id);
+        }
+
+        return new Response();
     }
 }
