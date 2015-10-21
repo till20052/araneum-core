@@ -57,7 +57,7 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="country", tpe="string", length=32, nullable=true)
+     * @ORM\Column(name="country", type="string", length=32, nullable=true)
      * @Assert\Length(min=2, max=30)
      * @Assert\Regex(pattern="/^\D+$/")
      */
