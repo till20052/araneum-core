@@ -4,6 +4,8 @@ namespace Araneum\Bundle\MainBundle\Event;
 
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -48,10 +50,10 @@ class ApplicationEvent extends Event
 	/**
 	 * Set applications
 	 *
-	 * @param ArrayCollection $applications
+	 * @param Collection|ArrayCollection|PersistentCollection $applications
 	 * @return ApplicationEvent $this
 	 */
-	public function setApplications(ArrayCollection $applications)
+	public function setApplications(Collection $applications)
 	{
 		$this->applications->clear();
 
