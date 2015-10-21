@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: andreyp
- * Date: 18.09.15
- * Time: 17:29
- */
 
 namespace Araneum\Bundle\MainBundle\Admin;
 
@@ -66,7 +60,8 @@ class ClusterAdmin extends Admin
                 [
                     'choices' => [
                         Cluster::STATUS_ONLINE => 'online',
-                        Cluster::STATUS_OFFLINE => 'offline'
+                        Cluster::STATUS_OFFLINE => 'offline',
+	                    Cluster::STATUS_HAS_PROBLEMS => 'has_problems'
                     ],
                     'label' => 'status'
                 ]
@@ -115,7 +110,8 @@ class ClusterAdmin extends Admin
                 [
                     'choices' => [
                         Cluster::STATUS_ONLINE => 'online',
-                        Cluster::STATUS_OFFLINE => 'offline'
+                        Cluster::STATUS_OFFLINE => 'offline',
+	                    Cluster::STATUS_HAS_PROBLEMS => 'has_problems'
                     ]
                 ]
             )
@@ -173,7 +169,8 @@ class ClusterAdmin extends Admin
                 [
                     'choices' => [
                         Cluster::STATUS_ONLINE => 'online',
-                        Cluster::STATUS_OFFLINE => 'offline'
+                        Cluster::STATUS_OFFLINE => 'offline',
+	                    Cluster::STATUS_HAS_PROBLEMS => 'has_problems'
                     ],
                     'label' => 'status'
                 ]

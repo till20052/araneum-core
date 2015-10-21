@@ -57,6 +57,11 @@ class Application
      */
     protected $domain;
 
+	/**
+	 * @ORM\Column(type="boolean", name="use_ssl", options={"default"=false})
+	 */
+	protected $useSsl;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -237,6 +242,29 @@ class Application
 
         return $this;
     }
+
+	/**
+	 * Get use ssl
+	 *
+	 * @return boolean
+	 */
+	public function isUseSsl()
+	{
+		return $this->useSsl;
+	}
+
+	/**
+	 * Set use ssl
+	 *
+	 * @param boolean $useSsl
+	 * @return Application $this
+	 */
+	public function setUseSsl($useSsl)
+	{
+		$this->useSsl = $useSsl;
+
+		return $this;
+	}
 
     /**
      * Get aliases
