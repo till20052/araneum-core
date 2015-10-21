@@ -77,7 +77,8 @@ class ApplicationAdmin extends Admin
 		        [
 			        'label' => 'use_ssl',
 			        'required' => false
-		        ])
+		        ]
+	        )
             ->add(
                 'aliases',
                 'text',
