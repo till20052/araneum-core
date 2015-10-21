@@ -1,6 +1,4 @@
-<a data-action="check_status"
-   data-href="{{ url('araneum_main_admin_connection_check_status_state', {'id': object.id}) }}"
-   class="btn btn-sm btn-default" href="javascript:void(0);"
-   title="{{ 'test_connection'|trans }}">
+<a class="btn btn-sm btn-default" href="{{ url('araneum_main_admin_connection_testConnection', {'id': object.id}) }}"
+   title="{{ 'test_connection'|trans }}" disabled="disabled">
     <i class="glyphicon glyphicon-signal"></i>
 </a>
