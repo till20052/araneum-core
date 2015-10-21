@@ -133,7 +133,7 @@ class CustomerAdminTest extends BaseAdminController
 					'firstName' => 'TestCustomer2UpdateFirstName',
 					'lastName' => 'TestCustomer2UpdateLastName',
 					'country' => 'TestCustomer2UpdateCountry',
-					'email' => self::TEST_CUSTOMER_EMAIL,
+					//'email' => self::TEST_CUSTOMER_EMAIL,
 					'phone' => '+380667754444',
 					'callback' => ! CustomerFixtures::TEST_2_CALLBACK
 				],
@@ -152,7 +152,7 @@ class CustomerAdminTest extends BaseAdminController
 					'firstName' => CustomerFixtures::TEST_2_FIRST_NAME,
 					'lastName' => CustomerFixtures::TEST_2_LAST_NAME,
 					'country' => CustomerFixtures::TEST_2_COUNTRY,
-					'email' => CustomerFixtures::TEST_2_EMAIL,
+					//'email' => CustomerFixtures::TEST_2_EMAIL,
 					'phone' => CustomerFixtures::TEST_2_PHONE,
 					'callback' => CustomerFixtures::TEST_2_CALLBACK
 				],
