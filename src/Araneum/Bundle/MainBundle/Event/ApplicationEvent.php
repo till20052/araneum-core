@@ -48,7 +48,7 @@ class ApplicationEvent extends Event
 	}
 
 	/**
-	 * Set applications
+	 * Set applications.
 	 *
 	 * @param Collection|ArrayCollection|PersistentCollection $applications
 	 * @return ApplicationEvent $this
