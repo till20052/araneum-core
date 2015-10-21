@@ -2,6 +2,8 @@
 
 namespace Araneum\Bundle\MainBundle\Event;
 
+use Araneum\Bundle\MainBundle\Entity\Application;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -11,14 +13,22 @@ use Symfony\Component\EventDispatcher\Event;
 class ApplicationEvent extends Event
 {
 	/**
-	 * @var array
+	 * @var ArrayCollection
 	 */
 	private $applications;
 
 	/**
+	 * Constructor of Application Event
+	 */
+	public function __construct()
+	{
+		$this->applications = new ArrayCollection();
+	}
+
+	/**
 	 * Get applications
 	 *
-	 * @return array
+	 * @return ArrayCollection
 	 */
 	public function getApplications()
 	{
@@ -26,14 +36,30 @@ class ApplicationEvent extends Event
 	}
 
 	/**
+	 * Add Application
+	 *
+	 * @param Application $application
+	 */
+	public function addApplication(Application $application)
+	{
+		$this->applications[] = $application;
+	}
+
+	/**
 	 * Set applications
 	 *
-	 * @param array $applications
+	 * @param ArrayCollection $applications
 	 * @return ApplicationEvent $this
 	 */
-	public function setApplications(array $applications)
+	public function setApplications(ArrayCollection $applications)
 	{
-		$this->applications = $applications;
+		$this->applications = new ArrayCollection();
+
+		/** @var Application $application */
+		foreach ($applications as $application)
+		{
+			$this->addApplication($application);
+		}
 
 		return $this;
 	}

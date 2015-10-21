@@ -51,13 +51,11 @@ class ApplicationAdmin extends Admin
 	 */
 	public function postPersist($application)
 	{
-		$this->dispatcher->dispatch(
-			ApplicationEvents::POST_PERSIST,
-			(new ApplicationEvent())
-				->setApplications(
-					[$application]
-				)
-		);
+		$event = new ApplicationEvent();
+
+		$event->addApplication($application);
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
 	}
 
 	/**
@@ -68,13 +66,11 @@ class ApplicationAdmin extends Admin
      */
     public function postUpdate($application)
     {
-	    $this->dispatcher->dispatch(
-		    ApplicationEvents::POST_UPDATE,
-		    (new ApplicationEvent())
-			    ->setApplications(
-				    [$application]
-			    )
-	    );
+	    $event = new ApplicationEvent();
+
+	    $event->addApplication($application);
+
+	    $this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
     }
 
 	/**
@@ -85,13 +81,11 @@ class ApplicationAdmin extends Admin
 	 */
 	public function postRemove($application)
 	{
-		$this->dispatcher->dispatch(
-			ApplicationEvents::POST_REMOVE,
-			(new ApplicationEvent())
-				->setApplications(
-					[$application]
-				)
-		);
+		$event = new ApplicationEvent();
+
+		$event->addApplication($application);
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_REMOVE, $event);
 	}
 
     /**

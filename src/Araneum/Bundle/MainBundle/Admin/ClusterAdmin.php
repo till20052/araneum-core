@@ -30,14 +30,11 @@ class ClusterAdmin extends Admin
 	 */
 	public function postPersist($cluster)
 	{
-		$this->dispatcher->dispatch(
-			ApplicationEvents::POST_PERSIST,
-			(new ApplicationEvent())
-				->setApplications(
-					$cluster->getApplications()
-						->toArray()
-				)
-		);
+		$event = new ApplicationEvent();
+
+		$event->setApplications($cluster->getApplications());
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
 	}
 
 	/**
@@ -48,14 +45,11 @@ class ClusterAdmin extends Admin
 	 */
 	public function postUpdate($cluster)
 	{
-		$this->dispatcher->dispatch(
-			ApplicationEvents::POST_UPDATE,
-			(new ApplicationEvent())
-				->setApplications(
-					$cluster->getApplications()
-						->toArray()
-				)
-		);
+		$event = new ApplicationEvent();
+
+		$event->setApplications($cluster->getApplications());
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
 	}
 
 	/**
@@ -66,14 +60,11 @@ class ClusterAdmin extends Admin
 	 */
 	public function postRemove($cluster)
 	{
-		$this->dispatcher->dispatch(
-			ApplicationEvents::POST_REMOVE,
-			(new ApplicationEvent())
-				->setApplications(
-					$cluster->getApplications()
-						->toArray()
-				)
-		);
+		$event = new ApplicationEvent();
+
+		$event->setApplications($cluster->getApplications());
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_REMOVE, $event);
 	}
 
 	/**

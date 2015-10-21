@@ -19,8 +19,6 @@ class ApplicationEventListenerServiceTest extends \PHPUnit_Framework_TestCase
 
 	private $application;
 
-	private $cluster;
-
 	/**
 	 * Dispatch all events
 	 *
@@ -48,13 +46,7 @@ class ApplicationEventListenerServiceTest extends \PHPUnit_Framework_TestCase
 				->will($this->returnValue(true));
 		}
 
-		$container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
-		$container->expects($this->atLeastOnce())
-			->method('get')
-			->with($this->equalTo('araneum.main.application.remote_manager'))
-			->will($this->returnValue($remoteManager));
-
-		$listener = new ApplicationEventListenerService($container);
+		$listener = new ApplicationEventListenerService($remoteManager);
 
 		$this->dispatcher = new EventDispatcher();
 		$this->dispatcher->addListener(
@@ -92,9 +84,7 @@ class ApplicationEventListenerServiceTest extends \PHPUnit_Framework_TestCase
 	{
 		$event = new ApplicationEvent();
 
-		$event->setApplications(
-			[$this->application]
-		);
+		$event->addApplication($this->application);
 
 		$this->dispatch($event);
 	}

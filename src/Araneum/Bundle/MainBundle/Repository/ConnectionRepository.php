@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Repository;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr;
 
@@ -35,7 +36,7 @@ class ConnectionRepository extends EntityRepository
 	 * Get Applications
 	 *
 	 * @param $id
-	 * @return array
+	 * @return ArrayCollection
 	 */
 	public function getApplications($id)
 	{
@@ -47,6 +48,6 @@ class ConnectionRepository extends EntityRepository
 			->setParameter('id', $id)
 			->getQuery();
 
-		return $q->getResult();
+		return new ArrayCollection($q->getResult());
 	}
 }

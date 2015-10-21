@@ -16,11 +16,11 @@ class ApplicationEventListenerService
 	/**
 	 * Constructor of ApplicationEventListenerService
 	 *
-	 * @param ContainerInterface $container
+	 * @param RemoteApplicationManagerService $remoteManager
 	 */
-	public function __construct($container)
+	public function __construct(RemoteApplicationManagerService $remoteManager)
 	{
-		$this->remoteManager = $container->get('araneum.main.application.remote_manager');
+		$this->remoteManager = $remoteManager;
 	}
 
 	/**
@@ -31,7 +31,8 @@ class ApplicationEventListenerService
 	public function postPersist(ApplicationEvent $event)
 	{
 		/** @var Application $application */
-		foreach($event->getApplications() as $application){
+		foreach($event->getApplications() as $application)
+		{
 			$this->remoteManager->create($application->getAppKey());
 		}
 	}
@@ -44,7 +45,8 @@ class ApplicationEventListenerService
 	public function postUpdate(ApplicationEvent $event)
 	{
 		/** @var Application $application */
-		foreach($event->getApplications() as $application){
+		foreach($event->getApplications() as $application)
+		{
 			$this->remoteManager->update($application->getAppKey());
 		}
 	}
@@ -57,7 +59,8 @@ class ApplicationEventListenerService
 	public function postRemove(ApplicationEvent $event)
 	{
 		/** @var Application $application */
-		foreach($event->getApplications() as $application){
+		foreach($event->getApplications() as $application)
+		{
 			$this->remoteManager->remove($application->getAppKey());
 		}
 	}

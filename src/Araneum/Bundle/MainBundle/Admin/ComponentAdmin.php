@@ -36,14 +36,11 @@ class ComponentAdmin extends Admin
 	 */
 	public function postPersist($component)
 	{
-		$this->dispatcher->dispatch(
-			ApplicationEvents::POST_PERSIST,
-			(new ApplicationEvent())
-				->setApplications(
-					$component->getApplications()
-						->toArray()
-				)
-		);
+		$event = new ApplicationEvent();
+
+		$event->setApplications($component->getApplications());
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
 	}
 
 	/**
@@ -54,14 +51,11 @@ class ComponentAdmin extends Admin
 	 */
 	public function postUpdate($component)
 	{
-		$this->dispatcher->dispatch(
-			ApplicationEvents::POST_UPDATE,
-			(new ApplicationEvent())
-				->setApplications(
-					$component->getApplications()
-						->toArray()
-				)
-		);
+		$event = new ApplicationEvent();
+
+		$event->setApplications($component->getApplications());
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
 	}
 
 	/**
@@ -72,14 +66,11 @@ class ComponentAdmin extends Admin
 	 */
 	public function postRemove($component)
 	{
-		$this->dispatcher->dispatch(
-			ApplicationEvents::POST_REMOVE,
-			(new ApplicationEvent())
-				->setApplications(
-					$component->getApplications()
-						->toArray()
-				)
-		);
+		$event = new ApplicationEvent();
+
+		$event->setApplications($component->getApplications());
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_REMOVE, $event);
 	}
 
 	/**

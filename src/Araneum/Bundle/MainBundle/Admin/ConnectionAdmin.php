@@ -5,6 +5,7 @@ namespace Araneum\Bundle\MainBundle\Admin;
 use Araneum\Bundle\MainBundle\ApplicationEvents;
 use Araneum\Bundle\MainBundle\Entity\Connection;
 use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -33,7 +34,7 @@ class ConnectionAdmin extends Admin
 	 * Get Array of Applications by Cluster Id
 	 *
 	 * @param $id
-	 * @return array
+	 * @return ArrayCollection
 	 */
 	public function getApplications($id)
 	{
@@ -50,13 +51,11 @@ class ConnectionAdmin extends Admin
 	 */
 	public function postPersist($connection)
 	{
-		$this->dispatcher->dispatch(
-			ApplicationEvents::POST_PERSIST,
-			(new ApplicationEvent())
-				->setApplications(
-					$this->getApplications($connection->getId())
-				)
-		);
+		$event = new ApplicationEvent();
+
+		$event->setApplications($this->getApplications($connection->getId()));
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
 	}
 
 	/**
@@ -67,13 +66,11 @@ class ConnectionAdmin extends Admin
 	 */
 	public function postUpdate($connection)
 	{
-		$this->dispatcher->dispatch(
-			ApplicationEvents::POST_UPDATE,
-			(new ApplicationEvent())
-				->setApplications(
-					$this->getApplications($connection->getId())
-				)
-		);
+		$event = new ApplicationEvent();
+
+		$event->setApplications($this->getApplications($connection->getId()));
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
 	}
 
 	/**
@@ -84,13 +81,11 @@ class ConnectionAdmin extends Admin
 	 */
 	public function postRemove($connection)
 	{
-		$this->dispatcher->dispatch(
-			ApplicationEvents::POST_REMOVE,
-			(new ApplicationEvent())
-				->setApplications(
-					$this->getApplications($connection->getId())
-				)
-		);
+		$event = new ApplicationEvent();
+
+		$event->setApplications($this->getApplications($connection->getId()));
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_REMOVE, $event);
 	}
 
 	/**

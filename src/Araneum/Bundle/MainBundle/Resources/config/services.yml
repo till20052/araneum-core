@@ -17,7 +17,7 @@ services:
 
     araneum.main.application.event_listener:
         class: Araneum\Bundle\MainBundle\Service\ApplicationEventListenerService
-        arguments: [@service_container]
+        arguments: [@araneum.main.application.remote_manager]
         tags:
             - { name: kernel.event_listener, event: araneum.main.application.event.post_persist, method: postPersist }
             - { name: kernel.event_listener, event: araneum.main.application.event.post_update, method: postUpdate }
