@@ -20,4 +20,12 @@ class AdminConnectionController extends Controller
     {
         return new Response();
     }
+
+	/**
+	 * @Route
+	 */
+	public function testService()
+	{
+
+	}
 }

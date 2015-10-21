@@ -9,4 +9,4 @@ services:
 
     araneum.main.application.checker:
         class: Araneum\Bundle\MainBundle\Service\ApplicationCheckerService
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: [@doctrine.orm.entity_manager, @guzzle.client]

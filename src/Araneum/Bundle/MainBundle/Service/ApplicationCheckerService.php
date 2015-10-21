@@ -11,8 +11,15 @@ class ApplicationCheckerService
 	 */
 	private $entityManager;
 
-	public function __construct(EntityManager $entityManager)
+	/**
+	 * Constructor
+	 *
+	 * @param EntityManager $entityManager
+	 */
+	public function __construct(EntityManager $entityManager, $guzzle)
 	{
+		var_dump($guzzle);die;
+
 		$this->entityManager = $entityManager;
 	}
 
