@@ -42,7 +42,7 @@ class ApplicationEvent extends Event
 	 */
 	public function addApplication(Application $application)
 	{
-		$this->applications[] = $application;
+		$this->applications->add($application);
 	}
 
 	/**
@@ -53,7 +53,7 @@ class ApplicationEvent extends Event
 	 */
 	public function setApplications(ArrayCollection $applications)
 	{
-		$this->applications = new ArrayCollection();
+		$this->applications->clear();
 
 		/** @var Application $application */
 		foreach ($applications as $application)
