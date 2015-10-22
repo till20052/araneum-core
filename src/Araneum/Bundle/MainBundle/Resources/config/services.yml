@@ -22,7 +22,3 @@ services:
             - { name: kernel.event_listener, event: araneum.main.application.event.post_persist, method: postPersist }
             - { name: kernel.event_listener, event: araneum.main.application.event.post_update, method: postUpdate }
             - { name: kernel.event_listener, event: araneum.main.application.event.post_remove, method: postRemove }
-    
-    araneum.main.application.checker:
-        class: Araneum\Bundle\MainBundle\Service\ApplicationCheckerService
-        arguments: [@doctrine.orm.entity_manager]            
