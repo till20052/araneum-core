@@ -2,21 +2,112 @@
 
 namespace Araneum\Bundle\MainBundle\Admin;
 
+use Araneum\Bundle\MainBundle\ApplicationEvents;
 use Araneum\Bundle\MainBundle\Entity\Connection;
+use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManager;
 use Sonata\AdminBundle\Admin\Admin;
-use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class ConnectionAdmin
- *
  * @package Araneum\Bundle\MainBundle\Admin
  */
 class ConnectionAdmin extends Admin
 {
+	/**
+	 * @var EntityManager
+	 */
+	private $entityManager;
+
+	/**
+	 * @var EventDispatcherInterface
+	 */
+	private $dispatcher;
+
+	/**
+	 * Get Array of Applications by Cluster Id
+	 *
+	 * @param $id
+	 * @return ArrayCollection
+	 */
+	public function getApplications($id)
+	{
+		return $this->entityManager
+			->getRepository('AraneumMainBundle:Connection')
+			->getApplications($id);
+	}
+
+	/**
+	 * Invoke method after creation of connection
+	 *
+	 * @param Connection $connection
+	 * @return void
+	 */
+	public function postPersist($connection)
+	{
+		$event = new ApplicationEvent();
+
+		$event->setApplications($this->getApplications($connection->getId()));
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
+	}
+
+	/**
+	 * Invoke method after modification of connection
+	 *
+	 * @param Connection $connection
+	 * @return void
+	 */
+	public function postUpdate($connection)
+	{
+		$event = new ApplicationEvent();
+
+		$event->setApplications($this->getApplications($connection->getId()));
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
+	}
+
+	/**
+	 * Invoke method after deletion of connection
+	 *
+	 * @param Connection $connection
+	 * @return void
+	 */
+	public function postRemove($connection)
+	{
+		$event = new ApplicationEvent();
+
+		$event->setApplications($this->getApplications($connection->getId()));
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_REMOVE, $event);
+	}
+
+	/**
+	 * Set Entity Manager
+	 *
+	 * @param EntityManager $entityManager
+	 */
+	public function setEntityManager(EntityManager $entityManager)
+	{
+		$this->entityManager = $entityManager;
+	}
+
+	/**
+	 * Set Event Dispatcher
+	 *
+	 * @param EventDispatcherInterface $eventDispatcherInterface
+	 */
+	public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
+	{
+		$this->dispatcher = $eventDispatcherInterface;
+	}
+
     /**
      * Create/Update form
      *

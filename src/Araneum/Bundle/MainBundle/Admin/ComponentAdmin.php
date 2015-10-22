@@ -2,7 +2,9 @@
 
 namespace Araneum\Bundle\MainBundle\Admin;
 
+use Araneum\Bundle\MainBundle\ApplicationEvents;
 use Araneum\Bundle\MainBundle\Entity\Component;
+use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 use Araneum\Bundle\MainBundle\Form\DataTransformer\ComponentOptionsTransformer;
 use Araneum\Bundle\MainBundle\Form\Type\ComponentOptionType;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,11 +13,76 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Validator\ErrorElement;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
+/**
+ * Class ComponentAdmin
+ * @package Araneum\Bundle\MainBundle\Admin
+ */
 class ComponentAdmin extends Admin
 {
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
+	/**
+	 * Invoke method after creation of component
+	 *
+	 * @param Component $component
+	 * @return void
+	 */
+	public function postPersist($component)
+	{
+		$event = new ApplicationEvent();
+
+		$event->setApplications($component->getApplications());
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
+	}
+
+	/**
+	 * Invoke method after modification of component
+	 *
+	 * @param Component $component
+	 * @return void
+	 */
+	public function postUpdate($component)
+	{
+		$event = new ApplicationEvent();
+
+		$event->setApplications($component->getApplications());
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
+	}
+
+	/**
+	 * Invoke method after deletion of component
+	 *
+	 * @param Component $component
+	 * @return void
+	 */
+	public function postRemove($component)
+	{
+		$event = new ApplicationEvent();
+
+		$event->setApplications($component->getApplications());
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_REMOVE, $event);
+	}
+
+	/**
+	 * Set Event Dispatcher
+	 *
+	 * @param EventDispatcherInterface $eventDispatcherInterface
+	 */
+	public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
+	{
+		$this->dispatcher = $eventDispatcherInterface;
+	}
+
     /**
      * Create/Update Component Form
      *
