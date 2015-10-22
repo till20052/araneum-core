@@ -31,7 +31,7 @@ file that was distributed with this source code.
         {% for stylesheet in admin_pool.getOption('stylesheets', []) %}
             <link rel="stylesheet" href="{{ asset(stylesheet) }}">
         {% endfor %}
-        <link rel="stylesheet" href="{{ asset('bundles/araneummain/css/sonata-extends.css') }}">
+        <link rel="stylesheet" href="{{ asset('/static/css/sonata-extends.css') }}">
 
     {% endblock %}
 

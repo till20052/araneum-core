@@ -2,28 +2,80 @@
 
 namespace Araneum\Bundle\MainBundle\Admin;
 
+use Araneum\Bundle\MainBundle\ApplicationEvents;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
-use Araneum\Bundle\MainBundle\Repository\ConnectionRepository;
-use Doctrine\ORM\EntityRepository;
+use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Class ClusterAdmin
+ * @package Araneum\Bundle\MainBundle\Admin
+ */
 class ClusterAdmin extends Admin
 {
-    /**
-     * @var ConnectionRepository
-     */
-    private $connectionRepository;
+	/**
+	 * @var EventDispatcherInterface
+	 */
+	private $dispatcher;
 
-    /**
-     * @param EntityRepository $connectionRepository
-     */
-    public function setConnectionRepository(EntityRepository $connectionRepository)
-    {
-        $this->connectionRepository = $connectionRepository;
-    }
+	/**
+	 * Invoke method after creation of cluster
+	 *
+	 * @param Cluster $cluster
+	 * @return void
+	 */
+	public function postPersist($cluster)
+	{
+		$event = new ApplicationEvent();
+
+		$event->setApplications($cluster->getApplications());
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
+	}
+
+	/**
+	 * Invoke method after modification of cluster
+	 *
+	 * @param Cluster $cluster
+	 * @return void
+	 */
+	public function postUpdate($cluster)
+	{
+		$event = new ApplicationEvent();
+
+		$event->setApplications($cluster->getApplications());
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
+	}
+
+	/**
+	 * Invoke method after deletion of cluster
+	 *
+	 * @param Cluster $cluster
+	 * @return void
+	 */
+	public function postRemove($cluster)
+	{
+		$event = new ApplicationEvent();
+
+		$event->setApplications($cluster->getApplications());
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_REMOVE, $event);
+	}
+
+	/**
+	 * Set Event Dispatcher
+	 *
+	 * @param EventDispatcherInterface $eventDispatcherInterface
+	 */
+	public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
+	{
+		$this->dispatcher = $eventDispatcherInterface;
+	}
 
     /**
      * Fields to be shown on create/edit forms

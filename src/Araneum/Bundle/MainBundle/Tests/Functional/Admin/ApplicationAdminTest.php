@@ -9,6 +9,7 @@ use Araneum\Base\Tests\Fixtures\Main\ComponentFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures;
 use Araneum\Base\Tests\Fixtures\Main\LocaleFixtures;
 use Araneum\Base\Tests\Fixtures\User\UserFixtures;
+use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 
 class ApplicationAdminTest extends BaseAdminController
 {
@@ -18,14 +19,14 @@ class ApplicationAdminTest extends BaseAdminController
     protected $deleteRoute = 'admin_araneum_main_application_delete';
     protected $listRoute = 'admin_araneum_main_application_list';
 
-    /**
+	/**
      * Set of arguments for testCreate method
      *
      * @return array
      */
     public function createDataSource()
     {
-        $client = static::createClient();
+	    $client = self::createClient();
 
         $manager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
@@ -96,7 +97,7 @@ class ApplicationAdminTest extends BaseAdminController
      */
     public function filterDataSource()
     {
-        $client = static::createClient();
+	    $client = self::createClient();
 
         $manager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
@@ -165,7 +166,7 @@ class ApplicationAdminTest extends BaseAdminController
      */
     public function updateDataSource()
     {
-        $client = static::createClient();
+	    $client = self::createClient();
 
         $manager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
@@ -219,7 +220,7 @@ class ApplicationAdminTest extends BaseAdminController
      */
     public function deleteDataSource()
     {
-        $client = static::createClient();
+	    $client = self::createClient();
 
         return $client
             ->getContainer()

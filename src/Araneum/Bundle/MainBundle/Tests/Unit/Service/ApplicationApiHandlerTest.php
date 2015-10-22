@@ -40,7 +40,7 @@ class ApplicationApiHandlerTest extends BaseController
     }
 
     /**
-     * Test ApplicationHandler verifies that returns an array of the desired keys and values
+     * Test ApplicationApiHandlerService verifies that returns an array of the desired keys and values
      */
     public function testGet()
     {
