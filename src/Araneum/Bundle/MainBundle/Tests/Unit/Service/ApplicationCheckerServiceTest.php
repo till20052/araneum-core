@@ -23,6 +23,9 @@ class ApplicationCheckerServiceTest extends \PHPUnit_Framework_TestCase
 	 */
 	private $service;
 
+	/**
+	 * @inheritdoc
+	 */
 	protected function setUp()
 	{
 		$this->application = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Application')
@@ -82,6 +85,9 @@ class ApplicationCheckerServiceTest extends \PHPUnit_Framework_TestCase
 		$this->service = new ApplicationCheckerService($this->entityManager, $this->client);
 	}
 
+	/**
+	 * Test connection state checking
+	 */
 	public function testCheckConnection()
 	{
 		$entity = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Connection')
@@ -113,6 +119,9 @@ class ApplicationCheckerServiceTest extends \PHPUnit_Framework_TestCase
 		$this->assertTrue($this->service->checkConnection(777));
 	}
 
+	/**
+	 * Test application state checking
+	 */
 	public function testCheckApplication()
 	{
 		$this->entityManager->expects($this->any())
@@ -123,6 +132,9 @@ class ApplicationCheckerServiceTest extends \PHPUnit_Framework_TestCase
 		$this->assertTrue($this->service->checkApplication(777));
 	}
 
+	/**
+	 * Test cluster state checking
+	 */
 	public function testCheckCluster()
 	{
 		$cluster = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Cluster')
