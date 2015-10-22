@@ -6,9 +6,22 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 class CustomerAdmin extends Admin
 {
+	/**
+	 * Configure routes
+	 *
+	 * @param RouteCollection $collection
+	 */
+	protected function configureRoutes(RouteCollection $collection)
+	{
+		$collection->remove('araneum.customer.admin.customer.edit');
+		$collection->remove('araneum.customer.admin.customer.create');
+		$collection->remove('araneum.customer.admin.customer.delete');
+	}
+
 	/**
 	 * Configure customer form fields
 	 *
