@@ -29,6 +29,10 @@ class AdminApplicationController extends AdminBaseController
         $request = $this->get('request');
         $referer = $request->headers->get('referer');
 
+        if (is_null($referer)) {
+            $referer = $this->get('router')->generate('admin_araneum_main_application_list');
+        }
+
         return new RedirectResponse($referer);
     }
 
