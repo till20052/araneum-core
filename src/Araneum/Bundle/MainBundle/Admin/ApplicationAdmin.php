@@ -2,53 +2,110 @@
 
 namespace Araneum\Bundle\MainBundle\Admin;
 
+use Araneum\Bundle\MainBundle\ApplicationEvents;
 use Araneum\Bundle\MainBundle\Entity\Application;
+use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
+/**
+ * Class ApplicationAdmin
+ * @package Araneum\Bundle\MainBundle\Admin
+ */
 class ApplicationAdmin extends Admin
 {
+	/**
+	 * @var TokenStorage
+	 */
+	private $tokenStorage;
+
     /**
-     * Set Application Owner before insert
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
+    /**
+     * Invoke method before creation of application
      *
      * @param Application $application
-     * @return true
+     * @return void
      */
     public function prePersist($application)
     {
         $application->setOwner(
-            $this
-                ->getContainer()
-                ->get('security.context')
-                ->getToken()
+            $this->tokenStorage
+	            ->getToken()
                 ->getUser()
         );
-
-        return true;
     }
 
-    /**
-     * Get Service Container
-     *
-     * @return ContainerInterface
+	/**
+	 * Invoke method after creation of application
+	 *
+	 * @param Application $application
+	 * @return void
+	 */
+	public function postPersist($application)
+	{
+		$event = new ApplicationEvent();
+
+		$event->addApplication($application);
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
+	}
+
+	/**
+	 * Invoke method after modification of application
+	 *
+     * @param Application $application
+     * @return void
      */
-    public function getContainer()
+    public function postUpdate($application)
     {
-        return $this->container;
+	    $event = new ApplicationEvent();
+
+	    $event->addApplication($application);
+
+	    $this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
     }
+
+	/**
+	 * Invoke method after deletion of application
+	 *
+	 * @param Application $application
+	 * @return void
+	 */
+	public function postRemove($application)
+	{
+		$event = new ApplicationEvent();
+
+		$event->addApplication($application);
+
+		$this->dispatcher->dispatch(ApplicationEvents::POST_REMOVE, $event);
+	}
 
     /**
      * Set Service Container
      *
-     * @param ContainerInterface $container
+     * @param TokenStorage $tokenStorage
      */
-    public function setContainer(ContainerInterface $container)
+    public function setSecurityToken(TokenStorage $tokenStorage)
     {
-        $this->container = $container;
+        $this->tokenStorage = $tokenStorage;
+    }
+
+	/**
+	 * Set Event Dispatcher
+	 *
+	 * @param EventDispatcherInterface $eventDispatcherInterface
+	 */
+    public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
+    {
+        $this->dispatcher = $eventDispatcherInterface;
     }
 
     /**
