@@ -33,7 +33,9 @@ class AdminBaseController extends Controller
             $result = $modelManager->executeQuery($query);
 
             foreach ($result as $entity) {
-                $idx[] = $entity->getId();
+                if ($entity->isEnabled()) {
+                    $idx[] = $entity->getId();
+                }
             }
         }
 
