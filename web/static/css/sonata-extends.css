@@ -1,0 +1,19 @@
+.top7 {
+    margin-top: 7px;
+}
+
+.custom-box {
+    background: #ffffff;
+    border-top: 2px solid #c1c1c1;
+    margin-bottom: 20px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
+    min-width: 218px;
+}
+
+.custom-box h3 {
+    padding-left: 20px;
+}

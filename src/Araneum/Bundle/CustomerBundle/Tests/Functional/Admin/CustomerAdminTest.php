@@ -5,52 +5,71 @@ namespace Araneum\Bundle\CustomerBundle\Tests\Functional\Admin;
 use Araneum\Base\Tests\Controller\BaseAdminController;
 use Araneum\Base\Tests\Fixtures\Customer\CustomerFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
+use Araneum\Base\Tests\Controller\BaseController;
 
-class CustomerAdminTest extends BaseAdminController
+class CustomerAdminTest extends BaseController
 {
-	const TEST_CUSTOMER_EMAIL = 'customertmpemail@mailtest.com';
-
-	protected $createRoute = 'admin_araneum_customer_customer_create';
-	protected $updateRoute = 'admin_araneum_customer_customer_edit';
-	protected $deleteRoute = 'admin_araneum_customer_customer_delete';
-	protected $listRoute = 'admin_araneum_customer_customer_list';
+	const TEST_CUSTOMER_EMAIL = 'TestCustomerEmail';
 
 	/**
-	 * Set of arguments for testCreate method
+	 * Test is create action is disabled
 	 *
-	 * @return array
+	 * @runInSeparateProcess
 	 */
-	public function createDataSource()
+	public function testDisableCreate()
 	{
-		$client = static::createClient();
+		$client = $this->createAdminAuthorizedClient();
 
-		$manager = $client->getContainer()->get('doctrine.orm.entity_manager');
+		$crawler = $client->request(
+			'GET',
+			'/en/admin/araneum/customer/customer/create'
+		);
 
-		$application = $manager
-			->getRepository('AraneumMainBundle:Application')
-			->findOneByName(ApplicationFixtures::TEST_APP_NAME);
+		$this->assertFalse($client->getResponse()->isSuccessful());
+	}
 
-		return [
-			'Check simple creation' => [
-				[
-					'application' => $application->getId(),
-					'firstName' => 'TestCustomerFirstName',
-					'lastName' => 'TestCustomerLastName',
-					'country' => 'TestCustomerCountry',
-					'email' => self::TEST_CUSTOMER_EMAIL,
-					'phone' => '+380995554455',
-					'callback' => true,
-				],
-				true
-			],
-			'Check customer unique email' => [
-				[
-					'application' => $application->getId(),
-					'email' => CustomerFixtures::TEST_EMAIL
-				],
-				false
-			]
-		];
+	/**
+	 * Test is edit action is disabled
+	 *
+	 * @runInSeparateProcess
+	 */
+	public function testDisableEdit()
+	{
+		$client = $this->createAdminAuthorizedClient();
+
+		$customer = $client->getContainer()
+			->get('doctrine.orm.entity_manager')
+			->getRepository('AraneumCustomerBundle:Customer')
+			->findOneByEmail(CustomerFixtures::TEST_EMAIL);
+
+		$crawler = $client->request(
+			'GET',
+			'/en/admin/araneum/customer/customer/' . $customer->getId() . '/edit'
+		);
+
+		$this->assertFalse($client->getResponse()->isSuccessful());
+	}
+
+	/**
+	 * Test is delete action is disabled
+	 *
+	 * @runInSeparateProcess
+	 */
+	public function testDisableDelete()
+	{
+		$client = $this->createAdminAuthorizedClient();
+
+		$customer = $client->getContainer()
+			->get('doctrine.orm.entity_manager')
+			->getRepository('AraneumCustomerBundle:Customer')
+			->findOneByEmail(CustomerFixtures::TEST_EMAIL);
+
+		$crawler = $client->request(
+			'GET',
+			'/en/admin/araneum/customer/customer/' . $customer->getId() . '/delete'
+		);
+
+		$this->assertFalse($client->getResponse()->isSuccessful());
 	}
 
 	/**
@@ -132,8 +151,8 @@ class CustomerAdminTest extends BaseAdminController
 				[
 					'firstName' => 'TestCustomer2UpdateFirstName',
 					'lastName' => 'TestCustomer2UpdateLastName',
-					'country' => 'AnotherCustomerUpdateCountry',
-					'email' => 'testAnotherMail@mailtest.com',
+					'country' => 'TestCustomer2UpdateCountry',
+					'email' => self::TEST_CUSTOMER_EMAIL . '@' . md5(microtime(true)) . '.com',
 					'phone' => '+380667754444',
 					'callback' => ! CustomerFixtures::TEST_2_CALLBACK
 				],
@@ -175,6 +194,6 @@ class CustomerAdminTest extends BaseAdminController
 			->getContainer()
 			->get('doctrine.orm.entity_manager')
 			->getRepository('AraneumCustomerBundle:Customer')
-			->findOneByEmail(self::TEST_CUSTOMER_EMAIL);
+			->findOneByEmail(self::TEST_CUSTOMER_EMAIL . '@' . md5(self::TEST_CUSTOMER_EMAIL) . '.com');
 	}
 }

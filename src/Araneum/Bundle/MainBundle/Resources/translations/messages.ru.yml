@@ -50,3 +50,5 @@ components: Компоненты
 id: ID
 owner: Владелец
 applications: Приложения
+use_ssl: Использовать SSL
+has_problems: Имеются проблемы
