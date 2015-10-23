@@ -19,274 +19,302 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Connection
 {
-    use DateTrait;
+	use DateTrait;
 
-    const CONN_DB     = 1;
-    const CONN_HOST   = 2;
-    const CONN_TO_STR = 'Create';
+	const CONN_DB = 1;
+	const CONN_HOST = 2;
+	const CONN_TO_STR = 'Create';
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+	/**
+	 * @ORM\Id
+	 * @ORM\Column(type="integer")
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	protected $id;
 
-    /**
-     * @ORM\Column(type="smallint", name="type")
-     */
-    protected $type;
+	/**
+	 * @ORM\Column(type="smallint", name="type")
+	 */
+	protected $type;
 
-    /**
-     * @ORM\Column(type="string", name="name", unique=true, length=100)
-     * @Assert\Length(min=3, max=100)
-     */
-    protected $name;
+	/**
+	 * @ORM\Column(type="string", name="name", unique=true, length=100)
+	 * @Assert\Length(min=3, max=100)
+	 */
+	protected $name;
 
-    /**
-     * @ORM\Column(type="string", name="host", length=100)
-     * @Assert\Length(min=3, max=100)
-     */
-    protected $host;
+	/**
+	 * @ORM\Column(type="string", name="host", length=100)
+	 * @Assert\Length(min=3, max=100)
+	 */
+	protected $host;
 
-    /**
-     * @ORM\Column(type="integer", name="port", length=8, nullable=true)
-     * @Assert\Length(min=2, max=8)
-     */
-    protected $port;
+	/**
+	 * @ORM\Column(type="integer", name="port", length=8, nullable=true)
+	 * @Assert\Length(min=2, max=8)
+	 */
+	protected $port;
 
-    /**
-     * @ORM\Column(type="string", name="user_name", length=100, nullable=true)
-     * @Assert\Length(min=3, max=100)
-     */
-    protected $userName;
+	/**
+	 * @ORM\Column(type="string", name="user_name", length=100, nullable=true)
+	 * @Assert\Length(min=3, max=100)
+	 */
+	protected $userName;
 
-    /**
-     * @ORM\Column(type="string", name="password", length=100)
-     * @Assert\Length(min=6, max=100)
-     */
-    protected $password;
+	/**
+	 * @ORM\Column(type="string", name="password", length=100)
+	 * @Assert\Length(min=6, max=100)
+	 */
+	protected $password;
 
-    /**
-     * @ORM\Column(type="boolean", name="enabled")
-     */
-    protected $enabled;
+	/**
+	 * @ORM\Column(type="boolean", name="enabled")
+	 */
+	protected $enabled;
 
-    /**
-     * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Cluster", mappedBy="hosts", cascade={"persist"})
-     */
-    protected $clusters;
+	/**
+	 * @ORM\Column(type="smallint", nullable=true)
+	 */
+	protected $status;
 
-    /**
-     * Connection constructor.
-     */
-    public function __construct()
-    {
-        $this->setClusters(new ArrayCollection());
-    }
+	/**
+	 * @var ArrayCollection
+	 * @ORM\ManyToMany(targetEntity="Cluster", mappedBy="hosts", cascade={"persist"})
+	 */
+	protected $clusters;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Connection constructor.
+	 */
+	public function __construct()
+	{
+		$this->setClusters(new ArrayCollection());
+	}
 
-    /**
-     * Set type
-     *
-     * @param integer $type
-     * @return Connection
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
+	/**
+	 * Get id
+	 *
+	 * @return integer
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set type
+	 *
+	 * @param integer $type
+	 * @return Connection
+	 */
+	public function setType($type)
+	{
+		$this->type = $type;
 
-    /**
-     * Get type
-     *
-     * @return integer
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
+		return $this;
+	}
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Connection
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
+	/**
+	 * Get type
+	 *
+	 * @return integer
+	 */
+	public function getType()
+	{
+		return $this->type;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set name
+	 *
+	 * @param string $name
+	 * @return Connection
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
 
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+		return $this;
+	}
 
-    /**
-     * Set host
-     *
-     * @param string $host
-     * @return Connection
-     */
-    public function setHost($host)
-    {
-        $this->host = $host;
+	/**
+	 * Get name
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set host
+	 *
+	 * @param string $host
+	 * @return Connection
+	 */
+	public function setHost($host)
+	{
+		$this->host = $host;
 
-    /**
-     * Get host
-     *
-     * @return string
-     */
-    public function getHost()
-    {
-        return $this->host;
-    }
+		return $this;
+	}
 
-    /**
-     * Set port
-     *
-     * @param integer $port
-     * @return Connection
-     */
-    public function setPort($port)
-    {
-        $this->port = $port;
+	/**
+	 * Get host
+	 *
+	 * @return string
+	 */
+	public function getHost()
+	{
+		return $this->host;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set port
+	 *
+	 * @param integer $port
+	 * @return Connection
+	 */
+	public function setPort($port)
+	{
+		$this->port = $port;
 
-    /**
-     * Get port
-     *
-     * @return integer
-     */
-    public function getPort()
-    {
-        return $this->port;
-    }
+		return $this;
+	}
 
-    /**
-     * Set userName
-     *
-     * @param string $userName
-     * @return Connection
-     */
-    public function setUserName($userName)
-    {
-        $this->userName = $userName;
+	/**
+	 * Get port
+	 *
+	 * @return integer
+	 */
+	public function getPort()
+	{
+		return $this->port;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set userName
+	 *
+	 * @param string $userName
+	 * @return Connection
+	 */
+	public function setUserName($userName)
+	{
+		$this->userName = $userName;
 
-    /**
-     * Get userName
-     *
-     * @return string
-     */
-    public function getUserName()
-    {
-        return $this->userName;
-    }
+		return $this;
+	}
 
-    /**
-     * Set password
-     *
-     * @param string $password
-     * @return Connection
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
+	/**
+	 * Get userName
+	 *
+	 * @return string
+	 */
+	public function getUserName()
+	{
+		return $this->userName;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set password
+	 *
+	 * @param string $password
+	 * @return Connection
+	 */
+	public function setPassword($password)
+	{
+		$this->password = $password;
 
-    /**
-     * Get password
-     *
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
+		return $this;
+	}
 
-    /**
-     * Set enabled
-     *
-     * @param boolean $enabled
-     * @return Connection
-     */
-    public function setEnabled($enabled)
-    {
-        $this->enabled = $enabled;
+	/**
+	 * Get password
+	 *
+	 * @return string
+	 */
+	public function getPassword()
+	{
+		return $this->password;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set enabled
+	 *
+	 * @param boolean $enabled
+	 * @return Connection
+	 */
+	public function setEnabled($enabled)
+	{
+		$this->enabled = $enabled;
 
-    /**
-     * Get enabled
-     *
-     * @return boolean
-     */
-    public function isEnabled()
-    {
-        return $this->enabled;
-    }
+		return $this;
+	}
 
-    /**
-     * Get Clusters
-     *
-     * @return ArrayCollection
-     */
-    public function getClusters()
-    {
-        return $this->clusters;
-    }
+	/**
+	 * Get enabled
+	 *
+	 * @return boolean
+	 */
+	public function isEnabled()
+	{
+		return $this->enabled;
+	}
 
-    /**
-     * Set Clusters
-     *
-     * @param ArrayCollection $clusters
-     * @return Connection
-     */
-    public function setClusters(ArrayCollection $clusters)
-    {
-        $this->clusters = $clusters;
+	/**
+	 * Get Clusters
+	 *
+	 * @return ArrayCollection
+	 */
+	public function getClusters()
+	{
+		return $this->clusters;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set Clusters
+	 *
+	 * @param ArrayCollection $clusters
+	 * @return Connection
+	 */
+	public function setClusters(ArrayCollection $clusters)
+	{
+		$this->clusters = $clusters;
 
-    /**
-     * Convert entity to string
-     *
-     * @return string
-     */
-     public function __toString()
-    {
-        return $this->name ? $this->name . " (" . $this->host . ")" : 'Create Connection';
-    }
+		return $this;
+	}
+
+	/**
+	 * Convert entity to string
+	 *
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->name ? $this->name . " (" . $this->host . ")" : 'Create Connection';
+	}
+
+	/**
+	 * Get status
+	 *
+	 * @return int
+	 */
+	public function getStatus()
+	{
+		return $this->status;
+	}
+
+	/**
+	 * Set Status
+	 *
+	 * @param int $status
+	 * @return Connection $this
+	 */
+	public function setStatus($status)
+	{
+		$this->status = $status;
+
+		return $this;
+	}
 }

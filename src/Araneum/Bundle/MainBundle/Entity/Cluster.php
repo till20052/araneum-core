@@ -22,6 +22,7 @@ class Cluster
 
     const STATUS_ONLINE = 1;
     const STATUS_OFFLINE = 2;
+	const STATUS_HAS_PROBLEMS = 3;
 
     const TYPE_SINGLE = 1;
     const TYPE_MULTIPLE = 2;
