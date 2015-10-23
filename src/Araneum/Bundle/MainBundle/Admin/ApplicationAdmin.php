@@ -147,6 +147,14 @@ class ApplicationAdmin extends Admin
             )
             ->add('name', 'text', ['label' => 'name'])
             ->add('domain', 'text', ['label' => 'domain'])
+	        ->add(
+		        'useSsl',
+		        'checkbox',
+		        [
+			        'label' => 'use_ssl',
+			        'required' => false
+		        ]
+	        )
             ->add(
                 'aliases',
                 'text',
@@ -214,6 +222,7 @@ class ApplicationAdmin extends Admin
             ->add('type', null, ['label' => 'type'])
             ->add('name', null, ['label' => 'name'])
             ->add('domain', null, ['label' => 'domain'])
+	        ->add('useSsl', null, ['label' => 'use_ssl'])
             ->add('db', null, ['label' => 'database'])
             ->add(
                 'public',
@@ -282,6 +291,7 @@ class ApplicationAdmin extends Admin
             ->add('type', 'doctrine_orm_choice', ['label' => 'type'], 'choice', ['choices' => []])
             ->add('name', null, ['label' => 'name'])
             ->add('domain', null, ['label' => 'domain'])
+	        ->add('useSsl', null, ['label' => 'use_ssl'])
             ->add('db', null, ['label' => 'database'])
             ->add('public', null, ['label' => 'public'])
             ->add('enabled', null, ['label' => 'enabled'])

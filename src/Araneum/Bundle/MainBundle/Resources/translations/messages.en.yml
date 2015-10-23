@@ -51,3 +51,5 @@ components: Components
 id: ID
 owner: Owner
 applications: Applications
+use_ssl: Use SSL
+has_problems: Has problems

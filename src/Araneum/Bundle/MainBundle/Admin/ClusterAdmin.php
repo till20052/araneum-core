@@ -132,7 +132,8 @@ class ClusterAdmin extends Admin
                 [
                     'choices' => [
                         Cluster::STATUS_ONLINE => 'online',
-                        Cluster::STATUS_OFFLINE => 'offline'
+                        Cluster::STATUS_OFFLINE => 'offline',
+	                    Cluster::STATUS_HAS_PROBLEMS => 'has_problems'
                     ],
                     'label' => 'status'
                 ]
@@ -181,7 +182,8 @@ class ClusterAdmin extends Admin
                 [
                     'choices' => [
                         Cluster::STATUS_ONLINE => 'online',
-                        Cluster::STATUS_OFFLINE => 'offline'
+                        Cluster::STATUS_OFFLINE => 'offline',
+	                    Cluster::STATUS_HAS_PROBLEMS => 'has_problems'
                     ]
                 ]
             )
@@ -239,7 +241,8 @@ class ClusterAdmin extends Admin
                 [
                     'choices' => [
                         Cluster::STATUS_ONLINE => 'online',
-                        Cluster::STATUS_OFFLINE => 'offline'
+                        Cluster::STATUS_OFFLINE => 'offline',
+	                    Cluster::STATUS_HAS_PROBLEMS => 'has_problems'
                     ],
                     'label' => 'status'
                 ]
