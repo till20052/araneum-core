@@ -73,32 +73,6 @@ class CustomerAdminTest extends BaseController
 	}
 
 	/**
-	 * Show test
-	 *
-	 * @runInSeparateProcess
-	 */
-	public function testShow()
-	{
-		$client = $this->createAdminAuthorizedClient();
-
-		$customer = $client->getContainer()
-			->get('doctrine.orm.entity_manager')
-			->getRepository('AraneumCustomerBundle:Customer')
-			->findOneByEmail(CustomerFixtures::TEST_EMAIL);
-
-		$crawler = $client->request(
-			'GET',
-			$client->getContainer()->get('router')->generate(
-				'admin_araneum_customer_customer_show',
-				['id' => $customer->getId()]
-			)
-		);
-
-		$this->assertTrue($client->getResponse()->isSuccessful());
-	}
-
-
-	/**
 	 * Set of arguments for testFilter method
 	 *
 	 * @return array
