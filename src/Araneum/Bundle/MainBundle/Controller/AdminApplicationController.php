@@ -44,7 +44,7 @@ class AdminApplicationController extends AdminBaseController
      * @Route("/admin/araneum/main/application/batch", condition="request.request.get('data') matches '/checkStatus/'"
      *     ,name="araneum_main_admin_application_batchAction")
      */
-    public function batchActionCheckStatus(Request $request)
+    public function batchCheckStatusAction(Request $request)
     {
         $idx = $this->getIdxElements(json_decode($request->request->get('data')), 'araneum.main.admin.application');
 

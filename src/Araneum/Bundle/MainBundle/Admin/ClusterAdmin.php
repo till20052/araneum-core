@@ -24,11 +24,6 @@ class ClusterAdmin extends Admin
 	 */
 	private $dispatcher;
 
-    /**
-     * @var ConnectionRepository
-     */
-    private $connectionRepository;
-    
 	/**
 	 * Invoke method after creation of cluster
 	 *
@@ -100,14 +95,6 @@ class ClusterAdmin extends Admin
                 ]
             ]
         );
-    }
-
-    /**
-     * @param EntityRepository $connectionRepository
-     */
-    public function setConnectionRepository(EntityRepository $connectionRepository)
-    {
-        $this->connectionRepository = $connectionRepository;
     }
 
     /**

@@ -42,7 +42,7 @@ class AdminClusterController extends AdminBaseController
      * @Route("/admin/araneum/main/cluster/batch", condition="request.request.get('data') matches '/checkStatus/'"
      *     ,name="araneum_main_admin_cluster_batchAction")
      */
-    public function batchActionCheckStatus(Request $request)
+    public function batchCheckStatusAction(Request $request)
     {
         $idx = parent::getIdxElements(json_decode($request->request->get('data')), 'araneum.main.admin.cluster');
 
