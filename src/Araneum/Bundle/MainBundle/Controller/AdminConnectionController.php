@@ -29,7 +29,7 @@ class AdminConnectionController extends AdminBaseController
         $referer = $request->headers->get('referer');
 
         if (is_null($referer)) {
-            $referer = $this->get('router')->generate('admin_araneum_main_application_list');
+            $referer = $this->get('router')->generate('admin_araneum_main_connection_list');
         }
 
         return new RedirectResponse($referer);
