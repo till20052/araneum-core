@@ -6,72 +6,20 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 
 class CustomerAdmin extends Admin
 {
 	/**
-	 * Configure customer form fields
+	 * Configure routes
 	 *
-	 * @param FormMapper $form
+	 * @param RouteCollection $collection
 	 */
-	protected function configureFormFields(FormMapper $form)
+	protected function configureRoutes(RouteCollection $collection)
 	{
-		$form
-			->add(
-				'firstName',
-				'text',
-				[
-					'label' => 'first_name',
-					'required' => false
-				]
-			)
-			->add(
-				'lastName',
-				'text',
-				[
-					'label' => 'last_name',
-					'required' => false
-				]
-			)
-			->add(
-				'country',
-				'text',
-				[
-					'label' => 'country',
-					'required' => false
-				]
-			)
-			->add('email', 'text', ['label' => 'email'])
-			->add(
-				'phone',
-				'text',
-				[
-					'label' => 'phone',
-					'required' => false
-				]
-			)
-			->add(
-				'callback',
-				'checkbox',
-				[
-					'label' => 'callback',
-					'required' => false
-				]
-			)
-			->add(
-				'deliveredAt',
-				'sonata_type_date_picker',
-				[
-					'format' => 'MM/dd/yyyy',
-					'label' => 'delivered_at',
-					'required' => false
-				]
-			)
-			->end()
-			->with('application')
-				->add('application', 'sonata_type_model', ['label' => 'application'])
-			->end()
-		;
+		$collection->remove('araneum.customer.admin.customer.edit');
+		$collection->remove('araneum.customer.admin.customer.create');
+		$collection->remove('araneum.customer.admin.customer.delete');
 	}
 
 	/**
@@ -84,19 +32,26 @@ class CustomerAdmin extends Admin
 		$list
 			->addIdentifier('id', null, ['label' => 'id'])
 			->add(
+				'application',
+				'sonata_type_model',
+				[
+					'multiple' => true,
+					'by_reference' => false,
+					'required' => false
+				]
+			)
+			->add(
 				'firstName',
 				null,
 				[
-					'label' => 'first_name',
-					'editable' => true
+					'label' => 'first_name'
 				]
 			)
 			->add(
 				'lastName',
 				null,
 				[
-					'label' => 'last_name',
-					'editable' => true
+					'label' => 'last_name'
 				]
 			)
 			->add('email', null, ['label' => 'email'])
@@ -104,16 +59,21 @@ class CustomerAdmin extends Admin
 				'phone',
 				null,
 				[
-					'label' => 'phone',
-					'editable' => true
+					'label' => 'phone'
 				]
 			)
 			->add(
 				'country',
 				null,
 				[
-					'label' => 'country',
-					'editable' => true
+					'label' => 'country'
+				]
+			)
+			->add(
+				'callback',
+				null,
+				[
+					'label' => 'callback'
 				]
 			)
 			->add(
@@ -129,20 +89,7 @@ class CustomerAdmin extends Admin
 				'datetime',
 				[
 					'label' => 'delivered_at',
-					'format' => 'm/d/Y',
-					'editable' => true
-				]
-			)
-			->add(
-				'_action',
-				'actions',
-				[
-					'label' => 'actions',
-					'actions' =>
-						[
-							'edit' => [],
-							'delete' => [],
-						]
+					'format' => 'm/d/Y'
 				]
 			);
 	}
