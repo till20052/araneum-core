@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Controller;
 
+use Araneum\Bundle\MainBundle\Entity\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -21,9 +22,13 @@ class AdminConnectionController extends AdminBaseController
      */
     public function testConnectionAction($id)
     {
-        $this->container
-            ->get('araneum.main.application.checker')
-            ->checkConnection($id);
+        $connection = $this->getDoctrine()->getRepository('AraneumMainBundle:Connection')->find($id);
+
+        if ($connection->getType() == Connection::CONN_HOST) {
+            $this->container
+                ->get('araneum.main.application.checker')
+                ->checkConnection($id);
+        }
 
         $request = $this->get('request');
         $referer = $request->headers->get('referer');
@@ -46,11 +51,13 @@ class AdminConnectionController extends AdminBaseController
     public function batchCheckStatusAction(Request $request)
     {
         $idx = parent::getIdxElements(json_decode($request->request->get('data')), 'araneum.main.admin.connection');
+        $repository = $this->getDoctrine()->getRepository('AraneumMainBundle:Connection');
+        $connections = $repository->getActiveHostConnections($idx);
 
-        foreach ($idx as $id) {
+        foreach ($connections as $connection) {
             $this->container
                 ->get('araneum.main.application.checker')
-                ->checkConnection($id);
+                ->checkConnection($connection->getId());
         }
 
         return new RedirectResponse(
