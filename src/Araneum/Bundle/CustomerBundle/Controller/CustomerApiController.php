@@ -43,7 +43,7 @@ class CustomerApiController extends FOSRestController
      *
      * @Rest\Post("/api/customers/insert/{appKey}", defaults={"_format"="json"})
      *
-     * @Rest\View(templateVar="customer")
+     * @Rest\View(statusCode=201)
      *
      * @param string $appKey
      * @param Request $request
