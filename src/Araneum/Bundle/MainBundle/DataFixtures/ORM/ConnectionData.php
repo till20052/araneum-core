@@ -29,8 +29,7 @@ class ConnectionData extends AbstractFixture implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $connectionHost = $manager
-            ->getRepository('AraneumMainBundle:Connection')
+        $connectionHost = $manager->getRepository('AraneumMainBundle:Connection')
             ->findOneByName(self::CONN_HOST_NAME);
         if (empty($connectionHost)) {
             $connectionHost = new Connection();

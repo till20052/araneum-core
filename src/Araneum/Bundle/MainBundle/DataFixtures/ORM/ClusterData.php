@@ -21,7 +21,8 @@ class ClusterData extends AbstractFixture implements FixtureInterface, Dependent
      */
     public function load(ObjectManager $manager)
     {
-        $cluster = $manager->getRepository('AraneumMainBundle:Cluster')->findOneByName(self::CLUSTER_NAME);
+        $cluster = $manager->getRepository('AraneumMainBundle:Cluster')
+            ->findOneByName(self::CLUSTER_NAME);
         if (empty($cluster)) {
             $cluster = new Cluster();
             $cluster->setName(self::CLUSTER_NAME);
