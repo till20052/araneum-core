@@ -35,15 +35,25 @@ class RemoteApplicationManagerService
 
     /**
      * Get application data from cluster
+     *
+     * @param int $clusterId
+     * @return mixed
      */
     public function get($clusterId)
     {
-        $repository = $this->entityManager->getRepository('AraneumMainBundle:Application');
-        $connections = $repository->findByConnectionId($clusterId);
+        $repository = $this->entityManager->getRepository('AraneumMainBundle:Cluster');
+        $connections = $repository->find($clusterId)->getHosts()->getValues();
+        $connection = reset($connections);
 
         try {
             $response = $this->client
-                ->get('http://' . $connections->getDomain())
+                ->get(
+                    'http://' . $connection->getHost(),
+                    [
+                        'auth' => [
+                            'api',
+                            'apiApp_user123'
+                        ]])
                 ->send();
 
             $status = in_array(

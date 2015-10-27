@@ -13,11 +13,14 @@ class AdminClusterController extends Controller
      *
      * @param $id
      * @return Response
-     * @Route("/checkStatus/{id}", name="araneum_main_admin_cluster_checkStatus")
+     * @Route("/clusterGetApp/{id}", name="araneum_main_admin_cluster_get_app")
      */
     public function checkStatusAction($id)
     {
-        //TODO necessary to implement
+        $list = $this->container
+            ->get('araneum.main.application.remote_manager')
+            ->get($id);
+
         return new Response();
     }
 }
