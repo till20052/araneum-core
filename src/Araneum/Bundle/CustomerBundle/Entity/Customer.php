@@ -1,5 +1,4 @@
 <?php
-
 namespace Araneum\Bundle\CustomerBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
@@ -41,7 +40,7 @@ class Customer
      *
      * @ORM\Column(name="first_name", type="string", length=30, nullable=true)
      * @Assert\Length(min=2, max=30)
-     * @Assert\Regex(pattern="/^\w([\w\d\s]+)$/")
+     * @Assert\Regex(pattern="/^\D([\w\s]+)$/")
 
      */
     private $firstName;
@@ -51,7 +50,7 @@ class Customer
      *
      * @ORM\Column(name="last_name", type="string", length=30, nullable=true)
      * @Assert\Length(min=2, max=30)
-     * @Assert\Regex(pattern="/^\w([\w\d\s]+)$/")
+     * @Assert\Regex(pattern="/^\D([\w\s]+)$/")
      */
     private $lastName;
 
@@ -59,14 +58,18 @@ class Customer
      * @var string
      *
      * @ORM\Column(name="country", type="string", length=32, nullable=true)
+     * @Assert\Length(min=2, max=30)
+     * @Assert\Regex(pattern="/^\D+$/")
      */
     private $country;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @ORM\Column(name="email", type="string", length=100, unique=true)
      * @Assert\Email()
+     * @Assert\Length(max=100)
+     * @Assert\NotBlank()
      */
     private $email;
 
@@ -75,7 +78,7 @@ class Customer
      *
      * @ORM\Column(name="phone", type="string", length=24, nullable=true)
      * @Assert\Length(max=24)
-     * @Assert\Regex(pattern="/^[0-9\-\+\(\)]{9,17}$/")
+     * @Assert\Regex(pattern="/^\+[0-9\-\(\)]{9,17}$/")
      */
     private $phone;
 
