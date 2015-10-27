@@ -3,10 +3,13 @@
 namespace Araneum\Bundle\MainBundle\DataFixtures\ORM;
 
 use Araneum\Bundle\MainBundle\Entity\Locale;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 
-class LocaleData implements FixtureInterface
+class LocaleData extends AbstractFixture implements FixtureInterface
 {
     /**
      * {@inheritDoc}
@@ -23,5 +26,7 @@ class LocaleData implements FixtureInterface
             $manager->persist($localeEn);
             $manager->flush();
         }
+        $this->addReference('locale', $localeEn);
     }
+
 }

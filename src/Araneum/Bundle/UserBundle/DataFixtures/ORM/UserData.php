@@ -28,6 +28,8 @@ class UserData extends AbstractFixture implements FixtureInterface, DependentFix
 			$manager->persist($userAdmin);
 		}
 
+		$this->addReference('defaultOwnerApplication', $userAdmin);
+
 		$userApi = $manager->getRepository('AraneumUserBundle:User')->findOneByUsername('api');
 		if (empty($userApi)) {
 			$userApi = new User();
