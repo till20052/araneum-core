@@ -41,6 +41,7 @@ online: Online
 offline: Offline
 check_status: Check status
 test_connection: Test connection
+test_db_not_allowed: Test connection db type not allowed
 domain: Domain
 aliases: Aliases
 public: Public

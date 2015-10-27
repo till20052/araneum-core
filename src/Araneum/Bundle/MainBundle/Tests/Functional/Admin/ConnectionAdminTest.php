@@ -7,10 +7,74 @@ use Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures;
 
 class ConnectionAdminTest extends BaseAdminController
 {
-    protected $listRoute = 'admin_araneum_main_connection_list';
+    protected $listRoute       = 'admin_araneum_main_connection_list';
     protected $createRoute = 'admin_araneum_main_connection_create';
     protected $updateRoute = 'admin_araneum_main_connection_edit';
     protected $deleteRoute = 'admin_araneum_main_connection_delete';
+    protected $checkRoute      = 'araneum_main_admin_connection_testConnection';
+    protected $batchCheckRoute = 'araneum_main_admin_connection_batchAction';
+
+
+    /**
+     * Test check action
+     *
+     * @runInSeparateProcess
+     */
+    public function testStatusChecker()
+    {
+        $client = $this->createAdminAuthorizedClient();
+
+        $connection = $client
+            ->getContainer()
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('AraneumMainBundle:Connection')
+            ->findOneByName(ConnectionFixtures::TEST_CONN_NAME);
+
+        $crawler = $client->request(
+            'GET',
+            $client->getContainer()->get('router')->generate(
+                $this->checkRoute,
+                [
+                    'id' => $connection->getId(),
+                    '_locale' => 'en'
+                ]
+            )
+        );
+
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * Test batch check status
+     *
+     * @runInSeparateProcess
+     */
+    public function testBatchStatusChecker()
+    {
+        $client = $this->createAdminAuthorizedClient();
+
+        $crawler = $client->request(
+            'POST',
+            $client->getContainer()->get('router')->generate(
+                $this->listRoute,
+                [
+                    '_locale' => 'en'
+                ]
+            )
+        );
+
+        $form = $crawler->selectButton('OK')->form();
+        $form['action'] = 'checkStatus';
+        $form['all_elements'] = 'on';
+
+        $crawler = $client->submit($form);
+
+        $form = $crawler->selectButton('Yes, execute')->form();
+        $client->submit($form);
+
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+    }
+
 
     /**
      * {@inheritdoc}
@@ -214,4 +278,5 @@ class ConnectionAdminTest extends BaseAdminController
 
         $this->assertFalse(empty($entityFromDb));
     }
+
 }
