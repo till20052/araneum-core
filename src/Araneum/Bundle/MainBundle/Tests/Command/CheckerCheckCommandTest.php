@@ -113,7 +113,15 @@ class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
 			$match
 		));
 
-		$this->assertTrue($match[1] === ['1', '2', '3', '4', '1']);
+		$expectedArray = [
+			'1',
+			'2',
+			'3',
+			'4',
+			'1'
+		];
+
+		$this->assertTrue($match[1] === $expectedArray);
 	}
 
 	/**

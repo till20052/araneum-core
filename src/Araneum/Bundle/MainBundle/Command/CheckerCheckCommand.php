@@ -148,7 +148,12 @@ class CheckerCheckCommand extends ContainerAwareCommand
 	{
 		$this->output = $output;
 
-		$targets = ['connection', 'cluster', 'application'];
+		$targets = [
+			'connection',
+			'cluster',
+			'application'
+		];
+
 		$target = strtolower($input->getArgument('target'));
 		$targetId = intval($input->getArgument('id'));
 
