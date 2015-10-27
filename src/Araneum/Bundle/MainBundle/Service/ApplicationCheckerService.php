@@ -73,21 +73,21 @@ class ApplicationCheckerService
 		/** @var Connection $connection */
 		$connection = $repository->find($id);
 
-		$process = new Process('ping -c '.$pingCount.' '.$connection->getHost());
+		$process = new Process('ping -c ' . $pingCount . ' ' . $connection->getHost());
 		$process->start();
 
 		$process->wait(
-			function($type, $buffer) use ($process, $output) {
+			function ($type, $buffer) use ($process, $output) {
 				if (Process::ERR === $type) {
 					throw new ProcessFailedException($process);
 				}
 
-				if(preg_match(
-					/** @TODO Need to define list of ping stdout patterns */
+				if (preg_match(
+				/** @TODO Need to define list of ping stdout patterns */
 					'/(\d+)\spackets\stransmitted,\s(\d+)\sreceived,\s(\d+)%\spacket\sloss,\stime\s(\d+)ms/',
 					$buffer,
 					$match
-				)){
+				)) {
 					$output->packetsTransmitted = $match[1];
 					$output->received = $match[2];
 					$output->packetLoss = $match[3];
@@ -122,20 +122,17 @@ class ApplicationCheckerService
 
 		$status = false;
 
-		try
-		{
+		try {
 			/** @var GuzzleResponse $request */
 			$response = $this->client
-				->get('http'.($application->isUseSsl() ? 's' : '').'://'.$application->getDomain())
+				->get('http' . ($application->isUseSsl() ? 's' : '') . '://' . $application->getDomain())
 				->send();
 
 			$status = in_array(
 				$response->getStatusCode(),
 				range(Response::HTTP_OK, Response::HTTP_MULTI_STATUS) + [Response::HTTP_IM_USED]
 			);
-		}
-		catch(CurlException $e)
-		{
+		} catch (CurlException $e) {
 			/** @TODO Need to define list of errors and connect it with statuses of application */
 		}
 
@@ -165,12 +162,10 @@ class ApplicationCheckerService
 		$appStatusTrue = [];
 
 		/** @var Application $application */
-		foreach($cluster->getApplications() as $application)
-		{
-			if( ! $this->checkApplication($application->getId())){
+		foreach ($cluster->getApplications() as $application) {
+			if (!$this->checkApplication($application->getId())) {
 				$appStatusFalse[] = $application->getId();
-			}
-			else {
+			} else {
 				$appStatusTrue[] = $application->getId();
 			}
 		}
@@ -178,14 +173,13 @@ class ApplicationCheckerService
 		$status = Cluster::STATUS_OFFLINE;
 		$this->output->statusDescription = 'offline';
 
-		if(
+		if (
 			count($appStatusFalse) == 0
 			&& count($appStatusTrue) == $cluster->getApplications()->count()
-		){
+		) {
 			$status = Cluster::STATUS_ONLINE;
 			$this->output->statusDescription = 'online';
-		}
-		elseif(count($appStatusFalse) > 0 && count($appStatusTrue) > 0){
+		} elseif (count($appStatusFalse) > 0 && count($appStatusTrue) > 0) {
 			$status = Cluster::STATUS_HAS_PROBLEMS;
 			$this->output->statusDescription = 'has problems';
 		}

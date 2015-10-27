@@ -55,10 +55,9 @@ class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
 	 */
 	private function mockGetOutputMethod($structure, $invokedCount = null)
 	{
-		$output  = new \stdClass();
+		$output = new \stdClass();
 
-		foreach($structure as $key => $val)
-		{
+		foreach ($structure as $key => $val) {
 			$output->{$key} = $val;
 		}
 

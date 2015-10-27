@@ -36,7 +36,7 @@ class CheckerCheckCommand extends ContainerAwareCommand
 	 */
 	private function getFormatBlock($messages, $style, $large = false)
 	{
-		if( ! $this->formatter instanceof FormatterHelper){
+		if (!$this->formatter instanceof FormatterHelper) {
 			$this->formatter = $this->getHelper('formatter');
 		}
 
@@ -50,7 +50,7 @@ class CheckerCheckCommand extends ContainerAwareCommand
 	 */
 	private function showError($message)
 	{
-		$this->output->writeln("\n".$this->getFormatBlock($message, 'error', true));
+		$this->output->writeln("\n" . $this->getFormatBlock($message, 'error', true));
 	}
 
 	/**
@@ -63,11 +63,16 @@ class CheckerCheckCommand extends ContainerAwareCommand
 		$this->output->writeln($this->getFormatBlock($message, 'info'));
 	}
 
+	/**
+	 * Check Connection status state
+	 *
+	 * @param $id
+	 */
 	private function checkConnection($id)
 	{
 		$status = $this->checker->checkConnection($id);
 
-		$output =  $this->checker->getOutput();
+		$output = $this->checker->getOutput();
 
 		$this->showInfo(sprintf(
 			"Packets transmitted: %d\n Received: %d\n Packet loss: %d\n Time: %d ms\n Return check state: %s",
@@ -79,11 +84,16 @@ class CheckerCheckCommand extends ContainerAwareCommand
 		));
 	}
 
+	/**
+	 * Check Cluster status state
+	 *
+	 * @param $id
+	 */
 	private function checkCluster($id)
 	{
 		$this->checker->checkCluster($id);
 
-		$output =  $this->checker->getOutput();
+		$output = $this->checker->getOutput();
 
 		$this->showInfo(sprintf(
 			"Return check state: %s",
@@ -91,6 +101,11 @@ class CheckerCheckCommand extends ContainerAwareCommand
 		));
 	}
 
+	/**
+	 * Check Application status state
+	 *
+	 * @param $id
+	 */
 	private function checkApplication($id)
 	{
 		$status = $this->checker->checkApplication($id);
@@ -101,6 +116,9 @@ class CheckerCheckCommand extends ContainerAwareCommand
 		));
 	}
 
+	/**
+	 * Configure Command
+	 */
 	protected function configure()
 	{
 		$this
@@ -115,8 +133,7 @@ class CheckerCheckCommand extends ContainerAwareCommand
 				'id',
 				InputArgument::OPTIONAL,
 				'Target ID. Need this option to find target entity'
-			)
-		;
+			);
 	}
 
 	/**
@@ -135,38 +152,33 @@ class CheckerCheckCommand extends ContainerAwareCommand
 		$target = strtolower($input->getArgument('target'));
 		$targetId = intval($input->getArgument('id'));
 
-		if( ! in_array($target, $targets))
-		{
+		if (!in_array($target, $targets)) {
 			$this->showError(sprintf(
 				'This target "%s" is not isset in list of arguments: %s',
 				$target,
 				implode(', ', $targets)
 			));
+
 			return;
 		}
 
-		if( ! ($targetId > 0))
-		{
+		if (!($targetId > 0)) {
 			$this->showError(sprintf(
 				'ID has not valid value or %s Entity does not exists by this ID',
 				ucfirst($target)
 			));
+
 			return;
 		}
 
 		/** @var ApplicationCheckerService $checker */
 		$this->checker = $this->getContainer()->get('araneum.main.application.checker');
 
-		if($target == 'connection')
-		{
+		if ($target == 'connection') {
 			$this->checkConnection($targetId);
-		}
-		elseif($target == 'cluster')
-		{
+		} elseif ($target == 'cluster') {
 			$this->checkCluster($targetId);
-		}
-		elseif($target == 'application')
-		{
+		} elseif ($target == 'application') {
 			$this->checkApplication($targetId);
 		}
 	}
