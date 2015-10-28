@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\CustomerBundle\DependencyInjection;
+namespace Araneum\Bundle\AgentBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

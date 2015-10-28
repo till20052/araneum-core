@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\CustomerBundle\Controller;
+namespace Araneum\Bundle\AgentBundle\Controller;
 
 use Araneum\Base\Exception\InvalidFormException;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -9,8 +9,8 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\Request;
-use Araneum\Bundle\CustomerBundle\Entity\Customer;
-use Araneum\Bundle\CustomerBundle\Form\CustomerType;
+use Araneum\Bundle\AgentBundle\Entity\Customer;
+use Araneum\Bundle\AgentBundle\Form\CustomerType;
 use FOS\RestBundle\View\View;
 
 class CustomerApiController extends FOSRestController
@@ -20,9 +20,9 @@ class CustomerApiController extends FOSRestController
      *
      * @ApiDoc(
      *   resource = "Customer",
-     *   section = "CustomerBundle",
+     *   section = "AgentBundle",
      *   description = "Gets a Application config for a given key",
-     *   output = "Araneum\Bundle\Customer\Entity\Application",
+     *   output = "Araneum\Bundle\Agent\Entity\Application",
      *   statusCodes = {
      *      200 = "Returned when successful",
      *      403 = "Returned when authorization is failed",
@@ -55,7 +55,7 @@ class CustomerApiController extends FOSRestController
 
         try {
             $form = $this->container
-                ->get('araneum.customer.customer.api_handler')
+                ->get('araneum.agent.customer.api_handler')
                 ->post($appKey, $postParameters);
 
             return View::create($form, 201);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\CustomerBundle\Test\Functional\Api;
+namespace Araneum\Bundle\AgentBundle\Test\Functional\Api;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Araneum\Base\Tests\Fixtures\Customer\CustomerFixtures;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\CustomerBundle\Entity;
+namespace Araneum\Bundle\AgentBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
 use Araneum\Bundle\MainBundle\Entity\Application;
@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Class CustomersLog
  *
  * @ORM\Table("araneum_customers_log")
- * @ORM\Entity(repositoryClass="Araneum\Bundle\CustomerBundle\Repository\CustomersLogRepository")
+ * @ORM\Entity(repositoryClass="Araneum\Bundle\AgentBundle\Repository\CustomersLogRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class CustomersLog
@@ -46,7 +46,7 @@ class CustomersLog
     /**
      * @var Customer
      *
-     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\CustomerBundle\Entity\Customer")
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\AgentBundle\Entity\Customer")
      * @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
      */
     private $customer;
