@@ -5,6 +5,7 @@ namespace Araneum\Bundle\MainBundle\Service;
 use Araneum\Base\Tests\Fixtures\User\UserFixtures;
 use Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData;
 use Doctrine\ORM\EntityManager;
+use Guzzle\Http\Message\Request;
 use Guzzle\Service\Client;
 use Symfony\Component\HttpFoundation\Response;
 use Guzzle\Http\Exception\CurlException;
@@ -43,28 +44,12 @@ class RemoteApplicationManagerService
      */
     public function get($clusterId)
     {
+
         $repository = $this->entityManager->getRepository('AraneumMainBundle:Cluster');
         $connections = $repository->find($clusterId)->getHosts()->getValues();
         $connection = reset($connections);
 
-        try {
-            $response = $this->client
-                ->get(
-                    'http://' . $connection->getHost(),
-                    [
-                        'auth' => [
-                            UserData::API_USER,
-                            UserData::API_PASSWD
-                        ]])
-                ->send();
-
-            $status = in_array(
-                $response->getStatusCode(),
-                range(Response::HTTP_OK, Response::HTTP_MULTI_STATUS) + [Response::HTTP_IM_USED]
-            );
-        } catch (CurlException $e) {
-            return $e;
-        }
+		$response = $this->sendRequest($connection, '/api/cluster/application/list', null, 'GET');
     }
 
     /**
@@ -75,8 +60,44 @@ class RemoteApplicationManagerService
      */
     public function create($appKey)
     {
-        return true;
-    }
+		$repository = $this->entityManager->getRepository('AraneumMainBundle:Application');
+		$application = $repository->findOneBy(['appKey' => $appKey]);
+		$connections = $application->getCluster()->getHosts()->getValues();
+		$connection = reset($connections);
+
+		$locales = $application->getLocales();
+
+		$i = 1;
+		$countLocales = count($locales);
+		$paramLocale = '';
+
+		foreach ($locales as $locale) {
+			$paramLocale = $locale->getLocale();
+			if ($i < $countLocales) {
+				$paramLocale .= '|';
+			}
+		}
+
+		$params = [
+			'auth' => [
+				UserData::API_USER,
+				UserData::API_PASSWD
+			],
+			'query' => [
+				'domain' => $application->getDomain(),
+				'template' => $application->getTemplate(),
+				'cluster' => $application->getCluster(),
+				'db_name' => $application->getDb()->getName(),
+				'db_host' => $application->getDb()->getHost(),
+				'db_port' => $application->getDb()->getPort(),
+				'db_user_name' => $application->getDb()->getUserName(),
+				'db_password' => $application->getDb()->getPassword(),
+				'locale' => $paramLocale
+			]
+		];
+
+		$response = $this->sendRequest($connection - getHost(), '', $params, 'POST');
+	}
 
     /**
      * Update application config in cluster
@@ -100,27 +121,25 @@ class RemoteApplicationManagerService
         $repository = $this->entityManager->getRepository('AraneumMainBundle:Application');
         $connections = $repository->findOneBy(['appKey' => $appKey])->getCluster()->getHosts()->getValues();
         $connection = reset($connections);
+	}
 
-        //TODO привести в порядок сам вызов и обработку результата
-        try {
-            $response = $this->client
-                ->get(
-                    'http://' . $connection->getHost(),
-                    [
-                        'auth' => [
-                            UserData::API_USER,
-                            UserData::API_PASSWD
-                        ]
-                    ]
-                )
-                ->send();
+	public function sendRequest($connection, $uri, $params, $method)
+	{
+		try {
 
-            $status = in_array(
-                $response->getStatusCode(),
-                range(Response::HTTP_OK, Response::HTTP_MULTI_STATUS) + [Response::HTTP_IM_USED]
-            );
-        } catch (CurlException $e) {
-            return $e;
-        }
-    }
+			$response = $this
+				->client
+				->createRequest($method, 'http://' . $connection->getHost() . $uri, $params)
+				->send();
+
+			$status = in_array(
+				$response->getStatusCode(),
+				range(Response::HTTP_OK, Response::HTTP_MULTI_STATUS) + [Response::HTTP_IM_USED]
+			);
+		} catch (CurlException $e) {
+			return $e;
+		}
+
+		return $response;
+	}
 }
