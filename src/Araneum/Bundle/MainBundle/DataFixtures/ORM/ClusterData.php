@@ -11,32 +11,26 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class ClusterData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
-    const CLUSTER_NAME = 'DefaultUltratradeCluster';
-    const CLUSTER_TYPE = 1;
-    const CLUSTER_ENABLED = true;
-    const CLUSTER_STATUS = 1;
-
     /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
         $cluster = $manager->getRepository('AraneumMainBundle:Cluster')
-            ->findOneByName(self::CLUSTER_NAME);
+            ->findOneByName('DefaultUltratradeCluster');
         if (empty($cluster)) {
             $cluster = new Cluster();
-            $cluster->setName(self::CLUSTER_NAME);
+            $cluster->setName('DefaultUltratradeCluster');
             $cluster->setHosts(
                 new ArrayCollection(
                     [
-                        $this->getReference('connectionHost'),
-                        $this->getReference('connectionDb')
+                        $this->getReference('connectionHost')
                     ]
                 )
             );
-            $cluster->setType(self::CLUSTER_TYPE);
-            $cluster->setEnabled(self::CLUSTER_ENABLED);
-            $cluster->setStatus(self::CLUSTER_STATUS);
+            $cluster->setType(1);
+            $cluster->setEnabled(true);
+            $cluster->setStatus(1);
             $manager->persist($cluster);
             $manager->flush();
         }

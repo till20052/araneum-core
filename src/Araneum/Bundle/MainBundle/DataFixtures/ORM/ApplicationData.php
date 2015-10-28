@@ -11,13 +11,6 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class ApplicationData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
-    const APP_NAME     = 'Ultratrade';
-    const APP_DOMAIN   = 'ultratrade.com';
-    const APP_PUBLIC   = true;
-    const APP_ENABLED  = true;
-    const APP_STATUS   = 1;
-    const APP_TEMPLATE = 'DefaultTemplate';
-
     /**
      * {@inheritDoc}
      */
@@ -25,20 +18,20 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
     {
         $app = $manager
             ->getRepository('AraneumMainBundle:Application')
-            ->findOneByName(self::APP_NAME);
+            ->findOneByName('Ultratrade');
 
         if (empty($app)) {
             $app = new Application();
-            $app->setName(self::APP_NAME);
-            $app->setDomain(self::APP_DOMAIN);
-            $app->setPublic(self::APP_PUBLIC);
-            $app->setEnabled(self::APP_ENABLED);
-            $app->setStatus(self::APP_STATUS);
-            $app->setTemplate(self::APP_TEMPLATE);
+            $app->setName('Ultratrade');
+            $app->setDomain('ultratrade.com');
+            $app->setPublic(true);
+            $app->setEnabled(true);
+            $app->setStatus(1);
+            $app->setTemplate('DefaultTemplate');
             $app->setCluster($this->getReference('cluster'));
             $app->setDb($this->getReference('connectionDb'));
             $app->setLocales(new ArrayCollection([$this->getReference('locale')]));
-            $app->setOwner($this->getReference('defaultOwnerApplication'));
+            $app->setOwner($this->getReference('userAdmin'));
             $manager->persist($app);
             $manager->flush();
         }

@@ -3,9 +3,7 @@
 namespace Araneum\Bundle\MainBundle\DataFixtures\ORM;
 
 use Araneum\Bundle\MainBundle\Entity\Locale;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 
