@@ -29,6 +29,11 @@ class ApplicationCheckerService
 	private $client;
 
 	/**
+	 * @var \stdClass
+	 */
+	private $output;
+
+	/**
 	 * Constructor
 	 *
 	 * @param EntityManager $entityManager
@@ -38,6 +43,17 @@ class ApplicationCheckerService
 	{
 		$this->entityManager = $entityManager;
 		$this->client = $client;
+		$this->output = new \stdClass();
+	}
+
+	/**
+	 * Get operation output
+	 *
+	 * @return \stdClass
+	 */
+	public function getOutput()
+	{
+		return $this->output;
 	}
 
 	/**
@@ -49,28 +65,29 @@ class ApplicationCheckerService
 	 */
 	public function checkConnection($id, $pingCount = 5)
 	{
+		$this->output = $output = new \stdClass();
+
 		/** @var ConnectionRepository $repository */
 		$repository = $this->entityManager->getRepository('AraneumMainBundle:Connection');
 
 		/** @var Connection $connection */
 		$connection = $repository->find($id);
 
-		$process = new Process('ping -c '.$pingCount.' '.$connection->getHost());
+		$process = new Process('ping -c ' . $pingCount . ' ' . $connection->getHost());
 		$process->start();
 
-		$output = new \stdClass();
 		$process->wait(
-			function($type, $buffer) use ($process, $output) {
+			function ($type, $buffer) use ($process, $output) {
 				if (Process::ERR === $type) {
 					throw new ProcessFailedException($process);
 				}
 
-				if(preg_match(
-					/** @TODO Need to define list of ping stdout patterns */
+				if (preg_match(
+				/** @TODO Need to define list of ping stdout patterns */
 					'/(\d+)\spackets\stransmitted,\s(\d+)\sreceived,\s(\d+)%\spacket\sloss,\stime\s(\d+)ms/',
 					$buffer,
 					$match
-				)){
+				)) {
 					$output->packetsTransmitted = $match[1];
 					$output->received = $match[2];
 					$output->packetLoss = $match[3];
@@ -81,6 +98,8 @@ class ApplicationCheckerService
 
 		$connection->setStatus(isset($output->received) ? $output->received > 0 : false);
 		$this->entityManager->flush();
+
+		$this->output = $output;
 
 		return $connection->getStatus();
 	}
@@ -93,6 +112,8 @@ class ApplicationCheckerService
 	 */
 	public function checkApplication($id)
 	{
+		$this->output = new \stdClass();
+
 		/** @var ApplicationRepository $repository */
 		$repository = $this->entityManager->getRepository('AraneumMainBundle:Application');
 
@@ -101,20 +122,17 @@ class ApplicationCheckerService
 
 		$status = false;
 
-		try
-		{
+		try {
 			/** @var GuzzleResponse $request */
 			$response = $this->client
-				->get('http'.($application->isUseSsl() ? 's' : '').'://'.$application->getDomain())
+				->get('http' . ($application->isUseSsl() ? 's' : '') . '://' . $application->getDomain())
 				->send();
 
 			$status = in_array(
 				$response->getStatusCode(),
 				range(Response::HTTP_OK, Response::HTTP_MULTI_STATUS) + [Response::HTTP_IM_USED]
 			);
-		}
-		catch(CurlException $e)
-		{
+		} catch (CurlException $e) {
 			/** @TODO Need to define list of errors and connect it with statuses of application */
 		}
 
@@ -132,6 +150,8 @@ class ApplicationCheckerService
 	 */
 	public function checkCluster($id)
 	{
+		$this->output = new \stdClass();
+
 		/** @var ClusterRepository $repository */
 		$repository = $this->entityManager->getRepository('AraneumMainBundle:Cluster');
 
@@ -142,25 +162,26 @@ class ApplicationCheckerService
 		$appStatusTrue = [];
 
 		/** @var Application $application */
-		foreach($cluster->getApplications() as $application)
-		{
-			if( ! $this->checkApplication($application->getId())){
+		foreach ($cluster->getApplications() as $application) {
+			if (!$this->checkApplication($application->getId())) {
 				$appStatusFalse[] = $application->getId();
-			}
-			else {
+			} else {
 				$appStatusTrue[] = $application->getId();
 			}
 		}
 
 		$status = Cluster::STATUS_OFFLINE;
-		if(
+		$this->output->statusDescription = 'offline';
+
+		if (
 			count($appStatusFalse) == 0
 			&& count($appStatusTrue) == $cluster->getApplications()->count()
-		){
+		) {
 			$status = Cluster::STATUS_ONLINE;
-		}
-		elseif(count($appStatusFalse) > 0 && count($appStatusTrue) > 0){
+			$this->output->statusDescription = 'online';
+		} elseif (count($appStatusFalse) > 0 && count($appStatusTrue) > 0) {
 			$status = Cluster::STATUS_HAS_PROBLEMS;
+			$this->output->statusDescription = 'has problems';
 		}
 
 		$cluster->setStatus($status);
