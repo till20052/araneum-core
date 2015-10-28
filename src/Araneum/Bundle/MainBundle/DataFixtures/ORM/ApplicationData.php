@@ -23,7 +23,7 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
         if (empty($app)) {
             $app = new Application();
             $app->setName('Ultratrade');
-            $app->setDomain('ultratrade.com');
+            $app->setDomain('ultratrade.office.dev');
             $app->setPublic(true);
             $app->setEnabled(true);
             $app->setStatus(1);
