@@ -4,12 +4,14 @@ namespace Araneum\Bundle\MainBundle\Admin;
 
 use Araneum\Bundle\MainBundle\ApplicationEvents;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
-use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
+use Araneum\Bundle\MainBundle\Repository\ConnectionRepository;
+use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 
 /**
  * Class ClusterAdmin
@@ -17,7 +19,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ClusterAdmin extends Admin
 {
-	/**
+    /**
 	 * @var EventDispatcherInterface
 	 */
 	private $dispatcher;
@@ -76,6 +78,24 @@ class ClusterAdmin extends Admin
 	{
 		$this->dispatcher = $eventDispatcherInterface;
 	}
+    
+    /**
+     * Get Batch
+     *
+     * @return array
+     */
+    public function getBatchActions()
+    {
+        return array_merge(
+            parent::getBatchActions(),
+            [
+                'checkStatus' => [
+                    'label' => 'Check Status',
+                    'ask_confirmation' => true
+                ]
+            ]
+        );
+    }
 
     /**
      * Fields to be shown on create/edit forms

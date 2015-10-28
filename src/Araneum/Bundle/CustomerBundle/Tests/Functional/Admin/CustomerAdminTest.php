@@ -130,4 +130,70 @@ class CustomerAdminTest extends BaseController
 			]
 		];
 	}
+
+	/**
+	 * Set of arguments for testUpdate method
+	 *
+	 * @return array
+	 */
+	public function updateDataSource()
+	{
+		$client = static::createClient();
+
+		$manager = $client->getContainer()->get('doctrine.orm.entity_manager');
+
+		$customer = $manager
+			->getRepository('AraneumCustomerBundle:Customer')
+			->findOneByEmail(CustomerFixtures::TEST_2_EMAIL);
+
+		return [
+			'Check simple modification' => [
+				[
+					'firstName' => 'TestCustomer2UpdateFirstName',
+					'lastName' => 'TestCustomer2UpdateLastName',
+					'country' => 'TestCustomer2UpdateCountry',
+					'email' => self::TEST_CUSTOMER_EMAIL . '@' . md5(microtime(true)) . '.com',
+					'phone' => '+380667754444',
+					'callback' => ! CustomerFixtures::TEST_2_CALLBACK
+				],
+				true,
+				$customer
+			],
+			'Check updating email when customer with this email already exists' => [
+				[
+					'email' => CustomerFixtures::TEST_EMAIL,
+				],
+				false,
+				$customer
+			],
+			'Set first values of temp application' => [
+				[
+					'firstName' => CustomerFixtures::TEST_2_FIRST_NAME,
+					'lastName' => CustomerFixtures::TEST_2_LAST_NAME,
+					'country' => CustomerFixtures::TEST_2_COUNTRY,
+					'email' => CustomerFixtures::TEST_2_EMAIL,
+					'phone' => CustomerFixtures::TEST_2_PHONE,
+					'callback' => CustomerFixtures::TEST_2_CALLBACK
+				],
+				true,
+				$customer
+			]
+		];
+	}
+
+	/**
+	 * Return entity for testDelete method
+	 *
+	 * @return mixed
+	 */
+	public function deleteDataSource()
+	{
+		$client = static::createClient();
+
+		return $client
+			->getContainer()
+			->get('doctrine.orm.entity_manager')
+			->getRepository('AraneumCustomerBundle:Customer')
+			->findOneByEmail(self::TEST_CUSTOMER_EMAIL . '@' . md5(self::TEST_CUSTOMER_EMAIL) . '.com');
+	}
 }
