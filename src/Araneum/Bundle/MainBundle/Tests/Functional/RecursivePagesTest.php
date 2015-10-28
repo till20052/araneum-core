@@ -116,7 +116,10 @@ class RecursivePagesTest extends BaseController
 
 		foreach($this->register as $url => $data)
 		{
-            $this->assertTrue($data['is_successful'], $data['status_code'] . "\t" . $url . "\n");
+			$this->assertTrue(
+				in_array($data['status_code'], range(200, 400)),
+				$data['status_code'] . "\t" . $url . "\n"
+			);
         }
 	}
 }

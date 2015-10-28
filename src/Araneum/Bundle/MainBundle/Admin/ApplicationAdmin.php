@@ -30,6 +30,25 @@ class ApplicationAdmin extends Admin
 
     /**
      * Invoke method before creation of application
+     * Get Batch
+     *
+     * @return array
+     */
+    public function getBatchActions()
+    {
+        return array_merge(
+            parent::getBatchActions(),
+            [
+                'checkStatus' => [
+                    'label' => 'Check Status',
+                    'ask_confirmation' => true
+                ]
+            ]
+        );
+    }
+
+    /**
+     * Set Application Owner before insert
      *
      * @param Application $application
      * @return void

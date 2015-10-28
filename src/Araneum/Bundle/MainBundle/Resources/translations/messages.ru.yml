@@ -41,6 +41,7 @@ online: Online
 offline: Offline
 check_status: Check status
 test_connection: Проверить соединение
+test_db_not_allowed: Тест соединений типа DB не доступен
 domain: Домен
 aliases: Алиасы
 public: Публичный

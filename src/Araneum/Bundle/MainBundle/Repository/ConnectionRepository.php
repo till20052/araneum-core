@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Repository;
 
+use Araneum\Bundle\MainBundle\Entity\Connection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr;
@@ -32,22 +33,44 @@ class ConnectionRepository extends EntityRepository
         return $qb->getQuery();
     }
 
-	/**
-	 * Get Applications
-	 *
-	 * @param $id
-	 * @return ArrayCollection
-	 */
-	public function getApplications($id)
-	{
-		$q = $this->createQueryBuilder('cn')
-			->select('a')
-			->innerJoin('cn.clusters', 'cl')
-			->innerJoin('AraneumMainBundle:Application', 'a', Expr\Join::WITH, 'a.cluster = cl.id')
-			->where('cn.id = :id')
-			->setParameter('id', $id)
-			->getQuery();
+    /**
+     * Get Applications
+     *
+     * @param $id
+     * @return ArrayCollection
+     */
+    public function getApplications($id)
+    {
+        $q = $this->createQueryBuilder('cn')
+            ->select('a')
+            ->innerJoin('cn.clusters', 'cl')
+            ->innerJoin('AraneumMainBundle:Application', 'a', Expr\Join::WITH, 'a.cluster = cl.id')
+            ->where('cn.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery();
 
-		return new ArrayCollection($q->getResult());
-	}
+        return new ArrayCollection($q->getResult());
+    }
+
+    /**
+     * get active host connections
+     *
+     * @return Array
+     * @param $ids Array
+     */
+    public function getActiveHostConnections(array $ids)
+    {
+        $qb = $this->createQueryBuilder('con')
+            ->where('con.type = :type')
+            ->andWhere('con.enabled = true')
+            ->andWhere('con.id IN (:ids)')
+            ->setParameters(
+                [
+                    'type' => Connection::CONN_HOST,
+                    'ids' => $ids
+                ]
+            );
+
+        return $qb->getQuery()->getResult();
+    }
 }
