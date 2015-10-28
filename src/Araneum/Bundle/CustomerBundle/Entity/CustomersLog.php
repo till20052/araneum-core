@@ -17,6 +17,15 @@ class CustomersLog
 {
     use DateTrait;
 
+    const STATUS_ERROR   = 0;
+    const STATUS_SUCCESS = 101;
+
+    private static $statusDescription =
+        [
+            self::STATUS_ERROR => 'Error',
+            self::STATUS_SUCCESS => 'Success'
+        ];
+
     /**
      * @var integer
      *
@@ -59,7 +68,7 @@ class CustomersLog
     /**
      * @var string
      *
-     * @ORM\Column(name="status", type="text", length=255)
+     * @ORM\Column(name="status", type="smallint", nullable=true)
      */
     private $status;
 
@@ -188,4 +197,15 @@ class CustomersLog
         return $this;
     }
 
+    /**
+     * Get description status
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function getStatusDescription($id)
+    {
+
+        return self::$statusDescription[$id];
+    }
 }
