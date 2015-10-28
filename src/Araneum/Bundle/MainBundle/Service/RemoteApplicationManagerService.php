@@ -2,6 +2,8 @@
 
 namespace Araneum\Bundle\MainBundle\Service;
 
+use Araneum\Base\Tests\Fixtures\User\UserFixtures;
+use Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData;
 use Doctrine\ORM\EntityManager;
 use Guzzle\Service\Client;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,8 +53,8 @@ class RemoteApplicationManagerService
                     'http://' . $connection->getHost(),
                     [
                         'auth' => [
-                            'api',
-                            'apiApp_user123'
+                            UserData::API_USER,
+                            UserData::API_PASSWD
                         ]])
                 ->send();
 
@@ -95,6 +97,30 @@ class RemoteApplicationManagerService
      */
     public function remove($appKey)
     {
-        return true;
+        $repository = $this->entityManager->getRepository('AraneumMainBundle:Application');
+        $connections = $repository->findOneBy(['appKey' => $appKey])->getCluster()->getHosts()->getValues();
+        $connection = reset($connections);
+
+        //TODO привести в порядок сам вызов и обработку результата
+        try {
+            $response = $this->client
+                ->get(
+                    'http://' . $connection->getHost(),
+                    [
+                        'auth' => [
+                            UserData::API_USER,
+                            UserData::API_PASSWD
+                        ]
+                    ]
+                )
+                ->send();
+
+            $status = in_array(
+                $response->getStatusCode(),
+                range(Response::HTTP_OK, Response::HTTP_MULTI_STATUS) + [Response::HTTP_IM_USED]
+            );
+        } catch (CurlException $e) {
+            return $e;
+        }
     }
 }

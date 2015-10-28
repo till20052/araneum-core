@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class AdminClusterController extends Controller
 {
+
+    //Заглушка для вызова методов апи приложений
     /**
      * Check Status
      *
@@ -23,4 +25,16 @@ class AdminClusterController extends Controller
 
         return new Response();
     }
+
+    /**
+     * @Route("/deleteApplication/{appKey}", name="araneum_main_admin_cluster_get_app")
+     * @param $appKey
+     */
+    public function deleteApplicationAction($appKey)
+    {
+        $result = $this->container
+            ->get('araneum.main.application.remote_manager')
+            ->remove($appKey);
+    }
+
 }

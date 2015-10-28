@@ -10,6 +10,9 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 
 class UserData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
+	const API_USER   = 'api';
+	const API_PASSWD = 'apiApp_user123';
+
 	/**
 	 * Load data fixtures with the passed EntityManager
 	 *
@@ -31,8 +34,8 @@ class UserData extends AbstractFixture implements FixtureInterface, DependentFix
 		$userApi = $manager->getRepository('AraneumUserBundle:User')->findOneByUsername('api');
 		if (empty($userApi)) {
 			$userApi = new User();
-			$userApi->setUsername('api');
-			$userApi->setPlainPassword('apiApp_user123');
+			$userApi->setUsername(self::API_USER);
+			$userApi->setPlainPassword(self::API_PASSWD);
 			$userApi->setEmail('apiuser@araneum.dev');
 			$userApi->setRoles([User::ROLE_API]);
 			$userApi->setEnabled(true);
