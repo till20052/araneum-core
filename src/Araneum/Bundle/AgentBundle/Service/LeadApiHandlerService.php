@@ -28,7 +28,7 @@ class LeadApiHandlerService
 	 *
 	 * @throws InvalidFormException
 	 */
-	private function verifyDataByForm($data)
+	private function verifyDataByForm(array $data)
 	{
 		$lead = new Lead();
 		$form = $this->formFactory
@@ -60,7 +60,7 @@ class LeadApiHandlerService
 	 * @param array $filters
 	 * @return array
 	 */
-	public function find($filters = [])
+	public function find(array $filters = [])
 	{
 		return $this->entityManager
 			->getRepository('AraneumAgentBundle:Lead')
@@ -73,7 +73,7 @@ class LeadApiHandlerService
 	 * @param array $data
 	 * @return Lead
 	 */
-	public function create($data)
+	public function create(array $data)
 	{
 		$lead = $this->verifyDataByForm($data);
 
