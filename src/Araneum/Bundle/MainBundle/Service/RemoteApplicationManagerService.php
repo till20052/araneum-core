@@ -45,11 +45,14 @@ class RemoteApplicationManagerService
     public function get($clusterId)
     {
 
-        $repository = $this->entityManager->getRepository('AraneumMainBundle:Cluster');
-        $connections = $repository->find($clusterId)->getHosts()->getValues();
+		$repository = $this->entityManager->getRepository('AraneumMainBundle:Connection');
+		$connections = $repository->findBy(['clusters' => $clusterId]);
         $connection = reset($connections);
+		$param = [];
 
-		$response = $this->sendRequest($connection, '/api/cluster/application/list', null, 'GET');
+		$response = $this->sendRequest($connection->getHost(), '/api/cluster/application/list', $param, 'GET');
+
+		return $response;
     }
 
     /**
@@ -60,9 +63,51 @@ class RemoteApplicationManagerService
      */
     public function create($appKey)
     {
+		$response = $this->createOrUpdatePrepare($appKey, 'POST', '/api/cluster/application/insert/');
+	}
+
+	/**
+	 * Update application config in cluster
+	 *
+	 * @param string $appKey
+	 * @return bool
+	 */
+	public function update($appKey)
+	{
+		$response = $this->createOrUpdatePrepare($appKey, 'PUT', '/api/cluster/application/update/');
+	}
+
+	/**
+	 * Remove application from cluster
+	 *
+	 * @param string $appKey
+	 * @return bool
+	 */
+	public function remove($appKey)
+	{
 		$repository = $this->entityManager->getRepository('AraneumMainBundle:Application');
-		$application = $repository->findOneBy(['appKey' => $appKey]);
-		$connections = $application->getCluster()->getHosts()->getValues();
+		$connections = $repository->findOneBy(['appKey' => $appKey])->getCluster()->getHosts()->getValues();
+		$connection = reset($connections);
+
+		$response = $this->sendRequest($connection->getHost(), '/api/cluster/application/list', null, 'GET');
+	}
+
+	/**
+	 * Prepare request for insert and update
+	 *
+	 * @param $appKey
+	 * @param $method
+	 * @param $uri
+	 * @return \Exception|CurlException|GuzzleResponse
+	 */
+	private function createOrUpdatePrepare($appKey, $method, $uri)
+	{
+		$application = $this->entityManager->getRepository('AraneumMainBundle:Application')->findOneBy(
+			['appKey' => $appKey]
+		);
+		$connections = $this->entityManager->getRepository('AraneumMainBundle:Connection')->findConnectionByAppKey(
+			$appKey
+		);
 		$connection = reset($connections);
 
 		$locales = $application->getLocales();
@@ -92,44 +137,37 @@ class RemoteApplicationManagerService
 				'db_port' => $application->getDb()->getPort(),
 				'db_user_name' => $application->getDb()->getUserName(),
 				'db_password' => $application->getDb()->getPassword(),
-				'locale' => $paramLocale
+				'locale' => $paramLocale,
+				'components' => '',
+				'app_key' => $application->getAppKey()
 			]
 		];
 
-		$response = $this->sendRequest($connection - getHost(), '', $params, 'POST');
+		if ($method == 'PUT') {
+			$uri .= $application->getDomain();
+		}
+
+		$response = $this->sendRequest($connection->getHost(), $uri, $params, $method);
+
+		return $response;
 	}
 
-    /**
-     * Update application config in cluster
-     *
-     * @param string $appKey
-     * @return bool
-     */
-    public function update($appKey)
-    {
-        return true;
-    }
-
-    /**
-     * Remove application from cluster
-     *
-     * @param string $appKey
-     * @return bool
-     */
-    public function remove($appKey)
-    {
-        $repository = $this->entityManager->getRepository('AraneumMainBundle:Application');
-        $connections = $repository->findOneBy(['appKey' => $appKey])->getCluster()->getHosts()->getValues();
-        $connection = reset($connections);
-	}
-
-	public function sendRequest($connection, $uri, $params, $method)
+	/**
+	 * Request
+	 *
+	 * @param $host
+	 * @param $uri
+	 * @param $params
+	 * @param $method
+	 * @return \Exception|CurlException|GuzzleResponse
+	 */
+	public function sendRequest($host, $uri, $params, $method)
 	{
 		try {
 
 			$response = $this
 				->client
-				->createRequest($method, 'http://' . $connection->getHost() . $uri, $params)
+				->createRequest($method, 'http://' . $host . $uri, null, null, $params)
 				->send();
 
 			$status = in_array(
@@ -137,9 +175,9 @@ class RemoteApplicationManagerService
 				range(Response::HTTP_OK, Response::HTTP_MULTI_STATUS) + [Response::HTTP_IM_USED]
 			);
 		} catch (CurlException $e) {
-			return $e;
+			return false;
 		}
 
-		return $response;
+		return $status;
 	}
 }

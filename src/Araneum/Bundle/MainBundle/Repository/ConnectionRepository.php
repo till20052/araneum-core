@@ -73,4 +73,23 @@ class ConnectionRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    /**
+     * Find Connection by appKey
+     *
+     * @param $appKey
+     * @return array
+     */
+    public function findConnectionByAppKey($appKey)
+    {
+        $qb = $this->createQueryBuilder('conn');
+
+        $qb
+            ->join('conn.clusters', 'clu')
+            ->join('clu.applications', 'app')
+            ->where('app.appKey = :appKey')
+            ->setParameters(['appKey' => $appKey]);
+
+        return $qb->getQuery()->getResult();
+    }
 }
