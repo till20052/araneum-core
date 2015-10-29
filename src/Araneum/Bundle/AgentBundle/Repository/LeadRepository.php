@@ -13,24 +13,23 @@ use Doctrine\ORM\EntityRepository;
 class LeadRepository extends EntityRepository
 {
 	/**
-	 * Find leads by filter.
-	 * Filter contain next keys: email, phone.
+	 * Find list of leads by email and/or phone as optionality
 	 *
-	 * @param array $filter
+	 * @param array $filters
 	 * @return array
 	 */
-	public function findByFilter($filter = [])
+	public function findByFilter($filters = [])
 	{
 		$queryBuilder = $this->createQueryBuilder('l');
 
-		if (isset($filter['email']) && preg_match('/[\w\d\.\-\@]{3,}/', $filter['email'])) {
+		if (isset($filters['email']) && preg_match('/[\w\d\.\-\@]{3,}/', $filters['email'])) {
 			$queryBuilder->where('l.email LIKE :email')
-				->setParameter('email', $filter['email'].'%');
+				->setParameter('email', $filters['email'].'%');
 		}
 
-		if (isset($filter['phone']) && preg_match('/[0-9\-\(\)]{3,17}/', $filter['phone'])) {
+		if (isset($filters['phone']) && preg_match('/[0-9\-\(\)]{3,17}/', $filters['phone'])) {
 			$queryBuilder->andWhere('l.phone LIKE :phone')
-				->setParameter('phone', $filter['phone'].'%');
+				->setParameter('phone', $filters['phone'].'%');
 		}
 
 		return $queryBuilder->getQuery()->getResult();
