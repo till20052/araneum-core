@@ -58,6 +58,10 @@ class LeadApiController extends Controller
 	 *  resource = "Lead",
 	 *  section = "AgentBundle",
 	 *  description = "Create lead",
+	 *  input={
+	 *      "class"="\Araneum\Bundle\AgentBundle\Form\Type\LeadType",
+	 *      "name"=""
+	 *  },
 	 *  statusCodes = {
 	 *      201 = "Returned when lead created successful",
 	 *      400 = "Returned when validation failed",

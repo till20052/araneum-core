@@ -21,7 +21,12 @@ class LeadApiHandlerService
 	private $formFactory;
 
 	/**
+	 * Check incoming data
 	 *
+	 * @param array $data
+	 * @return Lead
+	 *
+	 * @throws InvalidFormException
 	 */
 	private function verifyDataByForm($data)
 	{
