@@ -1,13 +1,13 @@
 <?php
 
-namespace Araneum\Bundle\AgentBundle\Exception;
+namespace Araneum\Base\Exception;
 
 use Symfony\Component\Form\Form;
 
 /**
  * Interface InvalidFormExceptionInterface
  *
- * @package Araneum\Bundle\AgentBundle\Exception
+ * @package Araneum\Base\Exception
  */
 interface InvalidFormExceptionInterface
 {

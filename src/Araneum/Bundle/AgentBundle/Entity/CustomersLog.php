@@ -205,7 +205,6 @@ class CustomersLog
      */
     public function getStatusDescription($id)
     {
-
         return self::$statusDescription[$id];
     }
 }

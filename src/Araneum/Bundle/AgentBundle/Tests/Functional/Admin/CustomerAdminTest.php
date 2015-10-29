@@ -6,6 +6,7 @@ use Araneum\Base\Tests\Controller\BaseAdminController;
 use Araneum\Base\Tests\Fixtures\Customer\CustomerFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Araneum\Base\Tests\Controller\BaseController;
+use Symfony\Component\DomCrawler\Crawler;
 
 class CustomerAdminTest extends BaseController
 {
@@ -72,14 +73,19 @@ class CustomerAdminTest extends BaseController
 		$this->assertFalse($client->getResponse()->isSuccessful());
 	}
 
+
 	/**
-	 * Set of arguments for testFilter method
+	 * Nest of filter
 	 *
-	 * @return array
+	 * @runInSeparateProcess
 	 */
-	public function filterDataSource()
+	public function testFilter()
 	{
-		$client = static::createClient();
+		$client = $this->createAdminAuthorizedClient();
+		$crawler = $client->request(
+			'GET',
+			$client->getContainer()->get('router')->generate('admin_araneum_agent_customer_list', ['_locale' => 'en'])
+		);
 
 		$manager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
@@ -87,48 +93,30 @@ class CustomerAdminTest extends BaseController
 			->getRepository('AraneumAgentBundle:Customer')
 			->findOneByEmail(CustomerFixtures::TEST_EMAIL);
 
-		$anotherCustomer = $manager
-			->getRepository('AraneumAgentBundle:Customer')
-			->findOneByEmail(CustomerFixtures::TEST_2_EMAIL);
-
 		$application = $manager
 			->getRepository('AraneumMainBundle:Application')
 			->findOneByName(ApplicationFixtures::TEST_APP_NAME);
 
-		return [
-			'Check filter searching application by this application values' => [
-				[
-					'filter[application][value]' => $application->getId(),
-					'filter[firstName][value]' => CustomerFixtures::TEST_FIRST_NAME,
-					'filter[lastName][value]' => CustomerFixtures::TEST_LAST_NAME,
-					'filter[email][value]' => CustomerFixtures::TEST_EMAIL,
-					'filter[phone][value]' => CustomerFixtures::TEST_PHONE,
-					'filter[country][value]' => CustomerFixtures::TEST_COUNTRY,
-					'filter[createdAt][value][start]' => '01/01/1971',
-					'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400),
-					'filter[deliveredAt][value][start]' => '01/01/1971',
-					'filter[deliveredAt][value][end]' => date('m/d/Y', time() + 86400)
-				],
-				true,
-				$customer
-			],
-			'Search another application by first filters' => [
-				[
-					'filter[application][value]' => $application->getId(),
-					'filter[firstName][value]' => CustomerFixtures::TEST_FIRST_NAME,
-					'filter[lastName][value]' => CustomerFixtures::TEST_LAST_NAME,
-					'filter[email][value]' => CustomerFixtures::TEST_EMAIL,
-					'filter[phone][value]' => CustomerFixtures::TEST_PHONE,
-					'filter[country][value]' => CustomerFixtures::TEST_COUNTRY,
-					'filter[createdAt][value][start]' => '01/01/1971',
-					'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400),
-					'filter[deliveredAt][value][start]' => '01/01/1971',
-					'filter[deliveredAt][value][end]' => date('m/d/Y', time() + 86400)
-				],
-				false,
-				$anotherCustomer
-			]
+		$fullFormInput = [
+			'filter[application][value]' => $application->getId(),
+			'filter[firstName][value]' => CustomerFixtures::TEST_FIRST_NAME,
+			'filter[lastName][value]' => CustomerFixtures::TEST_LAST_NAME,
+			'filter[email][value]' => CustomerFixtures::TEST_EMAIL,
+			'filter[phone][value]' => CustomerFixtures::TEST_PHONE,
+			'filter[country][value]' => CustomerFixtures::TEST_COUNTRY
 		];
+
+		$form = $crawler->selectButton('Filter')->form($fullFormInput);
+		$crawler = $client->submit($form);
+
+		$list = $crawler->filter('table.table > tbody > tr > td')
+			->each(
+				function (Crawler $node) {
+					return (int)$node->text();
+				}
+			);
+
+		$this->assertEquals(true, in_array($customer->getId(), $list));
 	}
 
 	/**
