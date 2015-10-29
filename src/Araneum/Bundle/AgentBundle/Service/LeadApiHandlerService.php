@@ -4,7 +4,7 @@ namespace Araneum\Bundle\AgentBundle\Service;
 
 use Araneum\Base\Exception\InvalidFormException;
 use Araneum\Bundle\AgentBundle\Entity\Lead;
-use Araneum\Bundle\AgentBundle\Form\LeadType;
+use Araneum\Bundle\AgentBundle\Form\Type\LeadType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormFactory;
 

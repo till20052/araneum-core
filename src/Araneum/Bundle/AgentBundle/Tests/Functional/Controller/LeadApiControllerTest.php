@@ -87,23 +87,34 @@ class LeadApiControllerTest extends BaseController
 		return [
 			'Success' => [
 				[
-					"firstName" => "Hugo",
-					"lastName" => "Boss",
-					"country" => rand(1, 239),
-					"email" => "hogo.boss@test.com",
-					"phone" => "380507894561",
-					"appKey" => md5(microtime(true))
+					'firstName' => 'Hugo',
+					'lastName' => 'Boss',
+					'country' => rand(1, 239),
+					'email' => 'hogo.boss@test.com',
+					'phone' => '380507894561',
+					'appKey' => md5(microtime(true))
 				],
 				Response::HTTP_CREATED
 			],
 			'Not valid email value' => [
 				[
-					"firstName" => "Calvin",
-					"lastName" => "Klein",
-					"country" => rand(1, 239),
-					"email" => md5(microtime(true)),
-					"phone" => "380507894561",
-					"appKey" => md5(microtime(true))
+					'firstName' => 'Calvin',
+					'lastName' => 'Klein',
+					'country' => rand(1, 239),
+					'email' => md5(microtime(true)),
+					'phone' => '380507894561',
+					'appKey' => md5(microtime(true))
+				],
+				Response::HTTP_BAD_REQUEST
+			],
+			'Not valid phone value' => [
+				[
+					'firstName' => 'Tony',
+					'lastName' => 'Perotti',
+					'country' => rand(1, 239),
+					'email' => 'tony.perotti@test.com',
+					'phone' => md5(microtime(true)),
+					'appKey' => md5(microtime(true))
 				],
 				Response::HTTP_BAD_REQUEST
 			],
