@@ -9,12 +9,11 @@ use Araneum\Bundle\MainBundle\Entity\Connection;
 use Araneum\Bundle\MainBundle\Service\ApplicationApiHandlerService;
 use Araneum\Bundle\MainBundle\Service\RemoteApplicationManagerService;
 use Doctrine\Common\Collections\ArrayCollection;
+use Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData;
 
 class RemoteApplicationManagerTest extends BaseController
 {
     protected $manager;
-
-    //protected $application;
 
     protected $connection;
 
@@ -40,21 +39,15 @@ class RemoteApplicationManagerTest extends BaseController
             ->getMock();
 
         $this->connectionRepository = $this
-            ->getMockBuilder('Doctrine\ORM\EntityRepository')
+            ->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ConnectionRepository')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->connection = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Connection');
 
-        $this->connection->expects($this->once())
+        $this->connection->expects($this->any())
             ->method('getHost')
             ->will($this->returnValue('127.0.0.1'));
-
-        $this->manager->expects($this->once())
-            ->method('getRepository')
-            ->with($this->equalTo('AraneumMainBundle:Connection'))
-            ->will($this->returnValue($this->connectionRepository));
-
 
         $this->request = $this->getMockBuilder('Guzzle\Http\Message\RequestInterface')
             ->disableOriginalConstructor()
@@ -94,6 +87,10 @@ class RemoteApplicationManagerTest extends BaseController
             ->with($this->equalTo(['clusters' => 123]))
             ->will($this->returnValue([$this->connection]));
 
+        $this->manager->expects($this->once())
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumMainBundle:Connection'))
+            ->will($this->returnValue($this->connectionRepository));
 
         $this->client->expects($this->once())
             ->method('createRequest')
@@ -111,13 +108,11 @@ class RemoteApplicationManagerTest extends BaseController
         $this->assertEquals(200, $appConfig);
     }
 
-    public function testCreateOrUpdatePrepare()
+    public function testCreate()
     {
-        $remoteApplicationManager = new RemoteApplicationManagerService($this->manager, $this->client);
-
         $application = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Application');
 
-        $locale = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Application');
+        $locale = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Locale');
 
         $cluster = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Cluster');
 
@@ -130,10 +125,16 @@ class RemoteApplicationManagerTest extends BaseController
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->manager->expects($this->once())
+        $this->manager->expects($this->at(0))
             ->method('getRepository')
-            ->with($this->equalTo('AraneumMainBundle:Connection'))
+            ->with('AraneumMainBundle:Application')
             ->will($this->returnValue($applicationRepository));
+
+        $this->manager->expects($this->at(1))
+            ->method('getRepository')
+            ->with('AraneumMainBundle:Connection')
+            ->will($this->returnValue($this->connectionRepository));
+
 
         $applicationRepository->expects($this->once())
             ->method('findOneBy')
@@ -165,21 +166,13 @@ class RemoteApplicationManagerTest extends BaseController
             ->method('getAppKey')
             ->will($this->returnValue(123));
 
-        $application->expects($this->once())
+        $application->expects($this->any())
             ->method('getDb')
             ->will($this->returnValue($this->connection));
 
         $this->connection->expects($this->once())
             ->method('getName')
             ->will($this->returnValue('Db_name'));
-
-        $this->connection->expects($this->once())
-            ->method('getHost')
-            ->will($this->returnValue('127.0.0.1'));
-
-        $this->connection->expects($this->once())
-            ->method('getHost')
-            ->will($this->returnValue('127.0.0.1'));
 
         $this->connection->expects($this->once())
             ->method('getPort')
@@ -193,6 +186,40 @@ class RemoteApplicationManagerTest extends BaseController
             ->method('getPassword')
             ->will($this->returnValue('password'));
 
-        $appConfig = $remoteApplicationManager->get(123);
+        $remoteApplicationManager = new RemoteApplicationManagerService($this->manager, $this->client);
+
+        $params = [
+            'auth' => [
+                UserData::API_USER,
+                UserData::API_PASSWD
+            ],
+            'query' => [
+                'domain' => 'domain',
+                'template' => 'defaultTemplate',
+                'cluster' => $cluster,
+                'db_name' => 'Db_name',
+                'db_host' => '127.0.0.1',
+                'db_port' => 5432,
+                'db_user_name' => 'postrgese',
+                'db_password' => 'password',
+                'locale' => 'en_US',
+                'components' => '',
+                'app_key' => '123'
+            ]
+        ];
+
+        $this->client->expects($this->once())
+            ->method('createRequest')
+            ->with(
+                $this->equalTo('POST'),
+                $this->equalTo('http://127.0.0.1/api/cluster/application/insert/'),
+                $this->equalTo(null),
+                $this->equalTo(null),
+                $this->equalTo($params)
+            )
+            ->will($this->returnValue($this->request));
+
+        $appConfig = $remoteApplicationManager->create(123);
+        $this->assertEquals(200, $appConfig);
     }
 }
