@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\CustomerBundle\Admin;
+namespace Araneum\Bundle\AgentBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -17,9 +17,9 @@ class CustomerAdmin extends Admin
 	 */
 	protected function configureRoutes(RouteCollection $collection)
 	{
-		$collection->remove('araneum.customer.admin.customer.edit');
-		$collection->remove('araneum.customer.admin.customer.create');
-		$collection->remove('araneum.customer.admin.customer.delete');
+		$collection->remove('araneum.agent.admin.customer.edit');
+		$collection->remove('araneum.agent.admin.customer.create');
+		$collection->remove('araneum.agent.admin.customer.delete');
 	}
 
 	/**
