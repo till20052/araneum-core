@@ -64,6 +64,8 @@ class RemoteApplicationManagerService
     public function create($appKey)
     {
 		$response = $this->createOrUpdatePrepare($appKey, 'POST', '/api/cluster/application/insert/');
+
+		return $response;
 	}
 
 	/**
