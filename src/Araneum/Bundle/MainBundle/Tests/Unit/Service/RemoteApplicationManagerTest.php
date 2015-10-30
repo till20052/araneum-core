@@ -14,7 +14,7 @@ class RemoteApplicationManagerTest extends BaseController
 {
     protected $manager;
 
-    protected $application;
+    //protected $application;
 
     protected $connection;
 
@@ -24,6 +24,7 @@ class RemoteApplicationManagerTest extends BaseController
 
     protected $response;
 
+    protected $connectionRepository;
 
 
     /**
@@ -38,19 +39,12 @@ class RemoteApplicationManagerTest extends BaseController
             ->disableOriginalConstructor()
             ->getMock();
 
-        $entityRepository = $this
-            ->getMockBuilder('Doctrine\ORM\EntityRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $connectionRepository = $this
+        $this->connectionRepository = $this
             ->getMockBuilder('Doctrine\ORM\EntityRepository')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->connection = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Connection');
-
-        $this->application = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Application');
 
         $this->connection->expects($this->once())
             ->method('getHost')
@@ -59,12 +53,8 @@ class RemoteApplicationManagerTest extends BaseController
         $this->manager->expects($this->once())
             ->method('getRepository')
             ->with($this->equalTo('AraneumMainBundle:Connection'))
-            ->will($this->returnValue($connectionRepository));
+            ->will($this->returnValue($this->connectionRepository));
 
-        $connectionRepository->expects($this->once())
-            ->method('findBy')
-            ->with($this->equalTo(['clusters' => 123]))
-            ->will($this->returnValue([$this->connection]));
 
         $this->request = $this->getMockBuilder('Guzzle\Http\Message\RequestInterface')
             ->disableOriginalConstructor()
@@ -99,6 +89,12 @@ class RemoteApplicationManagerTest extends BaseController
     {
         $remoteApplicationManager = new RemoteApplicationManagerService($this->manager, $this->client);
 
+        $this->connectionRepository->expects($this->once())
+            ->method('findBy')
+            ->with($this->equalTo(['clusters' => 123]))
+            ->will($this->returnValue([$this->connection]));
+
+
         $this->client->expects($this->once())
             ->method('createRequest')
             ->with(
@@ -117,6 +113,86 @@ class RemoteApplicationManagerTest extends BaseController
 
     public function testCreateOrUpdatePrepare()
     {
-        
+        $remoteApplicationManager = new RemoteApplicationManagerService($this->manager, $this->client);
+
+        $application = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Application');
+
+        $locale = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Application');
+
+        $cluster = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Cluster');
+
+        $locale->expects($this->once())
+            ->method('getLocale')
+            ->will($this->returnValue('en_US'));
+
+        $applicationRepository = $this
+            ->getMockBuilder('Doctrine\ORM\EntityRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->manager->expects($this->once())
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumMainBundle:Connection'))
+            ->will($this->returnValue($applicationRepository));
+
+        $applicationRepository->expects($this->once())
+            ->method('findOneBy')
+            ->with($this->equalTo(['appKey' => 123]))
+            ->will($this->returnValue($application));
+
+        $this->connectionRepository->expects($this->once())
+            ->method('findConnectionByAppKey')
+            ->with($this->equalTo(123))
+            ->will($this->returnValue([$this->connection]));
+
+        $application->expects($this->once())
+            ->method('getLocales')
+            ->will($this->returnValue([$locale]));
+
+        $application->expects($this->once())
+            ->method('getDomain')
+            ->will($this->returnValue('domain'));
+
+        $application->expects($this->once())
+            ->method('getTemplate')
+            ->will($this->returnValue('defaultTemplate'));
+
+        $application->expects($this->once())
+            ->method('getCluster')
+            ->will($this->returnValue($cluster));
+
+        $application->expects($this->once())
+            ->method('getAppKey')
+            ->will($this->returnValue(123));
+
+        $application->expects($this->once())
+            ->method('getDb')
+            ->will($this->returnValue($this->connection));
+
+        $this->connection->expects($this->once())
+            ->method('getName')
+            ->will($this->returnValue('Db_name'));
+
+        $this->connection->expects($this->once())
+            ->method('getHost')
+            ->will($this->returnValue('127.0.0.1'));
+
+        $this->connection->expects($this->once())
+            ->method('getHost')
+            ->will($this->returnValue('127.0.0.1'));
+
+        $this->connection->expects($this->once())
+            ->method('getPort')
+            ->will($this->returnValue(5432));
+
+        $this->connection->expects($this->once())
+            ->method('getUserName')
+            ->will($this->returnValue('postrgese'));
+
+        $this->connection->expects($this->once())
+            ->method('getPassword')
+            ->will($this->returnValue('password'));
+
+        $appConfig = $remoteApplicationManager->get(123);
     }
 }
