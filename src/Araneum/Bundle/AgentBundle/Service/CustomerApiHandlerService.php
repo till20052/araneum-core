@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\AgentBundle\Service;
 
+use Araneum\Bundle\AgentBundle\Entity\CustomersLog;
 use Araneum\Bundle\AgentBundle\Form\CustomerType;
 use Doctrine\ORM\EntityManager;
 use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
@@ -15,7 +16,7 @@ class CustomerApiHandlerService
 {
     protected $entityManager;
     protected $appManager;
-
+    protected $spotOption;
     protected $form;
 
     /**
@@ -24,16 +25,19 @@ class CustomerApiHandlerService
      * @param EntityManager      $entityManager
      * @param ApplicationManagerService $appManager
      * @param FormFactory               $formFactory
+     * @param SpotOptionService         $spotOption
      */
     public function __construct(
         EntityManager $entityManager,
         ApplicationManagerService $appManager,
-        FormFactory $formFactory
+        FormFactory $formFactory,
+        SpotOptionService $spotOption
     )
     {
         $this->entityManager = $entityManager;
         $this->appManager = $appManager;
         $this->form = $formFactory;
+        $this->spotOption = $spotOption;
     }
 
     /**
@@ -76,5 +80,35 @@ class CustomerApiHandlerService
         } else {
             throw new InvalidFormException($form, 'Invalid submitted data');
         }
+    }
+
+    public function login($email, $password, $appKey)
+    {
+
+        $spotRespose = $this->spotOption
+            ->login($email, $password);
+
+        $log = new CustomersLog();
+        $application = $this->appManager
+            ->findOneOr404(['appKey' => $appKey]);
+        $customer = $this->entityManager
+            ->getRepository('AraneumAgentBundle:Customer')
+            ->findOneBy(['email' => $email]);
+
+        $log->setApplication($application);
+        $log->setAction('Login');
+        $log->setCustomer($customer);
+        $log->setSpotResponse($spotRespose);
+
+        if ($spotRespose) {
+            $log->setStatus(CustomersLog::STATUS_SUCCESS);
+        } else {
+            $log->setStatus(CustomersLog::STATUS_ERROR);
+        }
+
+        $this->entityManager->persist($log);
+        $this->entityManager->flush();
+
+        return $log->getStatus();
     }
 }

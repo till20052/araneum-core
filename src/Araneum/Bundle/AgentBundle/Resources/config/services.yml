@@ -1,4 +1,8 @@
 services:
   araneum.agent.customer.api_handler:
     class: Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService
-    arguments: [@doctrine.orm.entity_manager, @araneum.main.application.manager, @form.factory]
+    arguments: [@doctrine.orm.entity_manager, @araneum.main.application.manager, @form.factory, @araneum.agent.spotoption.service]
+
+  araneum.agent.spotoption.service:
+    class: Araneum\Bundle\AgentBundle\Service\SpotOptionService
+    arguments: [@doctrine.orm.entity_manager]
