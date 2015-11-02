@@ -50,14 +50,16 @@ class Connection
     protected $host;
 
     /**
-     * @ORM\Column(type="integer", name="port", length=8, nullable=true)
+     * @ORM\Column(type="integer", name="port", length=8)
      * @Assert\Length(min=2, max=8)
+     * @Assert\NotBlank()
      */
     protected $port;
 
     /**
-     * @ORM\Column(type="string", name="user_name", length=100, nullable=true)
+     * @ORM\Column(type="string", name="user_name", length=100)
      * @Assert\Length(min=3, max=100)
+     * @Assert\NotBlank()
      */
     protected $userName;
 
