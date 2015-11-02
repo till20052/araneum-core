@@ -41,7 +41,7 @@ class CustomerApiController extends FOSRestController
      *   tags={"ApplicationApi"}
      * )
      *
-     * @Rest\Post("/api/customers/insert/{appKey}", defaults={"_format"="json"})
+     * @Rest\Post("/api/customer/insert/{appKey}", defaults={"_format"="json"})
      *
      * @Rest\View(statusCode=201)
      *
