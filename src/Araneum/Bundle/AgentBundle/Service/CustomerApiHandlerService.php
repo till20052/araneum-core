@@ -84,23 +84,22 @@ class CustomerApiHandlerService
 
     public function login($email, $password, $appKey)
     {
-
-        $spotRespose = $this->spotOption
-            ->login($email, $password);
-
-        $log = new CustomersLog();
         $application = $this->appManager
             ->findOneOr404(['appKey' => $appKey]);
+
+        $spotResponse = $this->spotOption->login($email, $password);
+
         $customer = $this->entityManager
             ->getRepository('AraneumAgentBundle:Customer')
             ->findOneBy(['email' => $email]);
-
+        $log = new CustomersLog();
         $log->setApplication($application);
         $log->setAction('Login');
         $log->setCustomer($customer);
-        $log->setSpotResponse($spotRespose);
+        $log->setSpotResponse($spotResponse);
 
-        if ($spotRespose) {
+        //TODO respnonse spotoption description
+        if ($spotResponse) {
             $log->setStatus(CustomersLog::STATUS_SUCCESS);
         } else {
             $log->setStatus(CustomersLog::STATUS_ERROR);

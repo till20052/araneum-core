@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\AgentBundle\Tests\Unit\Handler;
 
 use Araneum\Base\Tests\Controller\BaseController;
+use Araneum\Base\Tests\Fixtures\Customer\CustomerFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Araneum\Bundle\AgentBundle\Form\CustomerType;
 use Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService;
@@ -10,7 +11,9 @@ use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Araneum\Bundle\AgentBundle\Entity\Customer;
+use Araneum\Bundle\MainBundle\Entity\Application;
 use Symfony\Component\Form\FormFactory;
+use Araneum\Bundle\AgentBundle\Entity\CustomersLog;
 
 class CustomerHandlerTest extends BaseController
 {
@@ -21,6 +24,7 @@ class CustomerHandlerTest extends BaseController
     protected $formFactory;
     protected $form;
     protected $customer;
+    protected $spotoption;
 
     protected $appKey = ApplicationFixtures::TEST_APP_APP_KEY;
 
@@ -56,6 +60,10 @@ class CustomerHandlerTest extends BaseController
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->spotoption = $this->getMockBuilder('Araneum\Bundle\AgentBundle\Service\SpotOptionService')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->formFactory = $this->getMockBuilder('Symfony\Component\Form\FormFactory')
             ->disableOriginalConstructor()
             ->getMock();
@@ -65,21 +73,23 @@ class CustomerHandlerTest extends BaseController
             ->getMock();
 
         $this->customer = new Customer;
-
-        $this->formFactory->expects($this->once())
-            ->method('create')
-            ->with($this->equalTo(new CustomerType()), $this->equalTo($this->customer))
-            ->will($this->returnValue($this->form));
     }
 
     /**
      * Test method ProcessForm with normal data
      *
      * @throws \Araneum\Base\Exception\InvalidFormException
+     * @runTestsInSeparateProcesses
      */
     public function testProcessFormNormal_True()
     {
         $applicationManager = $this->applicationManager;
+
+        $this->formFactory->expects($this->once())
+            ->method('create')
+            ->with($this->equalTo(new CustomerType()), $this->equalTo($this->customer))
+            ->will($this->returnValue($this->form));
+
 
         $this->form->expects($this->once())
             ->method('isValid')
@@ -92,7 +102,12 @@ class CustomerHandlerTest extends BaseController
         $this->entityManager->expects($this->once())
             ->method('flush');
 
-        $customerHandler = new CustomerApiHandlerService($this->entityManager, $applicationManager, $this->formFactory);
+        $customerHandler = new CustomerApiHandlerService(
+            $this->entityManager,
+            $applicationManager,
+            $this->formFactory,
+            $this->spotoption
+        );
 
         $this->assertInstanceOf(
             'Araneum\Bundle\AgentBundle\Entity\Customer',
@@ -102,17 +117,75 @@ class CustomerHandlerTest extends BaseController
 
     /**
      * @expectedException \Araneum\Base\Exception\InvalidFormException
+     * @runTestsInSeparateProcesses
      */
     public function testProcessFormException_False()
     {
         $applicationManager = $this->applicationManager;
 
-        $customerHandler = new CustomerApiHandlerService($this->entityManager, $applicationManager, $this->formFactory);
+        $customerHandler = new CustomerApiHandlerService(
+            $this->entityManager,
+            $applicationManager,
+            $this->formFactory,
+            $this->spotoption
+        );
 
         $this->assertInstanceOf(
             'Araneum\Bundle\AgentBundle\Entity\Customer',
             $customerHandler->processForm(self::PARAMETER, $this->customer)
         );
     }
+
+    /**
+     * Test login method
+     *
+     * @runTestsInSeparateProcesses
+     */
+    public function testLogin()
+    {
+        $this->spotoption->expects($this->once())
+            ->method('login')
+            ->with($this->equalTo(CustomerFixtures::TEST_EMAIL), $this->equalTo('password'))
+            ->will($this->returnValue(true));
+
+        $application = new Application();
+        $this->applicationManager
+            ->expects($this->once())
+            ->method('findOneOr404')
+            ->with($this->equalTo(['appKey' => $this->appKey]))
+            ->will($this->returnValue($application));
+
+        $customer = $this->getMock('Araneum\Bundle\AgentBundle\Entity\Customer');
+
+        $this->repositoryMock->expects($this->once())
+            ->method('findOneBy')
+            ->with($this->equalTo(['email' => CustomerFixtures::TEST_EMAIL]))
+            ->will($this->returnValue($customer));
+
+        $this->entityManager->expects($this->at(0))
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumAgentBundle:Customer'))
+            ->will($this->returnValue($this->repositoryMock));
+
+        $log = new CustomersLog();
+        $log->setApplication($application);
+        $log->setAction('Login');
+        $log->setCustomer($customer);
+        $log->setSpotResponse(true);
+        $log->setStatus(CustomersLog::STATUS_SUCCESS);
+
+        $this->entityManager->expects($this->at(1))
+            ->method('persist')
+            ->with($this->equalTo($log));
+
+        $customerHandler = new CustomerApiHandlerService(
+            $this->entityManager,
+            $this->applicationManager,
+            $this->formFactory,
+            $this->spotoption
+        );
+        $customerHandler->login(CustomerFixtures::TEST_EMAIL, 'password', $this->appKey);
+    }
+
 
 }
