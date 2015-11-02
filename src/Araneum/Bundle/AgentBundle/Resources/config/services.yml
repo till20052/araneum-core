@@ -1,4 +1,8 @@
 services:
-  araneum.agent.customer.api_handler:
-    class: Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService
-    arguments: [@doctrine.orm.entity_manager, @araneum.main.application.manager, @form.factory]
+    araneum.agent.logger:
+        class: Araneum\Bundle\AgentBundle\Service\AgentLoggerService
+        arguments: [@doctrine.orm.entity_manager]
+
+    araneum.agent.customer.api_handler:
+        class: Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService
+        arguments: [@doctrine.orm.entity_manager, @araneum.main.application.manager, @form.factory]
