@@ -17,7 +17,7 @@ class CustomerApiHandlerService
     protected $entityManager;
     protected $appManager;
     protected $spotOption;
-    protected $form;
+    protected $formFactory;
 
     /**
      * Class construct
@@ -36,7 +36,7 @@ class CustomerApiHandlerService
     {
         $this->entityManager = $entityManager;
         $this->appManager = $appManager;
-        $this->form = $formFactory;
+        $this->formFactory = $formFactory;
         $this->spotOption = $spotOption;
     }
 
@@ -68,7 +68,7 @@ class CustomerApiHandlerService
      */
     public function processForm(array $parameters, $customer)
     {
-        $form = $this->form->create(new CustomerType(), $customer);
+        $form = $this->formFactory->create(new CustomerType(), $customer);
 
         $form->submit($parameters);
 
