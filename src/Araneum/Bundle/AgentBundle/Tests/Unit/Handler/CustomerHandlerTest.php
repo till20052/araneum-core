@@ -1,15 +1,15 @@
 <?php
 
-namespace Araneum\Bundle\CustomerBundle\Tests\Unit\Handler;
+namespace Araneum\Bundle\AgentBundle\Tests\Unit\Handler;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
-use Araneum\Bundle\CustomerBundle\Form\CustomerType;
-use Araneum\Bundle\CustomerBundle\Service\CustomerApiHandlerService;
+use Araneum\Bundle\AgentBundle\Form\CustomerType;
+use Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService;
 use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Araneum\Bundle\CustomerBundle\Entity\Customer;
+use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Symfony\Component\Form\FormFactory;
 
 class CustomerHandlerTest extends BaseController
@@ -95,7 +95,7 @@ class CustomerHandlerTest extends BaseController
         $customerHandler = new CustomerApiHandlerService($this->entityManager, $applicationManager, $this->formFactory);
 
         $this->assertInstanceOf(
-            'Araneum\Bundle\CustomerBundle\Entity\Customer',
+            'Araneum\Bundle\AgentBundle\Entity\Customer',
             $customerHandler->processForm(self::PARAMETER, $this->customer)
         );
     }
@@ -110,7 +110,7 @@ class CustomerHandlerTest extends BaseController
         $customerHandler = new CustomerApiHandlerService($this->entityManager, $applicationManager, $this->formFactory);
 
         $this->assertInstanceOf(
-            'Araneum\Bundle\CustomerBundle\Entity\Customer',
+            'Araneum\Bundle\AgentBundle\Entity\Customer',
             $customerHandler->processForm(self::PARAMETER, $this->customer)
         );
     }

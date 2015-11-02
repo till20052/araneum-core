@@ -120,7 +120,7 @@ class Application
     protected $appKey;
 
     /**
-     * @ORM\OneToMany(targetEntity="Araneum\Bundle\CustomerBundle\Entity\Customer", mappedBy="application")
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Customer", mappedBy="application")
      */
     protected $customers;
 

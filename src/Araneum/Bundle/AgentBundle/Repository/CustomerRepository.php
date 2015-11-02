@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\CustomerBundle\Repository;
+namespace Araneum\Bundle\AgentBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

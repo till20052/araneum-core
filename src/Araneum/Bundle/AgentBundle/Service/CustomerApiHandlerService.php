@@ -1,11 +1,11 @@
 <?php
 
-namespace Araneum\Bundle\CustomerBundle\Service;
+namespace Araneum\Bundle\AgentBundle\Service;
 
-use Araneum\Bundle\CustomerBundle\Form\CustomerType;
+use Araneum\Bundle\AgentBundle\Form\CustomerType;
 use Doctrine\ORM\EntityManager;
 use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
-use Araneum\Bundle\CustomerBundle\Entity\Customer;
+use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Base\Exception\InvalidFormException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;

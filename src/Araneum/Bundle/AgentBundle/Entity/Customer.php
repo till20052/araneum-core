@@ -1,5 +1,5 @@
 <?php
-namespace Araneum\Bundle\CustomerBundle\Entity;
+namespace Araneum\Bundle\AgentBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
 use Araneum\Bundle\MainBundle\Entity\Application;
@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Customer
  *
  * @ORM\Table("araneum_customers")
- * @ORM\Entity(repositoryClass="Araneum\Bundle\CustomerBundle\Repository\CustomerRepository")
+ * @ORM\Entity(repositoryClass="Araneum\Bundle\AgentBundle\Repository\CustomerRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields="email")
  */

@@ -1,9 +1,9 @@
 services:
-  araneum.customer.admin.customer:
-      class: Araneum\Bundle\CustomerBundle\Admin\CustomerAdmin
+  araneum.agent.admin.customer:
+      class: Araneum\Bundle\AgentBundle\Admin\CustomerAdmin
       tags:
           - { name: sonata.admin, manager_type: orm, group: "Customer", label: "Customer" }
       arguments:
           - ~
-          - Araneum\Bundle\CustomerBundle\Entity\Customer
+          - Araneum\Bundle\AgentBundle\Entity\Customer
           - ~
