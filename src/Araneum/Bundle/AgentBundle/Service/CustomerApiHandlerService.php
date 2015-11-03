@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
 use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Base\Exception\InvalidFormException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormFactory;
@@ -22,22 +23,11 @@ class CustomerApiHandlerService
     /**
      * Class construct
      *
-     * @param EntityManager      $entityManager
-     * @param ApplicationManagerService $appManager
-     * @param FormFactory               $formFactory
-     * @param SpotOptionService         $spotOption
+     * @param ContainerInterface $container
      */
-    public function __construct(
-        EntityManager $entityManager,
-        ApplicationManagerService $appManager,
-        FormFactory $formFactory,
-        SpotOptionService $spotOption
-    )
+    public function __construct(ContainerInterface $container)
     {
-        $this->entityManager = $entityManager;
-        $this->appManager = $appManager;
-        $this->formFactory = $formFactory;
-        $this->spotOption = $spotOption;
+        $this->container = $container;
     }
 
     /**
@@ -49,8 +39,7 @@ class CustomerApiHandlerService
      */
     public function post($appKey, array $parameters)
     {
-        $appManager = $this->appManager;
-        $application = $appManager->findOneOr404(['appKey' => $appKey]);
+        $application = $this->getAppManager()->findOneOr404(['appKey' => $appKey]);
 
         $customer = new Customer();
         $customer->setApplication($application);
@@ -68,13 +57,12 @@ class CustomerApiHandlerService
      */
     public function processForm(array $parameters, $customer)
     {
-        $form = $this->formFactory->create(new CustomerType(), $customer);
-
+        $form = $this->container->get('form.factory')->create(new CustomerType(), $customer);
         $form->submit($parameters);
 
         if ($form->isValid()) {
-            $this->entityManager->persist($customer);
-            $this->entityManager->flush();
+            $this->getEntityManager()->persist($customer);
+            $this->getEntityManager()->flush();
 
             return $customer;
         } else {
@@ -84,12 +72,12 @@ class CustomerApiHandlerService
 
     public function login($email, $password, $appKey)
     {
-        $application = $this->appManager
+        $application = $this->getAppManager()
             ->findOneOr404(['appKey' => $appKey]);
 
-        $spotResponse = $this->spotOption->login($email, $password);
+        $spotResponse = $this->getSpotOption()->login($email, $password);
 
-        $customer = $this->entityManager
+        $customer = $this->getEntityManager()
             ->getRepository('AraneumAgentBundle:Customer')
             ->findOneBy(['email' => $email]);
         $log = new CustomersLog();
@@ -105,9 +93,52 @@ class CustomerApiHandlerService
             $log->setStatus(CustomersLog::STATUS_ERROR);
         }
 
-        $this->entityManager->persist($log);
-        $this->entityManager->flush();
+        $this->getEntityManager()->persist($log);
+        $this->getEntityManager()->flush();
 
         return $log->getStatus();
     }
+
+    /**
+     * Get entity Manager
+     *
+     * @return EntityManager
+     */
+    private function getEntityManager()
+    {
+        if (is_null($this->entityManager)) {
+            $this->entityManager = $this->container->get('doctrine.orm.entity_manager');
+        }
+
+        return $this->entityManager;
+    }
+
+    /**
+     * Get application Manager
+     *
+     * @return ApplicationManagerService
+     */
+    private function getAppManager()
+    {
+        if (is_null($this->appManager)) {
+            $this->appManager = $this->container->get('araneum.main.application.manager');
+        }
+
+        return $this->appManager;
+    }
+
+    /**
+     * Get spotOption
+     *
+     * @return SpotOptionService
+     */
+    private function getSpotOption()
+    {
+        if (is_null($this->spotOption)) {
+            $this->spotOption = $this->container->get('araneum.agent.spotoption.service');
+        }
+
+        return $this->spotOption;
+    }
+
 }
