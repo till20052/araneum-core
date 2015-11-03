@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\CustomerBundle\Form;
+namespace Araneum\Bundle\AgentBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -31,7 +31,7 @@ class CustomerType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'Araneum\Bundle\CustomerBundle\Entity\Customer',
+                'data_class' => 'Araneum\Bundle\AgentBundle\Entity\Customer',
                 'csrf_protection' => false,
             ]
         );
