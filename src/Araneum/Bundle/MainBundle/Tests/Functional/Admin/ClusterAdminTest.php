@@ -46,7 +46,7 @@ class ClusterAdminTest extends BaseAdminController
                     'name' => self::CLUSTER_TEST_NAME,
                     'hosts' => [$connection->getId()],
                     'type' => 2,
-                    'status' => 1,
+                    'status' => Cluster::STATUS_OK,
                     'enabled' => true
                 ],
                 true
@@ -56,7 +56,7 @@ class ClusterAdminTest extends BaseAdminController
                     'name' => self::CLUSTER_TEST_NAME,
                     'hosts' => [$connection->getId()],
                     'type' => 2,
-                    'status' => 1,
+                    'status' => Cluster::STATUS_OK,
                     'enabled' => true
                 ],
                 false
