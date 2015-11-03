@@ -60,6 +60,7 @@ class Connection
      * @ORM\Column(type="string", name="user_name", length=100)
      * @Assert\Length(min=3, max=100)
      * @Assert\NotBlank()
+	 * @Assert\Regex(pattern="/^\w+$/")
      */
     protected $userName;
 
