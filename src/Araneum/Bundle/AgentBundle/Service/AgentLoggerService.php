@@ -2,11 +2,13 @@
 
 namespace Araneum\Bundle\AgentBundle\Service;
 
+use Araneum\Bundle\AgentBundle\Entity\ApplicationLog;
 use Araneum\Bundle\AgentBundle\Entity\ClusterLog;
 use Araneum\Bundle\AgentBundle\Entity\ConnectionLog;
-use Araneum\Bundle\AgentBundle\Entity\Problem;
+use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
 use Araneum\Bundle\MainBundle\Entity\Connection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 
 class AgentLoggerService
@@ -27,7 +29,7 @@ class AgentLoggerService
 	}
 
 	/**
-	 * Log connection
+	 * Log Connection
 	 *
 	 * @param Connection $connection
 	 * @param Cluster $cluster
@@ -36,7 +38,6 @@ class AgentLoggerService
 	 */
 	public function logConnection(Connection $connection, Cluster $cluster, $percentLostPackages, $averagePingTime)
 	{
-		/** @var ConnectionLog $connectionLog */
 		$log = (new ConnectionLog())
 			->setConnection($connection)
 			->setCluster($cluster)
@@ -47,21 +48,39 @@ class AgentLoggerService
 		$this->entityManager->flush();
 	}
 
-	public function logCluster($cluster, $status, $description)
+	/**
+	 * Log Cluster
+	 *
+	 * @param Cluster $cluster
+	 * @param integer $status
+	 * @param ArrayCollection $problems
+	 */
+	public function logCluster(Cluster $cluster, $status, ArrayCollection $problems)
 	{
-		$problem = (new Problem())
-			->setStatus($status)
-			->setDescription($description);
-
 		$log = (new ClusterLog())
-			->set;
+			->setCluster($cluster)
+			->setStatus($status)
+			->setProblems($problems);
 
-
+		$this->entityManager->persist($log);
 		$this->entityManager->flush();
 	}
 
-	public function logApplication($application, $status, $description)
+	/**
+	 * Log Application
+	 *
+	 * @param Application $application
+	 * @param integer $status
+	 * @param ArrayCollection $problems
+	 */
+	public function logApplication(Application $application, $status, ArrayCollection $problems)
 	{
+		$log = (new ApplicationLog())
+			->setApplication($application)
+			->setStatus($status)
+			->setProblems($problems);
 
+		$this->entityManager->persist($log);
+		$this->entityManager->flush();
 	}
 }

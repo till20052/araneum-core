@@ -52,7 +52,7 @@ class ConnectionLog
     /**
      * @var integer
      *
-     * @ORM\Column(name="average_ping_time", type="integer")
+     * @ORM\Column(name="average_ping_time", type="float")
      */
     private $averagePingTime;
 

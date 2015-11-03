@@ -23,9 +23,16 @@ class Application
 {
     use DateTrait;
 
-    const STATUS_UNDEFINED = '';
-    const STATUS_OFFLINE = 0;
-    const STATUS_ONLINE = 1;
+    const STATUS_OK = 0;
+    const STATUS_CODE_INCORRECT = 1;
+    const STATUS_ERROR = 100;
+
+    private static $statuses = [
+        self::STATUS_OK => 'ok',
+        self::STATUS_CODE_INCORRECT => 'status_code_incorrect',
+        self::STATUS_ERROR => 'error'
+    ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -123,6 +130,31 @@ class Application
      * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Customer", mappedBy="application")
      */
     protected $customers;
+
+    /**
+     * Get list of Application statuses
+     *
+     * @return array
+     */
+    public static function getStatuses()
+    {
+        return self::$statuses;
+    }
+
+    /**
+     * Get Application status description
+     *
+     * @param $status
+     * @return string
+     */
+    public static function getStatusDescription($status)
+    {
+        if (!isset(self::$statuses[$status])) {
+            return '[undefined]';
+        }
+
+        return self::$statuses[$status];
+    }
 
     /**
      * Application constructor.
