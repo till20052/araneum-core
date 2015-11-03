@@ -55,7 +55,7 @@ class ApplicationAdminTest extends BaseAdminController
                     'cluster' => $cluster->getId(),
                     'db' => $db->getId(),
                     'locales' => [$locale->getId()],
-                    'components' => [$components->getId()],
+                    'components' => [$components->getId()]
                 ],
                 true
             ],
@@ -70,7 +70,7 @@ class ApplicationAdminTest extends BaseAdminController
                     'cluster' => $cluster->getId(),
                     'db' => $db->getId(),
                     'locales' => [$locale->getId()],
-                    'components' => [$components->getId()],
+                    'components' => [$components->getId()]
                 ],
                 false
             ],
@@ -84,7 +84,7 @@ class ApplicationAdminTest extends BaseAdminController
                     'cluster' => $cluster->getId(),
                     'db' => $db->getId(),
                     'locales' => [$locale->getId()],
-                    'components' => [$components->getId()],
+                    'components' => [$components->getId()]
                 ],
                 false
             ]

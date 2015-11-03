@@ -111,9 +111,9 @@ class Application
     protected $owner;
 
     /**
-     * @ORM\Column(type="smallint", nullable=true)
+     * @ORM\Column(type="integer", options={"default"=0})
      */
-    protected $status;
+    protected $status = Application::STATUS_OK;
 
     /**
      * @ORM\Column(type="string", length=255)
