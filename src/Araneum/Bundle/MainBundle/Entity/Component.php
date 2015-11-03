@@ -180,13 +180,13 @@ class Component
 	 */
 	public function setApplications($applications)
 	{
-		if (!empty($this->applications)) {
+		if (is_array($this->applications)) {
 			foreach ($this->applications as $application) {
 				$application->removeComponent($this);
 			}
 		}
 
-		if (!empty($applications)) {
+		if (is_array($applications)) {
 			foreach ($applications as $application) {
 				$application->addComponent($this);
 			}
