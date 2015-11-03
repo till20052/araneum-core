@@ -17,17 +17,6 @@ use Araneum\Bundle\AgentBundle\Entity\CustomersLog;
 
 class CustomerHandlerTest extends BaseController
 {
-    protected $entityManager;
-    protected $repositoryMock;
-    protected $doctrineMock;
-    protected $applicationManager;
-    protected $formFactory;
-    protected $form;
-    protected $customer;
-    protected $spotoption;
-
-    protected $appKey = ApplicationFixtures::TEST_APP_APP_KEY;
-
     const PARAMETER = [
         'firstName' => 'firstName',
         'lastName' => 'lastName',
@@ -36,12 +25,26 @@ class CustomerHandlerTest extends BaseController
         'callback' => true,
         'phone' => '322223'
     ];
+    protected $entityManager;
+    protected $repositoryMock;
+    protected $doctrineMock;
+    protected $applicationManager;
+    protected $formFactory;
+    protected $form;
+    protected $customer;
+    protected $spotoption;
+    protected $container;
+    protected $appKey = ApplicationFixtures::TEST_APP_APP_KEY;
 
     /**
      * Set Up
      */
     public function setUp()
     {
+        $this->container = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->entityManager = $this
             ->getMockBuilder('\Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
@@ -83,13 +86,24 @@ class CustomerHandlerTest extends BaseController
      */
     public function testProcessFormNormal_True()
     {
-        $applicationManager = $this->applicationManager;
+        $this->container->expects($this->at(0))
+            ->method('get')
+            ->with($this->equalTo('form.factory'))
+            ->will($this->returnValue($this->formFactory));
+
+        $this->container->expects($this->at(1))
+            ->method('get')
+            ->with($this->equalTo('doctrine.orm.entity_manager'))
+            ->will($this->returnValue($this->entityManager));
 
         $this->formFactory->expects($this->once())
             ->method('create')
             ->with($this->equalTo(new CustomerType()), $this->equalTo($this->customer))
             ->will($this->returnValue($this->form));
 
+        $this->form->expects($this->once())
+            ->method('submit')
+            ->with($this->equalTo(self::PARAMETER));
 
         $this->form->expects($this->once())
             ->method('isValid')
@@ -102,12 +116,7 @@ class CustomerHandlerTest extends BaseController
         $this->entityManager->expects($this->once())
             ->method('flush');
 
-        $customerHandler = new CustomerApiHandlerService(
-            $this->entityManager,
-            $applicationManager,
-            $this->formFactory,
-            $this->spotoption
-        );
+        $customerHandler = new CustomerApiHandlerService($this->container);
 
         $this->assertInstanceOf(
             'Araneum\Bundle\AgentBundle\Entity\Customer',
@@ -121,14 +130,21 @@ class CustomerHandlerTest extends BaseController
      */
     public function testProcessFormException_False()
     {
-        $applicationManager = $this->applicationManager;
+        $this->container->expects($this->at(0))
+            ->method('get')
+            ->with($this->equalTo('form.factory'))
+            ->will($this->returnValue($this->formFactory));
 
-        $customerHandler = new CustomerApiHandlerService(
-            $this->entityManager,
-            $applicationManager,
-            $this->formFactory,
-            $this->spotoption
-        );
+        $this->formFactory->expects($this->once())
+            ->method('create')
+            ->with($this->equalTo(new CustomerType()), $this->equalTo($this->customer))
+            ->will($this->returnValue($this->form));
+
+        $this->form->expects($this->once())
+            ->method('submit')
+            ->with($this->equalTo(self::PARAMETER));
+
+        $customerHandler = new CustomerApiHandlerService($this->container);
 
         $this->assertInstanceOf(
             'Araneum\Bundle\AgentBundle\Entity\Customer',
@@ -143,17 +159,28 @@ class CustomerHandlerTest extends BaseController
      */
     public function testLogin()
     {
-        $this->spotoption->expects($this->once())
-            ->method('login')
-            ->with($this->equalTo(CustomerFixtures::TEST_EMAIL), $this->equalTo('password'))
-            ->will($this->returnValue(true));
-
         $application = new Application();
+
         $this->applicationManager
             ->expects($this->once())
             ->method('findOneOr404')
             ->with($this->equalTo(['appKey' => $this->appKey]))
             ->will($this->returnValue($application));
+
+        $this->container->expects($this->at(0))
+            ->method('get')
+            ->with($this->equalTo('araneum.main.application.manager'))
+            ->will($this->returnValue($this->applicationManager));
+
+        $this->container->expects($this->at(1))
+            ->method('get')
+            ->with($this->equalTo('araneum.agent.spotoption.service'))
+            ->will($this->returnValue($this->spotoption));
+
+        $this->spotoption->expects($this->once())
+            ->method('login')
+            ->with($this->equalTo(CustomerFixtures::TEST_EMAIL), $this->equalTo('password'))
+            ->will($this->returnValue(true));
 
         $customer = $this->getMock('Araneum\Bundle\AgentBundle\Entity\Customer');
 
@@ -161,6 +188,11 @@ class CustomerHandlerTest extends BaseController
             ->method('findOneBy')
             ->with($this->equalTo(['email' => CustomerFixtures::TEST_EMAIL]))
             ->will($this->returnValue($customer));
+
+        $this->container->expects($this->at(2))
+            ->method('get')
+            ->with($this->equalTo('doctrine.orm.entity_manager'))
+            ->will($this->returnValue($this->entityManager));
 
         $this->entityManager->expects($this->at(0))
             ->method('getRepository')
@@ -178,14 +210,8 @@ class CustomerHandlerTest extends BaseController
             ->method('persist')
             ->with($this->equalTo($log));
 
-        $customerHandler = new CustomerApiHandlerService(
-            $this->entityManager,
-            $this->applicationManager,
-            $this->formFactory,
-            $this->spotoption
-        );
+        $customerHandler = new CustomerApiHandlerService($this->container);
         $customerHandler->login(CustomerFixtures::TEST_EMAIL, 'password', $this->appKey);
     }
-
 
 }
