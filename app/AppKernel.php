@@ -31,11 +31,12 @@ class AppKernel extends Kernel
             new Lexik\Bundle\MaintenanceBundle\LexikMaintenanceBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
             new Snc\RedisBundle\SncRedisBundle(),
+	        new Misd\GuzzleBundle\MisdGuzzleBundle(),
 
             new Araneum\Bundle\MainBundle\AraneumMainBundle(),
             new Araneum\Bundle\UserBundle\AraneumUserBundle(),
             new Araneum\Bundle\MailBundle\AraneumMailBundle(),
-            new Araneum\Bundle\CustomerBundle\AraneumCustomerBundle(),
+            new Araneum\Bundle\AgentBundle\AraneumAgentBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

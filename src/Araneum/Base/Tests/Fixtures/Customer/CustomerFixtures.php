@@ -2,7 +2,7 @@
 
 namespace Araneum\Base\Tests\Fixtures\Customer;
 
-use Araneum\Bundle\CustomerBundle\Entity\Customer;
+use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -17,11 +17,11 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
 	const TEST_COUNTRY = 'TestCustomerCountry';
 	const TEST_CALLBACK = true;
 
-	const TEST_2_FIRST_NAME = 'TestCustomer2FirstName';
-	const TEST_2_LAST_NAME = 'TestCustomer2LastName';
+	const TEST_2_FIRST_NAME = 'AnotherCustomerFirstName';
+	const TEST_2_LAST_NAME  = 'AnotherCustomerLastName';
 	const TEST_2_EMAIL = 'TestCustomer2@Email.com';
 	const TEST_2_PHONE = '+380998887766';
-	const TEST_2_COUNTRY = 'TestCustomer2Country';
+	const TEST_2_COUNTRY    = 'AnotherCustomerCountry';
 	const TEST_2_CALLBACK = false;
 
 	/**
@@ -29,7 +29,7 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
 	 */
 	public function load(ObjectManager $manager)
 	{
-		$customer = $manager->getRepository('AraneumCustomerBundle:Customer')
+		$customer = $manager->getRepository('AraneumAgentBundle:Customer')
 			->findByEmail(self::TEST_EMAIL);
 
 		if(empty($customer))
@@ -47,7 +47,7 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
 			);
 		}
 
-		$customer = $manager->getRepository('AraneumCustomerBundle:Customer')
+		$customer = $manager->getRepository('AraneumAgentBundle:Customer')
 			->findByEmail(self::TEST_2_EMAIL);
 
 		if(empty($customer))

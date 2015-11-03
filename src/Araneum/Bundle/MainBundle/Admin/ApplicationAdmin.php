@@ -30,6 +30,25 @@ class ApplicationAdmin extends Admin
 
     /**
      * Invoke method before creation of application
+     * Get Batch
+     *
+     * @return array
+     */
+    public function getBatchActions()
+    {
+        return array_merge(
+            parent::getBatchActions(),
+            [
+                'checkStatus' => [
+                    'label' => 'Check Status',
+                    'ask_confirmation' => true
+                ]
+            ]
+        );
+    }
+
+    /**
+     * Set Application Owner before insert
      *
      * @param Application $application
      * @return void
@@ -128,6 +147,14 @@ class ApplicationAdmin extends Admin
             )
             ->add('name', 'text', ['label' => 'name'])
             ->add('domain', 'text', ['label' => 'domain'])
+	        ->add(
+		        'useSsl',
+		        'checkbox',
+		        [
+			        'label' => 'use_ssl',
+			        'required' => false
+		        ]
+	        )
             ->add(
                 'aliases',
                 'text',
@@ -195,6 +222,7 @@ class ApplicationAdmin extends Admin
             ->add('type', null, ['label' => 'type'])
             ->add('name', null, ['label' => 'name'])
             ->add('domain', null, ['label' => 'domain'])
+	        ->add('useSsl', null, ['label' => 'use_ssl'])
             ->add('db', null, ['label' => 'database'])
             ->add(
                 'public',
@@ -263,6 +291,7 @@ class ApplicationAdmin extends Admin
             ->add('type', 'doctrine_orm_choice', ['label' => 'type'], 'choice', ['choices' => []])
             ->add('name', null, ['label' => 'name'])
             ->add('domain', null, ['label' => 'domain'])
+	        ->add('useSsl', null, ['label' => 'use_ssl'])
             ->add('db', null, ['label' => 'database'])
             ->add('public', null, ['label' => 'public'])
             ->add('enabled', null, ['label' => 'enabled'])

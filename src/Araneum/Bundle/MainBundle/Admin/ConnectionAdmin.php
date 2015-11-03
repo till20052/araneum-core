@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -107,6 +108,24 @@ class ConnectionAdmin extends Admin
 	{
 		$this->dispatcher = $eventDispatcherInterface;
 	}
+
+    /**
+     * Get Batch
+     *
+     * @return array
+     */
+    public function getBatchActions()
+    {
+        return array_merge(
+            parent::getBatchActions(),
+            [
+                'checkStatus' => [
+                    'label' => 'Check Status',
+                    'ask_confirmation' => true
+                ]
+            ]
+        );
+    }
 
     /**
      * Create/Update form

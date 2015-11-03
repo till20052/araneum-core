@@ -9,7 +9,7 @@ araneum_main:
     prefix:   /
 
 araneum_customers:
-    resource: "@AraneumCustomerBundle/Controller"
+    resource: "@AraneumAgentBundle/Controller"
     type:     annotation
     prefix:   /
 
