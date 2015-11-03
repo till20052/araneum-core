@@ -131,6 +131,7 @@ class ApplicationAdminTest extends BaseAdminController
                     'filter[enabled][value]' => ApplicationFixtures::TEST_APP_ENABLED,
                     'filter[locales][value]' => $locale->getId(),
                     'filter[owner][value]' => $owner->getId(),
+                    'filter[status][value]' => Application::STATUS_OK,
                     'filter[template][value]' => ApplicationFixtures::TEST_APP_TEMPLATE,
                     'filter[createdAt][value][start]' => '01/01/1971',
                     'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
@@ -148,6 +149,7 @@ class ApplicationAdminTest extends BaseAdminController
                     'filter[enabled][value]' => ApplicationFixtures::TEST_APP_ENABLED,
                     'filter[locales][value]' => $locale->getId(),
                     'filter[owner][value]' => $owner->getId(),
+                    'filter[status][value]' => ApplicationFixtures::TEST_APP_STATUS,
                     'filter[template][value]' => ApplicationFixtures::TEST_APP_TEMPLATE,
                     'filter[createdAt][value][start]' => '01/01/1971',
                     'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
