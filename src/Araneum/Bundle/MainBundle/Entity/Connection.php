@@ -63,17 +63,20 @@ class Connection
 	 */
 	protected $host;
 
-	/**
-	 * @ORM\Column(type="integer", name="port", length=8, nullable=true)
-	 * @Assert\Length(min=2, max=8)
-	 */
-	protected $port;
+    /**
+     * @ORM\Column(type="integer", name="port", length=8)
+     * @Assert\Length(min=2, max=8)
+     * @Assert\NotBlank()
+     */
+    protected $port;
 
-	/**
-	 * @ORM\Column(type="string", name="user_name", length=100, nullable=true)
-	 * @Assert\Length(min=3, max=100)
-	 */
-	protected $userName;
+    /**
+     * @ORM\Column(type="string", name="user_name", length=100)
+     * @Assert\Length(min=3, max=100)
+     * @Assert\NotBlank()
+	 * @Assert\Regex(pattern="/^\w+$/")
+     */
+    protected $userName;
 
 	/**
 	 * @ORM\Column(type="string", name="password", length=100)

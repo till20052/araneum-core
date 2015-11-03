@@ -98,6 +98,7 @@ class Application
     protected $locales;
 
     /**
+     * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Component", inversedBy="applications", cascade={"persist"})
      * @ORM\JoinTable(name="araneum_component_application")
      */
@@ -438,6 +439,32 @@ class Application
     public function setComponents(ArrayCollection $components)
     {
         $this->components = $components;
+
+        return $this;
+    }
+
+    /**
+     * Add Component
+     *
+     * @param Component $component
+     * @return $this
+     */
+    public function addComponent(Component $component)
+    {
+        $this->components->add($component);
+
+        return $this;
+    }
+
+    /**
+     * Remove Component
+     *
+     * @param Component $component
+     * @return $this
+     */
+    public function removeComponent(Component $component)
+    {
+        $this->components->removeElement($component);
 
         return $this;
     }
