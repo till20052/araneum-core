@@ -79,7 +79,8 @@ class RemoteApplicationManagerService
             'auth' => [
                 $user,
                 $password
-            ]
+            ],
+            'connect_timeout' => 1
         ];
     }
 
@@ -188,7 +189,7 @@ class RemoteApplicationManagerService
                 ->client
                 ->createRequest($method, 'http://' . $host . $uri, $header, $body, $params)
                 ->send();
-        } catch (CurlException $e) {
+        } catch (\Exception $e) {
             return false;
         }
 
