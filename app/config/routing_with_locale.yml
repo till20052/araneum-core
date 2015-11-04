@@ -8,15 +8,15 @@ araneum_main:
     type:     annotation
     prefix:   /
 
-araneum_customers:
-    resource: "@AraneumAgentBundle/Controller"
-    type:     annotation
-    prefix:   /
-
 araneum_mail:
     resource: "@AraneumMailBundle/Controller"
     type: annotation
     prefix: /mail
+
+araneum_agent:
+    resource: "@AraneumAgentBundle/Controller"
+    type: annotation
+    prefix: /agent
 
 admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'

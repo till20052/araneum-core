@@ -12,7 +12,7 @@ class CustomerApiControllerTest extends BaseController
     /**
      * @var string uri to call rest api method
      */
-    protected $configGetUri = '/en/api/customers/insert/' . ApplicationFixtures::TEST_APP_APP_KEY;
+    protected $configGetUri = '/en/agent/api/customer/insert/' . ApplicationFixtures::TEST_APP_APP_KEY;
 
     /**
      * Test customer controller
@@ -32,7 +32,11 @@ class CustomerApiControllerTest extends BaseController
         );
 
         $response = $client->getResponse();
-        $this->assertEquals($expected, $response->getStatusCode());
+        $this->assertEquals(
+            $expected,
+            $response->getStatusCode(),
+            $response->getContent()
+        );
     }
 
     /**
@@ -50,7 +54,7 @@ class CustomerApiControllerTest extends BaseController
                     'country' => 'country',
                     'email' => 'email@email.com',
                     'callback' => true,
-                    'phone' => '+380993222234'
+                    'phone' => '380993222234'
                 ],
                 Response::HTTP_CREATED
             ],
