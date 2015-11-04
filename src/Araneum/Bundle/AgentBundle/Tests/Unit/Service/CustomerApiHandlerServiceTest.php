@@ -24,6 +24,8 @@ class CustomerApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
 	private $service;
 
 	/**
+	 * Init EntityManager
+	 *
 	 * @return \PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function entityManager()
