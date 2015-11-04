@@ -2,6 +2,9 @@
 
 namespace Araneum\Bundle\MainBundle\Command;
 
+use Araneum\Bundle\MainBundle\Entity\Application;
+use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Araneum\Bundle\MainBundle\Entity\Connection;
 use Araneum\Bundle\MainBundle\Service\ApplicationCheckerService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\FormatterHelper;
@@ -72,15 +75,10 @@ class CheckerCheckCommand extends ContainerAwareCommand
 	{
 		$status = $this->checker->checkConnection($id);
 
-		$output = $this->checker->getOutput();
-
 		$this->showInfo(sprintf(
-			"Packets transmitted: %d\n Received: %d\n Packet loss: %d\n Time: %d ms\n Return check state: %s",
-			$output->packetsTransmitted,
-			$output->received,
-			$output->packetLoss,
-			$output->time,
-			$status
+			"Connection\n ID: %d\n Status: %s",
+			$id,
+			Connection::getStatusDescription($status)
 		));
 	}
 
@@ -91,13 +89,12 @@ class CheckerCheckCommand extends ContainerAwareCommand
 	 */
 	private function checkCluster($id)
 	{
-		$this->checker->checkCluster($id);
-
-		$output = $this->checker->getOutput();
+		$status = $this->checker->checkCluster($id);
 
 		$this->showInfo(sprintf(
-			"Return check state: %s",
-			$output->statusDescription
+			"Cluster\n ID: %d\n Status: %s",
+			$id,
+			Cluster::getStatusDescription($status)
 		));
 	}
 
@@ -111,8 +108,9 @@ class CheckerCheckCommand extends ContainerAwareCommand
 		$status = $this->checker->checkApplication($id);
 
 		$this->showInfo(sprintf(
-			"Return check state: %s",
-			$status
+			"Application\n ID: %d\n Status: %s",
+			$id,
+			Application::getStatusDescription($status)
 		));
 	}
 

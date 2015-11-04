@@ -21,6 +21,7 @@ class ConnectionData extends AbstractFixture implements FixtureInterface
             $connectionHost->setType(2);
             $connectionHost->setName('Ultatrade_Host');
             $connectionHost->setHost('192.168.70.221');
+            $connectionHost->setPort(80);
             $connectionHost->setEnabled(true);
             $connectionHost->setUserName('user');
             $connectionHost->setPassword('123');

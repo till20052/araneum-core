@@ -23,9 +23,16 @@ class Application
 {
     use DateTrait;
 
-    const STATUS_UNDEFINED = '';
-    const STATUS_OFFLINE = 0;
-    const STATUS_ONLINE = 1;
+    const STATUS_OK = 0;
+    const STATUS_CODE_INCORRECT = 1;
+    const STATUS_ERROR = 100;
+
+    private static $statuses = [
+        self::STATUS_OK => 'ok',
+        self::STATUS_CODE_INCORRECT => 'status_code_incorrect',
+        self::STATUS_ERROR => 'error'
+    ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -91,6 +98,7 @@ class Application
     protected $locales;
 
     /**
+     * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Component", inversedBy="applications", cascade={"persist"})
      * @ORM\JoinTable(name="araneum_component_application")
      */
@@ -103,9 +111,9 @@ class Application
     protected $owner;
 
     /**
-     * @ORM\Column(type="smallint", nullable=true)
+     * @ORM\Column(type="integer", options={"default"=0})
      */
-    protected $status;
+    protected $status = Application::STATUS_OK;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -123,6 +131,31 @@ class Application
      * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Customer", mappedBy="application")
      */
     protected $customers;
+
+    /**
+     * Get list of Application statuses
+     *
+     * @return array
+     */
+    public static function getStatuses()
+    {
+        return self::$statuses;
+    }
+
+    /**
+     * Get Application status description
+     *
+     * @param $status
+     * @return string
+     */
+    public static function getStatusDescription($status)
+    {
+        if (!isset(self::$statuses[$status])) {
+            return '[undefined]';
+        }
+
+        return self::$statuses[$status];
+    }
 
     /**
      * Application constructor.
@@ -406,6 +439,32 @@ class Application
     public function setComponents(ArrayCollection $components)
     {
         $this->components = $components;
+
+        return $this;
+    }
+
+    /**
+     * Add Component
+     *
+     * @param Component $component
+     * @return $this
+     */
+    public function addComponent(Component $component)
+    {
+        $this->components->add($component);
+
+        return $this;
+    }
+
+    /**
+     * Remove Component
+     *
+     * @param Component $component
+     * @return $this
+     */
+    public function removeComponent(Component $component)
+    {
+        $this->components->removeElement($component);
 
         return $this;
     }

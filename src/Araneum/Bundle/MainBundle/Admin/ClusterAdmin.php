@@ -100,7 +100,7 @@ class ClusterAdmin extends Admin
     /**
      * Fields to be shown on create/edit forms
      *
-     * @params FormMapper
+     * @param FormMapper $formMapper
      * */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -130,11 +130,7 @@ class ClusterAdmin extends Admin
                 'status',
                 'choice',
                 [
-                    'choices' => [
-                        Cluster::STATUS_ONLINE => 'online',
-                        Cluster::STATUS_OFFLINE => 'offline',
-	                    Cluster::STATUS_HAS_PROBLEMS => 'has_problems'
-                    ],
+                    'choices' => Cluster::getStatuses(),
                     'label' => 'status'
                 ]
             )
@@ -151,7 +147,7 @@ class ClusterAdmin extends Admin
     /**
      * Fields to be shown on the filter panel
      *
-     * @params DataGridMapper
+     * @param DataGridMapper $datagridMapper
      * */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
@@ -180,11 +176,7 @@ class ClusterAdmin extends Admin
                 ],
                 'choice',
                 [
-                    'choices' => [
-                        Cluster::STATUS_ONLINE => 'online',
-                        Cluster::STATUS_OFFLINE => 'offline',
-	                    Cluster::STATUS_HAS_PROBLEMS => 'has_problems'
-                    ]
+                    'choices' => Cluster::getStatuses()
                 ]
             )
             ->add('enabled', null, ['label' => 'enabled'])
@@ -202,7 +194,7 @@ class ClusterAdmin extends Admin
     /**
      * Fields to be shown on list
      *
-     * @params ListMapper
+     * @param ListMapper $listMapper
      * */
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -239,11 +231,7 @@ class ClusterAdmin extends Admin
                 'status',
                 'choice',
                 [
-                    'choices' => [
-                        Cluster::STATUS_ONLINE => 'online',
-                        Cluster::STATUS_OFFLINE => 'offline',
-	                    Cluster::STATUS_HAS_PROBLEMS => 'has_problems'
-                    ],
+                    'choices' => Cluster::getStatuses(),
                     'label' => 'status'
                 ]
             )
