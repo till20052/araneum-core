@@ -26,15 +26,17 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
             $app->setDomain('ultratrade.office.dev');
             $app->setPublic(true);
             $app->setEnabled(true);
-            $app->setStatus(1);
+            $app->setStatus(Application::STATUS_OK);
             $app->setTemplate('DefaultTemplate');
             $app->setCluster($this->getReference('cluster'));
             $app->setDb($this->getReference('connectionDb'));
             $app->setLocales(new ArrayCollection([$this->getReference('locale')]));
             $app->setOwner($this->getReference('userAdmin'));
+            $app->setComponents(new ArrayCollection([$this->getReference('component')]));
             $manager->persist($app);
             $manager->flush();
         }
+        $this->addReference('application', $app);
     }
 
     /**
@@ -46,7 +48,8 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
             'Araneum\Bundle\MainBundle\DataFixtures\ORM\LocaleData',
             'Araneum\Bundle\MainBundle\DataFixtures\ORM\ConnectionData',
             'Araneum\Bundle\MainBundle\DataFixtures\ORM\ClusterData',
-            'Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData'
+            'Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData',
+            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ComponentData',
         ];
     }
 }

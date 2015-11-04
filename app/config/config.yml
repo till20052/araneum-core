@@ -103,6 +103,7 @@ accelerator_cache:
     web_dir: %kernel.root_dir%/../web
 
 fos_rest:
+    param_fetcher_listener: true
     routing_loader:
         default_format: json
     view:

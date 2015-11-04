@@ -25,6 +25,20 @@ class Connection
 	const CONN_HOST = 2;
 	const CONN_TO_STR = 'Create';
 
+	const STATUS_OK = 0;
+	const STATUS_SLOW = 1;
+	const STATUS_HAS_LOSS = 2;
+	const STATUS_HAS_NO_RESPONSE = 3;
+	const STATUS_UNKNOWN_HOST = 4;
+
+	private static $statuses = [
+		self::STATUS_OK => 'ok',
+		self::STATUS_SLOW => 'slow',
+		self::STATUS_HAS_LOSS => 'has_loss',
+		self::STATUS_HAS_NO_RESPONSE => 'has_no_response',
+		self::STATUS_UNKNOWN_HOST => 'unknown_host',
+	];
+
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
@@ -49,17 +63,20 @@ class Connection
 	 */
 	protected $host;
 
-	/**
-	 * @ORM\Column(type="integer", name="port", length=8, nullable=true)
-	 * @Assert\Length(min=2, max=8)
-	 */
-	protected $port;
+    /**
+     * @ORM\Column(type="integer", name="port", length=8)
+     * @Assert\Length(min=2, max=8)
+     * @Assert\NotBlank()
+     */
+    protected $port;
 
-	/**
-	 * @ORM\Column(type="string", name="user_name", length=100, nullable=true)
-	 * @Assert\Length(min=3, max=100)
-	 */
-	protected $userName;
+    /**
+     * @ORM\Column(type="string", name="user_name", length=100)
+     * @Assert\Length(min=3, max=100)
+     * @Assert\NotBlank()
+	 * @Assert\Regex(pattern="/^\w+$/")
+     */
+    protected $userName;
 
 	/**
 	 * @ORM\Column(type="string", name="password", length=100)
@@ -82,6 +99,31 @@ class Connection
 	 * @ORM\ManyToMany(targetEntity="Cluster", mappedBy="hosts", cascade={"persist"})
 	 */
 	protected $clusters;
+
+	/**
+	 * Get list of Connection statuses
+	 *
+	 * @return array
+	 */
+	public static function getStatuses()
+	{
+		return self::$statuses;
+	}
+
+	/**
+	 * Get Connection status description
+	 *
+	 * @param integer $status
+	 * @return string
+	 */
+	public static function getStatusDescription($status)
+	{
+		if (!isset(self::$statuses[$status])) {
+			return '[undefined]';
+		}
+
+		return self::$statuses[$status];
+	}
 
 	/**
 	 * Connection constructor.
