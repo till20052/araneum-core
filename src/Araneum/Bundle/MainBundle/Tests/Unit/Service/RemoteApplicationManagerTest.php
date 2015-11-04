@@ -234,20 +234,22 @@ class RemoteApplicationManagerTest extends BaseController
                 'api',
                 'QDurWe68'
             ],
-            'query' => [
-                'domain' => 'domain',
-                'template' => 'defaultTemplate',
-                'cluster' => ['id' => ''],
-                'locales' => 'en_US',
-                'components' => '123',
-                'app_key' => '123',
-                'db' => [
-                    'name' => 'Db_name',
-                    'host' => '127.0.0.1',
-                    'port' => 5432,
-                    'user_name' => 'postrgese',
-                    'password' => 'password',
-                ]
+            'connect_timeout' => 1
+        ];
+
+        $query = [
+            'domain' => 'domain',
+            'template' => 'defaultTemplate',
+            'cluster' => ['id' => ''],
+            'locales' => 'en_US',
+            'components' => '123',
+            'app_key' => '123',
+            'db' => [
+                'name' => 'Db_name',
+                'host' => '127.0.0.1',
+                'port' => 5432,
+                'user_name' => 'postrgese',
+                'password' => 'password',
             ]
         ];
 
@@ -261,12 +263,13 @@ class RemoteApplicationManagerTest extends BaseController
                 $this->equalTo('POST'),
                 $this->equalTo('http://127.0.0.1/api/cluster/application/insert'),
                 $this->equalTo(null),
-                $this->equalTo($params['query']),
-                $this->equalTo(['auth' => $params['auth']])
+                $this->equalTo($query),
+                $this->equalTo($params)
             )
             ->will($this->returnValue($this->request));
 
         $appConfig = $remoteApplicationManager->create(123);
-        $this->assertEquals(200, $appConfig->getStatusCode());
+
+        $this->assertEquals($this->response, $appConfig);
     }
 }
