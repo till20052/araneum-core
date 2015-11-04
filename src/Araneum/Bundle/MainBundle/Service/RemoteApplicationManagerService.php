@@ -97,8 +97,6 @@ class RemoteApplicationManagerService
         $connections = $repository->getHostByClusterId($clusterId);
         $connection = reset($connections);
 
-        var_dump($this->params);
-
         $response = $this->sendRequest(
             $connection->getHost(),
             self::$requestParams['get']['uri'],

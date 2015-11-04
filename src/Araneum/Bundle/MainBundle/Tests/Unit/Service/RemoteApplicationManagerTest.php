@@ -63,7 +63,7 @@ class RemoteApplicationManagerTest extends BaseController
             ->method('getHost')
             ->will($this->returnValue('127.0.0.1'));
 
-        $this->request = $this->getMockBuilder('\Guzzle\Http\Message\RequestInterface')
+        $this->request = $this->getMockBuilder('\Guzzle\Http\Message\Request')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -91,29 +91,15 @@ class RemoteApplicationManagerTest extends BaseController
 
         $this->container->expects($this->any())
             ->method('getParameter')
-            ->with(
-                $this->logicalOr(
-                    $this->equalTo('site_api.user'),
-                    $this->equalTo('site_api.password')
-                )
-            )
+            ->with($this->equalTo('site_api'))
             ->will(
-                $this->returnCallback(
-                    function ($param) {
-                        if ($param == 'site_api.user') {
-                            return $this->user;
-                        } else {
-                            return $this->password;
-                        }
-                    }
+                $this->returnValue(
+                    [
+                        'user' => $this->user,
+                        'password' => $this->password
+                    ]
                 )
             );
-
-        $this->container->expects($this->at(1))
-            ->method('getParameter')
-            ->with()
-            ->will($this->returnValue($this->password));
-
     }
 
     /**
@@ -133,7 +119,7 @@ class RemoteApplicationManagerTest extends BaseController
             ->with($this->equalTo('AraneumMainBundle:Connection'))
             ->will($this->returnValue($this->connectionRepository));
 
-        $this->request->expects($this->once())
+        $this->request->expects($this->any())
             ->method('send')
             ->will($this->returnValue($this->response));
 
@@ -149,7 +135,8 @@ class RemoteApplicationManagerTest extends BaseController
                         'auth' => [
                             $this->user,
                             $this->password
-                        ]
+                        ],
+                        'connect_timeout' => 1
                     ]
                 )
             )
@@ -157,7 +144,7 @@ class RemoteApplicationManagerTest extends BaseController
 
         $appConfig = $remoteApplicationManager->get(123);
 
-        $this->assertEquals(200, $appConfig->getStatusCode());
+        $this->assertEquals($this->response, $appConfig);
     }
 
     /**
