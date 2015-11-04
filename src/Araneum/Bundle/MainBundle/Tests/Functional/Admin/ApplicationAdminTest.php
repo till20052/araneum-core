@@ -9,6 +9,7 @@ use Araneum\Base\Tests\Fixtures\Main\ComponentFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures;
 use Araneum\Base\Tests\Fixtures\Main\LocaleFixtures;
 use Araneum\Base\Tests\Fixtures\User\UserFixtures;
+use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 
 class ApplicationAdminTest extends BaseAdminController
@@ -54,7 +55,7 @@ class ApplicationAdminTest extends BaseAdminController
                     'cluster' => $cluster->getId(),
                     'db' => $db->getId(),
                     'locales' => [$locale->getId()],
-                    'components' => [$components->getId()],
+                    'components' => [$components->getId()]
                 ],
                 true
             ],
@@ -69,7 +70,7 @@ class ApplicationAdminTest extends BaseAdminController
                     'cluster' => $cluster->getId(),
                     'db' => $db->getId(),
                     'locales' => [$locale->getId()],
-                    'components' => [$components->getId()],
+                    'components' => [$components->getId()]
                 ],
                 false
             ],
@@ -83,7 +84,7 @@ class ApplicationAdminTest extends BaseAdminController
                     'cluster' => $cluster->getId(),
                     'db' => $db->getId(),
                     'locales' => [$locale->getId()],
-                    'components' => [$components->getId()],
+                    'components' => [$components->getId()]
                 ],
                 false
             ]
@@ -130,7 +131,7 @@ class ApplicationAdminTest extends BaseAdminController
                     'filter[enabled][value]' => ApplicationFixtures::TEST_APP_ENABLED,
                     'filter[locales][value]' => $locale->getId(),
                     'filter[owner][value]' => $owner->getId(),
-                    'filter[status][value]' => ApplicationFixtures::TEST_APP_STATUS,
+                    'filter[status][value]' => Application::STATUS_OK,
                     'filter[template][value]' => ApplicationFixtures::TEST_APP_TEMPLATE,
                     'filter[createdAt][value][start]' => '01/01/1971',
                     'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
