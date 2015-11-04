@@ -32,7 +32,11 @@ class CustomerApiControllerTest extends BaseController
         );
 
         $response = $client->getResponse();
-        $this->assertEquals($expected, $response->getStatusCode());
+        $this->assertEquals(
+            $expected,
+            $response->getStatusCode(),
+            $response->getContent()
+        );
     }
 
     /**
@@ -50,7 +54,7 @@ class CustomerApiControllerTest extends BaseController
                     'country' => 'country',
                     'email' => 'email@email.com',
                     'callback' => true,
-                    'phone' => '+380993222234'
+                    'phone' => '380993222234'
                 ],
                 Response::HTTP_CREATED
             ],

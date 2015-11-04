@@ -57,7 +57,7 @@ class CustomerApiHandlerService
     /**
      * Process Form
      *
-     * @param Array    $parameters
+     * @param array $parameters
      * @param Customer $customer
      * @return Customer $customer
      * @throws InvalidFormException

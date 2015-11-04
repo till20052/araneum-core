@@ -78,7 +78,7 @@ class Customer
      *
      * @ORM\Column(name="phone", type="string", length=24, nullable=true)
      * @Assert\Length(max=24)
-     * @Assert\Regex(pattern="/^\+[0-9\-\(\)]{9,17}$/")
+     * @Assert\Regex(pattern="/^\d[0-9\-\(\)]{9,17}$/")
      */
     private $phone;
 
