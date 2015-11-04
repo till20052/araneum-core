@@ -6,7 +6,7 @@ araneum_user:
 araneum_agent:
     resource: "@AraneumAgentBundle/Controller"
     type:     annotation
-    prefix:   /agent
+    prefix:   /
 
 araneum_main:
     resource: "@AraneumMainBundle/Controller/"
