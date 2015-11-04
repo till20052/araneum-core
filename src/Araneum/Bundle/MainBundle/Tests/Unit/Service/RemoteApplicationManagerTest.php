@@ -144,7 +144,7 @@ class RemoteApplicationManagerTest extends BaseController
 
         $appConfig = $remoteApplicationManager->get(123);
 
-        $this->assertEquals($this->response, $appConfig);
+        $this->assertEquals(null, $appConfig);
     }
 
     /**
@@ -270,6 +270,6 @@ class RemoteApplicationManagerTest extends BaseController
 
         $appConfig = $remoteApplicationManager->create(123);
 
-        $this->assertEquals($this->response, $appConfig);
+        $this->assertEquals(null, $appConfig);
     }
 }

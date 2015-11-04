@@ -187,11 +187,12 @@ class RemoteApplicationManagerService
                 ->client
                 ->createRequest($method, 'http://' . $host . $uri, $header, $body, $params)
                 ->send();
+
         } catch (\Exception $e) {
             return false;
         }
 
-        return $response;
+        return $response->getBody(true);
     }
 
     /**
