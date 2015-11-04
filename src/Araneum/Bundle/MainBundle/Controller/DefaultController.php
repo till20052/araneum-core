@@ -9,15 +9,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class DefaultController extends Controller
 {
     /**
-     * Main method
+     * Admin panel action
      *
-     * @Route("/")
-     * @Template()
+     * @Route("/manage/", name="araneum_admin_index")
      */
-    public function indexAction()
+    public function adminAction()
     {
-        return [
-            'name' => 'test'
-        ];
+        return $this->render(
+            'admin.layout.html.twig',
+            []
+        );
     }
 }

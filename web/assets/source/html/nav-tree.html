@@ -1,0 +1,169 @@
+<h3>
+   <em class="icon-layers mr"></em>
+   Pages
+</h3>
+
+
+
+
+
+
+
+
+
+
+
+<div class="row unwrap">
+
+   <div class="col-lg-2 col-sm-4 p0">
+      <div ng-controller="AbnTestController as tree" class="container-fluid">
+         <div class="bg-white p">
+            <span ng-if="tree.doing_async">Loading...</span>
+            <abn-tree tree-data="tree.my_data" tree-control="tree.my_tree" on-select="tree.my_tree_handler(branch)" expand-level="2" initial-selection="Granny Smith"></abn-tree>
+         </div>
+      </div>
+   </div>
+
+   <!-- Article Content-->
+   <div class="col-lg-10 col-sm-8 mt">
+      <div class="panel panel-default">
+         <div class="panel-body">
+            <form action="">
+               <input type="text" name="article-title" placeholder="Article title..." class="mb-lg form-control input-lg" />
+               <!-- Wysiswyg editor-->
+               <div text-angular="" ng-model="art.htmlContent" name="wysiswyg-editor" class="btn-group-small"></div>
+               <br/>
+               <p>Notes</p>
+               <textarea cols="6" class="mb-lg form-control"></textarea>
+               <div class="clearfix">
+                  <div class="pull-left">
+                     <button type="button" class="btn btn-default m-r-10 m-t-10">
+                        <em class="fa fa-edit fa-fw"></em>Draft</button>
+                     <button type="button" class="btn btn-primary m-t-10">
+                        <em class="fa fa-check fa-fw"></em>Save</button>
+                  </div>
+                  <div class="pull-right">
+                     <button type="button" class="btn btn-danger m-r-10 m-t-10">
+                        <em class="fa fa-trash fa-fw"></em>Remove</button>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+      <p class="lead">List of Comments</p>
+      <div class="panel">
+         <div class="table-responsive">
+            <table class="table table-hover">
+               <thead>
+               <tr>
+                  <th>
+                     <strong>Comment ID</strong>
+                  </th>
+                  <th>
+                     <strong>Date</strong>
+                  </th>
+                  <th>
+                     <strong>Username</strong>
+                  </th>
+                  <th>
+                     <strong>Comment excerpt</strong>
+                  </th>
+                  <th class="text-center">
+                     <strong>Current status</strong>
+                  </th>
+                  <th style="width:130px" class="text-right">
+                     <strong>Actions</strong>
+                  </th>
+               </tr>
+               </thead>
+               <tbody>
+               <tr>
+                  <td>123</td>
+                  <td>10/05/2015</td>
+                  <td><a href="">Jack Jordan</a>
+                  </td>
+                  <td>Sed quis eros libero, a euismod nisl....</td>
+                  <td class="text-center">
+                     <span class="label label-success">Approved</span>
+                  </td>
+                  <td class="text-right">
+                     <button type="button" class="btn btn-sm btn-default">
+                        <em class="fa fa-pencil"></em>
+                     </button>
+                     <button type="button" class="btn btn-sm btn-danger">
+                        <em class="fa fa-trash"></em>
+                     </button>
+                     <button type="button" class="btn btn-sm btn-success">
+                        <em class="fa fa-check"></em>
+                     </button>
+                  </td>
+               </tr>
+               <tr>
+                  <td>456</td>
+                  <td>10/07/2015</td>
+                  <td><a href="">Hailey Mckinney</a>
+                  </td>
+                  <td>Nulla facilisi.</td>
+                  <td class="text-center">
+                     <span class="label label-success">Approved</span>
+                  </td>
+                  <td class="text-right">
+                     <button type="button" class="btn btn-sm btn-default">
+                        <em class="fa fa-pencil"></em>
+                     </button>
+                     <button type="button" class="btn btn-sm btn-danger">
+                        <em class="fa fa-trash"></em>
+                     </button>
+                     <button type="button" class="btn btn-sm btn-success">
+                        <em class="fa fa-check"></em>
+                     </button>
+                  </td>
+               </tr>
+               <tr>
+                  <td>789</td>
+                  <td>11/05/2015</td>
+                  <td><a href="">Peyton Reyes</a>
+                  </td>
+                  <td>Quisque enim nisi, semper non pulvinar et, aliquam id lorem...</td>
+                  <td class="text-center">
+                     <span class="label label-warning">Pending</span>
+                  </td>
+                  <td class="text-right">
+                     <button type="button" class="btn btn-sm btn-default">
+                        <em class="fa fa-pencil"></em>
+                     </button>
+                     <button type="button" class="btn btn-sm btn-danger">
+                        <em class="fa fa-trash"></em>
+                     </button>
+                     <button type="button" class="btn btn-sm btn-success">
+                        <em class="fa fa-check"></em>
+                     </button>
+                  </td>
+               </tr>
+               <tr>
+                  <td>999</td>
+                  <td>10/06/2015</td>
+                  <td><a href="">Darryl Harper</a>
+                  </td>
+                  <td>Nulla facilisi.</td>
+                  <td class="text-center">
+                     <span class="label label-danger">Rejected</span>
+                  </td>
+                  <td class="text-right">
+                     <button type="button" class="btn btn-sm btn-default">
+                        <em class="fa fa-pencil"></em>
+                     </button>
+                     <button type="button" disabled="" class="btn btn-sm btn-danger">
+                        <em class="fa fa-trash"></em>
+                     </button>
+                     <button type="button" class="btn btn-sm btn-success">
+                        <em class="fa fa-check"></em>
+                     </button>
+                  </td>
+               </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,8 +1,3 @@
-araneum_agent:
-    resource: "@AraneumAgentBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 araneum_root:
     path: /
     defaults:

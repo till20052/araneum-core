@@ -30,8 +30,9 @@
 
       // Set here the base of the relative path
       // for all app views
-      function basepath(uri) {
-        return 'app/views/' + uri;
+      function basepath(uri)
+      {
+        return '/assets/build/html/' + uri;
       }
 
       // Generates a resolve object by passing script names

@@ -11,7 +11,7 @@ araneum_main:
 araneum_customers:
     resource: "@AraneumAgentBundle/Controller"
     type:     annotation
-    prefix:   /
+    prefix:   /agent
 
 araneum_mail:
     resource: "@AraneumMailBundle/Controller"

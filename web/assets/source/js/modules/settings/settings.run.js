@@ -12,8 +12,8 @@
       // Global Settings
       // ----------------------------------- 
       $rootScope.app = {
-        name: 'Angle',
-        description: 'Angular Bootstrap Admin Template',
+        name: 'Araneum',
+        description: 'Multisite manage tool',
         year: ((new Date()).getFullYear()),
         layout: {
           isFixed: true,
