@@ -41,14 +41,19 @@ class LeadApiController extends Controller
 	 */
 	public function findAction(ParamFetcher $paramFetcher)
 	{
-		$list = $this->get('araneum.agent.lead.api_handler')
-			->find($paramFetcher->get('filters'));
+		try {
+			$list = $this
+				->get('araneum.agent.lead.api_handler')
+				->find($paramFetcher->get('filters'));
 
-		if( ! (count($list) > 0)){
-			return View::create($list, Response::HTTP_NOT_FOUND);
+			if (!(count($list) > 0)) {
+				throw new \Exception('Search return empty response');
+			}
+
+			return $list;
+		} catch (\Exception $exception) {
+			return View::create(['error' => $exception->getMessage()], Response::HTTP_NOT_FOUND);
 		}
-
-		return $list;
 	}
 
 	/**
