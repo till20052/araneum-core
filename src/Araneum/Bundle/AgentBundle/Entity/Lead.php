@@ -68,6 +68,12 @@ class Lead
      */
     private $email;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", name="app_key", length=70)
+     */
+    private $appKey;
 
     /**
      * Get id
@@ -192,5 +198,28 @@ class Lead
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set appKey
+     *
+     * @param string $appKey
+     * @return Lead $this
+     */
+    public function setAppKey($appKey)
+    {
+        $this->appKey = $appKey;
+
+        return $this;
+    }
+
+    /**
+     * Get appKey
+     *
+     * @return string
+     */
+    public function getAppKey()
+    {
+        return $this->appKey;
     }
 }

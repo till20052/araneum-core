@@ -3,7 +3,10 @@
 namespace Araneum\Bundle\MainBundle\Tests\Command;
 
 use Araneum\Bundle\MainBundle\Command\CheckerCheckCommand;
-use Symfony\Component\Console\Application;
+use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Araneum\Bundle\MainBundle\Entity\Connection;
+use Araneum\Bundle\MainBundle\Entity\Application;
+use Symfony\Component\Console\Application as App;
 use Symfony\Component\Console\Tester\CommandTester;
 use \Symfony\Component\DependencyInjection\Container;
 
@@ -48,30 +51,11 @@ class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Mock Get Output method in Checker Service
-	 *
-	 * @param array $structure
-	 * @param null $invokedCount
-	 */
-	private function mockGetOutputMethod($structure, $invokedCount = null)
-	{
-		$output = new \stdClass();
-
-		foreach ($structure as $key => $val) {
-			$output->{$key} = $val;
-		}
-
-		$this->checker->expects(is_null($invokedCount) ? $this->once() : $invokedCount)
-			->method('getOutput')
-			->will($this->returnValue($output));
-	}
-
-	/**
 	 * @inheritdoc
 	 */
 	protected function setUp()
 	{
-		$app = new Application();
+		$app = new App();
 		$app->add(new CheckerCheckCommand());
 
 		/** @var CheckerCheckCommand command */
@@ -90,16 +74,7 @@ class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
 		$this->checker->expects($this->once())
 			->method('checkConnection')
 			->with($this->equalTo(777))
-			->will($this->returnValue(true));
-
-		$this->mockGetOutputMethod(
-			[
-				'packetsTransmitted' => 1,
-				'received' => 2,
-				'packetLoss' => 3,
-				'time' => 4
-			]
-		);
+			->will($this->returnValue(Connection::STATUS_OK));
 
 		$this->commandTester->execute([
 			'command' => $this->command->getName(),
@@ -107,21 +82,16 @@ class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
 			'id' => 777
 		]);
 
-		$this->assertEquals(5, preg_match_all(
-			'/\:\s(\d+)/',
+		$this->assertEquals(1, preg_match(
+			'/Connection\n ID: (\d+)\n Status: (\w+)/',
 			$this->commandTester->getDisplay(),
 			$match
 		));
 
-		$expectedArray = [
-			'1',
-			'2',
-			'3',
-			'4',
-			'1'
-		];
-
-		$this->assertTrue($match[1] === $expectedArray);
+		$this->assertEquals(
+			Connection::getStatusDescription(Connection::STATUS_OK),
+			$match[2]
+		);
 	}
 
 	/**
@@ -132,9 +102,7 @@ class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
 		$this->checker->expects($this->once())
 			->method('checkCluster')
 			->with($this->equalTo(777))
-			->will($this->returnValue(true));
-
-		$this->mockGetOutputMethod(['statusDescription' => 1]);
+			->will($this->returnValue(Cluster::STATUS_OK));
 
 		$this->commandTester->execute([
 			'command' => $this->command->getName(),
@@ -142,13 +110,16 @@ class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
 			'id' => 777
 		]);
 
-		$this->assertEquals(1, preg_match_all(
-			'/\:\s(\d+)/',
+		$this->assertEquals(1, preg_match(
+			'/Cluster\n ID: (\d+)\n Status: (\w+)/',
 			$this->commandTester->getDisplay(),
 			$match
 		));
 
-		$this->assertTrue($match[1] === ['1']);
+		$this->assertEquals(
+			Cluster::getStatusDescription(Cluster::STATUS_OK),
+			$match[2]
+		);
 	}
 
 	/**
@@ -159,7 +130,7 @@ class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
 		$this->checker->expects($this->once())
 			->method('checkApplication')
 			->with($this->equalTo(777))
-			->will($this->returnValue(true));
+			->will($this->returnValue(Application::STATUS_OK));
 
 		$this->commandTester->execute([
 			'command' => $this->command->getName(),
@@ -167,12 +138,15 @@ class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
 			'id' => 777
 		]);
 
-		$this->assertEquals(1, preg_match_all(
-			'/\:\s(\d+)/',
+		$this->assertEquals(1, preg_match(
+			'/Application\n ID: (\d+)\n Status: (\w+)/',
 			$this->commandTester->getDisplay(),
 			$match
 		));
 
-		$this->assertTrue($match[1] === ['1']);
+		$this->assertEquals(
+			Application::getStatusDescription(Application::STATUS_OK),
+			$match[2]
+		);
 	}
 }

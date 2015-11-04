@@ -71,6 +71,4 @@ class CustomerApiControllerTest extends BaseController
             ]
         ];
     }
-
-
 }

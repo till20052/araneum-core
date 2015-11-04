@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class Cluster
+ *
  * @ORM\Table(name="araneum_cluster")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ClusterRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -18,288 +19,323 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Cluster
 {
-    use DateTrait;
+	use DateTrait;
 
-    const STATUS_ONLINE = 1;
-    const STATUS_OFFLINE = 2;
-	const STATUS_HAS_PROBLEMS = 3;
+	const STATUS_OK = 0;
+	const STATUS_HAS_INCORRECT_APPLICATION = 10;
+	const STATUS_HAS_SLOW_CONNECTION = 20;
+	const STATUS_HAS_UNSTABLE_CONNECTION = 25;
+	const STATUS_OFFLINE = 30;
 
-    const TYPE_SINGLE = 1;
-    const TYPE_MULTIPLE = 2;
+	private static $statuses = [
+		self::STATUS_OK => 'ok',
+		self::STATUS_HAS_INCORRECT_APPLICATION => 'has_incorrect_application',
+		self::STATUS_HAS_SLOW_CONNECTION => 'has_slow_connection',
+		self::STATUS_HAS_UNSTABLE_CONNECTION => 'has_unstable_connection',
+		self::STATUS_OFFLINE => 'offline'
+	];
 
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @Assert\Type(type="int")
-     */
-    protected $id;
+	const TYPE_SINGLE = 1;
+	const TYPE_MULTIPLE = 2;
 
-    /**
-     * @ORM\Column(type="string", name="name", unique=true, length=255)
-     * @Assert\NotBlank()
-     * @Assert\Length(min=2, max=255)
-     * @Assert\Type(type="string")
-     */
-    protected $name;
+	/**
+	 * @ORM\Id
+	 * @ORM\Column(type="integer")
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * @Assert\Type(type="int")
+	 */
+	protected $id;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Connection", inversedBy="cluster", cascade={"persist"})
-     * @ORM\JoinTable(name="araneum_cluster_connection")
-     */
-    protected $hosts;
+	/**
+	 * @ORM\Column(type="string", name="name", unique=true, length=255)
+	 * @Assert\NotBlank()
+	 * @Assert\Length(min=2, max=255)
+	 * @Assert\Type(type="string")
+	 */
+	protected $name;
 
-    /**
-     * @ORM\Column(type="smallint", name="type", options={"comment": "1 - single, 2 - multiple"})
-     * @Assert\Type(type="int")
-     */
-    protected $type = self::TYPE_MULTIPLE;
+	/**
+	 * @ORM\ManyToMany(targetEntity="Connection", inversedBy="cluster", cascade={"persist"})
+	 * @ORM\JoinTable(name="araneum_cluster_connection")
+	 */
+	protected $hosts;
 
-    /**
-     * @ORM\Column(type="boolean", name="enabled")
-     * @Assert\Type(type="boolean")
-     */
-    protected $enabled;
+	/**
+	 * @ORM\Column(type="smallint", name="type", options={"comment": "1 - single, 2 - multiple"})
+	 * @Assert\Type(type="int")
+	 */
+	protected $type = self::TYPE_MULTIPLE;
 
-    /**
-     * @ORM\Column(type="smallint", name="status", options={"comment":"1 - online, 2 - offline"})
-     * @Assert\NotBlank()
-     * @Assert\Type(type="int")
-     */
-    protected $status;
+	/**
+	 * @ORM\Column(type="boolean", name="enabled")
+	 * @Assert\Type(type="boolean")
+	 */
+	protected $enabled;
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Application", mappedBy="cluster", cascade={"persist"})
-     */
-    protected $applications;
+	/**
+	 * @ORM\Column(type="smallint", name="status")
+	 * @Assert\NotBlank()
+	 * @Assert\Type(type="int")
+	 */
+	protected $status;
 
-    /**
-     * Cluster constructor.
-     */
-    public function __construct()
-    {
-        $this->setHosts(new ArrayCollection());
-        $this->setApplications(new ArrayCollection());
-    }
+	/**
+	 * @var ArrayCollection
+	 * @ORM\OneToMany(targetEntity="Application", mappedBy="cluster", cascade={"persist"})
+	 */
+	protected $applications;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Get list of Cluster statuses
+	 *
+	 * @return array
+	 */
+	public static function getStatuses()
+	{
+		return self::$statuses;
+	}
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Cluster
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
+	/**
+	 * Get Cluster status description
+	 *
+	 * @param $status
+	 * @return string
+	 */
+	public static function getStatusDescription($status)
+	{
+		if (!isset(self::$statuses[$status])) {
+			return '[undefined]';
+		}
 
-        return $this;
-    }
+		return self::$statuses[$status];
+	}
 
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+	/**
+	 * Cluster constructor.
+	 */
+	public function __construct()
+	{
+		$this->setHosts(new ArrayCollection());
+		$this->setApplications(new ArrayCollection());
+	}
 
-    /**
-     * Set type
-     *
-     * @param integer $type
-     * @return Cluster
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
+	/**
+	 * Get id
+	 *
+	 * @return integer
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set name
+	 *
+	 * @param string $name
+	 * @return Cluster
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
 
-    /**
-     * Get type
-     *
-     * @return integer
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
+		return $this;
+	}
 
-    /**
-     * Set enabled
-     *
-     * @param boolean $enabled
-     * @return Cluster
-     */
-    public function setEnabled($enabled = true)
-    {
-        $this->enabled = (bool)$enabled;
+	/**
+	 * Get name
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set type
+	 *
+	 * @param integer $type
+	 * @return Cluster
+	 */
+	public function setType($type)
+	{
+		$this->type = $type;
 
-    /**
-     * Get enabled
-     *
-     * @return boolean
-     */
-    public function isEnabled()
-    {
-        return (bool)$this->enabled;
-    }
+		return $this;
+	}
 
-    /**
-     * Set status
-     *
-     * @param integer $status
-     * @return Cluster
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
+	/**
+	 * Get type
+	 *
+	 * @return integer
+	 */
+	public function getType()
+	{
+		return $this->type;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set enabled
+	 *
+	 * @param boolean $enabled
+	 * @return Cluster
+	 */
+	public function setEnabled($enabled = true)
+	{
+		$this->enabled = (bool)$enabled;
 
-    /**
-     * Get status
-     *
-     * @return integer
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
+		return $this;
+	}
 
-    /**
-     * Add host
-     *
-     * @param ArrayCollection $hosts
-     * @return Cluster
-     */
-    public function setHosts(ArrayCollection $hosts)
-    {
-        $this->hosts = $hosts;
+	/**
+	 * Get enabled
+	 *
+	 * @return boolean
+	 */
+	public function isEnabled()
+	{
+		return (bool)$this->enabled;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set status
+	 *
+	 * @param integer $status
+	 * @return Cluster
+	 */
+	public function setStatus($status)
+	{
+		$this->status = $status;
 
-    /**
-     * Get host
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getHosts()
-    {
-        return $this->hosts;
-    }
+		return $this;
+	}
 
-    /**
-     * Add single host in collection
-     *
-     * @param Connection $host
-     * @return Cluster
-     */
-    public function addHost(Connection $host)
-    {
-        $this->getHosts()->add($host);
+	/**
+	 * Get status
+	 *
+	 * @return integer
+	 */
+	public function getStatus()
+	{
+		return $this->status;
+	}
 
-        return $this;
-    }
+	/**
+	 * Add host
+	 *
+	 * @param ArrayCollection $hosts
+	 * @return Cluster
+	 */
+	public function setHosts(ArrayCollection $hosts)
+	{
+		$this->hosts = $hosts;
 
-    /**
-     * Remove single host from collection
-     *
-     * @param Connection $host
-     */
-    public function removeHost(Connection $host)
-    {
-        $this->getHosts()->removeElement($host);
-    }
+		return $this;
+	}
 
-    /**
-     * Convert entity to string
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->name ?: 'Create Cluster';
-    }
+	/**
+	 * Get host
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getHosts()
+	{
+		return $this->hosts;
+	}
 
-    /**
-     * Set applications
-     *
-     * @param ArrayCollection $applications
-     * @return Cluster $this
-     */
-    public function setApplications(ArrayCollection $applications)
-    {
-        $this->applications = $applications;
+	/**
+	 * Add single host in collection
+	 *
+	 * @param Connection $host
+	 * @return Cluster
+	 */
+	public function addHost(Connection $host)
+	{
+		$this->getHosts()->add($host);
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get applications
-     *
-     * @return ArrayCollection
-     */
-    public function getApplications()
-    {
-        return $this->applications;
-    }
+	/**
+	 * Remove single host from collection
+	 *
+	 * @param Connection $host
+	 */
+	public function removeHost(Connection $host)
+	{
+		$this->getHosts()->removeElement($host);
+	}
 
-    /**
-     * Add application
-     *
-     * @param Application $application
-     * @return Cluster $this
-     */
-    public function addApplication(Application $application)
-    {
-        if( ! $this->hasApplication($application)){
-            $this->applications->add($application);
-        }
+	/**
+	 * Convert entity to string
+	 *
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->name ?: 'Create Cluster';
+	}
 
-        return $this;
-    }
+	/**
+	 * Set applications
+	 *
+	 * @param ArrayCollection $applications
+	 * @return Cluster $this
+	 */
+	public function setApplications(ArrayCollection $applications)
+	{
+		$this->applications = $applications;
 
-    /**
-     * Remove application
-     *
-     * @param Application $application
-     * @return Cluster $this
-     */
-    public function removeApplication(Application $application)
-    {
-        $this->applications->removeElement($application);
+		return $this;
+	}
 
-        return $this;
-    }
+	/**
+	 * Get applications
+	 *
+	 * @return ArrayCollection
+	 */
+	public function getApplications()
+	{
+		return $this->applications;
+	}
 
-    /**
-     * Check is cluster has application
-     *
-     * @param Application $application
-     * @return bool
-     */
-    public function hasApplication(Application $application)
-    {
-        return $this->applications->contains($application);
-    }
+	/**
+	 * Add application
+	 *
+	 * @param Application $application
+	 * @return Cluster $this
+	 */
+	public function addApplication(Application $application)
+	{
+		if (!$this->hasApplication($application)) {
+			$this->applications->add($application);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Remove application
+	 *
+	 * @param Application $application
+	 * @return Cluster $this
+	 */
+	public function removeApplication(Application $application)
+	{
+		$this->applications->removeElement($application);
+
+		return $this;
+	}
+
+	/**
+	 * Check is cluster has application
+	 *
+	 * @param Application $application
+	 * @return bool
+	 */
+	public function hasApplication(Application $application)
+	{
+		return $this->applications->contains($application);
+	}
 }

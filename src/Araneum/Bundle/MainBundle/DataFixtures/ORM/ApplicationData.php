@@ -26,7 +26,7 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
             $app->setDomain('ultratrade.office.dev');
             $app->setPublic(true);
             $app->setEnabled(true);
-            $app->setStatus(1);
+            $app->setStatus(Application::STATUS_OK);
             $app->setTemplate('DefaultTemplate');
             $app->setCluster($this->getReference('cluster'));
             $app->setDb($this->getReference('connectionDb'));
