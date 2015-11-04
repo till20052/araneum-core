@@ -204,7 +204,7 @@ class CustomerHandlerTest extends BaseController
         $log->setAction('Login');
         $log->setCustomer($customer);
         $log->setSpotResponse(true);
-        $log->setStatus(CustomerLog::STATUS_SUCCESS);
+        $log->setStatus(CustomerLog::STATUS_OK);
 
         $this->entityManager->expects($this->at(1))
             ->method('persist')
