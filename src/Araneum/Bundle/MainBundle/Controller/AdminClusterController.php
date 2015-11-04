@@ -59,19 +59,4 @@ class AdminClusterController extends AdminBaseController
             )
         );
     }
-
-
-    //Заглушка для тестов !!! убрать
-
-    /**
-     * @Route("/deleteApplication/{appKey}", name="araneum_main_admin_cluster_get_app")
-     * @param $appKey
-     */
-    public function deleteApplicationAction($appKey)
-    {
-        $result = $this->container
-            ->get('araneum.main.application.remote_manager')
-            ->remove($appKey);
-    }
-
 }

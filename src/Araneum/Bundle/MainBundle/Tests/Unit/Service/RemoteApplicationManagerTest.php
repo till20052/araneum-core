@@ -11,6 +11,7 @@ use Araneum\Bundle\MainBundle\Service\RemoteApplicationManagerService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\ORM\EntityManager;
 
 class RemoteApplicationManagerTest extends BaseController
 {
@@ -26,6 +27,12 @@ class RemoteApplicationManagerTest extends BaseController
 
     protected $connectionRepository;
 
+    protected $container;
+
+    protected $user;
+
+    protected $password;
+
     /**
      * Method that called before tests.
      *
@@ -33,6 +40,13 @@ class RemoteApplicationManagerTest extends BaseController
      */
     public function setUp()
     {
+        static::$kernel = static::createKernel();
+        static::$kernel->boot();
+        $params = static::$kernel->getContainer()->getParameter('site_api');
+
+        $this->user = $params['user'];
+        $this->password = $params['password'];
+
         $this->manager = $this
             ->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
@@ -65,6 +79,41 @@ class RemoteApplicationManagerTest extends BaseController
             ->getMockBuilder('\Guzzle\Service\Client')
             ->setConstructorArgs([Response::HTTP_OK])
             ->getMock();
+
+        $this->container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\ContainerInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->container->expects($this->any())
+            ->method('get')
+            ->with($this->equalTo('doctrine.orm.entity_manager'))
+            ->will($this->returnValue($this->manager));
+
+        $this->container->expects($this->any())
+            ->method('getParameter')
+            ->with(
+                $this->logicalOr(
+                    $this->equalTo('site_api.user'),
+                    $this->equalTo('site_api.password')
+                )
+            )
+            ->will(
+                $this->returnCallback(
+                    function ($param) {
+                        if ($param == 'site_api.user') {
+                            return $this->user;
+                        } else {
+                            return $this->password;
+                        }
+                    }
+                )
+            );
+
+        $this->container->expects($this->at(1))
+            ->method('getParameter')
+            ->with()
+            ->will($this->returnValue($this->password));
+
     }
 
     /**
@@ -72,7 +121,7 @@ class RemoteApplicationManagerTest extends BaseController
      */
     public function testGet()
     {
-        $remoteApplicationManager = new RemoteApplicationManagerService($this->manager, $this->client);
+        $remoteApplicationManager = new RemoteApplicationManagerService($this->client, $this->container);
 
         $this->connectionRepository->expects($this->once())
             ->method('getHostByClusterId')
@@ -98,8 +147,8 @@ class RemoteApplicationManagerTest extends BaseController
                 $this->equalTo(
                     [
                         'auth' => [
-                            'api',
-                            'QDurWe68'
+                            $this->user,
+                            $this->password
                         ]
                     ]
                 )
@@ -191,7 +240,7 @@ class RemoteApplicationManagerTest extends BaseController
             ->method('getPassword')
             ->will($this->returnValue('password'));
 
-        $remoteApplicationManager = new RemoteApplicationManagerService($this->manager, $this->client);
+        $remoteApplicationManager = new RemoteApplicationManagerService($this->client, $this->container);
 
         $params = [
             'auth' => [

@@ -13,7 +13,7 @@ services:
     
     araneum.main.application.remote_manager:
         class: Araneum\Bundle\MainBundle\Service\RemoteApplicationManagerService
-        arguments: [@doctrine.orm.entity_manager, @guzzle.client]
+        arguments: [@guzzle.client, @service_container]
 
     araneum.main.application.event_listener:
         class: Araneum\Bundle\MainBundle\Service\ApplicationEventListenerService

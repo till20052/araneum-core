@@ -7,6 +7,7 @@ use Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData;
 use Doctrine\ORM\EntityManager;
 use Guzzle\Http\Message\Request;
 use Guzzle\Service\Client;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Guzzle\Http\Exception\CurlException;
 use Guzzle\Http\Message\Response as GuzzleResponse;
@@ -14,36 +15,59 @@ use Symfony\Component\Yaml\Yaml;
 
 class RemoteApplicationManagerService
 {
+    /**
+     * @var array
+     */
+    private static $requestParams = [
+        'get' => [
+            'method' => 'GET',
+            'uri' => '/api/cluster/application/list'
+        ],
+        'create' => [
+            'method' => 'POST',
+            'uri' => '/api/cluster/application/insert'
+        ],
+        'update' => [
+            'method' => 'PUT',
+            'uri' => '/api/cluster/application/update/'
+        ],
+        'remove' => [
+            'method' => 'DELETE',
+            'uri' => '/api/cluster/application/delete/'
+        ]
+    ];
 
     /**
      * @var EntityManager
      */
     private $entityManager;
-
     /**
      * @var Client
      */
     private $client;
-
     /**
      * @var $params
      */
     private $params;
+    /**
+     * @var $container
+     */
+    private $container;
 
     /**
      * Remote application handler constructor
      *
-     * @param EntityManager $entityManager
-     * @param Client        $client
+     * @param Client             $client
+     * @param ContainerInterface $container
      */
-    public function __construct(EntityManager $entityManager, Client $client)
+    public function __construct(Client $client, ContainerInterface $container)
     {
-        $this->entityManager = $entityManager;
+        $this->container = $container;
+        $this->entityManager = $this->container->get('doctrine.orm.entity_manager');
         $this->client = $client;
-        $configArray = Yaml::parse(__DIR__ . '/../../../../../app/config/config.yml');
 
-        $user = $configArray['parameters']['site_api']['user'];
-        $password = $configArray['parameters']['site_api']['password'];
+        $user = $this->container->getParameter('site_api.user');
+        $password = $this->container->getParameter('site_api.password');
 
         $this->params = [
             'auth' => [
@@ -66,13 +90,15 @@ class RemoteApplicationManagerService
         $connections = $repository->getHostByClusterId($clusterId);
         $connection = reset($connections);
 
+        var_dump($this->params);
+
         $response = $this->sendRequest(
             $connection->getHost(),
-            '/api/cluster/application/list',
+            self::$requestParams['get']['uri'],
             null,
             null,
             $this->params,
-            'GET'
+            self::$requestParams['get']['method']
         );
 
         return $response;
@@ -86,7 +112,11 @@ class RemoteApplicationManagerService
      */
     public function create($appKey)
     {
-        $response = $this->createOrUpdatePreparation($appKey, 'POST', '/api/cluster/application/insert');
+        $response = $this->createOrUpdatePreparation(
+            $appKey,
+            self::$requestParams['create']['method'],
+            self::$requestParams['create']['uri']
+        );
 
         return $response;
     }
@@ -99,7 +129,11 @@ class RemoteApplicationManagerService
      */
     public function update($appKey)
     {
-        $response = $this->createOrUpdatePreparation($appKey, 'PUT', '/api/cluster/application/update/');
+        $response = $this->createOrUpdatePreparation(
+            $appKey,
+            self::$requestParams['update']['method'],
+            self::$requestParams['update']['uri']
+        );
 
         return $response;
     }
@@ -112,19 +146,19 @@ class RemoteApplicationManagerService
      */
     public function remove($appKey)
     {
-        $connections = $this->entityManager->getRepository('AraneumMainBundle:Connection')->findConnectionByAppKey(
-            $appKey
-        );
+        $connections = $this->entityManager
+            ->getRepository('AraneumMainBundle:Connection')
+            ->findConnectionByAppKey($appKey);
 
         $connection = reset($connections);
 
         $response = $this->sendRequest(
             $connection->getHost(),
-            '/api/cluster/application/delete/' . $appKey,
+            self::$requestParams['remove']['uri'] . $appKey,
             null,
             null,
             $this->params,
-            'DELETE'
+            self::$requestParams['remove']['method']
         );
 
         return $response;
@@ -165,12 +199,14 @@ class RemoteApplicationManagerService
      */
     private function createOrUpdatePreparation($appKey, $method, $uri)
     {
-        $application = $this->entityManager->getRepository('AraneumMainBundle:Application')->findOneBy(
-            ['appKey' => $appKey]
-        );
-        $connections = $this->entityManager->getRepository('AraneumMainBundle:Connection')->findConnectionByAppKey(
-            $appKey
-        );
+        $application = $this->entityManager
+            ->getRepository('AraneumMainBundle:Application')
+            ->findOneBy(['appKey' => $appKey]);
+
+        $connections = $this->entityManager
+            ->getRepository('AraneumMainBundle:Connection')
+            ->findConnectionByAppKey($appKey);
+
         $connection = reset($connections);
 
         $locales = $application->getLocales();
@@ -215,5 +251,4 @@ class RemoteApplicationManagerService
 
         return $response;
     }
-
 }

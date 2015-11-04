@@ -3,26 +3,19 @@
 namespace Araneum\Bundle\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
     /**
-     * Main method
+     * Index action of Default controller
      *
-     * @Route("/", name="test_test")
-     * @Template()
+     * @Route("/")
+     *
+     * @return Response
      */
     public function indexAction()
     {
-        $c = $this->getDoctrine()->getRepository('AraneumMainBundle:Connection')->findConnectionByAppKey(
-            111111111111111
-        );
-
-        die(var_dump($c));
-        return [
-            'name' => 'test'
-        ];
+        return new Response();
     }
 }
