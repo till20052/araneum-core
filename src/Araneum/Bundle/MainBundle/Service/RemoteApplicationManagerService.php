@@ -55,6 +55,11 @@ class RemoteApplicationManagerService
     private $container;
 
     /**
+     * @var
+     */
+    private $apiCred;
+
+    /**
      * Remote application handler constructor
      *
      * @param Client             $client
@@ -66,8 +71,9 @@ class RemoteApplicationManagerService
         $this->entityManager = $this->container->get('doctrine.orm.entity_manager');
         $this->client = $client;
 
-        $user = $this->container->getParameter('site_api.user');
-        $password = $this->container->getParameter('site_api.password');
+        $this->apiCred = $this->container->getParameter('site_api');
+        $user = $this->apiCred['user'];
+        $password = $this->apiCred['password'];
 
         $this->params = [
             'auth' => [
