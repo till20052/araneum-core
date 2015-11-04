@@ -3,13 +3,13 @@ araneum_user:
     type:     annotation
     prefix:   /user
 
+araneum_agent:
+    resource: "@AraneumAgentBundle/Controller"
+    type:     annotation
+    prefix:   /agent
+
 araneum_main:
     resource: "@AraneumMainBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
-araneum_customers:
-    resource: "@AraneumAgentBundle/Controller"
     type:     annotation
     prefix:   /agent
 

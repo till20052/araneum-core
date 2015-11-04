@@ -55,7 +55,7 @@ class Lead
      * @var string
      *
      * @ORM\Column(name="phone", type="string", length=20)
-     * @Constraints\Regex(pattern="/^\+[0-9\-\(\)]{9,17}$/")
+     * @Constraints\Regex(pattern="/^\d[0-9\-\(\)]{9,17}$/")
      */
     private $phone;
 
@@ -68,6 +68,12 @@ class Lead
      */
     private $email;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", name="app_key", length=70)
+     */
+    private $appKey;
 
     /**
      * Get id
@@ -192,5 +198,28 @@ class Lead
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set appKey
+     *
+     * @param string $appKey
+     * @return Lead $this
+     */
+    public function setAppKey($appKey)
+    {
+        $this->appKey = $appKey;
+
+        return $this;
+    }
+
+    /**
+     * Get appKey
+     *
+     * @return string
+     */
+    public function getAppKey()
+    {
+        return $this->appKey;
     }
 }

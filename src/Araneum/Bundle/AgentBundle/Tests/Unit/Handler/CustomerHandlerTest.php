@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Symfony\Component\Form\FormFactory;
-use Araneum\Bundle\AgentBundle\Entity\CustomersLog;
+use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
 
 class CustomerHandlerTest extends BaseController
 {
@@ -199,12 +199,12 @@ class CustomerHandlerTest extends BaseController
             ->with($this->equalTo('AraneumAgentBundle:Customer'))
             ->will($this->returnValue($this->repositoryMock));
 
-        $log = new CustomersLog();
+        $log = new CustomerLog();
         $log->setApplication($application);
         $log->setAction('Login');
         $log->setCustomer($customer);
         $log->setSpotResponse(true);
-        $log->setStatus(CustomersLog::STATUS_SUCCESS);
+        $log->setStatus(CustomerLog::STATUS_OK);
 
         $this->entityManager->expects($this->at(1))
             ->method('persist')
