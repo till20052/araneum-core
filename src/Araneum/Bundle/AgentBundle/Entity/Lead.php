@@ -55,7 +55,7 @@ class Lead
      * @var string
      *
      * @ORM\Column(name="phone", type="string", length=20)
-     * @Constraints\Regex(pattern="/^\+[0-9\-\(\)]{9,17}$/")
+     * @Constraints\Regex(pattern="/^\d[0-9\-\(\)]{9,17}$/")
      */
     private $phone;
 
