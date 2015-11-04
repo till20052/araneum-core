@@ -6,12 +6,12 @@ araneum_user:
 araneum_agent:
     resource: "@AraneumAgentBundle/Controller"
     type:     annotation
-    prefix:   /
+    prefix:   /agent
 
 araneum_main:
     resource: "@AraneumMainBundle/Controller/"
     type:     annotation
-    prefix:   /agent
+    prefix:   /
 
 araneum_mail:
     resource: "@AraneumMailBundle/Controller"
