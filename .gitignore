@@ -6,7 +6,10 @@
 !app/logs/.gitkeep
 /app/phpunit.xml
 /bin/
-
+/web/assets/build/html
+/web/assets/build/js
+/web/assets/build/css
+/web/assets/build/img
 /composer.phar
 /vendor/
 /web/bundles/
