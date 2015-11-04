@@ -56,7 +56,7 @@ class ApplicationEventListenerService
 	 *
 	 * @param ApplicationEvent $event
 	 */
-	public function postRemove(ApplicationEvent $event)
+	public function preRemove(ApplicationEvent $event)
 	{
 		/** @var Application $application */
 		foreach($event->getApplications() as $application)

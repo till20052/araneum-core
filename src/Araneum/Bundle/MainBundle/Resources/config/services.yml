@@ -21,7 +21,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: araneum.main.application.event.post_persist, method: postPersist }
             - { name: kernel.event_listener, event: araneum.main.application.event.post_update, method: postUpdate }
-            - { name: kernel.event_listener, event: araneum.main.application.event.post_remove, method: postRemove }
+            - { name: kernel.event_listener, event: araneum.main.application.event.pre_remove, method: preRemove }
     
     araneum.main.application.checker:
         class: Araneum\Bundle\MainBundle\Service\ApplicationCheckerService

@@ -98,13 +98,13 @@ class ApplicationAdmin extends Admin
 	 * @param Application $application
 	 * @return void
 	 */
-	public function postRemove($application)
+    public function preRemove($application)
 	{
 		$event = new ApplicationEvent();
 
 		$event->addApplication($application);
 
-		$this->dispatcher->dispatch(ApplicationEvents::POST_REMOVE, $event);
+        $this->dispatcher->dispatch(ApplicationEvents::PRE_REMOVE, $event);
 	}
 
     /**

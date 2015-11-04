@@ -94,11 +94,12 @@ class ClusterApiController extends FOSRestController
 	 * @param int $clusterId The cluster id
 	 * @return array
 	 */
-	public function remoteApplicationGetData($clusterId)
+	public function remoteApplicationGetDataAction($clusterId)
 	{
-		$connection = $this->container
-			->get('doctrine.orm.entity_manager')
-			->getRepository('AraneumMainBundle:Connection')
-			->getHostByClusterId($clusterId);
+		$list = $this->container
+			->get('araneum.main.application.remote_manager')
+			->get($clusterId);
+
+		return $list;
 	}
 }
