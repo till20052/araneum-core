@@ -12,7 +12,7 @@
       // Global Settings
       // ----------------------------------- 
       $rootScope.app = {
-        name: 'Araneum',
+        name: 'Manage :: Araneum',
         description: 'Multisite manage tool',
         year: ((new Date()).getFullYear()),
         layout: {

@@ -19,7 +19,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/app/main');
+        $urlRouterProvider.otherwise('/app/dashboard');
 
         //
         // Application Routes
@@ -32,10 +32,10 @@
                 resolve: helper.resolveFor('fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'slimscroll', 'classyloader', 'toaster', 'whirl')
             })
             .state('app.main', {
-                url: '/main',
+                url: '/dashboard',
                 title: 'Main page',
-                templateUrl: helper.basepath('main.html'),
-                resolve: helper.resolveFor('flot-chart', 'flot-chart-plugins', 'weather-icons')
+                templateUrl: helper.basepath('dashboard.html'),
+                resolve: helper.resolveFor('flot-chart','flot-chart-plugins', 'chartjs')
             })
     }
 
