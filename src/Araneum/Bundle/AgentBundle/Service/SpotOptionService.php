@@ -15,4 +15,17 @@ class SpotOptionService
     {
         return true;
     }
+
+    /**
+     * Reset Customer Password on SpotOption
+     *
+     * @param $login
+     * @param $currentPassword
+     * @param $newPassword
+     * @return bool
+     */
+    public function resetPassword($login, $currentPassword, $newPassword)
+    {
+        return true;
+    }
 }
