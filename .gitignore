@@ -15,6 +15,7 @@
 /web/bundles/
 /web/assets/source/node_modules/
 /web/assets/vendor
+/web/assets/build
 /web/assets/source/bower_components/
 !/web/bundles/araneumuser/*
 /.idea/

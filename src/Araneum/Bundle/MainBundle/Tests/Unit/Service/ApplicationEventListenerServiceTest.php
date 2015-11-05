@@ -11,80 +11,85 @@ use Symfony\Component\EventDispatcher\Event;
 
 class ApplicationEventListenerServiceTest extends \PHPUnit_Framework_TestCase
 {
-	/**
-	 * @var EventDispatcher
-	 */
-	private $dispatcher;
+    /**
+     * @var EventDispatcher
+     */
+    private $dispatcher;
 
-	private $application;
+    private $application;
 
-	/**
-	 * Dispatch all events
-	 *
-	 * @param Event $event
-	 */
-	private function dispatch($event)
-	{
-		$this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
-		$this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
-		$this->dispatcher->dispatch(ApplicationEvents::POST_REMOVE, $event);
-	}
+    /**
+     * Test Application Event Listener
+     */
+    public function testApplicationEvent()
+    {
+        $event = new ApplicationEvent();
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function setUp()
-	{
-		$remoteManager = $this->getMock('\Araneum\Bundle\MainBundle\Service\RemoteApplicationManagerService');
+        $event->addApplication($this->application);
 
-		foreach(['create', 'update', 'remove'] as $method)
-		{
-			$remoteManager->expects($this->once())
-				->method($method)
-				->with($this->equalTo(ApplicationFixtures::TEST_APP_APP_KEY))
-				->will($this->returnValue(true));
-		}
+        $this->dispatch($event);
+    }
 
-		$listener = new ApplicationEventListenerService($remoteManager);
+    /**
+     * Dispatch all events
+     *
+     * @param Event $event
+     */
+    private function dispatch($event)
+    {
+        $this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
+        $this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
+        $this->dispatcher->dispatch(ApplicationEvents::PRE_REMOVE, $event);
+    }
 
-		$this->dispatcher = new EventDispatcher();
-		$this->dispatcher->addListener(
-			ApplicationEvents::POST_PERSIST,
-			[
-				$listener,
-				'postPersist'
-			]
-		);
-		$this->dispatcher->addListener(
-			ApplicationEvents::POST_UPDATE,
-			[
-				$listener,
-				'postUpdate'
-			]
-		);
-		$this->dispatcher->addListener(
-			ApplicationEvents::POST_REMOVE,
-			[
-				$listener,
-				'postRemove'
-			]
-		);
+    /**
+     * @inheritdoc
+     */
+    protected function setUp()
+    {
+        $remoteManager = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Service\RemoteApplicationManagerService')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$this->application = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Application');
-		$this->application->expects($this->atLeastOnce())
-			->method('getAppKey')
-			->will($this->returnValue(ApplicationFixtures::TEST_APP_APP_KEY));
-	}
+        foreach ([
+                     'create',
+                     'update',
+                     'remove'
+                 ] as $method) {
+            $remoteManager->expects($this->once())
+                ->method($method)
+                ->with($this->equalTo(ApplicationFixtures::TEST_APP_APP_KEY))
+                ->will($this->returnValue(true));
+        }
 
-	/**
-	 * Test Application Event Listener
-	 */
-	public function testApplicationEvent()
-	{
-		$event = new ApplicationEvent();
+        $listener = new ApplicationEventListenerService($remoteManager);
 
-		$event->addApplication($this->application);
+        $this->dispatcher = new EventDispatcher();
+        $this->dispatcher->addListener(
+            ApplicationEvents::POST_PERSIST,
+            [
+                $listener,
+                'postPersist'
+            ]
+        );
+        $this->dispatcher->addListener(
+            ApplicationEvents::POST_UPDATE,
+            [
+                $listener,
+                'postUpdate'
+            ]
+        );
+        $this->dispatcher->addListener(
+            ApplicationEvents::PRE_REMOVE,
+            [
+                $listener,
+                'preRemove'
+            ]
+        );
 
-		$this->dispatch($event);
-	}
+        $this->application = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Application');
+        $this->application->expects($this->atLeastOnce())
+            ->method('getAppKey')
+            ->will($this->returnValue(ApplicationFixtures::TEST_APP_APP_KEY));
+    }
 }
