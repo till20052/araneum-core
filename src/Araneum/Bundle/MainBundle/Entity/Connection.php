@@ -64,14 +64,14 @@ class Connection
 	protected $host;
 
     /**
-     * @ORM\Column(type="integer", name="port", length=8)
+	 * @ORM\Column(type="integer", name="port", length=8, nullable=true)
      * @Assert\Length(min=2, max=8)
      * @Assert\NotBlank()
      */
     protected $port;
 
     /**
-     * @ORM\Column(type="string", name="user_name", length=100)
+	 * @ORM\Column(type="string", name="user_name", length=100, nullable=true)
      * @Assert\Length(min=3, max=100)
      * @Assert\NotBlank()
 	 * @Assert\Regex(pattern="/^\w+$/")
@@ -79,8 +79,9 @@ class Connection
     protected $userName;
 
 	/**
-	 * @ORM\Column(type="string", name="password", length=100)
+	 * @ORM\Column(type="string", name="password", length=100, nullable=true)
 	 * @Assert\Length(min=6, max=100)
+	 * @Assert\NotBlank()
 	 */
 	protected $password;
 
