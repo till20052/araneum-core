@@ -7,24 +7,23 @@ use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class CustomersLog
+ * Class CustomerLog
  *
  * @ORM\Table("araneum_customers_log")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\AgentBundle\Repository\CustomersLogRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class CustomersLog
+class CustomerLog
 {
     use DateTrait;
 
-    const STATUS_ERROR   = 0;
-    const STATUS_SUCCESS = 101;
+    const STATUS_OK = 0;
+    const STATUS_ERROR = 100;
 
-    private static $statusDescription =
-        [
-            self::STATUS_ERROR => 'Error',
-            self::STATUS_SUCCESS => 'Success'
-        ];
+    private static $statuses = [
+        self::STATUS_OK => 'ok',
+        self::STATUS_ERROR => 'error'
+    ];
 
     /**
      * @var integer
@@ -73,6 +72,31 @@ class CustomersLog
     private $status;
 
     /**
+     * Get list of Customer statuses
+     *
+     * @return array
+     */
+    public static function getStatuses()
+    {
+        return self::$statuses;
+    }
+
+    /**
+     * Get Customer status description
+     *
+     * @param $status
+     * @return string
+     */
+    public static function getStatusDescription($status)
+    {
+        if (!isset(self::$statuses[$status])) {
+            return '[undefined]';
+        }
+
+        return self::$statuses[$status];
+    }
+
+    /**
      * Get id
      *
      * @return int
@@ -96,7 +120,7 @@ class CustomersLog
      * Set application
      *
      * @param Application $application
-     * @return CustomersLog
+     * @return CustomerLog
      */
     public function setApplication($application)
     {
@@ -119,7 +143,7 @@ class CustomersLog
      * Set customer
      *
      * @param Customer $customer
-     * @return CustomersLog
+     * @return CustomerLog
      */
     public function setCustomer($customer)
     {
@@ -142,7 +166,7 @@ class CustomersLog
      * Set action
      *
      * @param string $action
-     * @return CustomersLog
+     * @return CustomerLog
      */
     public function setAction($action)
     {
@@ -165,7 +189,7 @@ class CustomersLog
      * Set spot Option response
      *
      * @param string $spotResponse
-     * @return CustomersLog
+     * @return CustomerLog
      */
     public function setSpotResponse($spotResponse)
     {
@@ -188,23 +212,12 @@ class CustomersLog
      * Set status
      *
      * @param string $status
-     * @return CustomersLog
+     * @return CustomerLog
      */
     public function setStatus($status)
     {
         $this->status = $status;
 
         return $this;
-    }
-
-    /**
-     * Get description status
-     *
-     * @param $id
-     * @return mixed
-     */
-    public function getStatusDescription($id)
-    {
-        return self::$statusDescription[$id];
     }
 }
