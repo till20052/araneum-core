@@ -66,7 +66,7 @@ class ClusterAdmin extends Admin
 
 		$event->setApplications($cluster->getApplications());
 
-		$this->dispatcher->dispatch(ApplicationEvents::POST_REMOVE, $event);
+        $this->dispatcher->dispatch(ApplicationEvents::PRE_REMOVE, $event);
 	}
 
 	/**

@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Repository;
 
+use Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures;
 use Araneum\Bundle\MainBundle\Entity\Connection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityRepository;
@@ -68,6 +69,49 @@ class ConnectionRepository extends EntityRepository
                 [
                     'type' => Connection::CONN_HOST,
                     'ids' => $ids
+                ]
+            );
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Find Connection by appKey
+     *
+     * @param $appKey
+     * @return array
+     */
+    public function findConnectionByAppKey($appKey)
+    {
+        $qb = $this->createQueryBuilder('conn');
+
+        $qb
+            ->join('conn.clusters', 'clu')
+            ->join('clu.applications', 'app')
+            ->where('app.appKey = :appKey')
+            ->setParameters(['appKey' => $appKey]);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Get host by cluster Id
+     *
+     * @param $clusterId
+     * @return array
+     */
+    public function getHostByClusterId($clusterId)
+    {
+        $qb = $this->createQueryBuilder('conn');
+        $qb
+            ->join('conn.clusters', 'clu')
+            ->where('clu.id = :clu')
+            ->andWhere('conn.type = :type')
+            ->andWhere('conn.enabled = true')
+            ->setParameters(
+                [
+                    'clu' => $clusterId,
+                    'type' => ConnectionFixtures::TEST_CONN_HOST_TYPE
                 ]
             );
 

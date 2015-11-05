@@ -70,7 +70,7 @@ class ComponentAdmin extends Admin
 
 		$event->setApplications($component->getApplications());
 
-		$this->dispatcher->dispatch(ApplicationEvents::POST_REMOVE, $event);
+        $this->dispatcher->dispatch(ApplicationEvents::PRE_REMOVE, $event);
 	}
 
 	/**

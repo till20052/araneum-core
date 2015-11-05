@@ -8,6 +8,10 @@ imports:
 parameters:
     locale: en
     locales: en|ru
+    site_api:
+        user: api
+        password: QDurWe68
+
 
 framework:
     #esi:             ~
