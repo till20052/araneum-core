@@ -1,35 +1,57 @@
 Main:
-  Cluster:
-    link: admin/araneum/main/cluster/list
-    class: menu_item
-
-  Connection:
-    link: admin/araneum/main/connection/list
-    class: menu_item
-
-  Locale:
-    link: admin/araneum/main/locale/list
-    class: menu_item
-
-  Component:
-    link: admin/araneum/main/component/list
-    class: menu_item
-
-  Application:
-    link: admin/araneum/main/cluster/list
-    class: menu_item
-
-User:
-  User:
-    link: admin/araneum/user/user/list
-    class: menu_item
-
-Mail:
-  Mail:
-    link: admin/araneum/mail/mail/list
-    class: menu_item
-
-Customer:
-  Customer:
-    link: admin/araneum/customer/customer/list
-    class: menu_item
+  text: Main Navigation
+  translate: sidebar.heading.HEADER
+  submenu:
+    Dashboard:
+      text: Dashboard
+      sref: app.dashboard
+      icon: icon-speedometer
+      translate: sidebar.nav.DASHBOARD
+    Users:
+      text: Users
+      sref: app.table-ngtable
+      icon: icon-users
+      translate: sidebar.nav.USERS
+Site_Manager:
+  text: Site manager
+  translate: sidebar.heading.MANAGER
+  submenu:
+    Cluster:
+      text: Cluster
+      sref: app.table-standard
+      icon: icon-grid
+      translate: sidebar.nav.manager.CLUSTER
+    Applications:
+      text: Applications
+      sref: app.application
+      icon: icon-screen-tablet
+      translate: sidebar.nav.manager.APPLICATION
+    Connection:
+      text: Connection
+      sref: app.connections
+      icon: icon-share-alt
+      translate: sidebar.nav.manager.CONNECTION
+    Component:
+      text: Component
+      sref: app.components
+      icon: icon-puzzle
+      translate: sidebar.nav.manager.COMPONENT
+    Locale:
+      text: Locale
+      sref: app.locales
+      icon: icon-globe-alt
+      translate: sidebar.nav.manager.LOCALE
+Received_data:
+  text: Received_data
+  translate: sidebar.heading.RECEIVE
+  submenu:
+    Cluster:
+      text: Customer
+      sref: app.customers
+      icon: icon-user-follow
+      translate: sidebar.nav.received.CUSTOMER
+    Email:
+      text: Email
+      sref: app.emails
+      icon: icon-layers
+      translate: sidebar.nav.received.EMAIL

@@ -5,6 +5,7 @@ namespace Araneum\Bundle\MainBundle\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Yaml\Parser;
 
 class AdminDefaultController extends Controller
 {
@@ -15,77 +16,13 @@ class AdminDefaultController extends Controller
      */
     public function menuAction()
     {
-        $menu = [
-            [
-                "text" => "Main Navigation",
-                "heading" => "true",
-                "translate" => "sidebar.heading.HEADER"
-            ],
-            [
-                "text" => "Dashboard",
-                "sref" => "app.dashboard",
-                "icon" => "icon-speedometer",
-                "translate" => "sidebar.nav.DASHBOARD"
-            ],
-            [
-                "text" => "Users",
-                "sref" => "app.table-ngtable",
-                "icon" => "icon-users",
-                "translate" => "sidebar.nav.USERS"
-            ],
-            [
-                "text" => "Site manager",
-                "heading" => "true",
-                "translate" => "sidebar.heading.MANAGER"
-            ],
-            [
-                "text" => "Cluster",
-                "sref" => "app.table-standard",
-                "icon" => "icon-grid",
-                "translate" => "sidebar.nav.manager.CLUSTER"
-            ],
-            [
-                "text" => "Applications",
-                "sref" => "app.application",
-                "icon" => "icon-screen-tablet",
-                "translate" => "sidebar.nav.manager.APPLICATION"
-            ],
-            [
-                "text" => "Connection",
-                "sref" => "app.connections",
-                "icon" => "icon-share-alt",
-                "translate" => "sidebar.nav.manager.CONNECTION"
-            ],
-            [
-                "text" => "Component",
-                "sref" => "app.components",
-                "icon" => "icon-puzzle",
-                "translate" => "sidebar.nav.manager.COMPONENT"
-            ],
-            [
-                "text" => "Locale",
-                "sref" => "app.locales",
-                "icon" => "icon-globe-alt",
-                "translate" => "sidebar.nav.manager.LOCALE"
-            ],
-            [
-                "text" => "Received data",
-                "heading" => "true",
-                "translate" => "sidebar.heading.RECEIVED"
-            ],
-            [
-                "text" => "Customer",
-                "sref" => "app.customers",
-                "icon" => "icon-user-follow",
-                "translate" => "sidebar.nav.received.CUSTOMER"
-            ],
-            [
-                "text" => "Email",
-                "sref" => "app.emails",
-                "icon" => "icon-layers",
-                "translate" => "sidebar.nav.received.EMAIL"
-            ]
-        ];
+        $yaml = new Parser();
+
+        $array = $yaml->parse(file_get_contents(__DIR__ . '/../Resources/menu/left.yml'));
+
+        $menu = $this->container
+            ->get('araneum.main.menu.generator')
+            ->generateOneDimentional($array);
 
         return new JsonResponse(
             $menu,
