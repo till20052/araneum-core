@@ -1,0 +1,35 @@
+Main:
+  Cluster:
+    link: admin/araneum/main/cluster/list
+    class: menu_item
+
+  Connection:
+    link: admin/araneum/main/connection/list
+    class: menu_item
+
+  Locale:
+    link: admin/araneum/main/locale/list
+    class: menu_item
+
+  Component:
+    link: admin/araneum/main/component/list
+    class: menu_item
+
+  Application:
+    link: admin/araneum/main/cluster/list
+    class: menu_item
+
+User:
+  User:
+    link: admin/araneum/user/user/list
+    class: menu_item
+
+Mail:
+  Mail:
+    link: admin/araneum/mail/mail/list
+    class: menu_item
+
+Customer:
+  Customer:
+    link: admin/araneum/customer/customer/list
+    class: menu_item

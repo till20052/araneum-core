@@ -2,14 +2,10 @@
 
 namespace Araneum\Bundle\MainBundle\Controller;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\FileLocator;
-use Araneum\Bundle\AgentBundle\DependencyInjection\AraneumAgentExtension;
-use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Araneum\Bundle\AgentBundle\DependencyInjection\Configuration;
+use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends Controller
 {
@@ -32,12 +28,9 @@ class DefaultController extends Controller
     public function getMenuFromConfigAction()
     {
 
-        $array = [
-            'Main' => [
-                'one' => 'oneIOtem',
-                'two' => 'secondItem'
-            ]
-        ];
+        $yaml = new Parser();
+
+        $array = $yaml->parse(file_get_contents('/../Resources/menu/left.yml'));
 
         $array = json_encode($array);
 
