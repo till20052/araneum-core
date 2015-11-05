@@ -9,7 +9,7 @@
     function translateConfig($translateProvider){
 
       $translateProvider.useStaticFilesLoader({
-          prefix : 'app/i18n/',
+          prefix : '/en/manage/translate/',
           suffix : '.json'
       });
 
