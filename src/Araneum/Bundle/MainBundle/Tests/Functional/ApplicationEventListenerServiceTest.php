@@ -19,6 +19,6 @@ class ApplicationEventListenerServiceTest extends BaseController
 
 		$this->assertTrue(count($dispatcher->getListeners(ApplicationEvents::POST_PERSIST)) > 0);
 		$this->assertTrue(count($dispatcher->getListeners(ApplicationEvents::POST_UPDATE)) > 0);
-		$this->assertTrue(count($dispatcher->getListeners(ApplicationEvents::POST_REMOVE)) > 0);
+		$this->assertTrue(count($dispatcher->getListeners(ApplicationEvents::PRE_REMOVE)) > 0);
 	}
 }

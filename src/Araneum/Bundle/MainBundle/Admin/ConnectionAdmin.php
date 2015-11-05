@@ -86,7 +86,7 @@ class ConnectionAdmin extends Admin
 
 		$event->setApplications($this->getApplications($connection->getId()));
 
-		$this->dispatcher->dispatch(ApplicationEvents::POST_REMOVE, $event);
+        $this->dispatcher->dispatch(ApplicationEvents::PRE_REMOVE, $event);
 	}
 
 	/**
