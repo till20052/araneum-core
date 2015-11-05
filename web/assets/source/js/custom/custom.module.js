@@ -4,7 +4,7 @@
     angular
         .module('custom', [
             // request the the entire framework
-            'angle',
+            'araneum',
             // or just modules
             'app.core',
             'app.sidebar'

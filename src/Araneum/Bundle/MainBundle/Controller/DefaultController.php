@@ -3,20 +3,21 @@
 namespace Araneum\Bundle\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class DefaultController extends Controller
 {
     /**
-     * Index action of Default controller
+     * Admin panel action
      *
-     * @Route("/")
-     *
-     * @return Response
+     * @Route("/manage/", name="araneum_admin_index")
      */
-    public function indexAction()
+    public function adminAction()
     {
-        return new Response();
+        return $this->render(
+            'admin.layout.html.twig',
+            []
+        );
     }
 }
