@@ -22,6 +22,7 @@ class MenuGeneratorService
 
                 $keys = array_keys($menu);
                 $submenu = false;
+                $rootadded = false;
 
                 if (in_array('submenu', $keys)) {
                     $submenu = true;
@@ -35,6 +36,7 @@ class MenuGeneratorService
                     if ($submenu && $key == 'submenu') {
                         $tempArray['heading'] = 'true';
                         array_push($output, $tempArray);
+                        $rootadded = true;
                         $this->generateOneDimentional($menu['submenu']);
                     }
 
@@ -42,7 +44,9 @@ class MenuGeneratorService
                         $tempArray[$key] = $menu[$key];
                     }
                 }
-                array_push($output, $tempArray);
+                if (!$rootadded) {
+                    array_push($output, $tempArray);
+                }
             }
         }
 
