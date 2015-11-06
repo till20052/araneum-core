@@ -39,24 +39,27 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", name="full_name", nullable=true)
-     */
-    private $fullName;
-
     /**
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Role", cascade={"detach", "persist"}, inversedBy="users")
      * @ORM\JoinTable(name="araneum_user_role")
      */
     protected $roles;
-
+    /**
+     * @var string
+     * @ORM\Column(type="string", name="full_name", nullable=true)
+     */
+    private $fullName;
     /**
      * @var array
      */
     private $rolesBuffer;
+
+    /**
+     * @var string
+     * @ORM\Column(type="text", name="settings", nullable=true)
+     */
+    private $settings;
 
     /**
      * @inheritdoc
@@ -76,8 +79,7 @@ class User extends BaseUser
     {
         $this->rolesBuffer = [];
 
-        foreach($this->roles as $role)
-        {
+        foreach ($this->roles as $role) {
             $this->rolesBuffer[] = $role->getName();
         }
     }
@@ -96,10 +98,66 @@ class User extends BaseUser
 
         $this->roles->clear();
 
-        foreach($this->getRoles() as $roleName)
-        {
+        foreach ($this->getRoles() as $roleName) {
             $this->roles->add($roleRepository->findOneByName($roleName));
         }
+    }
+
+    /**
+     * Get user roles
+     *
+     * @return array
+     */
+    public function getRoles()
+    {
+        if (
+            isset($this->rolesBuffer)
+            && is_array($this->rolesBuffer)
+        ) {
+            return $this->rolesBuffer;
+        }
+
+        $this->rolesBuffer = [];
+
+        foreach ($this->roles as $role) {
+            $this->rolesBuffer[] = $role->getName();
+        }
+
+        return $this->rolesBuffer;
+    }
+
+    /**
+     * Set user roles
+     *
+     * @param array $roles
+     * @return User
+     */
+    public function setRoles(array $roles)
+    {
+        $this->rolesBuffer = [];
+
+        foreach ($roles as $role) {
+            $this->addRole($role);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add user role
+     *
+     * @param string $role
+     * @return $this
+     */
+    public function addRole($role)
+    {
+        $role = strtoupper($role);
+
+        if (!in_array($role, $this->getRoles(), true)) {
+            $this->rolesBuffer[] = $role;
+        }
+
+        return $this;
     }
 
     /**
@@ -126,66 +184,6 @@ class User extends BaseUser
     }
 
     /**
-     * Get user roles
-     *
-     * @return array
-     */
-    public function getRoles()
-    {
-        if(
-            isset($this->rolesBuffer)
-            && is_array($this->rolesBuffer)
-        ){
-            return $this->rolesBuffer;
-        }
-
-        $this->rolesBuffer = [];
-
-        foreach ($this->roles as $role)
-        {
-            $this->rolesBuffer[] = $role->getName();
-        }
-
-        return $this->rolesBuffer;
-    }
-
-    /**
-     * Set user roles
-     *
-     * @param array $roles
-     * @return User
-     */
-    public function setRoles(array $roles)
-    {
-        $this->rolesBuffer = [];
-
-        foreach ($roles as $role)
-        {
-            $this->addRole($role);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Add user role
-     *
-     * @param string $role
-     * @return $this
-     */
-    public function addRole($role)
-    {
-        $role = strtoupper($role);
-
-        if( ! in_array($role, $this->getRoles(), true))
-        {
-            $this->rolesBuffer[] = $role;
-        }
-
-        return $this;
-    }
-
-    /**
      * Remove user role
      *
      * @param string $role
@@ -193,8 +191,7 @@ class User extends BaseUser
      */
     public function removeRole($role)
     {
-        if(false !== $key = array_search(strtoupper($role), $this->getRoles(), true))
-        {
+        if (false !== $key = array_search(strtoupper($role), $this->getRoles(), true)) {
             unset($this->rolesBuffer[$key]);
             $this->rolesBuffer = array_values($this->rolesBuffer);
         }
@@ -211,6 +208,29 @@ class User extends BaseUser
     public function hasRole($role)
     {
         return in_array(strtoupper($role), $this->getRoles(), true);
+    }
+
+    /**
+     * Get settings
+     *
+     * @return string
+     */
+    public function getSettings()
+    {
+        return $this->settings;
+    }
+
+    /**
+     * Set settings
+     *
+     * @param $settings
+     * @return $this
+     */
+    public function setSettings($settings)
+    {
+        $this->settings = $settings;
+
+        return $this;
     }
 
     /**
