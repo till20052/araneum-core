@@ -9,7 +9,7 @@ use Araneum\Bundle\MainBundle\Service\MenuGeneratorService;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ApplicationManagerServiceTest extends \PHPUnit_Framework_TestCase
+class MenuGeneratorServiceTest extends \PHPUnit_Framework_TestCase
 {
     private $inputArray;
     private $outputArray;
