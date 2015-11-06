@@ -6,6 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Araneum\Bundle\UserBundle\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use FOS\RestBundle\Controller\Annotations as Rest;
 
 class AdminUserController extends Controller
 {
@@ -28,17 +31,43 @@ class AdminUserController extends Controller
     public function getSettingsAction()
     {
         $user = $this->getUser();
+        $response = new Response();
 
-        return new Response($user->getSettings());
+        if (is_null($user)) {
+            $response->setStatusCode(403);
+            $response->setContent('No authorized');
+        } else {
+            $response->setStatusCode(200);
+            $response->setContent($user->getSettings());
+        }
+
+        return $response;
     }
 
     /**
-     * Set
+     * Set user settings
      *
-     * @param $settings
+     * @Rest\Post("/set_settings/", defaults={"_format"="json"}, name="araneum_user_set_settings")
+     * @return Response
      */
-    public function setSettingsAction(Request $settings)
+    public function setSettingsAction(Request $request)
     {
         $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+
+        $response = new Response();
+
+        try {
+            $user->setSettings($request->request->all());
+            $em->persist($user);
+            $em->flush();
+            $response->setStatusCode(200);
+            $response->setContent('OK');
+        } catch (\Exception $e) {
+            $response->setStatusCode(500);
+            $response->setContent($e->getMessage());
+        }
+
+        return $response;
     }
 }

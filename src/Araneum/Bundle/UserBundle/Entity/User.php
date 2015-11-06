@@ -56,8 +56,7 @@ class User extends BaseUser
     private $rolesBuffer;
 
     /**
-     * @var string
-     * @ORM\Column(type="text", name="settings", nullable=true)
+     * @ORM\Column(type="json_array", nullable=true)
      */
     private $settings;
 
@@ -67,6 +66,7 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
+        $this->setSettings([]);
         $this->roles = new ArrayCollection();
     }
 
@@ -223,10 +223,10 @@ class User extends BaseUser
     /**
      * Set settings
      *
-     * @param $settings
+     * @param array $settings
      * @return $this
      */
-    public function setSettings($settings)
+    public function setSettings(array $settings)
     {
         $this->settings = $settings;
 
