@@ -5,6 +5,8 @@ namespace Araneum\Bundle\MainBundle\Service;
 class MenuGeneratorService
 {
 
+    private $output = [];
+
     /**
      * Generate one dimentional array
      *
@@ -13,43 +15,41 @@ class MenuGeneratorService
      */
     public function generateOneDimentional($array)
     {
-
-        static $output = [];
         $tempArray = [];
 
         foreach ($array as $menu) {
             if (is_array($menu)) {
 
                 $keys = array_keys($menu);
-                $submenu = false;
-                $rootadded = false;
+                $subMenu = false;
+                $rootAdded = false;
 
                 if (in_array('submenu', $keys)) {
-                    $submenu = true;
+                    $subMenu = true;
                 }
 
                 foreach ($keys as $key) {
-                    if ($submenu && $key != 'submenu') {
+                    if ($subMenu && $key != 'submenu') {
                         $tempArray[$key] = $menu[$key];
                     }
 
-                    if ($submenu && $key == 'submenu') {
+                    if ($subMenu && $key == 'submenu') {
                         $tempArray['heading'] = 'true';
-                        array_push($output, $tempArray);
-                        $rootadded = true;
+                        array_push($this->output, $tempArray);
+                        $rootAdded = true;
                         $this->generateOneDimentional($menu['submenu']);
                     }
 
-                    if (!$submenu) {
+                    if (!$subMenu) {
                         $tempArray[$key] = $menu[$key];
                     }
                 }
-                if (!$rootadded) {
-                    array_push($output, $tempArray);
+                if (!$rootAdded) {
+                    array_push($this->output, $tempArray);
                 }
             }
         }
 
-        return $output;
+        return $this->output;
     }
 }
