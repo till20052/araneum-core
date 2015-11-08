@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Repository;
 
+use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -12,4 +13,32 @@ use Doctrine\ORM\EntityRepository;
  */
 class ApplicationRepository extends EntityRepository
 {
+    /**
+     * Get statistics of all applications by next conditions:
+     *  - online
+     *  - has problems
+     *  - has errors
+     *  - disabled
+     *
+     * return \stdClass
+     */
+    public function getApplicationsStatistics()
+    {
+        return (object) $this->getEntityManager()
+            ->createQuery('
+                SELECT
+                    SUM(CASE WHEN A.enabled = TRUE AND A.status = :online THEN 1 ELSE 0 END) AS online,
+                    SUM(CASE WHEN A.enabled = TRUE AND A.status = :hasProblem THEN 1 ELSE 0 END) AS hasProblems,
+                    SUM(CASE WHEN A.status > :hasProblem THEN 1 ELSE 0 END) AS hasErrors,
+                    SUM(CASE WHEN A.enabled = FALSE THEN 1 ELSE 0 END) AS disabled
+                FROM AraneumMainBundle:Application A
+            ')
+            ->setParameters(
+                [
+                    'online' => Application::STATUS_OK,
+                    'hasProblem' => Application::STATUS_CODE_INCORRECT
+                ]
+            )
+            ->getOneOrNullResult();
+    }
 }

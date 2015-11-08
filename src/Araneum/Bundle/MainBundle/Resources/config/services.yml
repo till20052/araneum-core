@@ -28,3 +28,7 @@ services:
         arguments: [@doctrine.orm.entity_manager, @guzzle.client]
         calls:
             - [setAgentLogger, [@araneum.agent.logger]]
+
+    araneum.main.statistics.service:
+        class: Araneum\Bundle\MainBundle\Service\StatisticsService
+        arguments: [@service_container]
