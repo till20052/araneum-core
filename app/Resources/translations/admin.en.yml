@@ -1,0 +1,35 @@
+dashboard :
+    WELCOME: "Welcome to Site manager"
+topbar:
+    messages:
+        UNREAD: "Unread messages"
+        MORE: "More messages"
+    search:
+        PLACEHOLDER: "Type and hit enter.."
+    notification:
+        MORE: "More notifications"
+offsidebar:
+    setting:
+        SETTINGS: "Settings"
+        THEMES: "Themes"
+        layout:
+            FIXED: "Fixed"
+            COLLAPSED: "Collapsed"
+sidebar:
+    WELCOME: "Welcome"
+    heading:
+        HEADER: "Main Navigation"
+        MANAGER: "Site manager"
+        RECEIVED: "Received data"
+    nav:
+        DASHBOARD: "Dashboard"
+        USERS: "Users"
+        manager:
+            CLUSTER: "Clusters"
+            APPLICATION: "Applications"
+            CONNECTION: "Connections"
+            COMPONENT: "Components"
+            LOCALE: "Locales"
+        received:
+            CUSTOMER: "Customers"
+            EMAIL: "Emails"
