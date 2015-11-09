@@ -5,7 +5,7 @@ namespace Araneum\Bundle\MainBundle\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Yaml\Parser;
+
 
 class AdminDefaultController extends Controller
 {
@@ -16,13 +16,9 @@ class AdminDefaultController extends Controller
      */
     public function menuAction()
     {
-        $yaml = new Parser();
-
-        $array = $yaml->parse(file_get_contents(__DIR__ . '/../Resources/menu/left.yml'));
-
         $menu = $this->container
             ->get('araneum.main.menu.generator')
-            ->generateOneDimentional($array);
+            ->leftMenuGenerate();
 
         return new JsonResponse(
             $menu,
