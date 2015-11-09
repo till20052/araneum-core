@@ -1,0 +1,35 @@
+dashboard :
+    WELCOME: "Добро пожаловать в систему управления сайтом"
+topbar:
+    messages:
+        UNREAD: "Непрочтенных сообщений"
+        MORE: "Больше сообщений"
+    search:
+        PLACEHOLDER: "Наберите и нажмите на клавишу Ввод.."
+    notification:
+        MORE: "Больше уведомлений"
+offsidebar:
+    setting:
+        SETTINGS: "Настройки"
+        THEMES: "Шаблоны"
+        layout:
+            FIXED: "Фиксированные"
+            COLLAPSED: "Разъезжающиеся"
+sidebar:
+    WELCOME: "Добро пожаловать"
+    heading:
+        HEADER: "Главное окно"
+        MANAGER: "Управление сайтами"
+        RECEIVED: "Полученные данные"
+    nav:
+        DASHBOARD: "Рабочий стол"
+        USERS: "Пользователи"
+        manager:
+            CLUSTER: "Кластер"
+            APPLICATION: "Приложения"
+            CONNECTION: "Соединения"
+            COMPONENT: "Компоненты"
+            LOCALE: "Локали"
+        received:
+            CUSTOMER: "Участники"
+            EMAIL: "Emails"
