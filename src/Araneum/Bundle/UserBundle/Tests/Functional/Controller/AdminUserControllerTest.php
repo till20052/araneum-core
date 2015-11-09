@@ -51,36 +51,40 @@ class UserControllerUpdateTest extends BaseController
      */
     public function testSet()
     {
+        $client = $this->createAdminAuthorizedClient(UserFixtures::ADMIN_USER_NAME);
+        $router = $client->getContainer()->get('router');
+
+        $client->request(
+            'POST',
+            $router->generate('araneum_user_set_settings'),
+            self::$settings
+        );
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(
+            200,
+            $response->getStatusCode()
+        );
     }
 
     /**
      * Test for Get Settings
      *
-     * @runInSeparateProcess
      */
     public function testGet()
     {
-        $client = $this->createAdminAuthorizedClient(UserFixtures::TEST_USER_NAME);
+        $client = $this->createAdminAuthorizedClient(UserFixtures::ADMIN_USER_NAME);
+        $router = $client->getContainer()->get('router');
 
-        $form = $client
+        $client
             ->request(
                 'GET',
-                $client
-                    ->getContainer()
-                    ->get('router')
-                    ->generate('araneum_user_get_settings')
+                $router->generate('araneum_user_get_settings')
             );
-        //$this->assertEquals($expectedValue, count($client->submit($form)->filter('.alert-notice')) > 0);
-    }
 
-    /**
-     * Get route from Url
-     *
-     * @param Link $link
-     * @return mixed
-     */
-    public function getUrl(Link $link)
-    {
-        return parse_url($link->getUri())['path'];
+        $response = $client->getResponse()->getContent();
+
+        $this->assertJson($response, json_encode(self::$settings));
     }
 }
