@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\DomCrawler\Link;
 
-class UserControllerUpdateTest extends BaseController
+class AdminUserControllerTest extends BaseController
 {
     /**
      * @var EntityManager
@@ -49,7 +49,7 @@ class UserControllerUpdateTest extends BaseController
      *
      * @runInSeparateProcess
      */
-    public function testSet()
+    public function testSettingsSet()
     {
         $client = $this->createAdminAuthorizedClient(UserFixtures::ADMIN_USER_NAME);
         $router = $client->getContainer()->get('router');
@@ -72,7 +72,7 @@ class UserControllerUpdateTest extends BaseController
      * Test for Get Settings
      *
      */
-    public function testGet()
+    public function testSettingsGet()
     {
         $client = $this->createAdminAuthorizedClient(UserFixtures::ADMIN_USER_NAME);
         $router = $client->getContainer()->get('router');
