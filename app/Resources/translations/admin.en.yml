@@ -1,5 +1,11 @@
 dashboard :
     WELCOME: "Welcome to Site manager"
+    DASHBOARD: "Dashboard"
+    aoolication:
+        APPLICATION: "application"
+        ONLINE: "Online"
+        PROBLEM: "Problem"
+        ERROR: "Error"
 topbar:
     messages:
         UNREAD: "Unread messages"
@@ -13,8 +19,21 @@ offsidebar:
         SETTINGS: "Settings"
         THEMES: "Themes"
         layout:
+            LAYOUT: "Layout"
             FIXED: "Fixed"
+            BOXED: "Boxed"
+        aside:
+            ASIDE: "Aside"
             COLLAPSED: "Collapsed"
+            FLOAT: "Float"
+            HOVER: "Hover"
+        chat:
+            CONNECTIONS: "Connections"
+            ONLINE: "Online"
+            OFFLINE: "Offline"
+            LOAD_MORE: "Load more"
+            TASK_COMPLETION: "Task competition"
+            QUOTA: "Quota"
 sidebar:
     WELCOME: "Welcome"
     heading:

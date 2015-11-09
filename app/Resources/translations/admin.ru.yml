@@ -1,5 +1,11 @@
 dashboard :
     WELCOME: "Добро пожаловать в систему управления сайтом"
+    DASHBOARD: "Рабоичий стол"
+    application:
+        APPLICATION: "Приложение"
+        ONLINE: "Online"
+        PROBLEM: "Проблема"
+        ERROR: "Ошибка"
 topbar:
     messages:
         UNREAD: "Непрочтенных сообщений"
@@ -13,8 +19,21 @@ offsidebar:
         SETTINGS: "Настройки"
         THEMES: "Шаблоны"
         layout:
+            LAYOUT: 'Расположение'
             FIXED: "Фиксированные"
-            COLLAPSED: "Разъезжающиеся"
+            BOXED: "Компактный"
+        aside:
+            ASIDE: 'Левое меню'
+            COLLAPSED: "Свернутое"
+            FLOAT: "Плавающее"
+            HOVER: "Наезжающее"
+        chat:
+            CONNECTIONS: "Соединения"
+            ONLINE: "Online"
+            OFFLINE: "Offline"
+            LOAD_MORE: "Загрузить еще"
+            TASK_COMPLETION: "Конкурентная задача"
+            QUOTA: "Лимит"
 sidebar:
     WELCOME: "Добро пожаловать"
     heading:
