@@ -3,9 +3,9 @@
 
     angular
         .module('app.loading')
-        .factory('LoadingInterceptor', LoadingInterceptor)
+        .factory('LoadingInterceptor', LoadingInterceptor);
 
-    LoadingInterceptor.$inject = ['$q']
+    LoadingInterceptor.$inject = ['$q'];
     function LoadingInterceptor($q) {
         var pendingRequests = [];
 
@@ -32,7 +32,7 @@
             response: onResponse,
             requestError: onError,
             responseError: onError
-        };
+        }
     }
 
 })();
