@@ -3,7 +3,7 @@
 namespace Araneum\Bundle\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Araneum\Bundle\UserBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,20 +25,22 @@ class AdminUserController extends Controller
     /**
      * Get user settings
      *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/get_settings/", name="araneum_user_get_settings")
-     * @return Response
+     * @return JsonResponse
+     *
      */
     public function getSettingsAction()
     {
         $user = $this->getUser();
-        $response = new Response();
+        $response = new JsonResponse();
 
         if (is_null($user)) {
             $response->setStatusCode(403);
             $response->setContent('No authorized');
         } else {
             $response->setStatusCode(200);
-            $response->setContent($user->getSettings());
+            $response->setContent(json_encode($user->getSettings()));
         }
 
         return $response;
@@ -47,22 +49,24 @@ class AdminUserController extends Controller
     /**
      * Set user settings
      *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Rest\Post("/set_settings/", defaults={"_format"="json"}, name="araneum_user_set_settings")
-     * @return Response
+     * @param Request $request
+     * @return JsonResponse $response
      */
     public function setSettingsAction(Request $request)
     {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
-        $response = new Response();
+        $response = new JsonResponse();
+        $response->headers->set('Content-Type', 'application/json');
 
         try {
             $user->setSettings($request->request->all());
             $em->persist($user);
             $em->flush();
             $response->setStatusCode(200);
-            $response->setContent('OK');
         } catch (\Exception $e) {
             $response->setStatusCode(500);
             $response->setContent($e->getMessage());
