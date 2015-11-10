@@ -41,7 +41,7 @@ sidebar:
         MANAGER: "Управление сайтами"
         RECEIVED: "Полученные данные"
     nav:
-        DASHBOARD: "Рабочий стол"
+        DASHBOARD: "Панель администратора"
         USERS: "Пользователи"
         manager:
             CLUSTER: "Кластер"
