@@ -238,6 +238,7 @@ class RemoteApplicationManagerTest extends BaseController
         ];
 
         $query = [
+            'name' => 'testName',
             'domain' => 'domain',
             'template' => 'defaultTemplate',
             'cluster' => ['id' => ''],
