@@ -51,7 +51,7 @@ class AdminUserController extends Controller
      * Set user settings
      *
      * @Security("has_role('ROLE_ADMIN')")
-     * @Rest\Post("/set_settings/", defaults={"_format"="json"}, name="araneum_user_set_settings")
+     * @Rest\Post("/set_settings", defaults={"_format"="json"}, name="araneum_user_set_settings")
      * @param Request $request
      * @return JsonResponse $response
      */

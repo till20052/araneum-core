@@ -5,9 +5,9 @@
         .module('app.settings')
         .run(settingsRun);
 
-    settingsRun.$inject = ['$rootScope', '$localStorage'];
+    settingsRun.$inject = ['$rootScope', '$localStorage', '$http'];
 
-    function settingsRun($rootScope, $localStorage){
+    function settingsRun($rootScope, $localStorage, $http) {
 
       // Global Settings
       // ----------------------------------- 
@@ -43,6 +43,13 @@
 
       $rootScope.$watch('app.layout', function () {
         $localStorage.layout = $rootScope.app.layout;
+
+          $http({
+              method: 'POST',
+              url: '/en/user/set_settings',
+              data: $rootScope.app.layout
+          });
+
       }, true);
 
       // Close submenu when sidebar change from collapsed to normal
