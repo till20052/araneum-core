@@ -18,8 +18,8 @@
         // You may have to set <base> tag in index and a routing configuration in your server
         $locationProvider.html5Mode(false);
 
-        // defaults to dashboard
-        $urlRouterProvider.otherwise('/app/dashboard');
+        // defaults to authorization
+        $urlRouterProvider.otherwise('/login');
 
         //
         // Application Routes
@@ -36,6 +36,11 @@
                 title: 'Main page',
                 templateUrl: helper.basepath('dashboard.html'),
                 resolve: helper.resolveFor('flot-chart','flot-chart-plugins', 'chartjs')
+            })
+            .state('login', {
+                url: '/login',
+                title: 'Authorization',
+                templateUrl: '/en/user/login.html'
             })
     }
 
