@@ -150,5 +150,5 @@ snc_redis:
 
 jms_i18n_routing:
     default_locale: %locale%
-    locales: %locales$
+    locales: %locales%
     strategy: prefix_except_default
