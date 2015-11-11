@@ -53,6 +53,7 @@ class CustomerApiControllerTest extends BaseController
                     'lastName' => 'lastName',
                     'country' => 'country',
                     'email' => 'email@email.com',
+                    'currency' => 'usd',
                     'callback' => true,
                     'phone' => '380993222234'
                 ],
@@ -64,6 +65,7 @@ class CustomerApiControllerTest extends BaseController
                     'lastName' => CustomerFixtures::TEST_LAST_NAME,
                     'country' => CustomerFixtures::TEST_COUNTRY,
                     'email' => CustomerFixtures::TEST_EMAIL,
+                    'currency' => CustomerFixtures::TEST_CURRENCY,
                     'callback' => true,
                     'phone' => CustomerFixtures::TEST_PHONE
                 ],
