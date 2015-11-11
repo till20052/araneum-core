@@ -24,18 +24,34 @@ class ApplicationRepository extends EntityRepository
      */
     public function getApplicationsStatistics()
     {
-        return (object) $this->createQueryBuilder('A')
-            ->select('SUM(CASE WHEN A.enabled = TRUE AND A.status = :online THEN 1 ELSE 0 END) AS online')
-            ->addSelect('SUM(CASE WHEN A.enabled = TRUE AND A.status = :hasProblem THEN 1 ELSE 0 END) as hasProblems')
-            ->addSelect('SUM(CASE WHEN A.status > :hasProblem THEN 1 ELSE 0 END) as hasErrors')
-            ->addSelect('SUM(CASE WHEN A.enabled = FALSE THEN 1 ELSE 0 END) as disabled')
-            ->setParameters(
-                [
-                    'online' => Application::STATUS_OK,
-                    'hasProblem' => Application::STATUS_CODE_INCORRECT
-                ]
-            )
-            ->getQuery()
-            ->getOneOrNullResult();
+        $qb = $this->createQueryBuilder('A');
+
+
+
+        $qb->setParameters(
+            [
+                'online' => Application::STATUS_OK,
+//                'hasProblem' => Application::STATUS_CODE_INCORRECT
+            ]
+        );
+
+        echo $qb->getQuery()->getDQL();die;
+
+
+        return;
+
+//        return (object) $this->createQueryBuilder('A')
+//            ->select('SUM(CASE WHEN A.enabled = TRUE AND A.status = :online THEN 1 ELSE 0 END) AS online')
+//            ->addSelect('SUM(CASE WHEN A.enabled = TRUE AND A.status = :hasProblem THEN 1 ELSE 0 END) as hasProblems')
+//            ->addSelect('SUM(CASE WHEN A.status > :hasProblem THEN 1 ELSE 0 END) as hasErrors')
+//            ->addSelect('SUM(CASE WHEN A.enabled = FALSE THEN 1 ELSE 0 END) as disabled')
+//            ->setParameters(
+//                [
+//                    'online' => Application::STATUS_OK,
+//                    'hasProblem' => Application::STATUS_CODE_INCORRECT
+//                ]
+//            )
+//            ->getQuery()
+//            ->getOneOrNullResult();
     }
 }
