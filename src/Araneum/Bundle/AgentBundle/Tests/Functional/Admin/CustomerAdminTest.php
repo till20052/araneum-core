@@ -23,7 +23,7 @@ class CustomerAdminTest extends BaseController
 
 		$crawler = $client->request(
 			'GET',
-			'/en/admin/araneum/agent/customer/create'
+			'/admin/araneum/agent/customer/create'
 		);
 
 		$this->assertFalse($client->getResponse()->isSuccessful());
@@ -45,7 +45,7 @@ class CustomerAdminTest extends BaseController
 
 		$crawler = $client->request(
 			'GET',
-			'/en/admin/araneum/agent/customer/' . $customer->getId() . '/edit'
+			'/admin/araneum/agent/customer/' . $customer->getId() . '/edit'
 		);
 
 		$this->assertFalse($client->getResponse()->isSuccessful());
@@ -67,7 +67,7 @@ class CustomerAdminTest extends BaseController
 
 		$crawler = $client->request(
 			'GET',
-			'/en/admin/araneum/agent/customer/' . $customer->getId() . '/delete'
+			'/admin/araneum/agent/customer/' . $customer->getId() . '/delete'
 		);
 
 		$this->assertFalse($client->getResponse()->isSuccessful());

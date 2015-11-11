@@ -20,7 +20,7 @@ class MailAdminTest extends BaseController
 
         $crawler = $client->request(
             'GET',
-            '/en/admin/araneum/mail/mail/create'
+            '/admin/araneum/mail/mail/create'
         );
 
         $this->assertFalse($client->getResponse()->isSuccessful());
@@ -42,7 +42,7 @@ class MailAdminTest extends BaseController
 
         $crawler = $client->request(
             'GET',
-            '/en/admin/araneum/mail/mail/' . $mail->getId() . '/edit'
+            '/admin/araneum/mail/mail/' . $mail->getId() . '/edit'
         );
 
         $this->assertFalse($client->getResponse()->isSuccessful());
@@ -64,7 +64,7 @@ class MailAdminTest extends BaseController
 
         $crawler = $client->request(
             'GET',
-            '/en/admin/araneum/mail/mail/' . $mail->getId() . '/delete'
+            '/admin/araneum/mail/mail/' . $mail->getId() . '/delete'
         );
 
         $this->assertFalse($client->getResponse()->isSuccessful());

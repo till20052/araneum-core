@@ -12,7 +12,7 @@ class CustomerApiControllerTest extends BaseController
     /**
      * @var string uri to call rest api method
      */
-    protected $configGetUri = '/en/agent/api/customers/insert/' . ApplicationFixtures::TEST_APP_APP_KEY;
+    protected $configGetUri = '/agent/api/customers/insert/' . ApplicationFixtures::TEST_APP_APP_KEY;
 
     /**
      * Test customer controller
