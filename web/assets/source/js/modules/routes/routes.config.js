@@ -42,6 +42,12 @@
                 title: 'Authorization',
                 templateUrl: '/en/user/login.html'
             })
+            .state('recover', {
+                url: '/recover',
+                title: 'Recover',
+                templateUrl: helper.basepath('recover.html'),
+                resolve: helper.resolveFor('whirl')
+            })
     }
 
 })();

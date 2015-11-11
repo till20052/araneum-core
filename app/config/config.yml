@@ -82,6 +82,8 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: Araneum\Bundle\UserBundle\Entity\User
+    service:
+        mailer: araneum.user.mailer
 
 sonata_admin:
     title:      Araneum Core
