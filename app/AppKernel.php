@@ -33,7 +33,6 @@ class AppKernel extends Kernel
             new Snc\RedisBundle\SncRedisBundle(),
 	        new Misd\GuzzleBundle\MisdGuzzleBundle(),
             new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),
-            new JMS\TranslationBundle\JMSTranslationBundle(),
 
             new Araneum\Bundle\MainBundle\AraneumMainBundle(),
             new Araneum\Bundle\UserBundle\AraneumUserBundle(),
