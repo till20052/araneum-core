@@ -94,7 +94,7 @@ class RecursivePagesTest extends BaseController
 		$this->client = $this->createAdminAuthorizedClient();
 		$container = $this->client->getContainer();
 		$this->router = $container->get('router');
-		$locales = explode('|', $container->getParameter('locales'));
+		$locales = $container->getParameter('locales');
 
 		foreach(['fos_user_security_logout'] as $token)
 		{
