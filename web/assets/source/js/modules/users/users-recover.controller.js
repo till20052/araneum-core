@@ -24,6 +24,8 @@
                 vm.view.reset = true;
             }
 
+            console.log($stateParams);
+
             vm.isLoading = false;
             vm.error = '';
             vm.username = 'till20052@gmail.com';
