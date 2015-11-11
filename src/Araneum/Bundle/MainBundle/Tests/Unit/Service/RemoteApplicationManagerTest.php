@@ -192,6 +192,10 @@ class RemoteApplicationManagerTest extends BaseController
             ->will($this->returnValue([$locale]));
 
         $application->expects($this->once())
+            ->method('getName')
+            ->will($this->returnValue('testName'));
+
+        $application->expects($this->once())
             ->method('getDomain')
             ->will($this->returnValue('domain'));
 
@@ -238,6 +242,7 @@ class RemoteApplicationManagerTest extends BaseController
         ];
 
         $query = [
+            'name' => 'testName',
             'domain' => 'domain',
             'template' => 'defaultTemplate',
             'cluster' => ['id' => ''],
