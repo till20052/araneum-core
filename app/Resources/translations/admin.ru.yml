@@ -1,0 +1,64 @@
+dashboard :
+    WELCOME: "Добро пожаловать в систему управления сайтом"
+    DASHBOARD: "Панель администратора"
+    application:
+        APPLICATION: "Приложение"
+        ONLINE: "Online"
+        PROBLEM: "Проблема"
+        ERROR: "Ошибка"
+    wiget:
+        APPLICATION_STATUSES: "Статусы приложений за 24 часа"
+        AVERAGE_APPLICATION_STATUSES: "Усредненные показатели состояний приложений за 24 часа"
+        CLUSTER_LOAD_AVERAGE: "Усредненная нагрузка по кластерам за 24 часа"
+        CLUSTER_UP_TIME: "Время непрерырвной работы за 24 часа"
+        CUSTOMERS_REGISTRATION: "Заявки на регистрацию от клиентов за последние 24 часа"
+        EMAIL_RECIEVED: "Сообщений принято от приложений за 24 часа"
+        RECEIVED_FROM_APPLICATION: "Принято ото всех приложений"
+        CUSTOMERS: "клиентов"
+        EMAILS: "сообщений"
+topbar:
+    messages:
+        UNREAD: "Непрочтенных сообщений"
+        MORE: "Больше сообщений"
+    search:
+        PLACEHOLDER: "Наберите и нажмите на клавишу Ввод"
+    notification:
+        MORE: "Больше уведомлений"
+offsidebar:
+    setting:
+        SETTINGS: "Настройки"
+        THEMES: "Шаблоны"
+        layout:
+            LAYOUT: 'Расположение'
+            FIXED: "Фиксированные"
+            BOXED: "Компактный"
+        aside:
+            ASIDE: 'Левое меню'
+            COLLAPSED: "Свернутое"
+            FLOAT: "Плавающее"
+            HOVER: "Наезжающее"
+        chat:
+            CONNECTIONS: "Соединения"
+            ONLINE: "Online"
+            OFFLINE: "Offline"
+            LOAD_MORE: "Загрузить еще"
+            TASK_COMPLETION: "Конкурентная задача"
+            QUOTA: "Лимит"
+sidebar:
+    WELCOME: "Добро пожаловать"
+    heading:
+        HEADER: "Главное окно"
+        MANAGER: "Управление сайтами"
+        RECEIVED: "Полученные данные"
+    nav:
+        DASHBOARD: "Панель администратора"
+        USERS: "Пользователи"
+        manager:
+            CLUSTER: "Кластер"
+            APPLICATION: "Приложения"
+            CONNECTION: "Соединения"
+            COMPONENT: "Компоненты"
+            LOCALE: "Локали"
+        received:
+            CUSTOMER: "Участники"
+            EMAIL: "Emails"

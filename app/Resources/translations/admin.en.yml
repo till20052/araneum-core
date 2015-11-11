@@ -1,0 +1,62 @@
+dashboard :
+    WELCOME: "Welcome to Site manager"
+    DASHBOARD: "Dashboard"
+    application:
+        APPLICATION: "application"
+        ONLINE: "Online"
+        PROBLEM: "Problem"
+        ERROR: "Error"
+    wiget:
+        APPLICATION_STATUSES: "Statuses for last 24 hour by applications"
+        AVERAGE_APPLICATION_STATUSES: "Average application statuses by last 24 hours"
+        CLUSTER_LOAD_AVERAGE: "Cluster load average by last 24 hours"
+        CLUSTER_UP_TIME: "Clusters UpTime by last 24 hours"
+        CUSTOMERS_REGISTRATION: "Customers registration received from applications (24 hours)"
+        EMAIL_RECIEVED: "Email received from applications (24 hours)"
+        RECEIVED_FROM_APPLICATION: "Received from all applications"
+topbar:
+    messages:
+        UNREAD: "Unread messages"
+        MORE: "More messages"
+    search:
+        PLACEHOLDER: "Type and hit enter.."
+    notification:
+        MORE: "More notifications"
+offsidebar:
+    setting:
+        SETTINGS: "Settings"
+        THEMES: "Themes"
+        layout:
+            LAYOUT: "Layout"
+            FIXED: "Fixed"
+            BOXED: "Boxed"
+        aside:
+            ASIDE: "Aside"
+            COLLAPSED: "Collapsed"
+            FLOAT: "Float"
+            HOVER: "Hover"
+        chat:
+            CONNECTIONS: "Connections"
+            ONLINE: "Online"
+            OFFLINE: "Offline"
+            LOAD_MORE: "Load more"
+            TASK_COMPLETION: "Task competition"
+            QUOTA: "Quota"
+sidebar:
+    WELCOME: "Welcome"
+    heading:
+        HEADER: "Main Navigation"
+        MANAGER: "Site manager"
+        RECEIVED: "Received data"
+    nav:
+        DASHBOARD: "Dashboard"
+        USERS: "Users"
+        manager:
+            CLUSTER: "Clusters"
+            APPLICATION: "Applications"
+            CONNECTION: "Connections"
+            COMPONENT: "Components"
+            LOCALE: "Locales"
+        received:
+            CUSTOMER: "Customers"
+            EMAIL: "Emails"
