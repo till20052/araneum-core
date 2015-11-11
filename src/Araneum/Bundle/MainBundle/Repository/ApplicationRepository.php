@@ -24,6 +24,10 @@ class ApplicationRepository extends EntityRepository
      */
     public function getApplicationsStatistics()
     {
+        $this->createQueryBuilder('A')
+            ->select('A')
+            ->addSelect();
+
         return (object) $this->getEntityManager()
             ->createQuery('
                 SELECT

@@ -31,4 +31,4 @@ services:
 
     araneum.main.statistics.service:
         class: Araneum\Bundle\MainBundle\Service\StatisticsService
-        arguments: [@service_container]
+        arguments: [@doctrine.orm.entity_manager]

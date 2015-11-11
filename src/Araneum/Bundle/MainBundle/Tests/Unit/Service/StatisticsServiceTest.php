@@ -3,7 +3,7 @@
 namespace Araneum\Bundle\MainBundle\Tests\Unit\Service;
 
 use Araneum\Bundle\MainBundle\Service\StatisticsService;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\ORM\EntityManager;
 
 class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,17 +18,12 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
     private $applicationsStatistics;
 
     /**
-     * Mock instance of Container
+     * Mock instance of EntityManager
      *
-     * @return ContainerInterface
+     * @return EntityManager
      */
-    private function container()
+    private function entityManager()
     {
-        /** @var  $container */
-        $container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\ContainerInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -46,18 +41,7 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('AraneumMainBundle:Application'))
             ->will($this->returnValue($applicationRepository));
 
-        $container->expects($this->any())
-            ->method('get')
-            ->with($this->logicalOr(
-                $this->equalTo('doctrine.orm.entity_manager')
-            ))
-            ->will($this->returnCallback(function ($object) use ($entityManager) {
-                if ($object == 'doctrine.orm.entity_manager') {
-                    return $entityManager;
-                }
-            }));
-
-        return $container;
+        return $entityManager;
     }
 
     /**
@@ -72,7 +56,7 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
             'disabled' => rand()
         ];
 
-        $this->service = new StatisticsService($this->container());
+        $this->service = new StatisticsService($this->entityManager());
     }
 
     /**

@@ -9,40 +9,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class StatisticsService
 {
     /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
      * @var EntityManager
      */
     private $entityManager;
 
     /**
-     * Get instance of EntityManager
-     *
-     * @return EntityManager
-     */
-    private function getEntityManager()
-    {
-        if ($this->entityManager instanceof EntityManager) {
-            return $this->entityManager;
-        }
-
-        /** @var EntityManager entityManager */
-        $this->entityManager = $this->container->get('doctrine.orm.entity_manager');
-
-        return $this->entityManager;
-    }
-
-    /**
      * StatisticsService constructor.
      *
-     * @param ContainerInterface $container
+     * @param EntityManager $entityManager
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(EntityManager $entityManager)
     {
-        $this->container = $container;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -57,8 +35,7 @@ class StatisticsService
     public function getApplicationsStatistics()
     {
         /** @var ApplicationRepository $repository */
-        $repository = $this
-            ->getEntityManager()
+        $repository = $this->entityManager
             ->getRepository('AraneumMainBundle:Application');
 
         return $repository->getApplicationsStatistics();
