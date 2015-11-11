@@ -24,25 +24,18 @@ class ApplicationRepository extends EntityRepository
      */
     public function getApplicationsStatistics()
     {
-        $this->createQueryBuilder('A')
-            ->select('A')
-            ->addSelect();
-
-        return (object) $this->getEntityManager()
-            ->createQuery('
-                SELECT
-                    SUM(CASE WHEN A.enabled = TRUE AND A.status = :online THEN 1 ELSE 0 END) AS online,
-                    SUM(CASE WHEN A.enabled = TRUE AND A.status = :hasProblem THEN 1 ELSE 0 END) AS hasProblems,
-                    SUM(CASE WHEN A.status > :hasProblem THEN 1 ELSE 0 END) AS hasErrors,
-                    SUM(CASE WHEN A.enabled = FALSE THEN 1 ELSE 0 END) AS disabled
-                FROM AraneumMainBundle:Application A
-            ')
+        return (object) $this->createQueryBuilder('A')
+            ->select('SUM(CASE WHEN A.enabled = TRUE AND A.status = :online THEN 1 ELSE 0 END) AS online')
+            ->addSelect('SUM(CASE WHEN A.enabled = TRUE AND A.status = :hasProblem THEN 1 ELSE 0 END) as hasProblems')
+            ->addSelect('SUM(CASE WHEN A.status > :hasProblem THEN 1 ELSE 0 END) as hasErrors')
+            ->addSelect('SUM(CASE WHEN A.enabled = FALSE THEN 1 ELSE 0 END) as disabled')
             ->setParameters(
                 [
                     'online' => Application::STATUS_OK,
                     'hasProblem' => Application::STATUS_CODE_INCORRECT
                 ]
             )
+            ->getQuery()
             ->getOneOrNullResult();
     }
 }
