@@ -6,34 +6,23 @@
             <img src="/assets/build/img/logo.png" alt="Image" class="block-center img-rounded" />
          </a>
       </div>
-      <div class="panel-body" ng-class="{'whirl': vm.isLoading}">
-         <p class="text-center pv">PASSWORD RESET</p>
-         <form ng-submit="vm.sendEmail()" role="form" name="vm.form" novalidate="" class="form-validate">
-            <p class="text-center">Fill with your mail to receive instructions on how to reset your password.</p>
-            <div class="form-group has-feedback">
-               <label class="text-muted">Email address</label>
-               <input
-                   type="text"
-                   name="username"
-                   placeholder="Enter your name or email"
-                   autocomplete="off"
-                   required="required"
-                   class="form-control"
-                   ng-model="vm.username"
-                   ng-minlength="3"
-                   ng-pattern="/^\w[\w\d\@\.]{2,}/"
-               />
-               <span class="fa fa-envelope form-control-feedback text-muted"></span>
-               <span ng-show="vm.form.username.$dirty &amp;&amp; vm.form.username.$error.required" class="text-danger">This field is required</span>
-               <span ng-show="vm.form.username.$dirty &amp;&amp; vm.form.username.$error.pattern" class="text-danger">This field must be a valid username or email address</span>
-            </div>
-            <button type="submit" class="btn btn-danger btn-block">Reset</button>
-            <div ng-bind="vm.error" ng-show="vm.error != ''" class="alert alert-danger text-center"></div>
-            <div class="mt-lg text-center">
-               <a ui-sref="login">Sign In</a>
-            </div>
-         </form>
-      </div>
+      <div
+          ng-if="vm.view.request"
+          ng-include="'/assets/build/html/recovery_partials/request.html'"
+          ng-class="{'whirl': vm.isLoading}"
+          class="panel-body"
+      ></div>
+      <div
+          ng-if="vm.view.checkMail"
+          ng-include="'/assets/build/html/recovery_partials/check-email.html'"
+          class="panel-body"
+      ></div>
+      <div
+          ng-if="vm.view.reset"
+          ng-include="'/assets/build/html/recovery_partials/reset.html'"
+          ng-class="{'whirl': vm.isLoading}"
+          class="panel-body"
+      ></div>
    </div>
    <!-- END panel-->
    <div class="p-lg text-center">

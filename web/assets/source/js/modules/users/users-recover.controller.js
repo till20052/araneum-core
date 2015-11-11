@@ -5,21 +5,29 @@
         .module('app.users')
         .controller('RecoverPasswordController', RecoverPasswordController);
 
-    RecoverPasswordController.$inject = ['$http'];
-    function RecoverPasswordController($http) {
+    RecoverPasswordController.$inject = ['$http', '$stateParams'];
+    function RecoverPasswordController($http, $stateParams) {
         var vm = this;
 
         init();
 
         function init() {
 
+            vm.view = {
+                request: true,
+                checkMail: false,
+                reset: false
+            };
+
+            if(typeof $stateParams.token != 'undefined'){
+                vm.view.request = false;
+                vm.view.reset = true;
+            }
+
             vm.isLoading = false;
             vm.error = '';
             vm.username = 'till20052@gmail.com';
-
-            vm.test = function () {
-                console.log(vm.form);
-            };
+            vm.maskedEmail = '';
 
             vm.sendEmail = function () {
 
@@ -34,8 +42,9 @@
                     }).then(function (response) {
 
                         vm.isLoading = false;
-
-                        console.log(response);
+                        vm.view.request = false;
+                        vm.view.checkMail = true;
+                        vm.maskedEmail = response.data.email;
 
                     }, function (response) {
                         vm.isLoading = false;

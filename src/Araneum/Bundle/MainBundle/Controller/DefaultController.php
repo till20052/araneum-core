@@ -11,7 +11,7 @@ class DefaultController extends Controller
     /**
      * Admin panel action
      *
-     * @Route("/manage/", name="araneum_admin_index")
+     * @Route("/manage/{path}", name="araneum_admin_index", requirements={"path"=".*"})
      */
     public function adminAction()
     {

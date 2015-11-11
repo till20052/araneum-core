@@ -19,6 +19,13 @@ class ResettingController extends BaseController
      */
     private $translator;
 
+    /**
+     * Translate message by message id
+     *
+     * @param $id
+     * @param array $parameters
+     * @return string
+     */
     private function t($id, $parameters = [])
     {
         if( ! $this->translator instanceof Translator){
@@ -44,9 +51,9 @@ class ResettingController extends BaseController
                 throw new \Exception($this->t('resetting.request.invalid_username', ['username' => $username]));
             }
 
-            if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
-                throw new \Exception($this->t('resetting.password_already_requested'));
-            }
+//            if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
+//                throw new \Exception($this->t('resetting.password_already_requested'));
+//            }
 
             if (null === $user->getConfirmationToken()) {
                 /** @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface */
@@ -54,12 +61,17 @@ class ResettingController extends BaseController
                 $user->setConfirmationToken($tokenGenerator->generateToken());
             }
 
-            $this->container->get('session')->set(static::SESSION_EMAIL, $this->getObfuscatedEmail($user));
             $this->container->get('fos_user.mailer')->sendResettingEmailMessage($user);
             $user->setPasswordRequestedAt(new \DateTime());
             $this->container->get('fos_user.user_manager')->updateUser($user);
 
-            return new JsonResponse(['success' => true], Response::HTTP_OK);
+            return new JsonResponse(
+                [
+                    'success' => true,
+                    'email' => $this->getObfuscatedEmail($user)
+                ],
+                Response::HTTP_OK
+            );
 
         } catch (\Exception $exception) {
 

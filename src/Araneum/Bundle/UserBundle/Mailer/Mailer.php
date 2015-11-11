@@ -17,7 +17,8 @@ class Mailer extends BaseMailer
     public function sendResettingEmailMessage(UserInterface $user)
     {
         $template = $this->parameters['resetting.template'];
-        $url = $this->router->generate('fos_user_resetting_reset', array('token' => $user->getConfirmationToken()), true);
+        $path = 'recover/' . $user->getConfirmationToken();
+        $url = $this->router->generate('araneum_admin_index', ['path' => $path], true);
         $rendered = $this->templating->render($template, array(
             'user' => $user,
             'confirmationUrl' => $url

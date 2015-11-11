@@ -16,17 +16,17 @@
 
         // Set the following to true to enable the HTML5 Mode
         // You may have to set <base> tag in index and a routing configuration in your server
-        $locationProvider.html5Mode(false);
+        $locationProvider.html5Mode(true);
 
         // defaults to authorization
-        $urlRouterProvider.otherwise('/login');
+        $urlRouterProvider.otherwise('/en/manage/login');
 
         //
         // Application Routes
         // -----------------------------------
         $stateProvider
             .state('app', {
-                url: '/app',
+                url: '/en/manage',
                 abstract: true,
                 templateUrl: helper.basepath('app.html'),
                 resolve: helper.resolveFor('fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'slimscroll', 'classyloader', 'toaster', 'whirl')
@@ -38,12 +38,18 @@
                 resolve: helper.resolveFor('flot-chart','flot-chart-plugins', 'chartjs')
             })
             .state('login', {
-                url: '/login',
+                url: '/en/manage/login',
                 title: 'Authorization',
                 templateUrl: '/en/user/login.html'
             })
             .state('recover', {
-                url: '/recover',
+                url: '/en/manage/recover',
+                title: 'Recover',
+                templateUrl: helper.basepath('recover.html'),
+                resolve: helper.resolveFor('whirl')
+            })
+            .state('reset', {
+                url: '/en/manage/recover/{token}',
                 title: 'Recover',
                 templateUrl: helper.basepath('recover.html'),
                 resolve: helper.resolveFor('whirl')
