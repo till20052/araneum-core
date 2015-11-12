@@ -3,7 +3,9 @@
 namespace Araneum\Bundle\MainBundle\Service;
 
 use Araneum\Base\Tests\Fixtures\User\UserFixtures;
+use Araneum\Bundle\AgentBundle\Service\AgentLoggerService;
 use Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Guzzle\Http\Message\Request;
 use Guzzle\Service\Client;
@@ -178,20 +180,32 @@ class RemoteApplicationManagerService
      * @param $body
      * @param $params
      * @param $method
+     * @paran Application $application
      * @return \Exception|CurlException|GuzzleResponse
      */
-    public function sendRequest($host, $uri, $header, $body, $params, $method)
+    public function sendRequest($host, $uri, $header, $body, $params, $method, $application = null)
     {
         try {
             $response = $this
                 ->client
                 ->createRequest($method, 'http://' . $host . $uri, $header, $body, $params)
                 ->send();
-
         } catch (\Exception $e) {
-            return false;
+            $response = new GuzzleResponse($e->getCode());
+            $response->setBody($e->getMessage());
         }
 
+        if(!is_null($application)){
+
+            if(in_array($response->getStatusCode(), range(200, 400))){
+                $application->setStatus(0);
+            }else{
+                $application->setStatus(100);
+            }
+
+            $logApplication = new AgentLoggerService($this->entityManager);
+            $logApplication->logApplication($application, $application->getStatus(), new ArrayCollection([$response->getMessage()]));
+        }
         return $response->getBody(true);
     }
 
@@ -254,7 +268,7 @@ class RemoteApplicationManagerService
             $uri .= $application->getDomain();
         }
 
-        $response = $this->sendRequest($connection->getHost(), $uri, null, $request, $this->params, $method);
+        $response = $this->sendRequest($connection->getHost(), $uri, null, $request, $this->params, $method, $application);
 
         return $response;
     }

@@ -505,7 +505,7 @@ class Application
     /**
      * Set status
      *
-     * @param mixed $status
+     * @param int $status
      * @return mixed
      */
     public function setStatus($status)
