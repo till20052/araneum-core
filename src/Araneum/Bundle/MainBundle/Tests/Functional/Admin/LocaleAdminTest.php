@@ -60,7 +60,7 @@ class LocaleAdminTest extends BaseAdminController
             'empty encoding' => [
                 [
                     'name' => 'localeCreate',
-                    'locale' => 'ru_RU',
+                    'locale' => 'zu_ZU',
                     'orientation' => Locale::ORIENT_LFT_TO_RGT,
                     'encoding' => '',
                 ],
@@ -69,7 +69,7 @@ class LocaleAdminTest extends BaseAdminController
             'normal' => [
                 [
                     'name' => 'localeCreate',
-                    'locale' => 'ru_RU',
+                    'locale' => 'zu_ZU',
                     'orientation' => Locale::ORIENT_LFT_TO_RGT,
                     'enabled' => false,
                     'encoding' => 'testLocaleEncodingCreate',
