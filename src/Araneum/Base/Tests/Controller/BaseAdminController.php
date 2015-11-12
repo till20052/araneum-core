@@ -112,6 +112,7 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
                     if($node->count()){
                         return (int)$node->text();
                     }
+                    return null;
                 }
             );
 
