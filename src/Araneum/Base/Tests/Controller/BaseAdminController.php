@@ -74,7 +74,7 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
 
         $crawler = $client->submit($form);
 
-        $this->assertEquals($expected, count($crawler->filter('.alert-danger')) <= 0);
+        $this->assertEquals($expected, count($crawler->filter('.alert-danger')) <= 0, $crawler->html());
     }
 
     /**
@@ -113,7 +113,7 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
                 }
             );
 
-        $this->assertEquals($expected, in_array($entity->getId(), $list));
+        $this->assertEquals($expected, in_array($entity->getId(), $list), $crawler->html());
     }
 
     /**
@@ -151,7 +151,7 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
         $entityFromDb = $client->getContainer()->get('doctrine.orm.entity_manager')
             ->getRepository(get_class($entity))->find($entity->getId());
 
-        $this->assertTrue(empty($entityFromDb));
+        $this->assertTrue(empty($entityFromDb), $crawler->html());
     }
 
     /**
