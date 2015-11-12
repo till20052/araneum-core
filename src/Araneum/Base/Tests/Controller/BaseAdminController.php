@@ -40,7 +40,7 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
 
         $crawler = $client->submit($form);
 
-        $this->assertEquals($expected, count($crawler->filter('.alert-danger')) <= 0);
+        $this->assertEquals($expected, count($crawler->filter('.alert-danger')) <= 0, $crawler->html());
     }
 
     /**
