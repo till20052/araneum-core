@@ -3,7 +3,6 @@
 namespace Araneum\Base\Tests\Controller;
 
 use Araneum\Base\Tests\Admin\AdminTestInterface;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Form;
 
@@ -99,7 +98,6 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
         }
 
         $client = $this->createAdminAuthorizedClient();
-
         $crawler = $client->request(
             'GET',
             $client->getContainer()->get('router')->generate($this->listRoute, ['_locale' => 'en'])
@@ -108,20 +106,16 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
         $form = $crawler->selectButton('Filter')->form($fullFormInput);
         $crawler = $client->submit($form);
 
-
-            $list = $crawler->filter('table.table > tbody > tr > td:nth-child(2) > a')->siblings();
-/*                ->each(
-                    function (Crawler $node) {
+        $list = $crawler->filter('table.table > tbody > tr > td:nth-child(2) > a')
+            ->each(
+                function (Crawler $node) {
+                    if($node->count()){
                         return (int)$node->text();
                     }
-                );*/
-        $nodes=[];
+                }
+            );
 
-        foreach($list as $node){
-            $nodes[]=$node->text();
-        }
-
-        $this->assertEquals($expected, in_array($entity->getId(), $nodes), var_dump($nodes->text()) . $crawler->html());
+        $this->assertEquals($expected, in_array($entity->getId(), $list), var_dump($list->text()) . $crawler->html());
     }
 
     /**
