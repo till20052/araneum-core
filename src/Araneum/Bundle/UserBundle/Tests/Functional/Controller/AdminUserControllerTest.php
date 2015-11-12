@@ -52,11 +52,12 @@ class AdminUserControllerTest extends BaseController
     public function testSettingsSet()
     {
         $client = $this->createAdminAuthorizedClient(UserFixtures::ADMIN_USER_NAME);
+
         $router = $client->getContainer()->get('router');
 
         $client->request(
             'POST',
-            $router->generate('araneum_user_set_settings'),
+            $router->generate('araneum_user_settings_set'),
             self::$settings
         );
 

@@ -51,11 +51,11 @@ class AdminUserController extends Controller
      * Set user settings
      *
      * @Security("has_role('ROLE_ADMIN')")
-     * @Rest\Post("/set_settings", defaults={"_format"="json"}, name="araneum_user_set_settings")
+     * @Rest\Post("/settings/set", defaults={"_format"="json"}, name="araneum_user_settings_set")
      * @param Request $request
      * @return JsonResponse $response
      */
-    public function setSettingsAction(Request $request)
+    public function settingsSetAction(Request $request)
     {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();

@@ -43,10 +43,9 @@
 
       $rootScope.$watch('app.layout', function () {
         $localStorage.layout = $rootScope.app.layout;
-
           $http({
               method: 'POST',
-              url: '/en/user/set_settings',
+              url: '/en/user/settings/set',
               data: $rootScope.app.layout
           });
 
