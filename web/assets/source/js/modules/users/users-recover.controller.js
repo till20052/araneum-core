@@ -7,57 +7,55 @@
 
     RecoverPasswordController.$inject = ['$http', '$stateParams'];
     function RecoverPasswordController($http, $stateParams) {
-        var vm = this;
 
-        init();
+        // Initialize viewController
+        (function (viewController) {
 
-        function init() {
+            viewController.sendEmail = sendEmail;
 
-            vm.view = {
+            viewController.isLoading = false;
+            viewController.error = '';
+            viewController.username = 'till20052@gmail.com';
+            viewController.maskedEmail = '';
+
+            viewController.view = {
                 request: true,
                 checkMail: false,
                 reset: false
             };
 
-            if(typeof $stateParams.token != 'undefined'){
-                vm.view.request = false;
-                vm.view.reset = true;
+            if (typeof $stateParams.token != 'undefined') {
+                viewController.view.request = false;
+                viewController.view.reset = true;
             }
 
-            console.log($stateParams);
+            function sendEmail() {
+                viewController.error = '';
 
-            vm.isLoading = false;
-            vm.error = '';
-            vm.username = 'till20052@gmail.com';
-            vm.maskedEmail = '';
+                if (viewController.form.$valid) {
 
-            vm.sendEmail = function () {
-
-                vm.error = '';
-
-                if (vm.form.$valid) {
-
-                    vm.isLoading = true;
+                    viewController.isLoading = true;
 
                     $http.post('/en/resetting/send-email', {
-                        username: vm.username
+                        username: this.username
                     }).then(function (response) {
 
-                        vm.isLoading = false;
-                        vm.view.request = false;
-                        vm.view.checkMail = true;
-                        vm.maskedEmail = response.data.email;
+                        viewController.isLoading = false;
+                        viewController.view.request = false;
+                        viewController.view.checkMail = true;
+                        viewController.maskedEmail = response.data.email;
 
                     }, function (response) {
-                        vm.isLoading = false;
-                        vm.error = response.data.error;
+                        viewController.isLoading = false;
+                        viewController.error = response.data.error;
                     });
                 }
                 else {
-                    vm.form.username.$dirty = true;
+                    this.form.username.$dirty = true;
                 }
-            }
+            };
 
-        }
+        })(this);
+
     }
 })(angular);
