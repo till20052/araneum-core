@@ -150,7 +150,7 @@ class LocaleAdminTest extends BaseAdminController
             'normal' => [
                 [
                     'name' => LocaleFixtures::TEST_LOC_NAME_UPDATE,
-                    'locale' => LocaleFixtures::TEST_LOC_LOCALE_UPDATE,
+                    'locale' => 'mk_MK',
                     'orientation' => Locale::ORIENT_LFT_TO_RGT,
                     'enabled' => false,
                 ],
