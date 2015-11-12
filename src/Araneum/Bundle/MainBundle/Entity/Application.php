@@ -112,6 +112,7 @@ class Application
 
     /**
      * @ORM\Column(type="integer", options={"default"=0})
+     * @Assert\NotBlank()
      */
     protected $status = Application::STATUS_OK;
 
