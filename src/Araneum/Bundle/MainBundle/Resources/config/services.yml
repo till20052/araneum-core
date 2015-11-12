@@ -32,3 +32,6 @@ services:
     araneum.main.statistics.service:
         class: Araneum\Bundle\MainBundle\Service\StatisticsService
         arguments: [@doctrine.orm.entity_manager]
+
+    araneum.main.menu.generator:
+        class: Araneum\Bundle\MainBundle\Service\MenuGeneratorService
