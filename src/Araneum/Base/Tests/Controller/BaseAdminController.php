@@ -117,11 +117,11 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
                 );*/
         $nodes=[];
 
-        if(count($list)>0){
-            $nodes[]=(int)$list->text();
+        foreach($list as $node){
+            $nodes[]=$node->text();
         }
 
-        $this->assertEquals($expected, in_array($entity->getId(), $nodes), $crawler->html());
+        $this->assertEquals($expected, in_array($entity->getId(), $nodes), var_dump($nodes->text()) . $crawler->html());
     }
 
     /**
