@@ -3,6 +3,7 @@ last_name: Фамилия
 country: Страна
 email: E-mail
 phone: Телефон
+currency: Валюта
 callback: Перезвонить
 created_at: Создано
 delivered_at: Доставлено
