@@ -68,7 +68,7 @@ class LocaleAdminTest extends BaseAdminController
             ],
             'normal' => [
                 [
-                    'name' => 'localeCreate',
+                    'name' => 'localeCreateZu',
                     'locale' => 'zu_ZU',
                     'orientation' => Locale::ORIENT_LFT_TO_RGT,
                     'enabled' => false,
