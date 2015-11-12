@@ -116,7 +116,7 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
                 }
             );
 
-        $this->assertEquals($expected, in_array($entity->getId(), $list), var_dump($list->text()) . $crawler->html());
+        $this->assertEquals($expected, in_array($entity->getId(), $list), $crawler->html());
     }
 
     /**
