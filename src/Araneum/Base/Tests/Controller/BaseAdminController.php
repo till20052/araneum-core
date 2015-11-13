@@ -99,11 +99,11 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
             'GET',
             $client->getContainer()->get('router')->generate($this->listRoute, ['_locale' => 'en'])
         );
-
+        try {
         $form = $crawler->selectButton('Filter')->form($fullFormInput);
         $crawler = $client->submit($form);
 
-        try {
+
             $list = $crawler->filter('table.table > tbody > tr > td:nth-child(2) > a')
                 ->each(
                     function (Crawler $node) {
