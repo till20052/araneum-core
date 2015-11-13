@@ -18,7 +18,7 @@ class ConnectionAdminTest extends BaseAdminController
     /**
      * Test check action
      *
-     * @runInSeparateProcess
+     *
      */
     public function testStatusChecker()
     {
@@ -47,7 +47,7 @@ class ConnectionAdminTest extends BaseAdminController
     /**
      * Test batch check status
      *
-     * @runInSeparateProcess
+     *
      */
     public function testBatchStatusChecker()
     {
@@ -242,7 +242,7 @@ class ConnectionAdminTest extends BaseAdminController
     /**
      * Test persist connection
      *
-     * @runInSeparateProcess
+     *
      */
     public function testDeletePersistConnection()
     {
