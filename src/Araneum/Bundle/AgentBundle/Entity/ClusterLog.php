@@ -37,8 +37,8 @@ class ClusterLog
 	/**
 	 * @var Cluster
 	 *
-	 * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Cluster")
-	 * @ORM\JoinColumn(name="cluster_id", referencedColumnName="id")
+	 * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Cluster", inversedBy="clusterLogs", cascade={"persist", "remove"})
+	 * @ORM\JoinColumn(name="cluster_id", referencedColumnName="id", nullable=false)
 	 */
 	private $cluster;
 
