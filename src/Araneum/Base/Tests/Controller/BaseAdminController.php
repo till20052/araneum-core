@@ -103,17 +103,24 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
         $form = $crawler->selectButton('Filter')->form($fullFormInput);
         $crawler = $client->submit($form);
 
-        $list = $crawler->filter('table.table > tbody > tr > td:nth-child(2) > a')
-            ->each(
-                function (Crawler $node) {
-                    if($node->count()){
-                        return (int)$node->text();
-                    }
-                    return null;
-                }
-            );
+        try {
+            $list = $crawler->filter('table.table > tbody > tr > td:nth-child(2) > a')
+                ->each(
+                    function (Crawler $node) {
+                        if ($node->count()) {
+                            return (int)$node->text();
+                        }
 
-        $this->assertEquals($expected, in_array($entity->getId(), $list), $crawler->html());
+                        return null;
+                    }
+                );
+
+            $this->assertEquals($expected, in_array($entity->getId(), $list), $crawler->html());
+        } catch (\Exception $e) {
+            $this->assertTrue(false, $crawler->html());
+        }
+
+
     }
 
     /**
