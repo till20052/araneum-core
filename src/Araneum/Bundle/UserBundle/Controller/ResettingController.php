@@ -26,7 +26,7 @@ class ResettingController extends BaseController
      * @param array $parameters
      * @return string
      */
-    private function t($id, $parameters = [])
+    private function trans($id, $parameters = [])
     {
         if (!$this->translator instanceof Translator) {
             $this->translator = $this->container->get('translator.default');
@@ -89,12 +89,12 @@ class ResettingController extends BaseController
             $user = $this->container->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
 
             if (empty($user)) {
-                throw new \Exception($this->t('resetting.request.invalid_username', ['username' => $username]));
+                throw new \Exception($this->trans('resetting.request.invalid_username', ['username' => $username]));
             }
 
-//            if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
-//                throw new \Exception($this->t('resetting.password_already_requested'));
-//            }
+            if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
+                throw new \Exception($this->trans('resetting.password_already_requested'));
+            }
 
             if (null === $user->getConfirmationToken()) {
                 /** @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface */
