@@ -8,7 +8,7 @@
     appRun.$inject = ['$rootScope', '$state', '$stateParams',  '$window', '$templateCache', 'Colors'];
     
     function appRun($rootScope, $state, $stateParams, $window, $templateCache, Colors) {
-      
+
       // Set reference to access them from any scope
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;

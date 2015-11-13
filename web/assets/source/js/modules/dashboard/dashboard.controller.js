@@ -9,7 +9,7 @@
     function DashboardController($scope, ChartData, $timeout) {
         var vm = this;
 
-        activate();
+        //activate();
 
         ////////////////
 

@@ -19,3 +19,4 @@
 /web/assets/source/bower_components/
 !/web/bundles/araneumuser/*
 /.idea/
+/web/assets/source/.idea
