@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="02148c3e-fe1a-4d32-be95-ba95e06808cd" name="Vagrant" url="http://core.am.araneum.dev/">
+        <fileTransfer host="192.168.50.100" port="22" privateKey="$PROJECT_DIR$/../../../../../../puphpet/files/dot/ssh/id_rsa" rootFolder="/var/www" accessType="SFTP" username="vagrant" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

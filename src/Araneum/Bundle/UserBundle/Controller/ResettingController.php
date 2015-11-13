@@ -5,15 +5,15 @@ namespace Araneum\Bundle\UserBundle\Controller;
 use FOS\UserBundle\Controller\ResettingController as BaseController;
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class ResettingController extends BaseController
 {
-    const SESSION_EMAIL = 'fos_user_send_resetting_email/email';
-
     /**
      * @var Translator
      */
@@ -28,7 +28,7 @@ class ResettingController extends BaseController
      */
     private function t($id, $parameters = [])
     {
-        if( ! $this->translator instanceof Translator){
+        if (!$this->translator instanceof Translator) {
             $this->translator = $this->container->get('translator.default');
         }
 
@@ -36,7 +36,48 @@ class ResettingController extends BaseController
     }
 
     /**
+     * Convert children of FormView to Array
+     *
+     * @param FormView|array $children
+     * @param array $fields
+     * @return array
+     */
+    private function extract($children, array $fields = ['name', 'full_name', 'label', 'value'])
+    {
+        $list = [];
+
+        if ($children instanceof FormView) {
+            $children = $children->children;
+        }
+
+        foreach ($children as $name => $child) {
+            if (!(count($child->children) > 0)) {
+                $item = [];
+
+                foreach ($fields as $field) {
+                    if (!isset($child->vars[$field])) {
+                        continue;
+                    }
+
+                    $item[$field] = $child->vars[$field];
+                }
+
+                $list[] = $item;
+            } else {
+                $list = $list + $this->extract($child->children, $fields);
+            }
+        }
+
+        return $list;
+    }
+
+    /**
      * Request reset user password: submit form and send email
+     *
+     * @return JsonResponse
+     *
+     * @throws \Exception in case if User not found
+     * @throws \Exception in case if access link of reset password was not expired
      */
     public function sendEmailAction()
     {
@@ -47,7 +88,7 @@ class ResettingController extends BaseController
             /** @var $user UserInterface */
             $user = $this->container->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
 
-            if(empty($user)){
+            if (empty($user)) {
                 throw new \Exception($this->t('resetting.request.invalid_username', ['username' => $username]));
             }
 
@@ -88,34 +129,50 @@ class ResettingController extends BaseController
 
     /**
      * Reset user password
+     *
+     * @param $token
+     * @return JsonResponse
+     *
+     * @throws AuthenticationException in case if process of reset password was finished successfully
+     * @throws BadRequestHttpException in case if user confirmation token does not exist
+     * @throws NotAcceptableHttpException in case if request of reset password has expired
      */
     public function resetAction($token)
     {
-        $user = $this->container->get('fos_user.user_manager')->findUserByConfirmationToken($token);
+        $response = new JsonResponse([], Response::HTTP_OK);
 
-        if (null === $user) {
-            throw new NotFoundHttpException(sprintf('The user with "confirmation token" does not exist for value "%s"', $token));
+        try {
+
+            $user = $this->container->get('fos_user.user_manager')->findUserByConfirmationToken($token);
+
+            if (empty($user)) {
+                throw new BadRequestHttpException(
+                    sprintf('The user with "confirmation token" does not exist for value "%s"', $token)
+                );
+            }
+
+            if (!$user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
+                throw new NotAcceptableHttpException('The password reset request has expired');
+            }
+
+            $form = $this->container->get('fos_user.resetting.form');
+            $formHandler = $this->container->get('fos_user.resetting.form.handler');
+
+            if ($formHandler->process($user)) {
+                throw new AuthenticationException();
+            }
+
+            return $response->setData($this->extract($form->createView()));
+
+        } catch (AuthenticationException $exception) {
+
+            return $response->setStatusCode(Response::HTTP_ACCEPTED);
+
+        } catch (\Exception $exception) {
+
+            return $response->setData(['error' => $exception->getMessage()])
+                ->setStatusCode($exception->getCode());
+
         }
-
-        if (!$user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
-            return new RedirectResponse($this->container->get('router')->generate('fos_user_resetting_request'));
-        }
-
-        $form = $this->container->get('fos_user.resetting.form');
-        $formHandler = $this->container->get('fos_user.resetting.form.handler');
-        $process = $formHandler->process($user);
-
-        if ($process) {
-            $this->setFlash('fos_user_success', 'resetting.flash.success');
-            $response = new RedirectResponse($this->getRedirectionUrl($user));
-            $this->authenticateUser($user, $response);
-
-            return $response;
-        }
-
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Resetting:reset.html.' . $this->getEngine(), array(
-            'token' => $token,
-            'form' => $form->createView(),
-        ));
     }
 }

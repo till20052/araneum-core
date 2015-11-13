@@ -14,16 +14,23 @@
         };
 
         function onRequest(request){
+            HTTPEventListenerService
+	            .triggerEvents('onRequest', request);
+
             return request;
         }
 
         function onResponse(response){
-            HTTPEventListenerService.triggerEvents('onResponse', response);
+            HTTPEventListenerService
+	            .triggerEvents('onResponse', response);
 
             return response;
         }
 
         function onError(response){
+	        HTTPEventListenerService
+		        .triggerEvents('onError', response);
+
             return $q.reject(response);
         }
     }

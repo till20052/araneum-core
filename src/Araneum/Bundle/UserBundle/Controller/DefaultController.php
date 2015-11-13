@@ -19,16 +19,26 @@ class DefaultController extends Controller
     }
 
     /**
+     * Rendering login view for AngularJS
+     *
      * @Route("/login.html")
      *
      * @return Response
      */
-    public function loginHtmlAction()
+    public function loginViewAction()
     {
-        return $this->render('admin.login.html.twig',
+        return $this->render('::admin.login.html.twig',
             [
                 '_csrf_token' => $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate')
             ]
         );
+    }
+
+    /**
+     * Render reset sub view of recover
+     */
+    public function resetViewAction()
+    {
+
     }
 }

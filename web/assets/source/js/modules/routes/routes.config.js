@@ -19,14 +19,14 @@
         $locationProvider.html5Mode(true);
 
         // defaults to authorization
-        $urlRouterProvider.otherwise('/en/manage/login');
+        $urlRouterProvider.otherwise('/resetting');
 
         //
         // Application Routes
         // -----------------------------------
         $stateProvider
             .state('app', {
-                url: '/en/manage',
+                url: '/',
                 abstract: true,
                 templateUrl: helper.basepath('app.html'),
                 resolve: helper.resolveFor('fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'slimscroll', 'classyloader', 'toaster', 'whirl')
@@ -38,20 +38,20 @@
                 resolve: helper.resolveFor('flot-chart','flot-chart-plugins', 'chartjs')
             })
             .state('login', {
-                url: '/en/manage/login',
+                url: '/login',
                 title: 'Authorization',
                 templateUrl: '/en/user/login.html'
             })
-            .state('recover', {
-                url: '/en/manage/recover',
+            .state('resetting', {
+                url: '/resetting',
                 title: 'Recover',
-                templateUrl: helper.basepath('recover.html'),
+                templateUrl: helper.basepath('users/resettingBase.html'),
                 resolve: helper.resolveFor('whirl')
             })
             .state('reset', {
-                url: '/en/manage/recover/{token}',
+                url: '/resetting/reset/{token}',
                 title: 'Recover',
-                templateUrl: helper.basepath('recover.html'),
+                templateUrl: helper.basepath('users/resettingBase.html'),
                 resolve: helper.resolveFor('whirl')
             })
     }
