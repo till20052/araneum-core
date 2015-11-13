@@ -112,7 +112,6 @@ class RecursivePagesTest extends BaseController
 	 */
 	public function testPages()
 	{
-		$this->markTestSkipped('1');
 		$this->click($this->router->generate('sonata_admin_dashboard'), true);
 
 		foreach($this->register as $url => $data)

@@ -99,7 +99,6 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
             'GET',
             $client->getContainer()->get('router')->generate($this->listRoute, ['_locale' => 'en'])
         );
-        try {
         $form = $crawler->selectButton('Filter')->form($fullFormInput);
         $crawler = $client->submit($form);
 
@@ -116,11 +115,6 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
                 );
 
             $this->assertEquals($expected, in_array($entity->getId(), $list), $crawler->html());
-        } catch (\Exception $e) {
-            $this->assertTrue(false, $crawler->html());
-        }
-
-
     }
 
     /**
