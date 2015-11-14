@@ -40,7 +40,9 @@
             'app.tables',
             'app.extras',
             'app.mailbox',
-            'app.utils'
+            'app.utils',
+            'app.listener',
+            'app.users'
         ]);
 })();
 

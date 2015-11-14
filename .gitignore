@@ -10,6 +10,7 @@
 /web/assets/build/js
 /web/assets/build/css
 /web/assets/build/img
+/web/assets/source/.idea
 /composer.phar
 /vendor/
 /web/bundles/
