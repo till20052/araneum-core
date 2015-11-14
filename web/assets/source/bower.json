@@ -106,7 +106,8 @@
     "jquery.browser": "master",
     "angular-knob": "~0.0.2",
     "jquery.easy-pie-chart": "~2.1.6",
-    "angular-bootstrap-colorpicker": "~3.0.18"
+    "angular-bootstrap-colorpicker": "~3.0.18",
+    "jquery-validation": "~1.14.0"
   },
   "resolutions": {
     "jquery-ui": "1.11.3",

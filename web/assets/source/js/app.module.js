@@ -10,13 +10,13 @@
  */
 
 // APP START
-// ----------------------------------- 
+// -----------------------------------
 
 (function() {
     'use strict';
 
     angular
-        .module('angle', [
+        .module('araneum', [
             'app.core',
             'app.routes',
             'app.sidebar',

@@ -239,12 +239,13 @@ class RemoteApplicationManagerService
         $clusterId = ['id' => $application->getCluster()->getId()];
 
         $request = [
+            'name' => $application->getName(),
             'domain' => $application->getDomain(),
             'template' => $application->getTemplate(),
             'cluster' => $clusterId,
             'locales' => $paramLocale,
-            'components' => '123',
             //temporary not used but must be not empty
+            'components' => '123',
             'app_key' => $application->getAppKey(),
             'db' => $db
         ];

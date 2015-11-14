@@ -9,8 +9,8 @@
     function translateConfig($translateProvider){
 
       $translateProvider.useStaticFilesLoader({
-          prefix : 'app/i18n/',
-          suffix : '.json'
+          prefix : '/',
+          suffix : '/manage/translates.json'
       });
 
       $translateProvider.preferredLanguage('en');

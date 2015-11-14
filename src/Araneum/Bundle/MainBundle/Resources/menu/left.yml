@@ -1,0 +1,57 @@
+Main:
+  text: Main Navigation
+  translate: sidebar.heading.HEADER
+  submenu:
+    Dashboard:
+      text: Dashboard
+      sref: app.dashboard
+      icon: icon-speedometer
+      translate: admin.sidebar.nav.DASHBOARD
+    Users:
+      text: Users
+      sref: app.table-ngtable
+      icon: icon-users
+      translate: admin.sidebar.nav.USERS
+Site_Manager:
+  text: Site manager
+  translate: sidebar.heading.MANAGER
+  submenu:
+    Cluster:
+      text: Cluster
+      sref: app.table-standard
+      icon: icon-grid
+      translate: admin.sidebar.nav.manager.CLUSTER
+    Applications:
+      text: Applications
+      sref: app.application
+      icon: icon-screen-tablet
+      translate: admin.sidebar.nav.manager.APPLICATION
+    Connection:
+      text: Connection
+      sref: app.connections
+      icon: icon-share-alt
+      translate: admin.sidebar.nav.manager.CONNECTION
+    Component:
+      text: Component
+      sref: app.components
+      icon: icon-puzzle
+      translate: admin.sidebar.nav.manager.COMPONENT
+    Locale:
+      text: Locale
+      sref: app.locales
+      icon: icon-globe-alt
+      translate: admin.sidebar.nav.manager.LOCALE
+Received_data:
+  text: Received_data
+  translate: admin.sidebar.heading.RECEIVE
+  submenu:
+    Cluster:
+      text: Customer
+      sref: app.customers
+      icon: icon-user-follow
+      translate: admin.sidebar.nav.received.CUSTOMER
+    Email:
+      text: Email
+      sref: app.emails
+      icon: icon-layers
+      translate: admin.sidebar.nav.received.EMAIL

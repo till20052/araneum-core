@@ -8,7 +8,7 @@
     localeConfig.$inject = ['tmhDynamicLocaleProvider'];
     function localeConfig(tmhDynamicLocaleProvider){
   
-      tmhDynamicLocaleProvider.localeLocationPattern('vendor/angular-i18n/angular-locale_{{locale}}.js');
+      tmhDynamicLocaleProvider.localeLocationPattern('/vendor/angular-i18n/angular-locale_{{locale}}.js');
       // tmhDynamicLocaleProvider.useStorage('$cookieStore');
 
     }

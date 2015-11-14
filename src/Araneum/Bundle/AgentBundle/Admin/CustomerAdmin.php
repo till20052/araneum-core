@@ -70,6 +70,13 @@ class CustomerAdmin extends Admin
 				]
 			)
 			->add(
+				'currency',
+				null,
+				[
+					'label'	=> 'currency'
+				]
+			)
+			->add(
 				'callback',
 				null,
 				[
@@ -107,6 +114,7 @@ class CustomerAdmin extends Admin
 			->add('lastName', null, ['label' => 'last_name'])
 			->add('email', null, ['label' => 'email'])
 			->add('phone', null, ['label' => 'phone'])
+			->add('currency', null, ['label' => 'currency'])
 			->add('country', null, ['label' => 'country'])
 			->add(
 				'createdAt',

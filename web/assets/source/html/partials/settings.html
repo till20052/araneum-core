@@ -1,11 +1,11 @@
-<h3 translate="offsidebar.setting.SETTINGS" class="text-center text-thin">Settings</h3>
+<h3 translate="admin.offsidebar.setting.SETTINGS" class="text-center text-thin">Settings</h3>
 <div class="p">
-   <h4 translate="offsidebar.setting.THEMES" class="text-muted text-thin">Themes</h4>
+   <h4 translate="admin.offsidebar.setting.THEMES" class="text-muted text-thin">Themes</h4>
    <div class="table-grid mb">
       <div class="col mb">
          <div class="setting-color">
             <label>
-               <input type="radio" name="setting-theme" ng-model="app.layout.theme" value="app/css/theme-a.css" />
+               <input type="radio" name="setting-theme" ng-model="app.layout.theme" value="/assets/build/css/theme-a.css" />
                <span class="icon-check"></span>
                <span class="split">
                   <span class="color bg-info"></span>
@@ -18,7 +18,7 @@
       <div class="col mb">
          <div class="setting-color">
             <label>
-               <input type="radio" name="setting-theme" ng-model="app.layout.theme" value="app/css/theme-b.css" />
+               <input type="radio" name="setting-theme" ng-model="app.layout.theme" value="/assets/build/css/theme-b.css" />
                <span class="icon-check"></span>
                <span class="split">
                   <span class="color bg-green"></span>
@@ -31,7 +31,7 @@
       <div class="col mb">
          <div class="setting-color">
             <label>
-               <input type="radio" name="setting-theme" ng-model="app.layout.theme" value="app/css/theme-c.css" />
+               <input type="radio" name="setting-theme" ng-model="app.layout.theme" value="/assets/build/css/theme-c.css" />
                <span class="icon-check"></span>
                <span class="split">
                   <span class="color bg-purple"></span>
@@ -44,7 +44,7 @@
       <div class="col mb">
          <div class="setting-color">
             <label>
-               <input type="radio" name="setting-theme" ng-model="app.layout.theme" value="app/css/theme-d.css" />
+               <input type="radio" name="setting-theme" ng-model="app.layout.theme" value="/assets/build/css/theme-d.css" />
                <span class="icon-check"></span>
                <span class="split">
                   <span class="color bg-danger"></span>
@@ -59,7 +59,7 @@
       <div class="col mb">
          <div class="setting-color">
             <label>
-               <input type="radio" name="setting-theme" ng-model="app.layout.theme" value="app/css/theme-e.css" />
+               <input type="radio" name="setting-theme" ng-model="app.layout.theme" value="/assets/build/css/theme-e.css" />
                <span class="icon-check"></span>
                <span class="split">
                   <span class="color bg-info-dark"></span>
@@ -72,7 +72,7 @@
       <div class="col mb">
          <div class="setting-color">
             <label>
-               <input type="radio" name="setting-theme" ng-model="app.layout.theme" value="app/css/theme-f.css" />
+               <input type="radio" name="setting-theme" ng-model="app.layout.theme" value="/assets/build/css/theme-f.css" />
                <span class="icon-check"></span>
                <span class="split">
                   <span class="color bg-green-dark"></span>
@@ -85,7 +85,7 @@
       <div class="col mb">
          <div class="setting-color">
             <label>
-               <input type="radio" name="setting-theme" ng-model="app.layout.theme" value="app/css/theme-g.css" />
+               <input type="radio" name="setting-theme" ng-model="app.layout.theme" value="/assets/build/css/theme-g.css" />
                <span class="icon-check"></span>
                <span class="split">
                   <span class="color bg-purple-dark"></span>
@@ -98,7 +98,7 @@
       <div class="col mb">
          <div class="setting-color">
             <label>
-               <input type="radio" name="setting-theme" ng-model="app.layout.theme" value="app/css/theme-h.css" />
+               <input type="radio" name="setting-theme" ng-model="app.layout.theme" value="/assets/build/css/theme-h.css" />
                <span class="icon-check"></span>
                <span class="split">
                   <span class="color bg-danger-dark"></span>
@@ -111,9 +111,9 @@
    </div>
 </div>
 <div class="p">
-   <h4 class="text-muted text-thin">Layout</h4>
+   <h4 translate="admin.offsidebar.setting.layout.LAYOUT" class="text-muted text-thin">Layout</h4>
    <div class="clearfix">
-      <p translate="offsidebar.setting.layout.FIXED" class="pull-left">Fixed</p>
+      <p translate="admin.offsidebar.setting.layout.FIXED" class="pull-left">Fixed</p>
       <div class="pull-right">
          <label class="switch">
             <input type="checkbox" ng-model="app.layout.isFixed" />
@@ -122,7 +122,7 @@
       </div>
    </div>
    <div class="clearfix">
-      <p class="pull-left">Boxed</p>
+      <p translate="admin.offsidebar.setting.layout.BOXED" class="pull-left">Boxed</p>
       <div class="pull-right">
          <label class="switch">
             <input type="checkbox" ng-model="app.layout.isBoxed" />
@@ -132,9 +132,9 @@
    </div>
 </div>
 <div ng-if="!app.layout.horizontal" class="p">
-   <h4 class="text-muted text-thin">Aside</h4>
+   <h4 translate="admin.offsidebar.setting.aside.ASIDE" class="text-muted text-thin">Aside</h4>
    <div class="clearfix">
-      <p translate="offsidebar.setting.layout.COLLAPSED" class="pull-left">Collapsed</p>
+      <p translate="admin.offsidebar.setting.aside.COLLAPSED" class="pull-left">Collapsed</p>
       <div class="pull-right">
          <label class="switch">
             <input type="checkbox" ng-model="app.layout.isCollapsed" />
@@ -143,7 +143,7 @@
       </div>
    </div>
    <div class="clearfix">
-      <p class="pull-left">Float</p>
+      <p translate="admin.offsidebar.setting.aside.FLOAT" class="pull-left">Float</p>
       <div class="pull-right">
          <label class="switch">
             <input type="checkbox" ng-model="app.layout.isFloat" />
@@ -152,7 +152,7 @@
       </div>
    </div>
    <div class="clearfix">
-      <p class="pull-left">Hover</p>
+      <p translate="admin.offsidebar.setting.aside.HOVER" class="pull-left">Hover</p>
       <div class="pull-right">
          <label class="switch">
             <input type="checkbox" ng-model="app.layout.asideHover" />

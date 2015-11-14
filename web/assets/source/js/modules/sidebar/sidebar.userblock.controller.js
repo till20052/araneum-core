@@ -16,7 +16,7 @@
           $rootScope.user = {
             name:     'John',
             job:      'ng-developer',
-            picture:  'app/img/user/02.jpg'
+            picture:  '/assets/build/img/user/02.jpg'
           };
 
           // Hides/show user avatar on sidebar
