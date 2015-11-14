@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Araneum\Bundle\MainBundle\Entity\Cluster;
 
 /**
  * Application class
@@ -111,7 +110,7 @@ class Application
     protected $owner;
 
     /**
-     * @ORM\Column(type="integer", options={"default"=0})
+     * @ORM\Column(type="integer", nullable=true, options={"default"=0})
      */
     protected $status = Application::STATUS_OK;
 
