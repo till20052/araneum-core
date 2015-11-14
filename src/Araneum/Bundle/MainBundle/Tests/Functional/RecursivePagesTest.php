@@ -108,7 +108,7 @@ class RecursivePagesTest extends BaseController
 	/**
 	 * Test pages status
 	 *
-	 * @runInSeparateProcess
+	 *
 	 */
 	public function testPages()
 	{

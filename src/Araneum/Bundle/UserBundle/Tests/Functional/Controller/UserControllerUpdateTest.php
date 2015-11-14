@@ -83,7 +83,7 @@ class UserControllerUpdateTest extends BaseController
     /**
      * Test for Password recovery link
      *
-     * @runInSeparateProcess
+     *
      */
     public function testRecovery()
     {
@@ -113,7 +113,7 @@ class UserControllerUpdateTest extends BaseController
      * @param string $email
      * @param mixed  $expectedValue
      * @dataProvider dataSource
-     * @runInSeparateProcess
+     *
      */
     public function testEdit($authLogin, $username, $email, $expectedValue)
     {

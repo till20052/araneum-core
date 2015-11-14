@@ -3,7 +3,6 @@
 namespace Araneum\Bundle\MainBundle\Tests\Functional;
 
 use Araneum\Base\Tests\Controller\BaseAdminController;
-use Araneum\Base\Tests\Fixtures\Main\ClusterFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures;
 use Araneum\Bundle\MailBundle\Entity\Mail;
 use Araneum\Bundle\MainBundle\Entity\Connection;
@@ -72,6 +71,7 @@ class ConnectionAdminTest extends BaseAdminController
 
         /**
      * Test check action
+     *
      *
      */
     public function testStatusChecker()

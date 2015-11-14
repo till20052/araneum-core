@@ -119,6 +119,7 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
     /**
      * Base test of delete in Sonata Admin
      *
+     * @runInSeparateProcess
      */
     public function testDelete()
     {

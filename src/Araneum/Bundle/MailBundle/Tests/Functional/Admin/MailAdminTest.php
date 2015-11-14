@@ -12,7 +12,7 @@ class MailAdminTest extends BaseController
     /**
      * Test is create action is disabled
      *
-     * @runInSeparateProcess
+     *
      */
     public function testDisableCreate()
     {
@@ -29,7 +29,7 @@ class MailAdminTest extends BaseController
     /**
      * Test is edit action is disabled
      *
-     * @runInSeparateProcess
+     *
      */
     public function testDisableEdit()
     {
@@ -51,7 +51,7 @@ class MailAdminTest extends BaseController
     /**
      * Test is delete action is disabled
      *
-     * @runInSeparateProcess
+     *
      */
     public function testDisableDelete()
     {
@@ -73,7 +73,7 @@ class MailAdminTest extends BaseController
     /**
      * Show test
      *
-     * @runInSeparateProcess
+     *
      */
     public function testShow()
     {
@@ -146,7 +146,7 @@ class MailAdminTest extends BaseController
      * Filter Test
      *
      * @dataProvider filterDataSource
-     * @runInSeparateProcess
+     *
      *
      * @param array $fullFormInput
      * @param       $expected
