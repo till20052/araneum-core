@@ -3,7 +3,12 @@
 namespace Araneum\Bundle\MainBundle\Tests\Functional;
 
 use Araneum\Base\Tests\Controller\BaseAdminController;
+use Araneum\Base\Tests\Fixtures\Main\ClusterFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures;
+use Araneum\Bundle\MailBundle\Entity\Mail;
+use Araneum\Bundle\MainBundle\Entity\Connection;
+use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class ConnectionAdminTest extends BaseAdminController
 {
@@ -16,9 +21,58 @@ class ConnectionAdminTest extends BaseAdminController
 
 
     /**
+     * Set up Before class
+     */
+    public static function setUpBeforeClass()
+    {
+        $client = static::createClient();
+        $manager = $client->getContainer()
+            ->get('doctrine.orm.entity_manager');
+
+        $repository = $manager
+            ->getRepository('AraneumMainBundle:Connection');
+
+        $delete = $repository->findOneByName(ConnectionFixtures::TEST_CONN_FREE_NAME);
+
+        if(!$delete){
+            $delete = new Connection();
+            $delete->setName(ConnectionFixtures::TEST_CONN_FREE_NAME)
+                ->setHost('192.168.5.5')
+                ->setPassword('123')
+                ->setPort(123)
+                ->setStatus(1)
+                ->setUserName('user')
+                ->setType(1);
+
+            $manager->persist($delete);
+            $manager->flush();
+        }
+    }
+
+    /**
+     * Delete entities after tests
+     */
+    public static function tearDownAfterClass()
+    {
+        $client = static::createClient();
+        $manager = $client->getContainer()
+            ->get('doctrine.orm.entity_manager');
+
+        $repository = $manager
+            ->getRepository('AraneumMainBundle:Connection');
+
+        $functionalTestConnection = $repository->findOneByName('functionalTestConnection');
+
+        if($functionalTestConnection){
+            $manager->remove($functionalTestConnection);
+            $manager->flush();
+        }
+
+    }
+
+        /**
      * Test check action
      *
-     * @runInSeparateProcess
      */
     public function testStatusChecker()
     {
@@ -47,7 +101,6 @@ class ConnectionAdminTest extends BaseAdminController
     /**
      * Test batch check status
      *
-     * @runInSeparateProcess
      */
     public function testBatchStatusChecker()
     {
@@ -77,7 +130,6 @@ class ConnectionAdminTest extends BaseAdminController
 
 
     /**
-     * {@inheritdoc}
      */
     public function filterDataSource()
     {
@@ -123,7 +175,6 @@ class ConnectionAdminTest extends BaseAdminController
     }
 
     /**
-     * {@inheritdoc}
      */
     public function createDataSource()
     {
@@ -133,7 +184,7 @@ class ConnectionAdminTest extends BaseAdminController
                     'Good create' => [
                         'type' => 1,
                         'name' => 'functionalTestConnection',
-                        'host' => 'testHost',
+                        'host' => '127.0.0.1',
                         'port' => 1111,
                         'userName' => 'testUserName',
                         'enabled' => true,
@@ -143,7 +194,7 @@ class ConnectionAdminTest extends BaseAdminController
                     'Unique create test' => [
                         'type' => 1,
                         'name' => 'functionalTestConnection',
-                        'host' => 'testHost',
+                        'host' => '127.0.0.1',
                         'port' => 1111,
                         'user' => 'testUserName',
                         'enabled' => true,
@@ -175,7 +226,6 @@ class ConnectionAdminTest extends BaseAdminController
     }
 
     /**
-     * {@inheritdoc}
      */
     public function updateDataSource()
     {
@@ -226,7 +276,6 @@ class ConnectionAdminTest extends BaseAdminController
     }
 
     /**
-     * {@inheritdoc}
      */
     public function deleteDataSource()
     {
@@ -242,7 +291,6 @@ class ConnectionAdminTest extends BaseAdminController
     /**
      * Test persist connection
      *
-     * @runInSeparateProcess
      */
     public function testDeletePersistConnection()
     {

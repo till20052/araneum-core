@@ -17,7 +17,6 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
      * Base test of create entity in Sonata Admin
      *
      * @dataProvider createDataSource
-     * @runInSeparateProcess
      *
      * @param array $formInput
      * @param       $expected
@@ -40,14 +39,13 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
 
         $crawler = $client->submit($form);
 
-        $this->assertEquals($expected, count($crawler->filter('.alert-danger')) <= 0, $crawler->html());
+        $this->assertEquals($expected, count($crawler->filter('.alert-danger')) <= 0);
     }
 
     /**
      * Base test of edit entity in Sonata Admin
      *
      * @dataProvider updateDataSource
-     * @runInSeparateProcess
      *
      * @param array $formInput
      * @param       $expected
@@ -74,14 +72,13 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
 
         $crawler = $client->submit($form);
 
-        $this->assertEquals($expected, count($crawler->filter('.alert-danger')) <= 0, $crawler->html());
+        $this->assertEquals($expected, count($crawler->filter('.alert-danger')) <= 0);
     }
 
     /**
      * Base test of filter in Sonata Admin.
      *
      * @dataProvider filterDataSource
-     * @runInSeparateProcess
      *
      * @param array $fullFormInput
      * @param       $expected
@@ -116,13 +113,12 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
                 }
             );
 
-        $this->assertEquals($expected, in_array($entity->getId(), $list), $crawler->html());
+        $this->assertEquals($expected, in_array($entity->getId(), $list));
     }
 
     /**
      * Base test of delete in Sonata Admin
      *
-     * @runInSeparateProcess
      */
     public function testDelete()
     {
@@ -154,7 +150,7 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
         $entityFromDb = $client->getContainer()->get('doctrine.orm.entity_manager')
             ->getRepository(get_class($entity))->find($entity->getId());
 
-        $this->assertTrue(empty($entityFromDb), $crawler->html());
+        $this->assertTrue(empty($entityFromDb));
     }
 
     /**
