@@ -29,8 +29,7 @@
                 abstract: true,
                 templateUrl: helper.basepath('app.html'),
                 resolve: helper.resolveFor(
-                    'fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'slimscroll', 'classyloader',
-	                'toaster', 'whirl', 'profile'
+                    'ngDialog', 'fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'slimscroll', 'classyloader', 'toaster', 'whirl'
                 )
             })
             .state('app.main', {

@@ -43,7 +43,7 @@
       // Hook error
       $rootScope.$on('$stateChangeError',
         function(event, toState, toParams, fromState, fromParams, error){
-          console.log(error);
+          console.log(event, toState, toParams, fromState, fromParams, error);
         });
       // Hook success
       $rootScope.$on('$stateChangeSuccess',
