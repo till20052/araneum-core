@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\UserBundle\Service;
 
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,7 +53,28 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
         if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(['success' => true], Response::HTTP_OK);
+            $response = new JsonResponse(['success' => true], Response::HTTP_OK);
+            $response->headers->clearCookie('user');
+
+            $user = $token->getUser();
+            if (!empty($user)) { //  && 1 != 1
+                $response->headers->setCookie(new Cookie(
+                    'user',
+                    json_encode(
+                        [
+                            'name' => $user->getFullName(),
+                            'email' => $user->getEmail()
+                        ]
+                    ),
+                    time() + 60,
+                    '/',
+                    null,
+                    false,
+                    false
+                ));
+            }
+
+            return $response;
         }
 
         if ($this->session->get('_security.main.target_path')) {

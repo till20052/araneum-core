@@ -19,14 +19,13 @@
         $locationProvider.html5Mode(true);
 
         // defaults to authorization
-        $urlRouterProvider.otherwise('/resetting');
+        $urlRouterProvider.otherwise('/dashboard');
 
         //
         // Application Routes
         // -----------------------------------
         $stateProvider
             .state('app', {
-                url: '/',
                 abstract: true,
                 templateUrl: helper.basepath('app.html'),
                 resolve: helper.resolveFor('fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'slimscroll', 'classyloader', 'toaster', 'whirl')
@@ -40,7 +39,8 @@
             .state('login', {
                 url: '/login',
                 title: 'Authorization',
-                templateUrl: '/en/user/login.html'
+                templateUrl: '/en/user/login.html',
+                resolve: helper.resolveFor('whirl')
             })
             .state('resetting', {
                 url: '/resetting',
@@ -53,7 +53,7 @@
                 title: 'Recover',
                 templateUrl: helper.basepath('users/resettingBase.html'),
                 resolve: helper.resolveFor('whirl')
-            })
+            });
     }
 
 })();

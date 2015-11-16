@@ -7,7 +7,7 @@
 				<img src="/assets/build/img/logo.png" alt="Image" class="block-center img-rounded" />
 			</a>
 		</div>
-		<div class="panel-body">
+		<div class="panel-body" ng-class="{'whirl traditional': login.inLoading}">
 			<p class="text-center pv">SIGN IN TO CONTINUE.</p>
 			<form role="form" ng-submit="login.login()" name="login.loginForm" novalidate="" class="form-validate mb-lg">
 				<div class="form-group has-feedback">

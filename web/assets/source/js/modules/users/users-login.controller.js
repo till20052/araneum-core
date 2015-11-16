@@ -19,6 +19,8 @@
             //
             vm.CSRFToken = '';
 
+            vm.inLoading = false;
+
             vm.setCSRFToken = function (CSRFToken) {
                 vm.CSRFToken = CSRFToken;
             };
@@ -27,6 +29,7 @@
                 vm.authMsg = '';
 
                 if (vm.loginForm.$valid) {
+					vm.inLoading = true;
                     $http
                         .post('/en/login_check', {
                             _username: vm.account.username,
@@ -39,7 +42,9 @@
                             } else {
                                 $state.go('app.main');
                             }
+							vm.inLoading = false;
                         }, function () {
+							vm.inLoading = false;
                             vm.authMsg = 'Server Request Error';
                         });
                 }
