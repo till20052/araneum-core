@@ -57,7 +57,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
             $response->headers->clearCookie('user');
 
             $user = $token->getUser();
-            if (!empty($user)) { //  && 1 != 1
+            if (!empty($user)) {
                 $response->headers->setCookie(new Cookie(
                     'user',
                     json_encode(
