@@ -83,7 +83,7 @@ class Cluster
 
 	/**
 	 * @var ArrayCollection
-	 * @ORM\OneToMany(targetEntity="Application", mappedBy="cluster", cascade={"persist"})
+	 * @ORM\OneToMany(targetEntity="Application", mappedBy="cluster", cascade={"detach", "persist"})
 	 */
 	protected $applications;
 

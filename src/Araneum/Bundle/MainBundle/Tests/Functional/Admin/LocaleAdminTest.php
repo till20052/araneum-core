@@ -30,6 +30,7 @@ class LocaleAdminTest extends BaseAdminController
 
         if($create){
             $manager->remove($create);
+            $manager->flush();
         }
 
         $filter= $repository->findOneByName(LocaleFixtures::TEST_LOC_NAME_FILTER);
@@ -134,7 +135,7 @@ class LocaleAdminTest extends BaseAdminController
                     'locale' => 'eu_ES',
                     'orientation' => Locale::ORIENT_LFT_TO_RGT,
                     'enabled' => false,
-                    'encoding' => 'testLocaleEncodingCreate',
+                    'encoding' => LocaleFixtures::TEST_LOC_ENCOD,
                 ],
                 true
             ],

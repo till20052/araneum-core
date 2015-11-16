@@ -34,9 +34,28 @@ class ClusterAdminTest extends BaseAdminController
         $manager = $client->getContainer()
             ->get('doctrine.orm.entity_manager');
 
+
+        $repository = $manager
+            ->getRepository('AraneumMainBundle:Connection');
+
+        $connection = $repository->findOneByName(ConnectionFixtures::TEST_CONN_NAME);
+
+        if(!$connection){
+            $connection = new Connection();
+            $connection->setName(ConnectionFixtures::TEST_CONN_NAME)
+                ->setHost('192.168.5.5')
+                ->setPassword('123')
+                ->setPort(123)
+                ->setStatus(1)
+                ->setUserName('user')
+                ->setType(1);
+
+            $manager->persist($connection);
+            $manager->flush();
+        }
+
         $repository = $manager
             ->getRepository('AraneumMainBundle:Cluster');
-
 
         $delete = $repository->findOneByName(ClusterFixtures::DELETE_CLU_NAME);
 
@@ -60,6 +79,7 @@ class ClusterAdminTest extends BaseAdminController
         if (!$delete) {
             $delete = new Cluster();
             $delete->setName(ClusterFixtures::DELETE_CLU_NAME)
+                ->setHosts(new ArrayCollection([$connection]))
                 ->setType(1)
                 ->setStatus(Cluster::STATUS_OK);
 
@@ -69,27 +89,6 @@ class ClusterAdminTest extends BaseAdminController
         }
 
         if (!$update) {
-
-            $connection = static::createClient()->getContainer()
-                ->get('doctrine.orm.entity_manager')
-                ->getRepository('AraneumMainBundle:Connection')
-                ->findOneByName(ConnectionFixtures::TEST_CONN_NAME);
-
-
-            if (!$connection) {
-                $connection = new Connection();
-                $connection->setName(ConnectionFixtures::TEST_CONN_FREE_NAME)
-                    ->setHost('192.168.5.5')
-                    ->setPassword('123')
-                    ->setPort(123)
-                    ->setStatus(1)
-                    ->setUserName('user')
-                    ->setType(1);
-
-                $manager->persist($connection);
-                $manager->flush();
-            }
-
             $update = new Cluster();
             $update->setName(ClusterFixtures::TEST_CLU_NAME)
                 ->setType(Cluster::STATUS_OK)
@@ -102,34 +101,6 @@ class ClusterAdminTest extends BaseAdminController
         }
 
     }
-
-    /**
-     * Delete entities after tests
-     */
-    public static function tearDownAfterClass()
-    {
-        /*   $client = static::createClient();
-           $manager = $client->getContainer()
-               ->get('doctrine.orm.entity_manager');
-
-           $repository = $manager
-               ->getRepository('AraneumMainBundle:Cluster');
-
-           $testCluster = $repository->findOneByName(self::CLUSTER_TEST_NAME);
-
-           $tempCluster = $repository->findByName(ClusterFixtures::TEST_TEMP_CLU_NAME);
-
-           if($testCluster){
-               $manager->remove($testCluster);
-               $manager->flush();
-           }
-
-           if($tempCluster){
-               $manager->remove($tempCluster);
-               $manager->flush();
-           }*/
-    }
-
 
     /**
      * Set data for create entity

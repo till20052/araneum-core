@@ -14,7 +14,9 @@ class CustomerApiControllerTest extends BaseController
      */
     protected $configGetUri = '/en/agent/api/customers/insert/' . ApplicationFixtures::TEST_APP_APP_KEY;
 
-
+    /**
+     * Settings up
+     */
     public static function setUpBeforeClass()
     {
         $customer = static::createClient();
