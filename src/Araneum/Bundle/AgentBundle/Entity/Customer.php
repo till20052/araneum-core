@@ -42,7 +42,7 @@ class Customer
      * @ORM\Column(name="first_name", type="string", length=30, nullable=true)
      * @Assert\Length(min=2, max=30)
      * @Assert\Regex(pattern="/^\D([\w\s]+)$/")
-
+     * @Assert\NotBlank()
      */
     private $firstName;
 
@@ -52,6 +52,7 @@ class Customer
      * @ORM\Column(name="last_name", type="string", length=30, nullable=true)
      * @Assert\Length(min=2, max=30)
      * @Assert\Regex(pattern="/^\D([\w\s]+)$/")
+     * @Assert\NotBlank()
      */
     private $lastName;
 
@@ -61,6 +62,7 @@ class Customer
      * @ORM\Column(name="country", type="string", length=32, nullable=true)
      * @Assert\Length(min=2, max=30)
      * @Assert\Regex(pattern="/^\D+$/")
+     * @Assert\NotBlank()
      */
     private $country;
 
@@ -80,13 +82,23 @@ class Customer
      * @ORM\Column(name="phone", type="string", length=24, nullable=true)
      * @Assert\Length(max=24)
      * @Assert\Regex(pattern="/^\d[0-9\-\(\)]{9,17}$/")
+     * @Assert\NotBlank()
      */
     private $phone;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\Length(max=10)
+     * @Assert\NotBlank()
+     */
+    private $currency;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="callback", type="boolean")
+     * @Assert\NotBlank()
      */
     private $callback;
 
@@ -287,6 +299,29 @@ class Customer
     public function setDeliveredAt($deliveredAt)
     {
         $this->deliveredAt = $deliveredAt;
+
+        return $this;
+    }
+
+    /**
+     * Get currency
+     *
+     * @return string
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
+
+    /**
+     * Set currency
+     *
+     * @param string $currency
+     * @return $this
+     */
+    public function setCurrency($currency)
+    {
+        $this->currency = $currency;
 
         return $this;
     }
