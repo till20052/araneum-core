@@ -15,7 +15,6 @@
             get: { method: 'GET', isArray: true }
           };
         function load(source) {
-            return [];
           return $resource(source, {}, opts).get();
         }
     }
