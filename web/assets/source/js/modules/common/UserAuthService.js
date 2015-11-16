@@ -1,37 +1,25 @@
-(function(angular) {
+(function (angular) {
 	'use strict';
 
 	angular
 		.module('araneum')
-		.service('UserAuth', [UserAuth]);
+		.service('UserAuthService', ['$http', UserAuthService]);
 
-	function UserAuth(){
+	function UserAuthService($http) {
 
 		return {
-			user: user
+			getAuthorizedUserData: getAuthorizedUserData
 		};
 
-		function user(){
-
+		function getAuthorizedUserData(callback) {
+			$http
+				.get('/en/user/profile/get_authorized_user_data')
+				.success(function (response) {
+					callback(response);
+				});
 		}
 
 	}
 
 })(angular);
-
-/**
- * @ngdoc service
- * @name UserAuth
- * @description
- * _Please update the description and dependencies._
- *
- * */
-angular.module('araneum')
-    .service('UserAuth', function(){
-
-    this.testMethod = function() {
-
-    }
-
-});
 

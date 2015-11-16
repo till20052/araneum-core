@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\UserBundle\Controller;
 
+use Araneum\Bundle\UserBundle\Entity\User;
 use Araneum\Bundle\UserBundle\Form\Type\ProfileType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -85,6 +86,26 @@ class AdminUserController extends Controller
     }
 
     /**
+     * @Route("/profile/get_authorized_user_data", name="araneum_user_adminUser_getAuthorizedUserData")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @return Response
+     */
+    public function getAuthorizedUserData()
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        return new JsonResponse(
+            [
+                'name' => $user->getFullName(),
+                'email' => $user->getEmail(),
+				'picture' => '/assets/build/img/user/no-image.jpg'
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
      * Edit profile
      *
      * @Route("/profile/edit", name="araneum_user_adminUser_edit")
@@ -95,8 +116,9 @@ class AdminUserController extends Controller
     public function editAction(Request $request)
     {
         $em = $this->get('doctrine.orm.entity_manager');
-
-        $form = $this->createForm(new ProfileType(), $this->getUser());
+        /** @var User $user */
+        $user = $this->getUser();
+        $form = $this->createForm(new ProfileType(), $user);
 
         if ($request->getMethod() === 'POST') {
             $form->submit($request);
@@ -110,10 +132,17 @@ class AdminUserController extends Controller
                 );
             }
 
-            $em->persist($this->getUser());
+            $em->persist($user);
             $em->flush();
 
-            return new JsonResponse(null, Response::HTTP_ACCEPTED);
+            return new JsonResponse(
+                [
+                    'username' => $user->getUsername(),
+                    'fullName' => $user->getFullName(),
+                    'email' => $user->getEmail()
+                ],
+                Response::HTTP_ACCEPTED
+            );
         }
 
         return new JsonResponse(

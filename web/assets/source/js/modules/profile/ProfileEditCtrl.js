@@ -1,15 +1,15 @@
-(function(angular){
+(function (angular) {
 	'use strict';
 
 	angular
 		.module('app.profile')
 		.controller('ProfileEditCtrl', ['$scope', '$http', ProfileEditCtrl]);
 
-	function ProfileEditCtrl($scope, $http){
+	function ProfileEditCtrl($scope, $http) {
 
 		$scope.inLoading = true;
 
-		(function(viewModel){
+		(function (viewModel) {
 
 			var formFields = {};
 
@@ -19,15 +19,15 @@
 			$scope.inLoading = true;
 			$http
 				.get('/en/user/profile/edit')
-				.success(function(response){
-					angular.forEach(response.form, function(field){
+				.success(function (response) {
+					angular.forEach(response.form, function (field) {
 						this[field.name] = field.value;
 						formFields[field.name] = field;
 					}, viewModel);
 					$scope.inLoading = false;
 				});
 
-			function save(){
+			function save() {
 				$scope.inLoading = true;
 
 				console.log(formFields);
@@ -35,7 +35,7 @@
 				var data = {
 					'btn_update_profile': 1
 				};
-				angular.forEach(formFields, function(field){
+				angular.forEach(formFields, function (field) {
 					this[field.full_name] = viewModel[field.name]
 				}, data);
 
@@ -43,10 +43,11 @@
 					.post('/en/user/profile/edit', $.param(data), {
 						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 					})
-					.success(function(response){
+					.success(function (response) {
 						$scope.inLoading = false;
+						$rootScope.user.name = response.username;
 					})
-					.error(function(response){
+					.error(function (response) {
 						$scope.inLoading = false;
 						viewModel.errors = response.errors;
 					});

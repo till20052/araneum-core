@@ -14,6 +14,7 @@
       $rootScope.$stateParams = $stateParams;
       $rootScope.$storage = $window.localStorage;
 
+
       // Uncomment this to disable template cache
       /*$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
           if (typeof(toState) !== 'undefined'){
