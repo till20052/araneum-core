@@ -15,7 +15,7 @@ class LocaleFixtures extends AbstractFixture implements FixtureInterface
     const TEST_LOC_ORIENT         = Locale::ORIENT_LFT_TO_RGT;
     const TEST_LOC_ENCOD          = 'UTF-8';
     const TEST_LOC_NAME_UPDATE    = 'TestLocalUpdate';
-    const TEST_LOC_LOCALE_UPDATE  = 'uk_UA';
+    const TEST_LOC_LOCALE_UPDATE  = 'mk_MK';
     const TEST_LOC_NAME_FILTER    = 'TestLocalFilter';
     const TEST_LOC_LOCALE_FILTER  = 'vi_VN';
     const TEST_LOC_ENABLED_FILTER = true;
