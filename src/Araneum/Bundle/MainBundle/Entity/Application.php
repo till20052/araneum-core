@@ -129,7 +129,7 @@ class Application
     protected $appKey;
 
     /**
-     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Customer", mappedBy="application")
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Customer", mappedBy="application", cascade={"remove", "persist"})
      */
     protected $customers;
 
@@ -138,6 +138,11 @@ class Application
      * @ORM\OneToMany(targetEntity="Araneum\Bundle\MailBundle\Entity\Mail", mappedBy="application", cascade={"remove", "persist"})
      */
     protected  $mails;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ApplicationLog", mappedBy="application", cascade={"remove", "persist"})
+     */
+    protected $applicationLog;
 
 
     /**
@@ -174,6 +179,7 @@ class Application
         $this->setAppKey();
         $this->setCustomers(new ArrayCollection());
         $this->setMails(new ArrayCollection());
+
     }
 
     /**
@@ -623,6 +629,30 @@ class Application
     public function setMails(ArrayCollection $mails)
     {
         $this->mails = $mails;
+
+        return $this;
+    }
+
+
+    /**
+     * Get applicationLog
+     *
+     * @return ArrayCollection
+     */
+    public function getApplicationLog()
+    {
+        return $this->applicationLog;
+    }
+
+    /**
+     * Set applicationLog
+     *
+     * @param ArrayCollection $applicationLog
+     * @return Application
+     */
+    public function setApplicationLog(ArrayCollection $applicationLog)
+    {
+        $this->applicationLog = $applicationLog;
 
         return $this;
     }

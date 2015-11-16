@@ -151,8 +151,6 @@ class RemoteApplicationManagerService
      */
     public function remove($appKey)
     {
-       var_dump($appKey); die();
-
         $connections = $this->entityManager
             ->getRepository('AraneumMainBundle:Connection')
             ->findConnectionByAppKey($appKey);
