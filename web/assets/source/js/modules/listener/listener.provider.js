@@ -3,9 +3,8 @@
 
 	angular
 		.module('app.listener')
-		.provider('HTTPEventListener', HTTPEventListener);
+		.provider('HTTPEventListener', [HTTPEventListener]);
 
-	HTTPEventListener.$inject = [];
 	function HTTPEventListener() {
 		var events = {
 			onRequest: [],
