@@ -24,7 +24,7 @@ class ApplicationRepository extends EntityRepository
      */
     public function getApplicationsStatistics()
     {
-        return (object) $this->createQueryBuilder('A')
+        return (object)$this->createQueryBuilder('A')
             ->select('SUM(CASE WHEN A.enabled = TRUE AND A.status = :online THEN 1 ELSE 0 END) AS online')
             ->addSelect('SUM(CASE WHEN A.enabled = TRUE AND A.status = :hasProblem THEN 1 ELSE 0 END) as hasProblems')
             ->addSelect('SUM(CASE WHEN A.status > :hasProblem THEN 1 ELSE 0 END) as hasErrors')
@@ -38,4 +38,22 @@ class ApplicationRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+
+    public function getApplicationStatusesDayly()
+    {
+       $qb = $this->createQueryBuilder('a');
+
+        $qb->select('a.name')
+            ->addSelect('count(CASE WHEN l.status = 100 THEN l.status END) / COUNT(*) * 100 as errors')
+            ->addSelect('count(CASE WHEN l.status = 1  THEN l.status END) / COUNT(*) * 100 as problems')
+            ->addSelect('count(CASE WHEN l.status = 0  THEN l.status END) / COUNT(*) * 100 as OK')
+            ->addSelect('count(CASE WHEN l.status = 999 THEN l.status END)/count(*) * 100 as disabled')
+            ->leftJoin('AraneumAgentBundle:ApplicationLog', 'l', 'WITH', 'l.application=a')
+            ->groupBy('a.name');
+
+        $sql = $qb->getQuery()->getSQL();
+        return $sql;
+    }
+
 }

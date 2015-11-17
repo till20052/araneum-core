@@ -14,6 +14,11 @@ class StatisticsService
     private $entityManager;
 
     /**
+     * @var ApplicationRepository
+     */
+    private $repository;
+
+    /**
      * StatisticsService constructor.
      *
      * @param EntityManager $entityManager
@@ -21,6 +26,7 @@ class StatisticsService
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
+        $this->repository = $this->entityManager->getRepository('AraneumMainBundle:Application');
     }
 
     /**
@@ -34,10 +40,18 @@ class StatisticsService
      */
     public function getApplicationsStatistics()
     {
-        /** @var ApplicationRepository $repository */
-        $repository = $this->entityManager
-            ->getRepository('AraneumMainBundle:Application');
+        return $this->repository->getApplicationsStatistics();
+    }
 
-        return $repository->getApplicationsStatistics();
+    /**
+     * Get statistics of all applications by statuses last 24 hours
+     *
+     * -error
+     * -problem
+     * -ok
+     * -disabled
+     */
+    public function getApplicationsStatusesDayly(){
+        $repo = $this->repository->getApplicationStatusesDayly();
     }
 }

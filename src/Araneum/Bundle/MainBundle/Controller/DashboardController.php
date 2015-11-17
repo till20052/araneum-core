@@ -26,7 +26,8 @@ class DashboardController extends Controller
 
         return new JsonResponse([
             'statistics' => [
-                'applications' => $service->getApplicationsStatistics()
+                'applications' => $service->getApplicationsStatistics(),
+                'dayly' =>$service->getApplicationsStatusesDayly()
             ]
         ], Response::HTTP_OK);
     }

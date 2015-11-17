@@ -26,11 +26,13 @@ class Application
     const STATUS_OK = 0;
     const STATUS_CODE_INCORRECT = 1;
     const STATUS_ERROR = 100;
+    const STATUS_DISABLED = 999;
 
     private static $statuses = [
         self::STATUS_OK => 'ok',
         self::STATUS_CODE_INCORRECT => 'status_code_incorrect',
-        self::STATUS_ERROR => 'error'
+        self::STATUS_ERROR => 'error',
+        self::STATUS_DISABLED => 'disabled'
     ];
 
     /**
