@@ -42,15 +42,15 @@ class ApplicationRepository extends EntityRepository
 
     public function getApplicationStatusesDayly()
     {
-       $qb = $this->createQueryBuilder('a');
+       $qb = $this->createQueryBuilder('A');
 
-        $qb->select('a.name')
-            ->addSelect('count(CASE WHEN l.status = 100 THEN l.status END) / COUNT(*) * 100 as errors')
-            ->addSelect('count(CASE WHEN l.status = 1  THEN l.status END) / COUNT(*) * 100 as problems')
-            ->addSelect('count(CASE WHEN l.status = 0  THEN l.status END) / COUNT(*) * 100 as OK')
-            ->addSelect('count(CASE WHEN l.status = 999 THEN l.status END)/count(*) * 100 as disabled')
-            ->leftJoin('AraneumAgentBundle:ApplicationLog', 'l', 'WITH', 'l.application=a')
-            ->groupBy('a.name');
+        $qb
+            ->select('(COUNT(CASE WHEN L.status = 100 THEN L.status END) / COUNT(a.*) * 100) AS errors')
+            ->addSelect('(COUNT(CASE WHEN L.status = 1  THEN L.status END) / COUNT(a.*) * 100) AS problems')
+            ->addSelect('(COUNT(CASE WHEN L.status = 0  THEN L.status END) / COUNT(a.*) * 100) AS OK')
+            ->addSelect('(COUNT(CASE WHEN L.status = 999 THEN L.status END) / COUNT(a.*) * 100) AS disabled')
+            ->leftJoin();
+
 
         $sql = $qb->getQuery()->getSQL();
         return $sql;
