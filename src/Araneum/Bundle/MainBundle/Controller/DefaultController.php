@@ -29,10 +29,6 @@ class DefaultController extends Controller
      */
     public function adminAction()
     {
-        $session = new Session();
-
-		$session->set('test', 'value');
-
         return $this->render('admin.layout.html.twig');
     }
 }
