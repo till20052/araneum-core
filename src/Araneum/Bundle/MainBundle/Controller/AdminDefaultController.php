@@ -66,7 +66,7 @@ class AdminDefaultController extends Controller
 
         return new JsonResponse(
             $messages,
-            401
+            200
         );
     }
 }
