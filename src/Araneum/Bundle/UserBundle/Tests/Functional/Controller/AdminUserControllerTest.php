@@ -47,8 +47,6 @@ class AdminUserControllerTest extends BaseController
 
     /**
      * Test for set
-     *
-     *
      */
     public function testSettingsSet()
     {
@@ -74,7 +72,6 @@ class AdminUserControllerTest extends BaseController
 
     /**
      * Test for Get Settings
-     *
      */
     public function testSettingsGet()
     {
