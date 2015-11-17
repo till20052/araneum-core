@@ -5,8 +5,8 @@
         .module('app.core')
         .config(coreConfig);
 
-    coreConfig.$inject = ['$controllerProvider', '$compileProvider', '$filterProvider', '$provide'];
-    function coreConfig($controllerProvider, $compileProvider, $filterProvider, $provide) {
+    coreConfig.$inject = ['$controllerProvider', '$compileProvider', '$filterProvider', '$provide', 'HTTPEventListenerProvider'];
+    function coreConfig($controllerProvider, $compileProvider, $filterProvider, $provide, HTTPEventListenerProvider) {
 
         var core = angular.module('app.core');
         // registering components after bootstrap
@@ -17,6 +17,12 @@
         core.service = $provide.service;
         core.constant = $provide.constant;
         core.value = $provide.value;
+
+        HTTPEventListenerProvider.onError(function(httpEvent){
+            if(httpEvent.content.status == 401){
+				httpEvent.state.go('login');
+			}
+        });
 
     }
 

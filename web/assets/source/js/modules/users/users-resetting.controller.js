@@ -13,7 +13,7 @@
 
 			vm.inLoading = false;
 			vm.error = '';
-			vm.username = 'till20052@gmail.com';
+			vm.username = '';
 			vm.maskedEmail = '';
 
 			vm.view = {

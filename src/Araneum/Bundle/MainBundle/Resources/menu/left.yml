@@ -43,7 +43,7 @@ Site_Manager:
       translate: admin.sidebar.nav.manager.LOCALE
 Received_data:
   text: Received_data
-  translate: admin.sidebar.heading.RECEIVE
+  translate: admin.sidebar.heading.RECEIVED
   submenu:
     Cluster:
       text: Customer
