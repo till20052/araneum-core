@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\UserBundle\Controller;
 
+use Araneum\Bundle\UserBundle\Entity\User;
 use FOS\UserBundle\Controller\SecurityController as BaseController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,12 +20,27 @@ class SecurityController extends BaseController
 		/** @var Request $request */
 		$request = $this->container->get('request');
 
-		if($request->isXmlHttpRequest()){
-			$response = $this->container
-				->get('araneum.user.authentication_handler')
-				->login($request);
+		if ($request->isXmlHttpRequest()) {
 
-			return new JsonResponse($response['_csrf_token'], Response::HTTP_OK);
+			/** @var User $user */
+			$user = $this->container
+				->get('security.token_storage')
+				->getToken()
+				->getUser();
+
+			if ($user instanceof User) {
+				return new JsonResponse(
+					[
+						'name' => $user->getFullName(),
+						'email' => $user->getEmail()
+					],
+					Response::HTTP_FORBIDDEN
+				);
+			}
+
+			$handler = $this->container->get('araneum.user.authentication_handler');
+
+			return new JsonResponse($handler->login($request)['_csrf_token'], Response::HTTP_OK);
 		}
 
 		return parent::loginAction();

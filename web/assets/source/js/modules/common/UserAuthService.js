@@ -11,7 +11,7 @@
 		var _csrf_token;
 
 		$rootScope.$on('$stateChangeStart', function (event, toState) {
-			if( ! User.isAuthorized() && toState.name != 'login'){
+			if( ! User.isAuthorized() && $.inArray(toState.name, ['login', 'resetting', 'reset']) < 0){
 				event.preventDefault();
 				$state.go('login');
 			}
@@ -29,6 +29,12 @@
 				.get('/en/login')
 				.success(function (response) {
 					_csrf_token = response;
+				})
+				.error(function(response, statusCode){
+					if(statusCode == 403){
+						User.data($.extend(response, {isAuthorized: true}));
+						$state.go('app.dashboard');
+					}
 				});
 		}
 
