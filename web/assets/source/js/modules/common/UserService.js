@@ -24,7 +24,6 @@
 			getName: getName,
 			getEmail: getEmail,
 			setSettings: setSettings,
-			getSettings: getSettings,
 			setAsAuthorized: setAsAuthorized,
 			isAuthorized: isAuthorized,
 			data: data
