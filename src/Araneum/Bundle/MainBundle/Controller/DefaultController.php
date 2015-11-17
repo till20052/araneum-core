@@ -5,6 +5,7 @@ namespace Araneum\Bundle\MainBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class DefaultController extends Controller
 {
@@ -28,6 +29,10 @@ class DefaultController extends Controller
      */
     public function adminAction()
     {
+        $session = new Session();
+
+		$session->set('test', 'value');
+
         return $this->render('admin.layout.html.twig');
     }
 }

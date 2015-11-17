@@ -17,12 +17,14 @@
 			onRequest: onRequest,
 			onResponse: onResponse,
 			onError: onError,
-			$get: function () {
-				return {
-					getEventsByCase: getEventsByCase
-				};
-			}
+			$get: getInstance
 		};
+
+		function getInstance(){
+			return {
+				getEventsByCase: getEventsByCase
+			};
+		}
 
 		function registerEvent(onCase, event) {
 			if (typeof event == 'function') {

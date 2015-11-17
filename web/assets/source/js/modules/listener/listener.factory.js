@@ -10,7 +10,7 @@
         return {
             request: onRequest,
             response: onResponse,
-            error: onError
+			responseError: onError
         };
 
         function onRequest(request){
@@ -21,6 +21,8 @@
         }
 
         function onResponse(response){
+			//console.log(response);
+
             HTTPEventListenerService
 	            .triggerEvents('onResponse', response);
 

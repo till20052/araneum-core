@@ -4,34 +4,92 @@
 
 	angular
 		.module('araneum')
-		.service('UserAuth', ['$state', '$cookies', UserAuth]);
+		.service('UserAuth', ['$http', 'User', '$state', '$rootScope', UserAuth]);
 
-	function UserAuth($state, $cookies) {
+	function UserAuth($http, User, $state, $rootScope) {
 
-		return {
-			getUser: getUser,
-			isUserAuthorized: isUserAuthorized,
-			checkAccess: checkAccess
-		};
+		var _csrf_token;
 
-		function getUser() {
-			return JSON.parse($cookies.get('user') || false);
-		}
-
-		function isUserAuthorized() {
-			return typeof getUser() == 'object';
-		}
-
-		function checkAccess(event, toState) {
-			if ($.inArray(toState.name, ['login', 'resetting', 'reset']) >= 0) {
-				if (!isUserAuthorized()) {
-					return;
-				}
-				event.preventDefault();
-				$state.go('app.main');
-			} else if (!isUserAuthorized()) {
+		$rootScope.$on('$stateChangeStart', function (event, toState) {
+			if( ! User.isAuthorized() && toState.name != 'login'){
 				event.preventDefault();
 				$state.go('login');
+			}
+		});
+
+		return {
+			init: init,
+			login: login,
+			logout: logout,
+			hasAccess: hasAccess
+		};
+
+		function init() {
+			$http
+				.get('/en/login')
+				.success(function (response) {
+					_csrf_token = response;
+				});
+		}
+
+		function login(data) {
+			$http
+				.post('/en/login_check', $.param({
+						_username: data.username,
+						_password: data.password,
+						_csrf_token: _csrf_token
+					}),
+					{
+						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+					})
+				.success(function (response) {
+					var event = createEvent(response);
+
+					if(typeof data.onSuccess == 'function'){
+						data.onSuccess(event);
+					}
+
+					if( ! event.isPropagationStopped()){
+						User.data($.extend(response, {isAuthorized: true}));
+						$state.go('app.dashboard');
+					}
+				})
+				.error(function (response) {
+					var event = createEvent(response);
+
+					if(typeof data.onError == 'function'){
+						data.onError(event);
+					}
+
+					if( ! event.isPropagationStopped()){
+						_csrf_token = response._csrf_token;
+					}
+				});
+		}
+
+		function logout() {
+
+		}
+
+		function hasAccess() {
+
+		}
+
+		function createEvent(response){
+			var isEventPropagationStopped = false;
+
+			return {
+				response: response,
+				isPropagationStopped: isPropagationStopped,
+				stopPropagation: stopPropagation
+			};
+
+			function stopPropagation(){
+				isEventPropagationStopped = true;
+			}
+
+			function isPropagationStopped(){
+				return isEventPropagationStopped;
 			}
 		}
 

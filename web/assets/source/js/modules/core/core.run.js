@@ -32,9 +32,8 @@
 
 		// Hooks Example
 		// -----------------------------------
-		$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-			UserAuth.checkAccess(event, toState, toParams, fromState, fromParams);
-		});
+
+
 		// Hook not found
 		$rootScope.$on('$stateNotFound',
 			function (event, unfoundState/*, fromState, fromParams*/) {
