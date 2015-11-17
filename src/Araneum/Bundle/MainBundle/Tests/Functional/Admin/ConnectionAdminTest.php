@@ -35,7 +35,8 @@ class ConnectionAdminTest extends BaseAdminController
 
         if(!$delete){
             $delete = new Connection();
-            $delete->setName(ConnectionFixtures::TEST_CONN_FREE_NAME)
+            $delete
+                ->setName(ConnectionFixtures::TEST_CONN_FREE_NAME)
                 ->setHost('192.168.5.5')
                 ->setPassword('123')
                 ->setPort(123)
@@ -54,7 +55,8 @@ class ConnectionAdminTest extends BaseAdminController
     public static function tearDownAfterClass()
     {
         $client = static::createClient();
-        $manager = $client->getContainer()
+        $manager = $client
+            ->getContainer()
             ->get('doctrine.orm.entity_manager');
 
         $repository = $manager
@@ -86,7 +88,10 @@ class ConnectionAdminTest extends BaseAdminController
 
         $crawler = $client->request(
             'GET',
-            $client->getContainer()->get('router')->generate(
+            $client
+                ->getContainer()
+                ->get('router')
+                ->generate(
                 $this->checkRoute,
                 [
                     'id' => $connection->getId(),
@@ -108,7 +113,10 @@ class ConnectionAdminTest extends BaseAdminController
 
         $crawler = $client->request(
             'POST',
-            $client->getContainer()->get('router')->generate(
+            $client
+                ->getContainer()
+                ->get('router')
+                ->generate(
                 $this->listRoute,
                 [
                     '_locale' => 'en'

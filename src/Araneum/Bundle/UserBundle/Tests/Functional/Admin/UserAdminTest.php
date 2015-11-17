@@ -21,7 +21,8 @@ class UserAdminTest extends BaseAdminController
     public static function setUpBeforeClass()
     {
         $client = static::createClient();
-        $manager = $client->getContainer()
+        $manager = $client
+            ->getContainer()
             ->get('doctrine.orm.entity_manager');
 
         $repository = $manager
@@ -48,7 +49,8 @@ class UserAdminTest extends BaseAdminController
 
 
             $delete = new User();
-            $delete->setUsername(UserFixtures::TEST_USER_NAME_DELETE)
+            $delete
+                ->setUsername(UserFixtures::TEST_USER_NAME_DELETE)
                 ->setEmail('test@test.delete.email')
                 ->setFullName('123')
                 ->setPassword('112dfsdgfsd')
@@ -74,7 +76,8 @@ class UserAdminTest extends BaseAdminController
 
         if(!$user){
             $user = new User();
-            $user->setUsername(UserFixtures::TEST_USER_NAME.'filter')
+            $user
+                ->setUsername(UserFixtures::TEST_USER_NAME.'filter')
                 ->setPassword('123sdfsdgdf')
                 ->setEnabled(UserFixtures::TEST_USER_ENABLED_FILTER)
                 ->setFullName(UserFixtures::TEST_USER_FULLNAME_FILTER)
@@ -203,7 +206,8 @@ class UserAdminTest extends BaseAdminController
 
         if(!$user){
             $user = new User();
-            $user->setUsername(UserFixtures::TEST_USER_NAME_UPDATE)
+            $user
+                ->setUsername(UserFixtures::TEST_USER_NAME_UPDATE)
                 ->setPassword('123sdfsdgdf')
                 ->setFullName('TestFullName')
                 ->setEmail(UserFixtures::TEST_USER_EMAIL_UPDATE);

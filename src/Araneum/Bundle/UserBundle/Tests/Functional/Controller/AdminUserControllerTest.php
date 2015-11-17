@@ -33,7 +33,8 @@ class AdminUserControllerTest extends BaseController
     {
         self::bootKernel();
 
-        self::$manager = static::$kernel->getContainer()
+        self::$manager = static::$kernel
+            ->getContainer()
             ->get('doctrine.orm.entity_manager');
 
         self::$repository = self::$manager->getRepository('AraneumUserBundle:User');
@@ -53,7 +54,9 @@ class AdminUserControllerTest extends BaseController
     {
         $client = $this->createAdminAuthorizedClient(UserFixtures::ADMIN_USER_NAME);
 
-        $router = $client->getContainer()->get('router');
+        $router = $client
+            ->getContainer()
+            ->get('router');
 
         $client->request(
             'POST',
@@ -76,7 +79,9 @@ class AdminUserControllerTest extends BaseController
     public function testSettingsGet()
     {
         $client = $this->createAdminAuthorizedClient(UserFixtures::ADMIN_USER_NAME);
-        $router = $client->getContainer()->get('router');
+        $router = $client
+            ->getContainer()
+            ->get('router');
 
         $client
             ->request(
@@ -84,7 +89,9 @@ class AdminUserControllerTest extends BaseController
                 $router->generate('araneum_user_get_settings')
             );
 
-        $response = $client->getResponse()->getContent();
+        $response = $client
+            ->getResponse()
+            ->getContent();
 
         $this->assertJson($response, json_encode(self::$settings));
     }

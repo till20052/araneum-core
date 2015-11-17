@@ -20,7 +20,8 @@ class CustomerApiControllerTest extends BaseController
     public static function setUpBeforeClass()
     {
         $customer = static::createClient();
-        $manager = $customer->getContainer()
+        $manager = $customer
+            ->getContainer()
             ->get('doctrine.orm.entity_manager');
 
         $repository = $manager
