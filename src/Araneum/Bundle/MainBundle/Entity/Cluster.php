@@ -3,10 +3,12 @@
 namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
+use Araneum\Bundle\AgentBundle\Entity\ConnectionLog;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Araneum\Bundle\AgentBundle\Entity\ClusterLog;
 
 /**
  * Class Cluster
@@ -81,9 +83,22 @@ class Cluster
 
 	/**
 	 * @var ArrayCollection
-	 * @ORM\OneToMany(targetEntity="Application", mappedBy="cluster", cascade={"persist"})
+	 * @ORM\OneToMany(targetEntity="Application", mappedBy="cluster", cascade={"detach", "persist"})
 	 */
 	protected $applications;
+
+	/**
+	 * @var ArrayCollection
+	 * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ConnectionLog", mappedBy="cluster", cascade={"remove"})
+	 */
+	protected $connectionLogs;
+
+	/**
+	 * @var ArrayCollection
+	 * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ClusterLog", mappedBy="cluster", cascade={"remove"})
+	 */
+	protected $clusterLogs;
+
 
 	/**
 	 * Get list of Cluster statuses
@@ -117,6 +132,8 @@ class Cluster
 	{
 		$this->setHosts(new ArrayCollection());
 		$this->setApplications(new ArrayCollection());
+		$this->setConnectionLogs(new ArrayCollection());
+		$this->setClusterLogs(new ArrayCollection());
 	}
 
 	/**
@@ -337,5 +354,123 @@ class Cluster
 	public function hasApplication(Application $application)
 	{
 		return $this->applications->contains($application);
+	}
+
+	/**
+	 * Set connectionLog
+	 *
+	 * @param ArrayCollection $connectionLogs
+	 * @return Cluster $this
+	 */
+	public function setConnectionLogs(ArrayCollection $connectionLogs)
+	{
+		$this->connectionLogs = $connectionLogs;
+
+		return $this;
+	}
+
+	/**
+	 * Set connectionsLog
+	 *
+	 * @return ArrayCollection
+	 */
+	public function getConnectionLogs()
+	{
+		return $this->connectionLogs;
+	}
+
+	/**
+	 * Add connectionsLog
+	 *
+	 * @param ConnectionLog $connectionLogs
+	 * @return Cluster $this
+	 */
+	public function addConnectionLogs(ConnectionLog $connectionLogs)
+	{
+			$this->connectionLogs->add($connectionLogs);
+			return $this;
+	}
+
+	/**
+	 * Remove connectionsLog
+	 *
+	 * @param ConnectionLog $connectionLogs
+	 * @return Cluster $this
+	 */
+	public function removeConnectionLogs(ConnectionLog $connectionLogs)
+	{
+		$this->connectionLogs->removeElement($connectionLogs);
+
+		return $this;
+	}
+
+	/**
+	 * Check is cluster has connectionLogs
+	 *
+	 * @param ConnectionLog $connectionLogs
+	 * @return bool
+	 */
+	public function hasConnectionLogs(ConnectionLog $connectionLogs)
+	{
+		return $this->connectionLogs->contains($connectionLogs);
+	}
+
+	/**
+	 * Set clusterLog
+	 *
+	 * @param ArrayCollection $clusterLogs
+	 * @return Cluster $this
+	 */
+	public function setClusterLogs(ArrayCollection $clusterLogs)
+	{
+		$this->clusterLogs = $clusterLogs;
+
+		return $this;
+	}
+
+	/**
+	 * Set clusterLogs
+	 *
+	 * @return ArrayCollection
+	 */
+	public function getClusterLogs()
+	{
+		return $this->clusterLogs;
+	}
+
+	/**
+	 * Add clusterLog
+	 *
+	 * @param ClusterLog $clusterLogs
+	 * @return Cluster $this
+	 */
+	public function addClusterLogs(ClusterLog $clusterLogs)
+	{
+		$this->clusterLogs->add($clusterLogs);
+		return $this;
+	}
+
+	/**
+	 * Remove clusterLog
+	 *
+	 * @param ClusterLog $clusterLogs
+	 * @return Cluster $this
+	 */
+	public function removeClusterLogs(ClusterLog $clusterLogs)
+	{
+		$this->clusterLogs->removeElement($clusterLogs);
+
+		return $this;
+	}
+
+	/**
+	 * Check is cluster has connectionLogs
+	 *
+	 * @param ClusterLog $clusterLogs
+	 * @return bool
+	 */
+	public function hasClusterLogs(ClusterLog $clusterLogs)
+	{
+		return $this->clusterLogs->contains($clusterLogs);
 	}
 }

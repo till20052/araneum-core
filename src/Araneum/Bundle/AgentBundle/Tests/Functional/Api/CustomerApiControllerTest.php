@@ -15,6 +15,27 @@ class CustomerApiControllerTest extends BaseController
     protected $configGetUri = '/en/agent/api/customers/insert/' . ApplicationFixtures::TEST_APP_APP_KEY;
 
     /**
+     * Settings up
+     */
+    public static function setUpBeforeClass()
+    {
+        $customer = static::createClient();
+        $manager = $customer
+            ->getContainer()
+            ->get('doctrine.orm.entity_manager');
+
+        $repository = $manager
+            ->getRepository('AraneumAgentBundle:Customer');
+
+        $delete = $repository->findOneBy(['email'=>'email@email.com']);
+
+        if($delete){
+            $manager->remove($delete);
+            $manager->flush();
+        }
+    }
+
+        /**
      * Test customer controller
      *
      * @dataProvider apiDataProvider

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Araneum\Bundle\MainBundle\Entity\Cluster;
 
 /**
  * Application class
@@ -40,7 +41,7 @@ class Application
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Cluster")
+     * @ORM\ManyToOne(targetEntity="Cluster", cascade={"detach", "persist"})
      * @ORM\JoinColumn(name="cluster_id", referencedColumnName="id")
      */
     protected $cluster;
@@ -110,7 +111,8 @@ class Application
     protected $owner;
 
     /**
-     * @ORM\Column(type="integer", nullable=true, options={"default"=0})
+     * @ORM\Column(type="integer", options={"default"=0}, nullable=true)
+     * @Assert\NotBlank()
      */
     protected $status = Application::STATUS_OK;
 
@@ -127,9 +129,21 @@ class Application
     protected $appKey;
 
     /**
-     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Customer", mappedBy="application")
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Customer", mappedBy="application", cascade={"remove", "persist"})
      */
     protected $customers;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\MailBundle\Entity\Mail", mappedBy="application", cascade={"remove", "persist"})
+     */
+    protected  $mails;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ApplicationLog", mappedBy="application", cascade={"remove", "persist"})
+     */
+    protected $applicationLog;
+
 
     /**
      * Get list of Application statuses
@@ -164,6 +178,8 @@ class Application
         $this->setComponents(new ArrayCollection());
         $this->setAppKey();
         $this->setCustomers(new ArrayCollection());
+        $this->setMails(new ArrayCollection());
+        $this->setApplicationLog(new ArrayCollection());
     }
 
     /**
@@ -249,7 +265,7 @@ class Application
      * Set name
      *
      * @param mixed $name
-     * @return mixed
+     * @return Application $this
      */
     public function setName($name)
     {
@@ -364,7 +380,7 @@ class Application
      * Set public
      *
      * @param mixed $public
-     * @return mixed
+     * @return Application $this
      */
     public function setPublic($public = true)
     {
@@ -387,7 +403,7 @@ class Application
      * Set enabled
      *
      * @param mixed $enabled
-     * @return mixed
+     * @return Application $this
      */
     public function setEnabled($enabled = true)
     {
@@ -505,7 +521,7 @@ class Application
      * Set status
      *
      * @param mixed $status
-     * @return mixed
+     * @return Application $this
      */
     public function setStatus($status)
     {
@@ -589,6 +605,54 @@ class Application
     public function setCustomers(ArrayCollection $customers)
     {
         $this->customers = $customers;
+
+        return $this;
+    }
+
+
+    /**
+     * Get mails
+     *
+     * @return ArrayCollection
+     */
+    public function getMails()
+    {
+        return $this->mails;
+    }
+
+    /**
+     * Set mails
+     *
+     * @param ArrayCollection $mails
+     * @return Application
+     */
+    public function setMails(ArrayCollection $mails)
+    {
+        $this->mails = $mails;
+
+        return $this;
+    }
+
+
+    /**
+     * Get applicationLog
+     *
+     * @return ArrayCollection
+     */
+    public function getApplicationLog()
+    {
+        return $this->applicationLog;
+    }
+
+    /**
+     * Set applicationLog
+     *
+     * @param ArrayCollection $applicationLog
+     * @return Application
+     */
+    public function setApplicationLog(ArrayCollection $applicationLog)
+    {
+        $this->applicationLog = $applicationLog;
 
         return $this;
     }

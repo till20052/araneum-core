@@ -82,7 +82,7 @@ class UserFixtures extends AbstractFixture implements FixtureInterface
             $userForUpdate->setRoles(self::TEST_USER_ROLES);
             $manager->persist($userForUpdate);
         }
-        
+
         $emailUser = $manager->getRepository('AraneumUserBundle:User')->findOneByUsername('emailuser');
         if (empty($emailUser)) {
             $emailUser = new User();
@@ -93,7 +93,7 @@ class UserFixtures extends AbstractFixture implements FixtureInterface
             $emailUser->setEnabled(true);
             $manager->persist($emailUser);
         }
-        
+
         $emptyUser = $manager->getRepository('AraneumUserBundle:User')->findOneByUsername('emptyuser');
         if (empty($emptyUser)) {
             $emptyUser = new User();

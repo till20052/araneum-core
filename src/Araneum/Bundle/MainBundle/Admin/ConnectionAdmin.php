@@ -80,7 +80,7 @@ class ConnectionAdmin extends Admin
 	 * @param Connection $connection
 	 * @return void
 	 */
-	public function postRemove($connection)
+	public function preRemove($connection)
 	{
 		$event = new ApplicationEvent();
 
