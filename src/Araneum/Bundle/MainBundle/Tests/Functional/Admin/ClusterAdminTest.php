@@ -40,9 +40,10 @@ class ClusterAdminTest extends BaseAdminController
 
         $connection = $repository->findOneByName(ConnectionFixtures::TEST_CONN_NAME);
 
-        if(!$connection){
+        if (!$connection) {
             $connection = new Connection();
-            $connection->setName(ConnectionFixtures::TEST_CONN_NAME)
+            $connection
+                ->setName(ConnectionFixtures::TEST_CONN_NAME)
                 ->setHost('192.168.5.5')
                 ->setPassword('123')
                 ->setPort(123)
@@ -64,7 +65,7 @@ class ClusterAdminTest extends BaseAdminController
         $update = $repository->findOneByName(ClusterFixtures::TEST_CLU_NAME);
 
         $clusterTmp = $repository
-            ->findOneByName(ClusterFixtures::TEST_TEMP_CLU_NAME.'1');
+            ->findOneByName(ClusterFixtures::TEST_TEMP_CLU_NAME . '1');
 
         if ($clusterTmp) {
             $manager->remove($clusterTmp);
@@ -213,7 +214,7 @@ class ClusterAdminTest extends BaseAdminController
                 ->getRepository('AraneumMainBundle:Connection')
                 ->findOneByName(ConnectionFixtures::TEST_CONN_FREE_NAME);
 
-            if(!$connection){
+            if (!$connection) {
                 $connection = new Connection();
                 $connection->setName(ConnectionFixtures::TEST_CONN_FREE_NAME)
                     ->setHost('192.168.5.5')

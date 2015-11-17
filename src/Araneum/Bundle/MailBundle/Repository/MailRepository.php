@@ -12,17 +12,4 @@ use Doctrine\ORM\EntityRepository;
  */
 class MailRepository extends EntityRepository
 {
-    /**
-     * Return query with one mail
-     *
-     * @return \Doctrine\ORM\Query
-     */
-    public function getOneMail(){
-        $qb = $this->createQueryBuilder('mail');
-
-        $qb->select('m')->from('AraneumMailBundle:Mail','m');
-
-        return $qb->getQuery()->getSingleResult();
-    }
-
 }

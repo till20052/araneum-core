@@ -179,7 +179,7 @@ class Application
         $this->setAppKey();
         $this->setCustomers(new ArrayCollection());
         $this->setMails(new ArrayCollection());
-
+        $this->setApplicationLog(new ArrayCollection());
     }
 
     /**
