@@ -98,7 +98,6 @@ class Customer
      * @var boolean
      *
      * @ORM\Column(name="callback", type="boolean")
-     * @Assert\NotBlank()
      */
     private $callback;
 
