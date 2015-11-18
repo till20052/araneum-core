@@ -11,11 +11,11 @@
             triggerEvents: triggerEvents
         };
 
-        function triggerEvents(onCase, response) {
+        function triggerEvents(onCase, httpEvent) {
             HTTPEventListener
                 .getEventsByCase(onCase)
-                .forEach(function (callback) {
-                    callback(response);
+                .forEach(function (fn) {
+					fn(httpEvent);
                 });
         }
     }

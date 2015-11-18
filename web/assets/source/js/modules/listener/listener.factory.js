@@ -5,31 +5,38 @@
         .module('app.listener')
         .factory('HTTPEventInterceptor', HTTPEventInterceptor);
 
-    HTTPEventInterceptor.$inject = ['$q', 'HTTPEventListenerService'];
-    function HTTPEventInterceptor($q, HTTPEventListenerService) {
+    HTTPEventInterceptor.$inject = ['$q', '$rootScope', 'HTTPEventListenerService'];
+    function HTTPEventInterceptor($q, $rootScope, HTTPEventListenerService) {
         return {
             request: onRequest,
             response: onResponse,
-            error: onError
+			responseError: onError
         };
+
+		function httpEvent(content){
+			return {
+				content: content,
+				state: $rootScope.$state
+			};
+		}
 
         function onRequest(request){
             HTTPEventListenerService
-	            .triggerEvents('onRequest', request);
+	            .triggerEvents('onRequest', httpEvent(request));
 
             return request;
         }
 
         function onResponse(response){
             HTTPEventListenerService
-	            .triggerEvents('onResponse', response);
+	            .triggerEvents('onResponse', httpEvent(response));
 
             return response;
         }
 
         function onError(response){
 	        HTTPEventListenerService
-		        .triggerEvents('onError', response);
+		        .triggerEvents('onError', httpEvent(response));
 
             return $q.reject(response);
         }

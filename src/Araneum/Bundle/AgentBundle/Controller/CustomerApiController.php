@@ -46,7 +46,6 @@ class CustomerApiController extends FOSRestController
 	 *      {"name"="country", "dataType"="string", "required"=true, "description"="country"},
 	 *      {"name"="email", "dataType"="string", "required"=true, "description"="email"},
 	 *      {"name"="currency", "dataType"="string", "required"=true, "description"="currency"},
-	 *      {"name"="callback", "dataType"="boolean", "required"=true, "description"="callback"},
 	 *      {"name"="phone", "dataType"="string", "required"=true, "description"="phone"}
 	 *   },
 	 *   tags={"Agent"}
