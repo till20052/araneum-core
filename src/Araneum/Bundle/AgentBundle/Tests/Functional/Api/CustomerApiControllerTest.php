@@ -12,7 +12,7 @@ class CustomerApiControllerTest extends BaseController
     /**
      * @var string uri to call rest api method
      */
-    protected $configGetUri = '/agent/api/customers/insert/' . ApplicationFixtures::TEST_APP_APP_KEY;
+    protected $customerInsert = '/agent/api/customers/insert/' . ApplicationFixtures::TEST_APP_APP_KEY;
 
     /**
      * Settings up
@@ -35,7 +35,7 @@ class CustomerApiControllerTest extends BaseController
         }
     }
 
-        /**
+    /**
      * Test customer controller
      *
      * @dataProvider apiDataProvider
@@ -43,12 +43,12 @@ class CustomerApiControllerTest extends BaseController
      * @param array $post
      * @param int   $expected
      */
-    public function testPutCustomer(array $post, $expected)
+    public function testPostCustomer(array $post, $expected)
     {
         $client = self::createAdminAuthorizedClient('api');
         $client->request(
             'POST',
-            $this->configGetUri,
+            $this->customerInsert,
             $post
         );
 
