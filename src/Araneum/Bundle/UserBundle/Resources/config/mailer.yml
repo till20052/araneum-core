@@ -1,0 +1,14 @@
+services:
+    araneum.user.mailer:
+        class: Araneum\Bundle\UserBundle\Mailer\Mailer
+        arguments:
+            - @mailer
+            - @router.default
+            - @templating
+            -
+                fromEmail: "%swiftmailer.mailer.default.transport.smtp.username%"
+                from_email:
+                    confirmation: %fos_user.registration.confirmation.from_email%
+                    resetting: %swiftmailer.mailer.default.transport.smtp.username%
+                confirmation.template: %fos_user.registration.confirmation.from_email%
+                resetting.template: %fos_user.resetting.email.template%

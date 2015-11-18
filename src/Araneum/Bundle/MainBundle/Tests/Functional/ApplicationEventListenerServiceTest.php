@@ -9,7 +9,7 @@ use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 class ApplicationEventListenerServiceTest extends BaseController
 {
 	/**
-	 * @runInSeparateProcess
+	 *
 	 */
 	public function testApplicationEventListener()
 	{

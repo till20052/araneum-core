@@ -54,5 +54,10 @@ class StatisticsService
     public function getApplicationsStatusesDayly()
     {
         return $this->repository->getApplicationStatusesDayly();
+        /** @var ApplicationRepository $repository */
+        $repository = $this->entityManager
+            ->getRepository('AraneumMainBundle:Application');
+
+        return $repository->getApplicationsStatistics();
     }
 }

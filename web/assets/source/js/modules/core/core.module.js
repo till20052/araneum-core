@@ -15,6 +15,7 @@
             'ngSanitize',
             'ngResource',
             'tmh.dynamicLocale',
-            'ui.utils'
+            'ui.utils',
+            'app.listener'
         ]);
 })();

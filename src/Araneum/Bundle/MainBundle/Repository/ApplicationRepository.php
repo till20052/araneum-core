@@ -4,7 +4,6 @@ namespace Araneum\Bundle\MainBundle\Repository;
 
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 /**
  * ApplicationRepository
@@ -25,7 +24,7 @@ class ApplicationRepository extends EntityRepository
      */
     public function getApplicationsStatistics()
     {
-        return (object)$this->createQueryBuilder('A')
+        return (object) $this->createQueryBuilder('A')
             ->select('SUM(CASE WHEN A.enabled = TRUE AND A.status = :online THEN 1 ELSE 0 END) AS online')
             ->addSelect('SUM(CASE WHEN A.enabled = TRUE AND A.status = :hasProblem THEN 1 ELSE 0 END) as hasProblems')
             ->addSelect('SUM(CASE WHEN A.status > :hasProblem THEN 1 ELSE 0 END) as hasErrors')
@@ -39,6 +38,7 @@ class ApplicationRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+}
 
 
     public function getApplicationStatusesDayly()

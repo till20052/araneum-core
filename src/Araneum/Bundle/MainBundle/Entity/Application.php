@@ -43,7 +43,7 @@ class Application
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Cluster")
+     * @ORM\ManyToOne(targetEntity="Cluster", cascade={"detach", "persist"})
      * @ORM\JoinColumn(name="cluster_id", referencedColumnName="id")
      */
     protected $cluster;
@@ -113,7 +113,8 @@ class Application
     protected $owner;
 
     /**
-     * @ORM\Column(type="integer", options={"default"=0})
+     * @ORM\Column(type="integer", options={"default"=0}, nullable=true)
+     * @Assert\NotBlank()
      */
     protected $status = Application::STATUS_OK;
 
@@ -130,9 +131,15 @@ class Application
     protected $appKey;
 
     /**
-     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Customer", mappedBy="application")
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Customer", mappedBy="application", cascade={"remove", "persist"})
      */
     protected $customers;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\MailBundle\Entity\Mail", mappedBy="application", cascade={"remove", "persist"})
+     */
+    protected  $mails;
 
     /**
      * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ApplicationLog", mappedBy="application", cascade={"remove", "persist"})
@@ -173,6 +180,7 @@ class Application
         $this->setComponents(new ArrayCollection());
         $this->setAppKey();
         $this->setCustomers(new ArrayCollection());
+        $this->setMails(new ArrayCollection());
         $this->setApplicationLog(new ArrayCollection());
     }
 
@@ -259,7 +267,7 @@ class Application
      * Set name
      *
      * @param mixed $name
-     * @return mixed
+     * @return Application $this
      */
     public function setName($name)
     {
@@ -374,7 +382,7 @@ class Application
      * Set public
      *
      * @param mixed $public
-     * @return mixed
+     * @return Application $this
      */
     public function setPublic($public = true)
     {
@@ -397,7 +405,7 @@ class Application
      * Set enabled
      *
      * @param mixed $enabled
-     * @return mixed
+     * @return Application $this
      */
     public function setEnabled($enabled = true)
     {
@@ -515,7 +523,7 @@ class Application
      * Set status
      *
      * @param mixed $status
-     * @return mixed
+     * @return Application $this
      */
     public function setStatus($status)
     {
@@ -605,14 +613,28 @@ class Application
 
 
     /**
-     * Convert entity to string
+     * Get mails
      *
-     * @return string
+     * @return ArrayCollection
      */
-    public function __toString()
+    public function getMails()
     {
-        return $this->name ?: 'Create Application';
+        return $this->mails;
     }
+
+    /**
+     * Set mails
+     *
+     * @param ArrayCollection $mails
+     * @return Application
+     */
+    public function setMails(ArrayCollection $mails)
+    {
+        $this->mails = $mails;
+
+        return $this;
+    }
+
 
     /**
      * Get applicationLog
@@ -637,4 +659,14 @@ class Application
         return $this;
     }
 
+
+    /**
+     * Convert entity to string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name ?: 'Create Application';
+    }
 }

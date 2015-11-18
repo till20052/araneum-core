@@ -57,8 +57,15 @@ class AdminDefaultController extends Controller
     {
         $translator = $this->get('translator');
 
+        $messages = $translator->getMessages($translator->getLocale());
+
+        foreach($messages['admin'] as $key => $value){
+            $tokens = explode('.', $key);
+            $messages[$tokens[0]][implode('.', array_slice($tokens, 1))] = $value;
+        }
+
         return new JsonResponse(
-            $translator->getMessages($translator->getLocale()),
+            $messages,
             200
         );
     }

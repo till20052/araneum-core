@@ -12,7 +12,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 class ApplicationFixtures extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
     const TEST_APP_NAME = 'TestApplicationName';
-    const TEST_APP_DOMAIN = 'test.domain.com';
+    const TEST_APP_DOMAIN = 'domain.com';
     const TEST_APP_ALIASES = 'www.test.domain.com, www2.test.domain.com';
     const TEST_APP_PUBLIC = true;
     const TEST_APP_ENABLED = true;
@@ -20,7 +20,7 @@ class ApplicationFixtures extends AbstractFixture implements FixtureInterface, D
     const TEST_APP_TEMPLATE = 'TestTemplate';
     const TEST_APP_APP_KEY      = '111111111111111';
     const TEST_APP_TEMP_NAME = 'TestTempApplicationName';
-    const TEST_APP_TEMP_DOMAIN = 'temp.domain.com';
+    const TEST_APP_TEMP_DOMAIN = 'domain.com';
     const TEST_APP_TEMP_ALIASES = 'www.temp.domain.com, www2.temp.domain.com';
     const TEST_APP_TEMP_PUBLIC = false;
     const TEST_APP_TEMP_ENABLED = false;

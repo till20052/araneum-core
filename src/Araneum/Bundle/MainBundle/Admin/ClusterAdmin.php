@@ -60,7 +60,7 @@ class ClusterAdmin extends Admin
 	 * @param Cluster $cluster
 	 * @return void
 	 */
-	public function postRemove($cluster)
+	public function preRemove($cluster)
 	{
 		$event = new ApplicationEvent();
 
