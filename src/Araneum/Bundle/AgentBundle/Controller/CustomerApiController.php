@@ -20,15 +20,15 @@ use FOS\RestBundle\Request\ParamFetcher;
 class CustomerApiController extends FOSRestController
 {
 	/**
-	 * Get Application config by appKey
+	 * Insert customer by appKey
 	 *
 	 * @ApiDoc(
 	 *   resource = "Customer",
 	 *   section = "AgentBundle",
-	 *   description = "Gets a Application config for a given key",
-	 *   output = "Araneum\Bundle\Agent\Entity\Application",
+	 *   description = "Sets a Customer a given key",
+	 *   output = "Code",
 	 *   statusCodes = {
-	 *      200 = "Returned when successful",
+	 *      201 = "Returned when successful created",
 	 *      403 = "Returned when authorization is failed",
 	 *      404 = "Returned when Application not found"
 	 *   },
@@ -40,7 +40,13 @@ class CustomerApiController extends FOSRestController
 	 *      }
 	 *   },
 	 *   parameters={
-	 *      {"name"="appKey", "dataType"="string", "required"=true, "description"="appKey"}
+	 *      {"name"="appKey", "dataType"="string", "required"=true, "description"="appKey"},
+	 *      {"name"="firstName", "dataType"="string", "required"=true, "description"="firstName"},
+	 *      {"name"="lastName", "dataType"="string", "required"=true, "description"="lastName"},
+	 *      {"name"="country", "dataType"="string", "required"=true, "description"="country"},
+	 *      {"name"="email", "dataType"="string", "required"=true, "description"="email"},
+	 *      {"name"="currency", "dataType"="string", "required"=true, "description"="currency"},
+	 *      {"name"="phone", "dataType"="string", "required"=true, "description"="phone"}
 	 *   },
 	 *   tags={"Agent"}
 	 * )

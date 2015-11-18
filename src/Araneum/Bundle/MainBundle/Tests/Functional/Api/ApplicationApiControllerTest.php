@@ -16,7 +16,7 @@ class ApplicationApiControllerTest extends BaseController
     /**
      * Test ApplicationApiController
      *
-     * @runInSeparateProcess
+     *
      */
     public function testGet()
     {

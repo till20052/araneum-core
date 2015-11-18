@@ -54,7 +54,7 @@ class LeadApiControllerTest extends BaseController
 	/**
 	 * Test findAction in LeadApiController
 	 *
-	 * @runInSeparateProcess
+	 *
 	 * @dataProvider findActionDataProvider
 	 *
 	 * @param array $filters
@@ -124,7 +124,7 @@ class LeadApiControllerTest extends BaseController
 	/**
 	 * Test createAction in LeadApiController
 	 *
-	 * @runInSeparateProcess
+	 *
 	 * @dataProvider createActionDataProvider
 	 *
 	 * @param array $data

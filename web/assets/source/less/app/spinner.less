@@ -182,6 +182,16 @@ body {
     background-color: #fff;
   }
 
+  div[ng-controller='DashboardController'] {
+    .sk-spinner-circle .sk-circle:before {
+      background-color: black;
+    }
+
+    & > div > div:not(.white) .sk-spinner-circle .sk-circle:before {
+      background-color: white;
+    }
+  }
+
 
 }
 

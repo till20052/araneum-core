@@ -20,7 +20,7 @@ class ApplicationAdminTest extends BaseAdminController
     protected $deleteRoute = 'admin_araneum_main_application_delete';
     protected $listRoute = 'admin_araneum_main_application_list';
 
-	/**
+    /**
      * Set of arguments for testCreate method
      *
      * @return array
@@ -42,6 +42,16 @@ class ApplicationAdminTest extends BaseAdminController
 
         $components = $manager->getRepository('AraneumMainBundle:Component')
             ->findOneByName(ComponentFixtures::TEST_COMP_NAME);
+
+        $repository = $manager
+            ->getRepository('AraneumMainBundle:Application');
+
+        $application= $repository->findOneByName(self::TEST_APP_NAME . '#' . md5(self::TEST_APP_NAME));
+
+        if($application){
+            $manager->remove($application);
+            $manager->flush();
+        }
 
         return [
             'Check simple creation' => [

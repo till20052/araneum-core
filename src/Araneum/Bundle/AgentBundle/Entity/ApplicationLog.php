@@ -37,7 +37,7 @@ class ApplicationLog
     /**
      * @var Application
      *
-     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Application")
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Application", inversedBy="applicationLog")
      * @ORM\JoinColumn(name="application_id", referencedColumnName="id")
      */
     private $application;

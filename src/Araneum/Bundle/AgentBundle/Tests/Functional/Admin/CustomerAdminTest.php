@@ -15,7 +15,7 @@ class CustomerAdminTest extends BaseController
 	/**
 	 * Test is create action is disabled
 	 *
-	 * @runInSeparateProcess
+	 *
 	 */
 	public function testDisableCreate()
 	{
@@ -32,7 +32,7 @@ class CustomerAdminTest extends BaseController
 	/**
 	 * Test is edit action is disabled
 	 *
-	 * @runInSeparateProcess
+	 *
 	 */
 	public function testDisableEdit()
 	{
@@ -54,7 +54,7 @@ class CustomerAdminTest extends BaseController
 	/**
 	 * Test is delete action is disabled
 	 *
-	 * @runInSeparateProcess
+	 *
 	 */
 	public function testDisableDelete()
 	{
@@ -77,7 +77,7 @@ class CustomerAdminTest extends BaseController
 	/**
 	 * Nest of filter
 	 *
-	 * @runInSeparateProcess
+	 *
 	 */
 	public function testFilter()
 	{

@@ -17,7 +17,6 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
      * Base test of create entity in Sonata Admin
      *
      * @dataProvider createDataSource
-     * @runInSeparateProcess
      *
      * @param array $formInput
      * @param       $expected
@@ -47,7 +46,6 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
      * Base test of edit entity in Sonata Admin
      *
      * @dataProvider updateDataSource
-     * @runInSeparateProcess
      *
      * @param array $formInput
      * @param       $expected
@@ -81,7 +79,6 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
      * Base test of filter in Sonata Admin.
      *
      * @dataProvider filterDataSource
-     * @runInSeparateProcess
      *
      * @param array $fullFormInput
      * @param       $expected
@@ -109,7 +106,10 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
         $list = $crawler->filter('table.table > tbody > tr > td:nth-child(2) > a')
             ->each(
                 function (Crawler $node) {
-                    return (int)$node->text();
+                    if($node->count()){
+                        return (int)$node->text();
+                    }
+                    return null;
                 }
             );
 
