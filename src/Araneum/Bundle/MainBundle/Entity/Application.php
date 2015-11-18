@@ -135,6 +135,12 @@ class Application
     protected $customers;
 
     /**
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ApplicationLog", mappedBy="application", cascade={"remove", "persist"})
+     */
+    protected $applicationLog;
+
+
+    /**
      * Get list of Application statuses
      *
      * @return array
@@ -167,6 +173,7 @@ class Application
         $this->setComponents(new ArrayCollection());
         $this->setAppKey();
         $this->setCustomers(new ArrayCollection());
+        $this->setApplicationLog(new ArrayCollection());
     }
 
     /**
@@ -606,4 +613,28 @@ class Application
     {
         return $this->name ?: 'Create Application';
     }
+
+    /**
+     * Get applicationLog
+     *
+     * @return ArrayCollection
+     */
+    public function getApplicationLog()
+    {
+        return $this->applicationLog;
+    }
+
+    /**
+     * Set applicationLog
+     *
+     * @param ArrayCollection $applicationLog
+     * @return Application
+     */
+    public function setApplicationLog(ArrayCollection $applicationLog)
+    {
+        $this->applicationLog = $applicationLog;
+
+        return $this;
+    }
+
 }

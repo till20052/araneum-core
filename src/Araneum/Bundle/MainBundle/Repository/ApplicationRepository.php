@@ -4,6 +4,7 @@ namespace Araneum\Bundle\MainBundle\Repository;
 
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 /**
  * ApplicationRepository
@@ -42,18 +43,20 @@ class ApplicationRepository extends EntityRepository
 
     public function getApplicationStatusesDayly()
     {
-       $qb = $this->createQueryBuilder('A');
+        $qb = $this->createQueryBuilder('a');
 
         $qb
-            ->select('(COUNT(CASE WHEN L.status = 100 THEN L.status END) / COUNT(a.*) * 100) AS errors')
-            ->addSelect('(COUNT(CASE WHEN L.status = 1  THEN L.status END) / COUNT(a.*) * 100) AS problems')
-            ->addSelect('(COUNT(CASE WHEN L.status = 0  THEN L.status END) / COUNT(a.*) * 100) AS OK')
-            ->addSelect('(COUNT(CASE WHEN L.status = 999 THEN L.status END) / COUNT(a.*) * 100) AS disabled')
-            ->leftJoin();
+            ->select('a.name')
+            ->addSelect('SUM(CASE WHEN l.status = 100 THEN 1 ELSE 0 END) / COUNT(a.id) * 100 AS errors')
+            ->addSelect('SUM(CASE WHEN l.status = 1  THEN 1 ELSE 0 END) / COUNT(a.id) * 100 AS problems')
+            ->addSelect('SUM(CASE WHEN l.status = 0  THEN 1 ELSE 0 END) / COUNT(a.id) * 100 AS OK')
+            ->addSelect('SUM(CASE WHEN l.status = 999 THEN 1 ELSE 0 END) / COUNT(a.id) * 100 AS disabled')
+            ->leftJoin('AraneumAgentBundle:ApplicationLog', 'l', 'WITH', 'l.application = a')
+            ->groupBy('a.name')
+        ;
 
-
-        $sql = $qb->getQuery()->getSQL();
-        return $sql;
+        $result = $qb->getQuery()->getResult();
+        return $result;
     }
 
 }

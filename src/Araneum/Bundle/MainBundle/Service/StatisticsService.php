@@ -51,7 +51,8 @@ class StatisticsService
      * -ok
      * -disabled
      */
-    public function getApplicationsStatusesDayly(){
-        $repo = $this->repository->getApplicationStatusesDayly();
+    public function getApplicationsStatusesDayly()
+    {
+        return $this->repository->getApplicationStatusesDayly();
     }
 }
