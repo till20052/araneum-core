@@ -31,7 +31,7 @@ class Lead
      *
      * @ORM\Column(name="first_name", type="string", length=45)
      * @Constraints\Length(min="2", max="45")
-     * @Constraints\Regex(pattern="/^\D([\w\s]+)$/")
+     * @Constraints\Regex(pattern="/^[a-zа-яё][a-zа-яё-' \d]+$/ui")
      */
     private $firstName;
 
@@ -40,7 +40,7 @@ class Lead
      *
      * @ORM\Column(name="last_name", type="string", length=45)
      * @Constraints\Length(min="2", max="45")
-     * @Constraints\Regex(pattern="/^\D([\w\s]+)$/")
+     * @Constraints\Regex(pattern="/^[a-zа-яё][a-zа-яё-' \d]+$/ui")
      */
     private $lastName;
 

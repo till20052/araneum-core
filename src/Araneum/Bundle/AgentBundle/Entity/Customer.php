@@ -41,7 +41,7 @@ class Customer
      *
      * @ORM\Column(name="first_name", type="string", length=30, nullable=true)
      * @Assert\Length(min=2, max=30)
-     * @Assert\Regex(pattern="/^\D([\w\s]+)$/")
+     * @Assert\Regex(pattern="/^[a-zа-яё][a-zа-яё-' \d]+$/ui")
      * @Assert\NotBlank()
      */
     private $firstName;
@@ -51,7 +51,7 @@ class Customer
      *
      * @ORM\Column(name="last_name", type="string", length=30, nullable=true)
      * @Assert\Length(min=2, max=30)
-     * @Assert\Regex(pattern="/^\D([\w\s]+)$/")
+     * @Assert\Regex(pattern="/^[a-zа-яё][a-zа-яё-' \d]+$/ui")
      * @Assert\NotBlank()
      */
     private $lastName;
