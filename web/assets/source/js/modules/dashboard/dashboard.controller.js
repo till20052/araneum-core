@@ -5,8 +5,8 @@
         .module('app.dashboard')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['$scope', 'ChartData', '$timeout', 'DashboardService'];
-    function DashboardController($scope, ChartData, $timeout, DashboardService) {
+    DashboardController.$inject = ['$scope', 'ChartData', '$timeout', 'DashboardService', 'DashboardFactory'];
+    function DashboardController($scope, ChartData, $timeout, DashboardService, DashboardFactory) {
         var vm = this;
 
         $scope.child = {};
@@ -20,29 +20,23 @@
         function activate() {
 
             DashboardService
-                .appendSpinkit()
-                .loadDataSource(function (dataSource) {
-                    $scope.statistics = dataSource.statistics;
-                });
+                .appendSpinkit();
+
+            DashboardFactory.getStats().then(function(data){
+                $scope.statistics = data.statistics;
+            }, function(res){
+                console.log(res);
+            });
 
             // PANEL REFRESH EVENTS
             // -----------------------------------
-
             $scope.$on('panel-refresh', function (event, id) {
-
-                console.log('Simulating chart refresh during 3s on #' + id);
-
-                // Instead of timeout you can request a chart data
-                $timeout(function () {
-
-                    // directive listen for to remove the spinner
-                    // after we end up to perform own operations
+                DashboardFactory.refreshStats().then(function(data){
+                    $scope.statistics = data.statistics;
                     $scope.$broadcast('removeSpinner', id);
-
-                    console.log('Refreshed #' + id);
-
-                }, 3000);
-
+                }, function(res){
+                    console.log(res);
+                });
             });
 
 

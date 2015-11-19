@@ -5,19 +5,16 @@
         .module('app.dashboard')
         .controller('ChartDaylyApplicationStatusesController', ChartDaylyApplicationStatusesController);
 
-    ChartDaylyApplicationStatusesController.$inject = ['Colors', '$scope'];
-    function ChartDaylyApplicationStatusesController(Colors, $scope) {
+    ChartDaylyApplicationStatusesController.$inject = ['Colors', '$scope', 'DashboardFactory'];
 
-        $scope.$watch('$parent.statistics', function(){
-            $scope.statistics = $scope.$parent.statistics;
+    function ChartDaylyApplicationStatusesController(Colors, $scope, DashboardFactory) {
+
+        DashboardFactory.getStats().then(function(data){
+            $scope.statistics = data.statistics;
             activate();
+        }, function(res){
+            console.log(res);
         });
-
-       /* $scope.statistics.daylyApplications = {
-            applications: [''],
-        };*/
-
-        //activate();
 
         ////////////////
 
@@ -71,6 +68,7 @@
                 barDatasetSpacing: 1
             };
         }
+
     }
 
 

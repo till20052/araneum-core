@@ -17,6 +17,8 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $applicationsStatistics;
 
+    private $applicationsDaylyStatistics;
+
     /**
      * Mock instance of EntityManager
      *
@@ -32,9 +34,13 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $applicationRepository->expects($this->once())
+        $applicationRepository->expects($this->any())
             ->method('getApplicationsStatistics')
             ->will($this->returnValue($this->applicationsStatistics));
+
+        $applicationRepository->expects($this->any())
+            ->method('getApplicationStatusesDayly')
+            ->will($this->returnValue($this->applicationsDaylyStatistics));
 
         $entityManager->expects($this->once())
             ->method('getRepository')
@@ -56,6 +62,16 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
             'disabled' => rand()
         ];
 
+        $this->applicationsDaylyStatistics = [
+                [
+                    'name' => 'Name',
+                    'errors' => 100,
+                    'problems' => 0,
+                    'success' => 0,
+                    'disabled' => 0
+                ]
+        ];
+
         $this->service = new StatisticsService($this->entityManager());
     }
 
@@ -69,4 +85,71 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
             $this->service->getApplicationsStatistics()
         );
     }
+
+    /**
+     * Test application statistics dayly
+     */
+    public function testGetApplicationsStatusesDayly(){
+        $this->assertEquals(
+            $this->applicationsDaylyStatistics,
+            $this->service->getApplicationsStatusesDayly()
+        );
+    }
+
+    /**
+     * Test get Applications
+     */
+    public function testGetApplications(){
+        $array = [
+            'Name'
+        ];
+
+        $this->assertEquals($array, $this->service->getApplications($this->applicationsDaylyStatistics));
+    }
+
+
+    /**
+     * Test get errors
+     */
+    public function testGetErrors(){
+        $array = [
+            100
+        ];
+
+        $this->assertEquals($array, $this->service->getErrors($this->applicationsDaylyStatistics));
+    }
+
+    /**
+     * Test get success
+     */
+    public function testGetSuccess(){
+        $array = [
+            0
+        ];
+
+        $this->assertEquals($array, $this->service->getSuccess($this->applicationsDaylyStatistics));
+    }
+
+    /**
+     * Test get problems
+     */
+    public function testGetProblems(){
+        $array = [
+            0
+        ];
+
+        $this->assertEquals($array, $this->service->getProblems($this->applicationsDaylyStatistics));
+    }
+
+    /**
+     * Test get disabled
+     */
+    public function testGetDisabled(){
+        $array = [
+            0
+        ];
+
+        $this->assertEquals($array, $this->service->getDisabled($this->applicationsDaylyStatistics));
+    }
+
 }
