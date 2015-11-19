@@ -52,7 +52,7 @@ class CustomerApiControllerTest extends BaseController
                     'firstName' => 'ашкыТфьу',
                     'lastName' => 'lastName',
                     'country' => 'country',
-                    'email' => 'testEmail' . time() . '@email.com',
+                    'email' => 'testEmail' . sha1(rand()) . '@email.com',
                     'currency' => 'usd',
                     'phone' => '380993222234'
                 ],
@@ -63,7 +63,7 @@ class CustomerApiControllerTest extends BaseController
                     'firstName' => "Дим'аЁ",
                     'lastName' => "Дим'аЁ",
                     'country' => 'country',
-                    'email' => 'testEmail' . time() . '@email.com',
+                    'email' => 'testEmail' . sha1(rand()) . '@email.com',
                     'currency' => 'usd',
                     'phone' => '380993222234'
                 ],
