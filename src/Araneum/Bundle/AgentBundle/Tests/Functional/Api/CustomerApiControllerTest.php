@@ -47,12 +47,23 @@ class CustomerApiControllerTest extends BaseController
     public function apiDataProvider()
     {
         return [
-            'testCreateCustomer' => [
+            'normal' => [
                 [
-                    'firstName' => 'firstName',
+                    'firstName' => 'ашкыТфьу',
                     'lastName' => 'lastName',
                     'country' => 'country',
-                    'email' => 'email@email.com',
+                    'email' => 'testEmail' . time() . '@email.com',
+                    'currency' => 'usd',
+                    'phone' => '380993222234'
+                ],
+                Response::HTTP_CREATED
+            ],
+            'normal fullName&lastName cirilica letters' => [
+                [
+                    'firstName' => "Дим'аЁ",
+                    'lastName' => "Дим'аЁ",
+                    'country' => 'country',
+                    'email' => 'testEmail' . time() . '@email.com',
                     'currency' => 'usd',
                     'phone' => '380993222234'
                 ],
