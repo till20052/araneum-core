@@ -54,7 +54,6 @@ class CustomerApiControllerTest extends BaseController
                     'country' => 'country',
                     'email' => 'email@email.com',
                     'currency' => 'usd',
-                    'callback' => true,
                     'phone' => '380993222234'
                 ],
                 Response::HTTP_CREATED
@@ -66,7 +65,6 @@ class CustomerApiControllerTest extends BaseController
                     'country' => CustomerFixtures::TEST_COUNTRY,
                     'email' => CustomerFixtures::TEST_EMAIL,
                     'currency' => CustomerFixtures::TEST_CURRENCY,
-                    'callback' => true,
                     'phone' => CustomerFixtures::TEST_PHONE
                 ],
                 Response::HTTP_BAD_REQUEST
