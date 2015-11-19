@@ -26,7 +26,7 @@
 
 		function init() {
 			$http
-				.get('/en/login')
+				.get('/login')
 				.success(function (response) {
 					_csrf_token = response;
 				})
@@ -40,7 +40,7 @@
 
 		function login(data) {
 			$http
-				.post('/en/login_check', $.param({
+				.post('/login_check', $.param({
 						_username: data.username,
 						_password: data.password,
 						_csrf_token: _csrf_token

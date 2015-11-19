@@ -45,7 +45,7 @@
         $localStorage.layout = $rootScope.app.layout;
           $http({
               method: 'POST',
-              url: '/en/user/settings/set',
+              url: '/user/settings/set',
               data: $rootScope.app.layout
           });
 
