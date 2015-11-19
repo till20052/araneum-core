@@ -106,7 +106,10 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
         $list = $crawler->filter('table.table > tbody > tr > td:nth-child(2) > a')
             ->each(
                 function (Crawler $node) {
-                    return (int)$node->text();
+                    if($node->count()){
+                        return (int)$node->text();
+                    }
+                    return null;
                 }
             );
 

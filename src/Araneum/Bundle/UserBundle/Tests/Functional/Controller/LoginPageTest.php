@@ -14,7 +14,7 @@ class LoginPageTest extends WebTestCase
      * @param string $password
      * @param mixed  $expected
      * @dataProvider dataSource
-     * @runInSeparateProcess
+     *
      */
     public function testLoginPage($user, $password, $expected)
     {
