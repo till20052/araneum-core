@@ -23,12 +23,21 @@ class DashboardController extends Controller
     {
         /** @var StatisticsService $service */
         $service = $this->get('araneum.main.statistics.service');
+        $statusesDayly = $service->getApplicationsStatusesDayly();
 
-        return new JsonResponse([
+        $result = [
             'statistics' => [
                 'applicationsState' => $service->getApplicationsStatistics(),
-                'daylyApplications' =>$service->getApplicationsStatusesDayly()
+                'daylyApplications' =>[
+                    'applications'=>$service->getApplications($statusesDayly),
+                    'errors' =>$service->getErrors($statusesDayly),
+                    'problems' => $service->getProblems($statusesDayly),
+                    'success' =>$service->getSuccess($statusesDayly),
+                    'disabled' =>$service->getDisabled($statusesDayly)
+                ]
             ]
-        ], Response::HTTP_OK);
+        ];
+
+        return new JsonResponse($result, Response::HTTP_OK);
     }
 }

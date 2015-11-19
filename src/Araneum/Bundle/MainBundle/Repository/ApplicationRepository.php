@@ -38,9 +38,12 @@ class ApplicationRepository extends EntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-}
 
-
+    /**
+     * Get statistic of all application by last 24 hours
+     *
+     * @return array
+     */
     public function getApplicationStatusesDayly()
     {
         $qb = $this->createQueryBuilder('a');
@@ -49,7 +52,7 @@ class ApplicationRepository extends EntityRepository
             ->select('a.name')
             ->addSelect('SUM(CASE WHEN l.status = 100 THEN 1 ELSE 0 END) / COUNT(a.id) * 100 AS errors')
             ->addSelect('SUM(CASE WHEN l.status = 1  THEN 1 ELSE 0 END) / COUNT(a.id) * 100 AS problems')
-            ->addSelect('SUM(CASE WHEN l.status = 0  THEN 1 ELSE 0 END) / COUNT(a.id) * 100 AS OK')
+            ->addSelect('SUM(CASE WHEN l.status = 0  THEN 1 ELSE 0 END) / COUNT(a.id) * 100 AS success')
             ->addSelect('SUM(CASE WHEN l.status = 999 THEN 1 ELSE 0 END) / COUNT(a.id) * 100 AS disabled')
             ->leftJoin('AraneumAgentBundle:ApplicationLog', 'l', 'WITH', 'l.application = a')
             ->groupBy('a.name')

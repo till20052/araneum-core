@@ -53,11 +53,68 @@ class StatisticsService
      */
     public function getApplicationsStatusesDayly()
     {
-        return $this->repository->getApplicationStatusesDayly();
-        /** @var ApplicationRepository $repository */
-        $repository = $this->entityManager
-            ->getRepository('AraneumMainBundle:Application');
 
-        return $repository->getApplicationsStatistics();
+        return $this->repository->getApplicationStatusesDayly();
     }
+
+    /**
+     * Get applications array
+     *
+     * @param array $pack
+     * @return array
+     */
+    public function getApplications(array $pack){
+        $array = array_values(array_column($pack, 'name'));
+
+        return $array;
+    }
+
+    /**
+     * Get errors array
+     *
+     * @param array $pack
+     * @return array
+     */
+    public function getErrors(array $pack){
+        $array = array_values(array_column($pack, 'errors'));
+
+        return $array;
+    }
+
+    /**
+     * Get problems array
+     *
+     * @param array $pack
+     * @return array
+     */
+    public function getProblems(array $pack){
+        $array = array_values(array_column($pack, 'problems'));
+
+        return $array;
+    }
+
+    /**
+     * Get OK array
+     *
+     * @param array $pack
+     * @return array
+     */
+    public function getSuccess(array $pack){
+        $array = array_values(array_column($pack, 'success'));
+
+        return $array;
+    }
+
+    /**
+     * Get Disabled array
+     *
+     * @param array $pack
+     * @return array
+     */
+    public function getDisabled(array $pack){
+        $array = array_values(array_column($pack, 'disabled'));
+
+        return $array;
+    }
+
 }

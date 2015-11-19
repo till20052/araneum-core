@@ -28,7 +28,7 @@
                 .error(onError);
 
             return service;
-        };
+        }
 
         function appendSpinkit () {
             if ( ! $('link[href="' + spinkitCss + '"]').length > 0) {
@@ -44,7 +44,10 @@
             }
 
             return service;
-        };
+        }
     }
+
+
+
 
 })();

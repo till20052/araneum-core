@@ -9,6 +9,10 @@
     function DashboardController($scope, ChartData, $timeout, DashboardService) {
         var vm = this;
 
+        $scope.child = {};
+        $scope.statistics = {};
+
+
         activate();
 
         ////////////////
@@ -20,54 +24,6 @@
                 .loadDataSource(function (dataSource) {
                     $scope.statistics = dataSource.statistics;
                 });
-
-            // SPLINE
-            // -----------------------------------
-            vm.splineData = ChartData.load('server/chart/spline.json');
-            vm.splineOptions = {
-                series: {
-                    lines: {
-                        show: false
-                    },
-                    points: {
-                        show: true,
-                        radius: 4
-                    },
-                    splines: {
-                        show: true,
-                        tension: 0.4,
-                        lineWidth: 1,
-                        fill: 0.5
-                    }
-                },
-                grid: {
-                    borderColor: '#eee',
-                    borderWidth: 1,
-                    hoverable: true,
-                    backgroundColor: '#fcfcfc'
-                },
-                tooltip: true,
-                tooltipOpts: {
-                    content: function (label, x, y) {
-                        return x + ' : ' + y;
-                    }
-                },
-                xaxis: {
-                    tickColor: '#fcfcfc',
-                    mode: 'categories'
-                },
-                yaxis: {
-                    min: 0,
-                    max: 150, // optional: use it for a clear represetation
-                    tickColor: '#eee',
-                    position: ($scope.app.layout.isRTL ? 'right' : 'left'),
-                    tickFormatter: function (v) {
-                        return v/* + ' visitors'*/;
-                    }
-                },
-                shadowSize: 0
-            };
-
 
             // PANEL REFRESH EVENTS
             // -----------------------------------
