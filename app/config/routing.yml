@@ -1,6 +1,13 @@
 manage_all:
     defaults: {_controller:"AraneumMainBundle:Default:admin"}
-    pattern: manage/{path}
+    pattern: /manage/{path}
+    requirements:
+        path: .*
+    condition: "!request.isXmlHttpRequest()"
+
+manage_index:
+    defaults: {_controller:"AraneumMainBundle:Default:admin"}
+    pattern: /manage
     requirements:
         path: .*
     condition: "!request.isXmlHttpRequest()"
