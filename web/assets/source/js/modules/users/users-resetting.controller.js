@@ -43,7 +43,7 @@
 
 					vm.inLoading = true;
 
-					$http.post('/en/resetting/send-email', {
+					$http.post('/resetting/send-email', {
 						username: vm.username
 					}).then(function (response) {
 
@@ -69,7 +69,7 @@
 		// Initialize subView: Reset
 		(function (vm) {
 
-			var url = '/en/resetting/reset/' + $stateParams.token;
+			var url = '/resetting/reset/' + $stateParams.token;
 			var csrfToken = {};
 			var fosUi = {
 				first: {label: 'form.new_password', name: '', full_name: '', ng: '', value: ''},

@@ -12,7 +12,7 @@ class CustomerApiControllerTest extends BaseController
     /**
      * @var string uri to call rest api method
      */
-    protected $configGetUri = '/en/agent/api/customers/insert/' . ApplicationFixtures::TEST_APP_APP_KEY;
+    protected $customerInsert = '/agent/api/customers/insert/' . ApplicationFixtures::TEST_APP_APP_KEY;
 
     /**
      * Settings up
@@ -35,7 +35,7 @@ class CustomerApiControllerTest extends BaseController
         }
     }
 
-        /**
+    /**
      * Test customer controller
      *
      * @dataProvider apiDataProvider
@@ -43,12 +43,12 @@ class CustomerApiControllerTest extends BaseController
      * @param array $post
      * @param int   $expected
      */
-    public function testPutCustomer(array $post, $expected)
+    public function testPostCustomer(array $post, $expected)
     {
         $client = self::createAdminAuthorizedClient('api');
         $client->request(
             'POST',
-            $this->configGetUri,
+            $this->customerInsert,
             $post
         );
 
@@ -75,7 +75,6 @@ class CustomerApiControllerTest extends BaseController
                     'country' => 'country',
                     'email' => 'email@email.com',
                     'currency' => 'usd',
-                    'callback' => true,
                     'phone' => '380993222234'
                 ],
                 Response::HTTP_CREATED
@@ -87,7 +86,6 @@ class CustomerApiControllerTest extends BaseController
                     'country' => CustomerFixtures::TEST_COUNTRY,
                     'email' => CustomerFixtures::TEST_EMAIL,
                     'currency' => CustomerFixtures::TEST_CURRENCY,
-                    'callback' => true,
                     'phone' => CustomerFixtures::TEST_PHONE
                 ],
                 Response::HTTP_BAD_REQUEST

@@ -63,7 +63,7 @@ class LeadApiControllerTest extends BaseController
 	 */
 	public function testFindAction($filters, $expectedStatusCode, $expectedFindResultsCount)
 	{
-		$this->client->request('GET', '/en/agent/api/lead/find', ['filters' => $filters]);
+		$this->client->request('GET', '/agent/api/lead/find', ['filters' => $filters]);
 
 		$response = $this->client->getResponse();
 
@@ -136,7 +136,7 @@ class LeadApiControllerTest extends BaseController
 
 		$this->client->request(
 			'POST',
-			'/en/agent/api/lead/create',
+			'/agent/api/lead/create',
 			$data
 		);
 
