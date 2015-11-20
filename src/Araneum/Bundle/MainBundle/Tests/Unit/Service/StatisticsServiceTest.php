@@ -17,6 +17,9 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $applicationsStatistics;
 
+    /**
+     * @var array
+     */
     private $applicationsDaylyStatistics;
 
     /**
@@ -55,14 +58,16 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->applicationsStatistics = (object) [
+        $this->applicationsStatistics = (object)
+        [
             'online' => rand(),
             'hasProblems' => rand(),
             'hasErrors' => rand(),
             'disabled' => rand()
         ];
 
-        $this->applicationsDaylyStatistics = [
+        $this->applicationsDaylyStatistics =
+            [
                 [
                     'name' => 'Name',
                     'errors' => 100,
@@ -70,7 +75,7 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
                     'success' => 0,
                     'disabled' => 0
                 ]
-        ];
+            ];
 
         $this->service = new StatisticsService($this->entityManager());
     }
@@ -89,7 +94,8 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test application statistics dayly
      */
-    public function testGetApplicationsStatusesDayly(){
+    public function testGetApplicationsStatusesDayly()
+    {
         $this->assertEquals(
             $this->applicationsDaylyStatistics,
             $this->service->getApplicationsStatusesDayly()
@@ -99,22 +105,19 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test get Applications
      */
-    public function testGetApplications(){
-        $array = [
-            'Name'
-        ];
+    public function testGetApplications()
+    {
+        $array = ['Name'];
 
         $this->assertEquals($array, $this->service->getResultByColumnName($this->applicationsDaylyStatistics, 'name'));
     }
 
-
     /**
      * Test get errors
      */
-    public function testGetErrors(){
-        $array = [
-            100
-        ];
+    public function testGetErrors()
+    {
+        $array =[100];
 
         $this->assertEquals($array, $this->service->getResultByColumnName($this->applicationsDaylyStatistics, 'errors'));
     }
@@ -122,10 +125,9 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test get success
      */
-    public function testGetSuccess(){
-        $array = [
-            0
-        ];
+    public function testGetSuccess()
+    {
+        $array = [0];
 
         $this->assertEquals($array, $this->service->getResultByColumnName($this->applicationsDaylyStatistics, 'success'));
     }
@@ -133,10 +135,9 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test get problems
      */
-    public function testGetProblems(){
-        $array = [
-            0
-        ];
+    public function testGetProblems()
+    {
+        $array = [0];
 
         $this->assertEquals($array, $this->service->getResultByColumnName($this->applicationsDaylyStatistics, 'problems'));
     }
@@ -144,10 +145,9 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test get disabled
      */
-    public function testGetDisabled(){
-        $array = [
-            0
-        ];
+    public function testGetDisabled()
+    {
+        $array = [0];
 
         $this->assertEquals($array, $this->service->getResultByColumnName($this->applicationsDaylyStatistics, 'disabled'));
     }

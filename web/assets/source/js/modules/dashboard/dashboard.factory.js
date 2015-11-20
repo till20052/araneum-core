@@ -38,8 +38,5 @@
                 return promise;
             }
         }
-
-
     }
-
 })();

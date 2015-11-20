@@ -59,7 +59,6 @@ class StatisticsService
      */
     public function getApplicationsStatusesDayly()
     {
-
         return $this->repository->getApplicationStatusesDayly();
     }
 
