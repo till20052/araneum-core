@@ -13,7 +13,7 @@ class MailApiControllerTest extends BaseController
      * Test post mail api
      *
      * @dataProvider postMailData
-     * @runInSeparateProcess
+     *
      * @param $parameters
      * @param $expectedHTTPCode
      */
@@ -21,7 +21,7 @@ class MailApiControllerTest extends BaseController
     {
         $client = self::createAdminAuthorizedClient('api');
 
-        $client->request('POST', 'en/mail/api/mail?appKey=' . ApplicationFixtures::TEST_APP_APP_KEY, $parameters);
+        $client->request('POST', 'mail/api/mail?appKey=' . ApplicationFixtures::TEST_APP_APP_KEY, $parameters);
 
         $this->assertEquals(
             $expectedHTTPCode,

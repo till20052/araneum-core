@@ -1,3 +1,17 @@
+manage_all:
+    defaults: {_controller:"AraneumMainBundle:Default:admin"}
+    pattern: /manage/{path}
+    requirements:
+        path: .*
+    condition: "!request.isXmlHttpRequest()"
+
+manage_index:
+    defaults: {_controller:"AraneumMainBundle:Default:admin"}
+    pattern: /manage
+    requirements:
+        path: .*
+    condition: "!request.isXmlHttpRequest()"
+
 araneum_root:
     path: /
     defaults:
@@ -5,13 +19,49 @@ araneum_root:
         route: sonata_admin_dashboard
         permanent: true
 
-araneum_locale:
-    prefix: /{_locale}
-    resource: routing_with_locale.yml
-    defaults: {_locale: en}
-    type: rad_convention
-    requirements:
-        _locale: %locales%
+araneum_user:
+    resource: "@AraneumUserBundle/Controller/"
+    type:     annotation
+    prefix:   /user
+
+araneum_agent:
+    resource: "@AraneumAgentBundle/Controller"
+    type:     annotation
+    prefix:   /agent
+
+araneum_main:
+    resource: "@AraneumMainBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+araneum_mail:
+    resource: "@AraneumMailBundle/Controller"
+    type: annotation
+    prefix: /mail
+
+admin:
+    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
+    prefix: /admin
+
+_sonata_admin:
+    resource: .
+    type: sonata_admin
+    prefix: /admin
+
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /user/profile
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /profile
 
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"

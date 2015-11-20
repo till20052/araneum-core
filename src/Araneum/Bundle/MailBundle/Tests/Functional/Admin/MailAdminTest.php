@@ -12,7 +12,7 @@ class MailAdminTest extends BaseController
     /**
      * Test is create action is disabled
      *
-     * @runInSeparateProcess
+     *
      */
     public function testDisableCreate()
     {
@@ -20,7 +20,7 @@ class MailAdminTest extends BaseController
 
         $crawler = $client->request(
             'GET',
-            '/en/admin/araneum/mail/mail/create'
+            '/admin/araneum/mail/mail/create'
         );
 
         $this->assertFalse($client->getResponse()->isSuccessful());
@@ -29,7 +29,7 @@ class MailAdminTest extends BaseController
     /**
      * Test is edit action is disabled
      *
-     * @runInSeparateProcess
+     *
      */
     public function testDisableEdit()
     {
@@ -42,7 +42,7 @@ class MailAdminTest extends BaseController
 
         $crawler = $client->request(
             'GET',
-            '/en/admin/araneum/mail/mail/' . $mail->getId() . '/edit'
+            '/admin/araneum/mail/mail/' . $mail->getId() . '/edit'
         );
 
         $this->assertFalse($client->getResponse()->isSuccessful());
@@ -51,7 +51,7 @@ class MailAdminTest extends BaseController
     /**
      * Test is delete action is disabled
      *
-     * @runInSeparateProcess
+     *
      */
     public function testDisableDelete()
     {
@@ -64,7 +64,7 @@ class MailAdminTest extends BaseController
 
         $crawler = $client->request(
             'GET',
-            '/en/admin/araneum/mail/mail/' . $mail->getId() . '/delete'
+            '/admin/araneum/mail/mail/' . $mail->getId() . '/delete'
         );
 
         $this->assertFalse($client->getResponse()->isSuccessful());
@@ -73,7 +73,7 @@ class MailAdminTest extends BaseController
     /**
      * Show test
      *
-     * @runInSeparateProcess
+     *
      */
     public function testShow()
     {
@@ -146,7 +146,7 @@ class MailAdminTest extends BaseController
      * Filter Test
      *
      * @dataProvider filterDataSource
-     * @runInSeparateProcess
+     *
      *
      * @param array $fullFormInput
      * @param       $expected

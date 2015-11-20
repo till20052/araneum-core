@@ -24,7 +24,7 @@ class MenuGeneratorTest extends WebTestCase
 
         $crawler = $client->request(
             'GET',
-            '/en/manage/menu.json'
+            '/manage/menu.json'
         );
 
         $this->assertTrue($client->getResponse()->isSuccessful());
