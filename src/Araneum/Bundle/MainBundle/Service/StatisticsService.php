@@ -19,6 +19,11 @@ class StatisticsService
     private $repository;
 
     /**
+     * @var array $hours
+     */
+    private $hours;
+
+    /**
      * StatisticsService constructor.
      *
      * @param EntityManager $entityManager
@@ -27,6 +32,7 @@ class StatisticsService
     {
         $this->entityManager = $entityManager;
         $this->repository = $this->entityManager->getRepository('AraneumMainBundle:Application');
+        $this->hours = $this->create_time_range(date('Y-m-d H:s', time()-86400), date('Y-m-d H:s', time()), '1 hour');
     }
 
     /**
@@ -55,6 +61,18 @@ class StatisticsService
     {
 
         return $this->repository->getApplicationStatusesDayly();
+    }
+
+    /**
+     * Get average statuses dayly
+     *
+     * @return array
+     */
+    public function getAverageApplicationStatusesDayly()
+    {
+        $repository = $this->entityManager->getRepository('AraneumAgentBundle:ApplicationLog');
+
+        return $repository->getAverageApplicationStatusesDayly();
     }
 
     /**
@@ -115,6 +133,111 @@ class StatisticsService
         $array = array_values(array_column($pack, 'disabled'));
 
         return $array;
+    }
+
+    /**
+     * Get errors by Application by hour
+     *
+     * @param array $pack
+     * @return array
+     */
+    public function getErrorsByHours(array $pack){
+        $array = $this->hours;
+
+        foreach($pack as $item){
+            if(isset($item['errors'])) {
+                $array[$item['hours']] = $item['errors'];
+            }
+        }
+
+        return $array;
+    }
+
+
+    /**
+     * Get problems by Application by hour
+     *
+     * @param array $pack
+     * @return array
+     */
+    public function getProblemsByHours(array $pack){
+        $array = $this->hours;
+
+        foreach($pack as $item){
+            if(isset($item['problems'])) {
+                $array[$item['hours']] = $item['problems'];
+            }
+        }
+
+        return $array;
+    }
+
+
+    /**
+     * Get Success by Application by hour
+     *
+     * @param array $pack
+     * @return array
+     */
+    public function getSuccessByHours(array $pack){
+        $array = $this->hours;
+
+        foreach($pack as $item){
+           if(isset($item['success'])) {
+               $array[$item['hours']] = $item['success'];
+           }
+        }
+
+        return $array;
+    }
+
+
+    /**
+     * Get disabled by Application by hour
+     *
+     * @param array $pack
+     * @return array
+     */
+    public function getDisabledByHours(array $pack){
+        $array = $this->hours;
+
+        foreach($pack as $item){
+            if(isset($item['disabled'])) {
+                $array[$item['hours']] = $item['disabled'];
+            }
+        }
+
+        return $array;
+    }
+
+
+    /**
+     * create_time_range
+     *
+     * @param mixed $start start time, e.g., 9:30am or 9:30
+     * @param mixed $end   end time, e.g., 5:30pm or 17:30
+     * @param string $by   1 hour, 1 mins, 1 secs, etc.
+     * @access public
+     * @return array
+     */
+    function create_time_range($start, $end, $by='30 mins') {
+
+        $start_time = strtotime($start);
+        $end_time   = strtotime($end);
+
+        $current    = time();
+        $add_time   = strtotime('+'.$by, $current);
+        $diff       = $add_time-$current;
+
+        $times = array();
+        $i=0;
+
+        while ($start_time < $end_time) {
+            $times[date('H', $start_time)] = $i;
+            $start_time += $diff;
+        }
+
+        return $times;
     }
 
 }

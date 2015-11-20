@@ -24,6 +24,7 @@ class DashboardController extends Controller
         /** @var StatisticsService $service */
         $service = $this->get('araneum.main.statistics.service');
         $statusesDayly = $service->getApplicationsStatusesDayly();
+        $statusesDaylyAverage = $service->getAverageApplicationStatusesDayly();
 
         $result = [
             'statistics' => [
@@ -34,6 +35,12 @@ class DashboardController extends Controller
                     'problems' => $service->getProblems($statusesDayly),
                     'success' =>$service->getSuccess($statusesDayly),
                     'disabled' =>$service->getDisabled($statusesDayly)
+                ],
+                'daylyAverageStatuses'=>[
+                    'errors' =>[$service->getErrorsByHours($statusesDaylyAverage)],
+                    'problems' =>[$service->getProblemsByHours($statusesDaylyAverage)],
+                    'success' =>[$service->getSuccessByHours($statusesDaylyAverage)],
+                    'disabled' =>[$service->getDisabledByHours($statusesDaylyAverage)]
                 ]
             ]
         ];

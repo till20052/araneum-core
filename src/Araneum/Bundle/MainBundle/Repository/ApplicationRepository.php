@@ -4,7 +4,10 @@ namespace Araneum\Bundle\MainBundle\Repository;
 
 use Araneum\Bundle\AgentBundle\Entity\ApplicationLog;
 use Araneum\Bundle\MainBundle\Entity\Application;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Parameter;
 
 /**
  * ApplicationRepository
@@ -51,26 +54,26 @@ class ApplicationRepository extends EntityRepository
 
         $qb
             ->select('a.name')
-            ->addSelect('SUM(CASE WHEN l.status = :errors THEN 1 ELSE 0 END) / COUNT(a.id) * 100 AS errors')
-            ->addSelect('SUM(CASE WHEN l.status = :problems  THEN 1 ELSE 0 END) / COUNT(a.id) * 100 AS problems')
-            ->addSelect('SUM(CASE WHEN l.status = :success  THEN 1 ELSE 0 END) / COUNT(a.id) * 100 AS success')
-            ->addSelect('SUM(CASE WHEN l.status = :disabled THEN 1 ELSE 0 END) / COUNT(a.id) * 100 AS disabled')
+            ->addSelect('SUM(CAST(CASE WHEN l.status = :errors THEN 1 ELSE 0 END AS FLOAT)) / COUNT(a.id) * 100 AS errors')
+            ->addSelect('SUM(CAST(CASE WHEN l.status = :problems  THEN 1 ELSE 0 END AS FLOAT)) / COUNT(a.id) * 100 AS problems')
+            ->addSelect('SUM(CAST(CASE WHEN l.status = :success  THEN 1 ELSE 0 END AS FLOAT)) / COUNT(a.id) * 100 AS success')
+            ->addSelect('SUM(CAST(CASE WHEN l.status = :disabled THEN 1 ELSE 0 END AS FLOAT)) / COUNT(a.id) * 100 AS disabled')
             ->leftJoin('AraneumAgentBundle:ApplicationLog', 'l', 'WITH', 'l.application = a')
             ->where('l.createdAt BETWEEN :start AND :end')
             ->groupBy('a.name')
             ->setParameters(
+                new ArrayCollection(
                 [
-                    'errors' => Application::STATUS_ERROR,
-                    'problems' => Application::STATUS_CODE_INCORRECT,
-                    'success' => Application::STATUS_OK,
-                    'disabled' => Application::STATUS_DISABLED,
-                    'start' => date('Y-m-d H:i:s', time() - 86400),
-                    'end' => date('Y-m-d H:i:s', time())
-                ]);
+                  new Parameter('errors', Application::STATUS_ERROR, Type::FLOAT),
+                  new Parameter('problems', Application::STATUS_CODE_INCORRECT, Type::FLOAT),
+                  new Parameter('success', Application::STATUS_OK, Type::FLOAT),
+                  new Parameter('disabled', Application::STATUS_DISABLED, Type::FLOAT),
+                  new Parameter('start', date('Y-m-d H:i:s', time() - 86400)),
+                  new Parameter('end', date('Y-m-d H:i:s', time()))
+                ]));
 
 
         $result = $qb->getQuery()->getResult();
         return $result;
     }
-
 }

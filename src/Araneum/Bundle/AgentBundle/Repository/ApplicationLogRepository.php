@@ -12,4 +12,24 @@ use Doctrine\ORM\EntityRepository;
  */
 class ApplicationLogRepository extends EntityRepository
 {
+
+    /**
+     * get statistics average
+     *
+     * @return array
+     */
+    public function getAverageApplicationStatusesDayly(){
+        $qb = $this->createQueryBuilder('l');
+        $qb->select('date_part( hour, l.createdAt) as hours')
+        ->addSelect('SUM(CASE WHEN l.status = 100 THEN 1 ELSE 0 END) AS errors')
+        ->addSelect('SUM(CASE WHEN l.status = 1 THEN 1 ELSE 0 END) AS problems')
+        ->addSelect('SUM(CASE WHEN l.status = 0 THEN 1 ELSE 0 END) AS OK')
+        ->addSelect('SUM(CASE WHEN l.status=999 THEN 1 ELSE 0 END) AS disabled')
+       // ->where('l.createdAt BETWEEN \'2015-11-18 13:55:46\' AND \'2015-11-19 13:54:48\'')
+        ->groupBy('hours')
+        ->orderBy('hours','DESC');
+
+        $result = $qb->getQuery()->getResult();
+        return $result;
+    }
 }
