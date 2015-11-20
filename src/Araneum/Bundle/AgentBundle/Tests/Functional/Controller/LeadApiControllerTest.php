@@ -96,6 +96,17 @@ class LeadApiControllerTest extends BaseController
 				],
 				Response::HTTP_CREATED
 			],
+			'normal fullName&lastName cirilica letters' => [
+				[
+					'firstName' => "Дим'аЁ",
+					'lastName' => "Дим'аЁ",
+					'country' => rand(1, 239),
+					'email' => 'hogo.boss@test.com',
+					'phone' => '380507894561',
+					'appKey' => md5(microtime(true))
+				],
+				Response::HTTP_CREATED
+			],
 			'Not valid email value' => [
 				[
 					'firstName' => 'Calvin',
