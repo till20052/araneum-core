@@ -29,18 +29,18 @@ class DashboardController extends Controller
         $result = [
             'statistics' => [
                 'applicationsState' => $service->getApplicationsStatistics(),
-                'daylyApplications' =>[
-                    'applications'=>$service->getApplications($statusesDayly),
-                    'errors' =>$service->getErrors($statusesDayly),
-                    'problems' => $service->getProblems($statusesDayly),
-                    'success' =>$service->getSuccess($statusesDayly),
-                    'disabled' =>$service->getDisabled($statusesDayly)
+                'daylyApplications' => [
+                    'applications' => $service->getResultByColumnName($statusesDayly, 'name'),
+                    'errors' => $service->getResultByColumnName($statusesDayly, 'errors'),
+                    'problems' => $service->getResultByColumnName($statusesDayly, 'problems'),
+                    'success' => $service->getResultByColumnName($statusesDayly, 'success'),
+                    'disabled' => $service->getResultByColumnName($statusesDayly, 'disabled')
                 ],
-                'daylyAverageStatuses'=>[
-                    'errors' =>[$service->getErrorsByHours($statusesDaylyAverage)],
-                    'problems' =>[$service->getProblemsByHours($statusesDaylyAverage)],
-                    'success' =>[$service->getSuccessByHours($statusesDaylyAverage)],
-                    'disabled' =>[$service->getDisabledByHours($statusesDaylyAverage)]
+                'daylyAverageStatuses' => [
+                    'errors' => $service->getStatusesByPeriod($statusesDaylyAverage, 'errors'),
+                    'problems' => $service->getStatusesByPeriod($statusesDaylyAverage, 'problems'),
+                    'success' => $service->getStatusesByPeriod($statusesDaylyAverage, 'success'),
+                    'disabled' => $service->getStatusesByPeriod($statusesDaylyAverage, 'disabled')
                 ]
             ]
         ];

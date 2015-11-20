@@ -3,7 +3,10 @@
 namespace Araneum\Bundle\AgentBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
+use Araneum\Bundle\MainBundle\Entity\Application;
+use Doctrine\DBAL\Types\Type;
 /**
  * ApplicationLogRepository
  *
@@ -21,13 +24,23 @@ class ApplicationLogRepository extends EntityRepository
     public function getAverageApplicationStatusesDayly(){
         $qb = $this->createQueryBuilder('l');
         $qb->select('date_part( hour, l.createdAt) as hours')
-        ->addSelect('SUM(CASE WHEN l.status = 100 THEN 1 ELSE 0 END) AS errors')
-        ->addSelect('SUM(CASE WHEN l.status = 1 THEN 1 ELSE 0 END) AS problems')
-        ->addSelect('SUM(CASE WHEN l.status = 0 THEN 1 ELSE 0 END) AS OK')
-        ->addSelect('SUM(CASE WHEN l.status=999 THEN 1 ELSE 0 END) AS disabled')
-       // ->where('l.createdAt BETWEEN \'2015-11-18 13:55:46\' AND \'2015-11-19 13:54:48\'')
+        ->addSelect('SUM(CASE WHEN l.status = :errors THEN 1 ELSE 0 END) AS errors')
+        ->addSelect('SUM(CASE WHEN l.status = :problems THEN 1 ELSE 0 END) AS problems')
+        ->addSelect('SUM(CASE WHEN l.status = :success THEN 1 ELSE 0 END) AS OK')
+        ->addSelect('SUM(CASE WHEN l.status=:disabled THEN 1 ELSE 0 END) AS disabled')
+        ->where('l.createdAt BETWEEN :start AND :end')
         ->groupBy('hours')
-        ->orderBy('hours','DESC');
+        ->orderBy('hours','DESC')
+        ->setParameters(
+                new ArrayCollection(
+                    [
+                        new Parameter('errors', Application::STATUS_ERROR, Type::FLOAT),
+                        new Parameter('problems', Application::STATUS_CODE_INCORRECT, Type::FLOAT),
+                        new Parameter('success', Application::STATUS_OK, Type::FLOAT),
+                        new Parameter('disabled', Application::STATUS_DISABLED, Type::FLOAT),
+                        new Parameter('start', date('Y-m-d H:i:s', time() - 86400)),
+                        new Parameter('end', date('Y-m-d H:i:s', time()))
+                    ]));
 
         $result = $qb->getQuery()->getResult();
         return $result;

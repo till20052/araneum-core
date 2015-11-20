@@ -8,7 +8,7 @@
     DashboardFactory.$injector = ['$http', '$q'];
 
     function DashboardFactory($http, $q){
-        var dataSourceUrl = '/en/manage/dashboard/data_source.json';
+        var dataSourceUrl = '/manage/dashboard/data_source.json';
 
         var data = [],
             lastRequestFailed = true,
