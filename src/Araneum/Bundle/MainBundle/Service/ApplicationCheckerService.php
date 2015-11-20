@@ -13,7 +13,7 @@ use Araneum\Bundle\MainBundle\Repository\ConnectionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
-use Guzzle\Http\Exception\CurlException;
+use Guzzle\Http\Exception\BadResponseException;
 use Guzzle\Http\Message\Response as GuzzleResponse;
 use Guzzle\Service\Client;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -117,7 +117,7 @@ class ApplicationCheckerService
 			if( ! $response->isSuccessful()){
 				$status = Application::STATUS_CODE_INCORRECT;
 			}
-		} catch (CurlException $e) {
+		} catch (BadResponseException $e) {
 			$status = Application::STATUS_ERROR;
 		}
 
