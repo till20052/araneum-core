@@ -32,15 +32,15 @@ class ApplicationLogRepository extends EntityRepository
         ->groupBy('hours')
         ->orderBy('hours','DESC')
         ->setParameters(
-                new ArrayCollection(
+
                     [
-                        new Parameter('errors', Application::STATUS_ERROR, Type::FLOAT),
-                        new Parameter('problems', Application::STATUS_CODE_INCORRECT, Type::FLOAT),
-                        new Parameter('success', Application::STATUS_OK, Type::FLOAT),
-                        new Parameter('disabled', Application::STATUS_DISABLED, Type::FLOAT),
-                        new Parameter('start', date('Y-m-d H:i:s', time() - 86400)),
-                        new Parameter('end', date('Y-m-d H:i:s', time()))
-                    ]));
+                       'errors' => Application::STATUS_ERROR,
+                        'problems' => Application::STATUS_CODE_INCORRECT,
+                        'success'=> Application::STATUS_OK,
+                        'disabled'=> Application::STATUS_DISABLED,
+                        'start'=> date('Y-m-d H:i:s', time() - 86400),
+                        'end'=> date('Y-m-d H:i:s', time())
+                    ]);
 
         $result = $qb->getQuery()->getResult();
         return $result;

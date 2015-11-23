@@ -45,7 +45,7 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getApplicationStatusesDayly')
             ->will($this->returnValue($this->applicationsDaylyStatistics));
 
-        $entityManager->expects($this->once())
+        $entityManager->expects($this->any())
             ->method('getRepository')
             ->with($this->equalTo('AraneumMainBundle:Application'))
             ->will($this->returnValue($applicationRepository));

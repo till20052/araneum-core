@@ -13,7 +13,7 @@ use Doctrine\ORM\Query\Parser;
  */
 class Cast extends FunctionNode
 {
-    public $firstDateExpression = null;
+    public $convertExpression = null;
     public $unit = null;
 
     /**
@@ -25,7 +25,7 @@ class Cast extends FunctionNode
     {
         $parser->match(Lexer::T_IDENTIFIER);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
-        $this->firstDateExpression = $parser->StringPrimary();
+        $this->convertExpression = $parser->StringPrimary();
 
         $parser->match(Lexer::T_AS);
 
@@ -42,6 +42,6 @@ class Cast extends FunctionNode
      */
     public function getSql(SqlWalker $sqlWalker)
     {
-        return sprintf('CAST(%s AS %s)',  $this->firstDateExpression->dispatch($sqlWalker), $this->unit);
+        return sprintf('CAST(%s AS %s)',  $this->convertExpression->dispatch($sqlWalker), $this->unit);
     }
 }
