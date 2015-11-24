@@ -3,27 +3,16 @@
 
     angular
         .module('app.dashboard')
-        .controller('ChartDaylyApplicationStatusesController', ChartDaylyApplicationStatusesController);
+        .controller('AppStatusesChartCtrl', AppStatusesChartCtrl);
 
-    ChartDaylyApplicationStatusesController.$inject = ['Colors', '$scope', 'DashboardService'];
+    AppStatusesChartCtrl.$inject = ['Colors', '$scope', 'DashboardService'];
 
-    function ChartDaylyApplicationStatusesController(Colors, $scope, DashboardService) {
+    function AppStatusesChartCtrl(Colors, $scope, DashboardService) {
+        activate();
 
-        DashboardService.getStats().then(function(data){
-            $scope.statistics = data.statistics;
-            console.log($scope.statistics);
-            activate();
-        }, function(res){
-            console.log(res);
-        });
-
-        ////////////////
-
-        function activate() {
-
-            /***Bar chart ***/
+        function activate(){
             $scope.barData = {
-                labels:  $scope.statistics.daylyApplications.applications,
+                labels:  [],
                 datasets : [
                     {
                         label: 'Error',
@@ -31,7 +20,7 @@
                         strokeColor : Colors.byName('danger'),
                         highlightFill: Colors.byName('danger'),
                         highlightStroke: Colors.byName('danger'),
-                        data : $scope.statistics.daylyApplications.errors
+                        data : []
                     },
                     {
                         label: 'Success',
@@ -39,7 +28,7 @@
                         strokeColor : Colors.byName('success'),
                         highlightFill : Colors.byName('success'),
                         highlightStroke : Colors.byName('success'),
-                        data : $scope.statistics.daylyApplications.success
+                        data : []
                     },
                     {
                         label: 'Warning',
@@ -47,7 +36,7 @@
                         strokeColor : Colors.byName('warning'),
                         highlightFill : Colors.byName('warning'),
                         highlightStroke : Colors.byName('warning'),
-                        data : $scope.statistics.daylyApplications.problems
+                        data : []
                     },
                     {
                         label: 'Disabled',
@@ -55,7 +44,7 @@
                         strokeColor : Colors.byName('gray'),
                         highlightFill : Colors.byName('gray'),
                         highlightStroke : Colors.byName('gray'),
-                        data : $scope.statistics.daylyApplications.disabled
+                        data : []
                     }
                 ]
             };
@@ -69,9 +58,19 @@
                 barStrokeWidth: 2,
                 barValueSpacing: 5,
                 barDatasetSpacing: 1
-            };
-        }
 
+            };
+
+            DashboardService.getStats().then(function(data){
+                $scope.barData.labels = data.statistics.daylyApplications.applications;
+                $scope.barData.datasets[0].data = data.statistics.daylyApplications.errors;
+                $scope.barData.datasets[1].data = data.statistics.daylyApplications.success;
+                $scope.barData.datasets[2].data = data.statistics.daylyApplications.problems;
+                $scope.barData.datasets[3].data = data.statistics.daylyApplications.disabled;
+            }, function(res){
+                console.log(res);
+            });
+        }
     }
 
 

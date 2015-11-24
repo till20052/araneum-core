@@ -126,7 +126,7 @@
 
 
 	<div class="row">
-		<div class="col-md-6" ng-controller="ChartDaylyApplicationStatusesController">
+		<div class="col-md-6" ng-controller="AppStatusesChartCtrl">
 			<div id="panelChart5" class="panel panel-default">
 				<div class="panel-heading">
 					<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
@@ -141,7 +141,7 @@
 							<div class="row mb-lg">
 								<div class="col-lg-12">
 									<div>
-										<canvas barchart="" options="barOptions" data="barData" height="107"
+										<canvas barchart="" options="barOptions" data="barData"
 												responsive="true"></canvas>
 									</div>
 								</div>
@@ -151,7 +151,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-6" ng-controller="ChartAverageApplicationStatusesController">
+		<div class="col-lg-6" ng-controller="StateAvgAppChartCtrl">
 			<!-- START chart-->
 			<div class="row">
 				<div class="col-lg-12">
@@ -167,7 +167,7 @@
 							</div>
 							<div collapse="panelChart1" class="panel-wrapper">
 								<div class="panel-body">
-									<flot dataset="lineData" options="lineOptions" height="300px"></flot>
+									<flot dataset="lineData" options="lineOptions"></flot>
 								</div>
 							</div>
 						</div>

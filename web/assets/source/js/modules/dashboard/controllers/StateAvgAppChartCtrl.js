@@ -3,39 +3,31 @@
 
     angular
         .module('app.dashboard')
-        .controller('ChartAverageApplicationStatusesController', ChartAverageApplicationStatusesController);
+        .controller('StateAvgAppChartCtrl', StateAvgAppChartCtrl);
 
-    ChartAverageApplicationStatusesController.$inject = ['$scope', 'DashboardService'];
+    StateAvgAppChartCtrl.$inject = ['$scope', 'DashboardService'];
 
-    function ChartAverageApplicationStatusesController($scope, DashboardService) {
+    function StateAvgAppChartCtrl($scope, DashboardService) {
 
-        DashboardService.getStats().then(function(data){
-            $scope.statistics = data.statistics;
-            console.log($scope.statistics);
-            activate();
-        }, function(res){
-            console.log(res);
-        });
+        activate();
 
         function activate() {
-            // Line chart
-            // -----------------------------------
-            $scope.lineData =[{
+            $scope.lineData = [{
                 "label": "Success",
                 "color": "#27c24c",
-                "data": $scope.statistics.daylyAverageStatuses.success
+                "data": []
             }, {
                 "label": "Problem",
                 "color": "#ff902b",
-                "data": $scope.statistics.daylyAverageStatuses.problems
+                "data": []
             }, {
                 "label": "Error",
                 "color": "#f05050",
-                "data": $scope.statistics.daylyAverageStatuses.errors
+                "data": []
             }, {
                 "label": "Disabled",
                 "color": "#dde6e9",
-                "data": $scope.statistics.daylyAverageStatuses.disabled
+                "data": []
             }
             ];
 
@@ -58,7 +50,9 @@
                 },
                 tooltip: true,
                 tooltipOpts: {
-                    content: function (label, x, y) { return x + ' : ' + y; }
+                    content: function (label, x, y) {
+                        return x + ' : ' + y;
+                    }
                 },
                 xaxis: {
                     tickColor: '#eee',
@@ -70,6 +64,16 @@
                 },
                 shadowSize: 0
             };
+
+            DashboardService.getStats().then(function (data) {
+                    $scope.lineData[0].data = data.statistics.daylyAverageStatuses.errors;
+                    $scope.lineData[1].data = data.statistics.daylyAverageStatuses.problems;
+                    $scope.lineData[2].data = data.statistics.daylyAverageStatuses.success;
+                    $scope.lineData[3].data = data.statistics.daylyAverageStatuses.disabled;
+            }, function (res) {
+                console.log(res);
+            });
         }
+
     }
 })();

@@ -55,6 +55,7 @@
           }
 
           function onDatasetChanged(dataset) {
+            console.log(dataset);
             if (plot) {
               plot.setData(dataset);
               plot.setupGrid();
@@ -65,7 +66,7 @@
               return plot;
             }
           }
-          scope.$watchCollection('dataset', onDatasetChanged, true);
+          scope.$watch('dataset', onDatasetChanged, true);
 
           function onSerieToggled (series) {
             if( !plot || !series ) return;
