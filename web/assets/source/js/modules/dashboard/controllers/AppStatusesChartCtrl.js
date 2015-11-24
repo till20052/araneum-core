@@ -65,10 +65,10 @@
 
                 $scope.barData.labels = data.statistics.daylyApplications.applications;
 
-                $scope.barData.datasets[0].data = data.statistics.daylyApplications.errors;
-                $scope.barData.datasets[1].data = data.statistics.daylyApplications.success;
-                $scope.barData.datasets[2].data = data.statistics.daylyApplications.problems;
-                $scope.barData.datasets[3].data = data.statistics.daylyApplications.disabled;
+                angular.forEach(['errors', 'success', 'problems', 'disabled'], function(value, i){
+                    this[i].data = data.statistics.daylyApplications[value];
+                }, $scope.barData.datasets);
+
             }, function(res){
                 console.log(res);
             });

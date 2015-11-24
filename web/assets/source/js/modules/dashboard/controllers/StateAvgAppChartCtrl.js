@@ -66,10 +66,12 @@
             };
 
             DashboardService.getStats().then(function (data) {
-                    $scope.lineData[0].data = data.statistics.daylyAverageStatuses.errors;
-                    $scope.lineData[1].data = data.statistics.daylyAverageStatuses.problems;
-                    $scope.lineData[2].data = data.statistics.daylyAverageStatuses.success;
-                    $scope.lineData[3].data = data.statistics.daylyAverageStatuses.disabled;
+
+                var i = 0;
+                angular.forEach(data.statistics.daylyAverageStatuses, function(value){
+                    this[i++].data = value;
+                }, $scope.lineData);
+
             }, function (res) {
                 console.log(res);
             });
