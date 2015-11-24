@@ -12,7 +12,7 @@
         ////////////////
 
         function getMenu(onReady, onError) {
-          var menuJson = '/en/manage/menu.json',
+          var menuJson = '/manage/menu.json',
               menuURL  = menuJson + '?v=' + (new Date().getTime());
             
           onError = onError || function() { alert('Failure loading menu'); };

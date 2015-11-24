@@ -8,7 +8,7 @@
     DashboardService.$inject = ['$http'];
     function DashboardService($http) {
         var spinkitCss = '/assets/vendor/spinkit/css/spinkit.css';
-        var dataSourceUrl = '/en/manage/dashboard/data_source.json';
+        var dataSourceUrl = '/manage/dashboard/data_source.json';
 
         var service = {
             loadDataSource: loadDataSource,

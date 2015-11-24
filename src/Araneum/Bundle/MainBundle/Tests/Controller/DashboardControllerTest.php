@@ -61,11 +61,10 @@ class DashboardControllerTest extends BaseController
         $this->client
             ->request(
                 Request::METHOD_GET,
-                $this->router
-                    ->generate(
-                        'araneum_admin_dashboard_getDataSource',
-                        ['_locale' => 'en']
-                    )
+                $this->router->generate('araneum_admin_dashboard_getDataSource', ['_locale' => 'en']),
+                [],
+                [],
+                ['HTTP_X-Requested-With' => 'XMLHttpRequest']
             );
 
         /** @var Response $response */

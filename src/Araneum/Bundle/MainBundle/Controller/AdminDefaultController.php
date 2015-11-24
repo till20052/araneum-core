@@ -50,6 +50,7 @@ class AdminDefaultController extends Controller
      *   tags={"AdminApi"}
      * )
      * @Rest\Get("/manage/translates.json", name="araneum_admin_translations")
+     * @Rest\Get("%locale%/manage/translates.json", name="araneum_admin_translation_default_locale")
      *
      * @return JsonResponse
      */
