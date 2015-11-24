@@ -8,6 +8,7 @@ use Araneum\Bundle\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\DomCrawler\Link;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminUserControllerTest extends BaseController
 {
@@ -65,7 +66,7 @@ class AdminUserControllerTest extends BaseController
         $response = $client->getResponse();
 
         $this->assertEquals(
-            200,
+            Response::HTTP_ACCEPTED,
             $response->getStatusCode()
         );
     }
