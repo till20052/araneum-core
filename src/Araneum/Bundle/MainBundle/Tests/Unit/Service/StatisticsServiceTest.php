@@ -105,58 +105,54 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test get Applications
+     * @dataProvider dataFields
+     * @param array $expected
+     * @param string $field
      */
-    public function testGetApplications()
+    public function testGetFields(array $expected, $field)
     {
-        $array = ['Name'];
-
-        $this->assertEquals($array, $this->service->getResultByColumnName($this->applicationsDaylyStatistics, 'name'));
+        $this->assertEquals($expected, $this->service->getResultByColumnName($this->applicationsDaylyStatistics, $field));
     }
 
     /**
-     * Test get errors
+     * Data provicer
      */
-    public function testGetErrors()
+    public function dataFields()
     {
-        $array =[100];
-
-        $this->assertEquals($array, $this->service->getResultByColumnName($this->applicationsDaylyStatistics, 'errors'));
-    }
-
-    /**
-     * Test get success
-     */
-    public function testGetSuccess()
-    {
-        $array = [0];
-
-        $this->assertEquals($array, $this->service->getResultByColumnName($this->applicationsDaylyStatistics, 'success'));
-    }
-
-    /**
-     * Test get problems
-     */
-    public function testGetProblems()
-    {
-        $array = [0];
-
-        $this->assertEquals($array, $this->service->getResultByColumnName($this->applicationsDaylyStatistics, 'problems'));
-    }
-
-    /**
-     * Test get disabled
-     */
-    public function testGetDisabled()
-    {
-        $array = [0];
-
-        $this->assertEquals($array, $this->service->getResultByColumnName($this->applicationsDaylyStatistics, 'disabled'));
+        return [
+            'Test appName' =>
+                [
+                    ['Name'],
+                    'name'
+                ],
+            'Test errors' =>
+                [
+                    [100],
+                    'errors'
+                ],
+            'Test success' =>
+                [
+                    [0],
+                    'success'
+                ],
+            'Test problems' =>
+                [
+                    [0],
+                    'problems'
+                ],
+            'Test disabled' =>
+            [
+                [0],
+                'disabled'
+            ]
+        ];
     }
 
     /**
      * Test get application statuses dayly
      */
-    public function testGetApplicationStatusesDayly(){
+    public function testGetApplicationStatusesDayly()
+    {
         $array = [
             'name' => '',
             'errors' => '',
@@ -173,7 +169,8 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test get average application statuses dayly
      */
-    public function testGetAverageApplicationStatusesDayly(){
+    public function testGetAverageApplicationStatusesDayly()
+    {
 
         $array = [
             'hours' => '',
