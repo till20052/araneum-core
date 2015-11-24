@@ -62,7 +62,9 @@
             };
 
             DashboardService.getStats().then(function(data){
+
                 $scope.barData.labels = data.statistics.daylyApplications.applications;
+
                 $scope.barData.datasets[0].data = data.statistics.daylyApplications.errors;
                 $scope.barData.datasets[1].data = data.statistics.daylyApplications.success;
                 $scope.barData.datasets[2].data = data.statistics.daylyApplications.problems;

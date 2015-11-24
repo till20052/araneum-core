@@ -55,7 +55,6 @@
           }
 
           function onDatasetChanged(dataset) {
-            console.log(dataset);
             if (plot) {
               plot.setData(dataset);
               plot.setupGrid();
