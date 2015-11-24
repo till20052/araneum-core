@@ -35,7 +35,8 @@ class StatisticsService
      *
      * @return ApplicationRepository
      */
-    private function getApplicationRepository(){
+    private function getApplicationRepository()
+    {
         return $this->entityManager->getRepository('AraneumMainBundle:Application');
     }
 
@@ -44,7 +45,8 @@ class StatisticsService
      *
      * @return ApplicationLogRepository
      */
-    private function getApplicationLogRepository(){
+    private function getApplicationLogRepository()
+    {
         return $this->entityManager->getRepository('AraneumAgentBundle:ApplicationLog');
     }
 
@@ -105,7 +107,7 @@ class StatisticsService
      * @param array $pack
      * @return array
      */
-    private function getStatusesByPeriod(array $pack, $status, $period='hours')
+    private function getStatusesByPeriod(array $pack, $status, $period = 'hours')
     {
         $prepareArray = $this->hours;
         $resultArray = [];
@@ -116,8 +118,8 @@ class StatisticsService
             }
         }
 
-        foreach($prepareArray as $key=>$value){
-            $resultArray[]=[(string)$key,$value];
+        foreach ($prepareArray as $key => $value) {
+            $resultArray[] = [(string)$key, $value];
         }
 
 
@@ -129,17 +131,18 @@ class StatisticsService
      *
      * @return array
      */
-    public function prepareResulForDaylyApplications(){
+    public function prepareResulForDaylyApplications()
+    {
         $statusesDayly = $this->getApplicationsStatusesDayly();
 
         return
-        [
-            'applications' => $this->getResultByColumnName($statusesDayly, 'name'),
-            'errors' => $this->getResultByColumnName($statusesDayly, 'errors'),
-            'problems' => $this->getResultByColumnName($statusesDayly, 'problems'),
-            'success' => $this->getResultByColumnName($statusesDayly, 'success'),
-            'disabled' => $this->getResultByColumnName($statusesDayly, 'disabled')
-        ];
+            [
+                'applications' => $this->getResultByColumnName($statusesDayly, 'name'),
+                'errors' => $this->getResultByColumnName($statusesDayly, 'errors'),
+                'problems' => $this->getResultByColumnName($statusesDayly, 'problems'),
+                'success' => $this->getResultByColumnName($statusesDayly, 'success'),
+                'disabled' => $this->getResultByColumnName($statusesDayly, 'disabled')
+            ];
     }
 
     /**
@@ -147,7 +150,8 @@ class StatisticsService
      *
      * @return array
      */
-    public function prepareResultForDaylyAverageStatuses(){
+    public function prepareResultForDaylyAverageStatuses()
+    {
         $statusesDaylyAverage = $this->getAverageApplicationStatusesDayly();
 
         return [
@@ -160,7 +164,7 @@ class StatisticsService
 
 
     /**
-     * create_time_range
+     * Create time range
      *
      * @param mixed $start start time, e.g., 9:30am or 9:30
      * @param mixed $end end time, e.g., 5:30pm or 17:30
@@ -171,13 +175,13 @@ class StatisticsService
     {
         $times = [];
 
-        $begin =new \DateTime($start);
+        $begin = new \DateTime($start);
         $end = new \DateTime($end);
 
         $interval = new \DateInterval('PT1H');
         $dateRange = new \DatePeriod($begin, $interval, $end);
 
-        foreach($dateRange as $date){
+        foreach ($dateRange as $date) {
             $times[$date->format('H')] = 0;
         }
 
