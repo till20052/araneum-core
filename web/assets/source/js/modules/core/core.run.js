@@ -5,9 +5,9 @@
 		.module('app.core')
 		.run(appRun);
 
-	appRun.$inject = ['$rootScope', '$state', '$stateParams', '$window', '$templateCache', 'Colors', 'UserAuth'];
+	appRun.$inject = ['$rootScope', '$state', '$stateParams', '$window', 'Colors', 'UserAuth'];
 
-	function appRun($rootScope, $state, $stateParams, $window, $templateCache, Colors, UserAuth) {
+	function appRun($rootScope, $state, $stateParams, $window, Colors, UserAuth) {
 
 		// Set reference to access them from any scope
 		$rootScope.$state = $state;
@@ -33,6 +33,10 @@
 		// Hooks Example
 		// -----------------------------------
 
+		// Hook: start change state
+		$rootScope.$on('$stateChangeStart', function (event, toState) {
+			UserAuth.onStartChangeState(event, toState);
+		});
 
 		// Hook not found
 		$rootScope.$on('$stateNotFound',

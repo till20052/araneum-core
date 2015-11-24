@@ -16,6 +16,7 @@
             'ngResource',
             'tmh.dynamicLocale',
             'ui.utils',
-            'app.listener'
+			'app.listener',
+			'app.libs'
         ]);
 })();

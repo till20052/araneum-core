@@ -1,8 +1,12 @@
-(function(angular){
+(function (angular) {
 
 	'use strict';
 
 	angular
-		.module('app.profile', []);
+		.module('app.profile', [
+			'app.libs',
+			'ngStorage',
+			'ngDialog'
+		]);
 
 })(angular);

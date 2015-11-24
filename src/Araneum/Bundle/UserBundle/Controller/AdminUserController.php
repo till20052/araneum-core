@@ -2,207 +2,125 @@
 
 namespace Araneum\Bundle\UserBundle\Controller;
 
+use Araneum\Base\Service\FormHandlerService;
 use Araneum\Bundle\UserBundle\Entity\User;
 use Araneum\Bundle\UserBundle\Form\Type\ProfileType;
+use Doctrine\ORM\EntityManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Form;
-use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class AdminUserController extends Controller
 {
-    /**
-     * Convert children of FormView to Array
-     *
-     * @param FormView|array $children
-     * @param array $fields
-     * @return array
-     */
-    private function extract($children, array $fields = ['name', 'full_name', 'label', 'value'])
-    {
-        $list = [];
+	public function activateUserAction()
+	{
+		// TODO: add you implementation here
+	}
 
-        if ($children instanceof FormView) {
-            $children = $children->children;
-        }
+	public function recoverPasswordAction()
+	{
+		// TODO: add you implementation here
+	}
 
-        foreach ($children as $name => $child) {
-            if (!(count($child->children) > 0)) {
-                $item = [];
+	/**
+	 * @Security("has_role('ROLE_ADMIN')")
+	 * @Route("/profile/get_authorized_user_data", name="araneum_user_adminUser_getAuthorizedUserData")
+	 * @return Response
+	 */
+	public function getAuthorizedUserData()
+	{
+		/** @var User $user */
+		$user = $this->getUser();
 
-                foreach ($fields as $field) {
-                    if (!isset($child->vars[$field])) {
-                        continue;
-                    }
+		return new JsonResponse(
+			[
+				'name' => $user->getFullName(),
+				'email' => $user->getEmail(),
+				'settings' => $user->getSettings()
+			],
+			Response::HTTP_OK
+		);
+	}
 
-                    $item[$field] = $child->vars[$field];
-                }
+	/**
+	 * Edit profile
+	 *
+	 * @Route("/profile/edit", name="araneum_user_adminUser_edit")
+	 * @Security("has_role('ROLE_ADMIN')")
+	 * @param Request $request
+	 * @return Response
+	 */
+	public function editAction(Request $request)
+	{
+		$em = $this->get('doctrine.orm.entity_manager');
+		/** @var User $user */
+		$user = $this->getUser();
+		$form = $this->createForm(new ProfileType(), $user);
 
-                $list[] = $item;
-            } else {
-                $list = $list + $this->extract($child->children, $fields);
-            }
-        }
+		/** @var FormHandlerService $formHandler */
+		$formHandler = $this->get('araneum.base.form.handler');
 
-        return $list;
-    }
+		if ($request->getMethod() === 'POST') {
+			$form->submit($request);
 
-    /**
-     * Get Form Errors
-     *
-     * @param Form $form
-     * @return array
-     */
-    private function getErrorMessages(Form $form)
-    {
-        $errors = [];
+			if (!$form->isValid()) {
+				return new JsonResponse(
+						['errors' => $formHandler->getErrorMessages($form)],
+						Response::HTTP_BAD_REQUEST
+				);
+			}
 
-        foreach ($form->getErrors(true, true) as $error) {
-            $message = $error->getMessage();
+			$em->persist($user);
+			$em->flush();
 
-            if(in_array($message, $errors)){
-                continue;
-            }
+			return new JsonResponse(
+				[
+					'username' => $user->getUsername(),
+					'fullName' => $user->getFullName(),
+					'email' => $user->getEmail()
+				],
+				Response::HTTP_ACCEPTED
+			);
+		}
 
-            $errors[] = $message;
-        }
+		return new JsonResponse(
+			['form' => $formHandler->extract($form->createView())],
+			Response::HTTP_OK
+		);
+	}
 
-        return $errors;
-    }
+	/**
+	 * Set user settings
+	 *
+	 * @Security("has_role('ROLE_ADMIN')")
+	 * @Route("/profile/settings", name="araneum_user_adminUser_setSettings")
+	 * @Method("POST")
+	 * @param Request $request
+	 * @return JsonResponse $response
+	 */
+	public function setSettingsAction(Request $request)
+	{
+		/** @var EntityManager $entityManager */
+		$entityManager = $this->getDoctrine()->getManager();
 
-    public function activateUserAction()
-    {
-        // TODO: add you implementation here
-    }
+		try {
 
-    public function recoverPasswordAction()
-    {
-        // TODO: add you implementation here
-    }
+			$this->getUser()
+					->setSettings($request->request->all());
 
-    /**
-     * @Route("/profile/get_authorized_user_data", name="araneum_user_adminUser_getAuthorizedUserData")
-     * @Security("has_role('ROLE_ADMIN')")
-     * @return Response
-     */
-    public function getAuthorizedUserData()
-    {
-        /** @var User $user */
-        $user = $this->getUser();
+			$entityManager->flush();
 
-        return new JsonResponse(
-            [
-                'name' => $user->getFullName(),
-                'email' => $user->getEmail(),
-				'picture' => '/assets/build/img/user/no-image.jpg'
-            ],
-            Response::HTTP_OK
-        );
-    }
+		} catch (\Exception $e) {
 
-    /**
-     * Edit profile
-     *
-     * @Route("/profile/edit", name="araneum_user_adminUser_edit")
-     * @Security("has_role('ROLE_ADMIN')")
-     * @param Request $request
-     * @return Response
-     */
-    public function editAction(Request $request)
-    {
-        $em = $this->get('doctrine.orm.entity_manager');
-        /** @var User $user */
-        $user = $this->getUser();
-        $form = $this->createForm(new ProfileType(), $user);
+			return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
 
-        if ($request->getMethod() === 'POST') {
-            $form->submit($request);
+		}
 
-            if (!$form->isValid()) {
-                return new JsonResponse(
-                    [
-                        'errors' => $this->getErrorMessages($form)
-                    ],
-                    Response::HTTP_BAD_REQUEST
-                );
-            }
-
-            $em->persist($user);
-            $em->flush();
-
-            return new JsonResponse(
-                [
-                    'username' => $user->getUsername(),
-                    'fullName' => $user->getFullName(),
-                    'email' => $user->getEmail()
-                ],
-                Response::HTTP_ACCEPTED
-            );
-        }
-
-        return new JsonResponse(
-            [
-                'form' => $this->extract($form->createView())
-            ],
-            Response::HTTP_OK
-        );
-    }
-
-    /**
-     * Get user settings
-     *
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/get_settings/", name="araneum_user_get_settings")
-     * @return JsonResponse
-     *
-     */
-    public function getSettingsAction()
-    {
-        $user = $this->getUser();
-        $response = new JsonResponse();
-
-        if (is_null($user)) {
-            $response->setStatusCode(403);
-            $response->setContent('No authorized');
-        } else {
-            $response->setStatusCode(200);
-            $response->setContent(json_encode($user->getSettings()));
-        }
-
-        return $response;
-    }
-
-    /**
-     * Set user settings
-     *
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Rest\Post("/settings/set", defaults={"_format"="json"}, name="araneum_user_settings_set")
-     * @param Request $request
-     * @return JsonResponse $response
-     */
-    public function settingsSetAction(Request $request)
-    {
-        $user = $this->getUser();
-        $em = $this->getDoctrine()->getManager();
-
-        $response = new JsonResponse();
-        $response->headers->set('Content-Type', 'application/json');
-
-        try {
-            $user->setSettings($request->request->all());
-            $em->persist($user);
-            $em->flush();
-            $response->setStatusCode(200);
-        } catch (\Exception $e) {
-            $response->setStatusCode(500);
-            $response->setContent($e->getMessage());
-        }
-
-        return $response;
-    }
+		return (new JsonResponse())
+				->setStatusCode(Response::HTTP_ACCEPTED);
+	}
 }

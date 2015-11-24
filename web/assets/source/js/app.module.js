@@ -17,7 +17,6 @@
 
 	angular
 		.module('araneum', [
-			'ngStorage',
 			'app.core',
 			'app.routes',
 			'app.sidebar',
@@ -37,7 +36,6 @@
 			'app.forms',
 			'app.locale',
 			'app.maps',
-			'app.pages',
 			'app.tables',
 			'app.extras',
 			'app.mailbox',

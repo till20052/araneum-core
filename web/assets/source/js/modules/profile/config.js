@@ -3,9 +3,9 @@
 
 	angular
 		.module('app.profile')
-		.config(['$httpProvider', profileConfig]);
+		.config(['$httpProvider', config]);
 
-	function profileConfig($httpProvider) {
+	function config($httpProvider) {
 		$httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 	}
 

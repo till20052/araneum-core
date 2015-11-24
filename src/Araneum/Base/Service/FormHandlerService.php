@@ -5,7 +5,7 @@ namespace Araneum\Base\Service;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormView;
 
-class FormHandler
+class FormHandlerService
 {
 	/**
 	 * Extract children attributes from FormView to Array

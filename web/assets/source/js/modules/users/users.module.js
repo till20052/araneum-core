@@ -2,6 +2,8 @@
 	'use strict';
 
 	angular
-		.module('app.users', []);
+		.module('app.users', [
+			'app.libs'
+		]);
 
 })(angular);
