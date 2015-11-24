@@ -26,7 +26,7 @@ class ApplicationLogRepository extends EntityRepository
         $qb->select('date_part( hour, l.createdAt) as hours')
         ->addSelect('SUM(CASE WHEN l.status = :errors THEN 1 ELSE 0 END) AS errors')
         ->addSelect('SUM(CASE WHEN l.status = :problems THEN 1 ELSE 0 END) AS problems')
-        ->addSelect('SUM(CASE WHEN l.status = :success THEN 1 ELSE 0 END) AS OK')
+        ->addSelect('SUM(CASE WHEN l.status = :success THEN 1 ELSE 0 END) AS success')
         ->addSelect('SUM(CASE WHEN l.status=:disabled THEN 1 ELSE 0 END) AS disabled')
         ->where('l.createdAt BETWEEN :start AND :end')
         ->groupBy('hours')

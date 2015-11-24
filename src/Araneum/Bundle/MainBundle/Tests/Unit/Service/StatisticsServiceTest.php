@@ -22,6 +22,7 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $applicationsDaylyStatistics;
 
+
     /**
      * Mock instance of EntityManager
      *
@@ -150,6 +151,60 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
         $array = [0];
 
         $this->assertEquals($array, $this->service->getResultByColumnName($this->applicationsDaylyStatistics, 'disabled'));
+    }
+
+    /**
+     * Test get application statuses dayly
+     */
+    public function testGetApplicationStatusesDayly(){
+        $array = [
+            'name' => '',
+            'errors' => '',
+            'problems' => '',
+            'success' => '',
+            'disabled' => ''
+        ];
+
+        $statuses = $this->service->getApplicationsStatusesDayly();
+
+        $this->assertEquals(array_keys($array), array_keys($statuses[0]));
+    }
+
+    /**
+     * Test get average application statuses dayly
+     */
+    public function testGetAverageApplicationStatusesDayly(){
+
+        $array = [
+            'hours' => '',
+            'errors' => '',
+            'problems' => '',
+            'success' => '',
+            'disabled' => ''
+        ];
+
+        $applicationLogRepository = $this->getMockBuilder('\Araneum\Bundle\AgentBundle\Repository\ApplicationLogRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $applicationLogRepository->expects($this->once())
+            ->method('getAverageApplicationStatusesDayly')
+            ->will($this->returnValue($array));
+
+        $entityManagerLog = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $entityManagerLog->expects($this->once())
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumAgentBundle:ApplicationLog'))
+            ->will($this->returnValue($applicationLogRepository));
+
+        $service = new StatisticsService($entityManagerLog);
+
+        $statuses = $service->getAverageApplicationStatusesDayly();
+
+        $this->assertEquals(array_keys($array), array_keys($statuses));
     }
 
 }
