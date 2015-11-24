@@ -3,12 +3,13 @@
 
     angular
         .module('app.dashboard')
-        .factory('DashboardFactory', DashboardFactory);
+        .service('DashboardService', DashboardService);
 
-    DashboardFactory.$injector = ['$http', '$q'];
+    DashboardService.$inject = ['$http', '$q'];
 
-    function DashboardFactory($http, $q){
-        var dataSourceUrl = '/manage/dashboard/data_source.json';
+    function DashboardService($http, $q) {
+        var spinkitCss = '/assets/vendor/spinkit/css/spinkit.css';
+        var dataSourceUrl = '/manage/dashboard/data-source.json';
 
         var data = [],
             lastRequestFailed = true,
@@ -21,7 +22,9 @@
                 return data;
             });
 
-        return {
+
+        var service = {
+            appendSpinkit: appendSpinkit,
             refreshStats: function() {
                 // $http returns a promise, so we don't need to create one with $q
                 promise = $http.get(dataSourceUrl)
@@ -37,6 +40,25 @@
             getStats: function(){
                 return promise;
             }
+        };
+
+        return service;
+
+        function appendSpinkit () {
+            if ( ! $('link[href="' + spinkitCss + '"]').length > 0) {
+                angular.element('head')
+                    .append(
+                        $('<link />')
+                            .attr({
+                                rel: 'stylesheet',
+                                type: 'text/css',
+                                href: spinkitCss
+                            })
+                    );
+            }
+
+            return service;
         }
     }
+
 })();

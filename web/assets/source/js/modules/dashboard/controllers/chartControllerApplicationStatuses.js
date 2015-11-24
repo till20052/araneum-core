@@ -5,11 +5,11 @@
         .module('app.dashboard')
         .controller('ChartDaylyApplicationStatusesController', ChartDaylyApplicationStatusesController);
 
-    ChartDaylyApplicationStatusesController.$inject = ['Colors', '$scope', 'DashboardFactory'];
+    ChartDaylyApplicationStatusesController.$inject = ['Colors', '$scope', 'DashboardService'];
 
-    function ChartDaylyApplicationStatusesController(Colors, $scope, DashboardFactory) {
+    function ChartDaylyApplicationStatusesController(Colors, $scope, DashboardService) {
 
-        DashboardFactory.getStats().then(function(data){
+        DashboardService.getStats().then(function(data){
             $scope.statistics = data.statistics;
             console.log($scope.statistics);
             activate();
@@ -70,60 +70,6 @@
                 barValueSpacing: 5,
                 barDatasetSpacing: 1
             };
-
-            // Line chart
-            // -----------------------------------
-            $scope.lineData =[{
-                "label": "Success",
-                "color": "#27c24c",
-                "data": $scope.statistics.daylyAverageStatuses.success
-            }, {
-                "label": "Problem",
-                "color": "#ff902b",
-                "data": $scope.statistics.daylyAverageStatuses.problems
-            }, {
-                "label": "Error",
-                "color": "#f05050",
-                "data": $scope.statistics.daylyAverageStatuses.errors
-            }, {
-                "label": "Disabled",
-                "color": "#dde6e9",
-                "data": $scope.statistics.daylyAverageStatuses.disabled
-            }
-            ];
-
-            $scope.lineOptions = {
-                series: {
-                    lines: {
-                        show: true,
-                        fill: 0.01
-                    },
-                    points: {
-                        show: true,
-                        radius: 4
-                    }
-                },
-                grid: {
-                    borderColor: '#eee',
-                    borderWidth: 1,
-                    hoverable: true,
-                    backgroundColor: '#fcfcfc'
-                },
-                tooltip: true,
-                tooltipOpts: {
-                    content: function (label, x, y) { return x + ' : ' + y; }
-                },
-                xaxis: {
-                    tickColor: '#eee',
-                    mode: 'categories'
-                },
-                yaxis: {
-                    position: ($scope.app.layout.isRTL ? 'right' : 'left'),
-                    tickColor: '#eee'
-                },
-                shadowSize: 0
-            };
-
         }
 
     }

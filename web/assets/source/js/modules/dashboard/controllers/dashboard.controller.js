@@ -5,12 +5,12 @@
         .module('app.dashboard')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['$scope', 'ChartData', '$timeout', 'DashboardService', 'DashboardFactory'];
-    function DashboardController($scope, ChartData, $timeout, DashboardService, DashboardFactory) {
+    DashboardController.$inject = ['$scope', 'DashboardService'];
+    function DashboardController($scope, DashboardService) {
         var vm = this;
 
         $scope.child = {};
-        $scope.statistics = {};
+
 
 
         activate();
@@ -22,7 +22,7 @@
             DashboardService
                 .appendSpinkit();
 
-            DashboardFactory.getStats().then(function(data){
+            DashboardService.getStats().then(function(data){
                 $scope.statistics = data.statistics;
             }, function(res){
                 console.log(res);
@@ -31,7 +31,7 @@
             // PANEL REFRESH EVENTS
             // -----------------------------------
             $scope.$on('panel-refresh', function (event, id) {
-                DashboardFactory.refreshStats().then(function(data){
+                DashboardService.refreshStats().then(function(data){
                     $scope.statistics = data.statistics;
                     $scope.$broadcast('removeSpinner', id);
                 }, function(res){

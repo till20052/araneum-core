@@ -14,7 +14,7 @@ class DashboardController extends Controller
      * Get General Data for Dashboard
      *
      * @Route(
-     *     "/manage/dashboard/data_source.json",
+     *     "/manage/dashboard/data-source.json",
      *     name="araneum_admin_dashboard_getDataSource"
      * )
      * @return JsonResponse
