@@ -58,7 +58,7 @@ class AdminUserControllerTest extends BaseController
 
         $client->request(
             'POST',
-            $router->generate('araneum_user_settings_set'),
+            $router->generate('araneum_user_adminUser_setSettings'),
             self::$settings
         );
 
@@ -68,28 +68,5 @@ class AdminUserControllerTest extends BaseController
             200,
             $response->getStatusCode()
         );
-    }
-
-    /**
-     * Test for Get Settings
-     */
-    public function testSettingsGet()
-    {
-        $client = $this->createAdminAuthorizedClient(UserFixtures::ADMIN_USER_NAME);
-        $router = $client
-            ->getContainer()
-            ->get('router');
-
-        $client
-            ->request(
-                'GET',
-                $router->generate('araneum_user_get_settings')
-            );
-
-        $response = $client
-            ->getResponse()
-            ->getContent();
-
-        $this->assertJson($response, json_encode(self::$settings));
     }
 }
