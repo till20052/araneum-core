@@ -65,7 +65,7 @@
                 shadowSize: 0
             };
 
-            $scope.errors=[];
+            $scope.errors = [];
 
             DashboardService.getStats().then(function (data) {
 
