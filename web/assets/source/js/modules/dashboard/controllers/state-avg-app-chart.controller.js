@@ -67,10 +67,11 @@
 
             $scope.errors = [];
 
+            $scope.onLoading = true;
+
             DashboardService.getStats().then(function (data) {
 
-                $scope.$broadcast('removeSpinner', 'panelChart1');
-
+                $scope.onLoading = false;
 
                 angular.forEach(['errors', 'success', 'problems', 'disabled'], function(value, i){
                     this[i].data = data.statistics.daylyAverageStatuses[value];
