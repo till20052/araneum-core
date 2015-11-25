@@ -3,11 +3,11 @@
 
     angular
         .module('app.dashboard')
-        .controller('AppStatusesChartCtrl', AppStatusesChartCtrl);
+        .controller('AppStatusesChartCtrl', AppStatusesChartController);
 
-    AppStatusesChartCtrl.$inject = ['Colors', '$scope', 'DashboardService'];
+    AppStatusesChartController.$inject = ['Colors', '$scope', 'DashboardService'];
 
-    function AppStatusesChartCtrl(Colors, $scope, DashboardService) {
+    function AppStatusesChartController(Colors, $scope, DashboardService) {
         activate();
 
         function activate(){

@@ -3,11 +3,11 @@
 
     angular
         .module('app.dashboard')
-        .controller('StateAvgAppChartCtrl', StateAvgAppChartCtrl);
+        .controller('StateAvgAppChartCtrl', StateAvgAppChartController);
 
-    StateAvgAppChartCtrl.$inject = ['$scope', 'DashboardService'];
+    StateAvgAppChartController.$inject = ['$scope', 'DashboardService'];
 
-    function StateAvgAppChartCtrl($scope, DashboardService) {
+    function StateAvgAppChartController($scope, DashboardService) {
 
         activate();
 
