@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\MainBundle\Service;
 
 use Araneum\Base\Tests\Fixtures\User\UserFixtures;
+use Araneum\Bundle\AgentBundle\Entity\Problem;
 use Araneum\Bundle\AgentBundle\Service\AgentLoggerService;
 use Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Guzzle\Http\Exception\CurlException;
 use Guzzle\Http\Message\Response as GuzzleResponse;
 use Symfony\Component\Yaml\Yaml;
+use Araneum\Bundle\MainBundle\Entity\Application;
 
 class RemoteApplicationManagerService
 {
@@ -180,10 +182,10 @@ class RemoteApplicationManagerService
      * @param $body
      * @param $params
      * @param $method
-     * @paran Application $application
+     * @param Application $application
      * @return \Exception|CurlException|GuzzleResponse
      */
-    public function sendRequest($host, $uri, $header, $body, $params, $method, $application = null)
+    public function sendRequest($host, $uri, $header, $body, $params, $method, Application $application = null)
     {
         try {
             $response = $this
@@ -203,8 +205,23 @@ class RemoteApplicationManagerService
                 $application->setStatus(100);
             }
 
+            if($response->getStatusCode() != 0){
+                $code = $response->getStatusCode();
+            }elseif(isset($e) && $e->getCode()!=0){
+                $code =$e->getCode();
+            }elseif(isset($e) && $e->getCurlHandle()->getErrorNo() !=0){
+                $code =$e->getCurlHandle()->getErrorNo();
+            }
+            else{
+                $code = $application->getStatus();
+            }
+
+            $problem = new Problem();
+            $problem->setStatus($code);
+            $problem->setDescription($response->getMessage());
+
             $logApplication = new AgentLoggerService($this->entityManager);
-            $logApplication->logApplication($application, $application->getStatus(), new ArrayCollection([$response->getMessage()]));
+            $logApplication->logApplication($application, $application->getStatus(), new ArrayCollection([$problem]));
         }
         return $response->getBody(true);
     }
