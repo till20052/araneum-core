@@ -1,335 +1,343 @@
 <h3>
-	<em class="icon-speedometer mr"></em>
-	Dashboard
+    <em class="icon-speedometer mr"></em>
+    Dashboard
 </h3>
 <div ng-controller="DashboardController">
-	<!-- START widgets box-->
-	<div class="row">
-		<div class="col-lg-3 col-sm-6">
-			<!-- START widget-->
-			<div ng-class="{true: 'bg-success', false: 'white'}[statistics.applicationsState.online > 0]"
-					class="panel widget">
-				<div class="row row-table">
-					<div
-							ng-class="{true: 'bg-success-dark', false: 'bg-success'}[statistics.applicationsState.online > 0]"
-							class="col-xs-4 text-center pv-lg">
-						<em class="icon-check fa-3x"></em>
-					</div>
-					<div class="col-xs-8 pv-lg">
-						<div class="h2 mt0">{{statistics.applicationsState.online}}
-							<div ng-hide="statistics" class="inline">
-								<div class="sk-spinner sk-spinner-circle">
-									<div
-											ng-repeat="n in [].constructor(12) track by $index"
-											ng-bind=""
-											class="sk-circle{{$index + 1}} sk-circle">
-									</div>
-								</div>
-							</div>
-							<small>application<span ng-if="statistics.applicationsState.online > 1">s</span></small>
-						</div>
-						<div class="text-uppercase">Online</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-3 col-sm-6">
-			<!-- START widget-->
-			<div
-					ng-class="{true: 'bg-warning', false: 'white'}[statistics.applicationsState.hasProblems > 0]"
-					class="panel widget">
-				<div class="row row-table">
-					<div
-							ng-class="{true: 'bg-warning-dark', false: 'bg-warning'}[statistics.applicationsState.hasProblems > 0]"
-							class="col-xs-4 text-center bg-warning-dark pv-lg">
-						<em class="fa fa-warning fa-3x"></em>
-					</div>
-					<div class="col-xs-8 pv-lg">
-						<div class="h2 mt0">{{statistics.applicationsState.hasProblems}}
-							<div ng-hide="true" class="inline">
-								<div class="sk-spinner sk-spinner-circle">
-									<div
-											ng-repeat="n in [].constructor(12) track by $index"
-											ng-bind=""
-											class="sk-circle{{$index + 1}} sk-circle"
-									></div>
-								</div>
-							</div>
-							<small>application<span ng-if="statistics.applicationsState.hasProblems > 1">s</span></small>
-						</div>
-						<div class="text-uppercase">Problem</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-3 col-md-6 col-sm-12">
-			<!-- START widget-->
-			<div
-					ng-class="{true: 'bg-danger', false: 'white'}[statistics.applicationsState.hasErrors > 0]"
-					class="panel widget">
-				<div class="row row-table">
-					<div
-							ng-class="{true: 'bg-danger-dark', false: 'bg-danger'}[statistics.applicationsState.hasErrors > 0]"
-							class="col-xs-4 text-center bg-danger-dark pv-lg">
-						<em class="icon-ban fa-3x"></em>
-					</div>
-					<div class="col-xs-8 pv-lg">
-						<div class="h2 mt0">{{statistics.applicationsState.hasErrors}}
-							<div ng-hide="statistics" class="inline">
-								<div class="sk-spinner sk-spinner-circle">
-									<div
-											ng-repeat="n in [].constructor(12) track by $index"
-											ng-bind=""
-											class="sk-circle{{$index + 1}} sk-circle"
-									></div>
-								</div>
-							</div>
-							<small>application<span ng-if="statistics.applicationsState.hasErrors > 1">s</span></small>
-						</div>
-						<div class="text-uppercase">Error</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-3 col-md-6 col-sm-12">
-			<!-- START date widget-->
-			<div
-					ng-class="{true: 'bg-gray', false: 'white'}[statistics.applicationsState.disabled > 0]"
-					class="panel widget">
-				<div class="row row-table">
-					<div
-							ng-class="{true: 'bg-gray-dark', false: 'bg-gray'}[statistics.applicationsState.disabled > 0]"
-							class="col-xs-4 text-center bg-gray pv-lg">
-						<em class="icon-lock fa-3x"></em>
-					</div>
-					<div class="col-xs-8 pv-lg">
-						<div class="h2 mt0">{{statistics.applicationsState.disabled}}
-							<div ng-hide="statistics" class="inline">
-								<div class="sk-spinner sk-spinner-circle">
-									<div
-											ng-repeat="n in [].constructor(12) track by $index"
-											ng-bind=""
-											class="sk-circle{{$index + 1}} sk-circle"
-									></div>
-								</div>
-							</div>
-							<small>application<span ng-if="statistics.applications.disabled > 1">s</span></small>
-						</div>
-						<div class="text-uppercase">Disabled</div>
-					</div>
-				</div>
-			</div>
-			<!-- END date widget    -->
-		</div>
-	</div>
-	<!-- END widgets box-->
+    <!-- START widgets box-->
+    <div class="row">
+        <div class="col-lg-3 col-sm-6">
+            <!-- START widget-->
+            <div ng-class="{true: 'bg-success', false: 'white'}[statistics.applicationsState.online > 0]"
+                 class="panel widget">
+                <div class="row row-table">
+                    <div
+                            ng-class="{true: 'bg-success-dark', false: 'bg-success'}[statistics.applicationsState.online > 0]"
+                            class="col-xs-4 text-center pv-lg">
+                        <em class="icon-check fa-3x"></em>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <div class="h2 mt0">{{statistics.applicationsState.online}}
+                            <div ng-hide="statistics" class="inline">
+                                <div class="sk-spinner sk-spinner-circle">
+                                    <div
+                                            ng-repeat="n in [].constructor(12) track by $index"
+                                            ng-bind=""
+                                            class="sk-circle{{$index + 1}} sk-circle">
+                                    </div>
+                                </div>
+                            </div>
+                            <small>application<span ng-if="statistics.applicationsState.online > 1">s</span></small>
+                        </div>
+                        <div class="text-uppercase">Online</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <!-- START widget-->
+            <div
+                    ng-class="{true: 'bg-warning', false: 'white'}[statistics.applicationsState.hasProblems > 0]"
+                    class="panel widget">
+                <div class="row row-table">
+                    <div
+                            ng-class="{true: 'bg-warning-dark', false: 'bg-warning'}[statistics.applicationsState.hasProblems > 0]"
+                            class="col-xs-4 text-center bg-warning-dark pv-lg">
+                        <em class="fa fa-warning fa-3x"></em>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <div class="h2 mt0">{{statistics.applicationsState.hasProblems}}
+                            <div ng-hide="true" class="inline">
+                                <div class="sk-spinner sk-spinner-circle">
+                                    <div
+                                            ng-repeat="n in [].constructor(12) track by $index"
+                                            ng-bind=""
+                                            class="sk-circle{{$index + 1}} sk-circle"
+                                    ></div>
+                                </div>
+                            </div>
+                            <small>application<span ng-if="statistics.applicationsState.hasProblems > 1">s</span>
+                            </small>
+                        </div>
+                        <div class="text-uppercase">Problem</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <!-- START widget-->
+            <div
+                    ng-class="{true: 'bg-danger', false: 'white'}[statistics.applicationsState.hasErrors > 0]"
+                    class="panel widget">
+                <div class="row row-table">
+                    <div
+                            ng-class="{true: 'bg-danger-dark', false: 'bg-danger'}[statistics.applicationsState.hasErrors > 0]"
+                            class="col-xs-4 text-center bg-danger-dark pv-lg">
+                        <em class="icon-ban fa-3x"></em>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <div class="h2 mt0">{{statistics.applicationsState.hasErrors}}
+                            <div ng-hide="statistics" class="inline">
+                                <div class="sk-spinner sk-spinner-circle">
+                                    <div
+                                            ng-repeat="n in [].constructor(12) track by $index"
+                                            ng-bind=""
+                                            class="sk-circle{{$index + 1}} sk-circle"
+                                    ></div>
+                                </div>
+                            </div>
+                            <small>application<span ng-if="statistics.applicationsState.hasErrors > 1">s</span></small>
+                        </div>
+                        <div class="text-uppercase">Error</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <!-- START date widget-->
+            <div
+                    ng-class="{true: 'bg-gray', false: 'white'}[statistics.applicationsState.disabled > 0]"
+                    class="panel widget">
+                <div class="row row-table">
+                    <div
+                            ng-class="{true: 'bg-gray-dark', false: 'bg-gray'}[statistics.applicationsState.disabled > 0]"
+                            class="col-xs-4 text-center bg-gray pv-lg">
+                        <em class="icon-lock fa-3x"></em>
+                    </div>
+                    <div class="col-xs-8 pv-lg">
+                        <div class="h2 mt0">{{statistics.applicationsState.disabled}}
+                            <div ng-hide="statistics" class="inline">
+                                <div class="sk-spinner sk-spinner-circle">
+                                    <div
+                                            ng-repeat="n in [].constructor(12) track by $index"
+                                            ng-bind=""
+                                            class="sk-circle{{$index + 1}} sk-circle"
+                                    ></div>
+                                </div>
+                            </div>
+                            <small>application<span ng-if="statistics.applications.disabled > 1">s</span></small>
+                        </div>
+                        <div class="text-uppercase">Disabled</div>
+                    </div>
+                </div>
+            </div>
+            <!-- END date widget    -->
+        </div>
+    </div>
+    <!-- END widgets box-->
 
 
-	<div class="row">
-		<div class="col-md-6" ng-controller="AppStatusesChartCtrl">
-			<div id="panelChart5" class="panel panel-default traditional whirl">
-				<div class="panel-heading">
-					<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-					<div class="panel-title">
-						<em class="icon-screen-tablet mr"></em>
-						Statuses for last 24 hour by applications
-					</div>
-				</div>
-				<div collapse="panelChart5" class="panel-wrapper">
-					<div class="panel-body">
-						<div class="container-fluid">
-							<div class="row mb-lg">
-								<div class="col-lg-12">
+    <div class="row">
+        <div class="col-md-6" ng-controller="AppStatusesChartCtrl">
+            <div id="panelChart5" class="panel panel-default traditional whirl">
+                <div class="panel-heading">
+                    <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                    <div class="panel-title">
+                        <em class="icon-screen-tablet mr"></em>
+                        Statuses for last 24 hour by applications
+                    </div>
+                </div>
+                <div collapse="panelChart5" class="panel-wrapper">
+                    <div class="panel-body">
+                        <div class="container-fluid">
+                            <div class="row mb-lg">
+                                <div class="col-lg-12">
 
-									<div ng-show="nodata" class="bg-danger alert alert-error"><h4>No data load</h4></div>
+                                    <div
+                                            ng-repeat="error in errors"
+                                            class="bg-danger alert alert-error"
+                                    >{{error}}</div>
 
-									<div>
-										<canvas barchart="" options="barOptions" data="barData"
-												responsive="true"></canvas>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-6" ng-controller="StateAvgAppChartCtrl">
-			<!-- START chart-->
-			<div class="row">
-				<div class="col-lg-12">
-					<!-- START widget-->
-					<div class="container-fluid">
-						<div id="panelChart1" class="panel panel-default traditional whirl">
-							<div class="panel-heading">
-								<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-								<div class="panel-title">
-									<em class="icon-screen-tablet mr"></em>
-									Average application statuses by last 24 hours
-								</div>
-							</div>
 
-							<div ng-show="nodata" class="bg-danger alert alert-error"><h4>No data load</h4></div>
+                                    <div>
+                                        <canvas barchart="" options="barOptions" data="barData"
+                                                responsive="true"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6" ng-controller="StateAvgAppChartCtrl">
+            <!-- START chart-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- START widget-->
+                    <div class="container-fluid">
+                        <div id="panelChart1" class="panel panel-default traditional whirl">
+                            <div class="panel-heading">
+                                <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                                <div class="panel-title">
+                                    <em class="icon-screen-tablet mr"></em>
+                                    Average application statuses by last 24 hours
+                                </div>
+                            </div>
 
-							<div ng-show="lineData" collapse="panelChart1" class="panel-wrapperl">
-								<div class="panel-body">
-									<flot dataset="lineData" options="lineOptions"></flot>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- END widget-->
-				</div>
-			</div>
-			<!-- END chart-->
-		</div>
-	</div>
+                            <div
+                                    ng-repeat="error in errors"
+                                    class="bg-danger alert alert-error"
+                            >{{error}}</div>
 
-	<div class="row">
-		<!-- START dashboard main content-->
-		<div class="col-lg-9">
-			<!-- START chart-->
-			<div class="row">
-				<div class="col-lg-12">
-					<!-- START widget-->
-					<div id="panelChart9" class="panel panel-default">
-						<div class="panel-heading">
-							<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-							<div class="panel-title">
-								<em class="icon-grid mr"></em>
-								Cluster load average by last 24 hours
-							</div>
-						</div>
-						<div collapse="panelChart9" class="panel-wrapper">
-							<div class="panel-body">
-								<flot dataset="dash.splineData" options="dash.splineOptions" class="ng-isolate-scope"
-									  height="300px"></flot>
-							</div>
-						</div>
-					</div>
-					<!-- END widget-->
-				</div>
-			</div>
-			<!-- END chart-->
-		</div>
-		<div class="col-lg-3">
-			<div ng-controller="FlotChartController as chart" class="container-fluid">
-				<div id="panelChart2" class="panel panel-default">
-					<div class="panel-heading">
-						<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-						<div class="panel-title">
-							<em class="icon-grid mr"></em>
-							<span class="ng-binding">Clusters UpTime by last 24 hours</span>
-						</div>
-					</div>
-					<div collapse="panelChart2" class="panel-wrapper">
-						<div class="panel-body">
-							<flot dataset="chart.barData" options="chart.barOptions" height="300px"></flot>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                            <div ng-show="lineData" collapse="panelChart1" class="panel-wrapperl">
+                                <div class="panel-body">
+                                    <flot dataset="lineData" options="lineOptions"></flot>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END widget-->
+                </div>
+            </div>
+            <!-- END chart-->
+        </div>
+    </div>
 
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="panel widget">
-				<div class="row row-table">
-					<div class="col-md-2 col-sm-3 col-xs-6 text-center bg-info pv-xl">
-						<em class="icon-notebook fa-4x"></em>
-					</div>
-					<div class="col-md-2 col-sm-3 col-xs-6 pv text-center br">
-						<div class="text-info text-sm">Applications</div>
-						<div class="text-muted text-md">
-							<em class="icon-screen-tablet"></em>
-						</div>
-						<div class="text-muted">6</div>
-					</div>
-					<div class="col-md-2 col-sm-3 hidden-xs pv text-center br">
-						<div class="text-info text-sm">Clusters</div>
-						<div class="text-muted text-md">
-							<em class="icon-grid"></em>
-						</div>
-						<div class="text-muted">4</div>
-					</div>
-					<div class="col-md-2 col-sm-3 hidden-xs pv text-center br">
-						<div class="text-info text-sm">Admins</div>
-						<div class="text-muted text-md">
-							<em class="icon-users"></em>
-						</div>
-						<div class="text-muted">2</div>
-					</div>
-					<div class="col-md-2 hidden-sm hidden-xs pv text-center br">
-						<div class="text-info text-sm">Connections</div>
-						<div class="text-muted text-md">
-							<em class="icon-share-alt"></em>
-						</div>
-						<div class="text-muted">12</div>
-					</div>
-					<div class="col-md-2 hidden-sm hidden-xs pv text-center">
-						<div class="text-info text-sm">Locales</div>
-						<div class="text-muted text-md">
-							<em class="icon-globe-alt"></em>
-						</div>
-						<div class="text-muted">4</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="row">
+        <!-- START dashboard main content-->
+        <div class="col-lg-9">
+            <!-- START chart-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- START widget-->
+                    <div id="panelChart9" class="panel panel-default">
+                        <div class="panel-heading">
+                            <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                            <div class="panel-title">
+                                <em class="icon-grid mr"></em>
+                                Cluster load average by last 24 hours
+                            </div>
+                        </div>
+                        <div collapse="panelChart9" class="panel-wrapper">
+                            <div class="panel-body">
+                                <flot dataset="dash.splineData" options="dash.splineOptions" class="ng-isolate-scope"
+                                      height="300px"></flot>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END widget-->
+                </div>
+            </div>
+            <!-- END chart-->
+        </div>
+        <div class="col-lg-3">
+            <div ng-controller="FlotChartController as chart" class="container-fluid">
+                <div id="panelChart2" class="panel panel-default">
+                    <div class="panel-heading">
+                        <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                        <div class="panel-title">
+                            <em class="icon-grid mr"></em>
+                            <span class="ng-binding">Clusters UpTime by last 24 hours</span>
+                        </div>
+                    </div>
+                    <div collapse="panelChart2" class="panel-wrapper">
+                        <div class="panel-body">
+                            <flot dataset="chart.barData" options="chart.barOptions" height="300px"></flot>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<div class="row">
-		<!-- START dashboard main content-->
-		<div class="col-lg-6">
-			<div ng-controller="FlotChartController as chart" class="container-fluid">
-				<div id="panelChart11" class="panel panel-default">
-					<div class="panel-heading">
-						<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-						<div class="panel-title">
-							<em class="icon-user-follow mr"></em>
-							Customers registration received from applications (24 hours)
-						</div>
-					</div>
-					<div collapse="panelChart2" class="panel-wrapper">
-						<div class="panel-body">
-							<flot dataset="chart.areaData" options="chart.areaOptions" height="300px"></flot>
-						</div>
-					</div>
-					<div class="panel-footer">
-						<p class="text-muted">
-							<em class="icon-cloud-upload mr-sm"></em>
-							<span>Received from all applications</span>
-							<span class="text-dark">164 customers</span>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-6">
-			<div ng-controller="FlotChartController as chart" class="container-fluid">
-				<div id="panelChart12" class="panel panel-default">
-					<div class="panel-heading">
-						<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-						<div class="panel-title">
-							<em class="icon-layers mr"></em>
-							Email received from applications (24 hours)
-						</div>
-					</div>
-					<div collapse="panelChart2" class="panel-wrapper">
-						<div class="panel-body">
-							<flot dataset="chart.areaData" options="chart.areaOptions" height="300px"></flot>
-						</div>
-						<div class="panel-footer">
-							<p class="text-muted">
-								<em class="icon-cloud-upload mr-sm"></em>
-								<span>Received from all applications</span>
-								<span class="text-dark">386 emails</span>
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel widget">
+                <div class="row row-table">
+                    <div class="col-md-2 col-sm-3 col-xs-6 text-center bg-info pv-xl">
+                        <em class="icon-notebook fa-4x"></em>
+                    </div>
+                    <div class="col-md-2 col-sm-3 col-xs-6 pv text-center br">
+                        <div class="text-info text-sm">Applications</div>
+                        <div class="text-muted text-md">
+                            <em class="icon-screen-tablet"></em>
+                        </div>
+                        <div class="text-muted">6</div>
+                    </div>
+                    <div class="col-md-2 col-sm-3 hidden-xs pv text-center br">
+                        <div class="text-info text-sm">Clusters</div>
+                        <div class="text-muted text-md">
+                            <em class="icon-grid"></em>
+                        </div>
+                        <div class="text-muted">4</div>
+                    </div>
+                    <div class="col-md-2 col-sm-3 hidden-xs pv text-center br">
+                        <div class="text-info text-sm">Admins</div>
+                        <div class="text-muted text-md">
+                            <em class="icon-users"></em>
+                        </div>
+                        <div class="text-muted">2</div>
+                    </div>
+                    <div class="col-md-2 hidden-sm hidden-xs pv text-center br">
+                        <div class="text-info text-sm">Connections</div>
+                        <div class="text-muted text-md">
+                            <em class="icon-share-alt"></em>
+                        </div>
+                        <div class="text-muted">12</div>
+                    </div>
+                    <div class="col-md-2 hidden-sm hidden-xs pv text-center">
+                        <div class="text-info text-sm">Locales</div>
+                        <div class="text-muted text-md">
+                            <em class="icon-globe-alt"></em>
+                        </div>
+                        <div class="text-muted">4</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- START dashboard main content-->
+        <div class="col-lg-6">
+            <div ng-controller="FlotChartController as chart" class="container-fluid">
+                <div id="panelChart11" class="panel panel-default">
+                    <div class="panel-heading">
+                        <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                        <div class="panel-title">
+                            <em class="icon-user-follow mr"></em>
+                            Customers registration received from applications (24 hours)
+                        </div>
+                    </div>
+                    <div collapse="panelChart2" class="panel-wrapper">
+                        <div class="panel-body">
+                            <flot dataset="chart.areaData" options="chart.areaOptions" height="300px"></flot>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <p class="text-muted">
+                            <em class="icon-cloud-upload mr-sm"></em>
+                            <span>Received from all applications</span>
+                            <span class="text-dark">164 customers</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div ng-controller="FlotChartController as chart" class="container-fluid">
+                <div id="panelChart12" class="panel panel-default">
+                    <div class="panel-heading">
+                        <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                        <div class="panel-title">
+                            <em class="icon-layers mr"></em>
+                            Email received from applications (24 hours)
+                        </div>
+                    </div>
+                    <div collapse="panelChart2" class="panel-wrapper">
+                        <div class="panel-body">
+                            <flot dataset="chart.areaData" options="chart.areaOptions" height="300px"></flot>
+                        </div>
+                        <div class="panel-footer">
+                            <p class="text-muted">
+                                <em class="icon-cloud-upload mr-sm"></em>
+                                <span>Received from all applications</span>
+                                <span class="text-dark">386 emails</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

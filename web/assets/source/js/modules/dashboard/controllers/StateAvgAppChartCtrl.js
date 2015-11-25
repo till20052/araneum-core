@@ -65,7 +65,7 @@
                 shadowSize: 0
             };
 
-            $scope.nodata=false;
+            $scope.errors=[];
 
             DashboardService.getStats().then(function (data) {
 
@@ -77,8 +77,7 @@
                 }, $scope.lineData);
 
             }, function (res) {
-                $scope.nodata=true;
-                console.log(res);
+                $scope.errors[0]='No data load:'+res;
             });
         }
 
