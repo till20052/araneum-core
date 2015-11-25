@@ -71,9 +71,9 @@
 
                 $scope.$broadcast('removeSpinner', 'panelChart1');
 
-                var i = 0;
-                angular.forEach(data.statistics.daylyAverageStatuses, function(value){
-                    this[i++].data = value;
+
+                angular.forEach(['errors', 'success', 'problems', 'disabled'], function(value, i){
+                    this[i].data = data.statistics.daylyAverageStatuses[value];
                 }, $scope.lineData);
 
             }, function (res) {
