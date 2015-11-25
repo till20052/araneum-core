@@ -5,9 +5,9 @@
 		.module('app.settings')
 		.run(settingsRun);
 
-	settingsRun.$inject = ['$rootScope', '$localStorage', '$http'];
+	settingsRun.$inject = ['$rootScope'];
 
-	function settingsRun($rootScope, $localStorage, $http) {
+	function settingsRun($rootScope) {
 
 		// Global Settings
 		// -----------------------------------
@@ -31,32 +31,6 @@
 			asideToggled: false,
 			viewAnimation: 'ng-fadeInUp'
 		};
-		//
-		//// Setup the layout mode
-		//$rootScope.app.layout.horizontal = ( $rootScope.$stateParams.layout === 'app-h');
-		//
-		//// Restore layout settings
-		//if (angular.isDefined($localStorage.layout))
-		//	$rootScope.app.layout = $localStorage.layout;
-		//else
-		//	$localStorage.layout = $rootScope.app.layout;
-		//
-		//$rootScope.$watch('app.layout', function () {
-		//	$localStorage.layout = $rootScope.app.layout;
-		//	//$http({
-		//	//	method: 'POST',
-		//	//	url: '/user/settings/set',
-		//	//	data: $rootScope.app.layout
-		//	//});
-		//
-		//}, true);
-		//
-		//// Close submenu when sidebar change from collapsed to normal
-		//$rootScope.$watch('app.layout.isCollapsed', function (newValue) {
-		//	if (newValue === false)
-		//		$rootScope.$broadcast('closeSidebarMenu');
-		//});
-
 	}
 
 })();
