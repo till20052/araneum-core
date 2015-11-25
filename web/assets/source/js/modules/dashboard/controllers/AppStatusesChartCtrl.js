@@ -73,7 +73,7 @@
                 }, $scope.barData.datasets);
 
             }, function(res){
-                $scope.errors[0] = 'No data load:' + res;
+                $scope.errors.push('No data load:' + res);
             });
         }
     }
