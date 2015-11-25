@@ -65,7 +65,11 @@
                 shadowSize: 0
             };
 
+            $scope.nodata=false;
+
             DashboardService.getStats().then(function (data) {
+
+                $scope.$broadcast('removeSpinner', 'panelChart1');
 
                 var i = 0;
                 angular.forEach(data.statistics.daylyAverageStatuses, function(value){
@@ -73,6 +77,7 @@
                 }, $scope.lineData);
 
             }, function (res) {
+                $scope.nodata=true;
                 console.log(res);
             });
         }

@@ -127,7 +127,7 @@
 
 	<div class="row">
 		<div class="col-md-6" ng-controller="AppStatusesChartCtrl">
-			<div id="panelChart5" class="panel panel-default">
+			<div id="panelChart5" class="panel panel-default traditional whirl">
 				<div class="panel-heading">
 					<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
 					<div class="panel-title">
@@ -140,6 +140,9 @@
 						<div class="container-fluid">
 							<div class="row mb-lg">
 								<div class="col-lg-12">
+
+									<div ng-show="nodata" class="bg-danger alert alert-error"><h4>No data load</h4></div>
+
 									<div>
 										<canvas barchart="" options="barOptions" data="barData"
 												responsive="true"></canvas>
@@ -157,7 +160,7 @@
 				<div class="col-lg-12">
 					<!-- START widget-->
 					<div class="container-fluid">
-						<div id="panelChart1" class="panel panel-default">
+						<div id="panelChart1" class="panel panel-default traditional whirl">
 							<div class="panel-heading">
 								<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
 								<div class="panel-title">
@@ -165,7 +168,10 @@
 									Average application statuses by last 24 hours
 								</div>
 							</div>
-							<div collapse="panelChart1" class="panel-wrapper">
+
+							<div ng-show="nodata" class="bg-danger alert alert-error"><h4>No data load</h4></div>
+
+							<div ng-show="lineData" collapse="panelChart1" class="panel-wrapperl">
 								<div class="panel-body">
 									<flot dataset="lineData" options="lineOptions"></flot>
 								</div>

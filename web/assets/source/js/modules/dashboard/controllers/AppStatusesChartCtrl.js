@@ -61,8 +61,11 @@
 
             };
 
+            $scope.nodata=false;
+
             DashboardService.getStats().then(function(data){
 
+                $scope.$broadcast('removeSpinner', 'panelChart5');
                 $scope.barData.labels = data.statistics.daylyApplications.applications;
 
                 angular.forEach(['errors', 'success', 'problems', 'disabled'], function(value, i){
