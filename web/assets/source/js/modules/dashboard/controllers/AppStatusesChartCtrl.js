@@ -73,6 +73,7 @@
                 }, $scope.barData.datasets);
 
             }, function(res){
+                $scope.nodata=true;
                 console.log(res);
             });
         }
