@@ -155,9 +155,9 @@ class StatisticsService
         $statusesDaylyAverage = $this->getAverageApplicationStatusesDayly();
 
         return [
-            'errors' => $this->getStatusesByPeriod($statusesDaylyAverage, 'errors'),
-            'problems' => $this->getStatusesByPeriod($statusesDaylyAverage, 'problems'),
             'success' => $this->getStatusesByPeriod($statusesDaylyAverage, 'success'),
+            'problems' => $this->getStatusesByPeriod($statusesDaylyAverage, 'problems'),
+            'errors' => $this->getStatusesByPeriod($statusesDaylyAverage, 'errors'),
             'disabled' => $this->getStatusesByPeriod($statusesDaylyAverage, 'disabled')
         ];
     }

@@ -73,7 +73,7 @@
 
                 $scope.onLoading = false;
 
-                angular.forEach(['errors', 'success', 'problems', 'disabled'], function(value, i){
+                angular.forEach(['success', 'problems', 'errors', 'disabled'], function(value, i){
                     this[i].data = data.statistics.daylyAverageStatuses[value];
                 }, $scope.lineData);
 
