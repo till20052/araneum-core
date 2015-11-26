@@ -78,7 +78,8 @@
                 }, $scope.lineData);
 
             }, function (res) {
-                $scope.errors.push('No data load:'+res);
+                $scope.onLoading = false;
+                $scope.errors.push('No data load:'+res.statusText);
             });
         }
 

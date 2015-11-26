@@ -54,10 +54,10 @@ class ApplicationRepository extends EntityRepository
 
         $qb
             ->select('a.name')
-            ->addSelect('SUM(CAST(CASE WHEN l.status = :errors THEN 1 ELSE 0 END AS FLOAT)) / COUNT(a.id) * 100 AS errors')
-            ->addSelect('SUM(CAST(CASE WHEN l.status = :problems  THEN 1 ELSE 0 END AS FLOAT)) / COUNT(a.id) * 100 AS problems')
-            ->addSelect('SUM(CAST(CASE WHEN l.status = :success  THEN 1 ELSE 0 END AS FLOAT)) / COUNT(a.id) * 100 AS success')
-            ->addSelect('SUM(CAST(CASE WHEN l.status = :disabled THEN 1 ELSE 0 END AS FLOAT)) / COUNT(a.id) * 100 AS disabled')
+            ->addSelect('ROUND(SUM(CAST(CASE WHEN l.status = :errors THEN 1 ELSE 0 END AS FLOAT)) / COUNT(a.id)) * 100 AS errors')
+            ->addSelect('ROUND(SUM(CAST(CASE WHEN l.status = :problems  THEN 1 ELSE 0 END AS FLOAT)) / COUNT(a.id)) * 100 AS problems')
+            ->addSelect('ROUND(SUM(CAST(CASE WHEN l.status = :success  THEN 1 ELSE 0 END AS FLOAT)) / COUNT(a.id)) * 100 AS success')
+            ->addSelect('ROUND(SUM(CAST(CASE WHEN l.status = :disabled THEN 1 ELSE 0 END AS FLOAT)) / COUNT(a.id)) * 100 AS disabled')
             ->leftJoin('AraneumAgentBundle:ApplicationLog', 'l', 'WITH', $qb->expr()->andX(
                 $qb->expr()->eq('l.application', 'a'),
                 $qb->expr()->between('l.createdAt', ':start', ':end')

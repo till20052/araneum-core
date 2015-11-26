@@ -72,6 +72,7 @@ doctrine:
                 date_part: Araneum\Base\DoctrineFunctions\DatePart
             numeric_functions:
                 cast: Araneum\Base\DoctrineFunctions\Cast
+                round: Araneum\Base\DoctrineFunctions\Round
 
 # Swiftmailer Configuration
 swiftmailer:
