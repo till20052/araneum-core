@@ -3,6 +3,10 @@
 namespace Araneum\Bundle\AgentBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query\Parameter;
+use Araneum\Bundle\MainBundle\Entity\Application;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * ApplicationLogRepository
@@ -12,4 +16,34 @@ use Doctrine\ORM\EntityRepository;
  */
 class ApplicationLogRepository extends EntityRepository
 {
+
+    /**
+     * get statistics average
+     *
+     * @return array
+     */
+    public function getAverageApplicationStatusesDayly()
+    {
+        $qb = $this->createQueryBuilder('l');
+        $qb->select('date_part( hour, l.createdAt) as hours')
+            ->addSelect('SUM(CASE WHEN l.status = :errors THEN 1 ELSE 0 END) AS errors')
+            ->addSelect('SUM(CASE WHEN l.status = :problems THEN 1 ELSE 0 END) AS problems')
+            ->addSelect('SUM(CASE WHEN l.status = :success THEN 1 ELSE 0 END) AS success')
+            ->addSelect('SUM(CASE WHEN l.status=:disabled THEN 1 ELSE 0 END) AS disabled')
+            ->where('l.createdAt BETWEEN :start AND :end')
+            ->groupBy('hours')
+            ->orderBy('hours', 'DESC')
+            ->setParameters(
+                [
+                    'errors' => Application::STATUS_ERROR,
+                    'problems' => Application::STATUS_CODE_INCORRECT,
+                    'success' => Application::STATUS_OK,
+                    'disabled' => Application::STATUS_DISABLED,
+                    'start' => date('Y-m-d H:i:s', time() - 86400),
+                    'end' => date('Y-m-d H:i:s', time())
+                ]);
+
+        $result = $qb->getQuery()->getResult();
+        return $result;
+    }
 }

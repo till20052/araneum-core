@@ -74,11 +74,24 @@ class DashboardControllerTest extends BaseController
         $this->assertObjectsStructuresEquals(
             (object)[
                 'statistics' => (object)[
-                    'applications' => (object)[
+                    'applicationsState' => (object)[
                         'online' => rand(),
                         'hasProblems' => rand(),
                         'hasErrors' => rand(),
                         'disabled' => rand()
+                    ],
+                    'daylyApplications' => [
+                        'applications' => [],
+                        'errors'    => [],
+                        'problems'  => [],
+                        'success'   => [],
+                        'disabled' => [],
+                    ],
+                    'daylyAverageStatuses'=>[
+                        'errors' => [],
+                        'problems'=>[],
+                        'success' => [],
+                        'disabled'  => []
                     ]
                 ]
             ],

@@ -65,7 +65,7 @@
               return plot;
             }
           }
-          scope.$watchCollection('dataset', onDatasetChanged, true);
+          scope.$watch('dataset', onDatasetChanged, true);
 
           function onSerieToggled (series) {
             if( !plot || !series ) return;

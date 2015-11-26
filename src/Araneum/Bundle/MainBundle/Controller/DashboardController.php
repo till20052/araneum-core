@@ -14,7 +14,7 @@ class DashboardController extends Controller
      * Get General Data for Dashboard
      *
      * @Route(
-     *     "/manage/dashboard/data_source.json",
+     *     "/manage/dashboard/data-source.json",
      *     name="araneum_admin_dashboard_getDataSource"
      * )
      * @return JsonResponse
@@ -22,12 +22,16 @@ class DashboardController extends Controller
     public function getDataSourceAction()
     {
         /** @var StatisticsService $service */
-        $service = $this->get('araneum.main.statistics.service');
+        $statisticService = $this->get('araneum.main.statistics.service');
 
-        return new JsonResponse([
+        $result = [
             'statistics' => [
-                'applications' => $service->getApplicationsStatistics()
+                'applicationsState' => $statisticService->getApplicationsStatistics(),
+                'daylyApplications' => $statisticService->prepareResulForDaylyApplications(),
+                'daylyAverageStatuses' =>$statisticService->prepareResultForDaylyAverageStatuses()
             ]
-        ], Response::HTTP_OK);
+        ];
+
+        return new JsonResponse($result, Response::HTTP_OK);
     }
 }
