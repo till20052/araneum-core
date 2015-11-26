@@ -1,0 +1,3 @@
+services:
+    araneum.base.form.handler:
+        class: Araneum\Base\Service\FormHandlerService
