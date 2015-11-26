@@ -58,8 +58,10 @@ class ApplicationRepository extends EntityRepository
             ->addSelect('SUM(CAST(CASE WHEN l.status = :problems  THEN 1 ELSE 0 END AS FLOAT)) / COUNT(a.id) * 100 AS problems')
             ->addSelect('SUM(CAST(CASE WHEN l.status = :success  THEN 1 ELSE 0 END AS FLOAT)) / COUNT(a.id) * 100 AS success')
             ->addSelect('SUM(CAST(CASE WHEN l.status = :disabled THEN 1 ELSE 0 END AS FLOAT)) / COUNT(a.id) * 100 AS disabled')
-            ->leftJoin('AraneumAgentBundle:ApplicationLog', 'l', 'WITH', 'l.application = a')
-            ->where('l.createdAt BETWEEN :start AND :end')
+            ->leftJoin('AraneumAgentBundle:ApplicationLog', 'l', 'WITH', $qb->expr()->andX(
+                $qb->expr()->eq('l.application', 'a'),
+                $qb->expr()->between('l.createdAt', ':start', ':end')
+            ))
             ->groupBy('a.name')
             ->setParameters(
                 [
