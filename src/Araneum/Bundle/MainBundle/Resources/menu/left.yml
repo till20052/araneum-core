@@ -7,11 +7,6 @@ Main:
             sref: app.dashboard
             icon: icon-speedometer
             translate: admin.sidebar.nav.DASHBOARD
-        Locales:
-            text: Locales
-            sref: app.locales
-            icon: fa fa-language
-            translate: admin.sidebar.nav.LOCALES
         Users:
             text: Users
             sref: app.table-ngtable
