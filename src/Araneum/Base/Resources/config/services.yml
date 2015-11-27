@@ -5,3 +5,7 @@ services:
     araneum.form_exporter.service:
         class: Araneum\Base\Service\FromExporterService
         arguments: [@jms_serializer, @form.factory]
+
+    araneum.admin.initializer.service:
+        class: Araneum\Base\Service\AdminInitializerService
+        arguments: [@araneum.form_exporter.service]
