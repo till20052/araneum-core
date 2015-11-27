@@ -4,9 +4,8 @@
 	ng.module('app.locales')
 		.controller('LocalesController', LocalesController);
 
-	LocalesController.$inject = ['$scope', '$http', 'DTOptionsBuilder', 'DTColumnBuilder', 'DTColumnDefBuilder'];
-	function LocalesController($scope, $http, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder) {
-
+	LocalesController.$inject = ['$scope', '$http', 'DTOptionsBuilder'];
+	function LocalesController($scope, $http, DTOptionsBuilder) {
 		/**
 		 * Constructor
 		 */

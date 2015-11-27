@@ -42,7 +42,8 @@
 			'app.extras',
 			'app.mailbox',
 			'app.utils',
-			'app.users'
+			'app.users',
+			'app.locales'
 		]);
 })();
 
