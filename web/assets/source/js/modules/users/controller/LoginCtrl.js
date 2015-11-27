@@ -11,13 +11,16 @@
 		(function (vm) {
 
 			vm.inLoading = false;
+			vm.submitDisabled = true;
 			vm.username = '';
 			vm.password = '';
 			vm.remember = false;
 			vm.error = '';
 			vm.submit = submit;
 
-			UserAuth.init();
+			UserAuth.initLoginForm(function(){
+				vm.submitDisabled = false;
+			});
 
 			function submit() {
 				if(vm.form.$valid){

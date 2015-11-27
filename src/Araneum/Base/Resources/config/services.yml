@@ -14,3 +14,6 @@ services:
         class: Araneum\Base\Ali\DatatableBundle\Util\Factory\DatatableFactory
         scope: prototype
         arguments: [@araneum_datatable, @doctrine, @templating, @annotation_reader, @security.token_storage]
+
+    araneum.base.form.handler:
+        class: Araneum\Base\Service\FormHandlerService

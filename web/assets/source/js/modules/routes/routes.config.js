@@ -34,7 +34,7 @@
 				url: '/dashboard',
 				title: 'Main page',
 				templateUrl: helper.basepath('dashboard.html'),
-				resolve: helper.resolveFor('flot-chart', 'flot-chart-plugins', 'chartjs')
+				resolve: helper.resolveFor('flot-chart', 'flot-chart-plugins', 'chartjs', 'ngDialog')
 			})
 			.state('app.locales', {
 				url: '/locales',

@@ -2,8 +2,12 @@
 
 namespace Araneum\Bundle\MainBundle\Repository;
 
+use Araneum\Bundle\AgentBundle\Entity\ApplicationLog;
 use Araneum\Bundle\MainBundle\Entity\Application;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Parameter;
 
 /**
  * ApplicationRepository
@@ -24,7 +28,7 @@ class ApplicationRepository extends EntityRepository
      */
     public function getApplicationsStatistics()
     {
-        return (object) $this->createQueryBuilder('A')
+        return (object)$this->createQueryBuilder('A')
             ->select('SUM(CASE WHEN A.enabled = TRUE AND A.status = :online THEN 1 ELSE 0 END) AS online')
             ->addSelect('SUM(CASE WHEN A.enabled = TRUE AND A.status = :hasProblem THEN 1 ELSE 0 END) as hasProblems')
             ->addSelect('SUM(CASE WHEN A.status > :hasProblem THEN 1 ELSE 0 END) as hasErrors')
@@ -37,5 +41,39 @@ class ApplicationRepository extends EntityRepository
             )
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+     * Get statistic of all application by last 24 hours
+     *
+     * @return array
+     */
+    public function getApplicationStatusesDayly()
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        $qb
+            ->select('a.name')
+            ->addSelect('ROUND(SUM(CAST(CASE WHEN l.status = :errors THEN 1 ELSE 0 END AS NUMERIC)) / COUNT(a.id), 2) * 100 AS errors')
+            ->addSelect('ROUND(SUM(CAST(CASE WHEN l.status = :problems  THEN 1 ELSE 0 END AS NUMERIC)) / COUNT(a.id), 2) * 100 AS problems')
+            ->addSelect('ROUND(SUM(CAST(CASE WHEN l.status = :success  THEN 1 ELSE 0 END AS NUMERIC)) / COUNT(a.id), 2) * 100 AS success')
+            ->addSelect('ROUND(SUM(CAST(CASE WHEN l.status = :disabled THEN 1 ELSE 0 END AS NUMERIC)) / COUNT(a.id), 2) * 100 AS disabled')
+            ->leftJoin('AraneumAgentBundle:ApplicationLog', 'l', 'WITH', $qb->expr()->andX(
+                $qb->expr()->eq('l.application', 'a'),
+                $qb->expr()->between('l.createdAt', ':start', ':end')
+            ))
+            ->groupBy('a.name')
+            ->setParameters(
+                [
+                    'errors' => Application::STATUS_ERROR,
+                    'problems'=> Application::STATUS_CODE_INCORRECT,
+                    'success' => Application::STATUS_OK,
+                    'disabled' => Application::STATUS_DISABLED,
+                    'start' => date('Y-m-d H:i:s', time() - 86400),
+                    'end'=> date('Y-m-d H:i:s', time())
+                ]);
+
+        $result = $qb->getQuery()->getResult();
+        return $result;
     }
 }
