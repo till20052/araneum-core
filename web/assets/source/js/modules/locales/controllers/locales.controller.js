@@ -41,11 +41,11 @@
 								callback(response);
 								ng.element($('div[widget="actions"]'))
 									.replaceWith(
-										$compile($('widget#locales-actions > div'))($scope)
+										$compile($('widget#locales-actions > div').clone())($scope)
 									)
 								ng.element($('div[widget="checkbox"]'))
 									.replaceWith(
-										$compile($('widget#locales-checkbox > div'))($scope)
+										$compile($('widget#locales-checkbox > div').clone())($scope)
 									)
 							}
 						});
