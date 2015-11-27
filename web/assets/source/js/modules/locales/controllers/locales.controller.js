@@ -39,20 +39,21 @@
 										]);
 								}, response.aaData);
 								callback(response);
-								ng.element($('div[widget="actions"]'))
-									.replaceWith(
-										$compile($('widget#locales-actions > div').clone())($scope)
-									)
-								ng.element($('div[widget="checkbox"]'))
-									.replaceWith(
-										$compile($('widget#locales-checkbox > div').clone())($scope)
-									)
+								$('div[widget]').each(function () {
+									var ui = $(this);
+									$(ui.parents('td').eq(0)).addClass('text-center p0');
+									ui.replaceWith(
+										$compile($('widget#locales-' + ui.attr('widget') + ' > div').clone())($scope)
+									);
+								});
 							}
 						});
 					})
 					.withPaginationType('full_numbers'),
 				columns: []
 			};
+
+			vm.onTableClickEvent = onTableClickEvent;
 
 			/**
 			 * Initialization event in success case
@@ -70,6 +71,20 @@
 			 */
 			function onInitError() {
 				vm.errors.push('Can\'t load data to datatable');
+			}
+
+			function onTableClickEvent(e) {
+				var tag = $(e.target)
+				if (tag.attr('type') == 'checkbox') {
+					if (tag.attr('rel') == 'select-all') {
+						$('tbody input[type="checkbox"]', $(tag.parents('table').eq(0)))
+							.prop('checked', tag.prop('checked'));
+					}
+					else if (!tag.prop('checked')) {
+						$('thead input[type="checkbox"]', $(tag.parents('table').eq(0)))
+							.prop('checked', false);
+					}
+				}
 			}
 
 		})($scope);

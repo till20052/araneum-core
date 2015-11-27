@@ -4,6 +4,7 @@ namespace Araneum\Bundle\MainBundle\Service\DataTable;
 
 use Araneum\Base\Ali\DatatableBundle\Builder\AbstractList;
 use Araneum\Base\Ali\DatatableBundle\Builder\ListBuilderInterface;
+use Araneum\Bundle\MainBundle\Entity\Locale;
 use Araneum\Bundle\MainBundle\Repository\LocaleRepository;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
@@ -19,11 +20,13 @@ class LocaleDataTableList extends AbstractList
 	{
 		$builder
 			->add('id')
-			->add('name')
-			->add('locale')
+			->add('name', ['search_type' => 'like'])
+			->add('locale', ['search_type' => 'like'])
 			->add('enabled')
-			->add('orientation')
-			->add('encoding');
+			->add('orientation', ['render' => function ($value, $data, $doctrine, $templating, $user) {
+				return $value != Locale::ORIENT_RGT_TO_LFT ? 'Left to right' : 'Right to left';
+			}])
+			->add('encoding', ['search_type' => 'like']);
 	}
 
 	/**
