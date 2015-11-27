@@ -1,3 +1,7 @@
 services:
     araneum.base.form.handler:
         class: Araneum\Base\Service\FormHandlerService
+
+    araneum.form_exporter.service:
+        class: Araneum\Base\Service\FromExporter
+        arguments: [@jms_serializer, @form.factory]
