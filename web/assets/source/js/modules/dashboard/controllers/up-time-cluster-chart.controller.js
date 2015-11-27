@@ -40,8 +40,6 @@
                     mode: 'categories'
                 },
                 yaxis: {
-                    min: 0,
-                    max: 200, // optional: use it for a clear represetation
                     position: ($scope.app.layout.isRTL ? 'right' : 'left'),
                     tickColor: '#eee'
                 },

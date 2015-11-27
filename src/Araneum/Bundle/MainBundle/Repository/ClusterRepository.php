@@ -10,7 +10,7 @@ use Araneum\Bundle\MainBundle\Entity\Cluster;
  *
  * @package Araneum\Bundle\MainBundle\Repository
  */
-class ClusterRepository extENDs EntityRepository
+class ClusterRepository extends EntityRepository
 {
     /**
      * Get statistic of all clusters average last 24 hours
@@ -54,13 +54,11 @@ class ClusterRepository extENDs EntityRepository
         $qb
             ->select('c.name')
             ->addSelect('ROUND(SUM(CAST(CASE WHEN cl.status = :success THEN 1 ELSE 0 END AS NUMERIC))/count(c.id), 2)*100 AS success')
-            ->addSelect('ROUND(SUM(CAST(CASE WHEN cl.status = :incorrect_application THEN 1 ELSE 0 END AS NUMERIC))/count(c.id), 2)*100 AS incorrect_application')
-            ->addSelect('ROUND(SUM(CAST(CASE WHEN cl.status = :slow_connection THEN 1 ELSE 0 END AS NUMERIC))/count(c.id), 2)*100 AS slow_connection')
-            ->addSelect('ROUND(SUM(CAST(CASE WHEN cl.status = :unstable_connection THEN 1 ELSE 0 END AS NUMERIC))/count(c.id), 2)*100 AS unstable_connection')
+            ->addSelect('ROUND(SUM(CAST(CASE WHEN cl.status IN (:incorrect_application, :slow_connection, :unstable_connection) THEN 1 ELSE 0 END AS NUMERIC))/count(c.id), 2)*100 AS problem')
             ->addSelect('ROUND(SUM(CAST(CASE WHEN cl.status = :offline THEN 1 ELSE 0 END AS NUMERIC))/count(c.id), 2)*100 AS offline')
             ->leftJoin('AraneumAgentBundle:ClusterLog', 'cl', 'WITH', $qb->expr()->andX(
-                $qb->expr()->eq('cl.cluster', 'c'),
-                $qb->expr()->between('cl.createdAt', ':start', ':end')
+                $qb->expr()->eq('cl.cluster', 'c')
+               // $qb->expr()->between('cl.createdAt', ':start', ':end')
             ))
             ->groupBy('c.name')
             ->setParameters(
@@ -70,8 +68,8 @@ class ClusterRepository extENDs EntityRepository
                     'slow_connection' => Cluster::STATUS_HAS_SLOW_CONNECTION,
                     'unstable_connection' => Cluster::STATUS_HAS_UNSTABLE_CONNECTION,
                     'offline' => Cluster::STATUS_OFFLINE,
-                    'start' => date('Y-m-d H:i:s', time() - 86400),
-                    'end'=> date('Y-m-d H:i:s', time())
+                    /*'start' => date('Y-m-d H:i:s', time() - 86400),
+                    'end'=> date('Y-m-d H:i:s', time())*/
                 ]
             );
         

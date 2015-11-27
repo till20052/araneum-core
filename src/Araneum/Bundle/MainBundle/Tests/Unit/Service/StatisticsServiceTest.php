@@ -141,10 +141,10 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
                     'problems'
                 ],
             'Test disabled' =>
-            [
-                [0],
-                'disabled'
-            ]
+                [
+                    [0],
+                    'disabled'
+                ]
         ];
     }
 
@@ -207,21 +207,16 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test prepare result for cluster average
      */
-    public function testPrepareResultForClusterAverage(){
+    public function testPrepareResultForClusterAverage()
+    {
 
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $array = [[
+            'name' => 'name',
+            'hours' => '10',
+            'apt' => '1'
+        ]];
 
-        $array = [
-            'hours' => '',
-            'errors' => '',
-            'problems' => '',
-            'success' => '',
-            'disabled' => ''
-        ];
-
-        $clusterRepository = $this->getMockBuilder('\Araneum\Bundle\AgentBundle\Repository\ApplicationLogRepository')
+        $clusterRepository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ClusterRepository')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -245,4 +240,45 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array_keys($array), array_keys($clusterAverage));
     }
 
+    /**
+     * Test for
+     */
+    public function testPrepareResultForClusterUpTime()
+    {
+
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
+
+        $array =
+            [
+                'label' => '',
+                'color' => '',
+                'data' => ''
+            ];
+
+        $clusterRepository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ClusterRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $clusterRepository->expects($this->once())
+            ->method('getClusterUpTime')
+            ->will($this->returnValue($array));
+
+        $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $entityManager->expects($this->once())
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumMainBundle:Cluster'))
+            ->will($this->returnValue($clusterRepository));
+
+
+        $service = new StatisticsService($entityManager);
+
+        $clusterUpTime = $service->prepareResultForClusterUpTime();
+
+        $this->assertEquals(array_keys($array), array_keys($clusterUpTime));
+    }
 }

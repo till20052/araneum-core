@@ -290,36 +290,26 @@ class StatisticsService
             'color' => '#27c24c',
             'data' => []
         ];
-        $incorrectApplication = [
-            'label' => 'Incorrect application',
+
+        $problem = [
+            'label' => 'Problem',
             'color' => '#ff902b',
             'data' => []
         ];
-        $slowConnection = [
-            'label' => 'Slow connection',
-            'color' => '#fad732',
-            'data' => []
-        ];
-        $unstableConnection = [
-            'label' => 'Unstable connection',
-            'color' => '#ff902b',
-            'data' => []
-        ];
+
         $offline = [
             'label' => 'Offline',
-            'color' => '#dde6e9',
+            'color' => '#f05050',
             'data' => []
         ];
 
         foreach($clusterUpTime as $array){
             array_push($success['data'], [$array['name'], $array['success']]);
-            array_push($incorrectApplication['data'], [$array['name'], $array['incorrect_application']]);
-            array_push($slowConnection['data'], [$array['name'], $array['slow_connection']]);
-            array_push($unstableConnection['data'], [$array['name'], $array['unstable_connection']]);
+            array_push($problem['data'], [$array['name'], $array['problem']]);
             array_push($offline['data'], [$array['name'], $array['offline']]);
         }
 
-        return [$success, $incorrectApplication, $slowConnection, $unstableConnection, $offline];
+        return [$success, $problem, $offline];
     }
 
     /**
