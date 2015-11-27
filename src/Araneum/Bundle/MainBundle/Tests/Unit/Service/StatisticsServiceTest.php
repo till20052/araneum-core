@@ -204,6 +204,9 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array_keys($array), array_keys($statuses));
     }
 
+    /**
+     * Test prepare result for cluster average
+     */
     public function testPrepareResultForClusterAverage(){
 
         $this->markTestIncomplete(

@@ -276,7 +276,11 @@ class StatisticsService
         return $resultArray;
     }
 
-
+    /**
+     * Prepare result for cluster Up time
+     *
+     * @return array
+     */
     public function prepareResultForClusterUpTime()
     {
         $clusterUpTime = $this->getClusterUpTime();
@@ -306,7 +310,6 @@ class StatisticsService
             'color' => '#dde6e9',
             'data' => []
         ];
-
 
         foreach($clusterUpTime as $array){
             array_push($success['data'], [$array['name'], $array['success']]);
