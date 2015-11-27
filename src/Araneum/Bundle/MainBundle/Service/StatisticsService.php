@@ -4,8 +4,10 @@ namespace Araneum\Bundle\MainBundle\Service;
 
 use Araneum\Bundle\MainBundle\Repository\ApplicationRepository;
 use Araneum\Bundle\AgentBundle\Repository\ApplicationLogRepository;
+use Araneum\Bundle\MainBundle\Repository\ClusterRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Araneum\Bundle\AgentBundle\Repository\ClusterLogRepository;
 
 class StatisticsService
 {
@@ -18,6 +20,19 @@ class StatisticsService
      * @var array $hours
      */
     private $hours;
+
+    const COLORS = [
+        '#5d9cec',
+        '#27c24c',
+        '#23b7e5',
+        '#ff902b',
+        '#f05050',
+        '#37bc9b',
+        '#f532e5',
+        '#7266ba',
+        '#fad732',
+        '#dde6e9'
+    ];
 
     /**
      * StatisticsService constructor.
@@ -50,6 +65,15 @@ class StatisticsService
         return $this->entityManager->getRepository('AraneumAgentBundle:ApplicationLog');
     }
 
+    /**
+     * Get Cluster repository
+     *
+     * @return ClusterRepository
+     */
+    private function getClusterRepository()
+    {
+        return $this->entityManager->getRepository('AraneumMainBundle:Cluster');
+    }
 
     /**
      * Get statistics of all applications by next conditions:
@@ -91,6 +115,25 @@ class StatisticsService
     }
 
     /**
+     * Get averade cluster load data
+     *
+     * @return array
+     */
+    private function getClusterLoadAverage()
+    {
+        return $this->getClusterRepository()->getClusterLoadAverage();
+    }
+
+    /**
+     *
+     * Get data from repository
+     */
+    private function getClusterUpTime()
+    {
+        return $this->getClusterRepository()->getClusterUpTime();
+    }
+
+    /**
      * Get array
      *
      * @param array $pack
@@ -114,6 +157,11 @@ class StatisticsService
 
         foreach ($pack as $item) {
             if (isset($item[$status])) {
+
+                if ($item[$period] <= 9) {
+                    $item[$period] = "0" . $item[$period];
+                }
+
                 $prepareArray[$item[$period]] = $item[$status];
             }
         }
@@ -162,6 +210,114 @@ class StatisticsService
         ];
     }
 
+    /**
+     * Prepare data for Cluster average load chart
+     *
+     * @return array
+     */
+    public function prepareResultForClusterAverage()
+    {
+        $clusterLoadAverage = $this->getClusterLoadAverage();
+
+        $resultArray = [];
+        $currentCluster = [
+            'label' => '',
+            'color' => $this->getColor(),
+            'data' => $this->hours
+        ];
+
+        $name = null;
+
+        foreach ($clusterLoadAverage as $cluster) {
+            if ($currentCluster['label'] != $cluster['name']) {
+
+                if (!is_null($name)) {
+                    array_push($resultArray, $currentCluster);
+                }
+
+                $name = $cluster['name'];
+                $currentCluster = [
+                    'label' => $name,
+                    'color' => $this->getColor(),
+                    'data' => $this->hours
+                ];
+
+                if (!is_null($cluster['hours'])) {
+
+                    if ($cluster['hours'] <= 9) {
+                        $cluster['hours'] = "0" . $cluster['hours'];
+                    }
+
+                    $currentCluster['data'][$cluster['hours']] = round($cluster['apt']);
+                }
+
+            } else {
+                if (!is_null($cluster['hours'])) {
+
+                    if ($cluster['hours'] <= 9) {
+                        $cluster['hours'] = "0" . $cluster['hours'];
+                    }
+
+                    $currentCluster['data'][$cluster['hours']] = round($cluster['apt']);
+                }
+            }
+        }
+
+        array_push($resultArray, $currentCluster);
+
+        foreach ($resultArray as &$array) {
+            $data = $array['data'];
+            $array['data'] = [];
+            foreach ($data as $key => $value) {
+                array_push($array['data'], [(string)$key, $value]);
+            }
+        }
+
+        return $resultArray;
+    }
+
+
+    public function prepareResultForClusterUpTime()
+    {
+        $clusterUpTime = $this->getClusterUpTime();
+
+        $success = [
+            'label' => 'Success',
+            'color' => '#27c24c',
+            'data' => []
+        ];
+        $incorrectApplication = [
+            'label' => 'Incorrect application',
+            'color' => '#ff902b',
+            'data' => []
+        ];
+        $slowConnection = [
+            'label' => 'Slow connection',
+            'color' => '#fad732',
+            'data' => []
+        ];
+        $unstableConnection = [
+            'label' => 'Unstable connection',
+            'color' => '#ff902b',
+            'data' => []
+        ];
+        $offline = [
+            'label' => 'Offline',
+            'color' => '#dde6e9',
+            'data' => []
+        ];
+
+
+        foreach($clusterUpTime as $array){
+            array_push($success['data'], [$array['name'], $array['success']]);
+            array_push($incorrectApplication['data'], [$array['name'], $array['incorrect_application']]);
+            array_push($slowConnection['data'], [$array['name'], $array['slow_connection']]);
+            array_push($unstableConnection['data'], [$array['name'], $array['unstable_connection']]);
+            array_push($offline['data'], [$array['name'], $array['offline']]);
+        }
+
+        return [$success, $incorrectApplication, $slowConnection, $unstableConnection, $offline];
+    }
 
     /**
      * Create time range
@@ -188,4 +344,19 @@ class StatisticsService
         return $times;
     }
 
+    /**
+     * Get color
+     *
+     * @return mixed
+     */
+    private function getColor()
+    {
+        static $index = -1;
+
+        if ($index + 1 >= count($this::COLORS)) {
+            $index = -1;
+        }
+
+        return $this::COLORS[++$index];
+    }
 }

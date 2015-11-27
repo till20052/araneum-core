@@ -204,4 +204,42 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array_keys($array), array_keys($statuses));
     }
 
+    public function testPrepareResultForClusterAverage(){
+
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
+
+        $array = [
+            'hours' => '',
+            'errors' => '',
+            'problems' => '',
+            'success' => '',
+            'disabled' => ''
+        ];
+
+        $clusterRepository = $this->getMockBuilder('\Araneum\Bundle\AgentBundle\Repository\ApplicationLogRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $clusterRepository->expects($this->once())
+            ->method('getClusterLoadAverage')
+            ->will($this->returnValue($array));
+
+        $entityManagerLog = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $entityManagerLog->expects($this->once())
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumMainBundle:Cluster'))
+            ->will($this->returnValue($clusterRepository));
+
+        $service = new StatisticsService($entityManagerLog);
+
+        $clusterAverage = $service->prepareResultForClusterAverage();
+
+        $this->assertEquals(array_keys($array), array_keys($clusterAverage));
+    }
+
 }
