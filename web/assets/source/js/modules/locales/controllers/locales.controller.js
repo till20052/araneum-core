@@ -4,12 +4,15 @@
 	ng.module('app.locales')
 		.controller('LocalesController', LocalesController);
 
-	LocalesController.$inject = ['$scope', '$http', 'DTOptionsBuilder'];
-	function LocalesController($scope, $http, DTOptionsBuilder) {
+	LocalesController.$inject = ['$compile', '$scope', '$http', 'DTOptionsBuilder'];
+	function LocalesController($compile, $scope, $http, DTOptionsBuilder) {
+
 		/**
 		 * Constructor
 		 */
 		(function (vm) {
+
+			initialization(onInitSuccess, onInitError);
 
 			vm.dt = {
 				initialized: false,
@@ -17,7 +20,7 @@
 					.newOptions()
 					.withOption('processing', true)
 					.withOption('serverSide', true)
-					.withOption('sAjaxSource', '/admin/grid/locale.json')
+					.withOption('sAjaxSource', '/admin/locales/datatable.json')
 					.withOption('fnServerData', function (source, data, callback, settings) {
 						settings.jqXHR = $.ajax({
 							dataType: 'json',
@@ -29,10 +32,19 @@
 									this[i] = item
 										.splice(0, item.length - 1)
 										.concat([
-											null, null
+											'<div widget="actions" />',
+											'<div widget="checkbox" />'
 										]);
 								}, response.aaData);
 								callback(response);
+								ng.element($('div[widget="actions"]'))
+									.replaceWith(
+										$compile($('widget#locales-actions > div'))($scope)
+									)
+								ng.element($('div[widget="checkbox"]'))
+									.replaceWith(
+										$compile($('widget#locales-checkbox > div'))($scope)
+									)
 							}
 						});
 					})
@@ -40,19 +52,24 @@
 				columns: []
 			};
 
-			init(function (response) {
-				ng.forEach(response.headers, function (f) {
+			function onInitSuccess(response) {
+				ng.forEach(response['dt.columns'], function (f) {
 					this.push(f);
 				}, vm.dt.columns);
 				vm.dt.initialized = true;
-			});
+			}
+
+			function onInitError(response) {
+
+			}
 
 		})($scope);
 
-		function init(onSuccess, onError) {
+		function initialization(onSuccess, onError) {
 			$http
-				.get('/admin/grid/locale.json')
+				.get('/admin/locales/init.json')
 				.success(onSuccess)
+				.error(onError);
 		}
 
 

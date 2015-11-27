@@ -11,14 +11,32 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminLocaleController extends Controller
 {
 	/**
-	 * @Route("/admin/grid/locale.json", name="araneum_admin_grid_locale")
-	 * @Route("/locale/grid/locale.json", name="araneum_admin_grid_locale-2")
+	 * Locales module initialization
+	 *
+	 * @Route("/admin/locales/init.json", name="araneum-admin-locales-init")
 	 * @return JsonResponse
 	 */
-	public function getGridAction()
+	public function initAction()
+	{
+		return new JsonResponse(
+			[
+				'dt.columns' => $this->get('araneum_datatable.factory')
+						->create(new LocaleDataTableList())
+						->getColumns()
+			]
+		);
+	}
+
+	/**
+	 * Server/client datatable communication
+	 *
+	 * @Route("/admin/locales/datatable.json", name="araneum-admin-locales-datatable")
+	 * @return JsonResponse
+	 */
+	public function datatableAction()
 	{
 		return $this
-				->get('araneum_datatable.factory')
-				->create(new LocaleDataTableList())->execute();
+			->get('araneum_datatable.factory')
+			->create(new LocaleDataTableList())->execute();
 	}
 }

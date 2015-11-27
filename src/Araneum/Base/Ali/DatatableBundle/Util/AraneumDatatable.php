@@ -21,6 +21,22 @@ class AraneumDatatable extends Datatable
         $this->_queryBuilder = $queryBuilder;
     }
 
+	/**
+	 * Get Datatable Columns
+	 *
+	 * @return array
+	 */
+	public function getColumns()
+	{
+		$fields = $this->getFields();
+
+		if (array_key_exists('_identifier_', $fields)) {
+			unset($fields['_identifier_']);
+		}
+
+		return array_keys($fields);
+	}
+
     /**
      * Get data without page limits
      *
@@ -53,35 +69,4 @@ class AraneumDatatable extends Datatable
 
         return $this;
     }
-
-    /**
-     * @param int $hydration_mode
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
-     */
-    public function execute($hydration_mode = Query::HYDRATE_ARRAY)
-    {
-        /** @var JsonResponse $jsonResponse */
-        $jsonResponse = parent::execute($hydration_mode);
-
-        $jsonResponse->setData(
-			json_decode($jsonResponse->getContent(), true) + ['headers' => $this->getFieldsLabels($this->getFields())]
-        );
-
-        return $jsonResponse;
-    }
-
-	/**
-	 * Get from fields definition labels without _identifier_
-	 *
-	 * @param $fields
-	 * @return array
-	 */
-	private function getFieldsLabels($fields)
-	{
-		if (array_key_exists('_identifier_', $fields)) {
-			unset($fields['_identifier_']);
-		}
-
-		return array_keys($fields);
-	}
 }
