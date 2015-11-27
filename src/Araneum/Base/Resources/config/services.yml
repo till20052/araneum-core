@@ -3,5 +3,5 @@ services:
         class: Araneum\Base\Service\FormHandlerService
 
     araneum.form_exporter.service:
-        class: Araneum\Base\Service\FromExporter
+        class: Araneum\Base\Service\FromExporterService
         arguments: [@jms_serializer, @form.factory]

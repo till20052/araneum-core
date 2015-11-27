@@ -3,7 +3,7 @@
 namespace Araneum\Base\Service;
 
 
-class FromExporter
+class FromExporterService
 {
     private $serializer;
 
