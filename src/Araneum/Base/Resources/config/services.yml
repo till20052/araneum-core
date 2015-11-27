@@ -1,0 +1,16 @@
+services:
+    araneum_datatable:
+        class: Araneum\Base\Ali\DatatableBundle\Util\AraneumDatatable
+        arguments: [@service_container, @araneum_datatable.query_bilder]
+        scope: prototype
+
+    araneum_datatable.query_bilder:
+        class: Araneum\Base\Ali\DatatableBundle\Util\Factory\Query\AraneumDoctrineBuilder
+        arguments: [@service_container, @doctrine.orm.default_entity_manager]
+        tags:
+            - { name: xmlm_datatable_query_bilder }
+
+    araneum_datatable.factory:
+        class: Araneum\Base\Ali\DatatableBundle\Util\Factory\DatatableFactory
+        scope: prototype
+        arguments: [@araneum_datatable, @doctrine, @templating, @annotation_reader, @security.token_storage]

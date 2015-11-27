@@ -1,0 +1,86 @@
+<div>
+	<h1>Locales</h1>
+</div>
+
+<div ng-controller="LocalesController">
+
+	<div class="panel panel-default">
+
+		<script type="text/ng-template" id="locales-actions">
+			<div dropdown="dropdown" class="btn-group">
+				<button type="button" ng-disabled="disabled" dropdown-toggle="" class="btn btn-xs dropdown-toggle btn-default" tooltip="Actions">
+					<em class="icon-settings"></em>
+				</button>
+				<ul role="menu" class="dropdown-menu dropdown-menu-right">
+					<li>
+						<a href="#">
+							<em class="icon-note mr-sm"></em>
+							Edit user
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="#">
+							<em class="icon-lock-open mr-sm"></em>
+							Enable
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<em class="icon-lock mr-sm"></em>
+							Disable user
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="#">
+							<em class="icon-key mr-sm"></em>
+							Reset password
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="#">
+							<em class="icon-user-unfollow mr-sm"></em>
+							Delete
+						</a>
+					</li>
+				</ul>
+			</div>
+		</script>
+
+		<script type="text/ng-template" id="locales-checkbox">
+			<div class="checkbox c-checkbox needsclick m0">
+				<label class="needsclick">
+					<input type="checkbox" value="" class="needsclick"/>
+					<span class="fa fa-check mr0"></span>
+				</label>
+			</div>
+		</script>
+
+		<div ng-class="{'whirl traditional': !dt.initialized}" class="panel-body">
+
+			<table
+				ng-if="dt.initialized"
+				datatable="locales"
+				dt-options="dt.options"
+				class="table-bordered table-striped hover"
+				cellspacing="0">
+				<thead>
+				<th ng-repeat="column in dt.columns" class="bt0 bl0">{{ column }}</th>
+				<th data-sortable="false" class="bt0 bl0" width="1"></th>
+				<th data-sortable="false" class="bt0 bl0 text-center" width="1">
+					<div class="checkbox c-checkbox needsclick m0">
+						<label class="needsclick">
+							<input type="checkbox" value="" class="needsclick"/>
+							<span class="fa fa-check mr0"></span>
+						</label>
+					</div>
+				</th>
+				</thead>
+			</table>
+
+		</div>
+	</div>
+
+</div>
