@@ -73,6 +73,10 @@
 				vm.errors.push('Can\'t load data to datatable');
 			}
 
+			/**
+			 * Click Table Event
+			 * @param e
+			 */
 			function onTableClickEvent(e) {
 				var tag = $(e.target)
 				if (tag.attr('type') == 'checkbox') {
