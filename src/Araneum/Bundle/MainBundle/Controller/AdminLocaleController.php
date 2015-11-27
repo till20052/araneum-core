@@ -20,9 +20,11 @@ class AdminLocaleController extends Controller
 	{
 		return new JsonResponse(
 			[
-				'dt.columns' => $this->get('araneum_datatable.factory')
+				'datatable' => [
+					'columns' => $this->get('araneum_datatable.factory')
 						->create(new LocaleDataTableList())
 						->getColumns()
+				]
 			]
 		);
 	}

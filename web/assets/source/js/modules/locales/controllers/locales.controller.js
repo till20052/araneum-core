@@ -14,6 +14,8 @@
 
 			initialization(onInitSuccess, onInitError);
 
+			vm.errors = [];
+
 			vm.dt = {
 				initialized: false,
 				options: DTOptionsBuilder
@@ -52,26 +54,37 @@
 				columns: []
 			};
 
+			/**
+			 * Initialization event in success case
+			 * @param response
+			 */
 			function onInitSuccess(response) {
-				ng.forEach(response['dt.columns'], function (f) {
+				ng.forEach(response.datatable.columns, function (f) {
 					this.push(f);
 				}, vm.dt.columns);
 				vm.dt.initialized = true;
 			}
 
-			function onInitError(response) {
-
+			/**
+			 * Initialization event in error case
+			 */
+			function onInitError() {
+				vm.errors.push('Can\'t load data to datatable');
 			}
 
 		})($scope);
 
+		/**
+		 * Initialization of module
+		 * @param onSuccess
+		 * @param onError
+		 */
 		function initialization(onSuccess, onError) {
 			$http
 				.get('/admin/locales/init.json')
 				.success(onSuccess)
 				.error(onError);
 		}
-
 
 	}
 

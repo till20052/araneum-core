@@ -27,11 +27,7 @@ class LocaleDataTableList extends AbstractList
 	}
 
 	/**
-	 * Returns the name of entity class. Example:
-	 *
-	 * <code>
-	 *     return "AcmeUserBundle:User";
-	 * </code>
+	 * Returns the name of entity class.
 	 *
 	 * @return string
 	 */
