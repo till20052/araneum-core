@@ -39,6 +39,7 @@ class AdminLocaleController extends Controller
 	{
 		return $this
 			->get('araneum_datatable.factory')
-			->create(new LocaleDataTableList())->execute();
+			->create(new LocaleDataTableList())
+			->execute();
 	}
 }
