@@ -3,6 +3,10 @@
         .factory('formBuildFiltersService', ['fromBuilderService', function (fromBuilderService) {
             var formBuilderFilters = fromBuilderService;
 
+            /**
+             * templates for inputs
+             * @type {{text: string, datetime: string, choice: string}}
+             */
             formBuilderFilters.templates = {
                 text: '<div class=col-lg-6>' +
                 '<div class="form-group">' +
@@ -30,6 +34,9 @@
                 '</div>'
             };
 
+            /**
+             * @returns {string} html template string
+             */
             formBuilderFilters.buildForm = function () {
                 console.log(this.elementsTemplateArray);
                 var elMass = this.elementsTemplateArray;
