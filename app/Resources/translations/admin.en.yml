@@ -51,6 +51,7 @@ sidebar:
     nav:
         DASHBOARD: "Dashboard"
         USERS: "Users"
+        LOCALES: "Locales"
         manager:
             CLUSTER: "Clusters"
             APPLICATION: "Applications"

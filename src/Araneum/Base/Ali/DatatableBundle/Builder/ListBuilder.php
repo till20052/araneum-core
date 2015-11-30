@@ -1,0 +1,110 @@
+<?php
+
+namespace Araneum\Base\Ali\DatatableBundle\Builder;
+
+use Closure;
+
+class ListBuilder implements ListBuilderInterface
+{
+    private $list = [];
+
+    private $search     = true;
+    private $widgetData = null;
+    private $orderBy    = [];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function add($name, array $fieldDescriptionOptions = [])
+    {
+        $fieldDescriptionOptions['column'] = count($this->list);
+        $this->list[$name] = $fieldDescriptionOptions;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setSearch($search = true)
+    {
+        $this->search = $search;
+
+        return $this;
+    }
+
+    /**
+     * Add widget to datatable
+     *
+     * @param Closure $data
+     * @return $this
+     * @throws \Exception
+     */
+    public function setWidget(\Closure $data)
+    {
+        if (!empty($this->widgetData)) {
+            throw new \Exception('Only one widget in datatable');
+        }
+
+        $this->widgetData = $data;
+
+        return $this;
+    }
+
+    /**
+     * Set field for order
+     *
+     * @param        $field
+     * @param string $sort
+     * @return mixed
+     */
+    public function setOrderBy($field, $sort = 'DESC')
+    {
+        $this->orderBy = [
+            'field' => $field,
+            'sort' => $sort
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Get OrderBy
+     *
+     * @return array
+     */
+    public function getOrderBy()
+    {
+        return $this->orderBy;
+    }
+
+
+    /**
+     * Return true if search is enabled
+     *
+     */
+    public function isSearchEnabled()
+    {
+        return $this->search;
+    }
+
+    /**
+     * Get List
+     *
+     * @return array
+     */
+    public function getList()
+    {
+        return $this->list;
+    }
+
+    /**
+     * Get WidgetData
+     *
+     * @return closure
+     */
+    public function getWidgetData()
+    {
+        return $this->widgetData;
+    }
+}
