@@ -36,7 +36,8 @@ class ClusterRepository extends EntityRepository
 			->setParameters(
 				[
 					'start' => date('Y-m-d H:i:s', time() - 86400),
-					'end' => date('Y-m-d H:i:s', time())]
+					'end' => date('Y-m-d H:i:s', time())
+				]
 			);
 
 		$result = $qb->getQuery()->getResult();
@@ -58,8 +59,8 @@ class ClusterRepository extends EntityRepository
 			->addSelect('ROUND(SUM(CAST(CASE WHEN cl.status IN (:incorrect_application, :slow_connection, :unstable_connection) THEN 1 ELSE 0 END AS NUMERIC))/count(c.id), 2)*100 AS problem')
 			->addSelect('ROUND(SUM(CAST(CASE WHEN cl.status = :offline THEN 1 ELSE 0 END AS NUMERIC))/count(c.id), 2)*100 AS offline')
 			->leftJoin('AraneumAgentBundle:ClusterLog', 'cl', 'WITH', $qb->expr()->andX(
-				$qb->expr()->eq('cl.cluster', 'c')
-			// $qb->expr()->between('cl.createdAt', ':start', ':end')
+				$qb->expr()->eq('cl.cluster', 'c'),
+				$qb->expr()->between('cl.createdAt', ':start', ':end')
 			))
 			->groupBy('c.name')
 			->setParameters(
@@ -69,8 +70,8 @@ class ClusterRepository extends EntityRepository
 					'slow_connection' => Cluster::STATUS_HAS_SLOW_CONNECTION,
 					'unstable_connection' => Cluster::STATUS_HAS_UNSTABLE_CONNECTION,
 					'offline' => Cluster::STATUS_OFFLINE,
-					/*'start' => date('Y-m-d H:i:s', time() - 86400),
-					'end'=> date('Y-m-d H:i:s', time())*/
+					'start' => date('Y-m-d H:i:s', time() - 86400),
+					'end' => date('Y-m-d H:i:s', time())
 				]
 			);
 
