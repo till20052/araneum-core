@@ -304,9 +304,9 @@ class StatisticsService
         ];
 
         foreach($clusterUpTime as $array){
-            array_push($success['data'], [$array['name'], $array['success']]);
             array_push($problem['data'], [$array['name'], $array['problem']]);
             array_push($offline['data'], [$array['name'], $array['offline']]);
+            array_push($success['data'], [$array['name'], $array['success']]);
         }
 
         return [$success, $problem, $offline];

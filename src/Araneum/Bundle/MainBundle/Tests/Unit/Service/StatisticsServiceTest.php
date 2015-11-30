@@ -246,16 +246,32 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
     public function testPrepareResultForClusterUpTime()
     {
 
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-
-        $array =
+        $array =[
             [
                 'label' => '',
                 'color' => '',
-                'data' => ''
-            ];
+                'data' => []
+            ],
+            [
+                'label' => '',
+                'color' => '',
+                'data' => []
+            ],
+            [
+                'label' => '',
+                'color' => '',
+                'data' => []
+            ],
+        ];
+
+        $arrayForCluster = [
+            [
+                'name' => '',
+                'success' => '',
+                'problem' => '',
+                'offline' => ''
+            ]
+        ];
 
         $clusterRepository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ClusterRepository')
             ->disableOriginalConstructor()
@@ -263,7 +279,7 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
 
         $clusterRepository->expects($this->once())
             ->method('getClusterUpTime')
-            ->will($this->returnValue($array));
+            ->will($this->returnValue($arrayForCluster));
 
         $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
@@ -273,7 +289,6 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getRepository')
             ->with($this->equalTo('AraneumMainBundle:Cluster'))
             ->will($this->returnValue($clusterRepository));
-
 
         $service = new StatisticsService($entityManager);
 
