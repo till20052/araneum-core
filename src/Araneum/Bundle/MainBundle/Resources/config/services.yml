@@ -35,3 +35,9 @@ services:
 
     araneum.main.menu.generator:
         class: Araneum\Bundle\MainBundle\Service\MenuGeneratorService
+
+    araneum_main.locale.filter.form:
+        class: Araneum\Bundle\MainBundle\Form\Filter\LocaleFilterType
+        arguments: [@doctrine, @service_container]
+        tags:
+            - { name: form.type, alias: araneum_locale_filter }

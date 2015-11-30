@@ -22,7 +22,7 @@
 					.newOptions()
 					.withOption('processing', true)
 					.withOption('serverSide', true)
-					.withOption('sAjaxSource', '/admin/locales/datatable.json')
+					.withOption('sAjaxSource', '/manage/locales/datatable.json')
 					.withOption('fnServerData', function (source, data, callback, settings) {
 						settings.jqXHR = $.ajax({
 							dataType: 'json',
@@ -39,6 +39,11 @@
 										]);
 								}, response.aaData);
 								callback(response);
+								$('td').each(function () {
+									$(this).addClass('bb0 bl0');
+								});
+
+
 								$('div[widget]').each(function () {
 									var ui = $(this);
 									$(ui.parents('td').eq(0)).addClass('text-center p0');
@@ -60,7 +65,7 @@
 			 * @param response
 			 */
 			function onInitSuccess(response) {
-				ng.forEach(response.datatable.columns, function (f) {
+				ng.forEach(response.grid.columns, function (f) {
 					this.push(f);
 				}, vm.dt.columns);
 				vm.dt.initialized = true;
@@ -100,7 +105,7 @@
 		 */
 		function initialization(onSuccess, onError) {
 			$http
-				.get('/admin/locales/init.json')
+				.get('/manage/locales/init.json')
 				.success(onSuccess)
 				.error(onError);
 		}
