@@ -8,6 +8,7 @@ use Araneum\Bundle\AgentBundle\Service\AgentLoggerService;
 use Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
+use Guzzle\Http\Exception\BadResponseException;
 use Guzzle\Http\Message\Request;
 use Guzzle\Service\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -192,7 +193,9 @@ class RemoteApplicationManagerService
                 ->client
                 ->createRequest($method, 'http://' . $host . $uri, $header, $body, $params)
                 ->send();
-        } catch (\Exception $e) {
+        } catch (BadResponseException $e) {
+            $response = $e->getResponse();
+        } catch (\Exception $e){
             $response = new GuzzleResponse($e->getCode());
             $response->setBody($e->getMessage());
         }
@@ -270,7 +273,7 @@ class RemoteApplicationManagerService
         $clusterId = ['id' => $application->getCluster()->getId()];
 
         $request = [
-            'name' => $application->getName(),
+            'application_name' => $application->getName(),
             'domain' => $application->getDomain(),
             'template' => $application->getTemplate(),
             'cluster' => $clusterId,

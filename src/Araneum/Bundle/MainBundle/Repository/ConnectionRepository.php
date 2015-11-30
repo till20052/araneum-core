@@ -56,8 +56,8 @@ class ConnectionRepository extends EntityRepository
     /**
      * get active host connections
      *
-     * @return Array
-     * @param $ids Array
+     * @return array
+     * @param $ids array
      */
     public function getActiveHostConnections(array $ids)
     {
@@ -89,7 +89,15 @@ class ConnectionRepository extends EntityRepository
             ->join('conn.clusters', 'clu')
             ->join('clu.applications', 'app')
             ->where('app.appKey = :appKey')
-            ->setParameters(['appKey' => $appKey]);
+            ->andWhere('conn.type = :type')
+            ->andWhere('conn.enabled = :enabled')
+            ->setParameters(
+                [
+                    'appKey' => $appKey,
+                    'type'   => Connection::CONN_HOST,
+                    'enabled' => true
+                ]
+            );
 
         return $qb->getQuery()->getResult();
     }
