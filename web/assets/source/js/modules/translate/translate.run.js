@@ -18,7 +18,7 @@
         // list of available languages
         available: {
           'en':       'English',
-          'es_AR':    'Español'
+          'ru':    'Русский'
         },
         // display always the current ui language
         init: function () {
