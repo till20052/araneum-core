@@ -94,7 +94,7 @@ class RecursivePagesTest extends BaseController
 		$this->client = $this->createAdminAuthorizedClient();
 		$container = $this->client->getContainer();
 		$this->router = $container->get('router');
-		$locales = explode('|', $container->getParameter('locales'));
+		$locales = $container->getParameter('locales');
 
 		foreach(['fos_user_security_logout'] as $token)
 		{
@@ -108,10 +108,11 @@ class RecursivePagesTest extends BaseController
 	/**
 	 * Test pages status
 	 *
-	 * @runInSeparateProcess
+	 *
 	 */
 	public function testPages()
 	{
+
 		$this->click($this->router->generate('sonata_admin_dashboard'), true);
 
 		foreach($this->register as $url => $data)

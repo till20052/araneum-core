@@ -56,8 +56,8 @@ class ConnectionRepository extends EntityRepository
     /**
      * get active host connections
      *
+     * @param array $ids
      * @return array
-     * @param $ids array
      */
     public function getActiveHostConnections(array $ids)
     {

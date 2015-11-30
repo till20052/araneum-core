@@ -16,12 +16,12 @@ class AdminDefaultControllerTest extends BaseController
     /**
      * @var string uri to call rest api method
      */
-    protected $configGetUri = '/en/manage/translates.json';
+    protected $configGetUri = 'en/manage/translates.json';
 
     /**
      * Test AdminDefaultController
      *
-     * @runInSeparateProcess
+     *
      */
     public function testGetTranslateList()
     {

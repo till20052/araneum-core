@@ -50,6 +50,7 @@ class AdminDefaultController extends Controller
      *   tags={"AdminApi"}
      * )
      * @Rest\Get("/manage/translates.json", name="araneum_admin_translations")
+     * @Rest\Get("%locale%/manage/translates.json", name="araneum_admin_translation_default_locale")
      *
      * @return JsonResponse
      */
@@ -57,8 +58,15 @@ class AdminDefaultController extends Controller
     {
         $translator = $this->get('translator');
 
+        $messages = $translator->getMessages($translator->getLocale());
+
+        foreach($messages['admin'] as $key => $value){
+            $tokens = explode('.', $key);
+            $messages[$tokens[0]][implode('.', array_slice($tokens, 1))] = $value;
+        }
+
         return new JsonResponse(
-            $translator->getMessages($translator->getLocale()),
+            $messages,
             200
         );
     }

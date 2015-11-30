@@ -19,8 +19,7 @@ class CustomerType extends AbstractType
             ->add('country')
             ->add('email')
             ->add('phone')
-            ->add('currency')
-            ->add('callback');
+            ->add('currency');
     }
 
     /**

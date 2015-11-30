@@ -54,7 +54,7 @@ class LeadApiControllerTest extends BaseController
 	/**
 	 * Test findAction in LeadApiController
 	 *
-	 * @runInSeparateProcess
+	 *
 	 * @dataProvider findActionDataProvider
 	 *
 	 * @param array $filters
@@ -63,7 +63,7 @@ class LeadApiControllerTest extends BaseController
 	 */
 	public function testFindAction($filters, $expectedStatusCode, $expectedFindResultsCount)
 	{
-		$this->client->request('GET', '/en/agent/api/lead/find', ['filters' => $filters]);
+		$this->client->request('GET', '/agent/api/lead/find', ['filters' => $filters]);
 
 		$response = $this->client->getResponse();
 
@@ -89,6 +89,17 @@ class LeadApiControllerTest extends BaseController
 				[
 					'firstName' => 'Hugo',
 					'lastName' => 'Boss',
+					'country' => rand(1, 239),
+					'email' => 'hogo.boss@test.com',
+					'phone' => '380507894561',
+					'appKey' => md5(microtime(true))
+				],
+				Response::HTTP_CREATED
+			],
+			'normal fullName&lastName cirilica letters' => [
+				[
+					'firstName' => "Дим'аЁ",
+					'lastName' => "Дим'аЁ",
 					'country' => rand(1, 239),
 					'email' => 'hogo.boss@test.com',
 					'phone' => '380507894561',
@@ -124,7 +135,7 @@ class LeadApiControllerTest extends BaseController
 	/**
 	 * Test createAction in LeadApiController
 	 *
-	 * @runInSeparateProcess
+	 *
 	 * @dataProvider createActionDataProvider
 	 *
 	 * @param array $data
@@ -136,7 +147,7 @@ class LeadApiControllerTest extends BaseController
 
 		$this->client->request(
 			'POST',
-			'/en/agent/api/lead/create',
+			'/agent/api/lead/create',
 			$data
 		);
 
