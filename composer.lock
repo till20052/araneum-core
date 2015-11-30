@@ -4,9 +4,56 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4cd3c599dc1d61d9cc0ed131c737ecb9",
-    "content-hash": "35020ba0834142f4f40380076da1e333",
+    "hash": "1db470b2f90ddc8f6ced2d386e25faa3",
+    "content-hash": "b6de4fdd213a3e58f5ba2f062e0a74e7",
     "packages": [
+        {
+            "name": "ali/datatable",
+            "version": "v2.0.2",
+            "target-dir": "Ali/DatatableBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AliHichem/AliDatatableBundle.git",
+                "reference": "dbc44c6b8ec0d7989b96314ccd4b9193c0d63fed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AliHichem/AliDatatableBundle/zipball/dbc44c6b8ec0d7989b96314ccd4b9193c0d63fed",
+                "reference": "dbc44c6b8ec0d7989b96314ccd4b9193c0d63fed",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": "~2.4@stable,>=2.1,<=2.5",
+                "php": ">=5.3.0",
+                "symfony/http-kernel": "~2.4",
+                "twig/twig": ">=1.8,<2.0-dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Ali\\DatatableBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ali hichem",
+                    "email": "ali.hichem@mail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Symfony2 Ajax Datagrid Bundle for doctrine2 entities",
+            "homepage": "https://github.com/AliHichem/AliDatatableBundle",
+            "keywords": [
+                "Symfony2",
+                "datatable",
+                "jquery"
+            ],
+            "time": "2015-10-18 21:45:58"
+        },
         {
             "name": "cocur/slugify",
             "version": "v1.4",

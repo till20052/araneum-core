@@ -9,5 +9,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class LocaleRepository extends EntityRepository
 {
-
+	/**
+	 * Return Locale Query Builder without any conditions
+	 *
+	 * @return \Doctrine\ORM\QueryBuilder
+	 */
+	public function getQueryBuilder()
+	{
+		return $this->createQueryBuilder('l');
+	}
 }

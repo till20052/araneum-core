@@ -53,6 +53,7 @@ sidebar:
     nav:
         DASHBOARD: "Панель администратора"
         USERS: "Пользователи"
+        LOCALES: "Локали"
         manager:
             CLUSTER: "Кластер"
             APPLICATION: "Приложения"
