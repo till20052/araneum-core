@@ -1,10 +1,10 @@
 (function () {
     angular
         .module('app.formBuilder')
-        .directive('formBuilder', ['$compile, fromBuilderFactory', function ($compile, formBuilderFactory) {
+        .directive('formBuilder', ['$compile', 'fromBuilderFactory', 'RouteHelpers', function ($compile, formBuilderFactory, RouteHelpers) {
             return {
                 restrict: 'AE',
-                template: '/assets/build/html/widget/from-builder.html',
+                template: RouteHelpers.basepath('widget/from-builder.html'),
                 link: function ($scope, element, attr) {
                     formBuilderFactory.setData($scope.elementsData);
                     element

@@ -89,6 +89,12 @@
                     return elementTemplate;
                 },
 
+                /**
+                 * Add attributes to input
+                 * @param el object with data
+                 * @param template base html template
+                 * @returns {*} html template
+                 */
                 addOptionsToInputElement: function (el, template) {
                     template.find('input').attr(el.attrs);
                     template.find('input').attr('name', el.name);
@@ -100,6 +106,9 @@
                     return template;
                 },
 
+                /**
+                 * add elements to array
+                 */
                 generateElementsTemplateArray: function () {
                     var elements = this.getFromArray(),
                         mass = [];
@@ -108,7 +117,6 @@
                         var el = this.getTemplateByElement(elements[elem]);
                         mass.push(el[0].outerHTML);
                     }
-
 
                     this.elementsTemplateArray = mass;
                 },
@@ -166,9 +174,9 @@
                             }
                         }
 
-                        if (!angular.isArray(formEl[el]['children'])) {
+                        if (angular.isObject(formEl[el]['children'])) {
                             for(var elem in formEl[el]['children']) {
-                                var currEl = formEl[el]['children'][elem]['vars'];
+                                currEl = formEl[el]['children'][elem]['vars'];
                                 elements[currEl.name] = {
                                     name: currEl.name,
                                     type: currEl.block_prefixes[1],
