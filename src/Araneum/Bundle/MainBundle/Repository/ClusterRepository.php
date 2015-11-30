@@ -17,7 +17,6 @@ class ClusterRepository extends EntityRepository
 	 *
 	 * @return array
 	 */
-
 	public function getClusterLoadAverage()
 	{
 		$qb = $this->createQueryBuilder('c');
