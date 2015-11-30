@@ -49,7 +49,7 @@
 			};
 
 			DashboardService.getStats().then(function(response){
-				vm.data = response.statistics.registered_customers;
+				vm.data = response.statistics.registeredCustomers;
 			});
 
 		})($scope);

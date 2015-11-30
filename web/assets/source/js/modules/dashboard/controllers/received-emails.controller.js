@@ -52,7 +52,7 @@
 			};
 
 			DashboardService.getStats().then(function(response){
-				vm.data = response.statistics.received_emails;
+				vm.data = response.statistics.receivedEmails;
 			});
 
 		})($scope);
