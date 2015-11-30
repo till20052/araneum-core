@@ -38,8 +38,8 @@ class DashboardController extends Controller
                 'clusterLoadAverage' => $statisticService->prepareResultForClusterAverage(),
                 'clusterUpTime' => $statisticService->prepareResultForClusterUpTime(),
                 'summary' => $statisticService->getSummary(),
-				'registered_customers' => $statisticService->getRegisteredCustomersFromApplications(),
-				'received_emails' => $statisticService->getReceivedEmailsFromApplications()
+				'registeredCustomers' => $statisticService->getRegisteredCustomersFromApplications(),
+				'receivedEmails' => $statisticService->getReceivedEmailsFromApplications()
             ]
         ];
 

@@ -92,7 +92,18 @@ class DashboardControllerTest extends BaseController
                         'problems'=>[],
                         'success' => [],
                         'disabled'  => []
-                    ]
+                    ],
+                    'clusterLoadAverage' => [],
+                    'clusterUpTime' => [],
+                    'summary' => [
+						'applications' => [],
+						'clusters' => [],
+						'admins' => [],
+						'connections' => [],
+						'locales' => []
+					],
+                    'registeredCustomers' => [],
+                    'receivedEmails' => []
                 ]
             ],
             json_decode($response->getContent())
