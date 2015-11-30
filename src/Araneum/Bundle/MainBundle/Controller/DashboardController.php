@@ -17,6 +17,12 @@ class DashboardController extends Controller
      *     "/manage/dashboard/data-source.json",
      *     name="araneum_admin_dashboard_getDataSource"
      * )
+	 *
+	 * @Route(
+	 *     "/dashboard/data-source.json",
+	 *     name="araneum_admin_dashboard_getDataSource_withoutSecurity"
+	 * )
+	 *
      * @return JsonResponse
      */
     public function getDataSourceAction()
@@ -30,7 +36,10 @@ class DashboardController extends Controller
                 'daylyApplications' => $statisticService->prepareResulForDaylyApplications(),
                 'daylyAverageStatuses' => $statisticService->prepareResultForDaylyAverageStatuses(),
                 'clusterLoadAverage' => $statisticService->prepareResultForClusterAverage(),
-                'clusterUpTime' => $statisticService->prepareResultForClusterUpTime()
+                'clusterUpTime' => $statisticService->prepareResultForClusterUpTime(),
+                'summary' => $statisticService->getSummary(),
+				'registered_customers' => $statisticService->getRegisteredCustomersFromApplications(),
+				'received_emails' => $statisticService->getReceivedEmailsFromApplications()
             ]
         ];
 
