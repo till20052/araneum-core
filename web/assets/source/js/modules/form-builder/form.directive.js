@@ -1,15 +1,16 @@
 (function () {
     angular
         .module('app.formBuilder')
-        .directive('formBuilder', ['$compile', 'fromBuilderFactory', 'RouteHelpers', function ($compile, formBuilderFactory, RouteHelpers) {
+        .directive('formBuilder', ['$compile', 'formBuilderFactory', 'RouteHelpers', function ($compile, formBuilderFactory, RouteHelpers) {
             return {
                 restrict: 'AE',
                 template: RouteHelpers.basepath('widget/from-builder.html'),
                 link: function ($scope, element, attr) {
-                    formBuilderFactory.setData($scope.elementsData);
+                    var builder = formBuilderFactory.getBuilder($scope);
+
                     element
-                        .find('form').attr(formBuilderFactory.getFormOptions())
-                        .append($compile(formBuilderFactory.buildForm())($scope));
+                        .find('form').attr(builder.getFormOptions())
+                        .append($compile(builder.buildForm())($scope));
                 }
             }
         }])

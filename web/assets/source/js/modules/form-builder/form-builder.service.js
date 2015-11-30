@@ -1,7 +1,7 @@
 (function () {
     angular
         .module('app.formBuilder')
-        .factory('fromBuilderFactory', function () {
+        .factory('fromBuilderService', function () {
             return {
                 templates : {
                     text: '<div class="form-group">' +
@@ -122,11 +122,11 @@
                 },
 
                 /**
-                 * Build form template by sorted from data
-                 * @params sorted elements array
+                 * @returns {string} html template string
                  */
-                buildForm: function (elements) {
+                buildForm: function () {
                     this.fromTemplate = this.elementsTemplateArray.join(' ');
+
                     return this.fromTemplate;
                 },
 
