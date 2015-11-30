@@ -41,7 +41,8 @@
 			'app.mailbox',
 			'app.utils',
 			'app.users',
-			'app.profile'
+			'app.profile',
+			'app.formBuilder'
 		]);
 })();
 
