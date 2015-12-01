@@ -69,7 +69,7 @@
 		// Initialize subView: Reset
 		(function (vm) {
 
-			var url = '/resetting/reset/' + $stateParams.token;
+			var url = '/manage/resetting/reset/' + $stateParams.token;
 			var csrfToken = {};
 			var fosUi = {
 				first: {label: 'form.new_password', name: '', full_name: '', ng: '', value: ''},
@@ -84,7 +84,7 @@
 			function onViewLoaded() {
 				vm.inLoading = true;
 				$http
-					.get(url)
+					.post(url)
 					.success(function (response) {
 						angular.forEach(response, function(ui){
 							if (ui.name == '_token') {
