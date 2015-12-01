@@ -8,8 +8,6 @@ manage_all:
 manage_index:
     defaults: {_controller:"AraneumMainBundle:Default:admin"}
     pattern: /manage
-    requirements:
-        path: .*
     condition: "!request.isXmlHttpRequest()"
 
 araneum_root:
@@ -22,7 +20,8 @@ araneum_root:
 araneum_user:
     resource: "@AraneumUserBundle/Controller/"
     type:     annotation
-    prefix:   /user
+    prefix:   /{slug}
+    defaults: {'slug': 'user'}
 
 araneum_agent:
     resource: "@AraneumAgentBundle/Controller"
