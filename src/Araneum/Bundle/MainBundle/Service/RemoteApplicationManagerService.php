@@ -201,7 +201,8 @@ class RemoteApplicationManagerService
             $code = $e->getCode();
         } catch (CurlException $e) {
             $response = new GuzzleResponse($e->getCode());
-            $response->setBody($e->getCurlHandle()->getErrorNo());
+            $response->setBody($e->getCurlHandle()->getError());
+            $response->setStatus($e->getCurlHandle()->getError());
             $code = $response->getStatusCode();
         } catch (\Exception $e) {
             $response = new GuzzleResponse($e->getCode());
