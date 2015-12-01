@@ -199,12 +199,11 @@ class RemoteApplicationManagerService
         } catch (BadResponseException $e) {
             $response = $e->getResponse();
             $code = $e->getCode();
-        }catch(CurlException $e){
+        } catch (CurlException $e) {
             $response = new GuzzleResponse($e->getCode());
             $response->setBody($e->getCurlHandle()->getErrorNo());
             $code = $response->getStatusCode();
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $response = new GuzzleResponse($e->getCode());
             $response->setBody($e->getMessage());
             $code = $response->getStatusCode();
@@ -221,6 +220,7 @@ class RemoteApplicationManagerService
             $logApplication = new AgentLoggerService($this->entityManager);
             $logApplication->logApplication($application, $code, new ArrayCollection([$problem]));
         }
+
         return $response->getBody(true);
     }
 
