@@ -353,7 +353,8 @@ class StatisticsService
 			->from('AraneumMainBundle:Locale', 'L')
 			->getDQL();
 
-		$summary = (object)$queryBuilder->select('(' . $applicationDQL . ') AS applications')
+		$summary = (object)$queryBuilder->select('Applications')
+			->addSelect('(' . $applicationDQL . ') AS applications')
 			->addSelect('(' . $clusterDQL . ') AS clusters')
 			->addSelect('(' . $userDQL . ') AS admins')
 			->addSelect('(' . $connectionDQL . ') AS connections')

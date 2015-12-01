@@ -18,6 +18,11 @@ class DashboardController extends Controller
      *     name="araneum_admin_dashboard_getDataSource"
      * )
 	 *
+	 * @Route(
+	 *     "/dashboard/data-source.json",
+	 *     name="araneum_admin_dashboard_getDataSource_withoutSecurity"
+	 * )
+	 *
      * @return JsonResponse
      */
     public function getDataSourceAction()
