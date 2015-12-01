@@ -78,7 +78,7 @@
 			 * @param e
 			 */
 			function onTableClickEvent(e) {
-				var tag = $(e.target)
+				var tag = $(e.target);
 				if (tag.attr('type') == 'checkbox') {
 					if (tag.attr('rel') == 'select-all') {
 						$('tbody input[type="checkbox"]', $(tag.parents('table').eq(0)))
