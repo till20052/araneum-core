@@ -118,7 +118,11 @@ class LocaleFilterType extends AbstractType
         );
     }
 
-
+    /**
+     * Get enable options
+     *
+     * @return array
+     */
     public function getEnables()
     {
         return [
