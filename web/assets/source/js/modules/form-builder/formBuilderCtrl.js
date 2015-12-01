@@ -1,9 +1,18 @@
 (function () {
+    'use strict';
+
     angular
         .module('app.formBuilder')
-        .controller('FormBuilderCtrl', ['$scope', '$state', 'formDataService', function($scope, $state, formDataService) {
-            var formJsonUrl = $state.initialize,
-                formData = formDataService.getFromDataFromUrl(formJsonUrl);
-                $scope.filterFormData = formData.filter || {};
-        }]);
+        .controller('FormBuilderCtrl', FormBuilderController);
+
+    FormBuilderController.$inject = ['$state', 'formDataService'];
+
+    function FormBuilderController($state, formDataService) {
+        var vm = this,
+            formJsonUrl = $state.initialize,
+            formData = formDataService.getFromDataFromUrl(formJsonUrl);
+
+        vm.filterFormData = formData.filter || {};
+    }
+
 })();

@@ -11,53 +11,13 @@
          Filters
       </h3>
    </div>
-   <form method="get" ng-controller="FormDemoCtrl as form" class="form-horizontal">
+   <form method="get" ng-controller="FormBuilderCtrl as vm" class="form-horizontal">
       <div collapse="filters.panel" class="panel-wrapper">
          <div class="panel-body pb">
             <div class="row">
                <div class="col-lg-10">
                   <div class="row">
-                     <div class="col-lg-6">
-                        <div class="form-group">
-                           <label for="input-id-1" class="col-sm-4 control-label">Label focus</label>
-                           <div class="col-sm-8">
-                              <input id="input-id-1" type="text" class="form-control" />
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-lg-6">
-                        <div class="form-group">
-                           <label class="col-sm-4 control-label">Select</label>
-                           <div class="col-sm-8">
-                              <select name="account" class="form-control">
-                                 <option>Option 1</option>
-                                 <option>Option 2</option>
-                                 <option>Option 3</option>
-                                 <option>Option 4</option>
-                              </select>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-lg-6">
-                        <div class="form-group">
-                           <label class="col-sm-4 control-label">Chosen Ajax</label>
-                           <div class="col-sm-8">
-                              <select chosen="" ng-model="state" ng-options="s for s in form.states" width="'100%'" class="chosen-select input-md">
-                                 <option value=""></option>
-                              </select>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-lg-6">
-                        <div class="form-group">
-                           <label class="col-sm-4 control-label">Chosen Ajax</label>
-                           <div class="col-sm-8">
-                              <select chosen="" ng-model="state" ng-options="s for s in form.states" width="'100%'" class="chosen-select input-md">
-                                 <option value=""></option>
-                              </select>
-                           </div>
-                        </div>
-                     </div>
+
                   </div>
                </div>
                <div class="col-lg-2 text-center">
