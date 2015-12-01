@@ -55,7 +55,7 @@ class AdminLocaleControllerTest extends BaseController
 	{
 		$this->client->request(
 			Request::METHOD_GET,
-			$this->router->generate('araneum-admin-locales-init'),
+			$this->router->generate('araneum_manage_locales_init'),
 			[],
 			[],
 			['HTTP_X-Requested-With' => 'XMLHttpRequest']
@@ -79,7 +79,7 @@ class AdminLocaleControllerTest extends BaseController
 	{
 		$this->client->request(
 			Request::METHOD_GET,
-			$this->router->generate('araneum-admin-locales-datatable'),
+			$this->router->generate('araneum_manage_locales_grid'),
 			[],
 			[],
 			['HTTP_X-Requested-With' => 'XMLHttpRequest']
