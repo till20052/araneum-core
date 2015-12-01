@@ -104,8 +104,7 @@ class DashboardControllerTest extends BaseController
                     'receivedEmails' => []
                 ]
             ],
-            json_decode($response->getContent()),
-			$response->getContent()
+            json_decode($response->getContent())
         );
     }
 }

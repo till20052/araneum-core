@@ -9,6 +9,7 @@
 
 		(function (vm) {
 
+			vm.error = '';
 			vm.data = [];
 			vm.options = {
 				series: {
@@ -50,6 +51,8 @@
 
 			DashboardService.getStats().then(function(response){
 				vm.data = response.statistics.registeredCustomers;
+			}).then(function(error){
+				vm.error = error
 			});
 
 		})($scope);
