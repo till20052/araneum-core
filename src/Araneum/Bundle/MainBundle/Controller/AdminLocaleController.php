@@ -22,16 +22,16 @@ class AdminLocaleController extends Controller
 		$filter = $this->get('araneum_main.locale.filter.form');
 		$code = JsonResponse::HTTP_OK;
 
-		try {
+//		try {
 			$initializer->setFilters($filter);
 			$initializer->setGrid(
 				new LocaleDataTableList($this->container),
 				$this->generateUrl('araneum_manage_locales_grid')
 			);
-		} catch (\Exception $exception) {
-			$code = JsonResponse::HTTP_INTERNAL_SERVER_ERROR;
-			$initializer->setError($exception);
-		}
+//		} catch (\Exception $exception) {
+//			$code = JsonResponse::HTTP_INTERNAL_SERVER_ERROR;
+//			$initializer->setError($exception);
+//		}
 
 		return new JsonResponse($initializer->get(), $code);
 	}
