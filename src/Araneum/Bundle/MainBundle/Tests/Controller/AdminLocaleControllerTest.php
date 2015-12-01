@@ -67,7 +67,7 @@ class AdminLocaleControllerTest extends BaseController
 		$this->assertTrue($response->isSuccessful());
 		$this->assertObjectsStructuresEquals(
 			(object)[
-				'datatable' => [
+				'grid' => [
 					'columns' => []
 				]
 			],
