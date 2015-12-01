@@ -16,7 +16,7 @@ class LocaleFilterType extends AbstractType
     private $doctrine;
 
     /**
-     * Doctrine
+     * Container
      *
      * @var
      */

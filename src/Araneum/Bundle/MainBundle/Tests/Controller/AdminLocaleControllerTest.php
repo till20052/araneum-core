@@ -75,6 +75,9 @@ class AdminLocaleControllerTest extends BaseController
 		);
 	}
 
+	/**
+	 * Test datatable
+	 */
 	public function testDatatableAction()
 	{
 		$this->client->request(
