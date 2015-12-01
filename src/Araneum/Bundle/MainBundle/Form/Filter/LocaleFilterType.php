@@ -68,7 +68,7 @@ class LocaleFilterType extends AbstractType
             'filter_choice',
             [
                 'label' => 'Enabled',
-                'choices' => $this->getEnables(),
+                'choices' => Locale::$enable,
                 'empty_value' => 'Choose line',
             ]
         )
@@ -116,18 +116,5 @@ class LocaleFilterType extends AbstractType
                 ]
             ]
         );
-    }
-
-    /**
-     * Get enable options
-     *
-     * @return array
-     */
-    public function getEnables()
-    {
-        return [
-            true => 'Enabled',
-            false => 'Disabled'
-        ];
     }
 }

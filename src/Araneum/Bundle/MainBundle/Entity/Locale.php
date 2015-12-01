@@ -30,6 +30,11 @@ class Locale
         self::ORIENT_RGT_TO_LFT => 'Right to Left'
     ];
 
+    static $enable = [
+        true => 'Enabled',
+        false => 'Disabled'
+    ];
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
