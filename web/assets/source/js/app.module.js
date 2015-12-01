@@ -43,7 +43,8 @@
 			'app.utils',
 			'app.users',
 			'app.profile',
-			'app.locales'
+			'app.locales',
+			'app.formBuilder'
 		]);
 })();
 
