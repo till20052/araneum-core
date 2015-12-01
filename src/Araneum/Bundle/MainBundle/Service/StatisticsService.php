@@ -353,13 +353,14 @@ class StatisticsService
 			->from('AraneumMainBundle:Locale', 'L')
 			->getDQL();
 
-		$summary = (object)$queryBuilder->select('Applications')
-			->addSelect('(' . $applicationDQL . ') AS applications')
+		$summary = (object)$queryBuilder
+			->select('(' . $applicationDQL . ') AS applications')
 			->addSelect('(' . $clusterDQL . ') AS clusters')
 			->addSelect('(' . $userDQL . ') AS admins')
 			->addSelect('(' . $connectionDQL . ') AS connections')
 			->addSelect('(' . $localeDQL . ') AS locales')
 			->from('AraneumMainBundle:Application', 'Applications')
+			->setMaxResults(1)
 			->getQuery()
 			->getOneOrNullResult();
 
@@ -379,7 +380,7 @@ class StatisticsService
 	 */
 	public function getRegisteredCustomersFromApplications()
 	{
-		$customers= $this->entityManager
+		$customers = $this->entityManager
 			->getRepository('AraneumAgentBundle:Customer')
 			->getRegisteredCustomersFromApplications();
 
