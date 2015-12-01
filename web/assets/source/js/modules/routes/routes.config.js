@@ -36,11 +36,18 @@
 				templateUrl: helper.basepath('dashboard.html'),
 				resolve: helper.resolveFor('flot-chart', 'flot-chart-plugins', 'chartjs', 'ngDialog')
 			})
+			.state('app.locales', {
+				url: '/locales',
+				templateUrl: helper.basepath('locales.html'),
+				resolve: helper.resolveFor('datatables', 'whirl')
+			})
 			.state('app.table-ngtable', {
 				url: '/table-ngtable',
 				templateUrl: helper.basepath('table-ngtable.html'),
-				resolve: angular.extend(helper.resolveFor('ngDialog','datatables', 'localytics.directives', 'oitozero.ngSweetAlert'),{
-					tpl: function() { return { path: helper.basepath('ngdialog-template.html') }; }
+				resolve: angular.extend(helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert'), {
+					tpl: function () {
+						return {path: helper.basepath('ngdialog-template.html')};
+					}
 				})
 			})
 			.state('login', {

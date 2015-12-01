@@ -45,7 +45,7 @@ class DashboardControllerTest extends BaseController
         /** @var Client client */
         $this->client = self::createClient();
 
-        /** @var Router router */
+        /** @var router router */
         $this->router = $this->client
             ->getContainer()
             ->get('router');
