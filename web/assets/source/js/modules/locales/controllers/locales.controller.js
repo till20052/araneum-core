@@ -39,7 +39,7 @@
 										]);
 								}, response.aaData);
 								callback(response);
-								$('td').each(function () {
+								$('.dataTable td').each(function () {
 									$(this).addClass('bb0 bl0');
 								});
 
