@@ -26,7 +26,7 @@ class AraneumDatatable extends Datatable
 	 *
 	 * @return array
 	 */
-	public function getColumns()
+	public function getFieldLabels()
 	{
 		$fields = $this->getFields();
 

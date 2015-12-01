@@ -1,8 +1,10 @@
 services:
+    araneum_authentication:
+        class: Araneum\Base\Symfony\Security\AuthenticationEntryPoint
+
     araneum_datatable:
         class: Araneum\Base\Ali\DatatableBundle\Util\AraneumDatatable
         arguments: [@service_container, @araneum_datatable.query_bilder]
-        scope: prototype
 
     araneum_datatable.query_bilder:
         class: Araneum\Base\Ali\DatatableBundle\Util\Factory\Query\AraneumDoctrineBuilder
@@ -12,8 +14,15 @@ services:
 
     araneum_datatable.factory:
         class: Araneum\Base\Ali\DatatableBundle\Util\Factory\DatatableFactory
-        scope: prototype
         arguments: [@araneum_datatable, @doctrine, @templating, @annotation_reader, @security.token_storage]
 
     araneum.base.form.handler:
         class: Araneum\Base\Service\FormHandlerService
+
+    araneum.form_exporter.service:
+        class: Araneum\Base\Service\FromExporterService
+        arguments: [@jms_serializer, @form.factory]
+
+    araneum.admin.initializer.service:
+        class: Araneum\Base\Service\AdminInitializerService
+        arguments: [@araneum.form_exporter.service, @araneum_datatable.factory]
