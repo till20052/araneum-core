@@ -10,7 +10,7 @@
 
 		<div class="panel-body" ng-class="{'whirl traditional': inLoading}">
 
-			<p class="text-center pv">SIGN IN TO CONTINUE.</p>
+			<p class="text-center pv" >SIGN IN TO CONTINUE.</p>
 
 			<form role="form" ng-submit="submit()" name="form" novalidate="" class="form-validate mb-lg">
 
@@ -27,8 +27,8 @@
 						class="form-control"
 					/>
 					<span class="fa fa-envelope form-control-feedback text-muted"></span>
-					<span ng-show="form.username.$dirty && form.username.$error.required" class="text-danger">This field is required</span>
-					<span ng-show="form.username.$dirty && form.username.$error.username" class="text-danger">This field must be a valid username address</span>
+					<span ng-show="form.username.$dirty && form.username.$error.required" class="text-danger" translate="validator.FIELD_REQUIRED">This field is required</span>
+					<span ng-show="form.username.$dirty && form.username.$error.username" class="text-danger" translate="validator.NOT_VALID_EMAIL">This field must be a valid username address</span>
 				</div>
 
 				<div class="form-group has-feedback">
@@ -41,20 +41,20 @@
 							class="form-control"
 					/>
 					<span class="fa fa-lock form-control-feedback text-muted"></span>
-					<span ng-show="form.password.$dirty && form.password.$error.required" class="text-danger">This field is required</span>
+					<span ng-show="form.password.$dirty && form.password.$error.required" class="text-danger" translate="validator.FIELD_REQUIRED">This field is required</span>
 				</div>
 
 				<div class="clearfix">
 					<div class="checkbox c-checkbox pull-left mt0">
-						<label>
+						<label translate="user.REMEMBER_ME">
 							<input type="checkbox" value="" name="remember" ng-model="remember" checked="{{ remember ? 'checked' : false }}" />
 							<span class="fa fa-check"></span>Remember Me
 						</label>
 					</div>
-					<div class="pull-right"><a ui-sref="resetting" class="text-muted">Forgot your password?</a></div>
+					<div class="pull-right"><a ui-sref="resetting" class="text-muted" translate="user.FORGOT_YOU_PASSWORD">Forgot your password?</a></div>
 				</div>
 
-				<button ng-disabled="submitDisabled" type="submit" class="btn btn-block btn-primary mt-lg">Login</button>
+				<button ng-disabled="submitDisabled" type="submit" class="btn btn-block btn-primary mt-lg" translate="user.LOGIN">Login</button>
 
 			</form>
 

@@ -1,4 +1,4 @@
-<h3>
+<h3 translate="locales.LOCALES">
 	<em class="fa fa-language mr"></em>
 	Locales
 </h3>
@@ -8,7 +8,7 @@
 	<div id="filters.panel" class="panel panel-default">
 		<div class="panel-heading">
 			<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-			<h3 class="panel-title">
+			<h3 class="panel-title" translate="general.FILTERS">
 				<em class="fa fa-filter mr-sm"></em>
 				Filters
 			</h3>
@@ -21,7 +21,7 @@
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="form-group">
-										<label for="input-id-1" class="col-sm-4 control-label">Label focus</label>
+										<label for="input-id-1" class="col-sm-4 control-label" translate="general.LABEL_FOCUS">Label focus</label>
 
 										<div class="col-sm-8">
 											<input id="input-id-1" type="text" class="form-control"/>
@@ -30,7 +30,7 @@
 								</div>
 								<div class="col-lg-6">
 									<div class="form-group">
-										<label class="col-sm-4 control-label">Select</label>
+										<label class="col-sm-4 control-label" translate="general.SELECT">Select</label>
 
 										<div class="col-sm-8">
 											<select name="account" class="form-control"></select>
@@ -42,11 +42,11 @@
 						<div class="col-lg-2 text-center">
 							<fieldset>
 								<div class="form-group">
-									<button type="submit" class="btn btn-default">
+									<button type="submit" class="btn btn-default" translate="general.RESET">
 										<em class="icon-refresh mr-sm"></em>
 										Reset
 									</button>
-									<button type="submit" class="btn btn-primary">
+									<button type="submit" class="btn btn-primary" translate="general.SEARCH">
 										<em class="icon-magnifier mr-sm"></em>
 										Search
 									</button>
@@ -69,22 +69,22 @@
 				</button>
 				<ul role="menu" class="dropdown-menu dropdown-menu-right">
 					<li>
-						<a href="#">
+						<a href="#" translate="locales.EDIT_LOCALES">
 							<em class="icon-note mr-sm"></em>
-							Edit user
+							Edit locale
 						</a>
 					</li>
 					<li class="divider"></li>
 					<li>
-						<a href="#">
+						<a href="#" translate="locales.ENABLED">
 							<em class="icon-lock-open mr-sm"></em>
 							Enable
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="#" translate="locales.DISABLED">
 							<em class="icon-lock mr-sm"></em>
-							Disable user
+							Disable
 						</a>
 					</li>
 					<li class="divider"></li>
@@ -118,7 +118,7 @@
 			<div class="row mt-sm mb0">
 
 				<div class="col-xs-6">
-					<h3 class="panel-title mt">
+					<h3 class="panel-title mt" translate="general.DATA_LIST">
 						<em class="icon-layers mr-sm"></em>
 						Data list
 					</h3>
@@ -126,25 +126,25 @@
 
 				<div class="col-xs-6">
 					<div class="btn-group pull-right">
-						<button type="button" class="btn btn-sm btn-danger" tooltip="Delete users">
+						<button type="button" class="btn btn-sm btn-danger" tooltip="{{'locales.DELETE_LOCALE' | translate}}">
 							<em class="icon-user-unfollow"></em>
 						</button>
 					</div>
-					<div class="btn-group pull-right mr">
+<!--					<div class="btn-group pull-right mr">
 						<button type="button" class="btn btn-sm btn-primary" tooltip="Reset password">
 							<em class="icon-key"></em>
 						</button>
-					</div>
+					</div> -->
 					<div class="btn-group pull-right mr">
-						<button type="button" class="btn btn-sm btn-default" tooltip="Enable users">
+						<button type="button" class="btn btn-sm btn-default" tooltip="{{'locales.ENABLE_LOCALE' | translate}}">
 							<em class="icon-lock-open"></em>
 						</button>
-						<button type="button" class="btn btn-sm btn-default" tooltip="Disable users">
+						<button type="button" class="btn btn-sm btn-default" tooltip="{{'locales.DISABLE_LOCALE' | translate}}">
 							<em class="icon-lock"></em>
 						</button>
 					</div>
 					<div class="btn-group pull-right mr">
-						<button type="button" class="btn btn-sm btn-success" tooltip="Add new user">
+						<button type="button" class="btn btn-sm btn-success" tooltip="{{'locales.CREATE_NEW' | translate}}">
 							<em class="icon-user-follow"></em>
 						</button>
 					</div>

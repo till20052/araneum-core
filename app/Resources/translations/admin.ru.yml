@@ -69,3 +69,36 @@ sidebar:
         received:
             CUSTOMER: "Участники"
             EMAIL: "Emails"
+locales:
+    LOCALES: 'Локали'
+    EDIT_LOCALE: 'Редактирование локали'
+    DELETE_LOCALE: 'Удалить локаль'
+    ENABLE_LOCALE: 'Активировать локаль'
+    DISABLE_LOCALE: 'Сделать локаль не активной'
+    CREATE_NEW: 'Создать локаль'
+user:
+    EDIT_PROFILE: 'Редактирование профиля'
+    LOGIN: 'Логин'
+    FULLNAME: 'Полное имя'
+    PASSWORD_RESET: 'Сброс пароля'
+    FILL_EMAIL: 'Заполните поле email и получите на почту дальнешие инструкции'
+    NAME_OR_EMAIL: 'Имя или email'
+    SIGN_IN: 'Войти'
+    CONFIRM_AS_PASSWORD: 'Поля пароль и подтверждение пароля должны совпадать'
+    SIGN_IN_TO_CONTINUE: 'Для продолжения необходимо войти в систему'
+    REMEMBER_ME: 'Запомнить меня'
+    FORGOT_YOU_PASSWORD: 'Забыли пароль?'
+validator:
+    FIELD_REQUIRED: 'Поле не должно быть пустым'
+    NOT_VALID_EMAIL: 'Не правильно введен E-mail'
+general:
+    SAVE: 'Сохранить'
+    CANCEL: 'Отмена'
+    RESET: 'Сброс'
+    FILTERS: 'Фильтры'
+    LABEL_FOCUS: 'Строка для поиска'
+    SELECT: 'Выберите'
+    SEARCH: 'Поиск'
+    ENABLED: 'Активно'
+    DISABLED: 'Неактивно'
+    DATA_LIST: 'Список'
