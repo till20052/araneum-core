@@ -18,6 +18,11 @@ security:
                 realm: "Araneum.Core API secure"
             stateless: true
 
+        manage:
+            pattern: ^/manage
+            anonymous: ~
+            entry_point: araneum_authentication
+
         main:
             pattern: ^/
             form_login:
