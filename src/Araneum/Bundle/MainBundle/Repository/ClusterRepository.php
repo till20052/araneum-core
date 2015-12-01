@@ -37,7 +37,7 @@ class ClusterRepository extends EntityRepository
 					'start' => date('Y-m-d H:i:s', time() - 86400),
 					'end' => date('Y-m-d H:i:s', time())
 				]
-			);
+			)->setMaxResults(4);
 
 		$result = $qb->getQuery()->getResult();
 		return $result;
