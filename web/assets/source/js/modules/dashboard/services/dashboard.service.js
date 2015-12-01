@@ -26,6 +26,7 @@
         var service = {
             appendSpinkit: appendSpinkit,
             refreshStats: function() {
+                console.log(123);
                 // $http returns a promise, so we don't need to create one with $q
                 promise = $http.get(dataSourceUrl)
                     .then(function(res) {
