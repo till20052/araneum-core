@@ -5,6 +5,8 @@ namespace Araneum\Base\Service;
 
 class AdminInitializerService
 {
+    private $datatableFactory;
+
     private $formExporter;
 
     private $filter;
@@ -19,10 +21,12 @@ class AdminInitializerService
      * AdminInitializerService constructor.
      *
      * @param $formExporter
+     * @param $datatableFactory
      */
-    public function __construct($formExporter)
+    public function __construct($formExporter, $datatableFactory)
     {
         $this->formExporter = $formExporter;
+        $this->datatableFactory = $datatableFactory;
     }
 
     /**
@@ -32,11 +36,17 @@ class AdminInitializerService
      */
     public function get()
     {
-        return [
+        $result = [
             'filter' => $this->filter,
             'action' => $this->action,
             'grid' => $this->grid
         ];
+
+        if(count($this->error)) {
+            $result['errors'] = $this->error;
+        }
+
+        return $result;
     }
 
     /**
@@ -47,7 +57,9 @@ class AdminInitializerService
      */
     public function setFilters($filter)
     {
-        return $this->filter = $this->formExporter->get($filter);
+        $this->filter = $this->formExporter->get($filter);
+
+        return $this;
     }
 
     /**
@@ -58,18 +70,26 @@ class AdminInitializerService
      */
     public function setActions($action)
     {
-        return $this->action = $action;
+        $this->action = $action;
+
+        return $this;
     }
 
     /**
      * Set grid
      *
-     * @param $grid
-     * @return mixed
+     * @param $gridType
+     * @param $source
+     * @return $this
      */
-    public function setGrid($grid)
+    public function setGrid($gridType, $source)
     {
-        return $this->grid = $grid;
+        $this->grid = [
+            'columns' => $this->datatableFactory->create($gridType)->getFieldLabels(),
+            'source' => $source,
+        ];
+
+        return $this;
     }
 
     /**

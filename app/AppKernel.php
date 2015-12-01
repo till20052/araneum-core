@@ -34,6 +34,7 @@ class AppKernel extends Kernel
 	        new Misd\GuzzleBundle\MisdGuzzleBundle(),
             new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),
             new Ali\DatatableBundle\AliDatatableBundle(),
+            new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
 
             new Araneum\Bundle\MainBundle\AraneumMainBundle(),
             new Araneum\Bundle\UserBundle\AraneumUserBundle(),
