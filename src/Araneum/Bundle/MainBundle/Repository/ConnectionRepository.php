@@ -89,11 +89,9 @@ class ConnectionRepository extends EntityRepository
             ->join('conn.clusters', 'clu')
             ->join('clu.applications', 'app')
             ->where('app.appKey = :appKey')
-            ->setParameters(
-                [
-                    'appKey' => $appKey
-                ]
-            );
+            ->setParameters([
+                'appKey' => $appKey
+            ]);
 
         return $qb->getQuery()->getResult();
     }

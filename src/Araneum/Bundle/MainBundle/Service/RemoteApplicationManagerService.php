@@ -67,7 +67,7 @@ class RemoteApplicationManagerService
     /**
      * Remote application handler constructor
      *
-     * @param Client             $client
+     * @param Client $client
      * @param ContainerInterface $container
      */
     public function __construct(Client $client, ContainerInterface $container)
@@ -188,43 +188,38 @@ class RemoteApplicationManagerService
      */
     public function sendRequest($host, $uri, $header, $body, $params, $method, Application $application = null)
     {
+        $code = null;
+
         try {
             $response = $this
                 ->client
                 ->createRequest($method, 'http://' . $host . $uri, $header, $body, $params)
                 ->send();
+            $code = $response->getStatusCode();
         } catch (BadResponseException $e) {
             $response = $e->getResponse();
-        } catch (\Exception $e){
+            $code = $e->getCode();
+        }catch(CurlException $e){
+            $response = new GuzzleResponse($e->getCode());
+            $response->setBody($e->getCurlHandle()->getErrorNo());
+            $code = $response->getStatusCode();
+        }
+        catch (\Exception $e) {
             $response = new GuzzleResponse($e->getCode());
             $response->setBody($e->getMessage());
+            $code = $response->getStatusCode();
         }
 
-        if(!is_null($application)){
+        if (!is_null($application)) {
 
-            if(in_array($response->getStatusCode(), range(200, 400))){
-                $application->setStatus(0);
-            }else{
-                $application->setStatus(100);
-            }
-
-            if($response->getStatusCode() != 0){
-                $code = $response->getStatusCode();
-            }elseif(isset($e) && $e->getCode()!=0){
-                $code =$e->getCode();
-            }elseif(isset($e) && $e->getCurlHandle()->getErrorNo() !=0){
-                $code =$e->getCurlHandle()->getErrorNo();
-            }
-            else{
-                $code = $application->getStatus();
-            }
+            $application->setStatus($response->isSuccessful() ? 0 : 100);
 
             $problem = new Problem();
             $problem->setStatus($code);
             $problem->setDescription($response->getMessage());
 
             $logApplication = new AgentLoggerService($this->entityManager);
-            $logApplication->logApplication($application, $application->getStatus(), new ArrayCollection([$problem]));
+            $logApplication->logApplication($application, $code, new ArrayCollection([$problem]));
         }
         return $response->getBody(true);
     }
