@@ -12,5 +12,23 @@ use Doctrine\ORM\EntityRepository;
  */
 class CustomerRepository extends EntityRepository
 {
+	public function getRegisteredCustomersFromApplications()
+	{
+		$qb = $this->createQueryBuilder('C');
 
+		return $qb->select('A.name', 'DATE_PART(hour, C.createdAt) AS hours', 'COUNT(C) AS customers')
+			->leftJoin('C.application', 'A')
+			->where(
+				$qb->expr()->between('C.createdAt', ':start', ':end')
+			)
+			->groupBy('hours', 'A.name')
+			->setParameters(
+				[
+					'start' => date('Y-m-d H:i:s', time() - 86400),
+					'end' => date('Y-m-d H:i:s', time())
+				]
+			)
+			->getQuery()
+			->getResult();
+	}
 }

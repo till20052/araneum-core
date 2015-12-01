@@ -43,7 +43,7 @@
 					}
 				}, vm.statistics);
 			}).then(function(error){
-				//vm.error = error
+				vm.error = error
 			});
 
 		})($scope);

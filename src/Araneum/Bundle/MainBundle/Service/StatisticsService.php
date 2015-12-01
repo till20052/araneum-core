@@ -378,23 +378,9 @@ class StatisticsService
 	 */
 	public function getRegisteredCustomersFromApplications()
 	{
-		$qb = $this->entityManager->createQueryBuilder();
-
-		$customers = $qb->select('A.name', 'DATE_PART(hour, C.createdAt) AS hours', 'COUNT(C) AS customers')
-			->from('AraneumAgentBundle:Customer', 'C')
-			->leftJoin('C.application', 'A')
-			->where(
-				$qb->expr()->between('C.createdAt', ':start', ':end')
-			)
-			->groupBy('hours', 'A.name')
-			->setParameters(
-				[
-					'start' => date('Y-m-d H:i:s', time() - 86400),
-					'end' => date('Y-m-d H:i:s', time())
-				]
-			)
-			->getQuery()
-			->getResult();
+		$customers= $this->entityManager
+			->getRepository('AraneumAgentBundle:Customer')
+			->getRegisteredCustomersFromApplications();
 
 		$data = [];
 		foreach ($customers as $customer) {
@@ -433,23 +419,9 @@ class StatisticsService
 	 */
 	public function getReceivedEmailsFromApplications()
 	{
-		$qb = $this->entityManager->createQueryBuilder();
-
-		$emails = $qb->select('A.name', 'DATE_PART(hour, C.createdAt) AS hours', 'COUNT(C) AS customers')
-			->from('AraneumMailBundle:Mail', 'C')
-			->leftJoin('C.application', 'A')
-			->where(
-				$qb->expr()->between('C.createdAt', ':start', ':end')
-			)
-			->groupBy('hours', 'A.name')
-			->setParameters(
-				[
-					'start' => date('Y-m-d H:i:s', time() - 86400),
-					'end' => date('Y-m-d H:i:s', time())
-				]
-			)
-			->getQuery()
-			->getResult();
+		$emails = $this->entityManager
+			->getRepository('AraneumMailBundle:Mail')
+			->getReceivedEmailsFromApplications();
 
 		$data = [];
 		foreach ($emails as $email) {

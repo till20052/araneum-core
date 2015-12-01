@@ -68,7 +68,7 @@ class DashboardControllerTest extends BaseController
         /** @var Response $response */
         $response = $this->client->getResponse();
 
-        $this->assertTrue($response->isSuccessful());
+        $this->assertTrue($response->isSuccessful(), $response->getContent());
         $this->assertObjectsStructuresEquals(
             (object)[
                 'statistics' => (object)[
@@ -104,7 +104,8 @@ class DashboardControllerTest extends BaseController
                     'receivedEmails' => []
                 ]
             ],
-            json_decode($response->getContent())
+            json_decode($response->getContent()),
+			$response->getContent()
         );
     }
 }
