@@ -3,8 +3,12 @@
 namespace Araneum\Bundle\MainBundle\Service;
 
 use Araneum\Base\Tests\Fixtures\User\UserFixtures;
+use Araneum\Bundle\AgentBundle\Entity\Problem;
+use Araneum\Bundle\AgentBundle\Service\AgentLoggerService;
 use Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
+use Guzzle\Http\Exception\BadResponseException;
 use Guzzle\Http\Message\Request;
 use Guzzle\Service\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -12,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Guzzle\Http\Exception\CurlException;
 use Guzzle\Http\Message\Response as GuzzleResponse;
 use Symfony\Component\Yaml\Yaml;
+use Araneum\Bundle\MainBundle\Entity\Application;
 
 class RemoteApplicationManagerService
 {
@@ -62,7 +67,7 @@ class RemoteApplicationManagerService
     /**
      * Remote application handler constructor
      *
-     * @param Client             $client
+     * @param Client $client
      * @param ContainerInterface $container
      */
     public function __construct(Client $client, ContainerInterface $container)
@@ -178,18 +183,43 @@ class RemoteApplicationManagerService
      * @param $body
      * @param $params
      * @param $method
+     * @param Application $application
      * @return \Exception|CurlException|GuzzleResponse
      */
-    public function sendRequest($host, $uri, $header, $body, $params, $method)
+    public function sendRequest($host, $uri, $header, $body, $params, $method, Application $application = null)
     {
+        $code = null;
+
         try {
             $response = $this
                 ->client
                 ->createRequest($method, 'http://' . $host . $uri, $header, $body, $params)
                 ->send();
-
+            $code = $response->getStatusCode();
+        } catch (BadResponseException $e) {
+            $response = $e->getResponse();
+            $code = $e->getCode();
+        } catch (CurlException $e) {
+            $response = new GuzzleResponse($e->getCode());
+            $response->setBody($e->getCurlHandle()->getError());
+            $response->setStatus($e->getCurlHandle()->getError());
+            $code = $response->getStatusCode();
         } catch (\Exception $e) {
-            return false;
+            $response = new GuzzleResponse($e->getCode());
+            $response->setBody($e->getMessage());
+            $code = $response->getStatusCode();
+        }
+
+        if (!is_null($application)) {
+
+            $application->setStatus($response->isSuccessful() ? 0 : 100);
+
+            $problem = new Problem();
+            $problem->setStatus($code);
+            $problem->setDescription($response->getMessage());
+
+            $logApplication = new AgentLoggerService($this->entityManager);
+            $logApplication->logApplication($application, $code, new ArrayCollection([$problem]));
         }
 
         return $response->getBody(true);
@@ -239,7 +269,7 @@ class RemoteApplicationManagerService
         $clusterId = ['id' => $application->getCluster()->getId()];
 
         $request = [
-            'name' => $application->getName(),
+            'application_name' => $application->getName(),
             'domain' => $application->getDomain(),
             'template' => $application->getTemplate(),
             'cluster' => $clusterId,
@@ -254,7 +284,7 @@ class RemoteApplicationManagerService
             $uri .= $application->getDomain();
         }
 
-        $response = $this->sendRequest($connection->getHost(), $uri, null, $request, $this->params, $method);
+        $response = $this->sendRequest($connection->getHost(), $uri, null, $request, $this->params, $method, $application);
 
         return $response;
     }

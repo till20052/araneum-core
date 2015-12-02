@@ -13,33 +13,40 @@ class AdminLocaleController extends Controller
 	/**
 	 * Locales module initialization
 	 *
-	 * @Route("/admin/locales/init.json", name="araneum-admin-locales-init")
+	 * @Route("/manage/locales/init.json", name="araneum_manage_locales_init")
 	 * @return JsonResponse
 	 */
 	public function initAction()
 	{
-		return new JsonResponse(
-			[
-				'datatable' => [
-					'columns' => $this->get('araneum_datatable.factory')
-						->create(new LocaleDataTableList())
-						->getColumns()
-				]
-			]
-		);
+		$initializer = $this->get('araneum.admin.initializer.service');
+		$filter = $this->get('araneum_main.locale.filter.form');
+		$code = JsonResponse::HTTP_OK;
+
+		try {
+			$initializer->setFilters($filter);
+			$initializer->setGrid(
+				new LocaleDataTableList($this->container),
+				$this->generateUrl('araneum_manage_locales_grid')
+			);
+		} catch (\Exception $exception) {
+			$code = JsonResponse::HTTP_INTERNAL_SERVER_ERROR;
+			$initializer->setError($exception);
+		}
+
+		return new JsonResponse($initializer->get(), $code);
 	}
 
 	/**
 	 * Server/client datatable communication
 	 *
-	 * @Route("/admin/locales/datatable.json", name="araneum-admin-locales-datatable")
+	 * @Route("/manage/locales/datatable.json", name="araneum_manage_locales_grid")
 	 * @return JsonResponse
 	 */
 	public function datatableAction()
 	{
 		return $this
 			->get('araneum_datatable.factory')
-			->create(new LocaleDataTableList())
+			->create(new LocaleDataTableList($this->container))
 			->execute();
 	}
 }

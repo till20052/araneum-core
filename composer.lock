@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1db470b2f90ddc8f6ced2d386e25faa3",
-    "content-hash": "b6de4fdd213a3e58f5ba2f062e0a74e7",
+    "hash": "a87a138826338b00b4bda1c4b867a679",
+    "content-hash": "52ae82157ff7fa24679f6fd5a37d82e7",
     "packages": [
         {
             "name": "ali/datatable",
@@ -2006,6 +2006,65 @@
                 "minification"
             ],
             "time": "2015-08-31 19:07:16"
+        },
+        {
+            "name": "lexik/form-filter-bundle",
+            "version": "v4.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lexik/LexikFormFilterBundle.git",
+                "reference": "d6081d308b71e14509602722c78d28801e4ed78a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lexik/LexikFormFilterBundle/zipball/d6081d308b71e14509602722c78d28801e4ed78a",
+                "reference": "d6081d308b71e14509602722c78d28801e4ed78a",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": "~2.2",
+                "php": ">=5.3.2",
+                "symfony/form": "~2.7",
+                "symfony/framework-bundle": "~2.7"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.x.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lexik\\Bundle\\FormFilterBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dev Lexik",
+                    "email": "dev@lexik.fr"
+                },
+                {
+                    "name": "Cedric Girard",
+                    "email": "c.girard@lexik.fr"
+                }
+            ],
+            "description": "This bundle aim to provide classes to build some form filters and then build a doctrine query from this form filter.",
+            "homepage": "https://github.com/lexik/LexikFormFilterBundle",
+            "keywords": [
+                "Symfony2",
+                "bundle",
+                "doctrine",
+                "filter",
+                "form"
+            ],
+            "time": "2015-10-20 12:45:52"
         },
         {
             "name": "lexik/maintenance-bundle",

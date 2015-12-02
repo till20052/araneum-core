@@ -11,6 +11,30 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 class LocaleDataTableList extends AbstractList
 {
 	/**
+	 * Query Builder
+	 *
+	 * @var
+	 */
+	private $queryBuilder;
+
+	/**
+	 * Container
+	 *
+	 * @var
+	 */
+	private $container;
+
+	/**
+	 * UserDatatableList constructor.
+	 *
+	 * @param $container
+	 */
+	public function __construct($container)
+	{
+		$this->container = $container;
+	}
+
+	/**
 	 * Build the list
 	 *
 	 * @param ListBuilderInterface $builder
@@ -42,15 +66,29 @@ class LocaleDataTableList extends AbstractList
 	/**
 	 * Create query builder
 	 *
-	 * @param Registry $doctrine
-	 * @param          $user
+	 * @param $doctrine
 	 * @return \Ali\DatatableBundle\Util\Factory\Query\QueryInterface
 	 */
-	public function createQueryBuilder(Registry $doctrine, $user = null)
+	public function createQueryBuilder($doctrine)
 	{
 		/** @var LocaleRepository $repository */
 		$repository = $doctrine->getRepository($this->getEntityClass());
+		if(empty($this->queryBuilder)) {
+			$this->queryBuilder = $repository->getQueryBuilder();
 
-		return $repository->getQueryBuilder();
+			$filters = $this->container->get('form.factory')->create(
+				$this->container->get('araneum_main.locale.filter.form')
+			);
+
+			if ($this->container->get('request')->query->has($filters->getName())) {
+				$filters->submit($this->container->get('request')->query->get($filters->getName()));
+				$this->container->get('lexik_form_filter.query_builder_updater')->addFilterConditions(
+						$filters,
+						$this->queryBuilder
+				);
+			}
+		}
+
+		return $this->queryBuilder;
 	}
 }
