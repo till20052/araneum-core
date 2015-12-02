@@ -2,6 +2,8 @@
 
 namespace Araneum\Bundle\MainBundle\Service;
 
+use Araneum\Bundle\AgentBundle\Repository\CustomerRepository;
+use Araneum\Bundle\MailBundle\Repository\MailRepository;
 use Araneum\Bundle\MainBundle\Repository\ApplicationRepository;
 use Araneum\Bundle\AgentBundle\Repository\ApplicationLogRepository;
 use Araneum\Bundle\MainBundle\Repository\ClusterRepository;
@@ -331,9 +333,13 @@ class StatisticsService
 	 */
 	public function getRegisteredCustomersFromApplications()
 	{
-		return $this->getChartStructure($this->entityManager
-			->getRepository('AraneumAgentBundle:Customer')
-			->getRegisteredCustomersFromApplications(), 'customers');
+		/** @var CustomerRepository $repository */
+		$repository = $this->entityManager->getRepository('AraneumAgentBundle:Customer');
+
+		return [
+			'count' => $repository->count(),
+			'data' => $this->getChartStructure($repository->getRegisteredCustomersFromApplications(), 'customers')
+		];
 	}
 
 	/**
@@ -343,9 +349,13 @@ class StatisticsService
 	 */
 	public function getReceivedEmailsFromApplications()
 	{
-		return $this->getChartStructure($this->entityManager
-				->getRepository('AraneumMailBundle:Mail')
-				->getReceivedEmailsFromApplications(), 'emails');
+		/** @var MailRepository $repository */
+		$repository = $this->entityManager->getRepository('AraneumMailBundle:Mail');
+
+		return [
+			'count' => $repository->count(),
+			'data' => $this->getChartStructure($repository->getReceivedEmailsFromApplications(), 'emails')
+		];
 	}
 
 	/**

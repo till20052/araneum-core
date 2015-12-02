@@ -17,6 +17,7 @@
 
 			vm.error = '';
 			vm.data = [];
+			vm.count = 0;
 			vm.options = {
 				series: {
 					lines: {
@@ -56,7 +57,8 @@
 			};
 
 			DashboardService.onDataLoaded(function(response){
-				vm.data = response.data.statistics.receivedEmails;
+				vm.count = response.data.statistics.receivedEmails.count;
+				vm.data = response.data.statistics.receivedEmails.data;
 			}, function(error){
 				vm.error = error
 			});
