@@ -7,12 +7,17 @@ use Araneum\Base\Service\Actions\ActionBuilderInterface;
 
 class LocaleActions extends AbstractActions
 {
+    /**
+     * Build locale actions
+     *
+     * @param ActionBuilderInterface $builder
+     */
     public function buildActions(ActionBuilderInterface $builder)
     {
         $builder->add(
             'deleteGroup',
             [
-                'resource' => 'deleteLocaleActionRoute', //example!!! plz change in AC-228
+                'resource' => 'araneum_root', //example!!! plz change in AC-228
                 'callback' => 'deleteRow',
                 'confirm' => [
                     'title' => 'Are you sure?',
