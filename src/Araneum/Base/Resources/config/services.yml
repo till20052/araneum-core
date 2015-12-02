@@ -25,7 +25,7 @@ services:
 
     araneum.admin.initializer.service:
         class: Araneum\Base\Service\AdminInitializerService
-        arguments: [@araneum.form_exporter.service, @araneum_datatable.factory]
+        arguments: [@araneum.form_exporter.service, @araneum_datatable.factory, @araneum.action.factory]
 
     araneum.action.factory:
         class: Araneum\Base\Service\Actions\ActionFactory
