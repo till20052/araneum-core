@@ -25,6 +25,16 @@ class Locale
     const ORIENT_RGT_TO_LFT = 2;
     const LOC_TO_STR        = 'Create';
 
+    static $orientations = [
+        self::ORIENT_LFT_TO_RGT => 'Left to Right',
+        self::ORIENT_RGT_TO_LFT => 'Right to Left'
+    ];
+
+    static $enable = [
+        true => 'Enabled',
+        false => 'Disabled'
+    ];
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

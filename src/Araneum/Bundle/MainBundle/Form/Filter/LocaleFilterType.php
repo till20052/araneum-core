@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Form\Filter;
 
+use Araneum\Bundle\MainBundle\Entity\Locale;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -49,6 +50,44 @@ class LocaleFilterType extends AbstractType
                 'label' => 'Name',
                 'attr' => [
                     'placeholder' => 'Enter locale name'
+                ],
+            ]
+        )
+        ->add(
+            'locale',
+            'filter_text',
+            [
+                'label' => 'Locale',
+                'attr' => [
+                    'placeholder' => 'Enter locale'
+                ],
+            ]
+        )
+        ->add(
+            'enabled',
+            'filter_choice',
+            [
+                'label' => 'Enabled',
+                'choices' => Locale::$enable,
+                'empty_value' => 'Choose line',
+            ]
+        )
+        ->add(
+            'orientation',
+            'filter_choice',
+            [
+                'label' => 'Orientation',
+                'choices' => Locale::$orientations,
+                'empty_value' => 'Choose line',
+            ]
+        )
+        ->add(
+            'encoding',
+            'filter_text',
+            [
+                'label' => 'Encoding',
+                'attr' => [
+                    'placeholder' => 'Enter encoding'
                 ],
             ]
         );
