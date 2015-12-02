@@ -2,7 +2,6 @@
 
 namespace Araneum\Base\Service;
 
-
 use Araneum\Base\Ali\DatatableBundle\Util\Factory\DatatableFactory;
 use Araneum\Base\Service\Actions\AbstractActions;
 use Araneum\Base\Service\Actions\ActionFactory;
