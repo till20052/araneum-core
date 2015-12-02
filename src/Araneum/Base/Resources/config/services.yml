@@ -25,3 +25,11 @@ services:
     araneum.admin.initializer.service:
         class: Araneum\Base\Service\AdminInitializerService
         arguments: [@araneum.form_exporter.service]
+
+    araneum.action.factory:
+        class: Araneum\Base\Service\Actions\ActionFactory
+        arguments: [@araneum.action.builder]
+
+    araneum.action.builder:
+        class: Araneum\Base\Service\Actions\ActionBuilder
+        arguments: [@router]
