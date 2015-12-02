@@ -52,9 +52,9 @@
 				shadowSize: 0
 			};
 
-			DashboardService.getStats().then(function(response){
-				vm.data = response.statistics.receivedEmails;
-			}).then(function(error){
+			DashboardService.onDataLoaded(function(response){
+				vm.data = response.data.statistics.receivedEmails;
+			}, function(error){
 				vm.error = error
 			});
 

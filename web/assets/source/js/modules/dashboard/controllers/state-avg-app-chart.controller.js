@@ -69,17 +69,17 @@
 
             $scope.onLoading = true;
 
-            DashboardService.getStats().then(function (data) {
+            DashboardService.onDataLoaded(function (response) {
 
                 $scope.onLoading = false;
 
                 angular.forEach(['success', 'problems', 'errors', 'disabled'], function(value, i){
-                    this[i].data = data.statistics.daylyAverageStatuses[value];
+                    this[i].data = response.data.statistics.daylyAverageStatuses[value];
                 }, $scope.lineData);
 
-            }, function (res) {
+            }, function (error) {
                 $scope.onLoading = false;
-                $scope.errors.push('No data load:'+res.statusText);
+                $scope.errors.push('No data load: '+error.statusText);
             });
         }
 

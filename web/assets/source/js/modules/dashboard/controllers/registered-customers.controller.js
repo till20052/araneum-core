@@ -49,9 +49,10 @@
 				shadowSize: 0
 			};
 
-			DashboardService.getStats().then(function(response){
-				vm.data = response.statistics.registeredCustomers;
-			}).then(function(error){
+			DashboardService.onDataLoaded(function(response){
+				console.log(response);
+				vm.data = response.data.statistics.registeredCustomers;
+			}, function(error){
 				vm.error = error
 			});
 

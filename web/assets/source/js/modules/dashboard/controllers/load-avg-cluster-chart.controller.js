@@ -63,12 +63,13 @@
 
 			$scope.onLoading = true;
 
-			DashboardService.getStats().then(function (data) {
+			DashboardService.onDataLoaded(function (response) {
+				var data = response.data;
 				$scope.onLoading = false;
 				$scope.splineData = data.statistics.clusterLoadAverage;
-			}, function (res) {
+			}, function (error) {
 				$scope.onLoading = false;
-				$scope.errors.push('No data load:' + res.statusText);
+				$scope.errors.push('No data load:' + error.statusText);
 			});
 		}
 

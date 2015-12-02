@@ -52,12 +52,12 @@
 
 			$scope.onLoading = true;
 
-			DashboardService.getStats().then(function (data) {
+			DashboardService.onDataLoaded(function (response) {
 				$scope.onLoading = false;
-				$scope.barData = data.statistics.clusterUpTime;
-			}, function (res) {
+				$scope.barData = response.data.statistics.clusterUpTime;
+			}, function (error) {
 				$scope.onLoading = false;
-				$scope.errors.push('No data load:' + res.statusText);
+				$scope.errors.push('No data load:' + error.statusText);
 			});
 		}
 

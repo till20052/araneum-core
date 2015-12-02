@@ -36,13 +36,13 @@
 				}
 			};
 
-			DashboardService.getStats().then(function(response){
-				ng.forEach(response.statistics.summary, function(value, key){
+			DashboardService.onDataLoaded(function(response){
+				ng.forEach(response.data.statistics.summary, function(value, key){
 					if(typeof this[key] != 'undefined'){
 						this[key].value = value;
 					}
 				}, vm.statistics);
-			}).then(function(error){
+			}, function(error){
 				vm.error = error
 			});
 
