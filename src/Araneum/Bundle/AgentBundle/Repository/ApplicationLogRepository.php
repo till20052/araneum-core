@@ -16,7 +16,6 @@ use Doctrine\DBAL\Types\Type;
  */
 class ApplicationLogRepository extends EntityRepository
 {
-
     /**
      * get statistics average
      *
