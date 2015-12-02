@@ -6,6 +6,14 @@
         .controller('DashboardController', DashboardController);
 
     DashboardController.$inject = ['$scope', 'DashboardService'];
+
+	/**
+	 * Dashboard Controller
+     *
+     * @param $scope
+     * @param DashboardService
+     * @constructor
+     */
     function DashboardController($scope, DashboardService) {
 
         /**

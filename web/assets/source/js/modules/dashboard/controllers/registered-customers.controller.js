@@ -5,6 +5,13 @@
 		.controller('RegisteredCustomersController', RegisteredCustomersController);
 
 	RegisteredCustomersController.$inject = ['$scope', 'DashboardService'];
+
+	/**
+	 * Registered Customer Controller
+	 * @param $scope
+	 * @param DashboardService
+	 * @constructor
+	 */
 	function RegisteredCustomersController($scope, DashboardService) {
 
 		/**

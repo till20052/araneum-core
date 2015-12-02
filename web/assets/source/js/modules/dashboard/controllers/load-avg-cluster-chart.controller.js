@@ -7,6 +7,13 @@
 
 	ClusterLoadAverageController.$inject = ['$scope', 'DashboardService'];
 
+	/**
+	 * Cluster Load Average Controller
+	 *
+	 * @param $scope
+	 * @param DashboardService
+	 * @constructor
+	 */
 	function ClusterLoadAverageController($scope, DashboardService) {
 
 		/**

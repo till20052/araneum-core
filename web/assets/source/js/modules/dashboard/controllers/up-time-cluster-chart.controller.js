@@ -7,6 +7,13 @@
 
 	UpTimeClusterController.$inject = ['$scope', 'DashboardService'];
 
+	/**
+	 * Up Time Cluster Controller
+	 *
+	 * @param $scope
+	 * @param DashboardService
+	 * @constructor
+	 */
 	function UpTimeClusterController($scope, DashboardService) {
 
 		/**

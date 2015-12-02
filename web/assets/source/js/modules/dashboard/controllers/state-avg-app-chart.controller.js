@@ -7,6 +7,13 @@
 
     StateAvgAppChartController.$inject = ['$scope', 'DashboardService'];
 
+	/**
+     * State Average Application Chart Controller
+     *
+     * @param $scope
+     * @param DashboardService
+     * @constructor
+     */
     function StateAvgAppChartController($scope, DashboardService) {
 
         /**

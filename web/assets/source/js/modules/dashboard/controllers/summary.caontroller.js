@@ -5,6 +5,14 @@
 		.controller('SummaryDashboardController', SummaryDashboardController);
 
 	SummaryDashboardController.$inject = ['$scope', 'DashboardService'];
+
+	/**
+	 * Summary Dashboard Controller
+	 *
+	 * @param $scope
+	 * @param DashboardService
+	 * @constructor
+	 */
 	function SummaryDashboardController($scope, DashboardService) {
 
 		/**

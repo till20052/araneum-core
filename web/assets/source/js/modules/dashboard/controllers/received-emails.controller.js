@@ -8,6 +8,14 @@
 		.controller('ReceivedEmailsController', ReceivedEmailsController);
 
 	ReceivedEmailsController.$inject = ['$scope', 'DashboardService'];
+
+	/**
+	 * Received Emails Controller
+	 *
+	 * @param $scope
+	 * @param DashboardService
+	 * @constructor
+	 */
 	function ReceivedEmailsController($scope, DashboardService) {
 
 		/**
