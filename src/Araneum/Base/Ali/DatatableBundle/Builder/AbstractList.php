@@ -18,11 +18,10 @@ abstract class AbstractList
     /**
      * Create query builder
      *
-     * @param Registry $doctrine
-     * @param User     $user
+     * @param $doctrine
      * @return \Ali\DatatableBundle\Util\Factory\Query\QueryInterface
      */
-    public function createQueryBuilder(Registry $doctrine, $user = null)
+    public function createQueryBuilder($doctrine)
     {
     }
 
