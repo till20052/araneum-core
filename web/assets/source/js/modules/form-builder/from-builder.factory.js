@@ -1,22 +1,22 @@
-(function () {
+(function() {
     angular
-        .module('app.formBuilderFactory', ['formBuildFiltersService', function(formBuildFiltersService) {
+        .module('app.formBuilder')
+        .factory('formBuilderFactory', ['formBuildFiltersService', function(formBuildFiltersService) {
             return {
                 builder: undefined,
 
                 /**
-                 * get service with data
-                 * @param scope
+                 * Get service with data
+                 * @param {string} type type of form
                  * @returns {*} form builder service
                  */
-                getBuilder: function(scope) {
-                    if (scope.hasOwnProperty('filterFormData')) {
+                getBuilder: function(type) {
+                    if (type === 'filter') {
                         this.builder = formBuildFiltersService;
-                        this.builder.setData(scope.filterFormData);
                     }
 
                     return this.builder;
                 }
             };
-        }])
+        }]);
 })();

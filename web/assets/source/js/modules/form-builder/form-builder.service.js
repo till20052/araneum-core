@@ -29,6 +29,11 @@
                  */
                 setData: function (data) {
                     this.data = data;
+                    
+                    if ($.isEmptyObject(data)) {
+                        return false;
+                    }
+
                     this.convertDataToArray();
                 },
 
@@ -125,6 +130,10 @@
                  * @returns {string} html template string
                  */
                 buildForm: function () {
+                    if (this.elementsTemplateArray.length === undefined) {
+                        return '';
+                    }
+
                     this.fromTemplate = this.elementsTemplateArray.join(' ');
 
                     return this.fromTemplate;
@@ -159,6 +168,7 @@
                     options.name = this.data.vars.name;
                     options.id = this.data.vars.id;
                     options.attrs = this.data.vars.attr;
+                    options.action = this.data.vars.action;
                     this.setFormOptions(options);
                     for (var el in formEl) {
                         var currEl = formEl[el]['vars'];
@@ -208,6 +218,30 @@
                  */
                 getFormOptions: function () {
                     return this.formOptions;
+                },
+
+                /**
+                 * Add Buttons to From
+                 */
+                getButtonsForForm: function() {
+                    var templateButtons = '<div class="col-lg-2 text-center">' +
+                        '<fieldset>'+
+                        '<div class="form-group">' +
+                        '<button type="submit" class="btn btn-default" id="reset">' +
+                        '<em class="icon-refresh mr-sm"></em>' +
+                        'Reset' +
+                        '</button>' +
+                        '<button type="submit" class="btn btn-primary" id="search">' +
+                        '<em class="icon-magnifier mr-sm"></em>' +
+                        'Search' +
+                        '</button>' +
+                        '</div>' +
+                        '</fieldset>' +
+                        '</div>';
+                    var action = this.getFormOptions().action;
+                    templateButtons = $(templateButtons);
+                    $(templateButtons).find('#search').attr('ng-click', 'vm.search(' + action + ')' );
+                    return templateButtons[0].outerHTML;
                 }
             }
         });

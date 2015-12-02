@@ -43,6 +43,7 @@
 			})
 			.state('app.table-ngtable', {
 				url: '/table-ngtable',
+				initialize: 'http://core.vk.araneum.dev/manage/locales/init.json',
 				templateUrl: helper.basepath('table-ngtable.html'),
 				resolve: angular.extend(helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert'), {
 					tpl: function () {

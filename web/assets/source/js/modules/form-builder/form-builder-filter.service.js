@@ -34,25 +34,6 @@
                 '</div>'
             };
 
-            /**
-             * @returns {string} html template string
-             */
-            formBuilderFilters.buildForm = function () {
-                console.log(this.elementsTemplateArray);
-                var elMass = this.elementsTemplateArray;
-                elMass.push('</div>');
-                elMass.push('</div>');
-                elMass.push('</div>');
-                elMass.push('</div>');
-                elMass.unshift('<div class=row>');
-                elMass.unshift('<div class=col-lg10>');
-                elMass.unshift('<div class=row>');
-                elMass.unshift('<div class="panel-body pb">');
-                this.fromTemplate = elMass.join(' ');
-
-                return this.fromTemplate;
-            };
-
             return formBuilderFilters;
-        }])
+        }]);
 })();

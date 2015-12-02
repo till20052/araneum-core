@@ -1,4 +1,4 @@
-(function () {
+(function() {
     angular
         .module('app.formBuilder')
         .factory('formDataService', ['$resource', function($resource) {
@@ -6,15 +6,17 @@
                 data: undefined,
 
                 /**
-                 * get data for form from server
-                 * @param url route with form data
+                 * Get data for form from server
+                 * @param {string} url route with form data
                  * @returns {json} JSON
                  */
-                getFromDataFromUrl: function (url) {
-                    this.data = $resource(url);
+                getFromDataFromUrl: function(url) {
+                    this.data = $resource(url, {}, {
+                        method: 'GET'
+                    }).get();
 
                     return this.data;
                 }
-            }
+            };
         }]);
 })();

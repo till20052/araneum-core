@@ -11,16 +11,16 @@
          Filters
       </h3>
    </div>
-   <form method="get" ng-controller="FormBuilderCtrl as vm" class="form-horizontal">
+   <div ng-controller="FormBuilderCtrl as vm" class="form-horizontal">
       <div collapse="filters.panel" class="panel-wrapper">
          <div class="panel-body pb">
             <div class="row">
                <div class="col-lg-10">
                   <div class="row">
-
+                     <form-builder data-item="filter" ng-model="vm.formObj"></form-builder>
                   </div>
                </div>
-               <div class="col-lg-2 text-center">
+               <!--<div class="col-lg-2 text-center">
                   <fieldset>
                      <div class="form-group">
                         <button type="submit" class="btn btn-default">
@@ -33,11 +33,11 @@
                         </button>
                      </div>
                   </fieldset>
-               </div>
+               </div>-->
             </div>
          </div>
       </div>
-   </form>
+   </div>
 </div>
 <div class="panel panel-default">
    <div class="panel-heading pb0">
