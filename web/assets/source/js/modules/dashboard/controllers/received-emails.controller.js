@@ -10,6 +10,9 @@
 	ReceivedEmailsController.$inject = ['$scope', 'DashboardService'];
 	function ReceivedEmailsController($scope, DashboardService) {
 
+		/**
+		 * Constructor
+		 */
 		(function (vm) {
 
 			vm.error = '';

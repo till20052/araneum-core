@@ -9,9 +9,10 @@
 
     function StateAvgAppChartController($scope, DashboardService) {
 
-        activate();
-
-        function activate() {
+        /**
+         * Constructor
+         */
+        (function () {
             $scope.lineData = [{
                 "label": "Success",
                 "color": "#27c24c",
@@ -81,7 +82,7 @@
                 $scope.onLoading = false;
                 $scope.errors.push('No data load: '+error.statusText);
             });
-        }
+        })();
 
     }
 })();

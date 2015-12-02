@@ -7,11 +7,11 @@
 
     DashboardController.$inject = ['$scope', 'DashboardService'];
     function DashboardController($scope, DashboardService) {
-        var vm = this;
 
-        activate();
-
-        function activate() {
+        /**
+         * Constructor
+         */
+        (function () {
 
             DashboardService
                 .appendSpinkit()
@@ -34,6 +34,6 @@
             $scope.$on('panel-removed', function (event, id) {
                 console.log('Panel #' + id + ' removed');
             });
-        }
+        })();
     }
 })();

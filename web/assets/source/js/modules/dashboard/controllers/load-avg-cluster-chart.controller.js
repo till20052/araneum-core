@@ -9,9 +9,10 @@
 
 	function ClusterLoadAverageController($scope, DashboardService) {
 
-		activate();
-
-		function activate() {
+		/**
+		 * Constructor
+		 */
+		(function () {
 
 			$scope.splineData = [];
 
@@ -71,7 +72,7 @@
 				$scope.onLoading = false;
 				$scope.errors.push('No data load:' + error.statusText);
 			});
-		}
+		})();
 
 	}
 })();

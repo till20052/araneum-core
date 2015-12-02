@@ -8,9 +8,11 @@
     AppStatusesChartController.$inject = ['Colors', '$scope', 'DashboardService'];
 
     function AppStatusesChartController(Colors, $scope, DashboardService) {
-        activate();
 
-        function activate(){
+		/**
+		 * Constructor
+		 */
+        (function(){
             $scope.barData = {
                 labels:  [],
                 datasets : [
@@ -81,7 +83,7 @@
                 $scope.onLoading = false;
                 $scope.errors.push('No data load:' + error.statusText);
             });
-        }
+        })();
     }
 
 

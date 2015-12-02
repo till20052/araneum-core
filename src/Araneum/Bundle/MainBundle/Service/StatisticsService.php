@@ -218,63 +218,7 @@ class StatisticsService
 	 */
 	public function prepareResultForClusterAverage()
 	{
-		$clusterLoadAverage = $this->getClusterLoadAverage();
-
-		$resultArray = [];
-		$currentCluster = [
-			'label' => '',
-			'color' => $this->getColor(),
-			'data' => $this->hours
-		];
-
-		$name = null;
-
-		foreach ($clusterLoadAverage as $cluster) {
-			if ($currentCluster['label'] != $cluster['name']) {
-
-				if (!is_null($name)) {
-					array_push($resultArray, $currentCluster);
-				}
-
-				$name = $cluster['name'];
-				$currentCluster = [
-					'label' => $name,
-					'color' => $this->getColor(),
-					'data' => $this->hours
-				];
-
-				if (!is_null($cluster['hours'])) {
-
-					if ($cluster['hours'] <= 9) {
-						$cluster['hours'] = "0" . $cluster['hours'];
-					}
-
-					$currentCluster['data'][$cluster['hours']] = round($cluster['apt']);
-				}
-
-			} else {
-				if (!is_null($cluster['hours'])) {
-
-					if ($cluster['hours'] <= 9) {
-						$cluster['hours'] = "0" . $cluster['hours'];
-					}
-
-					$currentCluster['data'][$cluster['hours']] = round($cluster['apt']);
-				}
-			}
-		}
-
-		array_push($resultArray, $currentCluster);
-
-		foreach ($resultArray as &$array) {
-			$data = $array['data'];
-			$array['data'] = [];
-			foreach ($data as $key => $value) {
-				array_push($array['data'], [(string)$key, $value]);
-			}
-		}
-
-		return $resultArray;
+		return $this->getChartStructure($this->getClusterLoadAverage(), 'apt');
 	}
 
 	/**
@@ -320,57 +264,64 @@ class StatisticsService
 	 */
 	public function getSummary()
 	{
-		/** @var QueryBuilder $qb */
-		$queryBuilder = $this->entityManager->createQueryBuilder();
-
-		$applicationDQL = $this->entityManager
-			->createQueryBuilder()
-			->select('COUNT(A)')
-			->from('AraneumMainBundle:Application', 'A')
-			->getDQL();
-
-		$clusterDQL = $this->entityManager
-			->createQueryBuilder()
-			->select('COUNT(CL)')
-			->from('AraneumMainBundle:Cluster', 'CL')
-			->getDQL();
-
-		$userDQL = $this->entityManager
-			->createQueryBuilder()
-			->select('COUNT(U)')
-			->from('AraneumUserBundle:User', 'U')
-			->getDQL();
-
-		$connectionDQL = $this->entityManager
-			->createQueryBuilder()
-			->select('COUNT(CN)')
-			->from('AraneumMainBundle:Connection', 'CN')
-			->getDQL();
-
-		$localeDQL = $this->entityManager
-			->createQueryBuilder()
-			->select('COUNT(L)')
-			->from('AraneumMainBundle:Locale', 'L')
-			->getDQL();
-
-		$summary = (object)$queryBuilder
-			->select('(' . $applicationDQL . ') AS applications')
-			->addSelect('(' . $clusterDQL . ') AS clusters')
-			->addSelect('(' . $userDQL . ') AS admins')
-			->addSelect('(' . $connectionDQL . ') AS connections')
-			->addSelect('(' . $localeDQL . ') AS locales')
-			->from('AraneumMainBundle:Application', 'Applications')
-			->setMaxResults(1)
-			->getQuery()
-			->getOneOrNullResult();
-
 		return [
-			'applications' => $summary->applications,
-			'clusters' => $summary->clusters,
-			'admins' => $summary->admins,
-			'connections' => $summary->connections,
-			'locales' => $summary->locales
+			'applications' => $this->entityManager
+					->getRepository('AraneumMainBundle:Application')
+					->count(),
+			'clusters' => $this->entityManager
+					->getRepository('AraneumMainBundle:Cluster')
+					->count(),
+			'admins' => $this->entityManager
+					->getRepository('AraneumUserBundle:User')
+					->count(),
+			'connections' => $this->entityManager
+					->getRepository('AraneumMainBundle:Connection')
+					->count(),
+			'locales' => $this->entityManager
+					->getRepository('AraneumMainBundle:Locale')
+					->count()
 		];
+	}
+
+	/**
+	 * Init chart structure
+	 *
+	 * @param array $list
+	 * @param string $countField
+	 * @return array
+	 */
+	private function getChartStructure(array $list, $countField = 'cnt')
+	{
+		$data = [];
+
+		foreach ($list as $item) {
+			if (!isset($data[$item['name']])) {
+				$data[$item['name']] = [
+					'label' => $item['name'],
+					'color' => $this->getColor(),
+					'data' => $this->hours
+				];
+			}
+
+			$key = $item['hours'];
+			if ($key < 10) {
+				$key = '0' . $key;
+			}
+
+			$data[$item['name']]['data'][$key] = round($item[$countField]);
+		}
+
+		$data = array_values($data);
+
+		foreach ($data as &$item) {
+			$token = [];
+			foreach ($item['data'] as $key => $val) {
+				$token[] = [$key, $val];
+			}
+			$item['data'] = $token;
+		}
+
+		return array_values($data);
 	}
 
 	/**
@@ -380,38 +331,9 @@ class StatisticsService
 	 */
 	public function getRegisteredCustomersFromApplications()
 	{
-		$customers = $this->entityManager
+		return $this->getChartStructure($this->entityManager
 			->getRepository('AraneumAgentBundle:Customer')
-			->getRegisteredCustomersFromApplications();
-
-		$data = [];
-		foreach ($customers as $customer) {
-			if (!isset($data[$customer['name']])) {
-				$data[$customer['name']] = [
-					'label' => $customer['name'],
-					'color' => $this->getColor(),
-					'data' => $this->hours
-				];
-			}
-
-			$key = $customer['hours'];
-			if ($key < 10) {
-				$key = '0' . $key;
-			}
-
-			$data[$customer['name']]['data'][$key] = $customer['customers'];
-		}
-
-		$data = array_values($data);
-		foreach ($data as &$item) {
-			$token = [];
-			foreach ($item['data'] as $key => $val) {
-				$token[] = [$key, $val];
-			}
-			$item['data'] = $token;
-		}
-
-		return array_values($data);
+			->getRegisteredCustomersFromApplications(), 'customers');
 	}
 
 	/**
@@ -421,38 +343,9 @@ class StatisticsService
 	 */
 	public function getReceivedEmailsFromApplications()
 	{
-		$emails = $this->entityManager
-			->getRepository('AraneumMailBundle:Mail')
-			->getReceivedEmailsFromApplications();
-
-		$data = [];
-		foreach ($emails as $email) {
-			if (!isset($data[$email['name']])) {
-				$data[$email['name']] = [
-					'label' => $email['name'],
-					'color' => $this->getColor(),
-					'data' => $this->hours
-				];
-			}
-
-			$key = $email['hours'];
-			if ($key < 10) {
-				$key = '0' . $key;
-			}
-
-			$data[$email['name']]['data'][$key] = $email['customers'];
-		}
-
-		$data = array_values($data);
-		foreach ($data as &$item) {
-			$token = [];
-			foreach ($item['data'] as $key => $val) {
-				$token[] = [$key, $val];
-			}
-			$item['data'] = $token;
-		}
-
-		return array_values($data);
+		return $this->getChartStructure($this->entityManager
+				->getRepository('AraneumMailBundle:Mail')
+				->getReceivedEmailsFromApplications(), 'emails');
 	}
 
 	/**

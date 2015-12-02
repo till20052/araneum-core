@@ -9,9 +9,10 @@
 
 	function UpTimeClusterController($scope, DashboardService) {
 
-		activate();
-
-		function activate() {
+		/**
+		 * Constructor
+		 */
+		(function () {
 
 			$scope.barData = [];
 			$scope.barOptions = {
@@ -59,7 +60,7 @@
 				$scope.onLoading = false;
 				$scope.errors.push('No data load:' + error.statusText);
 			});
-		}
+		})();
 
 	}
 })();

@@ -7,6 +7,9 @@
 	RegisteredCustomersController.$inject = ['$scope', 'DashboardService'];
 	function RegisteredCustomersController($scope, DashboardService) {
 
+		/**
+		 * Constructor
+		 */
 		(function (vm) {
 
 			vm.error = '';

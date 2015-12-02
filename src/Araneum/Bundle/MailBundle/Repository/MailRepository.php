@@ -19,12 +19,12 @@ class MailRepository extends EntityRepository
 	 */
 	public function getReceivedEmailsFromApplications()
 	{
-		$qb = $this->createQueryBuilder('C');
+		$qb = $this->createQueryBuilder('M');
 
-		return $qb->select('A.name', 'DATE_PART(hour, C.createdAt) AS hours', 'COUNT(C) AS customers')
-			->leftJoin('C.application', 'A')
+		return $qb->select('A.name', 'DATE_PART(hour, M.createdAt) AS hours', 'COUNT(M) AS emails')
+			->leftJoin('M.application', 'A')
 			->where(
-				$qb->expr()->between('C.createdAt', ':start', ':end')
+				$qb->expr()->between('M.createdAt', ':start', ':end')
 			)
 			->groupBy('hours', 'A.name')
 			->setParameters(
