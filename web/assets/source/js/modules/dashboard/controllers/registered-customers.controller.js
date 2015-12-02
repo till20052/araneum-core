@@ -56,6 +56,7 @@
 			DashboardService.onDataLoaded(function(response){
 				vm.count = response.data.statistics.registeredCustomers.count;
 				vm.data = response.data.statistics.registeredCustomers.data;
+				DashboardService.assignColorsByLabel(vm.data);
 			}, function(error){
 				vm.error = error
 			});

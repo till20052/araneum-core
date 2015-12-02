@@ -59,6 +59,7 @@
 			DashboardService.onDataLoaded(function(response){
 				vm.count = response.data.statistics.receivedEmails.count;
 				vm.data = response.data.statistics.receivedEmails.data;
+				DashboardService.assignColorsByLabel(vm.data);
 			}, function(error){
 				vm.error = error
 			});
