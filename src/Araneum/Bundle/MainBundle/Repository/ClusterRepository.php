@@ -46,9 +46,10 @@ class ClusterRepository extends EntityRepository
 	/**
 	 * Get statistics of cluster statuses last 24 hours
 	 *
+	 * @param int $maxResults
 	 * @return array
 	 */
-	public function getClusterUpTime()
+	public function getClusterUpTime($maxResults = 4)
 	{
 		$qb = $this->createQueryBuilder('c');
 
@@ -73,7 +74,7 @@ class ClusterRepository extends EntityRepository
 					'end' => date('Y-m-d H:i:s', time())
 				]
 			)
-			->setMaxResults(4);
+			->setMaxResults($maxResults);
 
 		$result = $qb->getQuery()->getResult();
 

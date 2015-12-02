@@ -12,6 +12,11 @@ use Doctrine\ORM\EntityRepository;
  */
 class CustomerRepository extends EntityRepository
 {
+	/**
+	 * Get Registered Customers
+	 *
+	 * @return array
+	 */
 	public function getRegisteredCustomersFromApplications()
 	{
 		$qb = $this->createQueryBuilder('C');

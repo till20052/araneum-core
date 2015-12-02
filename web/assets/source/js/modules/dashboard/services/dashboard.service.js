@@ -6,6 +6,14 @@
 
 	DashboardService.$inject = ['$http', '$q'];
 
+	/**
+	 * Dashboard Service
+	 *
+	 * @param $http
+	 * @param $q
+	 * @returns {{appendSpinkit: appendSpinkit, onDataLoaded: onDataLoaded, loadData: loadData, refreshData: refreshData}}
+	 * @constructor
+	 */
 	function DashboardService($http, $q) {
 		var spinkitCss = '/assets/vendor/spinkit/css/spinkit.css';
 		var dataSourceUrl = '/manage/dashboard/data-source.json';
@@ -19,6 +27,12 @@
 			refreshData: refreshData
 		};
 
+		/**
+		 * Set on success/error callbacks in callback stack
+		 * @param onSuccess
+		 * @param onError
+		 * @returns {onDataLoaded}
+		 */
 		function onDataLoaded(onSuccess, onError) {
 			stackCallback.push({
 				onSuccess: typeof onSuccess != 'function'
@@ -32,6 +46,12 @@
 			return this;
 		}
 
+		/**
+		 * Private method to invoke all callbacks
+		 * @param on
+		 * @param response
+		 * @param callback
+		 */
 		function invokeHttpEvent(on, response, callback){
 			ng.forEach(stackCallback, function(event){
 				event[on](response);
@@ -41,6 +61,11 @@
 			}
 		}
 
+		/**
+		 * Load data from server
+		 * @param callback
+		 * @returns {loadData}
+		 */
 		function loadData(callback) {
 			$http.get(dataSourceUrl)
 				.then(function (response) {
@@ -51,10 +76,19 @@
 			return this;
 		}
 
+		/**
+		 * Refresh data from server
+		 * @param callback
+		 * @returns {loadData}
+		 */
 		function refreshData(callback) {
 			return loadData(callback);
 		}
 
+		/**
+		 * Init spinkit
+		 * @returns {appendSpinkit}
+		 */
 		function appendSpinkit() {
 			if (!$('link[href="' + spinkitCss + '"]').length > 0) {
 				ng.element('head')

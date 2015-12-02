@@ -46,9 +46,10 @@ class ApplicationRepository extends EntityRepository
     /**
      * Get statistic of all application by last 24 hours
      *
+     * @param int $maxResults
      * @return array
      */
-    public function getApplicationStatusesDayly()
+    public function getApplicationStatusesDayly($maxResults = 4)
     {
         $qb = $this->createQueryBuilder('a');
 
@@ -72,7 +73,7 @@ class ApplicationRepository extends EntityRepository
                     'start' => date('Y-m-d H:i:s', time() - 86400),
                     'end'=> date('Y-m-d H:i:s', time())
                 ]
-            )->setMaxResults(4);
+            )->setMaxResults($maxResults);
 
         $result = $qb->getQuery()->getResult();
         return $result;
