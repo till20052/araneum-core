@@ -73,7 +73,6 @@
                             elementTemplate.find('select').attr('name', element.name);
                             elementTemplate.find('select')
                                 .append($('<option></option>').attr({
-                                'disabled':'',
                                 'selected': '',
                                 }));
 
