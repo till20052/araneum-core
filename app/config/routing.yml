@@ -14,7 +14,7 @@ araneum_root:
     path: /
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
-        route: sonata_admin_dashboard
+        route: manage_index
         permanent: true
 
 araneum_user:
