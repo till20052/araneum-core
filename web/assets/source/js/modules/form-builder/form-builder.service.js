@@ -68,7 +68,6 @@
 							break;
 
 						case 'choice':
-							console.log(element);
 							elementTemplate = $(this.templates[element.type]);
 							elementTemplate.attr('ng-model', element.name);
 							elementTemplate.find('select').attr('name', element.name);
