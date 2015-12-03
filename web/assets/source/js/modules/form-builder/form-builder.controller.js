@@ -13,8 +13,8 @@
      * @param $scope
      * @param $http
      * @param $compile
-     * @param DTOptionsBuilder for options for datatabe
-     * @param DTInstances for changing data in datatable
+     * @param DTOptionsBuilder options for datatabe
+     * @param DTInstances changing data in datatable
      * @param formDataService factory for store data form server
      * @constructor
      */
