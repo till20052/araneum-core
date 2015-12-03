@@ -3,10 +3,21 @@
 
     angular
         .module('app.formBuilder')
-        .controller('FormBuilderCtrl', FormBuilderController);
+        .controller('FormBuilderController', FormBuilderController);
 
     FormBuilderController.$inject = ['$state', '$scope', '$http', '$compile', 'DTOptionsBuilder', 'DTInstances', 'formDataService'];
 
+    /**
+     *
+     * @param $state
+     * @param $scope
+     * @param $http
+     * @param $compile
+     * @param DTOptionsBuilder for options for datatabe
+     * @param DTInstances for changing data in datatable
+     * @param formDataService factory for store data form server
+     * @constructor
+     */
     function FormBuilderController($state, $scope, $http, $compile, DTOptionsBuilder, DTInstances, formDataService) {
         var vm = this;
         var formJsonUrl = $state.$current.initialize;
@@ -28,7 +39,7 @@
                         url: source,
                         data: data,
                         success: function (response) {
-                            angular.forEach(response.aaData, function (item, i) {
+                            angular.forEach(response.aaData, function(item, i) {
                                 this[i] = item
                                     .splice(0, item.length - 1)
                                     .concat([
@@ -40,7 +51,6 @@
                             $('.dataTable td').each(function () {
                                 $(this).addClass('bb0 bl0');
                             });
-
 
                             $('div[widget]').each(function () {
                                 var ui = $(this);
@@ -67,11 +77,12 @@
 
         /**
          * Reset datatable url
+         * @param $event
          * @param url
          * @param id
          */
-        vm.reset = function(url, id) {
-            $('#' + id)[0].reset();
+        vm.reset = function($event, url, id) {
+            $($event.currentTarget).closest('.row').find('#' + id)[0].reset();
             vm.dt.options.sAjaxSource = url;
         };
 

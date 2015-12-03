@@ -38,8 +38,8 @@
 			})
 			.state('app.locales', {
 				url: '/locales',
-				initialize: 'http://core.vk.araneum.dev/manage/locales/init.json',
-				templateUrl: helper.basepath('locales.html'),
+				initialize: '/manage/locales/init.json',
+				templateUrl: helper.basepath('grid-template.html'),
 				resolve: helper.resolveFor('datatables', 'whirl')
 			})
 			.state('app.table-ngtable', {
