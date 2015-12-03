@@ -1,6 +1,6 @@
-(function () {
-    'use strict';
+(function() {
+	'use strict';
 
-    angular
-        .module('app.formBuilder', []);
+	angular
+		.module('app.formBuilder', []);
 })();
