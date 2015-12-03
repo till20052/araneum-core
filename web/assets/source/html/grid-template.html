@@ -3,23 +3,24 @@
 	Locales
 </h3>
 
-<div ng-controller="FormBuilderController as vm">
+	<div ng-controller="FormBuilderController as vm">
 
-	<div id="filters.panel" class="panel panel-default">
-		<div class="panel-heading">
-			<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-			<h3 class="panel-title">
-				<em class="fa fa-filter mr-sm"></em>
-				Filters
-			</h3>
-		</div>
-		<div  class="form-horizontal">
-			<div collapse="filters.panel" class="panel-wrapper">
-				<div class="panel-body pb">
-					<div class="row">
-						<div class="col-lg-10">
-							<div class="row">
-								<form-builder data-item="filter"></form-builder>
+		<div id="filters.panel" class="panel panel-default">
+			<div class="panel-heading">
+				<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+				<h3 class="panel-title">
+					<em class="fa fa-filter mr-sm"></em>
+					Filters
+				</h3>
+			</div>
+			<div  class="form-horizontal">
+				<div collapse="filters.panel" class="panel-wrapper">
+					<div class="panel-body pb">
+						<div class="row">
+							<div class="col-lg-10">
+								<div class="row">
+									<form-builder data-item="filter"></form-builder>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -27,134 +28,134 @@
 			</div>
 		</div>
 
-	<div class="panel panel-default">
+		<div class="panel panel-default">
 
-		<widget ng-hide="true" id="locales-actions">
-			<div dropdown="dropdown" class="btn-group">
-				<button type="button" ng-disabled="disabled" dropdown-toggle=""
-						class="btn btn-xs dropdown-toggle btn-default" tooltip="Actions">
-					<em class="icon-settings"></em>
-				</button>
-				<ul role="menu" class="dropdown-menu dropdown-menu-right">
-					<li>
-						<a href="#">
-							<em class="icon-note mr-sm"></em>
-							Edit user
-						</a>
-					</li>
-					<li class="divider"></li>
-					<li>
-						<a href="#">
-							<em class="icon-lock-open mr-sm"></em>
-							Enable
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<em class="icon-lock mr-sm"></em>
-							Disable user
-						</a>
-					</li>
-					<li class="divider"></li>
-					<li>
-						<a href="#">
-							<em class="icon-key mr-sm"></em>
-							Reset password
-						</a>
-					</li>
-					<li class="divider"></li>
-					<li>
-						<a href="#">
-							<em class="icon-user-unfollow mr-sm"></em>
-							Delete
-						</a>
-					</li>
-				</ul>
-			</div>
-		</widget>
-
-		<widget ng-hide="true" id="locales-checkbox">
-			<div class="checkbox c-checkbox needsclick m0">
-				<label class="needsclick">
-					<input type="checkbox" value="" class="needsclick"/>
-					<span class="fa fa-check mr0"></span>
-				</label>
-			</div>
-		</widget>
-
-		<div class="panel-heading pb0">
-			<div class="row mt-sm mb0">
-
-				<div class="col-xs-6">
-					<h3 class="panel-title mt">
-						<em class="icon-layers mr-sm"></em>
-						Data list
-					</h3>
+			<widget ng-hide="true" id="locales-actions">
+				<div dropdown="dropdown" class="btn-group">
+					<button type="button" ng-disabled="disabled" dropdown-toggle=""
+							class="btn btn-xs dropdown-toggle btn-default" tooltip="Actions">
+						<em class="icon-settings"></em>
+					</button>
+					<ul role="menu" class="dropdown-menu dropdown-menu-right">
+						<li>
+							<a href="#">
+								<em class="icon-note mr-sm"></em>
+								Edit user
+							</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="#">
+								<em class="icon-lock-open mr-sm"></em>
+								Enable
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<em class="icon-lock mr-sm"></em>
+								Disable user
+							</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="#">
+								<em class="icon-key mr-sm"></em>
+								Reset password
+							</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="#">
+								<em class="icon-user-unfollow mr-sm"></em>
+								Delete
+							</a>
+						</li>
+					</ul>
 				</div>
+			</widget>
 
-				<div class="col-xs-6">
-					<div class="btn-group pull-right">
-						<button type="button" class="btn btn-sm btn-danger" tooltip="Delete users">
-							<em class="icon-user-unfollow"></em>
-						</button>
-					</div>
-					<div class="btn-group pull-right mr">
-						<button type="button" class="btn btn-sm btn-primary" tooltip="Reset password">
-							<em class="icon-key"></em>
-						</button>
-					</div>
-					<div class="btn-group pull-right mr">
-						<button type="button" class="btn btn-sm btn-default" tooltip="Enable users">
-							<em class="icon-lock-open"></em>
-						</button>
-						<button type="button" class="btn btn-sm btn-default" tooltip="Disable users">
-							<em class="icon-lock"></em>
-						</button>
-					</div>
-					<div class="btn-group pull-right mr">
-						<button type="button" class="btn btn-sm btn-success" tooltip="Add new user">
-							<em class="icon-user-follow"></em>
-						</button>
-					</div>
+			<widget ng-hide="true" id="locales-checkbox">
+				<div class="checkbox c-checkbox needsclick m0">
+					<label class="needsclick">
+						<input type="checkbox" value="" class="needsclick"/>
+						<span class="fa fa-check mr0"></span>
+					</label>
 				</div>
+			</widget>
 
-			</div>
-		</div>
+			<div class="panel-heading pb0">
+				<div class="row mt-sm mb0">
 
-		<hr class="mb0 mt-lg">
+					<div class="col-xs-6">
+						<h3 class="panel-title mt">
+							<em class="icon-layers mr-sm"></em>
+							Data list
+						</h3>
+					</div>
 
-		<div ng-show="vm.errors.length > 0" class="p-lg">
-			<div class="mb0 alert alert-danger">
-				<div ng-repeat="error in vm.errors track by $index">{{ $index }}. {{ error }}</div>
-			</div>
-		</div>
-
-		<div ng-class="{'p-xl whirl traditional': !vm.dt.initialized}" class="panel-body">
-
-			<table
-				ng-if="vm.dt.initialized"
-				datatable="locales"
-				dt-options="vm.dt.options"
-                dt-instance="vm.dt.instance"
-				class="table-bordered table-striped hover"
-				cellspacing="0"
-				ng-click="vm.onTableClickEvent($event)">
-				<thead>
-				<tr>
-					<th ng-repeat="column in vm.dt.columns" class="bt0 bl0">{{ column }}</th>
-					<th data-sortable="false" class="bt0 bl0" width="1"></th>
-					<th data-sortable="false" class="bt0 bl0 p text-center" width="1">
-						<div class="checkbox c-checkbox needsclick m0">
-							<label class="needsclick">
-								<input type="checkbox" value="" class="needsclick" rel="select-all" />
-								<span class="fa fa-check mr0"></span>
-							</label>
+					<div class="col-xs-6">
+						<div class="btn-group pull-right">
+							<button type="button" class="btn btn-sm btn-danger" tooltip="Delete users">
+								<em class="icon-user-unfollow"></em>
+							</button>
 						</div>
-					</th>
-				</tr>
-				</thead>
-			</table>
+						<div class="btn-group pull-right mr">
+							<button type="button" class="btn btn-sm btn-primary" tooltip="Reset password">
+								<em class="icon-key"></em>
+							</button>
+						</div>
+						<div class="btn-group pull-right mr">
+							<button type="button" class="btn btn-sm btn-default" tooltip="Enable users">
+								<em class="icon-lock-open"></em>
+							</button>
+							<button type="button" class="btn btn-sm btn-default" tooltip="Disable users">
+								<em class="icon-lock"></em>
+							</button>
+						</div>
+						<div class="btn-group pull-right mr">
+							<button type="button" class="btn btn-sm btn-success" tooltip="Add new user">
+								<em class="icon-user-follow"></em>
+							</button>
+						</div>
+					</div>
 
+				</div>
+			</div>
+
+			<hr class="mb0 mt-lg">
+
+			<div ng-show="vm.errors.length > 0" class="p-lg">
+				<div class="mb0 alert alert-danger">
+					<div ng-repeat="error in vm.errors track by $index">{{ $index }}. {{ error }}</div>
+				</div>
+			</div>
+
+			<div ng-class="{'p-xl whirl traditional': !vm.dt.initialized}" class="panel-body">
+
+				<table
+					ng-if="vm.dt.initialized"
+					datatable="locales"
+					dt-options="vm.dt.options"
+					dt-instance="vm.dt.instance"
+					class="table-bordered table-striped hover"
+					cellspacing="0"
+					ng-click="vm.onTableClickEvent($event)">
+					<thead>
+					<tr>
+						<th ng-repeat="column in vm.dt.columns" class="bt0 bl0">{{ column }}</th>
+						<th data-sortable="false" class="bt0 bl0" width="1"></th>
+						<th data-sortable="false" class="bt0 bl0 p text-center" width="1">
+							<div class="checkbox c-checkbox needsclick m0">
+								<label class="needsclick">
+									<input type="checkbox" value="" class="needsclick" rel="select-all" />
+									<span class="fa fa-check mr0"></span>
+								</label>
+							</div>
+						</th>
+					</tr>
+					</thead>
+				</table>
+
+			</div>
 		</div>
 	</div>
-</div>

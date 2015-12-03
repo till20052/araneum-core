@@ -68,13 +68,14 @@
                             break;
 
                         case 'choice':
+                            console.log(element);
                             elementTemplate = $(this.templates[element.type]);
                             elementTemplate.attr('ng-model', element.name);
                             elementTemplate.find('select').attr('name', element.name);
                             elementTemplate.find('select')
                                 .append($('<option></option>').attr({
-                                'selected': '',
-                                }));
+                                'selected': ''
+                                }).text(element.emptyValue));
 
                             for (var key in element.choices) {
                                 $('select', elementTemplate).append($('<option />').val(element.choices[key].value).text(element.choices[key].label));
@@ -182,13 +183,14 @@
                         var currEl = formEl[el]['vars'];
                         if (angular.isArray(formEl[el]['children'])) {
                             elements[currEl.name] = {
-                                name: currEl.name,
+                                name: currEl.full_name,
                                 type: currEl.block_prefixes[1],
                                 attrs: {'placeholder':currEl.attr.placeholder, 'required':currEl.required},
                                 value: currEl.value,
                                 choices: currEl.choices,
                                 multipart: currEl.multipart,
-                                label: currEl.label
+                                label: currEl.label,
+                                emptyValue: currEl.empty_value
                             }
                         }
 
@@ -196,12 +198,13 @@
                             for(var elem in formEl[el]['children']) {
                                 currEl = formEl[el]['children'][elem]['vars'];
                                 elements[currEl.name] = {
-                                    name: currEl.name,
+                                    name: currEl.full_name,
                                     type: currEl.block_prefixes[1],
                                     attrs: {'placeholder':currEl.attr.placeholder, 'required' : currEl.required},
                                     value: currEl.value,
                                     choices: currEl.choices,
-                                    label: currEl.label
+                                    label: currEl.label,
+                                    emptyValue: currEl.empty_value
                                 }
                             }
                         }
