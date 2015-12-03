@@ -1,64 +1,126 @@
-(function () {
-    'use strict';
+(function (ng) {
+	'use strict';
 
-    angular
-        .module('app.dashboard')
-        .service('DashboardService', DashboardService);
+	ng.module('app.dashboard')
+		.service('DashboardService', DashboardService);
 
-    DashboardService.$inject = ['$http', '$q'];
+	DashboardService.$inject = ['$http', 'APP_COLORS'];
 
-    function DashboardService($http, $q) {
-        var spinkitCss = '/assets/vendor/spinkit/css/spinkit.css';
-        var dataSourceUrl = '/manage/dashboard/data-source.json';
+	/**
+	 * Dashboard Service
+	 *
+	 * @param $http
+	 * @param $q
+	 * @returns {{appendSpinkit: appendSpinkit, onDataLoaded: onDataLoaded, loadData: loadData, refreshData: refreshData}}
+	 * @constructor
+	 */
+	function DashboardService($http, APP_COLORS) {
+		var spinkitCss = '/assets/vendor/spinkit/css/spinkit.css';
+		var dataSourceUrl = '/manage/dashboard/data-source.json';
 
-        var data = [],
-            lastRequestFailed = true,
-            promise;
+		var stackCallback = [];
+		var colorsByLabels = {};
+		var colors = Object.keys(APP_COLORS).map(function(key){
+			return APP_COLORS[key];
+		});
 
-        promise = $http.get(dataSourceUrl)
-            .then(function(res) {
-                lastRequestFailed = false;
-                data = res.data;
-                return data;
-            });
+		console.log(colors);
 
+		return {
+			appendSpinkit: appendSpinkit,
+			onDataLoaded: onDataLoaded,
+			loadData: loadData,
+			refreshData: refreshData,
+			assignColorsByLabel: assignColorsByLabel
+		};
 
-        var service = {
-            appendSpinkit: appendSpinkit,
-            refreshStats: function() {
-                // $http returns a promise, so we don't need to create one with $q
-                promise = $http.get(dataSourceUrl)
-                    .then(function(res) {
-                        lastRequestFailed = false;
-                        data = res.data;
-                        return data;
-                    }, function(res) {
-                        return $q.reject(res);
-                    });
-                return promise;
-            },
-            getStats: function(){
-                return promise;
-            }
-        };
+		function assignColorsByLabel(data) {
+			ng.forEach(data, function (item, i) {
+				if (colorsByLabels[item.label] == undefined) {
+					colorsByLabels[item.label] = colors[Object.keys(colorsByLabels).length];
+				}
+				this[i].color = colorsByLabels[item.label];
+			}, data);
+			return data;
+		}
 
-        return service;
+		/**
+		 * Set on success/error callbacks in callback stack
+		 * @param onSuccess
+		 * @param onError
+		 * @returns {onDataLoaded}
+		 */
+		function onDataLoaded(onSuccess, onError) {
+			stackCallback.push({
+				onSuccess: typeof onSuccess != 'function'
+					? function () {}
+					: onSuccess,
+				onError: typeof onError != 'function'
+					? function () {}
+					: onError
+			});
 
-        function appendSpinkit () {
-            if ( ! $('link[href="' + spinkitCss + '"]').length > 0) {
-                angular.element('head')
-                    .append(
-                        $('<link />')
-                            .attr({
-                                rel: 'stylesheet',
-                                type: 'text/css',
-                                href: spinkitCss
-                            })
-                    );
-            }
+			return this;
+		}
 
-            return service;
-        }
-    }
+		/**
+		 * Private method to invoke all callbacks
+		 * @param on
+		 * @param response
+		 * @param callback
+		 */
+		function invokeHttpEvent(on, response, callback) {
+			ng.forEach(stackCallback, function (event) {
+				event[on](response);
+			});
+			if (typeof callback == 'function') {
+				callback();
+			}
+		}
 
-})();
+		/**
+		 * Load data from server
+		 * @param callback
+		 * @returns {loadData}
+		 */
+		function loadData(callback) {
+			$http.get(dataSourceUrl)
+				.then(function (response) {
+					invokeHttpEvent('onSuccess', response, callback);
+				}, function (error) {
+					invokeHttpEvent('onError', error, callback);
+				});
+			return this;
+		}
+
+		/**
+		 * Refresh data from server
+		 * @param callback
+		 * @returns {loadData}
+		 */
+		function refreshData(callback) {
+			return loadData(callback);
+		}
+
+		/**
+		 * Init spinkit
+		 * @returns {appendSpinkit}
+		 */
+		function appendSpinkit() {
+			if (!$('link[href="' + spinkitCss + '"]').length > 0) {
+				ng.element('head')
+					.append(
+						$('<link />')
+							.attr({
+								rel: 'stylesheet',
+								type: 'text/css',
+								href: spinkitCss
+							})
+					);
+			}
+
+			return this;
+		}
+	}
+
+})(angular);
