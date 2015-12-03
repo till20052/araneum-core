@@ -30,8 +30,19 @@
 			$event.stopPropagation();
 		};
 
+		$rootScope.userBlockVisible = true;
+
+		$rootScope.toggleUserBlock = function () {
+			$rootScope.$broadcast('toggleUserBlock');
+		};
+
 		// Hooks Example
 		// -----------------------------------
+
+		// Hook: to show or hide user block in sidebar
+		$rootScope.$on('toggleUserBlock', function () {
+			$rootScope.userBlockVisible = !$rootScope.userBlockVisible;
+		});
 
 		// Hook: start change state
 		$rootScope.$on('$stateChangeStart', function (event, toState) {
