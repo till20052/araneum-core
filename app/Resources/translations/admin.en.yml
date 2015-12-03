@@ -6,6 +6,7 @@ dashboard :
         ONLINE: "Online"
         PROBLEM: "Problem"
         ERROR: "Error"
+        DISABLED: "Disabled"
     wiget:
         APPLICATION_STATUSES: "Statuses for last 24 hour by applications"
         AVERAGE_APPLICATION_STATUSES: "Average application statuses by last 24 hours"
@@ -14,6 +15,13 @@ dashboard :
         CUSTOMERS_REGISTRATION: "Customers registration received from applications (24 hours)"
         EMAIL_RECIEVED: "Email received from applications (24 hours)"
         RECEIVED_FROM_APPLICATION: "Received from all applications"
+        CUSTOMERS: "Customers"
+        EMAILS: "messages"
+        APPLICATIONS: "Applications"
+        ADMINS: "Admins"
+        CONNECTIONS: "Connections"
+        CLUSTERS: "Clusters"
+        LOCALES: "Locales"
 topbar:
     messages:
         UNREAD: "Unread messages"

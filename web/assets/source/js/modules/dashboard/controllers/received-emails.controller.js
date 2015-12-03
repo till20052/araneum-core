@@ -64,11 +64,15 @@
 				shadowSize: 0
 			};
 
+			$scope.onLoading = true;
+
 			DashboardService.onDataLoaded(function(response){
+				$scope.onLoading = false;
 				vm.count = response.data.statistics.receivedEmails.count;
 				vm.data = response.data.statistics.receivedEmails.data;
 				DashboardService.assignColorsByLabel(vm.data);
 			}, function(error){
+				$scope.onLoading = false;
 				vm.error = error
 			});
 
