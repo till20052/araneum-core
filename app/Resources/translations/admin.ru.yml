@@ -102,3 +102,22 @@ general:
     ENABLED: 'Активно'
     DISABLED: 'Неактивно'
     DATA_LIST: 'Список'
+datatables:
+    PROCESSING: 'Подождите...'
+    SEARCH: 'Поиск:'
+    LENGTH_MENU: 'Показать _MENU_ записей'
+    INFO: 'Записи с _START_ до _END_ из _TOTAL_ записей'
+    INFO_EMPTY: 'Записи с 0 до 0 из 0 записей'
+    INFO_FILTERED: '(отфильтровано из _MAX_ записей)'
+    INFO_POSTFIX: ''
+    LOADING_RECORDS: 'Загрузка записей...'
+    ZERO_RECORDS: 'Записи отсутствуют.'
+    EMPTY_TABLE: 'В таблице отсутствуют данные'
+    paginate:
+      FIRST: 'Первая'
+      PREVIUOS: 'Предыдущая'
+      NEXT: 'Следующая'
+      LAST: 'Последняя'
+    aria:
+      SORTASCENDING: ': активировать для сортировки столбца по возрастанию'
+      SORTDESCENDINT: ': активировать для сортировки столбца по убыванию'
