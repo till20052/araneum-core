@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\MainBundle\Controller;
 
 
+use Araneum\Bundle\MainBundle\Service\Actions\LocaleActions;
 use Araneum\Bundle\MainBundle\Service\DataTable\LocaleDataTableList;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,6 +29,7 @@ class AdminLocaleController extends Controller
 				new LocaleDataTableList($this->container),
 				$this->generateUrl('araneum_manage_locales_grid')
 			);
+			$initializer->setActions(new LocaleActions());
 		} catch (\Exception $exception) {
 			$code = JsonResponse::HTTP_INTERNAL_SERVER_ERROR;
 			$initializer->setError($exception);

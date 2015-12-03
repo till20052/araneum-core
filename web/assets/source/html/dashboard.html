@@ -1,10 +1,10 @@
-<h3 translate="admin.dashboard.DASHBOARD">
-    <em class="icon-speedometer mr"></em>
-    Dashboard
+<h3>
+	<em class="icon-speedometer mr"></em>
+	Dashboard
 </h3>
 
 <!-- START widgets box-->
-<div class="row" ng-controller="DashboardController">
+<div class="row">
 	<div class="col-lg-3 col-sm-6">
 		<!-- START widget-->
 		<div
@@ -27,7 +27,7 @@
 								</div>
 							</div>
 						</div>
-						<small translate="admin.dashboard.application.APPLICATION">application<span ng-if="statistics.applicationsState.online > 1"><span ng-if="language.selected=='ru'">s</span></span></small>
+						<small>application<span ng-if="statistics.applicationsState.online > 1">s</span></small>
 					</div>
 					<div class="text-uppercase">Online</div>
 				</div>
@@ -56,9 +56,9 @@
 								></div>
 							</div>
 						</div>
-						<small translate="admin.dashboard.application.APPLICATION">application<span ng-if="statistics.applicationsState.hasProblems > 1"><span ng-if="language.selected=='ru'">s</span></span></small>
+						<small>application<span ng-if="statistics.applicationsState.hasProblems > 1">s</span></small>
 					</div>
-					<div class="text-uppercase" translate="admin.dashboard.application.PROBLEM">Problem</div>
+					<div class="text-uppercase">Problem</div>
 				</div>
 			</div>
 		</div>
@@ -85,9 +85,9 @@
 								></div>
 							</div>
 						</div>
-						<small translate="admin.dashboard.application.APPLICATION">application<span ng-if="statistics.applicationsState.hasErrors > 1"><span ng-if="language.selected=='ru'">s</span></span></small>
+						<small>application<span ng-if="statistics.applicationsState.hasErrors > 1">s</span></small>
 					</div>
-					<div class="text-uppercase" translate="admin.dashboard.application.ERROR">Error</div>
+					<div class="text-uppercase">Error</div>
 				</div>
 			</div>
 		</div>
@@ -114,9 +114,9 @@
 								></div>
 							</div>
 						</div>
-						<small translate="admin.dashboard.application.APPLICATION">application<span ng-if="statistics.applicationsState.disabled > 1"><span ng-if="language.selected=='ru'">s</span></span></small>
+						<small>application<span ng-if="statistics.applicationsState.disabled > 1">s</span></small>
 					</div>
-					<div class="text-uppercase" translate="admin.dashboard.application.DISABLED">Disabled</div>
+					<div class="text-uppercase">Disabled</div>
 				</div>
 			</div>
 		</div>
@@ -126,218 +126,199 @@
 <!-- END widgets box-->
 
 
-    <div class="row">
-        <div class="col-md-6" ng-controller="AppStatusesChartController">
-            <div id="panelChart5" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
-                <div class="panel-heading">
-                    <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-                    <div class="panel-title" translate="admin.dashboard.wiget.APPLICATION_STATUSES">
-                        <em class="icon-screen-tablet mr"></em>
-                        Statuses for last 24 hour by applications
-                    </div>
-                </div>
-                <div collapse="panelChart5" class="panel-wrapper">
-                    <div class="panel-body">
-                        <div class="container-fluid">
-                            <div class="row mb-lg">
-                                <div class="col-lg-12">
+<div class="row">
+	<div class="col-md-6" ng-controller="AppStatusesChartController">
+		<div id="panelChart5" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+			<div class="panel-heading">
+				<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+				<div class="panel-title">
+					<em class="icon-screen-tablet mr"></em>
+					Statuses for last 24 hour by applications
+				</div>
+			</div>
+			<div collapse="panelChart5" class="panel-wrapper">
+				<div class="panel-body">
+					<div class="container-fluid">
+						<div class="row mb-lg">
+							<div class="col-lg-12">
 
-                                    <div
-                                            ng-repeat="error in errors"
-                                            class="bg-danger alert alert-error"
-                                    >{{error}}</div>
+								<div
+									ng-repeat="error in errors"
+									class="bg-danger alert alert-error"
+								>{{error}}
+								</div>
 
 
-                                    <div>
-                                        <canvas barchart="" options="barOptions" data="barData"
-                                                responsive="true"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6" ng-controller="StateAvgAppChartController">
-            <!-- START chart-->
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- START widget-->
-                    <div class="container-fluid">
-                        <div id="panelChart1" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
-                            <div class="panel-heading">
-                                <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-                                <div class="panel-title" translate="admin.dashboard.wiget.AVERAGE_APPLICATION_STATUSES">
-                                    <em class="icon-screen-tablet mr"></em>
-                                    Average application statuses by last 24 hours
-                                </div>
-                            </div>
+								<div>
+									<canvas barchart="" options="barOptions" data="barData"
+											responsive="true" height="267"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6" ng-controller="StateAvgAppChartController">
+		<!-- START chart-->
+		<div class="row">
+			<div class="col-lg-12">
+				<!-- START widget-->
+				<div class="container-fluid">
+					<div id="panelChart1" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+						<div class="panel-heading">
+							<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+							<div class="panel-title">
+								<em class="icon-screen-tablet mr"></em>
+								Average application statuses by last 24 hours
+							</div>
+						</div>
 
-                            <div
-                                    ng-repeat="error in errors"
-                                    class="bg-danger alert alert-error"
-                            >{{error}}</div>
+						<div
+							ng-repeat="error in errors"
+							class="bg-danger alert alert-error"
+						>{{error}}
+						</div>
 
-                            <div ng-show="lineData" collapse="panelChart1" class="panel-wrapperl">
-                                <div class="panel-body">
-                                    <flot dataset="lineData" options="lineOptions"></flot>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END widget-->
-                </div>
-            </div>
-            <!-- END chart-->
-        </div>
-    </div>
+						<div ng-show="lineData" collapse="panelChart1" class="panel-wrapperl">
+							<div class="panel-body">
+								<flot dataset="lineData" options="lineOptions" height="300"></flot>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- END widget-->
+			</div>
+		</div>
+		<!-- END chart-->
+	</div>
+</div>
 
-    <div class="row">
-        <!-- START dashboard main content-->
-        <div class="col-lg-9">
-            <!-- START chart-->
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- START widget-->
-                    <div id="panelChart9" class="panel panel-default">
-                        <div class="panel-heading">
-                            <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-                            <div class="panel-title" translate="admin.dashboard.wiget.CLUSTER_LOAD_AVERAGE">
-                                <em class="icon-grid mr"></em>
-                                Cluster load average by last 24 hours
-                            </div>
-                        </div>
-                        <div collapse="panelChart9" class="panel-wrapper">
-                            <div class="panel-body">
-                                <flot dataset="dash.splineData" options="dash.splineOptions" class="ng-isolate-scope"
-                                      height="300px"></flot>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- END widget-->
-                </div>
-            </div>
-            <!-- END chart-->
-        </div>
-        <div class="col-lg-3">
-            <div ng-controller="FlotChartController as chart" class="container-fluid">
-                <div id="panelChart2" class="panel panel-default">
-                    <div class="panel-heading">
-                        <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-                        <div class="panel-title">
-                            <em class="icon-grid mr"></em>
-                            <span class="ng-binding" translate="admin.dashboard.wiget.CLUSTER_UP_TIME">Clusters UpTime by last 24 hours</span>
-                        </div>
-                    </div>
-                    <div collapse="panelChart2" class="panel-wrapper">
-                        <div class="panel-body">
-                            <flot dataset="chart.barData" options="chart.barOptions" height="300px"></flot>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="row">
+	<!-- START dashboard main content-->
+	<div class="col-lg-9" ng-controller="ClusterLoadAverageController">
+		<!-- START chart-->
+		<div class="row">
+			<div class="col-lg-12">
+				<!-- START widget-->
+				<div id="panelChart9" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+					<div class="panel-heading">
+						<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+						<div class="panel-title">
+							<em class="icon-grid mr"></em>
+							Cluster load average by last 24 hours
+						</div>
+					</div>
+					<div collapse="panelChart9" class="panel-wrapper">
+						<div class="panel-body">
+							<flot dataset="splineData" options="splineOptions" class="ng-isolate-scope"
+								  height="300px"></flot>
+						</div>
+					</div>
+				</div>
+				<!-- END widget-->
+			</div>
+		</div>
+		<!-- END chart-->
+	</div>
+	<div class="col-lg-3">
+		<div ng-controller="UpTimeClusterController" class="container-fluid">
+			<div id="panelChart2" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+				<div class="panel-heading">
+					<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+					<div class="panel-title">
+						<em class="icon-grid mr"></em>
+						<span class="ng-binding">Clusters UpTime by last 24 hours</span>
+					</div>
+				</div>
+				<div collapse="panelChart2" class="panel-wrapper">
+					<div class="panel-body">
+						<flot dataset="barData" options="barOptions" height="300px"></flot>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel widget">
-                <div class="row row-table">
-                    <div class="col-md-2 col-sm-3 col-xs-6 text-center bg-info pv-xl">
-                        <em class="icon-notebook fa-4x"></em>
-                    </div>
-                    <div class="col-md-2 col-sm-3 col-xs-6 pv text-center br">
-                        <div class="text-info text-sm" translate="admin.dashboard.wiget.APPLICATIONS">Applications</div>
-                        <div class="text-muted text-md">
-                            <em class="icon-screen-tablet"></em>
-                        </div>
-                        <div class="text-muted">6</div>
-                    </div>
-                    <div class="col-md-2 col-sm-3 hidden-xs pv text-center br">
-                        <div class="text-info text-sm" translate="admin.dashboard.wiget.CLUSTERS">Clusters</div>
-                        <div class="text-muted text-md">
-                            <em class="icon-grid"></em>
-                        </div>
-                        <div class="text-muted">4</div>
-                    </div>
-                    <div class="col-md-2 col-sm-3 hidden-xs pv text-center br">
-                        <div class="text-info text-sm" translate="admin.dashboard.wiget.ADMINS">Admins</div>
-                        <div class="text-muted text-md">
-                            <em class="icon-users"></em>
-                        </div>
-                        <div class="text-muted">2</div>
-                    </div>
-                    <div class="col-md-2 hidden-sm hidden-xs pv text-center br">
-                        <div class="text-info text-sm" translate="admin.dashboard.wiget.CONNECTIONS">Connections</div>
-                        <div class="text-muted text-md">
-                            <em class="icon-share-alt"></em>
-                        </div>
-                        <div class="text-muted">12</div>
-                    </div>
-                    <div class="col-md-2 hidden-sm hidden-xs pv text-center">
-                        <div class="text-info text-sm" translate="admin.dashboard.wiget.LOCALES">Locales</div>
-                        <div class="text-muted text-md">
-                            <em class="icon-globe-alt"></em>
-                        </div>
-                        <div class="text-muted">4</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="row">
+	<div class="col-lg-12">
+		<div ng-controller="SummaryDashboardController" class="panel widget">
+			<div class="row row-table">
+				<div class="col-md-2 col-sm-3 col-xs-6 text-center bg-info pv-xl">
+					<em class="icon-notebook fa-4x"></em>
+				</div>
+				<div
+					ng-repeat="item in statistics"
+					ng-class="{'whirl traditional': item.value == undefined}"
+					class="col-md-2 col-sm-3 col-xs-6 pv text-center br">
+					<div class="text-info text-sm">{{ item.name }}</div>
+					<div class="text-muted text-md">
+						<em ng-class="'icon-'+item.icon"></em>
+					</div>
+					<div
+						ng-if="item.value != undefined"
+						class="text-muted">
+						{{ item.value }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-    <div class="row">
-        <!-- START dashboard main content-->
-        <div class="col-lg-6">
-            <div ng-controller="FlotChartController as chart" class="container-fluid">
-                <div id="panelChart11" class="panel panel-default">
-                    <div class="panel-heading">
-                        <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-                        <div class="panel-title" translate="admin.dashboard.wiget.CUSTOMERS_REGISTRATION">
-                            <em class="icon-user-follow mr"></em>
-                            Customers registration received from applications (24 hours)
-                        </div>
-                    </div>
-                    <div collapse="panelChart2" class="panel-wrapper">
-                        <div class="panel-body">
-                            <flot dataset="chart.areaData" options="chart.areaOptions" height="300px"></flot>
-                        </div>
-                    </div>
-                    <div class="panel-footer">
-                        <p class="text-muted">
-                            <em class="icon-cloud-upload mr-sm"></em>
-                            <span translate="admin.dashboard.wiget.RECEIVED_FROM_APPLICATION">Received from all applications</span>
-                            <span class="text-dark">164 <span translate="admin.dashboard.wiget.CUSTOMERS">customers</span></span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div ng-controller="FlotChartController as chart" class="container-fluid">
-                <div id="panelChart12" class="panel panel-default">
-                    <div class="panel-heading">
-                        <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-                        <div class="panel-title" translate="admin.dashboard.wiget.EMAIL_RECIEVED">
-                            <em class="icon-layers mr"></em>
-                            Email received from applications (24 hours)
-                        </div>
-                    </div>
-                    <div collapse="panelChart2" class="panel-wrapper">
-                        <div class="panel-body">
-                            <flot dataset="chart.areaData" options="chart.areaOptions" height="300px"></flot>
-                        </div>
-                        <div class="panel-footer">
-                            <p class="text-muted">
-                                <em class="icon-cloud-upload mr-sm"></em>
-                                <span translate="admin.dashboard.wiget.RECEIVED_FROM_APPLICATION">Received from all applications</span>
-                                <span class="text-dark">386 <span translate="admin.dashboard.wiget.EMAILS">emails</span></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="row">
+	<!-- START dashboard main content-->
+	<div class="col-lg-6">
+		<div ng-controller="RegisteredCustomersController" class="container-fluid">
+			<div id="panelChart11" class="panel panel-default">
+				<div class="panel-heading">
+					<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+					<div class="panel-title">
+						<em class="icon-user-follow mr"></em>
+						Customers registration received from applications (24 hours)
+					</div>
+				</div>
+				<div collapse="panelChart2" class="panel-wrapper">
+					<div class="panel-body">
+						<flot dataset="data" options="options" height="300px"></flot>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<p class="text-muted">
+						<em class="icon-cloud-upload mr-sm"></em>
+						<span>Received from all applications</span>
+						<span class="text-dark">{{ count }} customers</span>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-6">
+		<div ng-controller="ReceivedEmailsController" class="container-fluid">
+			<div id="panelChart12" class="panel panel-default">
+				<div class="panel-heading">
+					<paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+					<div class="panel-title">
+						<em class="icon-layers mr"></em>
+						Email received from applications (24 hours)
+					</div>
+				</div>
+				<div collapse="panelChart2" class="panel-wrapper">
+					<div class="panel-body">
+						<flot dataset="data" options="options" height="300px"></flot>
+					</div>
+					<div class="panel-footer">
+						<p class="text-muted">
+							<em class="icon-cloud-upload mr-sm"></em>
+							<span>Received from all applications</span>
+							<span class="text-dark">{{ count }} emails</span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 </div>
