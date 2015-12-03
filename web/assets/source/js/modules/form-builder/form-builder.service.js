@@ -235,23 +235,24 @@
 				 * Add Buttons to From
 				 */
 				getButtonsForForm: function(url, id) {
-					var templateButtons = '<div class="col-lg-2 text-center">' +
+					var templateButtons = '<div class="col-lg-2">' +
 						'<fieldset>' +
-						'<div class="form-group">' +
-						'<button type="submit" class="btn btn-default" id="reset">' +
-						'<em class="icon-refresh mr-sm"></em>' +
-						'Reset' +
-						'</button>' +
-						'<button type="submit" class="btn btn-primary" id="search">' +
-						'<em class="icon-magnifier mr-sm"></em>' +
-						'Search' +
-						'</button>' +
-						'</div>' +
+							'<div class="form-group">' +
+								'<button type="submit" class="btn btn-default mr-sm" id="reset">' +
+									'<em class="icon-refresh mr-sm"></em>' +
+									'Reset' +
+								'</button>' +
+								'<button type="submit" class="btn btn-primary" id="search">' +
+									'<em class="icon-magnifier mr-sm"></em>' +
+									'Search' +
+								'</button>' +
+							'</div>' +
 						'</fieldset>' +
 						'</div>';
 					templateButtons = $(templateButtons);
 					$(templateButtons).find('#search').attr('ng-click', 'vm.search("' + url + '")');
 					$(templateButtons).find('#reset').attr('ng-click', 'vm.reset($event,"' + url + '","' + id + '")');
+
 					return templateButtons[0].outerHTML;
 				}
 			}
