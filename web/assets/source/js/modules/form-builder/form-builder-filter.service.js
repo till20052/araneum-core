@@ -1,4 +1,4 @@
-(function () {
+(function() {
     angular.module('app.formBuilder')
         .factory('formBuildFiltersService', ['fromBuilderService', function (fromBuilderService) {
             var formBuilderFilters = fromBuilderService;
@@ -28,7 +28,7 @@
                 '<div class="form-group">' +
                 '<label class="col-sm-4 control-label"></label>' +
                 '<div class="col-sm-8">' +
-                '<select chosen class="chosen-select input-md localytics-chosen"></select>' +
+                '<select class="form-control"></select>' +
                 '</div>' +
                 '</div>' +
                 '</div>'

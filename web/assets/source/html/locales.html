@@ -3,7 +3,7 @@
 	Locales
 </h3>
 
-<div ng-controller="LocalesController">
+<div ng-controller="FormBuilderCtrl as vm">
 
 	<div id="filters.panel" class="panel panel-default">
 		<div class="panel-heading">
@@ -13,51 +13,19 @@
 				Filters
 			</h3>
 		</div>
-		<form method="get" class="form-horizontal">
+		<div  class="form-horizontal">
 			<div collapse="filters.panel" class="panel-wrapper">
 				<div class="panel-body pb">
 					<div class="row">
 						<div class="col-lg-10">
 							<div class="row">
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label for="input-id-1" class="col-sm-4 control-label">Label focus</label>
-
-										<div class="col-sm-8">
-											<input id="input-id-1" type="text" class="form-control"/>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="form-group">
-										<label class="col-sm-4 control-label">Select</label>
-
-										<div class="col-sm-8">
-											<select name="account" class="form-control"></select>
-										</div>
-									</div>
-								</div>
+								<form-builder data-item="filter"></form-builder>
 							</div>
-						</div>
-						<div class="col-lg-2 text-center">
-							<fieldset>
-								<div class="form-group">
-									<button type="submit" class="btn btn-default">
-										<em class="icon-refresh mr-sm"></em>
-										Reset
-									</button>
-									<button type="submit" class="btn btn-primary">
-										<em class="icon-magnifier mr-sm"></em>
-										Search
-									</button>
-								</div>
-							</fieldset>
 						</div>
 					</div>
 				</div>
 			</div>
-		</form>
-	</div>
+		</div>
 
 	<div class="panel panel-default">
 
@@ -155,24 +123,25 @@
 
 		<hr class="mb0 mt-lg">
 
-		<div ng-show="errors.length > 0" class="p-lg">
+		<div ng-show="vm.errors.length > 0" class="p-lg">
 			<div class="mb0 alert alert-danger">
-				<div ng-repeat="error in errors track by $index">{{ $index }}. {{ error }}</div>
+				<div ng-repeat="error in vm.errors track by $index">{{ $index }}. {{ error }}</div>
 			</div>
 		</div>
 
-		<div ng-class="{'p-xl whirl traditional': !dt.initialized}" class="panel-body">
+		<div ng-class="{'p-xl whirl traditional': !vm.dt.initialized}" class="panel-body">
 
 			<table
-				ng-if="dt.initialized"
+				ng-if="vm.dt.initialized"
 				datatable="locales"
-				dt-options="dt.options"
+				dt-options="vm.dt.options"
+                dt-instance="vm.dt.instance"
 				class="table-bordered table-striped hover"
 				cellspacing="0"
-				ng-click="onTableClickEvent($event)">
+				ng-click="vm.onTableClickEvent($event)">
 				<thead>
 				<tr>
-					<th ng-repeat="column in dt.columns" class="bt0 bl0">{{ column }}</th>
+					<th ng-repeat="column in vm.dt.columns" class="bt0 bl0">{{ column }}</th>
 					<th data-sortable="false" class="bt0 bl0" width="1"></th>
 					<th data-sortable="false" class="bt0 bl0 p text-center" width="1">
 						<div class="checkbox c-checkbox needsclick m0">
@@ -188,5 +157,4 @@
 
 		</div>
 	</div>
-
 </div>

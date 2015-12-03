@@ -70,10 +70,17 @@
                         case 'choice':
                             elementTemplate = $(this.templates[element.type]);
                             elementTemplate.attr('ng-model', element.name);
-                            for (var key in element.choices) {
-                                elementTemplate.append($('<option></option>').val(element.choices[key].value).text(element.choices[key].label));
-                            }
+                            elementTemplate.find('select').attr('name', element.name);
+                            elementTemplate.find('select')
+                                .append($('<option></option>').attr({
+                                'disabled':'',
+                                'selected': '',
+                                }));
 
+                            for (var key in element.choices) {
+                                elementTemplate.find('select').append($('<option></option>').val(element.choices[key].value).text(element.choices[key].label));
+                            }
+                            elementTemplate.find('label').text(element.label);
                             break;
                     }
 
@@ -223,7 +230,7 @@
                 /**
                  * Add Buttons to From
                  */
-                getButtonsForForm: function() {
+                getButtonsForForm: function(url, id) {
                     var templateButtons = '<div class="col-lg-2 text-center">' +
                         '<fieldset>'+
                         '<div class="form-group">' +
@@ -238,9 +245,9 @@
                         '</div>' +
                         '</fieldset>' +
                         '</div>';
-                    var action = this.getFormOptions().action;
                     templateButtons = $(templateButtons);
-                    $(templateButtons).find('#search').attr('ng-click', 'vm.search(' + action + ')' );
+                    $(templateButtons).find('#search').attr('ng-click', 'vm.search("' + url + '")' );
+                    $(templateButtons).find('#reset').attr('ng-click', 'vm.reset("' + url + '","' + id + '")' );
                     return templateButtons[0].outerHTML;
                 }
             }
