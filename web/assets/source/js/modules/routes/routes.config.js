@@ -4,7 +4,7 @@
  =========================================================*/
 
 
-(function () {
+(function() {
 	'use strict';
 
 	angular
@@ -39,14 +39,15 @@
 			})
 			.state('app.locales', {
 				url: '/locales',
-				templateUrl: helper.basepath('locales.html'),
+				initialize: '/manage/locales/init.json',
+				templateUrl: helper.basepath('grid-template.html'),
 				resolve: helper.resolveFor('datatables', 'whirl')
 			})
 			.state('app.table-ngtable', {
 				url: '/table-ngtable',
 				templateUrl: helper.basepath('table-ngtable.html'),
 				resolve: angular.extend(helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert'), {
-					tpl: function () {
+					tpl: function() {
 						return {path: helper.basepath('ngdialog-template.html')};
 					}
 				})
