@@ -69,7 +69,7 @@
 		// Initialize subView: Reset
 		(function (vm) {
 
-			var url = '/manage/resetting/reset/' + $stateParams.token;
+			var url = '/resetting/reset/' + $stateParams.token;
 			var csrfToken = {};
 			var fosUi = {
 				first: {label: 'form.new_password', name: '', full_name: '', ng: '', value: ''},
@@ -127,6 +127,7 @@
 					})
 					.error(function (response) {
 						vm.inLoading = false;
+						vm.error = response.error;
 					});
 			}
 

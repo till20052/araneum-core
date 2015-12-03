@@ -8,10 +8,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Router;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class ResettingController extends BaseController
@@ -94,9 +98,9 @@ class ResettingController extends BaseController
                 throw new \Exception($this->trans('resetting.request.invalid_username', ['username' => $username]));
             }
 
-//            if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
-//                throw new \Exception($this->trans('resetting.password_already_requested'));
-//            }
+            if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
+                throw new \Exception($this->trans('resetting.password_already_requested'));
+            }
 
             if (null === $user->getConfirmationToken()) {
                 /** @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface */
@@ -131,9 +135,6 @@ class ResettingController extends BaseController
 
     /**
      * Reset user password
-     *
-	 * @Route("/resetting/reset/{token}", name="admin_manage_resetting_reset")
-	 * @Method({"GET", "POST"})
 	 *
      * @param $token
      * @return JsonResponse
@@ -148,7 +149,19 @@ class ResettingController extends BaseController
 
         try {
 
+            /** @var Request $request */
 			$request = $this->container->get('request');
+
+			if($request->isMethod('GET')){
+				return new RedirectResponse(
+					$this->container
+						->get('router')
+						->generate(
+							'manage_all',
+							['path' => trim($request->getRequestUri(), '/')]
+						)
+				);
+			}
 
             $user = $this->container->get('fos_user.user_manager')->findUserByConfirmationToken($token);
 
@@ -165,24 +178,36 @@ class ResettingController extends BaseController
             $form = $this->container->get('fos_user.resetting.form');
             $formHandler = $this->container->get('fos_user.resetting.form.handler');
 
-			if ($request->isMethod('GET')) {
-				return $this->container->get('templating')->renderResponse('::admin.layout.html.twig');
-			}
-
             if ($formHandler->process($user)) {
                 throw new AuthenticationException();
             }
+
+			$errors = $this->container
+				->get('araneum.base.form.handler')
+				->getErrorMessages($form);
+
+			if(
+				$request->request->count() > 0
+				&& count($errors) > 0
+			){
+				throw new BadRequestHttpException(implode("\n", $errors));
+			}
 
             return $response->setData($this->extract($form->createView()));
 
         } catch (AuthenticationException $exception) {
 
-            return $response->setStatusCode(Response::HTTP_ACCEPTED);
+			return $response->setStatusCode(Response::HTTP_ACCEPTED);
+
+		} catch (HttpException $exception) {
+
+			return $response->setData(['error' => $exception->getMessage()])
+				->setStatusCode($exception->getStatusCode());
 
         } catch (\Exception $exception) {
 
             return $response->setData(['error' => $exception->getMessage()])
-                ->setStatusCode($exception->getCode());
+                ->setStatusCode(Response::HTTP_BAD_REQUEST);
 
         }
     }
