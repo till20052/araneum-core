@@ -7,11 +7,19 @@
 
     StateAvgAppChartController.$inject = ['$scope', 'DashboardService'];
 
+	/**
+     * State Average Application Chart Controller
+     *
+     * @param $scope
+     * @param DashboardService
+     * @constructor
+     */
     function StateAvgAppChartController($scope, DashboardService) {
 
-        activate();
-
-        function activate() {
+        /**
+         * Constructor
+         */
+        (function () {
             $scope.lineData = [{
                 "label": "Success",
                 "color": "#27c24c",
@@ -69,19 +77,19 @@
 
             $scope.onLoading = true;
 
-            DashboardService.getStats().then(function (data) {
+            DashboardService.onDataLoaded(function (response) {
 
                 $scope.onLoading = false;
 
                 angular.forEach(['success', 'problems', 'errors', 'disabled'], function(value, i){
-                    this[i].data = data.statistics.daylyAverageStatuses[value];
+                    this[i].data = response.data.statistics.daylyAverageStatuses[value];
                 }, $scope.lineData);
 
-            }, function (res) {
+            }, function (error) {
                 $scope.onLoading = false;
-                $scope.errors.push('No data load:'+res.statusText);
+                $scope.errors.push('No data load: '+error.statusText);
             });
-        }
+        })();
 
     }
 })();

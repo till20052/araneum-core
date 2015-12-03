@@ -2,12 +2,17 @@
 
 namespace Araneum\Base\Service;
 
+use Araneum\Base\Ali\DatatableBundle\Util\Factory\DatatableFactory;
+use Araneum\Base\Service\Actions\AbstractActions;
+use Araneum\Base\Service\Actions\ActionFactory;
 
 class AdminInitializerService
 {
     private $datatableFactory;
 
     private $formExporter;
+
+    private $actionFactory;
 
     private $filter;
 
@@ -20,13 +25,15 @@ class AdminInitializerService
     /**
      * AdminInitializerService constructor.
      *
-     * @param $formExporter
-     * @param $datatableFactory
+     * @param FromExporterService $formExporter
+     * @param DatatableFactory $datatableFactory
+     * @param ActionFactory $actionFactory
      */
-    public function __construct($formExporter, $datatableFactory)
+    public function __construct($formExporter, $datatableFactory, $actionFactory)
     {
         $this->formExporter = $formExporter;
         $this->datatableFactory = $datatableFactory;
+        $this->actionFactory = $actionFactory;
     }
 
     /**
@@ -65,12 +72,12 @@ class AdminInitializerService
     /**
      * Set actions
      *
-     * @param $action
+     * @param AbstractActions $action
      * @return mixed
      */
-    public function setActions($action)
+    public function setActions(AbstractActions $action)
     {
-        $this->action = $action;
+        $this->action = $this->actionFactory->create($action);
 
         return $this;
     }

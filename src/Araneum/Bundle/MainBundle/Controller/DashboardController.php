@@ -17,6 +17,7 @@ class DashboardController extends Controller
      *     "/manage/dashboard/data-source.json",
      *     name="araneum_admin_dashboard_getDataSource"
      * )
+	 *
      * @return JsonResponse
      */
     public function getDataSourceAction()
@@ -28,7 +29,12 @@ class DashboardController extends Controller
             'statistics' => [
                 'applicationsState' => $statisticService->getApplicationsStatistics(),
                 'daylyApplications' => $statisticService->prepareResulForDaylyApplications(),
-                'daylyAverageStatuses' =>$statisticService->prepareResultForDaylyAverageStatuses()
+                'daylyAverageStatuses' => $statisticService->prepareResultForDaylyAverageStatuses(),
+                'clusterLoadAverage' => $statisticService->prepareResultForClusterAverage(),
+                'clusterUpTime' => $statisticService->prepareResultForClusterUpTime(),
+                'summary' => $statisticService->getSummary(),
+				'registeredCustomers' => $statisticService->getRegisteredCustomersFromApplications(),
+				'receivedEmails' => $statisticService->getReceivedEmailsFromApplications()
             ]
         ];
 

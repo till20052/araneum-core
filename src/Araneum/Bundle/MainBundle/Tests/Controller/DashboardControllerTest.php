@@ -53,8 +53,6 @@ class DashboardControllerTest extends BaseController
 
     /**
      * Test getting DataSource of Dashboard
-     *
-     * @runInSeparateProcess
      */
     public function testGetDataSourceAction()
     {
@@ -70,7 +68,7 @@ class DashboardControllerTest extends BaseController
         /** @var Response $response */
         $response = $this->client->getResponse();
 
-        $this->assertTrue($response->isSuccessful());
+        $this->assertTrue($response->isSuccessful(), $response->getContent());
         $this->assertObjectsStructuresEquals(
             (object)[
                 'statistics' => (object)[
@@ -92,7 +90,18 @@ class DashboardControllerTest extends BaseController
                         'problems'=>[],
                         'success' => [],
                         'disabled'  => []
-                    ]
+                    ],
+                    'clusterLoadAverage' => [],
+                    'clusterUpTime' => [],
+                    'summary' => [
+						'applications' => [],
+						'clusters' => [],
+						'admins' => [],
+						'connections' => [],
+						'locales' => []
+					],
+                    'registeredCustomers' => [],
+                    'receivedEmails' => []
                 ]
             ],
             json_decode($response->getContent())
