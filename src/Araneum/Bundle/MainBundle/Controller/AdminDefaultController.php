@@ -60,10 +60,10 @@ class AdminDefaultController extends Controller
 
         $messages = $translator->getMessages($translator->getLocale());
 
-        foreach($messages['admin'] as $key => $value){
+        /*foreach($messages['admin'] as $key => $value){
             $tokens = explode('.', $key);
             $messages[$tokens[0]][implode('.', array_slice($tokens, 1))] = $value;
-        }
+        }*/
 
         return new JsonResponse(
             $messages,

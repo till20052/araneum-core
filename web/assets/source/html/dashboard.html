@@ -1,4 +1,4 @@
-<h3 translate="dashboard.DASHBOARD">
+<h3 translate="admin.dashboard.DASHBOARD">
     <em class="icon-speedometer mr"></em>
     Dashboard
 </h3>
@@ -27,7 +27,7 @@
 								</div>
 							</div>
 						</div>
-						<small translate="dashboard.application.APPLICATION">application<span ng-if="statistics.applicationsState.online > 1"><span ng-if="language.selected=='ru'">s</span></span></small>
+						<small translate="admin.dashboard.application.APPLICATION">application<span ng-if="statistics.applicationsState.online > 1"><span ng-if="language.selected=='ru'">s</span></span></small>
 					</div>
 					<div class="text-uppercase">Online</div>
 				</div>
@@ -56,9 +56,9 @@
 								></div>
 							</div>
 						</div>
-						<small translate="dashboard.application.APPLICATION">application<span ng-if="statistics.applicationsState.hasProblems > 1"><span ng-if="language.selected=='ru'">s</span></span></small>
+						<small translate="admin.dashboard.application.APPLICATION">application<span ng-if="statistics.applicationsState.hasProblems > 1"><span ng-if="language.selected=='ru'">s</span></span></small>
 					</div>
-					<div class="text-uppercase" translate="dashboard.application.PROBLEM">Problem</div>
+					<div class="text-uppercase" translate="admin.dashboard.application.PROBLEM">Problem</div>
 				</div>
 			</div>
 		</div>
@@ -85,9 +85,9 @@
 								></div>
 							</div>
 						</div>
-						<small translate="dashboard.application.APPLICATION">application<span ng-if="statistics.applicationsState.hasErrors > 1"><span ng-if="language.selected=='ru'">s</span></span></small>
+						<small translate="admin.dashboard.application.APPLICATION">application<span ng-if="statistics.applicationsState.hasErrors > 1"><span ng-if="language.selected=='ru'">s</span></span></small>
 					</div>
-					<div class="text-uppercase" translate="dashboard.application.ERROR">Error</div>
+					<div class="text-uppercase" translate="admin.dashboard.application.ERROR">Error</div>
 				</div>
 			</div>
 		</div>
@@ -114,9 +114,9 @@
 								></div>
 							</div>
 						</div>
-						<small translate="dashboard.application.APPLICATION">application<span ng-if="statistics.applicationsState.disabled > 1"><span ng-if="language.selected=='ru'">s</span></span></small>
+						<small translate="admin.dashboard.application.APPLICATION">application<span ng-if="statistics.applicationsState.disabled > 1"><span ng-if="language.selected=='ru'">s</span></span></small>
 					</div>
-					<div class="text-uppercase" translate="dashboard.application.DISABLED">Disabled</div>
+					<div class="text-uppercase" translate="admin.dashboard.application.DISABLED">Disabled</div>
 				</div>
 			</div>
 		</div>
@@ -131,7 +131,7 @@
             <div id="panelChart5" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
                 <div class="panel-heading">
                     <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-                    <div class="panel-title" translate="dashboard.wiget.APPLICATION_STATUSES">
+                    <div class="panel-title" translate="admin.dashboard.wiget.APPLICATION_STATUSES">
                         <em class="icon-screen-tablet mr"></em>
                         Statuses for last 24 hour by applications
                     </div>
@@ -168,7 +168,7 @@
                         <div id="panelChart1" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
                             <div class="panel-heading">
                                 <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-                                <div class="panel-title" translate="dashboard.wiget.AVERAGE_APPLICATION_STATUSES">
+                                <div class="panel-title" translate="admin.dashboard.wiget.AVERAGE_APPLICATION_STATUSES">
                                     <em class="icon-screen-tablet mr"></em>
                                     Average application statuses by last 24 hours
                                 </div>
@@ -203,7 +203,7 @@
                     <div id="panelChart9" class="panel panel-default">
                         <div class="panel-heading">
                             <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-                            <div class="panel-title" translate="dashboard.wiget.CLUSTER_LOAD_AVERAGE">
+                            <div class="panel-title" translate="admin.dashboard.wiget.CLUSTER_LOAD_AVERAGE">
                                 <em class="icon-grid mr"></em>
                                 Cluster load average by last 24 hours
                             </div>
@@ -227,7 +227,7 @@
                         <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
                         <div class="panel-title">
                             <em class="icon-grid mr"></em>
-                            <span class="ng-binding" translate="dashboard.wiget.CLUSTER_UP_TIME">Clusters UpTime by last 24 hours</span>
+                            <span class="ng-binding" translate="admin.dashboard.wiget.CLUSTER_UP_TIME">Clusters UpTime by last 24 hours</span>
                         </div>
                     </div>
                     <div collapse="panelChart2" class="panel-wrapper">
@@ -248,35 +248,35 @@
                         <em class="icon-notebook fa-4x"></em>
                     </div>
                     <div class="col-md-2 col-sm-3 col-xs-6 pv text-center br">
-                        <div class="text-info text-sm" translate="dashboard.wiget.APPLICATIONS">Applications</div>
+                        <div class="text-info text-sm" translate="admin.dashboard.wiget.APPLICATIONS">Applications</div>
                         <div class="text-muted text-md">
                             <em class="icon-screen-tablet"></em>
                         </div>
                         <div class="text-muted">6</div>
                     </div>
                     <div class="col-md-2 col-sm-3 hidden-xs pv text-center br">
-                        <div class="text-info text-sm" translate="dashboard.wiget.CLUSTERS">Clusters</div>
+                        <div class="text-info text-sm" translate="admin.dashboard.wiget.CLUSTERS">Clusters</div>
                         <div class="text-muted text-md">
                             <em class="icon-grid"></em>
                         </div>
                         <div class="text-muted">4</div>
                     </div>
                     <div class="col-md-2 col-sm-3 hidden-xs pv text-center br">
-                        <div class="text-info text-sm" translate="dashboard.wiget.ADMINS">Admins</div>
+                        <div class="text-info text-sm" translate="admin.dashboard.wiget.ADMINS">Admins</div>
                         <div class="text-muted text-md">
                             <em class="icon-users"></em>
                         </div>
                         <div class="text-muted">2</div>
                     </div>
                     <div class="col-md-2 hidden-sm hidden-xs pv text-center br">
-                        <div class="text-info text-sm" translate="dashboard.wiget.CONNECTIONS">Connections</div>
+                        <div class="text-info text-sm" translate="admin.dashboard.wiget.CONNECTIONS">Connections</div>
                         <div class="text-muted text-md">
                             <em class="icon-share-alt"></em>
                         </div>
                         <div class="text-muted">12</div>
                     </div>
                     <div class="col-md-2 hidden-sm hidden-xs pv text-center">
-                        <div class="text-info text-sm" translate="dashboard.wiget.LOCALES">Locales</div>
+                        <div class="text-info text-sm" translate="admin.dashboard.wiget.LOCALES">Locales</div>
                         <div class="text-muted text-md">
                             <em class="icon-globe-alt"></em>
                         </div>
@@ -294,7 +294,7 @@
                 <div id="panelChart11" class="panel panel-default">
                     <div class="panel-heading">
                         <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-                        <div class="panel-title" translate="dashboard.wiget.CUSTOMERS_REGISTRATION">
+                        <div class="panel-title" translate="admin.dashboard.wiget.CUSTOMERS_REGISTRATION">
                             <em class="icon-user-follow mr"></em>
                             Customers registration received from applications (24 hours)
                         </div>
@@ -307,8 +307,8 @@
                     <div class="panel-footer">
                         <p class="text-muted">
                             <em class="icon-cloud-upload mr-sm"></em>
-                            <span translate="dashboard.wiget.RECEIVED_FROM_APPLICATION">Received from all applications</span>
-                            <span class="text-dark">164 <span translate="dashboard.wiget.CUSTOMERS">customers</span></span>
+                            <span translate="admin.dashboard.wiget.RECEIVED_FROM_APPLICATION">Received from all applications</span>
+                            <span class="text-dark">164 <span translate="admin.dashboard.wiget.CUSTOMERS">customers</span></span>
                         </p>
                     </div>
                 </div>
@@ -319,7 +319,7 @@
                 <div id="panelChart12" class="panel panel-default">
                     <div class="panel-heading">
                         <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-                        <div class="panel-title" translate="dashboard.wiget.EMAIL_RECIEVED">
+                        <div class="panel-title" translate="admin.dashboard.wiget.EMAIL_RECIEVED">
                             <em class="icon-layers mr"></em>
                             Email received from applications (24 hours)
                         </div>
@@ -331,8 +331,8 @@
                         <div class="panel-footer">
                             <p class="text-muted">
                                 <em class="icon-cloud-upload mr-sm"></em>
-                                <span translate="dashboard.wiget.RECEIVED_FROM_APPLICATION">Received from all applications</span>
-                                <span class="text-dark">386 <span translate="dashboard.wiget.EMAILS">emails</span></span>
+                                <span translate="admin.dashboard.wiget.RECEIVED_FROM_APPLICATION">Received from all applications</span>
+                                <span class="text-dark">386 <span translate="admin.dashboard.wiget.EMAILS">emails</span></span>
                             </p>
                         </div>
                     </div>

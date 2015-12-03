@@ -20,8 +20,8 @@
 			class="form-control"
 		/>
 		<span class="fa fa-envelope form-control-feedback text-muted"></span>
-		<span ng-show="ctrl.form.username.$dirty &amp;&amp; ctrl.form.username.$error.required" class="text-danger" translate="validator.FIELD_REQUIRED">This field is required</span>
-		<span ng-show="ctrl.form.username.$dirty &amp;&amp; ctrl.form.username.$error.pattern" class="text-danger" translate="validator.FIELD_REQUIRED">This field must be a valid username or email address</span>
+		<span ng-show="ctrl.form.username.$dirty &amp;&amp; ctrl.form.username.$error.required" class="text-danger" translate="validators.FIELD_REQUIRED">This field is required</span>
+		<span ng-show="ctrl.form.username.$dirty &amp;&amp; ctrl.form.username.$error.pattern" class="text-danger" translate="validators.FIELD_REQUIRED">This field must be a valid username or email address</span>
 	</div>
 
 	<button type="submit" class="btn btn-danger btn-block" translate="general.RESET">Reset</button>

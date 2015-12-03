@@ -27,7 +27,7 @@
 			ng-repeat-end
 			ng-show="ctrl.reset[ui.full_name].$dirty && ctrl.reset[ui.full_name].$error.required"
 			class="text-danger"
-			translate="validator.FIELD_REQUIRED"
+			translate="validators.FIELD_REQUIRED"
 		>This field is required</div>
 
 		<div ng-show="ctrl.reset[ctrl.fosUi.second.full_name].$error.match" class="text-danger" >Value of confirm Password field should be same as value of Password field.</div>

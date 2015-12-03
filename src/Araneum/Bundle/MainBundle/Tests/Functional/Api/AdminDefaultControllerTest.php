@@ -37,7 +37,7 @@ class AdminDefaultControllerTest extends BaseController
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
-        $this->assertTrue(isset($decoded['admin']['sidebar.WELCOME']));
-        $this->assertTrue(is_string($decoded['admin']['sidebar.WELCOME']));
+        $this->assertTrue(isset($decoded['admin']['admin.sidebar.WELCOME']));
+        $this->assertTrue(is_string($decoded['admin']['admin.sidebar.WELCOME']));
     }
 }

@@ -61,28 +61,6 @@ sidebar:
         received:
             CUSTOMER: "Customers"
             EMAIL: "Emails"
-locales:
-    LOCALES: 'Locales'
-    EDIT_LOCALE: 'Edit locale'
-    DELETE_LOCALE: 'Delete locale'
-    ENABLE_LOCALE: 'Enable locale'
-    DISABLE_LOCALE: 'Disable locale'
-    CREATE_NEW: 'Create new locale'
-user:
-    EDIT_PROFILE: 'Edit profile'
-    LOGIN: 'Login'
-    FULLNAME: 'Full name'
-    PASSWORD_RESET: 'Password reset'
-    FILL_EMAIL: 'Fill with your mail to receive instructions on how to reset your password'
-    NAME_OR_EMAIL: 'Name or email'
-    SIGN_IN: 'Sign in'
-    CONFIRM_AS_PASSWORD: 'Value of confirm Password field should be same as value of Password field'
-    SIGN_IN_TO_CONTINUE: 'SIGN IN TO CONTINUE'
-    REMEMBER_ME: 'Remember me'
-    FORGOT_YOU_PASSWORD: 'Forgot your password?'
-validator:
-    FIELD_REQUIRED: 'Field required'
-    NOT_VALID_EMAIL: 'Not valid email'
 general:
     SAVE: 'Save'
     CANCEL: 'Cancel'
