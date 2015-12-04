@@ -53,7 +53,7 @@ offsidebar:
 sidebar:
     WELCOME: "Добро пожаловать"
     heading:
-        HEADER: "Главное окно"
+        HEADER: "Главное меню"
         MANAGER: "Управление сайтами"
         RECEIVED: "Полученные данные"
     nav:
