@@ -9,3 +9,4 @@ CONFIRM_AS_PASSWORD: 'Value of confirm Password field should be same as value of
 SIGN_IN_TO_CONTINUE: 'SIGN IN TO CONTINUE'
 REMEMBER_ME: 'Remember me'
 FORGOT_YOU_PASSWORD: 'Forgot your password?'
+OPEN_PROFILE: 'Open profile'

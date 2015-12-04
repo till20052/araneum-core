@@ -1,6 +1,6 @@
 <div ng-class="{'whirl traditional': inLoading}">
 
-	<h3 class="mt0 mb-lg" ><em class="icon-user"></em><span translate="admin.user.EDIT_PROFILE"> Edit profile</span></h3>
+	<h3 class="mt0 mb-lg" ><em class="icon-user"></em><span translate="user.EDIT_PROFILE">  Edit profile</span></h3>
 
 	<div ng-repeat="error in errors track by $index" class="alert alert-danger text-center">{{ error }}</div>
 
@@ -8,7 +8,7 @@
 
 		<div class="form-group">
 
-			<label class="col-lg-3 control-label" translate="admin.user.LOGIN">Login</label>
+			<label class="col-lg-3 control-label" translate="user.LOGIN">Login</label>
 
 			<div class="col-lg-9">
 				<input ng-model="username" type="text" name="username" class="form-control" required="required" />
@@ -19,7 +19,7 @@
 
 		<div class="form-group">
 
-			<label class="col-lg-3 control-label" translate="admin.user.FULLNAME">Full name</label>
+			<label class="col-lg-3 control-label" translate="user.FULLNAME">Full name</label>
 
 			<div class="col-lg-9">
 				<input ng-model="fullName" type="text" name="fullName" class="form-control" required="required" />

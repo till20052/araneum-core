@@ -1,6 +1,6 @@
 dashboard :
     WELCOME: "Добро пожаловать в систему управления сайтом"
-    DASHBOARD: "Админпанель"
+    DASHBOARD: "Статистика"
     application:
         APPLICATION: "Сайт"
         ONLINE: "Online"
@@ -57,7 +57,7 @@ sidebar:
         MANAGER: "Управление сайтами"
         RECEIVED: "Полученные данные"
     nav:
-        DASHBOARD: "Админпанель"
+        DASHBOARD: "Статистика"
         USERS: "Пользователи"
         LOCALES: "Локали"
         manager:
