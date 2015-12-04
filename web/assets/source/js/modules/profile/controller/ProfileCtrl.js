@@ -16,15 +16,7 @@
 			vm.editProfile = editProfile;
 			vm.logout = logout;
 
-			$rootScope.toggleUserBlock = function () {
-				$rootScope.$broadcast('toggleUserBlock');
-			};
-
 			$rootScope.userBlockVisible = true;
-
-			$rootScope.$on('toggleUserBlock', function (/*event, args*/) {
-				$rootScope.userBlockVisible = !$rootScope.userBlockVisible;
-			});
 
 			function editProfile() {
 				ngDialog.open({
