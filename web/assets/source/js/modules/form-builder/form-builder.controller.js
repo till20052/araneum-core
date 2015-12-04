@@ -5,7 +5,7 @@
 		.module('app.formBuilder')
 		.controller('FormBuilderController', FormBuilderController);
 
-	FormBuilderController.$inject = ['$state', '$scope', '$http', '$compile', 'DTOptionsBuilder', 'DTInstances', 'formDataService', 'TranslateDatatablesService', '$translate'];
+	FormBuilderController.$inject = ['$state', '$scope', '$http', '$compile', 'DTOptionsBuilder', 'DTInstances', 'formDataService', 'TranslateDatatablesService'];
 
 	/**
 	 *
@@ -20,7 +20,7 @@
 	 * @param $translate
 	 * @constructor
 	 */
-	function FormBuilderController($state, $scope, $http, $compile, DTOptionsBuilder, DTInstances, formDataService, TranslateDatatablesService, $translate) {
+	function FormBuilderController($state, $scope, $http, $compile, DTOptionsBuilder, DTInstances, formDataService, TranslateDatatablesService) {
 		var vm = this;
 		var formJsonUrl = $state.$current.initialize;
 		formDataService.setFromUrl(formJsonUrl);
@@ -64,7 +64,7 @@
 						}
 					});
 				})
-				.withOption('language', TranslateDatatablesService.translateTable($translate))
+				.withOption('language', TranslateDatatablesService.translateTable())
 				.withPaginationType('full_numbers'),
 			columns: []
 		};

@@ -34,7 +34,7 @@
                     "sortDescending": ""
                 }
             },
-            translateTable: function ($translate) {
+            translateTable: function () {
                 $translate([
                     'admin.datatables.PROCESSING',
                     'admin.datatables.SEARCH',
@@ -74,7 +74,7 @@
         };
 
         $rootScope.$on('language', function () {
-            service.translateTable($translate);
+            service.translateTable();
         });
 
         return service;

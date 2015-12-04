@@ -4,8 +4,8 @@
     ng.module('app.locales')
         .controller('LocalesController', LocalesController);
 
-    LocalesController.$inject = ['$compile', '$scope', '$http', 'DTOptionsBuilder', '$translate', 'TranslateDatatablesService'];
-    function LocalesController($compile, $scope, $http, DTOptionsBuilder, $translate, TranslateDatatablesService) {
+    LocalesController.$inject = ['$compile', '$scope', '$http', 'DTOptionsBuilder', 'TranslateDatatablesService'];
+    function LocalesController($compile, $scope, $http, DTOptionsBuilder, TranslateDatatablesService) {
 
         /**
          * Constructor
@@ -49,7 +49,7 @@
                                 }
                             });
                         })
-                        .withOption('language', TranslateDatatablesService.translateTable($translate))
+                        .withOption('language', TranslateDatatablesService.translateTable())
                         .withPaginationType('full_numbers'),
                     columns: []
                 };
