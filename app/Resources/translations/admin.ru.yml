@@ -3,7 +3,7 @@ dashboard :
     DASHBOARD: "Статистика"
     application:
         APPLICATION: "Сайт"
-        ONLINE: "Online"
+        ONLINE: "Доступно"
         PROBLEM: "Проблема"
         ERROR: "Ошибка"
         DISABLED: "Выключен"
@@ -22,6 +22,9 @@ dashboard :
         CONNECTIONS: "Соединений"
         CLUSTERS: "Кластеров"
         LOCALES: "Локалей"
+        COLLAPSE: "Свернуть панель"
+        REFRESH: "Обновить панель"
+        CLOSE: "Закрыть панель"
 topbar:
     messages:
         UNREAD: "Непрочтенных сообщений"

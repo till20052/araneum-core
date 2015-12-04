@@ -22,6 +22,9 @@ dashboard :
         CONNECTIONS: "Connections"
         CLUSTERS: "Clusters"
         LOCALES: "Locales"
+        COLLAPSE: "Collapse panel"
+        REFRESH: "Refresh panel"
+        CLOSE: "Close panel"
 topbar:
     messages:
         UNREAD: "Unread messages"
