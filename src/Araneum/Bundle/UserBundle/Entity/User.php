@@ -34,6 +34,14 @@ class User extends BaseUser
     ];
 
     /**
+     * @var array
+     */
+    static $enable = [
+        true => 'Enabled',
+        false => 'Disabled'
+    ];
+
+    /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")

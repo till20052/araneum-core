@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Araneum\Bundle\UserBundle\Service\DataTable\UserDataTableList;
 
 class AdminUserController extends Controller
 {
@@ -122,5 +123,47 @@ class AdminUserController extends Controller
 
 		return (new JsonResponse())
 				->setStatusCode(Response::HTTP_ACCEPTED);
+	}
+
+
+	/**
+	 * Locales module initialization
+	 *
+	 * @Route("/manage/users/init.json", name="araneum_manage_users_init")
+	 * @return JsonResponse
+	 */
+	public function initAction()
+	{
+		$initializer = $this->get('araneum.admin.initializer.service');
+		$filter = $this->get('araneum_user.user.filter.form');
+		$code = JsonResponse::HTTP_OK;
+
+		try {
+			$initializer->setFilters($filter);
+			$initializer->setGrid(
+					new UserDataTableList($this->container),
+					$this->generateUrl('araneum_manage_locales_grid')
+			);
+			$initializer->setActions(new LocaleActions());
+		} catch (\Exception $exception) {
+			$code = JsonResponse::HTTP_INTERNAL_SERVER_ERROR;
+			$initializer->setError($exception);
+		}
+
+		return new JsonResponse($initializer->get(), $code);
+	}
+
+	/**
+	 * Server/client datatable communication
+	 *
+	 * @Route("/manage/users/datatable.json", name="araneum_manage_users_grid")
+	 * @return JsonResponse
+	 */
+	public function datatableAction()
+	{
+		return $this
+				->get('araneum_datatable.factory')
+				->create(new UserDataTableList($this->container))
+				->execute();
 	}
 }
