@@ -79,6 +79,7 @@ general:
     ENABLED: 'Enabled'
     DISABLED: 'Disabled'
     DATA_LIST: 'Data list'
+    RESET: 'Reset'
 datatables:
     PROCESSING: 'Processing...'
     SEARCH: 'Search:'

@@ -79,7 +79,7 @@
 							for (var key in element.choices) {
 								$('select', elementTemplate).append($('<option />').val(element.choices[key].value).text(element.choices[key].label));
 							}
-							$('label', elementTemplate).text(element.label);
+							$('label', elementTemplate).attr('translate', element.translateLabel).text(element.label);
 							break;
 					}
 
@@ -112,9 +112,8 @@
 						ngModel: el.name
 					})).val(el.value);
 
-					$('label', template).attr('for', el.value)
+					$('label', template).attr('for', el.value).attr('translate', el.translateLabel)
 					                    .text(el.label);
-
 					return template;
 				},
 
@@ -189,9 +188,11 @@
 								choices: currEl.choices,
 								multipart: currEl.multipart,
 								label: currEl.label,
-								emptyValue: currEl.empty_value
+								emptyValue: currEl.empty_value,
+								translateLabel: currEl.attr.translateLabel
 							}
 						}
+
 
 						if (angular.isObject(formEl[el]['children'])) {
 							for (var elem in formEl[el]['children']) {
@@ -203,7 +204,8 @@
 									value: currEl.value,
 									choices: currEl.choices,
 									label: currEl.label,
-									emptyValue: currEl.empty_value
+									emptyValue: currEl.empty_value,
+									translateLabel: currEl.translateLabel
 								}
 							}
 						}
@@ -237,11 +239,11 @@
 					var templateButtons = '<div class="col-lg-2">' +
 						'<fieldset>' +
 							'<div class="form-group">' +
-								'<button type="submit" class="btn btn-default mr-sm" id="reset">' +
+								'<button type="submit" class="btn btn-default mr-sm" id="reset" translate="admin.general.RESET">' +
 									'<em class="icon-refresh mr-sm"></em>' +
 									'Reset' +
 								'</button>' +
-								'<button type="submit" class="btn btn-primary" id="search">' +
+								'<button type="submit" class="btn btn-primary" id="search" translate="admin.general.SEARCH">' +
 									'<em class="icon-magnifier mr-sm"></em>' +
 									'Search' +
 								'</button>' +

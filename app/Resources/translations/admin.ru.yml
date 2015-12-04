@@ -68,7 +68,7 @@ sidebar:
             LOCALE: "Локали"
         received:
             CUSTOMER: "Участники"
-            EMAIL: "Emails"
+            EMAIL: "Сообщения"
 general:
     SAVE: 'Сохранить'
     CANCEL: 'Отмена'

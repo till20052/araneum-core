@@ -4,3 +4,12 @@ DELETE_LOCALE: Удалить локаль
 ENABLE_LOCALE: Активировать локаль
 DISABLE_LOCALE: Сделать локаль не активной
 CREATE_NEW: Создать локаль
+NAME: Имя
+ENABLED: Активно
+ENCODING: Кодировка
+LOCALE: Локаль
+ORIENTATION: Ориентация
+PLACEHOLDER: Введите имя локали
+EMPTY_VALUE: Выберите
+ENTER_ENCODING: Введите кодировку
+ENTER_LOCALE: Введите локаль
