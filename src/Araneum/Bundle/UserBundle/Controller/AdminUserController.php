@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Araneum\Bundle\UserBundle\Service\DataTable\UserDataTableList;
+use Araneum\Bundle\UserBundle\Service\Actions\UserActions;
 
 class AdminUserController extends Controller
 {
@@ -144,7 +145,7 @@ class AdminUserController extends Controller
 					new UserDataTableList($this->container),
 					$this->generateUrl('araneum_manage_locales_grid')
 			);
-			$initializer->setActions(new LocaleActions());
+			$initializer->setActions(new UserActions());
 		} catch (\Exception $exception) {
 			$code = JsonResponse::HTTP_INTERNAL_SERVER_ERROR;
 			$initializer->setError($exception);
