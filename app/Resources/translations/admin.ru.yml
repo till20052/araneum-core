@@ -1,6 +1,6 @@
 dashboard :
     WELCOME: "Добро пожаловать в систему управления сайтом"
-    DASHBOARD: "Панель администратора"
+    DASHBOARD: "Админпанель"
     application:
         APPLICATION: "Сайт"
         ONLINE: "Online"
@@ -57,7 +57,7 @@ sidebar:
         MANAGER: "Управление сайтами"
         RECEIVED: "Полученные данные"
     nav:
-        DASHBOARD: "Панель администратора"
+        DASHBOARD: "Админпанель"
         USERS: "Пользователи"
         LOCALES: "Локали"
         manager:
@@ -80,6 +80,11 @@ general:
     ENABLED: 'Активно'
     DISABLED: 'Неактивно'
     DATA_LIST: 'Список'
+    EDIT: 'Редактировать'
+    ACTIONS: 'Действия'
+    DELETE: 'Удалить'
+    ENABLE: 'Включить'
+    DISABLE: 'Выключить'
 datatables:
     PROCESSING: 'Подождите...'
     SEARCH: 'Поиск:'

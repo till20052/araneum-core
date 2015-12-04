@@ -6,6 +6,6 @@ FILL_EMAIL: 'Заполните поле email и получите на почт
 NAME_OR_EMAIL: 'Имя или email'
 SIGN_IN: 'Войти'
 CONFIRM_AS_PASSWORD: 'Поля пароль и подтверждение пароля должны совпадать'
-SIGN_IN_TO_CONTINUE: 'Для продолжения необходимо войти в систему'
+SIGN_IN_TO_CONTINUE: 'Необходима авторизация'
 REMEMBER_ME: 'Запомнить меня'
 FORGOT_YOU_PASSWORD: 'Забыли пароль?'

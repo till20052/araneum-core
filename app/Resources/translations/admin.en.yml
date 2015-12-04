@@ -80,6 +80,11 @@ general:
     DISABLED: 'Disabled'
     DATA_LIST: 'Data list'
     RESET: 'Reset'
+    EDIT: 'Edit'
+    ACTIONS: 'Actions'
+    DELETE: 'Delete'
+    ENABLE: 'Enable'
+    DISABLE: 'Disable'
 datatables:
     PROCESSING: 'Processing...'
     SEARCH: 'Search:'
