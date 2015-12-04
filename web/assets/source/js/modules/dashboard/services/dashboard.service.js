@@ -24,8 +24,6 @@
 			return APP_COLORS[key];
 		});
 
-		console.log(colors);
-
 		return {
 			appendSpinkit: appendSpinkit,
 			onDataLoaded: onDataLoaded,
