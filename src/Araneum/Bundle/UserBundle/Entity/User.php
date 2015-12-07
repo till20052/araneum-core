@@ -49,7 +49,7 @@ class User extends BaseUser
     protected $id;
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Role", cascade={"detach", "persist"}, inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Araneum\Bundle\UserBundle\Entity\Role", cascade={"detach", "persist"}, inversedBy="users")
      * @ORM\JoinTable(name="araneum_user_role")
      */
     protected $roles;
@@ -87,8 +87,10 @@ class User extends BaseUser
     {
         $this->rolesBuffer = [];
 
-        foreach ($this->roles as $role) {
-            $this->rolesBuffer[] = $role->getName();
+        if (is_array($this->roles)) {
+            foreach ($this->roles as $role) {
+                $this->rolesBuffer[] = $role->getName();
+            }
         }
     }
 

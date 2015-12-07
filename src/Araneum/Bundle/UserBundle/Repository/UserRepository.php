@@ -5,6 +5,17 @@ use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository implements \Countable
 {
+
+	/**
+	 * Return Locale Query Builder without any conditions
+	 *
+	 * @return \Doctrine\ORM\QueryBuilder
+	 */
+	public function getQueryBuilder()
+	{
+		return $this->createQueryBuilder('u');
+	}
+
 	/**
 	 * Count elements of an object
 	 * @link http://php.net/manual/en/countable.count.php

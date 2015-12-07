@@ -43,14 +43,11 @@
 				templateUrl: helper.basepath('grid-template.html'),
 				resolve: helper.resolveFor('datatables', 'whirl')
 			})
-			.state('app.table-ngtable', {
-				url: '/table-ngtable',
-				templateUrl: helper.basepath('table-ngtable.html'),
-				resolve: angular.extend(helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert'), {
-					tpl: function() {
-						return {path: helper.basepath('ngdialog-template.html')};
-					}
-				})
+			.state('app.users', {
+				url: '/users',
+				initialize: '/user/manage/users/init.json',
+				templateUrl: helper.basepath('grid-template.html'),
+				resolve: helper.resolveFor('datatables', 'whirl')
 			})
 			.state('login', {
 				url: '/login',

@@ -9,7 +9,7 @@ Main:
             translate: admin.sidebar.nav.DASHBOARD
         Users:
             text: Users
-            sref: app.table-ngtable
+            sref: app.users
             icon: icon-users
             translate: admin.sidebar.nav.USERS
 Site_Manager:

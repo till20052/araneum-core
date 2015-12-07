@@ -143,7 +143,7 @@ class AdminUserController extends Controller
 			$initializer->setFilters($filter);
 			$initializer->setGrid(
 					new UserDataTableList($this->container),
-					$this->generateUrl('araneum_manage_locales_grid')
+					$this->generateUrl('araneum_manage_users_grid')
 			);
 			$initializer->setActions(new UserActions());
 		} catch (\Exception $exception) {
