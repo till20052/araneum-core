@@ -1,0 +1,15 @@
+LOCALES: Locales
+EDIT_LOCALE: Edit locale
+DELETE_LOCALE: Delete locale
+ENABLE_LOCALE: Enable locale
+DISABLE_LOCALE: Disable locale
+CREATE_NEW: Create new locale
+NAME: Name
+ENABLED: Enabled
+ENCODING: Encoding
+LOCALE: Locale
+ORIENTATION: Orientation
+PLACEHOLDER: Entre locale name
+EMPTY_VALUE: Choose
+ENTER_ENCODING: Enter encoding
+ENTER_LOCALE: Enter locale

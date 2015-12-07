@@ -1,21 +1,30 @@
 dashboard :
     WELCOME: "Добро пожаловать в систему управления сайтом"
-    DASHBOARD: "Панель администратора"
+    DASHBOARD: "Статистика"
     application:
-        APPLICATION: "Приложение"
-        ONLINE: "Online"
+        APPLICATION: "Сайт"
+        ONLINE: "Доступно"
         PROBLEM: "Проблема"
         ERROR: "Ошибка"
+        DISABLED: "Выключен"
     wiget:
         APPLICATION_STATUSES: "Статусы приложений за 24 часа"
         AVERAGE_APPLICATION_STATUSES: "Усредненные показатели состояний приложений за 24 часа"
         CLUSTER_LOAD_AVERAGE: "Усредненная нагрузка по кластерам за 24 часа"
         CLUSTER_UP_TIME: "Время непрерырвной работы за 24 часа"
         CUSTOMERS_REGISTRATION: "Заявки на регистрацию от клиентов за последние 24 часа"
-        EMAIL_RECIEVED: "Сообщений принято от приложений за 24 часа"
+        EMAIL_RECIEVED: "Сообщений принято от сайтов за 24 часа"
         RECEIVED_FROM_APPLICATION: "Принято ото всех приложений"
-        CUSTOMERS: "клиентов"
+        CUSTOMERS: "Клиентов"
         EMAILS: "сообщений"
+        APPLICATIONS: "Сайтов"
+        ADMINS: "Администраторов"
+        CONNECTIONS: "Соединений"
+        CLUSTERS: "Кластеров"
+        LOCALES: "Локалей"
+        COLLAPSE: "Свернуть панель"
+        REFRESH: "Обновить панель"
+        CLOSE: "Закрыть панель"
 topbar:
     messages:
         UNREAD: "Непрочтенных сообщений"
@@ -47,11 +56,11 @@ offsidebar:
 sidebar:
     WELCOME: "Добро пожаловать"
     heading:
-        HEADER: "Главное окно"
+        HEADER: "Главное меню"
         MANAGER: "Управление сайтами"
         RECEIVED: "Полученные данные"
     nav:
-        DASHBOARD: "Панель администратора"
+        DASHBOARD: "Статистика"
         USERS: "Пользователи"
         LOCALES: "Локали"
         manager:
@@ -62,4 +71,39 @@ sidebar:
             LOCALE: "Локали"
         received:
             CUSTOMER: "Участники"
-            EMAIL: "Emails"
+            EMAIL: "Сообщения"
+general:
+    SAVE: 'Сохранить'
+    CANCEL: 'Отмена'
+    RESET: 'Сброс'
+    FILTERS: 'Фильтры'
+    LABEL_FOCUS: 'Строка для поиска'
+    SELECT: 'Выберите'
+    SEARCH: 'Поиск'
+    ENABLED: 'Активно'
+    DISABLED: 'Неактивно'
+    DATA_LIST: 'Список'
+    EDIT: 'Редактировать'
+    ACTIONS: 'Действия'
+    DELETE: 'Удалить'
+    ENABLE: 'Включить'
+    DISABLE: 'Выключить'
+datatables:
+    PROCESSING: 'Подождите...'
+    SEARCH: 'Поиск:'
+    LENGTH_MENU: 'Показать _MENU_ записей'
+    INFO: 'Записи с _START_ до _END_ из _TOTAL_ записей'
+    INFO_EMPTY: 'Записи с 0 до 0 из 0 записей'
+    INFO_FILTERED: '(отфильтровано из _MAX_ записей)'
+    INFO_POSTFIX: ''
+    LOADING_RECORDS: 'Загрузка записей...'
+    ZERO_RECORDS: 'Записи отсутствуют.'
+    EMPTY_TABLE: 'В таблице отсутствуют данные'
+    paginate:
+      FIRST: 'Первая'
+      PREVIUOS: 'Предыдущая'
+      NEXT: 'Следующая'
+      LAST: 'Последняя'
+    aria:
+      SORTASCENDING: ': активировать для сортировки столбца по возрастанию'
+      SORTDESCENDINT: ': активировать для сортировки столбца по убыванию'

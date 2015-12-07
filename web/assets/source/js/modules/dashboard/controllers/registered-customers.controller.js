@@ -60,11 +60,15 @@
 				shadowSize: 0
 			};
 
+			$scope.onLoading = true;
+
 			DashboardService.onDataLoaded(function(response){
+				$scope.onLoading = false;
 				vm.count = response.data.statistics.registeredCustomers.count;
 				vm.data = response.data.statistics.registeredCustomers.data;
 				DashboardService.assignColorsByLabel(vm.data);
 			}, function(error){
+				$scope.onLoading = false;
 				vm.error = error
 			});
 

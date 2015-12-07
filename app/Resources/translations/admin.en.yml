@@ -6,6 +6,7 @@ dashboard :
         ONLINE: "Online"
         PROBLEM: "Problem"
         ERROR: "Error"
+        DISABLED: "Disabled"
     wiget:
         APPLICATION_STATUSES: "Statuses for last 24 hour by applications"
         AVERAGE_APPLICATION_STATUSES: "Average application statuses by last 24 hours"
@@ -14,6 +15,16 @@ dashboard :
         CUSTOMERS_REGISTRATION: "Customers registration received from applications (24 hours)"
         EMAIL_RECIEVED: "Email received from applications (24 hours)"
         RECEIVED_FROM_APPLICATION: "Received from all applications"
+        CUSTOMERS: "Customers"
+        EMAILS: "messages"
+        APPLICATIONS: "Applications"
+        ADMINS: "Admins"
+        CONNECTIONS: "Connections"
+        CLUSTERS: "Clusters"
+        LOCALES: "Locales"
+        COLLAPSE: "Collapse panel"
+        REFRESH: "Refresh panel"
+        CLOSE: "Close panel"
 topbar:
     messages:
         UNREAD: "Unread messages"
@@ -61,3 +72,38 @@ sidebar:
         received:
             CUSTOMER: "Customers"
             EMAIL: "Emails"
+general:
+    SAVE: 'Save'
+    CANCEL: 'Cancel'
+    FILTERS: 'Filter'
+    LABEL_FOCUS: 'Label focus'
+    SELECT: 'Выберите'
+    SEARCH: 'Search'
+    ENABLED: 'Enabled'
+    DISABLED: 'Disabled'
+    DATA_LIST: 'Data list'
+    RESET: 'Reset'
+    EDIT: 'Edit'
+    ACTIONS: 'Actions'
+    DELETE: 'Delete'
+    ENABLE: 'Enable'
+    DISABLE: 'Disable'
+datatables:
+    PROCESSING: 'Processing...'
+    SEARCH: 'Search:'
+    LENGTH_MENU: 'Show _MENU_ entries'
+    INFO: 'Showing _START_ to _END_ of _TOTAL_ entries'
+    INFO_EMPTY: 'Showing 0 to 0 of 0 entries'
+    INFO_FILTERED: '(filtered from _MAX_ total entries)'
+    INFO_POSTFIX: ''
+    LOADING_RECORDS: 'Loading...'
+    ZERO_RECORDS: 'No matching records found.'
+    EMPTY_TABLE: 'No data available in table'
+    paginate:
+      FIRST: 'First'
+      PREVIUOS: 'Previous'
+      NEXT: 'Next'
+      LAST: 'Last'
+    aria:
+      SORTASCENDING: ': activate to sort column ascending'
+      SORTDESCENDINT: ': activate to sort column descending'
