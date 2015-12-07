@@ -1,4 +1,4 @@
-<p class="text-center pv">PASSWORD RESET</p>
+<p class="text-center pv" translate="user.PASSWORD_RESET">PASSWORD RESET</p>
 
 <form ng-submit="ctrl.resetAction()" role="form" name="ctrl.reset" novalidate="" class="form-validate">
 
@@ -27,18 +27,19 @@
 			ng-repeat-end
 			ng-show="ctrl.reset[ui.full_name].$dirty && ctrl.reset[ui.full_name].$error.required"
 			class="text-danger"
+			translate="validators.FIELD_REQUIRED"
 		>This field is required</div>
 
-		<div ng-show="ctrl.reset[ctrl.fosUi.second.full_name].$error.match" class="text-danger">Confirm Password should be same as old Password.</div>
+		<div ng-show="ctrl.reset[ctrl.fosUi.second.full_name].$error.match" class="text-danger" >Value of confirm Password field should be same as value of Password field.</div>
 
 		<span class="fa fa-envelope form-control-feedback text-muted"></span>
 
 	</div>
 
-	<button type="submit" class="btn btn-danger btn-block">Reset</button>
+	<button type="submit" class="btn btn-danger btn-block" translate="general.RESET">Reset</button>
 
 	<div class="mt-lg text-center">
-		<a ui-sref="login" class="text-muted">Sign In</a>
+		<a ui-sref="login" class="text-muted" translate="user.SIGN_IN">Sign In</a>
 	</div>
 
 </form>

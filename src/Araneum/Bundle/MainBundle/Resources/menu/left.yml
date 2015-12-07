@@ -1,6 +1,6 @@
 Main:
     text: Main Navigation
-    translate: sidebar.heading.HEADER
+    translate: admin.sidebar.heading.HEADER
     submenu:
         Dashboard:
             text: Dashboard
@@ -14,7 +14,7 @@ Main:
             translate: admin.sidebar.nav.USERS
 Site_Manager:
     text: Site manager
-    translate: sidebar.heading.MANAGER
+    translate: admin.sidebar.heading.MANAGER
     submenu:
         Cluster:
             text: Cluster

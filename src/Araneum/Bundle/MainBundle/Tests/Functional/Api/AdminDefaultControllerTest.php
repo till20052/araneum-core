@@ -20,8 +20,6 @@ class AdminDefaultControllerTest extends BaseController
 
     /**
      * Test AdminDefaultController
-     *
-     *
      */
     public function testGetTranslateList()
     {

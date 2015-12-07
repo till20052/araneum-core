@@ -1,6 +1,6 @@
 <h3>
 	<em class="icon-globe-alt mr"></em>
-	Locales
+	<span translate="locales.LOCALES">Locales</span>
 </h3>
 
 	<div ng-controller="FormBuilderController as vm">
@@ -9,7 +9,7 @@
 			<div class="panel-heading">
 				<h3 class="panel-title">
 					<em class="fa fa-filter mr-sm"></em>
-					Filters
+					<span translate="admin.general.FILTERS">Filters</span>
 				</h3>
 			</div>
 			<div  class="form-horizontal">
@@ -32,34 +32,34 @@
 			<widget ng-hide="true" id="locales-actions">
 				<div dropdown="dropdown" class="btn-group">
 					<button type="button" ng-disabled="disabled" dropdown-toggle=""
-							class="btn btn-xs dropdown-toggle btn-default" tooltip="Actions">
+							class="btn btn-xs dropdown-toggle btn-default" tooltip="{{admin.general.ACTIONS | translate}}">
 						<em class="icon-settings"></em>
 					</button>
 					<ul role="menu" class="dropdown-menu dropdown-menu-right">
 						<li>
 							<a href="#">
 								<em class="icon-note mr-sm"></em>
-								Edit
+								<span translate="admin.general.EDIT">Edit</span>
 							</a>
 						</li>
 						<li class="divider"></li>
 						<li>
 							<a href="#">
 								<em class="icon-lock-open mr-sm"></em>
-								Enable
+								<span translate="admin.general.ENABLE">Enable</span>
 							</a>
 						</li>
 						<li>
 							<a href="#">
 								<em class="icon-lock mr-sm"></em>
-								Disable
+								<span translate="admin.general.DISABLE">Disable</span>
 							</a>
 						</li>
 						<li class="divider"></li>
 						<li>
 							<a href="#">
 								<em class="fa fa-remove mr-sm"></em>
-								Delete
+								<span translate="admin.general.DELETE">Delete</span>
 							</a>
 						</li>
 					</ul>
@@ -81,26 +81,26 @@
 					<div class="col-xs-6">
 						<h3 class="panel-title mt">
 							<em class="icon-layers mr-sm"></em>
-							Data list
+							<span translate="admin.general.DATA_LIST">Data list</span>
 						</h3>
 					</div>
 
 					<div class="col-xs-6">
 						<div class="btn-group pull-right">
-							<button type="button" class="btn btn-sm btn-danger" tooltip="Delete locales">
+							<button type="button" class="btn btn-sm btn-danger" tooltip="{{'locales.DELETE_LOCALE' | translate}}">
 								<em class="fa fa-remove"></em>
 							</button>
 						</div>
 						<div class="btn-group pull-right mr">
-							<button type="button" class="btn btn-sm btn-default" tooltip="Enable locales">
+							<button type="button" class="btn btn-sm btn-default" tooltip="{{'locales.ENABLE_LOCALE' | translate}}">
 								<em class="icon-lock-open"></em>
 							</button>
-							<button type="button" class="btn btn-sm btn-default" tooltip="Disable locales">
+							<button type="button" class="btn btn-sm btn-default" tooltip="{{'locales.DISABLE_LOCALE' | translate}}">
 								<em class="icon-lock"></em>
 							</button>
 						</div>
 						<div class="btn-group pull-right mr">
-							<button type="button" class="btn btn-sm btn-success" tooltip="Add new locale">
+							<button type="button" class="btn btn-sm btn-success" tooltip="{{'locales.CREATE_NEW' | translate}}">
 								<em class="fa fa-plus"></em>
 							</button>
 						</div>

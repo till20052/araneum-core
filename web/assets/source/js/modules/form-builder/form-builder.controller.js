@@ -5,7 +5,7 @@
 		.module('app.formBuilder')
 		.controller('FormBuilderController', FormBuilderController);
 
-	FormBuilderController.$inject = ['$state', '$scope', '$http', '$compile', 'DTOptionsBuilder', 'DTInstances', 'formDataService'];
+	FormBuilderController.$inject = ['$state', '$scope', '$http', '$compile', 'DTOptionsBuilder', 'DTInstances', 'formDataService', 'TranslateDatatablesService'];
 
 	/**
 	 *
@@ -16,9 +16,11 @@
 	 * @param DTOptionsBuilder options for datatabe
 	 * @param DTInstances changing data in datatable
 	 * @param formDataService factory for store data form server
+	 * @param TranslateDatatablesService
+	 * @param $translate
 	 * @constructor
 	 */
-	function FormBuilderController($state, $scope, $http, $compile, DTOptionsBuilder, DTInstances, formDataService) {
+	function FormBuilderController($state, $scope, $http, $compile, DTOptionsBuilder, DTInstances, formDataService, TranslateDatatablesService) {
 		var vm = this;
 		var formJsonUrl = $state.$current.initialize;
 		formDataService.setFromUrl(formJsonUrl);
@@ -62,6 +64,7 @@
 						}
 					});
 				})
+				.withOption('language', TranslateDatatablesService.translateTable())
 				.withPaginationType('full_numbers'),
 			columns: []
 		};
