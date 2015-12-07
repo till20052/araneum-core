@@ -49,7 +49,8 @@ class UserFilterType extends AbstractType
             [
                 'label' => 'Email',
                 'attr' => [
-                    'placeholder' => 'Enter email user'
+                    'placeholder' => '{{"user.ENTER_EMAIL" | translate}}',
+                    'translateLabel' => 'Email'
                 ],
             ]
         )
@@ -59,7 +60,9 @@ class UserFilterType extends AbstractType
             [
                 'label' => 'Full name',
                 'attr' => [
-                    'placeholder' => 'Enter full name'
+                    'placeholder' => '{{"user.ENTER_FULLNAME" | translate}}',
+                    'translateLabel' => 'user.FULLNAME'
+
                 ],
             ]
         )
@@ -69,7 +72,10 @@ class UserFilterType extends AbstractType
             [
                 'label' => 'Enabled',
                 'choices' => User::$enable,
-                'empty_value' => 'Choose line',
+                'empty_value' => '{{ "admin.general.SELECT" | translate }}',
+                'attr'=>[
+                    'translateLabel' => 'admin.general.ENABLED'
+                ]
             ]
         )
         ->add(
@@ -78,7 +84,8 @@ class UserFilterType extends AbstractType
             [
                 'label' => 'Last login',
                 'attr'=>[
-                    'placeholder' => 'Enter date'
+                    'placeholder' => 'Enter date',
+                    'translateLabel' => 'user.LAST_LOGIN'
                 ]
             ]
         )
@@ -88,7 +95,10 @@ class UserFilterType extends AbstractType
             [
                 'label' => 'Role',
                 'choices' => User::$roleNames,
-                'empty_value' => 'Choose line'
+                'empty_value' => '{{ "admin.general.SELECT" | translate }}',
+                'attr' => [
+                    'translateLabel' => 'user.ROLE'
+                ]
             ]
         );
     }
