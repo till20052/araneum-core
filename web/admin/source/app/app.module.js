@@ -39,6 +39,7 @@
 			'app.translate',
 			'app.formBuilder',
 			'app.utils',
+			'app.charts',
 
 			/**
 			 * Modules
