@@ -87,7 +87,7 @@ class User extends BaseUser
     {
         $this->rolesBuffer = [];
 
-        if (is_array($this->roles)) {
+        if (is_array($this->roles) || $this->roles instanceof \Traversable) {
             foreach ($this->roles as $role) {
                 $this->rolesBuffer[] = $role->getName();
             }
