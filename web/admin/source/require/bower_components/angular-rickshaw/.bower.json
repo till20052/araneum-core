@@ -1,0 +1,39 @@
+{
+  "name": "angular-rickshaw",
+  "main": "rickshaw.js",
+  "authors": [
+    "Nick Ng <ngyewch@gmail.com>"
+  ],
+  "description": "AngularJS Rickshaw directive",
+  "keywords": [
+    "angular",
+    "angularjs",
+    "rickshaw",
+    "graph",
+    "chart"
+  ],
+  "license": "Apache-2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.4.0",
+    "rickshaw": "~1.5.1",
+    "d3": "~3.5.5"
+  },
+  "devDependencies": {},
+  "homepage": "https://github.com/ngyewch/angular-rickshaw",
+  "_release": "e77fd8186f",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "e77fd8186f2ed42a6473282c71f6d6aa32b99bea"
+  },
+  "_source": "git://github.com/ngyewch/angular-rickshaw.git",
+  "_target": "master",
+  "_originalSource": "angular-rickshaw"
+}
