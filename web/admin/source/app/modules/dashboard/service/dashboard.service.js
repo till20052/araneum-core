@@ -15,7 +15,7 @@
 	 * @constructor
 	 */
 	function DashboardService($http, APP_COLORS) {
-		var spinkitCss = '/assets/vendor/spinkit/css/spinkit.css';
+		var spinkitCss = '/admin/vendor/spinkit/css/spinkit.css';
 		var dataSourceUrl = '/manage/dashboard/data-source.json';
 
 		var stackCallback = [];
