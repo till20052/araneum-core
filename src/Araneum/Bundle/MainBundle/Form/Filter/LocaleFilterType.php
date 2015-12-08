@@ -49,7 +49,7 @@ class LocaleFilterType extends AbstractType
             [
                 'label' => 'Name',
                 'attr' => [
-                    'placeholder' => '{{"locales.PLACEHOLDER" | translate }}',
+                    'placeholder' => 'locales.PLACEHOLDER',
                     'translateLabel' => 'locales.NAME'
                 ],
             ]
@@ -60,7 +60,7 @@ class LocaleFilterType extends AbstractType
             [
                 'label' => 'Locale',
                 'attr' => [
-                    'placeholder' => '{{ "locales.ENTER_LOCALE" | translate}}',
+                    'placeholder' => 'locales.ENTER_LOCALE',
                     'translateLabel' => 'locales.LOCALE'
                 ],
             ]
@@ -71,7 +71,7 @@ class LocaleFilterType extends AbstractType
             [
                 'label' => 'Enabled',
                 'choices' => Locale::$enable,
-                'empty_value' => '{{ "locales.EMPTY_VALUE" | translate }}',
+                'empty_value' => 'locales.EMPTY_VALUE',
                 'attr'=>[
                     'translateLabel' => 'locales.ENABLED'
                 ]
@@ -83,7 +83,7 @@ class LocaleFilterType extends AbstractType
             [
                 'label' => 'Orientation',
                 'choices' => Locale::$orientations,
-                'empty_value' => '{{ "locales.EMPTY_VALUE" | translate }}',
+                'empty_value' => 'locales.EMPTY_VALUE',
                 'attr'=>[
                     'translateLabel' => 'locales.ORIENTATION'
                 ]
@@ -95,7 +95,7 @@ class LocaleFilterType extends AbstractType
             [
                 'label' => 'Encoding',
                 'attr' => [
-                    'placeholder' => '{{"locales.ENTER_ENCODING" | translate}}',
+                    'placeholder' => 'locales.ENTER_ENCODING',
                     'translateLabel' => 'locales.ENCODING'
                 ],
             ]
