@@ -15,6 +15,7 @@
 			'ngRoute',
 			'ngAnimate',
 			'ngStorage',
+			'ngDialog',
 			'ngCookies',
 			'pascalprecht.translate',
 			'ui.bootstrap',
