@@ -22,10 +22,6 @@
 
             $rootScope.userBlockVisible = true;
 
-            $rootScope.$on('toggleUserBlock', function (/*event, args*/) {
-                $rootScope.userBlockVisible = !$rootScope.userBlockVisible;
-            });
-
             /**
              * Edit profile
              */

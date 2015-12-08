@@ -84,7 +84,7 @@
 			function onViewLoaded() {
 				vm.inLoading = true;
 				$http
-					.get(url)
+					.post(url)
 					.success(function (response) {
 						angular.forEach(response, function(ui){
 							if (ui.name == '_token') {
@@ -127,6 +127,7 @@
 					})
 					.error(function (response) {
 						vm.inLoading = false;
+						vm.error = response.error;
 					});
 			}
 

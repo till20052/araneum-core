@@ -76,6 +76,10 @@
 			document.title = title;
 			return title;
 		};
+
+		$rootScope.$on('toggleUserBlock', function (/*event, args*/) {
+			$rootScope.userBlockVisible = !$rootScope.userBlockVisible;
+		});
 	}
 
 })();

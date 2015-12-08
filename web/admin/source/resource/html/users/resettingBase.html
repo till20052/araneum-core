@@ -10,20 +10,20 @@
 
 		<div
 			ng-if="ctrl.view.request"
-			ng-include="'/admin/source/html/users/partials/request.html'"
+			ng-include="'/admin/build/html/users/partials/request.html'"
 			ng-class="{'whirl traditional': ctrl.inLoading}"
 			class="panel-body"
 		></div>
 
 		<div
 			ng-if="ctrl.view.checkMail"
-			ng-include="'/admin/source/html/users/partials/check-email.html'"
+			ng-include="'/admin/build/html/users/partials/check-email.html'"
 			class="panel-body"
 		></div>
 
 		<div
 			ng-if="ctrl.view.reset"
-			ng-include="'/admin/source/html/users/partials/reset.html'"
+			ng-include="'/admin/build/html/users/partials/reset.html'"
 			onload="ctrl.onViewLoaded()"
 			ng-class="{'whirl traditional': ctrl.inLoading}"
 			class="panel-body"
