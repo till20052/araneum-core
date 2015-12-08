@@ -6,11 +6,6 @@
 !app/logs/.gitkeep
 /app/phpunit.xml
 /bin/
-/web/assets/build/html
-/web/assets/build/js
-/web/assets/build/css
-/web/assets/build/img
-/web/assets/source/.idea
 /composer.phar
 /vendor/
 /web/bundles/
@@ -20,5 +15,4 @@
 /web/admin/source/require/bower_components/
 !/web/bundles/araneumuser/*
 /.idea/
-/web/assets/.idea
 .jscsrc
