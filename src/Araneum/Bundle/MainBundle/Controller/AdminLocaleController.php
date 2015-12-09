@@ -15,15 +15,45 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Finder\Expression\Regex;
 use Symfony\Component\Validator\Constraints\All;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class AdminLocaleController extends AdminBaseController
 {
     /**
      * Get locale by id
      *
-     * @Route("/manage/admin/locale/{id}", name="araneum_admin_main_locale_get", requirements={"id" = "\d+"}, defaults={"id" =
-     *     null})
-     * @Method("GET")
+     * @ApiDoc(
+     *   resource = "Locale",
+     *   section = "MainBundle",
+     *   description = "Gets a locale",
+     *   output = "Araneum\Bundle\MainBundle\Entity\Locale",
+     *   statusCodes = {
+     *      200 = "Returned when successful",
+     *      403 = "Returned when authorization is failed",
+     *      404 = "Returned when Locale not found"
+     *   },
+     *   requirements = {
+     *      {
+     *          "name" = "_format",
+     *          "dataType" = "json",
+     *          "description" = "Output format must be json"
+     *      }
+     *   },
+     *   parameters={
+     *      {"name"="id", "dataType"="string", "required"=true}
+     *   },
+     *   tags={"ApplicationApi"}
+     * )
+     *
+     * @Rest\Get(
+     *      "/manage/admin/locale/{id}",
+     *      name="araneum_admin_main_locale_get",
+     *      defaults={"_format"="json", "_locale"="en"}
+     * )
+     *
+     * @Rest\View()
      * @param $id
      * @return JsonResponse
      */

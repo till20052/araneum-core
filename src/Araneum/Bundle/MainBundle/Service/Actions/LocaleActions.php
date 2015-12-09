@@ -17,7 +17,7 @@ class LocaleActions extends AbstractActions
         $builder->add(
             'deleteGroup',
             [
-                'resource' => '/manage/admin/locale/delete',
+                'resource' => 'araneum_main_admin_locale_delete',
                 'callback' => 'deleteRow',
                 'confirm' => [
                     'title' => 'Are you sure?',
@@ -35,13 +35,13 @@ class LocaleActions extends AbstractActions
                     'icon' => 'icon-user-unfollow',
                     'label' => 'Delete locales',
                 ],
-                'position' => ActionBuilderInterface::POSITION_ALL,
+                'position' => ActionBuilderInterface::POSITION_TOP,
             ]
         )
             ->add(
                 'delete',
                 [
-                    'resource' => '/manage/admin/locale/delete',
+                    'resource' => 'araneum_main_admin_locale_delete',
                     'callback' => 'deleteRow',
                     'confirm' => [
                         'title' => 'Are you sure?',
@@ -65,7 +65,7 @@ class LocaleActions extends AbstractActions
             ->add(
                 'disableGroup',
                 [
-                    'resource' => '/manage/admin/locale/disable',
+                    'resource' => 'araneum_main_admin_locale_disable',
                     'callback' => 'disableGroup',
                     'confirm' => [
                         'title' => 'Are you sure?',
@@ -83,13 +83,13 @@ class LocaleActions extends AbstractActions
                         'icon' => 'icon-user-unfollow',
                         'label' => 'Disable locales',
                     ],
-                    'position' => ActionBuilderInterface::POSITION_ALL,
+                    'position' => ActionBuilderInterface::POSITION_TOP,
                 ]
             )
             ->add(
                 'enableGroup',
                 [
-                    'resource' => '/manage/admin/locale/enable',
+                    'resource' => 'araneum_main_admin_locale_enable',
                     'callback' => 'enableGroup',
                     'confirm' => [
                         'title' => 'Are you sure?',
@@ -107,13 +107,13 @@ class LocaleActions extends AbstractActions
                         'icon' => 'icon-lock-open',
                         'label' => 'Enable locale',
                     ],
-                    'position' => ActionBuilderInterface::POSITION_ALL,
+                    'position' => ActionBuilderInterface::POSITION_TOP,
                 ]
             )
             ->add(
                 'Disable',
                 [
-                    'resource' => '/manage/admin/locale/disable',
+                    'resource' => 'araneum_main_admin_locale_disable',
                     'callback' => 'disable',
                     'display' => [
                         'btnClass' => 'btn-danger',
@@ -126,7 +126,7 @@ class LocaleActions extends AbstractActions
             ->add(
                 'Enable',
                 [
-                    'resource' => '/manage/admin/locale/enable',
+                    'resource' => 'araneum_main_admin_locale_enable',
                     'callback' => 'enable',
                     'display' => [
                         'btnClass' => 'btn-danger',
@@ -139,14 +139,14 @@ class LocaleActions extends AbstractActions
         ->add(
             'Create',
             [
-                'resourse'  => '/manage/admin/locale/create',
+                'resourse'  => 'araneum_main_admin_locale_create',
                 'callback'  => 'create',
                 'display'   =>[
                     'btnClass' => 'btn-success',
                     'icon' => 'fa-plus',
                     'label' => 'Create',
                 ],
-                'position' => ActionBuilderInterface::POSITION_ALL,
+                'position' => ActionBuilderInterface::POSITION_TOP,
             ]
         );
 
