@@ -89,42 +89,6 @@ class AdminLocaleController extends AdminBaseController
     /**
      * Save locale
      *
-     * @ApiDoc(
-     *   resource = "Locale",
-     *   section = "MainBundle",
-     *   description = "Save a locale",
-     *   output = "Araneum\Bundle\MainBundle\Entity\Locale",
-     *   statusCodes = {
-     *      200 = "Returned when successful",
-     *      403 = "Returned when authorization is failed",
-     *      404 = "Returned when Locale not found"
-     *   },
-     *   requirements = {
-     *      {
-     *          "name" = "_format",
-     *          "dataType" = "json",
-     *          "description" = "Output format must be json"
-     *      }
-     *   },
-     *   parameters={
-     *      {"name"="id", "dataType"="string", "required"=true, "description"="Searching Application by this parameter"},
-     *      {"name"="email", "dataType"="string", "required"=true, "description"="Searching Customer by this parameter"},
-     *      {"name"="current_password", "dataType"="string", "required"=true, "description"="Customer current password"},
-     *      {"name"="new_password", "dataType"="string", "required"=true, "description"="Customer new password"}
-     *   },
-     *   tags={"ApplicationApi"}
-     * )
-     *
-     * @Rest\Get(
-     *      "/manage/admin/locale/save",
-     *      name="araneum_admin_main_locale_get",
-     *      defaults={"_format"="json", "_locale"="en"}
-     * )
-     *
-     * @Rest\View()
-
-     *
-     *
      * @Route("/manage/admin/locale/save", name="araneum_admin_main_locale_post")
      * @Method("POST")
      *
