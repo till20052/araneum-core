@@ -44,7 +44,8 @@
 			'app.users',
 			'app.profile',
 			'app.locales',
-			'app.formBuilder'
+			'app.formBuilder',
+			'app.action-builder'
 		]);
 })();
 

@@ -5,7 +5,7 @@
 		.module('app.formBuilder')
 		.controller('FormBuilderController', FormBuilderController);
 
-	FormBuilderController.$inject = ['$state', '$scope', '$http', '$compile', 'DTOptionsBuilder', 'DTInstances', 'formDataService'];
+	FormBuilderController.$inject = ['$state', '$scope', '$compile', '$http', 'SweetAlert', 'ngDialog', 'toaster', 'DTOptionsBuilder', 'DTInstances', 'formDataService'];
 
 	/**
 	 *
@@ -18,12 +18,21 @@
 	 * @param formDataService factory for store data form server
 	 * @constructor
 	 */
-	function FormBuilderController($state, $scope, $http, $compile, DTOptionsBuilder, DTInstances, formDataService) {
+	function FormBuilderController($state, $scope, $compile, $http, ngSweetAlert, ngDialog, toaster, DTOptionsBuilder, DTInstances, formDataService) {
 		var vm = this;
 		var formJsonUrl = $state.$current.initialize;
 		formDataService.setFromUrl(formJsonUrl);
 		var promise = formDataService.getPromise();
 		vm.onTableClickEvent = onTableClickEvent;
+		vm.confirm = confirm;
+		vm.datatableItems = {};
+		vm.checkBoxData = {};
+		vm.actionConf = {
+			'row': {},
+			'top': {}
+		};
+
+		$scope.$on('addActionConfig', addActionConfig);
 
 		vm.dt = {
 			initialized: false,
@@ -40,23 +49,50 @@
 						data: data,
 						success: function(response) {
 							angular.forEach(response.aaData, function(item, i) {
+								vm.datatableItems[item[0]] = {
+									id: item[0],
+									name: item[1],
+									locale: item[2],
+									enabled: item[3],
+									orientation: item[4],
+									encoding: item[5]
+								};
+
 								this[i] = item
 									.splice(0, item.length - 1)
 									.concat([
-										'<div widget="actions" />',
-										'<div widget="checkbox" />'
+										'<div data-item="row" ng-model="vm.datatableItems[' + item[0] + ']" />',
+										'<div data-item="checkbox" ng-model="vm.datatableItems[' + item[0] + ']" />'
 									]);
+								
 							}, response.aaData);
 							callback(response);
 							$('.dataTable td').each(function() {
 								$(this).addClass('bb0 bl0');
 							});
 
-							$('div[widget]').each(function() {
-								var ui = $(this);
+							$('div[data-item="row"]').each(function() {
+								var ui = $(this ),
+									ngData = ui.attr('ng-model');
+								
 								$(ui.parents('td').eq(0)).addClass('text-center p0');
 								ui.replaceWith(
-									$compile($('widget#locales-' + ui.attr('widget') + ' > div').clone())($scope)
+									$compile($('<action-builder data-item="row" data-model="' + ngData + '"><action-builder/>').clone())($scope)
+								);
+							});
+
+							$('div[data-item="checkbox"]').each(function() {
+								var ui = $(this),
+										ngData = ui.attr('ng-model');
+
+								$(ui.parents('td').eq(0)).addClass('text-center p0');
+								ui.replaceWith(
+										$compile($('<div class="checkbox c-checkbox needsclick m0">' +
+												'<label class="needsclick">' +
+										'<input type="checkbox" value="" class="needsclick" ng-click="vm.clickCheckBox('+ ngData +')" />' +
+										'<span class="fa fa-check mr0"></span>' +
+										'</label>' +
+										'</div>').clone())($scope)
 								);
 							});
 						}
@@ -85,6 +121,9 @@
 			$($event.currentTarget).closest('.row').find('#' + id)[0].reset();
 			vm.dt.options.sAjaxSource = url;
 		};
+		
+		vm.actionClick = actionClick;
+		vm.clickCheckBox = clickCheckBox;
 
 		vm.errors = [];
 
@@ -120,6 +159,121 @@
 						.prop('checked', false);
 				}
 			}
-		};
+		}
+
+
+		function actionClick( $event, data ) {
+			var conf = $($event.currentTarget).data('conf').split(','),
+				actionType = conf[1],
+				actionId = conf[0],
+				actionData = [],
+				actionConfig = vm.actionConf[actionType][actionId],
+				type = actionConfig.type;
+
+			if ( actionType === 'top' ) {
+				for ( var obj in vm.checkBoxData ) {
+					actionData.push(vm.checkBoxData[obj].id);
+				}
+			}
+
+			if ( actionType === 'row' ) {
+				actionData.push(data.id);
+			}
+
+			if ( type === 'resource' ) {
+				resource(actionConfig, actionData);
+				return;
+			}
+
+			if ( type === 'form' ) {
+				ngDialog.open({
+					template: 'fromId',
+					className: 'ngdialog-theme-default',
+					controller: ['$scope', function($scope) {
+						var id = '';
+						if ( data !== undefined) {
+							id = data.id;
+						}
+						$scope.url = actionConfig.url + '/' + id;
+						$scope.id = id;
+
+						$scope.send = function( url ) {
+							var formData = $('form[data-target="create-update"]').serializeArray();
+							sendData(url, formData, function(result) {
+								toaster.pop({
+									type: 'success',
+									title: 'Title text',
+									body: 'Body text'
+								});
+							});
+						}
+					}]
+				});
+			}
+		}
+
+		function clickCheckBox( data ) {
+			if ( vm.checkBoxData.hasOwnProperty(data.id) ) {
+				delete vm.checkBoxData[data.id];
+				return false;
+			}
+			
+			vm.checkBoxData[data.id] = data;
+		}
+
+		function addActionConfig( event, actionConfig ) {
+			vm.actionConf[actionConfig.type][actionConfig.id] = actionConfig.config;
+		}
+
+		function confirm( url, data ) {
+			$http({
+				method: 'post',
+				url: url,
+				data: data
+			});
+		}
+
+		function resource( config, data ) {
+			if ( data.length === 0 ) {
+				return false;
+			}
+
+			ngSweetAlert.swal({
+				title: config.title,
+				//text: $translate('admin.pages.AREYOUSURETEXT'),
+				type: 'warning',
+				showCancelButton: true,
+				cancelButtonText: config.no.title,
+				confirmButtonColor: '#f05050',
+				confirmButtonText: config.yes.title,
+				closeOnConfirm: true
+			},
+			function(isConfirm){
+				if(isConfirm) {
+					sendData(config.url, data, function(result) {
+						toaster.pop({
+							type: 'success',
+							title: 'Title text',
+							body: 'Body text'
+						});
+					}, function(error) {
+						toaster.pop('error', 'Error', 'Error');
+					});
+				}
+			});
+		}
+
+		function form( config, data ) {
+
+		}
+
+		function sendData( url, data, success, error ) {
+			$http({
+				method: 'POST',
+				url: url,
+				data: data
+			}).then(success, error);
+		}
+
 	}
 })();

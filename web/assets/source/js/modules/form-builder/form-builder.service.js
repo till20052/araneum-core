@@ -28,11 +28,11 @@
 				 * @param data
 				 */
 				setData: function(data) {
-					this.data = data;
-
 					if ($.isEmptyObject(data)) {
 						return false;
 					}
+
+					this.data = data;
 
 					this.convertDataToArray();
 				},
@@ -54,6 +54,11 @@
 
 					switch (element.type) {
 						case 'text':
+							elementTemplate = $(this.templates[element.type]);
+							elementTemplate = this.addOptionsToInputElement(element, elementTemplate);
+							break;
+
+						case 'email':
 							elementTemplate = $(this.templates[element.type]);
 							elementTemplate = this.addOptionsToInputElement(element, elementTemplate);
 							break;
@@ -181,7 +186,7 @@
 					for (var el in formEl) {
 						var currEl = formEl[el]['vars'];
 						if (angular.isArray(formEl[el]['children'])) {
-							elements[currEl.name] = {
+							elements[currEl.full_name] = {
 								name: currEl.full_name,
 								type: currEl.block_prefixes[1],
 								attrs: {'placeholder': currEl.attr.placeholder, 'required': currEl.required},
@@ -196,7 +201,7 @@
 						if (angular.isObject(formEl[el]['children'])) {
 							for (var elem in formEl[el]['children']) {
 								currEl = formEl[el]['children'][elem]['vars'];
-								elements[currEl.name] = {
+								elements[currEl.full_name] = {
 									name: currEl.full_name,
 									type: currEl.block_prefixes[1],
 									attrs: {'placeholder': currEl.attr.placeholder, 'required': currEl.required},
