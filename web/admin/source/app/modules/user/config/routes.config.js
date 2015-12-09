@@ -17,8 +17,9 @@
 			.state('app.users', {
 				url: '/users',
 				title: 'Users',
-				templateUrl: helper.basepath('users/list.html'),
-				resolve: helper.resolveFor('ngDialog', 'oitozero.ngSweetAlert', 'datatables')
+				initialize: '/user/manage/users/init.json',
+				templateUrl: helper.basepath('grid-template.html'),
+				resolve: helper.resolveFor('datatables', 'whirl')
 			})
 			.state('login', {
 				url: '/login',
