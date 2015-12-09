@@ -15,6 +15,11 @@
 
 		return factory;
 
+		/**
+		 * Return action builder
+		 * @param type
+		 * @returns {*}
+		 */
 		function getBuilder(type) {
 			if ( type === 'top' ) {
 				this.builder = topActionBuilderService;

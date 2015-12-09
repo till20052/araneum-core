@@ -34,16 +34,16 @@
 
 						if ( dataUrl === undefined ) {
 							element
-									.closest('.panel-body')
-									.find('.row')
-									.first()
-									.append($compile(builder.getButtonsForForm(response.grid.source, builder.getFormOptions().id))($scope));
+								.closest('.panel-body')
+								.find('.row')
+								.first()
+								.append($compile(builder.getButtonsForForm(response.grid.source, builder.getFormOptions().id))($scope));
 						}
 
 						if ( dataUrl !== undefined ) {
 							element
-									.find('form')
-									.append($compile(builder.getButtonsForForm(data.var.action))($scope));
+								.find('form')
+								.append($compile(builder.getButtonsForForm(data.var.action))($scope));
 						}
 					});
 				}

@@ -37,6 +37,7 @@
 		/**
 		 * Action data from server
 		 * @param actionsData
+		 * @param model link on object
 		 * @param scope 
 		 */
 		function setData( actionsData, model, scope ) {

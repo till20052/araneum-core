@@ -41,6 +41,9 @@
 		factory.getWrapperTemplate = getWrapperTemplate;
 		factory.addOptions = addOptions;
 
+		/**
+		 * Rebuild server data
+		 */
 		function buildActions() {
 			var templateMass = [],
 				groupMass = this.sortedByGroupButtons,
@@ -60,6 +63,10 @@
 			this.actionsMassTemplates = templateMass;
 		}
 
+		/**
+		 * Return mass of actions template
+		 * @returns {string} html
+		 */
 		function getActionsTemplate() {
 			var actionMassTemplates = this.actionsMassTemplates,
 				actionMassTemplatesLength = actionMassTemplates.length,
@@ -78,6 +85,11 @@
 			return this.actionsTemplate = wrapper.get(0).outerHTML;
 		}
 
+		/**
+		 * Add options to action
+		 * @param button
+		 * @returns {jQuery|HTMLElement}
+		 */
 		function addOptions(button) {
 			var actionTemplate = $(this.getActionTemplate()),
 				actionConfig = {

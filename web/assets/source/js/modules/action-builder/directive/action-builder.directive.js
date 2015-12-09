@@ -16,7 +16,7 @@
 		return directive;
 
 		function link( $scope, element, attrs ) {
-			var type = element.data('item' ), // top or row
+			var type = element.data('item'), // top or row
 				builder = creatorActionBuilder.getBuilder(type), // return top or row action service builder
 				promise = formDataService.getPromise();
 

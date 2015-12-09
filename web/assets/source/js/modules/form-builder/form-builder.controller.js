@@ -31,6 +31,8 @@
 			'row': {},
 			'top': {}
 		};
+		vm.actionClick = actionClick;
+		vm.clickCheckBox = clickCheckBox;
 
 		$scope.$on('addActionConfig', addActionConfig);
 
@@ -121,9 +123,6 @@
 			$($event.currentTarget).closest('.row').find('#' + id)[0].reset();
 			vm.dt.options.sAjaxSource = url;
 		};
-		
-		vm.actionClick = actionClick;
-		vm.clickCheckBox = clickCheckBox;
 
 		vm.errors = [];
 
@@ -162,6 +161,11 @@
 		}
 
 
+		/**
+		 * Call function on action click
+		 * @param $event
+		 * @param data grid object
+		 */
 		function actionClick( $event, data ) {
 			var conf = $($event.currentTarget).data('conf').split(','),
 				actionType = conf[1],
@@ -212,6 +216,11 @@
 			}
 		}
 
+		/**
+		 * Add or remove data form checkboxes
+		 * @param data
+		 * @returns {boolean}
+		 */
 		function clickCheckBox( data ) {
 			if ( vm.checkBoxData.hasOwnProperty(data.id) ) {
 				delete vm.checkBoxData[data.id];
@@ -221,10 +230,20 @@
 			vm.checkBoxData[data.id] = data;
 		}
 
+		/**
+		 * Add actions config
+		 * @param event
+		 * @param actionConfig
+		 */
 		function addActionConfig( event, actionConfig ) {
 			vm.actionConf[actionConfig.type][actionConfig.id] = actionConfig.config;
 		}
 
+		/**
+		 * Send data on form confirm
+		 * @param url
+		 * @param data
+		 */
 		function confirm( url, data ) {
 			$http({
 				method: 'post',
@@ -233,6 +252,12 @@
 			});
 		}
 
+		/**
+		 * Called when click on simple action
+		 * @param config
+		 * @param data
+		 * @returns {boolean}
+		 */
 		function resource( config, data ) {
 			if ( data.length === 0 ) {
 				return false;
@@ -263,10 +288,13 @@
 			});
 		}
 
-		function form( config, data ) {
-
-		}
-
+		/**
+		 * Send data to server
+		 * @param url
+		 * @param data
+		 * @param success
+		 * @param error
+		 */
 		function sendData( url, data, success, error ) {
 			$http({
 				method: 'POST',
@@ -274,6 +302,5 @@
 				data: data
 			}).then(success, error);
 		}
-
 	}
 })();
