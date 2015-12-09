@@ -75,6 +75,38 @@ class LocaleFixtures extends AbstractFixture implements FixtureInterface
             $manager->persist($localeDelete);
         }
 
+        $localePack1 = $manager->getRepository('AraneumMainBundle:Locale')->findOneByName('LocalePack1');
+        if (empty($localePack1)) {
+            $localePack1 = new Locale();
+            $localePack1->setName('LocalePack1');
+            $localePack1->setLocale('mk_MK');
+            $localePack1->setEnabled(true);
+            $localePack1->setOrientation(Locale::ORIENT_LFT_TO_RGT);
+            $localePack1->setEncoding(self::TEST_LOC_ENCOD);
+            $manager->persist($localePack1);
+        }
+
+        $localePack2 = $manager->getRepository('AraneumMainBundle:Locale')->findOneByName('LocalePack2');
+        if (empty($localePack2)) {
+            $localePack2 = new Locale();
+            $localePack2->setName('LocalePack2');
+            $localePack2->setLocale('es_EU');
+            $localePack2->setEnabled(true);
+            $localePack2->setOrientation(Locale::ORIENT_LFT_TO_RGT);
+            $localePack2->setEncoding(self::TEST_LOC_ENCOD);
+            $manager->persist($localePack2);
+        }
+        $localePack3 = $manager->getRepository('AraneumMainBundle:Locale')->findOneByName('LocalePack3');
+        if (empty($localePack3)) {
+            $localePack3 = new Locale();
+            $localePack3->setName('LocalePack3');
+            $localePack3->setLocale('fr_FR');
+            $localePack3->setEnabled(true);
+            $localePack3->setOrientation(Locale::ORIENT_LFT_TO_RGT);
+            $localePack3->setEncoding(self::TEST_LOC_ENCOD);
+            $manager->persist($localePack3);
+        }
+
         $manager->flush();
     }
 }
