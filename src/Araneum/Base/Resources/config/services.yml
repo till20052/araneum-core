@@ -34,3 +34,7 @@ services:
     araneum.action.builder:
         class: Araneum\Base\Service\Actions\ActionBuilder
         arguments: [@router]
+
+    araneum.command_runner.service:
+        class: Araneum\Base\Service\CommandRunnerService
+        arguments: [%kernel.root_dir%]
