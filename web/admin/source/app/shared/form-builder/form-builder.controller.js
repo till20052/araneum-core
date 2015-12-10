@@ -275,6 +275,7 @@
 			},
 			function(isConfirm){
 				if(isConfirm) {
+					console.log(config);
 					sendData(config.url, data, function(result) {
 						vm.checkBoxData = [];
 						toaster.pop({
