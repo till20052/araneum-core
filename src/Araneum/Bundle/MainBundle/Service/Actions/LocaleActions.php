@@ -31,12 +31,62 @@ class LocaleActions extends AbstractActions
                     ]
                 ],
                 'display' => [
-                    'btnClass' => 'btn-danger',
+                    'btnClass' => 'btn-success',
                     'icon' => 'icon-user-unfollow',
-                    'label' => 'Delete locale',
+                    'label' => 'success locale',
                 ],
                 'position' => ActionBuilderInterface::POSITION_ALL,
             ]
         );
+
+         $builder->add(
+                    'deleteGroup',
+                    [
+                        'resource' => 'araneum_root', //example!!! plz change in AC-228
+                        'callback' => 'deleteRow',
+                        'confirm' => [
+                            'title' => 'Are you sure?',
+                            'yes' => [
+                                'class' => 'confirm',
+                                'title' => 'Yes, delete it!'
+                            ],
+                            'no' => [
+                                'class' => 'cancel',
+                                'title' => 'Cancel'
+                            ]
+                        ],
+                        'display' => [
+                            'btnClass' => 'btn-danger',
+                            'icon' => 'icon-user-unfollow',
+                            'label' => 'Delete locale',
+                        ],
+                        'position' => ActionBuilderInterface::POSITION_ALL,
+                    ]
+                );
+
+                 $builder->add(
+                            'addGroup',
+                            [
+                                'form' => 'araneum_root', //example!!! plz change in AC-228
+                                'callback' => 'deleteRow',
+                                'confirm' => [
+                                    'title' => 'Are you sure?',
+                                    'yes' => [
+                                        'class' => 'confirm',
+                                        'title' => 'Yes, delete it!'
+                                    ],
+                                    'no' => [
+                                        'class' => 'cancel',
+                                        'title' => 'Cancel'
+                                    ]
+                                ],
+                                'display' => [
+                                    'btnClass' => 'btn-danger',
+                                    'icon' => 'icon-user-unfollow',
+                                    'label' => 'Delete locale',
+                                ],
+                                'position' => ActionBuilderInterface::POSITION_TOP,
+                            ]
+                        );
     }
 }

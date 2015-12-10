@@ -7,8 +7,11 @@ use FOS\UserBundle\Model\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
@@ -129,7 +132,7 @@ class ResettingController extends BaseController
 
     /**
      * Reset user password
-     *
+	 *
      * @param $token
      * @return JsonResponse
      *
@@ -142,6 +145,20 @@ class ResettingController extends BaseController
         $response = new JsonResponse([], Response::HTTP_OK);
 
         try {
+
+            /** @var Request $request */
+			$request = $this->container->get('request');
+
+			if($request->isMethod('GET')){
+				return new RedirectResponse(
+					$this->container
+						->get('router')
+						->generate(
+							'manage_all',
+							['path' => trim($request->getRequestUri(), '/')]
+						)
+				);
+			}
 
             $user = $this->container->get('fos_user.user_manager')->findUserByConfirmationToken($token);
 
@@ -162,16 +179,32 @@ class ResettingController extends BaseController
                 throw new AuthenticationException();
             }
 
+			$errors = $this->container
+				->get('araneum.base.form.handler')
+				->getErrorMessages($form);
+
+			if(
+				$request->request->count() > 0
+				&& count($errors) > 0
+			){
+				throw new BadRequestHttpException(implode("\n", $errors));
+			}
+
             return $response->setData($this->extract($form->createView()));
 
         } catch (AuthenticationException $exception) {
 
-            return $response->setStatusCode(Response::HTTP_ACCEPTED);
+			return $response->setStatusCode(Response::HTTP_ACCEPTED);
+
+		} catch (HttpException $exception) {
+
+			return $response->setData(['error' => $exception->getMessage()])
+				->setStatusCode($exception->getStatusCode());
 
         } catch (\Exception $exception) {
 
             return $response->setData(['error' => $exception->getMessage()])
-                ->setStatusCode($exception->getCode());
+                ->setStatusCode(Response::HTTP_BAD_REQUEST);
 
         }
     }
