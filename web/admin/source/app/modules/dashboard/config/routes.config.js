@@ -14,7 +14,6 @@
     routesConfig.$inject = ['$stateProvider', 'RouteHelpersProvider'];
     function routesConfig($stateProvider, helper) {
         $stateProvider
-        $stateProvider
             .state('app.dashboard', {
                 url: '/dashboard',
                 title: 'Main page',

@@ -14,12 +14,11 @@
     routesConfig.$inject = ['$stateProvider', 'RouteHelpersProvider'];
     function routesConfig($stateProvider, helper) {
         $stateProvider
-        $stateProvider
             .state('app.locales', {
                 url: '/locales',
                 initialize: '/manage/locales/init.json',
                 templateUrl: helper.basepath('grid-template.html'),
-                resolve: helper.resolveFor('datatables', 'whirl')
+                resolve: angular.extend(helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert', 'whirl', 'toaster'))
             });
     }
 
