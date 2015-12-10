@@ -206,8 +206,8 @@
 							sendData(url, formData, function(result) {
 								toaster.pop({
 									type: 'success',
-									title: 'Title text',
-									body: 'Body text'
+									title: 'success',
+									body: 'data updated'
 								});
 							});
 						}
@@ -276,6 +276,7 @@
 			function(isConfirm){
 				if(isConfirm) {
 					sendData(config.url, data, function(result) {
+						vm.checkBoxData = [];
 						toaster.pop({
 							type: 'success',
 							title: 'Title text',
