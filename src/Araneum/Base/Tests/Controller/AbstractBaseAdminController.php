@@ -6,7 +6,12 @@ use Araneum\Base\Tests\Admin\AdminTestInterface;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Form;
 
-abstract class BaseAdminController extends BaseController implements AdminTestInterface
+/**
+ * Class BaseAdminController
+ *
+ * @package Araneum\Base\Tests\Controller
+ */
+abstract class AbstractBaseAdminController extends BaseController implements AdminTestInterface
 {
     protected $createRoute = null;
     protected $updateRoute = null;
@@ -18,8 +23,8 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
      *
      * @dataProvider createDataSource
      *
-     * @param array $formInput
-     * @param       $expected
+     * @param array   $formInput
+     * @param boolean $expected
      */
     public function testCreate(array $formInput, $expected)
     {
@@ -47,9 +52,9 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
      *
      * @dataProvider updateDataSource
      *
-     * @param array $formInput
-     * @param       $expected
-     * @param       $entity
+     * @param array   $formInput
+     * @param boolean $expected
+     * @param object  $entity
      */
     public function testUpdate(array $formInput, $expected, $entity)
     {
@@ -80,9 +85,9 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
      *
      * @dataProvider filterDataSource
      *
-     * @param array $fullFormInput
-     * @param       $expected
-     * @param       $entity
+     * @param array   $fullFormInput
+     * @param boolean $expected
+     * @param object  $entity
      */
     public function testFilter(array $fullFormInput, $expected, $entity)
     {
@@ -106,9 +111,10 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
         $list = $crawler->filter('table.table > tbody > tr > td:nth-child(2) > a')
             ->each(
                 function (Crawler $node) {
-                    if($node->count()){
-                        return (int)$node->text();
+                    if ($node->count()) {
+                        return (int) $node->text();
                     }
+
                     return null;
                 }
             );
@@ -165,7 +171,7 @@ abstract class BaseAdminController extends BaseController implements AdminTestIn
 
         $formatFormInput = [];
         foreach ($formInput as $name => $value) {
-            $formatFormInput[$formPrefix . '[' . $name . ']'] = $value;
+            $formatFormInput[$formPrefix.'['.$name.']'] = $value;
         }
 
         return $formatFormInput;

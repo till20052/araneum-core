@@ -9,15 +9,20 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * Class ClusterFixtures
+ *
+ * @package Araneum\Base\Tests\Fixtures\Main
+ */
 class ClusterFixtures extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
-    const TEST_CLU_NAME = 'TestClusterName';
-    const TEST_CLU_TYPE = 1;
+    const TEST_CLU_NAME    = 'TestClusterName';
+    const TEST_CLU_TYPE    = 1;
     const TEST_CLU_ENABLED = true;
-    const TEST_CLU_STATUS = Cluster::STATUS_OK;
+    const TEST_CLU_STATUS  = Cluster::STATUS_OK;
 
     const TEST_TEMP_CLU_NAME = 'TestTempName';
-    const DELETE_CLU_NAME = 'DeleteClusterName';
+    const DELETE_CLU_NAME    = 'DeleteClusterName';
 
     /**
      * {@inheritDoc}

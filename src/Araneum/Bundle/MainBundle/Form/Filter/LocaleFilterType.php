@@ -3,33 +3,29 @@
 namespace Araneum\Bundle\MainBundle\Form\Filter;
 
 use Araneum\Bundle\MainBundle\Entity\Locale;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class LocaleFilterType
+ *
+ * @package Araneum\Bundle\MainBundle\Form\Filter
+ */
 class LocaleFilterType extends AbstractType
 {
-    /**
-     * Doctrine
-     *
-     * @var
-     */
     private $doctrine;
-
-    /**
-     * Container
-     *
-     * @var
-     */
     private $container;
 
     /**
      * Constructor
      *
-     * @param $doctrine
-     * @param $container
+     * @param Registry           $doctrine
+     * @param ContainerInterface $container
      */
-    public function __construct($doctrine, $container)
+    public function __construct(Registry $doctrine, ContainerInterface $container)
     {
         $this->doctrine = $doctrine;
         $this->container = $container;

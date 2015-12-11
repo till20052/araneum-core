@@ -10,6 +10,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-10  col-md-offset-1 ">
                     <label for="username">{{ 'resetting.request.username'|trans({}, 'FOSUserBundle') }}</label>
+
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon">
@@ -46,6 +47,6 @@
 {% block javascripts %}
     {{ parent() }}
     {% javascripts %}
-        <script src="{{ asset('static/js/validatePasswordReset.js') }}"></script>
+    <script src="{{ asset('static/js/validatePasswordReset.js') }}"></script>
     {% endjavascripts %}
 {% endblock javascripts %}

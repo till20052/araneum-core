@@ -12,14 +12,71 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
+/**
+ * Class UserAdmin
+ *
+ * @package Araneum\Bundle\UserBundle\Admin
+ */
 class UserAdmin extends Admin
 {
     protected $formOptions = ['validation_groups' => ['Profile']];
 
     /**
+     * Get list of field for export
+     *
+     * @return array
+     */
+    public function getExportFields()
+    {
+        return [
+            'id',
+            'fullName',
+            'username',
+            'email',
+            'enabled',
+            'locked',
+            'lastLogin',
+            'roles',
+            'createdAt',
+            'updatedAt',
+        ];
+    }
+
+    /**
+     * Get Service Container
+     *
+     * @return ContainerInterface
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * @return RoleRepository
+     */
+    public function getRoleRepository()
+    {
+        return $this
+            ->getContainer()
+            ->get('doctrine')
+            ->getRepository('AraneumUserBundle:Role');
+    }
+
+    /**
+     * Set Service Container
+     *
+     * @param ContainerInterface $container
+     */
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
      * Create/Update form
      *
-     * @param FormMapper $formMapper.
+     * @param FormMapper $formMapper .
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -31,12 +88,11 @@ class UserAdmin extends Admin
             ->getFormBuilder()
             ->addEventListener(
                 FormEvents::POST_SET_DATA,
-                function(FormEvent $event) use ($formMapper, $subject, $roleRepository)
-                {
+                function (FormEvent $event) use ($formMapper, $subject, $roleRepository) {
+
                     $roles = new ArrayCollection();
 
-                    foreach($subject->getRoles() as $roleName)
-                    {
+                    foreach ($subject->getRoles() as $roleName) {
                         $roles->add($roleRepository->findOneByName($roleName));
                     }
 
@@ -109,7 +165,7 @@ class UserAdmin extends Admin
                 null,
                 [
                     'editable' => true,
-                    'label' => 'enabled'
+                    'label' => 'enabled',
                 ]
             )
             ->add('lastLogin', null, ['label' => 'last_login'])
@@ -119,7 +175,7 @@ class UserAdmin extends Admin
                 null,
                 [
                     'format' => 'm/d/Y',
-                    'label' => 'created_at'
+                    'label' => 'created_at',
                 ]
             )
             ->add(
@@ -127,7 +183,7 @@ class UserAdmin extends Admin
                 null,
                 [
                     'format' => 'm/d/Y',
-                    'label' => 'updated_at'
+                    'label' => 'updated_at',
                 ]
             )
             ->add(
@@ -138,66 +194,14 @@ class UserAdmin extends Admin
                         'edit' => [],
                         'delete' => [],
                         'activateUser' => [
-                            'template' => 'AraneumUserBundle:AdminAction:activateUser.html.twig'
+                            'template' => 'AraneumUserBundle:AdminAction:activateUser.html.twig',
                         ],
                         'recoveryPassword' => [
-                            'template' => 'AraneumUserBundle:AdminAction:recoveryPassword.html.twig'
+                            'template' => 'AraneumUserBundle:AdminAction:recoveryPassword.html.twig',
                         ],
                     ],
-                    'label' => 'actions'
+                    'label' => 'actions',
                 ]
             );
-    }
-
-    /**
-     * Get list of field for export
-     *
-     * @return array
-     */
-    public function getExportFields()
-    {
-        return [
-            'id',
-            'fullName',
-            'username',
-            'email',
-            'enabled',
-            'locked',
-            'lastLogin',
-            'roles',
-            'createdAt',
-            'updatedAt',
-        ];
-    }
-
-    /**
-     * Get Service Container
-     *
-     * @return ContainerInterface
-     */
-    public function getContainer()
-    {
-        return $this->container;
-    }
-
-    /**
-     * @return RoleRepository
-     */
-    public function getRoleRepository()
-    {
-        return $this
-            ->getContainer()
-            ->get('doctrine')
-            ->getRepository('AraneumUserBundle:Role');
-    }
-
-    /**
-     * Set Service Container
-     *
-     * @param ContainerInterface $container
-     */
-    public function setContainer(ContainerInterface $container)
-    {
-        $this->container = $container;
     }
 }

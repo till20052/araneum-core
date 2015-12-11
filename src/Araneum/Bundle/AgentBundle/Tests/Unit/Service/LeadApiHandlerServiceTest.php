@@ -8,148 +8,153 @@ use Araneum\Bundle\AgentBundle\Service\LeadApiHandlerService;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormFactory;
 
+/**
+ * Class LeadApiHandlerServiceTest
+ *
+ * @package Araneum\Bundle\AgentBundle\Tests\Unit\Service
+ */
 class LeadApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
 {
-	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
-	 */
-	private $repository;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $repository;
 
-	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
-	 */
-	private $form;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $form;
 
-	/**
-	 * @var LeadApiHandlerService
-	 */
-	private $apiHandler;
+    /**
+     * @var LeadApiHandlerService
+     */
+    private $apiHandler;
 
-	/**
-	 * Mock EntityManager
-	 *
-	 * @return EntityManager
-	 */
-	private function entityManager()
-	{
-		$entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
-			->disableOriginalConstructor()
-			->getMock();
+    /**
+     * Test find method in LeadApiHandlerService
+     */
+    public function testFind()
+    {
+        $expected = [
+            [
+                'firstName' => 'Ferrari',
+                'lastName' => 'Italia458',
+                'country' => rand(1, 239),
+                'email' => 'ferrari.italia458@test.com',
+                'phone' => '380507894561',
+                'appKey' => md5(microtime(true)),
+            ],
+        ];
 
-		$this->repository = $this->getMockBuilder('\Araneum\Bundle\AgentBundle\Repository\LeadRepository')
-			->disableOriginalConstructor()
-			->getMock();
+        $this->repository
+            ->expects($this->any())
+            ->method('findByFilter')
+            ->will($this->returnValue($expected));
 
-		$entityManager->expects($this->any())
-			->method('getRepository')
-			->with($this->equalTo('AraneumAgentBundle:Lead'))
-			->will($this->returnValue($this->repository));
+        $this->assertEquals(
+            $expected,
+            $this->apiHandler->find()
+        );
+    }
 
-		$entityManager->expects($this->any())
-			->method('persist')
-			->with($this->equalTo(new Lead()));
+    /**
+     * Test create method in LeadApiHandlerService
+     */
+    public function testCreate()
+    {
+        $this->form->expects($this->once())
+            ->method('isValid')
+            ->will($this->returnValue(true));
 
-		$entityManager->expects($this->any())
-			->method('flush');
+        $this->assertEquals(
+            new Lead(),
+            $this->apiHandler->create([])
+        );
+    }
 
-		return $entityManager;
-	}
+    /**
+     * Test create method in LeadApiHandlerService in case if form not valid
+     *
+     * @expectedException \Araneum\Base\Exception\InvalidFormException
+     */
+    public function testCreateException()
+    {
+        $this->form->expects($this->once())
+            ->method('isValid')
+            ->will($this->returnValue(false));
 
-	/**
-	 * Mock FormFactory
-	 *
-	 * @return FormFactory
-	 */
-	private function formFactory()
-	{
-		$formFactory = $this->getMockBuilder('\Symfony\Component\Form\FormFactory')
-			->disableOriginalConstructor()
-			->getMock();
+        $this->apiHandler->create([]);
+    }
 
-		$this->form = $this->getMockBuilder('\Symfony\Component\Form\Form')
-			->disableOriginalConstructor()
-			->getMock();
+    /**
+     * Initialization
+     */
+    protected function setUp()
+    {
+        $this->apiHandler = new LeadApiHandlerService(
+            $this->entityManager(),
+            $this->formFactory()
+        );
+    }
 
-		$this->form->expects($this->any())
-			->method('submit')
-			->with($this->equalTo([]))
-			->will($this->returnValue($this->form));
+    /**
+     * Mock EntityManager
+     *
+     * @return EntityManager
+     */
+    private function entityManager()
+    {
+        $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$formFactory->expects($this->any())
-			->method('create')
-			->with(
-				$this->equalTo(new LeadType()),
-				$this->equalTo(new Lead())
-			)
-			->will($this->returnValue($this->form));
+        $this->repository = $this->getMockBuilder('\Araneum\Bundle\AgentBundle\Repository\LeadRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		return $formFactory;
-	}
+        $entityManager->expects($this->any())
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumAgentBundle:Lead'))
+            ->will($this->returnValue($this->repository));
 
-	/**
-	 * Initialization
-	 */
-	protected function setUp()
-	{
-		$this->apiHandler = new LeadApiHandlerService(
-			$this->entityManager(),
-			$this->formFactory()
-		);
-	}
+        $entityManager->expects($this->any())
+            ->method('persist')
+            ->with($this->equalTo(new Lead()));
 
-	/**
-	 * Test find method in LeadApiHandlerService
-	 */
-	public function testFind()
-	{
-		$expected = [
-			[
-				'firstName' => 'Ferrari',
-				'lastName' => 'Italia458',
-				'country' => rand(1, 239),
-				'email' => 'ferrari.italia458@test.com',
-				'phone' => '380507894561',
-				'appKey' => md5(microtime(true))
-			]
-		];
+        $entityManager->expects($this->any())
+            ->method('flush');
 
-		$this->repository
-			->expects($this->any())
-			->method('findByFilter')
-			->will($this->returnValue($expected));
+        return $entityManager;
+    }
 
-		$this->assertEquals(
-			$expected,
-			$this->apiHandler->find()
-		);
-	}
+    /**
+     * Mock FormFactory
+     *
+     * @return FormFactory
+     */
+    private function formFactory()
+    {
+        $formFactory = $this->getMockBuilder('\Symfony\Component\Form\FormFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-	/**
-	 * Test create method in LeadApiHandlerService
-	 */
-	public function testCreate()
-	{
-		$this->form->expects($this->once())
-			->method('isValid')
-			->will($this->returnValue(true));
+        $this->form = $this->getMockBuilder('\Symfony\Component\Form\Form')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$this->assertEquals(
-			new Lead(),
-			$this->apiHandler->create([])
-		);
-	}
+        $this->form->expects($this->any())
+            ->method('submit')
+            ->with($this->equalTo([]))
+            ->will($this->returnValue($this->form));
 
-	/**
-	 * Test create method in LeadApiHandlerService in case if form not valid
-	 *
-	 * @expectedException \Araneum\Base\Exception\InvalidFormException
-	 */
-	public function testCreateException()
-	{
-		$this->form->expects($this->once())
-			->method('isValid')
-			->will($this->returnValue(false));
+        $formFactory->expects($this->any())
+            ->method('create')
+            ->with(
+                $this->equalTo(new LeadType()),
+                $this->equalTo(new Lead())
+            )
+            ->will($this->returnValue($this->form));
 
-		$this->apiHandler->create([]);
-	}
+        return $formFactory;
+    }
 }

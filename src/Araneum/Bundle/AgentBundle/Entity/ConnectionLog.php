@@ -37,7 +37,8 @@ class ConnectionLog
     /**
      * @var Cluster
      *
-     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Cluster", inversedBy="connectionLogs", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Cluster", inversedBy="connectionLogs",
+     *     cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="cluster_id", referencedColumnName="id", nullable=false)
      */
     private $cluster;
@@ -59,7 +60,7 @@ class ConnectionLog
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -128,7 +129,7 @@ class ConnectionLog
     /**
      * Get percentLostPackages
      *
-     * @return integer 
+     * @return integer
      */
     public function getPercentLostPackages()
     {
@@ -151,7 +152,7 @@ class ConnectionLog
     /**
      * Get averagePingTime
      *
-     * @return integer 
+     * @return integer
      */
     public function getAveragePingTime()
     {

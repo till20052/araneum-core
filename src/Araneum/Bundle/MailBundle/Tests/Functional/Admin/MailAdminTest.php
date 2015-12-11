@@ -7,6 +7,11 @@ use Araneum\Base\Tests\Fixtures\Mail\MailFixtures;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\DomCrawler\Crawler;
 
+/**
+ * Class MailAdminTest
+ *
+ * @package Araneum\Bundle\MailBundle\Tests\Functional\Admin
+ */
 class MailAdminTest extends BaseController
 {
     /**
@@ -42,7 +47,7 @@ class MailAdminTest extends BaseController
 
         $crawler = $client->request(
             'GET',
-            '/admin/araneum/mail/mail/' . $mail->getId() . '/edit'
+            '/admin/araneum/mail/mail/'.$mail->getId().'/edit'
         );
 
         $this->assertFalse($client->getResponse()->isSuccessful());
@@ -64,7 +69,7 @@ class MailAdminTest extends BaseController
 
         $crawler = $client->request(
             'GET',
-            '/admin/araneum/mail/mail/' . $mail->getId() . '/delete'
+            '/admin/araneum/mail/mail/'.$mail->getId().'/delete'
         );
 
         $this->assertFalse($client->getResponse()->isSuccessful());
@@ -121,7 +126,7 @@ class MailAdminTest extends BaseController
                     'filter[createdAt][value][end]' => '08/24/2015',
                 ],
                 true,
-                $mail
+                $mail,
             ],
             'non exist' => [
                 [
@@ -137,8 +142,8 @@ class MailAdminTest extends BaseController
                     'filter[createdAt][value][end]' => '08/24/2015',
                 ],
                 false,
-                $mail
-            ]
+                $mail,
+            ],
         ];
     }
 
@@ -148,9 +153,9 @@ class MailAdminTest extends BaseController
      * @dataProvider filterDataSource
      *
      *
-     * @param array $fullFormInput
-     * @param       $expected
-     * @param       $entity
+     * @param array   $fullFormInput
+     * @param boolean $expected
+     * @param object  $entity
      */
     public function testFilter(array $fullFormInput, $expected, $entity)
     {
@@ -170,11 +175,10 @@ class MailAdminTest extends BaseController
         $list = $crawler->filter('table.table > tbody > tr > td:nth-child(1)')
             ->each(
                 function (Crawler $node) {
-                    return (int)$node->text();
+                    return (int) $node->text();
                 }
             );
 
         $this->assertEquals($expected, in_array($entity->getId(), $list));
     }
-
 }

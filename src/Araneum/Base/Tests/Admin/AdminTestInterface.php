@@ -2,6 +2,11 @@
 
 namespace Araneum\Base\Tests\Admin;
 
+/**
+ * Interface AdminTestInterface
+ *
+ * @package Araneum\Base\Tests\Admin
+ */
 interface AdminTestInterface
 {
     /**

@@ -13,6 +13,11 @@ use Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManager;
 
+/**
+ * Class RemoteApplicationManagerTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Unit\Service
+ */
 class RemoteApplicationManagerTest extends BaseController
 {
     protected $manager;
@@ -96,7 +101,7 @@ class RemoteApplicationManagerTest extends BaseController
                 $this->returnValue(
                     [
                         'user' => $this->user,
-                        'password' => $this->password
+                        'password' => $this->password,
                     ]
                 )
             );
@@ -134,9 +139,9 @@ class RemoteApplicationManagerTest extends BaseController
                     [
                         'auth' => [
                             $this->user,
-                            $this->password
+                            $this->password,
                         ],
-                        'connect_timeout' => 1
+                        'connect_timeout' => 1,
                     ]
                 )
             )
@@ -236,9 +241,9 @@ class RemoteApplicationManagerTest extends BaseController
         $params = [
             'auth' => [
                 'api',
-                'QDurWe68'
+                'QDurWe68',
             ],
-            'connect_timeout' => 1
+            'connect_timeout' => 1,
         ];
 
         $query = [
@@ -255,7 +260,7 @@ class RemoteApplicationManagerTest extends BaseController
                 'port' => 5432,
                 'user_name' => 'postrgese',
                 'password' => 'password',
-            ]
+            ],
         ];
 
         $this->request->expects($this->any())

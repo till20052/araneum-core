@@ -6,6 +6,11 @@ use Araneum\Bundle\MailBundle\Entity\Mail;
 use Araneum\Bundle\MailBundle\Service\MailApiHandlerService;
 use Araneum\Bundle\MainBundle\Entity\Application;
 
+/**
+ * Class MailApiHandlerServiceTest
+ *
+ * @package Araneum\Bundle\MailBundle\Tests\Unit\Service
+ */
 class MailApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
 {
     protected $entityManagerMock;
@@ -41,7 +46,9 @@ class MailApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->formMock));
 
-        $this->applicationManagerMock = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Service\ApplicationManagerService')
+        $this->applicationManagerMock = $this->getMockBuilder(
+            '\Araneum\Bundle\MainBundle\Service\ApplicationManagerService'
+        )
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -60,7 +67,7 @@ class MailApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Test post valid form
      */
-    public function testPostFormValid_Ok()
+    public function testPostFormValidOk()
     {
         $parameters = ['test' => 'test'];
 
@@ -93,7 +100,7 @@ class MailApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \Araneum\Base\Exception\InvalidFormException
      */
-    public function testPostFormNotValid_Exception()
+    public function testPostFormNotValidException()
     {
         $parameters = ['test' => 'test'];
 

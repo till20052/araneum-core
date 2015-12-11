@@ -7,18 +7,22 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class ApplicationManagerService
+ *
+ * @package Araneum\Bundle\MainBundle\Service
+ */
 class ApplicationManagerService
 {
-    /** @var  Registry */
     private $doctrine;
     private $repository;
 
     /**
      * ApplicationManager constructor
      *
-     * @param $doctrine
+     * @param Registry $doctrine
      */
-    public function __construct($doctrine)
+    public function __construct(Registry $doctrine)
     {
         $this->doctrine = $doctrine;
     }

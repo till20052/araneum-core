@@ -2,6 +2,11 @@
 
 namespace Araneum\Base\Ali\Helper;
 
+/**
+ * Class ArrayHelper
+ *
+ * @package Araneum\Base\Ali\Helper
+ */
 class ArrayHelper
 {
 

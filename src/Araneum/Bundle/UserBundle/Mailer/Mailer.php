@@ -5,6 +5,11 @@ namespace Araneum\Bundle\UserBundle\Mailer;
 use FOS\UserBundle\Mailer\Mailer as BaseMailer;
 use FOS\UserBundle\Model\UserInterface;
 
+/**
+ * Class Mailer
+ *
+ * @package Araneum\Bundle\UserBundle\Mailer
+ */
 class Mailer extends BaseMailer
 {
     /**
@@ -16,11 +21,14 @@ class Mailer extends BaseMailer
     public function sendResettingEmailMessage(UserInterface $user)
     {
         $template = $this->parameters['resetting.template'];
-        $url = $this->router->generate('fos_user_resetting_reset', array('token' => $user->getConfirmationToken()), true);
-        $rendered = $this->templating->render($template, array(
-            'user' => $user,
-            'confirmationUrl' => $url
-        ));
+        $url = $this->router->generate('fos_user_resetting_reset', ['token' => $user->getConfirmationToken()], true);
+        $rendered = $this->templating->render(
+            $template,
+            [
+                'user' => $user,
+                'confirmationUrl' => $url,
+            ]
+        );
         $this->sendEmailMessage($rendered, $this->parameters['from_email']['resetting'], $user->getEmail());
     }
 }

@@ -12,390 +12,423 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\Expr;
 use Araneum\Bundle\UserBundle\Entity\User;
 
+/**
+ * Class StatisticsService
+ *
+ * @package Araneum\Bundle\MainBundle\Service
+ */
 class StatisticsService
 {
-	/**
-	 * @var EntityManager
-	 */
-	private $entityManager;
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
 
-	/**
-	 * @var array $hours
-	 */
-	private $hours;
+    /**
+     * @var array $hours
+     */
+    private $hours;
 
-	const COLORS = [
-		'#5d9cec',
-		'#27c24c',
-		'#23b7e5',
-		'#ff902b',
-		'#f05050',
-		'#37bc9b',
-		'#f532e5',
-		'#7266ba',
-		'#fad732',
-		'#dde6e9'
-	];
+    const COLORS = [
+        '#5d9cec',
+        '#27c24c',
+        '#23b7e5',
+        '#ff902b',
+        '#f05050',
+        '#37bc9b',
+        '#f532e5',
+        '#7266ba',
+        '#fad732',
+        '#dde6e9',
+    ];
 
-	/**
-	 * StatisticsService constructor.
-	 *
-	 * @param EntityManager $entityManager
-	 */
-	public function __construct(EntityManager $entityManager)
-	{
-		$this->entityManager = $entityManager;
-		$this->hours = $this->createTimeRange(date('Y-m-d H:s', time() - 86400), date('Y-m-d H:s', time()), '1 hour');
-	}
+    /**
+     * StatisticsService constructor.
+     *
+     * @param EntityManager $entityManager
+     */
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+        $this->hours = $this->createTimeRange(date('Y-m-d H:s', time() - 86400), date('Y-m-d H:s', time()), '1 hour');
+    }
 
-	/**
-	 * Get application repositoty
-	 *
-	 * @return ApplicationRepository
-	 */
-	private function getApplicationRepository()
-	{
-		return $this->entityManager->getRepository('AraneumMainBundle:Application');
-	}
+    /**
+     * Get statistics of all applications by next conditions:
+     *  - online
+     *  - has problems
+     *  - has errors
+     *  - disabled
+     *
+     * @return \stdClass
+     */
+    public function getApplicationsStatistics()
+    {
+        return $this->getApplicationRepository()->getApplicationsStatistics();
+    }
 
-	/**
-	 * Get application log repository
-	 *
-	 * @return ApplicationLogRepository
-	 */
-	private function getApplicationLogRepository()
-	{
-		return $this->entityManager->getRepository('AraneumAgentBundle:ApplicationLog');
-	}
+    /**
+     * Get statistics of all applications by statuses last 24 hours
+     *
+     * -error
+     * -problem
+     * -ok
+     * -disabled
+     *
+     * @return array
+     */
+    public function getApplicationsStatusesDayly()
+    {
+        return $this->getApplicationRepository()->getApplicationStatusesDayly();
+    }
 
-	/**
-	 * Get Cluster repository
-	 *
-	 * @return ClusterRepository
-	 */
-	private function getClusterRepository()
-	{
-		return $this->entityManager->getRepository('AraneumMainBundle:Cluster');
-	}
+    /**
+     * Get average statuses dayly
+     *
+     * @return array
+     */
+    public function getAverageApplicationStatusesDayly()
+    {
+        return $this->getApplicationLogRepository()->getAverageApplicationStatusesDayly();
+    }
 
-	/**
-	 * Get statistics of all applications by next conditions:
-	 *  - online
-	 *  - has problems
-	 *  - has errors
-	 *  - disabled
-	 *
-	 * @return \stdClass
-	 */
-	public function getApplicationsStatistics()
-	{
-		return $this->getApplicationRepository()->getApplicationsStatistics();
-	}
+    /**
+     *  Get array
+     *
+     * @param array $pack
+     * @param mixed $column
+     * @return array
+     */
+    public function getResultByColumnName(array $pack, $column)
+    {
+        return array_values(array_column($pack, $column));
+    }
 
-	/**
-	 * Get statistics of all applications by statuses last 24 hours
-	 *
-	 * -error
-	 * -problem
-	 * -ok
-	 * -disabled
-	 *
-	 * @return array
-	 */
-	public function getApplicationsStatusesDayly()
-	{
-		return $this->getApplicationRepository()->getApplicationStatusesDayly();
-	}
+    /**
+     * Prepare data for dayly application statuses chart
+     *
+     * @return array
+     */
+    public function prepareResulForDaylyApplications()
+    {
+        $statusesDayly = $this->getApplicationsStatusesDayly();
 
-	/**
-	 * Get average statuses dayly
-	 *
-	 * @return array
-	 */
-	public function getAverageApplicationStatusesDayly()
-	{
-		return $this->getApplicationLogRepository()->getAverageApplicationStatusesDayly();
-	}
+        return
+            [
+                'applications' => $this->getResultByColumnName($statusesDayly, 'name'),
+                'errors' => $this->getResultByColumnName($statusesDayly, 'errors'),
+                'problems' => $this->getResultByColumnName($statusesDayly, 'problems'),
+                'success' => $this->getResultByColumnName($statusesDayly, 'success'),
+                'disabled' => $this->getResultByColumnName($statusesDayly, 'disabled'),
+            ];
+    }
 
-	/**
-	 * Get averade cluster load data
-	 *
-	 * @return array
-	 */
-	private function getClusterLoadAverage()
-	{
-		return $this->getClusterRepository()->getClusterLoadAverage();
-	}
+    /**
+     * Prepare data for dayly application average chart
+     *
+     * @return array
+     */
+    public function prepareResultForDaylyAverageStatuses()
+    {
+        $statusesDaylyAverage = $this->getAverageApplicationStatusesDayly();
 
-	/**
-	 *
-	 * Get data from repository
-	 */
-	private function getClusterUpTime()
-	{
-		return $this->getClusterRepository()->getClusterUpTime();
-	}
+        return [
+            'success' => $this->getStatusesByPeriod($statusesDaylyAverage, 'success'),
+            'problems' => $this->getStatusesByPeriod($statusesDaylyAverage, 'problems'),
+            'errors' => $this->getStatusesByPeriod($statusesDaylyAverage, 'errors'),
+            'disabled' => $this->getStatusesByPeriod($statusesDaylyAverage, 'disabled'),
+        ];
+    }
 
-	/**
-	 * Get array
-	 *
-	 * @param array $pack
-	 * @return array
-	 */
-	public function getResultByColumnName(array $pack, $column)
-	{
-		return array_values(array_column($pack, $column));
-	}
+    /**
+     * Prepare data for Cluster average load chart
+     *
+     * @return array
+     */
+    public function prepareResultForClusterAverage()
+    {
+        return $this->getChartStructure($this->getClusterLoadAverage(), 'apt');
+    }
 
-	/**
-	 * Get errors by Application by hour
-	 *
-	 * @param array $pack
-	 * @return array
-	 */
-	private function getStatusesByPeriod(array $pack, $status, $period = 'hours')
-	{
-		$prepareArray = $this->hours;
-		$resultArray = [];
+    /**
+     * Prepare result for cluster Up time
+     *
+     * @return array
+     */
+    public function prepareResultForClusterUpTime()
+    {
+        $clusterUpTime = $this->getClusterUpTime();
 
-		foreach ($pack as $item) {
-			if (isset($item[$status])) {
+        $success = [
+            'label' => 'Success',
+            'color' => '#27c24c',
+            'data' => [],
+        ];
 
-				if ($item[$period] <= 9) {
-					$item[$period] = "0" . $item[$period];
-				}
+        $problem = [
+            'label' => 'Problem',
+            'color' => '#ff902b',
+            'data' => [],
+        ];
 
-				$prepareArray[$item[$period]] = $item[$status];
-			}
-		}
+        $offline = [
+            'label' => 'Offline',
+            'color' => '#f05050',
+            'data' => [],
+        ];
 
-		foreach ($prepareArray as $key => $value) {
-			$resultArray[] = [(string)$key, $value];
-		}
+        foreach ($clusterUpTime as $array) {
+            array_push(
+                $problem['data'],
+                [
+                    $array['name'],
+                    $array['problem'],
+                ]
+            );
+            array_push(
+                $offline['data'],
+                [
+                    $array['name'],
+                    $array['offline'],
+                ]
+            );
+            array_push(
+                $success['data'],
+                [
+                    $array['name'],
+                    $array['success'],
+                ]
+            );
+        }
 
+        return [
+            $success,
+            $problem,
+            $offline,
+        ];
+    }
 
-		return $resultArray;
-	}
+    /**
+     * Get Summary statistics
+     *
+     * @return array
+     */
+    public function getSummary()
+    {
+        return [
+            'applications' => $this->entityManager
+                ->getRepository('AraneumMainBundle:Application')
+                ->count(),
+            'clusters' => $this->entityManager
+                ->getRepository('AraneumMainBundle:Cluster')
+                ->count(),
+            'admins' => $this->entityManager
+                ->getRepository('AraneumUserBundle:User')
+                ->count(),
+            'connections' => $this->entityManager
+                ->getRepository('AraneumMainBundle:Connection')
+                ->count(),
+            'locales' => $this->entityManager
+                ->getRepository('AraneumMainBundle:Locale')
+                ->count(),
+        ];
+    }
 
-	/**
-	 * Prepare data for dayly application statuses chart
-	 *
-	 * @return array
-	 */
-	public function prepareResulForDaylyApplications()
-	{
-		$statusesDayly = $this->getApplicationsStatusesDayly();
+    /**
+     * Get Registered Customers
+     *
+     * @return array
+     */
+    public function getRegisteredCustomersFromApplications()
+    {
+        /** @var CustomerRepository $repository */
+        $repository = $this->entityManager->getRepository('AraneumAgentBundle:Customer');
 
-		return
-			[
-				'applications' => $this->getResultByColumnName($statusesDayly, 'name'),
-				'errors' => $this->getResultByColumnName($statusesDayly, 'errors'),
-				'problems' => $this->getResultByColumnName($statusesDayly, 'problems'),
-				'success' => $this->getResultByColumnName($statusesDayly, 'success'),
-				'disabled' => $this->getResultByColumnName($statusesDayly, 'disabled')
-			];
-	}
+        return [
+            'count' => $repository->count(),
+            'data' => $this->getChartStructure($repository->getRegisteredCustomersFromApplications(), 'customers'),
+        ];
+    }
 
-	/**
-	 * Prepare data for dayly application average chart
-	 *
-	 * @return array
-	 */
-	public function prepareResultForDaylyAverageStatuses()
-	{
-		$statusesDaylyAverage = $this->getAverageApplicationStatusesDayly();
+    /**
+     * Get Received Emails
+     *
+     * @return array
+     */
+    public function getReceivedEmailsFromApplications()
+    {
+        /** @var MailRepository $repository */
+        $repository = $this->entityManager->getRepository('AraneumMailBundle:Mail');
 
-		return [
-			'success' => $this->getStatusesByPeriod($statusesDaylyAverage, 'success'),
-			'problems' => $this->getStatusesByPeriod($statusesDaylyAverage, 'problems'),
-			'errors' => $this->getStatusesByPeriod($statusesDaylyAverage, 'errors'),
-			'disabled' => $this->getStatusesByPeriod($statusesDaylyAverage, 'disabled')
-		];
-	}
+        return [
+            'count' => $repository->count(),
+            'data' => $this->getChartStructure($repository->getReceivedEmailsFromApplications(), 'emails'),
+        ];
+    }
 
-	/**
-	 * Prepare data for Cluster average load chart
-	 *
-	 * @return array
-	 */
-	public function prepareResultForClusterAverage()
-	{
-		return $this->getChartStructure($this->getClusterLoadAverage(), 'apt');
-	}
+    /**
+     * Init chart structure
+     *
+     * @param array  $list
+     * @param string $countField
+     * @return array
+     */
+    private function getChartStructure(array $list, $countField = 'cnt')
+    {
+        $data = [];
 
-	/**
-	 * Prepare result for cluster Up time
-	 *
-	 * @return array
-	 */
-	public function prepareResultForClusterUpTime()
-	{
-		$clusterUpTime = $this->getClusterUpTime();
+        foreach ($list as $item) {
+            if (!isset($data[$item['name']])) {
+                $data[$item['name']] = [
+                    'label' => $item['name'],
+                    'color' => $this->getColor(),
+                    'data' => $this->hours,
+                ];
+            }
 
-		$success = [
-			'label' => 'Success',
-			'color' => '#27c24c',
-			'data' => []
-		];
+            $key = $item['hours'];
+            if ($key < 10) {
+                $key = '0'.$key;
+            }
 
-		$problem = [
-			'label' => 'Problem',
-			'color' => '#ff902b',
-			'data' => []
-		];
+            $data[$item['name']]['data'][$key] = round($item[$countField]);
+        }
 
-		$offline = [
-			'label' => 'Offline',
-			'color' => '#f05050',
-			'data' => []
-		];
+        $data = array_values($data);
 
-		foreach ($clusterUpTime as $array) {
-			array_push($problem['data'], [$array['name'], $array['problem']]);
-			array_push($offline['data'], [$array['name'], $array['offline']]);
-			array_push($success['data'], [$array['name'], $array['success']]);
-		}
+        foreach ($data as &$item) {
+            $token = [];
+            foreach ($item['data'] as $key => $val) {
+                $token[] = [
+                    $key,
+                    $val,
+                ];
+            }
+            $item['data'] = $token;
+        }
 
-		return [$success, $problem, $offline];
-	}
+        return array_values($data);
+    }
 
-	/**
-	 * Get Summary statistics
-	 *
-	 * @return array
-	 */
-	public function getSummary()
-	{
-		return [
-			'applications' => $this->entityManager
-					->getRepository('AraneumMainBundle:Application')
-					->count(),
-			'clusters' => $this->entityManager
-					->getRepository('AraneumMainBundle:Cluster')
-					->count(),
-			'admins' => $this->entityManager
-					->getRepository('AraneumUserBundle:User')
-					->count(),
-			'connections' => $this->entityManager
-					->getRepository('AraneumMainBundle:Connection')
-					->count(),
-			'locales' => $this->entityManager
-					->getRepository('AraneumMainBundle:Locale')
-					->count()
-		];
-	}
+    /**
+     * Get averade cluster load data
+     *
+     * @return array
+     */
+    private function getClusterLoadAverage()
+    {
+        return $this->getClusterRepository()->getClusterLoadAverage();
+    }
 
-	/**
-	 * Init chart structure
-	 *
-	 * @param array $list
-	 * @param string $countField
-	 * @return array
-	 */
-	private function getChartStructure(array $list, $countField = 'cnt')
-	{
-		$data = [];
+    /**
+     *
+     * Get data from repository
+     */
+    private function getClusterUpTime()
+    {
+        return $this->getClusterRepository()->getClusterUpTime();
+    }
 
-		foreach ($list as $item) {
-			if (!isset($data[$item['name']])) {
-				$data[$item['name']] = [
-					'label' => $item['name'],
-					'color' => $this->getColor(),
-					'data' => $this->hours
-				];
-			}
+    /**
+     * Get errors by Application by hour
+     *
+     * @param array $pack
+     * @return array
+     */
+    private function getStatusesByPeriod(array $pack, $status, $period = 'hours')
+    {
+        $prepareArray = $this->hours;
+        $resultArray = [];
 
-			$key = $item['hours'];
-			if ($key < 10) {
-				$key = '0' . $key;
-			}
+        foreach ($pack as $item) {
+            if (isset($item[$status])) {
 
-			$data[$item['name']]['data'][$key] = round($item[$countField]);
-		}
+                if ($item[$period] <= 9) {
+                    $item[$period] = "0".$item[$period];
+                }
 
-		$data = array_values($data);
+                $prepareArray[$item[$period]] = $item[$status];
+            }
+        }
 
-		foreach ($data as &$item) {
-			$token = [];
-			foreach ($item['data'] as $key => $val) {
-				$token[] = [$key, $val];
-			}
-			$item['data'] = $token;
-		}
+        foreach ($prepareArray as $key => $value) {
+            $resultArray[] = [
+                (string) $key,
+                $value,
+            ];
+        }
 
-		return array_values($data);
-	}
+        return $resultArray;
+    }
 
-	/**
-	 * Get Registered Customers
-	 *
-	 * @return array
-	 */
-	public function getRegisteredCustomersFromApplications()
-	{
-		/** @var CustomerRepository $repository */
-		$repository = $this->entityManager->getRepository('AraneumAgentBundle:Customer');
+    /**
+     * Create time range
+     *
+     * @param mixed $start start time, e.g., 9:30am or 9:30
+     * @param mixed $end end time, e.g., 5:30pm or 17:30
+     * @access public
+     * @return array
+     */
+    private function createTimeRange($start, $end)
+    {
+        $times = [];
 
-		return [
-			'count' => $repository->count(),
-			'data' => $this->getChartStructure($repository->getRegisteredCustomersFromApplications(), 'customers')
-		];
-	}
+        $begin = new \DateTime($start);
+        $end = new \DateTime($end);
 
-	/**
-	 * Get Received Emails
-	 *
-	 * @return array
-	 */
-	public function getReceivedEmailsFromApplications()
-	{
-		/** @var MailRepository $repository */
-		$repository = $this->entityManager->getRepository('AraneumMailBundle:Mail');
+        $interval = new \DateInterval('PT1H');
+        $dateRange = new \DatePeriod($begin, $interval, $end);
 
-		return [
-			'count' => $repository->count(),
-			'data' => $this->getChartStructure($repository->getReceivedEmailsFromApplications(), 'emails')
-		];
-	}
+        foreach ($dateRange as $date) {
+            $times[$date->format('H')] = 0;
+        }
 
-	/**
-	 * Create time range
-	 *
-	 * @param mixed $start start time, e.g., 9:30am or 9:30
-	 * @param mixed $end end time, e.g., 5:30pm or 17:30
-	 * @access public
-	 * @return array
-	 */
-	private function createTimeRange($start, $end)
-	{
-		$times = [];
+        return $times;
+    }
 
-		$begin = new \DateTime($start);
-		$end = new \DateTime($end);
+    /**
+     * Get color
+     *
+     * @return mixed
+     */
+    private function getColor()
+    {
+        static $index = -1;
 
-		$interval = new \DateInterval('PT1H');
-		$dateRange = new \DatePeriod($begin, $interval, $end);
+        if ($index + 1 >= count($this::COLORS)) {
+            $index = -1;
+        }
 
-		foreach ($dateRange as $date) {
-			$times[$date->format('H')] = 0;
-		}
+        return $this::COLORS[++$index];
+    }
 
-		return $times;
-	}
+    /**
+     * Get application log repository
+     *
+     * @return ApplicationLogRepository
+     */
+    private function getApplicationLogRepository()
+    {
+        return $this->entityManager->getRepository('AraneumAgentBundle:ApplicationLog');
+    }
 
-	/**
-	 * Get color
-	 *
-	 * @return mixed
-	 */
-	private function getColor()
-	{
-		static $index = -1;
+    /**
+     * Get Cluster repository
+     *
+     * @return ClusterRepository
+     */
+    private function getClusterRepository()
+    {
+        return $this->entityManager->getRepository('AraneumMainBundle:Cluster');
+    }
 
-		if ($index + 1 >= count($this::COLORS)) {
-			$index = -1;
-		}
-
-		return $this::COLORS[++$index];
-	}
+    /**
+     * Get application repositoty
+     *
+     * @return ApplicationRepository
+     */
+    private function getApplicationRepository()
+    {
+        return $this->entityManager->getRepository('AraneumMainBundle:Application');
+    }
 }

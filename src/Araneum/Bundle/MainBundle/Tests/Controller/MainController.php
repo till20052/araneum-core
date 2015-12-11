@@ -6,6 +6,11 @@ use Araneum\Base\Tests\Controller\BaseController;
 use Symfony\Component\DomCrawler\Link;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+/**
+ * Class TopMenuTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Controller
+ */
 class TopMenuTest extends BaseController
 {
 

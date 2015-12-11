@@ -19,6 +19,7 @@ use Symfony\Component\Form\FormEvents;
 
 /**
  * Class ComponentAdmin
+ *
  * @package Araneum\Bundle\MainBundle\Admin
  */
 class ComponentAdmin extends Admin
@@ -28,60 +29,79 @@ class ComponentAdmin extends Admin
      */
     private $dispatcher;
 
-	/**
-	 * Invoke method after creation of component
-	 *
-	 * @param Component $component
-	 * @return void
-	 */
-	public function postPersist($component)
-	{
-		$event = new ApplicationEvent();
+    /**
+     * Invoke method after creation of component
+     *
+     * @param Component $component
+     * @return void
+     */
+    public function postPersist($component)
+    {
+        $event = new ApplicationEvent();
 
-		$event->setApplications($component->getApplications());
+        $event->setApplications($component->getApplications());
 
-		$this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
-	}
+        $this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
+    }
 
-	/**
-	 * Invoke method after modification of component
-	 *
-	 * @param Component $component
-	 * @return void
-	 */
-	public function postUpdate($component)
-	{
-		$event = new ApplicationEvent();
+    /**
+     * Invoke method after modification of component
+     *
+     * @param Component $component
+     * @return void
+     */
+    public function postUpdate($component)
+    {
+        $event = new ApplicationEvent();
 
-		$event->setApplications($component->getApplications());
+        $event->setApplications($component->getApplications());
 
-		$this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
-	}
+        $this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
+    }
 
-	/**
-	 * Invoke method after deletion of component
-	 *
-	 * @param Component $component
-	 * @return void
-	 */
-	public function postRemove($component)
-	{
-		$event = new ApplicationEvent();
+    /**
+     * Invoke method after deletion of component
+     *
+     * @param Component $component
+     * @return void
+     */
+    public function postRemove($component)
+    {
+        $event = new ApplicationEvent();
 
-		$event->setApplications($component->getApplications());
+        $event->setApplications($component->getApplications());
 
         $this->dispatcher->dispatch(ApplicationEvents::PRE_REMOVE, $event);
-	}
+    }
 
-	/**
-	 * Set Event Dispatcher
-	 *
-	 * @param EventDispatcherInterface $eventDispatcherInterface
-	 */
-	public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
-	{
-		$this->dispatcher = $eventDispatcherInterface;
-	}
+    /**
+     * Set Event Dispatcher
+     *
+     * @param EventDispatcherInterface $eventDispatcherInterface
+     */
+    public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
+    {
+        $this->dispatcher = $eventDispatcherInterface;
+    }
+
+    /**
+     * Component form validator
+     *
+     * @param ErrorElement $errorElement
+     * @param Component    $object
+     */
+    public function validate(ErrorElement $errorElement, $object)
+    {
+        foreach ($object->getOptions() as $key => $value) {
+            if (preg_match('/^([A-z])([\w\d\/\_]+)$/', $key)
+                && preg_match('/^([\w\d\/\_]+)$/', $value)
+            ) {
+                continue;
+            }
+
+            $errorElement->addViolation('One or more tokens of options have not valid key or value');
+        }
+    }
 
     /**
      * Create/Update Component Form
@@ -96,15 +116,14 @@ class ComponentAdmin extends Admin
             ->getFormBuilder()
             ->addEventListener(
                 FormEvents::POST_SET_DATA,
-                function(FormEvent $event) use ($formMapper, $subject)
-                {
+                function (FormEvent $event) use ($formMapper, $subject) {
+
                     $options = new ArrayCollection();
 
-                    foreach($subject->getOptions() as $key => $value)
-                    {
+                    foreach ($subject->getOptions() as $key => $value) {
                         $options[] = [
                             'key' => $key,
-                            'value' => $value
+                            'value' => $value,
                         ];
                     }
 
@@ -123,7 +142,7 @@ class ComponentAdmin extends Admin
                 [
                     'multiple' => true,
                     'by_reference' => false,
-                    'required' => false
+                    'required' => false,
                 ]
             )
             ->add(
@@ -131,7 +150,7 @@ class ComponentAdmin extends Admin
                 'textarea',
                 [
                     'label' => 'description',
-                    'required' => false
+                    'required' => false,
                 ]
             )
             ->add(
@@ -144,8 +163,8 @@ class ComponentAdmin extends Admin
                     'allow_delete' => true,
                     'by_reference' => false,
                     'options' => [
-                        'label' => false
-                    ]
+                        'label' => false,
+                    ],
                 ]
             )
             ->add(
@@ -153,7 +172,7 @@ class ComponentAdmin extends Admin
                 'checkbox',
                 [
                     'label' => 'enabled',
-                    'required' => false
+                    'required' => false,
                 ]
             )
             ->add(
@@ -161,7 +180,7 @@ class ComponentAdmin extends Admin
                 'checkbox',
                 [
                     'label' => 'default',
-                    'required' => false
+                    'required' => false,
                 ]
             );
 
@@ -184,7 +203,7 @@ class ComponentAdmin extends Admin
                 null,
                 [
                     'label' => 'name',
-                    'editable' => true
+                    'editable' => true,
                 ]
             )
             ->add('applications', null, ['labels' => 'applications'])
@@ -194,7 +213,7 @@ class ComponentAdmin extends Admin
                 null,
                 [
                     'label' => 'enabled',
-                    'editable' => true
+                    'editable' => true,
                 ]
             )
             ->add(
@@ -202,7 +221,7 @@ class ComponentAdmin extends Admin
                 null,
                 [
                     'label' => 'default',
-                    'editable' => true
+                    'editable' => true,
                 ]
             )
             ->add(
@@ -210,7 +229,7 @@ class ComponentAdmin extends Admin
                 'datetime',
                 [
                     'label' => 'created_at',
-                    'format' => 'm/d/Y'
+                    'format' => 'm/d/Y',
                 ]
             )
             ->add(
@@ -220,8 +239,8 @@ class ComponentAdmin extends Admin
                     'label' => 'actions',
                     'actions' => [
                         'edit' => [],
-                        'delete' => []
-                    ]
+                        'delete' => [],
+                    ],
                 ]
             );
     }
@@ -244,34 +263,13 @@ class ComponentAdmin extends Admin
                 'doctrine_orm_datetime_range',
                 [
                     'label' => 'created_at',
-                    'field_type' => 'sonata_type_datetime_range_picker'
+                    'field_type' => 'sonata_type_datetime_range_picker',
                 ],
                 null,
                 [
                     'widget' => 'single_text',
-                    'format' => 'MM/dd/yyyy'
+                    'format' => 'MM/dd/yyyy',
                 ]
             );
-    }
-
-    /**
-     * Component form validator
-     *
-     * @param ErrorElement $errorElement
-     * @param Component $object
-     */
-    public function validate(ErrorElement $errorElement, $object)
-    {
-        foreach($object->getOptions() as $key => $value)
-        {
-            if(
-                preg_match('/^([A-z])([\w\d\/\_]+)$/', $key)
-                && preg_match('/^([\w\d\/\_]+)$/', $value)
-            ){
-                continue;
-            }
-
-            $errorElement->addViolation('One or more tokens of options have not valid key or value');
-        }
     }
 }

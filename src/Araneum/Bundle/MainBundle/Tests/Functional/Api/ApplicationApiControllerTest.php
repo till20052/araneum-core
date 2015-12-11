@@ -6,6 +6,11 @@ use Araneum\Base\Tests\Controller\BaseController;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class ApplicationApiControllerTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Functional\Api
+ */
 class ApplicationApiControllerTest extends BaseController
 {
     /**
@@ -24,7 +29,7 @@ class ApplicationApiControllerTest extends BaseController
 
         $client->request(
             'GET',
-            $this->configGetUri . ApplicationFixtures::TEST_APP_APP_KEY
+            $this->configGetUri.ApplicationFixtures::TEST_APP_APP_KEY
         );
         $response = $client->getResponse();
         $content = $response->getContent();
@@ -70,7 +75,7 @@ class ApplicationApiControllerTest extends BaseController
             'locales' => 'array',
             'components' => 'array',
             'cluster' => 'array',
-            'owner' => 'array'
+            'owner' => 'array',
         ];
     }
 }

@@ -5,15 +5,27 @@ namespace Araneum\Base\Ali\DatatableBundle\Util\Factory\Query;
 use Ali\DatatableBundle\Util\Factory\Query\DoctrineBuilder;
 use Araneum\Base\Ali\Helper\TimeCounterHelper;
 
+/**
+ * Class AraneumDoctrineBuilder
+ *
+ * @package Araneum\Base\Ali\DatatableBundle\Util\Factory\Query
+ */
 class AraneumDoctrineBuilder extends DoctrineBuilder
 {
+    /**
+     * @var
+     */
     protected $searchQuery;
+
+    /**
+     * @var bool
+     */
     protected $isEmptyQuery = false;
 
     /**
      * Set search query
      *
-     * @param $searchQuery
+     * @param object $searchQuery
      */
     public function setSearchQuery($searchQuery)
     {
@@ -33,35 +45,35 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
     /**
      * Search case insensitive like
      *
-     * @param $search_field
-     * @param $value
+     * @param string $searchField
+     * @param string $value
      * @return string
      */
-    public function searchLike($search_field, $value)
+    public function searchLike($searchField, $value)
     {
-        return " UPPER($search_field) LIKE UPPER('%{$value}%') ";
+        return " UPPER($searchField) LIKE UPPER('%{$value}%') ";
     }
 
     /**
      * Search equals
      *
-     * @param $search_field
-     * @param $value
+     * @param string $searchField
+     * @param string $value
      * @return string
      */
-    public function searchEquals($search_field, $value)
+    public function searchEquals($searchField, $value)
     {
-        return " $search_field = '$value' ";
+        return " $searchField = '$value' ";
     }
 
     /**
      * Search by date interval changed with the date format
      *
-     * @param string $search_field
+     * @param string $searchField
      * @param string $date
      * @return string
      */
-    public function searchDateIntervalDay($search_field, $date)
+    public function searchDateIntervalDay($searchField, $date)
     {
         try {
             if (!preg_match('/^\d{4}/', $date)) {
@@ -86,97 +98,52 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
             $dtTo = $dateObject->modify('+1 day')->format('Y-m-d H:i:s.u');
         }
 
-        return " ( $search_field > '$dtFrom' AND $search_field < '$dtTo' )  ";
+        return " ( $searchField > '$dtFrom' AND $searchField < '$dtTo' )  ";
     }
 
     /**
      * Search in array
      *
-     * @param string $search_field
+     * @param string $searchField
      * @param string $value
      * @return string
      */
-    public function searchIn($search_field, $value)
+    public function searchIn($searchField, $value)
     {
-        return " $search_field IN (" . implode(',', $value) . ') ';
+        return " $searchField IN (".implode(',', $value).') ';
     }
 
     /**
      * Search time
      *
-     * @param $search_field
-     * @param $value
+     * @param string $searchField
+     * @param string $value
      * @return string
      */
-    public function searchTime($search_field, $value)
+    public function searchTime($searchField, $value)
     {
         if (is_array($value)) {
             $timeInHour = TimeCounterHelper::TIME_IN_HOUR;
             $timeInMinute = TimeCounterHelper::TIME_IN_MINUTE;
 
             $timeArray = $value;
-            $hours = (int)$timeArray[0];
-            $seconds = (int)$timeArray[1];
-            $minusesWithHour = (int)$timeArray[1];
-            $minusesWithSecond = (int)$timeArray[0];
+            $hours = (int) $timeArray[0];
+            $seconds = (int) $timeArray[1];
+            $minusesWithHour = (int) $timeArray[1];
+            $minusesWithSecond = (int) $timeArray[0];
 
-            $searchByHourAndMinutes = "($search_field / $timeInHour = $hours
-            AND MOD($search_field , $timeInHour) / $timeInMinute = $minusesWithHour
+            $searchByHourAndMinutes = "($searchField / $timeInHour = $hours
+            AND MOD($searchField , $timeInHour) / $timeInMinute = $minusesWithHour
             )";
             $searchByMinutesAndSeconds = "(
-                MOD($search_field , $timeInHour) / $timeInMinute = $minusesWithSecond
-                AND MOD(MOD($search_field , $timeInHour) , $timeInMinute) = $seconds
+                MOD($searchField , $timeInHour) / $timeInMinute = $minusesWithSecond
+                AND MOD(MOD($searchField , $timeInHour) , $timeInMinute) = $seconds
             )";
 
-            return $searchByHourAndMinutes . " OR " . $searchByMinutesAndSeconds;
+            return $searchByHourAndMinutes." OR ".$searchByMinutesAndSeconds;
         }
 
         return false;
-    }
-
-    /**
-     * Get the search dql
-     *
-     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
-     * @return string|void
-     */
-    protected function _addSearch(\Doctrine\ORM\QueryBuilder $queryBuilder)
-    {
-        if ($this->search == true) {
-
-            $request = $this->request;
-            $search_fields = array_keys($this->getSearchQuery());
-
-            $search_param = trim($request->get("sSearch"));
-            if (empty($search_param)) {
-                return;
-            }
-
-            $orQueries = [];
-            $searchQueryArray = $this->getSearchQuery();
-            foreach ($search_fields as $i => $search_field) {
-                if (!isset($searchQueryArray[$search_field])) {
-                    continue;
-                }
-
-                $field = explode(' ', trim($search_field));
-                $search_field = $field[0];
-                if (($oneQuery = $searchQueryArray[$search_field]($this, $search_field, $search_param)) !== false &&
-                    !empty($oneQuery)
-                ) {
-                    $orQueries[] = $oneQuery;
-                }
-            }
-
-            if (empty($orQueries)) {
-               $this->setIsEmptyQuery(true);
-            }
-
-            if (!empty($orQueries)) {
-                $orQuery = '(' . implode(' OR ', $orQueries) . ' ) ';
-                $queryBuilder->andWhere($orQuery);
-            }
-        }
     }
 
     /**
@@ -187,7 +154,7 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
     public function getResultQueryBuilder()
     {
         $qb = clone $this->queryBuilder;
-        $this->_addSearch($qb);
+        $this->addSearch($qb);
 
         return $qb;
     }
@@ -226,19 +193,19 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
     /**
      * Get data
      *
-     * @param int $hydration_mode
+     * @param int $hydrationMode
      * @return array
      */
-    public function getData($hydration_mode)
+    public function getData($hydrationMode)
     {
         if ($this->isEmptyQuery()) {
             return [
                 [],
-                []
+                [],
             ];
         }
 
-        return parent::getData($hydration_mode);
+        return parent::getData($hydrationMode);
     }
 
     /**
@@ -249,7 +216,7 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
     public function getTotalRecords()
     {
         $qb = clone $this->queryBuilder;
-        $this->_addSearch($qb);
+        $this->addSearch($qb);
 
         if ($this->isEmptyQuery()) {
             return 0;
@@ -267,6 +234,51 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
             $qb->select(" count(distinct {$this->fields['_identifier_']}) ");
 
             return $qb->getQuery()->getSingleScalarResult();
+        }
+    }
+
+    /**
+     * Get the search dql
+     *
+     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
+     * @return string|void
+     */
+    protected function addSearch(\Doctrine\ORM\QueryBuilder $queryBuilder)
+    {
+        if ($this->search == true) {
+
+            $request = $this->request;
+            $searchFields = array_keys($this->getSearchQuery());
+
+            $searchParam = trim($request->get("sSearch"));
+            if (empty($searchParam)) {
+                return;
+            }
+
+            $orQueries = [];
+            $searchQueryArray = $this->getSearchQuery();
+            foreach ($searchFields as $i => $searchField) {
+                if (!isset($searchQueryArray[$searchField])) {
+                    continue;
+                }
+
+                $field = explode(' ', trim($searchField));
+                $searchField = $field[0];
+                if (($oneQuery = $searchQueryArray[$searchField]($this, $searchField, $searchParam)) !== false &&
+                    !empty($oneQuery)
+                ) {
+                    $orQueries[] = $oneQuery;
+                }
+            }
+
+            if (empty($orQueries)) {
+                $this->setIsEmptyQuery(true);
+            }
+
+            if (!empty($orQueries)) {
+                $orQuery = '('.implode(' OR ', $orQueries).' ) ';
+                $queryBuilder->andWhere($orQuery);
+            }
         }
     }
 }

@@ -20,9 +20,9 @@ class User extends BaseUser
 {
     use DateTrait;
 
-    const ROLE_USER = 'ROLE_USER';
+    const ROLE_USER  = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
-    const ROLE_API = 'ROLE_API';
+    const ROLE_API   = 'ROLE_API';
 
     /**
      * @var array
@@ -30,7 +30,7 @@ class User extends BaseUser
     public static $roleNames = [
         self::ROLE_USER,
         self::ROLE_ADMIN,
-        self::ROLE_API
+        self::ROLE_API,
     ];
 
     /**
@@ -120,8 +120,7 @@ class User extends BaseUser
      */
     public function getRoles()
     {
-        if (
-            isset($this->rolesBuffer)
+        if (isset($this->rolesBuffer)
             && is_array($this->rolesBuffer)
         ) {
             return $this->rolesBuffer;

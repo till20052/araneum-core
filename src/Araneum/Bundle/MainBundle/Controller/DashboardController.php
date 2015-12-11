@@ -8,6 +8,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class DashboardController
+ *
+ * @package Araneum\Bundle\MainBundle\Controller
+ */
 class DashboardController extends Controller
 {
     /**
@@ -17,7 +22,7 @@ class DashboardController extends Controller
      *     "/manage/dashboard/data-source.json",
      *     name="araneum_admin_dashboard_getDataSource"
      * )
-	 *
+     *
      * @return JsonResponse
      */
     public function getDataSourceAction()
@@ -33,9 +38,9 @@ class DashboardController extends Controller
                 'clusterLoadAverage' => $statisticService->prepareResultForClusterAverage(),
                 'clusterUpTime' => $statisticService->prepareResultForClusterUpTime(),
                 'summary' => $statisticService->getSummary(),
-				'registeredCustomers' => $statisticService->getRegisteredCustomersFromApplications(),
-				'receivedEmails' => $statisticService->getReceivedEmailsFromApplications()
-            ]
+                'registeredCustomers' => $statisticService->getRegisteredCustomersFromApplications(),
+                'receivedEmails' => $statisticService->getReceivedEmailsFromApplications(),
+            ],
         ];
 
         return new JsonResponse($result, Response::HTTP_OK);

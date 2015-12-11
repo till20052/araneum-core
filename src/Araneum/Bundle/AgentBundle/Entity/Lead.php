@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints;
  */
 class Lead
 {
-	use DateTrait;
+    use DateTrait;
 
     /**
      * @var integer
@@ -78,7 +78,7 @@ class Lead
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -101,7 +101,7 @@ class Lead
     /**
      * Get firstName
      *
-     * @return string 
+     * @return string
      */
     public function getFirstName()
     {
@@ -124,7 +124,7 @@ class Lead
     /**
      * Get lastName
      *
-     * @return string 
+     * @return string
      */
     public function getLastName()
     {
@@ -147,7 +147,7 @@ class Lead
     /**
      * Get country
      *
-     * @return integer 
+     * @return integer
      */
     public function getCountry()
     {
@@ -170,7 +170,7 @@ class Lead
     /**
      * Get phone
      *
-     * @return string 
+     * @return string
      */
     public function getPhone()
     {
@@ -193,7 +193,7 @@ class Lead
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {

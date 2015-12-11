@@ -6,6 +6,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * Class ApplicationHandlerService
+ *
+ * @package Araneum\Bundle\MainBundle\Service
+ */
 class ApplicationHandlerService
 {
     protected $manager;
@@ -18,7 +23,7 @@ class ApplicationHandlerService
      * Class construct
      *
      * @param ObjectManager $manager
-     * @param $entityClass
+     * @param string        $entityClass
      */
     public function __construct(ObjectManager $manager, $entityClass)
     {
@@ -56,7 +61,7 @@ class ApplicationHandlerService
                 'components' => $entity->getComponents(),
                 'owner' => $entity->getOwner(),
                 'status' => $entity->getStatus(),
-                'template' => $entity->getTemplate()
+                'template' => $entity->getTemplate(),
             ];
 
         return $application;

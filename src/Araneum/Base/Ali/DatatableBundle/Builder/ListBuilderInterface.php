@@ -2,6 +2,11 @@
 
 namespace Araneum\Base\Ali\DatatableBundle\Builder;
 
+/**
+ * Interface ListBuilderInterface
+ *
+ * @package Araneum\Base\Ali\DatatableBundle\Builder
+ */
 interface ListBuilderInterface
 {
     /**
@@ -14,6 +19,7 @@ interface ListBuilderInterface
     public function add($name, array $fieldDescriptionOptions = []);
 
     /**
+     * Set search enabled
      *
      * @param bool $search
      * @return $this
@@ -23,7 +29,7 @@ interface ListBuilderInterface
     /**
      * Add widget to datatable
      *
-     * @param Closure $data
+     * @param \Closure $data
      * @return $this
      */
     public function setWidget(\Closure $data);
@@ -31,7 +37,7 @@ interface ListBuilderInterface
     /**
      * Set field for order
      *
-     * @param        $field
+     * @param string $field
      * @param string $sort
      * @return $this
      */

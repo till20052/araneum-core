@@ -8,13 +8,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\RestBundle\Controller\Annotations as Rest;
 
-
+/**
+ * Class AdminDefaultController
+ *
+ * @package Araneum\Bundle\MainBundle\Controller
+ */
 class AdminDefaultController extends Controller
 {
     /**
      * Araneum home page action
      *
      * @Route("/manage/menu.json", name="araneum_admin_main_menu")
+     * @return JsonResponse
      */
     public function menuAction()
     {
