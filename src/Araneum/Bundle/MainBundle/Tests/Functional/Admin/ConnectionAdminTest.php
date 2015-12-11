@@ -2,22 +2,26 @@
 
 namespace Araneum\Bundle\MainBundle\Tests\Functional;
 
-use Araneum\Base\Tests\Controller\BaseAdminController;
+use Araneum\Base\Tests\Controller\AbstractBaseAdminController;
 use Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures;
 use Araneum\Bundle\MailBundle\Entity\Mail;
 use Araneum\Bundle\MainBundle\Entity\Connection;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class ConnectionAdminTest extends BaseAdminController
+/**
+ * Class ConnectionAdminTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Functional
+ */
+class ConnectionAdminTestAbstractBaseAdminController extends AbstractBaseAdminController
 {
     protected $listRoute       = 'admin_araneum_main_connection_list';
-    protected $createRoute = 'admin_araneum_main_connection_create';
-    protected $updateRoute = 'admin_araneum_main_connection_edit';
-    protected $deleteRoute = 'admin_araneum_main_connection_delete';
+    protected $createRoute     = 'admin_araneum_main_connection_create';
+    protected $updateRoute     = 'admin_araneum_main_connection_edit';
+    protected $deleteRoute     = 'admin_araneum_main_connection_delete';
     protected $checkRoute      = 'araneum_main_admin_connection_testConnection';
     protected $batchCheckRoute = 'araneum_main_admin_connection_batchAction';
-
 
     /**
      * Set up Before class
@@ -33,7 +37,7 @@ class ConnectionAdminTest extends BaseAdminController
 
         $delete = $repository->findOneByName(ConnectionFixtures::TEST_CONN_FREE_NAME);
 
-        if(!$delete){
+        if (!$delete) {
             $delete = new Connection();
             $delete
                 ->setName(ConnectionFixtures::TEST_CONN_FREE_NAME)
@@ -64,14 +68,13 @@ class ConnectionAdminTest extends BaseAdminController
 
         $functionalTestConnection = $repository->findOneByName('functionalTestConnection');
 
-        if($functionalTestConnection){
+        if ($functionalTestConnection) {
             $manager->remove($functionalTestConnection);
             $manager->flush();
         }
-
     }
 
-        /**
+    /**
      * Test check action
      *
      *
@@ -92,12 +95,12 @@ class ConnectionAdminTest extends BaseAdminController
                 ->getContainer()
                 ->get('router')
                 ->generate(
-                $this->checkRoute,
-                [
-                    'id' => $connection->getId(),
-                    '_locale' => 'en'
-                ]
-            )
+                    $this->checkRoute,
+                    [
+                        'id' => $connection->getId(),
+                        '_locale' => 'en',
+                    ]
+                )
         );
 
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
@@ -117,11 +120,11 @@ class ConnectionAdminTest extends BaseAdminController
                 ->getContainer()
                 ->get('router')
                 ->generate(
-                $this->listRoute,
-                [
-                    '_locale' => 'en'
-                ]
-            )
+                    $this->listRoute,
+                    [
+                        '_locale' => 'en',
+                    ]
+                )
         );
 
         $form = $crawler->selectButton('OK')->form();
@@ -136,8 +139,8 @@ class ConnectionAdminTest extends BaseAdminController
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
 
-
     /**
+     * @return array
      */
     public function filterDataSource()
     {
@@ -160,7 +163,7 @@ class ConnectionAdminTest extends BaseAdminController
                         'filter[createdAt][value][start]' => '01/01/1970',
                         'filter[createdAt][value][end]' => '01/01/2040',
                         'filter[updatedAt][value][start]' => '01/01/1970',
-                        'filter[updatedAt][value][end]' => '01/01/2040'
+                        'filter[updatedAt][value][end]' => '01/01/2040',
                     ],
                     true,
                     $connection,
@@ -174,15 +177,16 @@ class ConnectionAdminTest extends BaseAdminController
                         'filter[createdAt][value][start]' => '01/01/1970',
                         'filter[createdAt][value][end]' => '01/01/2040',
                         'filter[updatedAt][value][start]' => '01/01/1970',
-                        'filter[updatedAt][value][end]' => '01/01/2040'
+                        'filter[updatedAt][value][end]' => '01/01/2040',
                     ],
                     false,
-                    $connection
-                ]
+                    $connection,
+                ],
             ];
     }
 
     /**
+     * @return array
      */
     public function createDataSource()
     {
@@ -196,7 +200,7 @@ class ConnectionAdminTest extends BaseAdminController
                         'port' => 1111,
                         'userName' => 'testUserName',
                         'enabled' => true,
-                        'password' => 'testPassword'
+                        'password' => 'testPassword',
                     ],
                     true,
                     'Unique create test' => [
@@ -206,7 +210,7 @@ class ConnectionAdminTest extends BaseAdminController
                         'port' => 1111,
                         'user' => 'testUserName',
                         'enabled' => true,
-                        'password' => 'testPassword'
+                        'password' => 'testPassword',
                     ],
                     false,
                     'Port must be integer' => [
@@ -216,7 +220,7 @@ class ConnectionAdminTest extends BaseAdminController
                         'port' => 'string',
                         'userName' => 'testUserName',
                         'enabled' => true,
-                        'password' => 'testPassword'
+                        'password' => 'testPassword',
                     ],
                     false,
                     'Min length of password' => [
@@ -226,14 +230,15 @@ class ConnectionAdminTest extends BaseAdminController
                         'port' => 1111,
                         'userName' => 'testUserName',
                         'enabled' => true,
-                        'password' => 'no'
+                        'password' => 'no',
                     ],
-                    false
-                ]
+                    false,
+                ],
             ];
     }
 
     /**
+     * @return array
      */
     public function updateDataSource()
     {
@@ -253,7 +258,7 @@ class ConnectionAdminTest extends BaseAdminController
                         'port' => 1111,
                         'userName' => 'testUserName',
                         'enabled' => true,
-                        'password' => 'testPassword'
+                        'password' => 'testPassword',
                     ],
                     true,
                     $connection,
@@ -264,7 +269,7 @@ class ConnectionAdminTest extends BaseAdminController
                         'port' => 'string',
                         'userName' => 'testUserName',
                         'enabled' => true,
-                        'password' => 'testPassword'
+                        'password' => 'testPassword',
                     ],
                     false,
                     $connection,
@@ -275,15 +280,16 @@ class ConnectionAdminTest extends BaseAdminController
                         'port' => 1111,
                         'userName' => 'testUserName',
                         'enabled' => true,
-                        'password' => 'no'
+                        'password' => 'no',
                     ],
                     false,
-                    $connection
-                ]
+                    $connection,
+                ],
             ];
     }
 
     /**
+     * @return mixed
      */
     public function deleteDataSource()
     {
@@ -334,5 +340,4 @@ class ConnectionAdminTest extends BaseAdminController
 
         $this->assertFalse(empty($entityFromDb));
     }
-
 }

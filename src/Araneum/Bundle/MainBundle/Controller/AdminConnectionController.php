@@ -10,13 +10,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Araneum\Base\Controller\AdminBaseController;
 
+/**
+ * Class AdminConnectionController
+ *
+ * @package Araneum\Bundle\MainBundle\Controller
+ */
 class AdminConnectionController extends AdminBaseController
 {
 
     /**
      * Test connection
      *
-     * @param $id
+     * @param int $id
      * @return Response
      * @Route("/testConnection/{id}", name="araneum_main_admin_connection_testConnection")
      */

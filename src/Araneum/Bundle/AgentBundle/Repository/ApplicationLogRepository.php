@@ -39,10 +39,12 @@ class ApplicationLogRepository extends EntityRepository
                     'success' => Application::STATUS_OK,
                     'disabled' => Application::STATUS_DISABLED,
                     'start' => date('Y-m-d H:i:s', time() - 86400),
-                    'end' => date('Y-m-d H:i:s', time())
-                ]);
+                    'end' => date('Y-m-d H:i:s', time()),
+                ]
+            );
 
         $result = $qb->getQuery()->getResult();
+
         return $result;
     }
 }

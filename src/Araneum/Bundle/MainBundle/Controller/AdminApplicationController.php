@@ -9,15 +9,23 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Araneum\Base\Controller\AdminBaseController;
 
+/**
+ * Class AdminApplicationController
+ *
+ * @package Araneum\Bundle\MainBundle\Controller
+ */
 class AdminApplicationController extends AdminBaseController
 {
 
     /**
      * Check Application Status State
      *
-     * @Route("/admin/araneum/main/application/check_status_state/{id}", name="araneum_main_admin_application_check_status_state")
+     * @Route("/admin/araneum/main/application/check_status_state/{id}",
+     * name="araneum_main_admin_application_check_status_state",
+     * requirements={"id": "\d+"}
+     * )
      *
-     * @param $id
+     * @param int $id
      * @return JsonResponse
      */
     public function checkStatusStateAction($id)

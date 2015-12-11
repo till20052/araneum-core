@@ -4,6 +4,11 @@ namespace Araneum\Base\Service\Actions;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+/**
+ * Class ActionFactory
+ *
+ * @package Araneum\Base\Service\Actions
+ */
 class ActionFactory
 {
     private $builder;

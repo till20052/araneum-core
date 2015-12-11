@@ -64,7 +64,8 @@ trait DateTrait
      *
      * @ORM\PrePersist
      */
-    public function preCreateChangeDate(){
+    public function preCreateChangeDate()
+    {
         $this->createdAt = $this->createdAt ?: new \DateTime();
         $this->updatedAt = $this->updatedAt ?: new \DateTime();
     }
@@ -74,7 +75,8 @@ trait DateTrait
      *
      * @ORM\PreUpdate
      */
-    public function preUpdateChangeDate(){
+    public function preUpdateChangeDate()
+    {
         $this->updatedAt = new \DateTime();
     }
 }

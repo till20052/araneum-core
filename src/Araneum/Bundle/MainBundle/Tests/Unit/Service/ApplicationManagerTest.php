@@ -8,6 +8,11 @@ use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * Class ApplicationManagerServiceTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Unit\Service
+ */
 class ApplicationManagerServiceTest extends \PHPUnit_Framework_TestCase
 {
     protected $doctrineMock;

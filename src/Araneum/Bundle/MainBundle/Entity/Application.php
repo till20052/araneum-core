@@ -32,7 +32,7 @@ class Application
         self::STATUS_OK => 'ok',
         self::STATUS_CODE_INCORRECT => 'status_code_incorrect',
         self::STATUS_ERROR => 'error',
-        self::STATUS_DISABLED => 'disabled'
+        self::STATUS_DISABLED => 'disabled',
     ];
 
     /**
@@ -179,7 +179,7 @@ class Application
     /**
      * Get Application status description
      *
-     * @param $status
+     * @param int $status
      * @return string
      */
     public static function getStatusDescription($status)
@@ -598,16 +598,6 @@ class Application
     }
 
     /**
-     * Generate unique key for Application
-     *
-     * @return string
-     */
-    private function generateUniqueKey()
-    {
-        return uniqid(sha1(time()), true);
-    }
-
-    /**
      * Get customers
      *
      * @return ArrayCollection
@@ -753,5 +743,15 @@ class Application
         $this->spotApiUrl = $spotApiUrl;
 
         return $this;
+    }
+
+    /**
+     * Generate unique key for Application
+     *
+     * @return string
+     */
+    private function generateUniqueKey()
+    {
+        return uniqid(sha1(time()), true);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Tests\Functional\Admin;
 
-use Araneum\Base\Tests\Controller\BaseAdminController;
+use Araneum\Base\Tests\Controller\AbstractBaseAdminController;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ClusterFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ComponentFixtures;
@@ -12,13 +12,18 @@ use Araneum\Base\Tests\Fixtures\User\UserFixtures;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 
-class ApplicationAdminTest extends BaseAdminController
+/**
+ * Class ApplicationAdminTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Functional\Admin
+ */
+class ApplicationAdminTestAbstractBaseAdminController extends AbstractBaseAdminController
 {
     const TEST_APP_NAME = 'TestApplicationName';
     protected $createRoute = 'admin_araneum_main_application_create';
     protected $updateRoute = 'admin_araneum_main_application_edit';
     protected $deleteRoute = 'admin_araneum_main_application_delete';
-    protected $listRoute = 'admin_araneum_main_application_list';
+    protected $listRoute   = 'admin_araneum_main_application_list';
 
     /**
      * Set of arguments for testCreate method
@@ -27,7 +32,7 @@ class ApplicationAdminTest extends BaseAdminController
      */
     public function createDataSource()
     {
-	    $client = self::createClient();
+        $client = self::createClient();
 
         $manager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
@@ -46,9 +51,9 @@ class ApplicationAdminTest extends BaseAdminController
         $repository = $manager
             ->getRepository('AraneumMainBundle:Application');
 
-        $application= $repository->findOneByName(self::TEST_APP_NAME . '#' . md5(self::TEST_APP_NAME));
+        $application = $repository->findOneByName(self::TEST_APP_NAME.'#'.md5(self::TEST_APP_NAME));
 
-        if($application){
+        if ($application) {
             $manager->remove($application);
             $manager->flush();
         }
@@ -56,7 +61,7 @@ class ApplicationAdminTest extends BaseAdminController
         return [
             'Check simple creation' => [
                 [
-                    'name' => self::TEST_APP_NAME . '#' . md5(self::TEST_APP_NAME),
+                    'name' => self::TEST_APP_NAME.'#'.md5(self::TEST_APP_NAME),
                     'domain' => 'test-app-creation.com',
                     'aliases' => 'www.test-app-creation.com, ww2.test-app-creation.com',
                     'public' => true,
@@ -65,9 +70,9 @@ class ApplicationAdminTest extends BaseAdminController
                     'cluster' => $cluster->getId(),
                     'db' => $db->getId(),
                     'locales' => [$locale->getId()],
-                    'components' => [$components->getId()]
+                    'components' => [$components->getId()],
                 ],
-                true
+                true,
             ],
             'Check application unique name' => [
                 [
@@ -80,13 +85,13 @@ class ApplicationAdminTest extends BaseAdminController
                     'cluster' => $cluster->getId(),
                     'db' => $db->getId(),
                     'locales' => [$locale->getId()],
-                    'components' => [$components->getId()]
+                    'components' => [$components->getId()],
                 ],
-                false
+                false,
             ],
             'Check domain validator' => [
                 [
-                    'name' => 'TestApplicationCreation#' . md5(microtime()),
+                    'name' => 'TestApplicationCreation#'.md5(microtime()),
                     'domain' => 'test_app_creation',
                     'public' => true,
                     'enabled' => true,
@@ -94,10 +99,10 @@ class ApplicationAdminTest extends BaseAdminController
                     'cluster' => $cluster->getId(),
                     'db' => $db->getId(),
                     'locales' => [$locale->getId()],
-                    'components' => [$components->getId()]
+                    'components' => [$components->getId()],
                 ],
-                false
-            ]
+                false,
+            ],
         ];
     }
 
@@ -108,7 +113,7 @@ class ApplicationAdminTest extends BaseAdminController
      */
     public function filterDataSource()
     {
-	    $client = self::createClient();
+        $client = self::createClient();
 
         $manager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
@@ -144,10 +149,10 @@ class ApplicationAdminTest extends BaseAdminController
                     'filter[status][value]' => Application::STATUS_OK,
                     'filter[template][value]' => ApplicationFixtures::TEST_APP_TEMPLATE,
                     'filter[createdAt][value][start]' => '01/01/1971',
-                    'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
+                    'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400),
                 ],
                 true,
-                $application
+                $application,
             ],
             'Search another application by first filters' => [
                 [
@@ -162,11 +167,11 @@ class ApplicationAdminTest extends BaseAdminController
                     'filter[status][value]' => ApplicationFixtures::TEST_APP_STATUS,
                     'filter[template][value]' => ApplicationFixtures::TEST_APP_TEMPLATE,
                     'filter[createdAt][value][start]' => '01/01/1971',
-                    'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
+                    'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400),
                 ],
                 false,
-                $tempApplication
-            ]
+                $tempApplication,
+            ],
         ];
     }
 
@@ -177,7 +182,7 @@ class ApplicationAdminTest extends BaseAdminController
      */
     public function updateDataSource()
     {
-	    $client = self::createClient();
+        $client = self::createClient();
 
         $manager = $client->getContainer()->get('doctrine.orm.entity_manager');
 
@@ -187,15 +192,15 @@ class ApplicationAdminTest extends BaseAdminController
         return [
             'Check simple modification' => [
                 [
-                    'name' => 'TestApplicationModification#' . md5(microtime(true)),
+                    'name' => 'TestApplicationModification#'.md5(microtime(true)),
                     'domain' => 'domain.com',
                     'aliases' => 'www.domain.com, ww2.domain.com',
                     'public' => true,
                     'enabled' => true,
-                    'template' => 'template.html'
+                    'template' => 'template.html',
                 ],
                 true,
-                $tempApplication
+                $tempApplication,
             ],
             'Check updating name if application with this name exists' => [
                 [
@@ -204,10 +209,10 @@ class ApplicationAdminTest extends BaseAdminController
                     'aliases' => 'www.domain.com, ww2.domain.com',
                     'public' => true,
                     'enabled' => true,
-                    'template' => 'template.html'
+                    'template' => 'template.html',
                 ],
                 false,
-                $tempApplication
+                $tempApplication,
             ],
             'Set first values of temp application' => [
                 [
@@ -216,11 +221,11 @@ class ApplicationAdminTest extends BaseAdminController
                     'aliases' => ApplicationFixtures::TEST_APP_TEMP_ALIASES,
                     'public' => ApplicationFixtures::TEST_APP_TEMP_PUBLIC,
                     'enabled' => ApplicationFixtures::TEST_APP_TEMP_ENABLED,
-                    'template' => ApplicationFixtures::TEST_APP_TEMP_TEMPLATE
+                    'template' => ApplicationFixtures::TEST_APP_TEMP_TEMPLATE,
                 ],
                 true,
-                $tempApplication
-            ]
+                $tempApplication,
+            ],
         ];
     }
 
@@ -231,12 +236,12 @@ class ApplicationAdminTest extends BaseAdminController
      */
     public function deleteDataSource()
     {
-	    $client = self::createClient();
+        $client = self::createClient();
 
         return $client
             ->getContainer()
             ->get('doctrine.orm.entity_manager')
             ->getRepository('AraneumMainBundle:Application')
-            ->findOneByName(self::TEST_APP_NAME . '#' . md5(self::TEST_APP_NAME));
+            ->findOneByName(self::TEST_APP_NAME.'#'.md5(self::TEST_APP_NAME));
     }
 }

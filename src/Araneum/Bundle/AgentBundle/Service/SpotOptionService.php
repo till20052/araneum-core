@@ -2,13 +2,18 @@
 
 namespace Araneum\Bundle\AgentBundle\Service;
 
+/**
+ * Class SpotOptionService
+ *
+ * @package Araneum\Bundle\AgentBundle\Service
+ */
 class SpotOptionService
 {
     /**
      * SpotOption Login
      *
-     * @param $login
-     * @param $password
+     * @param string $login
+     * @param string $password
      * @return bool
      */
     public function login($login, $password)
@@ -19,9 +24,9 @@ class SpotOptionService
     /**
      * Reset Customer Password on SpotOption
      *
-     * @param $login
-     * @param $currentPassword
-     * @param $newPassword
+     * @param string $login
+     * @param string $currentPassword
+     * @param string $newPassword
      * @return bool
      */
     public function resetPassword($login, $currentPassword, $newPassword)

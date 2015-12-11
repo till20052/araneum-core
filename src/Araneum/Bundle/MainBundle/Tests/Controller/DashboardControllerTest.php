@@ -8,6 +8,11 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class DashboardControllerTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Controller
+ */
 class DashboardControllerTest extends BaseController
 {
     /**
@@ -19,37 +24,6 @@ class DashboardControllerTest extends BaseController
      * @var Router
      */
     private $router;
-
-    /**
-     * Asserting Structures of Objects are Equal
-     *
-     * @param \stdClass $expected
-     * @param \stdClass $actual
-     */
-    private function assertObjectsStructuresEquals(\stdClass $expected, \stdClass $actual)
-    {
-        foreach ($expected as $key => $value) {
-            $this->assertObjectHasAttribute($key, $actual, json_encode($actual));
-
-            if (is_object($value)) {
-                $this->assertObjectsStructuresEquals($value, $actual->{$key});
-            }
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function setUp()
-    {
-        /** @var Client client */
-        $this->client = self::createClient();
-
-        /** @var router router */
-        $this->router = $this->client
-            ->getContainer()
-            ->get('router');
-    }
 
     /**
      * Test getting DataSource of Dashboard
@@ -70,41 +44,72 @@ class DashboardControllerTest extends BaseController
 
         $this->assertTrue($response->isSuccessful(), $response->getContent());
         $this->assertObjectsStructuresEquals(
-            (object)[
-                'statistics' => (object)[
-                    'applicationsState' => (object)[
+            (object) [
+                'statistics' => (object) [
+                    'applicationsState' => (object) [
                         'online' => rand(),
                         'hasProblems' => rand(),
                         'hasErrors' => rand(),
-                        'disabled' => rand()
+                        'disabled' => rand(),
                     ],
                     'daylyApplications' => [
                         'applications' => [],
-                        'errors'    => [],
-                        'problems'  => [],
-                        'success'   => [],
+                        'errors' => [],
+                        'problems' => [],
+                        'success' => [],
                         'disabled' => [],
                     ],
-                    'daylyAverageStatuses'=>[
+                    'daylyAverageStatuses' => [
                         'errors' => [],
-                        'problems'=>[],
+                        'problems' => [],
                         'success' => [],
-                        'disabled'  => []
+                        'disabled' => [],
                     ],
                     'clusterLoadAverage' => [],
                     'clusterUpTime' => [],
                     'summary' => [
-						'applications' => [],
-						'clusters' => [],
-						'admins' => [],
-						'connections' => [],
-						'locales' => []
-					],
+                        'applications' => [],
+                        'clusters' => [],
+                        'admins' => [],
+                        'connections' => [],
+                        'locales' => [],
+                    ],
                     'registeredCustomers' => [],
-                    'receivedEmails' => []
-                ]
+                    'receivedEmails' => [],
+                ],
             ],
             json_decode($response->getContent())
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function setUp()
+    {
+        /** @var Client client */
+        $this->client = self::createClient();
+
+        /** @var router router */
+        $this->router = $this->client
+            ->getContainer()
+            ->get('router');
+    }
+
+    /**
+     * Asserting Structures of Objects are Equal
+     *
+     * @param \stdClass $expected
+     * @param \stdClass $actual
+     */
+    private function assertObjectsStructuresEquals(\stdClass $expected, \stdClass $actual)
+    {
+        foreach ($expected as $key => $value) {
+            $this->assertObjectHasAttribute($key, $actual, json_encode($actual));
+
+            if (is_object($value)) {
+                $this->assertObjectsStructuresEquals($value, $actual->{$key});
+            }
+        }
     }
 }

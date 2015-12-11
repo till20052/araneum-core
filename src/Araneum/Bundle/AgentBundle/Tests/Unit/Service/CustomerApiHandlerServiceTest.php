@@ -6,182 +6,199 @@ use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
 use Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService;
 use Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ * Class CustomerApiHandlerServiceTest
+ *
+ * @package Araneum\Bundle\AgentBundle\Tests\Unit\Service
+ */
 class CustomerApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
 {
-	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
-	 */
-	private $application;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $application;
 
-	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
-	 */
-	private $customer;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $customer;
 
-	/**
-	 * @var CustomerApiHandlerService
-	 */
-	private $service;
+    /**
+     * @var CustomerApiHandlerService
+     */
+    private $service;
 
-	/**
-	 * Init EntityManager
-	 *
-	 * @return \PHPUnit_Framework_MockObject_MockObject
-	 */
-	private function entityManager()
-	{
-		$entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
-			->disableOriginalConstructor()
-			->getMock();
+    /**
+     * Test reset customer password
+     *
+     * @throws \Doctrine\ORM\EntityNotFoundException
+     * @throws \Exception
+     */
+    public function testResetPassword()
+    {
+        $this->application->expects($this->any())
+            ->method('getCustomers')
+            ->will($this->returnValue(new ArrayCollection([$this->customer])));
 
-		$applicationRepository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ApplicationRepository')
-			->setMethods(['findOneByAppKey'])
-			->disableOriginalConstructor()
-			->getMock();
+        $this->assertEquals(
+            CustomerLog::STATUS_OK,
+            $this->service->resetPassword('123456789', 'user@test.com', 'current_password', 'new_password')
+        );
+    }
 
-		$this->application = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Application')
-			->disableOriginalConstructor()
-			->getMock();
+    /**
+     * Test reset customer password in case if application does not contain customer
+     *
+     * @expectedException \Exception
+     */
+    public function testResetPasswordInCaseException()
+    {
+        $this->application->expects($this->any())
+            ->method('getCustomers')
+            ->will($this->returnValue(new ArrayCollection()));
 
-		$applicationRepository->expects($this->any())
-			->method('findOneByAppKey')
-			->with($this->equalTo('123456789'))
-			->will($this->returnValue($this->application));
+        $this->service->resetPassword('123456789', 'user@test.com', 'current_password', 'new_password');
+    }
 
-		$entityManager->expects($this->at(0))
-			->method('getRepository')
-			->with($this->equalTo('AraneumMainBundle:Application'))
-			->will($this->returnValue($applicationRepository));
+    /**
+     * Test reset customer password in case if customer does not exists
+     *
+     * @expectedException \Doctrine\ORM\EntityNotFoundException
+     */
+    public function testResetPasswordInCaseEntityNotFoundException()
+    {
+        $this->service->resetPassword('123456789', 'not_mocked_value@test.com', 'current_password', 'new_password');
+    }
 
-		$customerRepository = $this->getMockBuilder('\Araneum\Bundle\AgentBundle\Repository\CustomerRepository')
-			->setMethods(['findOneByEmail'])
-			->disableOriginalConstructor()
-			->getMock();
+    /**
+     * @inheritdoc
+     */
+    protected function setUp()
+    {
+        $container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\Container')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$this->customer = $customer = $this->getMockBuilder('\Araneum\Bundle\AgentBundle\Entity\Customer')
-			->disableOriginalConstructor()
-			->getMock();
+        $entityManager = $this->entityManager();
 
-		$customerRepository->expects($this->any())
-			->method('findOneByEmail')
-			->with($this->logicalOr(
-				$this->equalTo('user@test.com'),
-				$this->equalTo('not_mocked_value@test.com')
-			))
-			->will($this->returnCallback(function ($email) use ($customer) {
-				if ($email != 'user@test.com') {
-					return null;
-				}
+        $spotOptionService = $this->getMockBuilder('\Araneum\Bundle\AgentBundle\Service\SpotOptionService')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-				return $customer;
-			}));
+        $spotOptionService->expects($this->any())
+            ->method('resetPassword')
+            ->with(
+                $this->equalTo('user@test.com'),
+                $this->equalTo('current_password'),
+                $this->equalTo('new_password')
+            )
+            ->will($this->returnValue(true));
 
-		$entityManager->expects($this->at(1))
-			->method('getRepository')
-			->with($this->equalTo('AraneumAgentBundle:Customer'))
-			->will($this->returnValue($customerRepository));
+        $container->expects($this->any())
+            ->method('get')
+            ->with(
+                $this->logicalOr(
+                    $this->equalTo('doctrine.orm.entity_manager'),
+                    $this->equalTo('araneum.agent.spotoption.service')
+                )
+            )
+            ->will(
+                $this->returnCallback(
+                    function ($arg) use ($entityManager, $spotOptionService) {
+                        switch ($arg) {
+                            case 'doctrine.orm.entity_manager':
+                                return $entityManager;
+                                break;
 
-		$customerLog = (new CustomerLog())
-			->setAction('reset_password')
-			->setApplication($this->application)
-			->setCustomer($customer)
-			->setSpotResponse(true)
-			->setStatus(CustomerLog::STATUS_OK);
+                            case 'araneum.agent.spotoption.service':
+                                return $spotOptionService;
+                                break;
+                        }
+                    }
+                )
+            );
 
-		$entityManager->expects($this->any())
-			->method('persist')
-			->with($this->equalTo($customerLog));
+        $this->service = new CustomerApiHandlerService($container);
+    }
 
-		$entityManager->expects($this->any())
-			->method('flush');
+    /**
+     * Init EntityManager
+     *
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    private function entityManager()
+    {
+        $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		return $entityManager;
-	}
+        $applicationRepository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ApplicationRepository')
+            ->setMethods(['findOneByAppKey'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function setUp()
-	{
-		$container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\Container')
-			->disableOriginalConstructor()
-			->getMock();
+        $this->application = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Application')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$entityManager = $this->entityManager();
+        $applicationRepository->expects($this->any())
+            ->method('findOneByAppKey')
+            ->with($this->equalTo('123456789'))
+            ->will($this->returnValue($this->application));
 
-		$spotOptionService = $this->getMockBuilder('\Araneum\Bundle\AgentBundle\Service\SpotOptionService')
-			->disableOriginalConstructor()
-			->getMock();
+        $entityManager->expects($this->at(0))
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumMainBundle:Application'))
+            ->will($this->returnValue($applicationRepository));
 
-		$spotOptionService->expects($this->any())
-			->method('resetPassword')
-			->with(
-				$this->equalTo('user@test.com'),
-				$this->equalTo('current_password'),
-				$this->equalTo('new_password')
-			)
-			->will($this->returnValue(true));
+        $customerRepository = $this->getMockBuilder('\Araneum\Bundle\AgentBundle\Repository\CustomerRepository')
+            ->setMethods(['findOneByEmail'])
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$container->expects($this->any())
-			->method('get')
-			->with($this->logicalOr(
-				$this->equalTo('doctrine.orm.entity_manager'),
-				$this->equalTo('araneum.agent.spotoption.service')
-			))
-			->will($this->returnCallback(function ($arg) use ($entityManager, $spotOptionService) {
-				switch ($arg) {
-					case 'doctrine.orm.entity_manager':
-						return $entityManager;
-						break;
+        $this->customer = $customer = $this->getMockBuilder('\Araneum\Bundle\AgentBundle\Entity\Customer')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-					case 'araneum.agent.spotoption.service':
-						return $spotOptionService;
-						break;
-				}
-			}));
+        $customerRepository->expects($this->any())
+            ->method('findOneByEmail')
+            ->with(
+                $this->logicalOr(
+                    $this->equalTo('user@test.com'),
+                    $this->equalTo('not_mocked_value@test.com')
+                )
+            )
+            ->will(
+                $this->returnCallback(
+                    function ($email) use ($customer) {
+                        if ($email != 'user@test.com') {
+                            return null;
+                        }
 
-		$this->service = new CustomerApiHandlerService($container);
-	}
+                        return $customer;
+                    }
+                )
+            );
 
-	/**
-	 * Test reset customer password
-	 *
-	 * @throws \Doctrine\ORM\EntityNotFoundException
-	 * @throws \Exception
-	 */
-	public function testResetPassword()
-	{
-		$this->application->expects($this->any())
-			->method('getCustomers')
-			->will($this->returnValue(new ArrayCollection([$this->customer])));
+        $entityManager->expects($this->at(1))
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumAgentBundle:Customer'))
+            ->will($this->returnValue($customerRepository));
 
-		$this->assertEquals(
-			CustomerLog::STATUS_OK,
-			$this->service->resetPassword('123456789', 'user@test.com', 'current_password', 'new_password')
-		);
-	}
+        $customerLog = (new CustomerLog())
+            ->setAction('reset_password')
+            ->setApplication($this->application)
+            ->setCustomer($customer)
+            ->setSpotResponse(true)
+            ->setStatus(CustomerLog::STATUS_OK);
 
-	/**
-	 * Test reset customer password in case if application does not contain customer
-	 *
-	 * @expectedException \Exception
-	 */
-	public function testResetPasswordInCaseException()
-	{
-		$this->application->expects($this->any())
-			->method('getCustomers')
-			->will($this->returnValue(new ArrayCollection()));
+        $entityManager->expects($this->any())
+            ->method('persist')
+            ->with($this->equalTo($customerLog));
 
-		$this->service->resetPassword('123456789', 'user@test.com', 'current_password', 'new_password');
-	}
+        $entityManager->expects($this->any())
+            ->method('flush');
 
-	/**
-	 * Test reset customer password in case if customer does not exists
-	 *
-	 * @expectedException \Doctrine\ORM\EntityNotFoundException
-	 */
-	public function testResetPasswordInCaseEntityNotFoundException()
-	{
-		$this->service->resetPassword('123456789', 'not_mocked_value@test.com', 'current_password', 'new_password');
-	}
+        return $entityManager;
+    }
 }

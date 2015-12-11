@@ -8,41 +8,44 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class SecurityController
+ *
+ * @package Araneum\Bundle\UserBundle\Controller
+ */
 class SecurityController extends BaseController
 {
-	/**
-	 * @inheritdoc
-	 *
-	 * @return JsonResponse
-	 */
-	public function loginAction()
-	{
-		/** @var Request $request */
-		$request = $this->container->get('request');
+    /**
+     * @return JsonResponse
+     */
+    public function loginAction()
+    {
+        /** @var Request $request */
+        $request = $this->container->get('request');
 
-		if ($request->isXmlHttpRequest()) {
+        if ($request->isXmlHttpRequest()) {
 
-			/** @var User $user */
-			$user = $this->container
-				->get('security.token_storage')
-				->getToken()
-				->getUser();
+            /** @var User $user */
+            $user = $this->container
+                ->get('security.token_storage')
+                ->getToken()
+                ->getUser();
 
-			if ($user instanceof User) {
-				return new JsonResponse(
-					[
-						'name' => $user->getFullName(),
-						'email' => $user->getEmail()
-					],
-					Response::HTTP_FORBIDDEN
-				);
-			}
+            if ($user instanceof User) {
+                return new JsonResponse(
+                    [
+                        'name' => $user->getFullName(),
+                        'email' => $user->getEmail(),
+                    ],
+                    Response::HTTP_FORBIDDEN
+                );
+            }
 
-			$handler = $this->container->get('araneum.user.authentication_handler');
+            $handler = $this->container->get('araneum.user.authentication_handler');
 
-			return new JsonResponse($handler->login($request)['_csrf_token'], Response::HTTP_OK);
-		}
+            return new JsonResponse($handler->login($request)['_csrf_token'], Response::HTTP_OK);
+        }
 
-		return parent::loginAction();
-	}
+        return parent::loginAction();
+    }
 }

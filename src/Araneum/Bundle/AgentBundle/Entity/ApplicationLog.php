@@ -53,6 +53,9 @@ class ApplicationLog
      */
     private $problems;
 
+    /**
+     * ApplicationLog construct
+     */
     public function __construct()
     {
         $this->problems = new ArrayCollection([]);
@@ -61,7 +64,7 @@ class ApplicationLog
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -84,7 +87,7 @@ class ApplicationLog
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {
@@ -145,7 +148,7 @@ class ApplicationLog
      */
     public function addProblem(Problem $problem)
     {
-        if( ! $this->hasProblem($problem)){
+        if (!$this->hasProblem($problem)) {
             $this->problems->add($problem);
         }
 
@@ -160,7 +163,7 @@ class ApplicationLog
      */
     public function removeProblem(Problem $problem)
     {
-        if( ! $this->hasProblem($problem)){
+        if (!$this->hasProblem($problem)) {
             $this->problems->remove($problem);
         }
 
