@@ -7,17 +7,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class DefaultController
+ *
+ * @package Araneum\Bundle\UserBundle\Controller
+ */
 class DefaultController extends Controller
 {
-    /**
-     * @Route("/hello/{name}")
-     * @Template()
-     */
-    public function indexAction($name)
-    {
-        return array('name' => $name);
-    }
-
     /**
      * Rendering login view for AngularJS
      *
@@ -27,9 +23,10 @@ class DefaultController extends Controller
      */
     public function loginViewAction()
     {
-        return $this->render('::admin.login.html.twig',
+        return $this->render(
+            '::admin.login.html.twig',
             [
-                '_csrf_token' => $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate')
+                '_csrf_token' => $this->container->get('form.csrf_provider')->generateCsrfToken('authenticate'),
             ]
         );
     }
@@ -39,6 +36,5 @@ class DefaultController extends Controller
      */
     public function resetViewAction()
     {
-
     }
 }

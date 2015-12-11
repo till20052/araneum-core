@@ -7,6 +7,11 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 
+/**
+ * Class LocaleData
+ *
+ * @package Araneum\Bundle\MainBundle\DataFixtures\ORM
+ */
 class LocaleData extends AbstractFixture implements FixtureInterface
 {
     /**
@@ -26,5 +31,4 @@ class LocaleData extends AbstractFixture implements FixtureInterface
         }
         $this->addReference('locale', $localeEn);
     }
-
 }

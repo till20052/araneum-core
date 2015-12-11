@@ -10,14 +10,18 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class DeploymentCommand
+ *
+ * @package Araneum\Bundle\MainBundle\Command
+ */
 class DeploymentCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
             ->setName('deployment:run')
-            ->setDescription('Deploy active project. Run all deployment command in one time.')
-        ;
+            ->setDescription('Deploy active project. Run all deployment command in one time.');
     }
 
     /**
@@ -33,17 +37,17 @@ class DeploymentCommand extends ContainerAwareCommand
         $commands = [
             'cache:accelerator:clear' => [],
             'cache:clear' => [
-                '--no-debug' => true
+                '--no-debug' => true,
             ],
             'doctrine:schema:update' => [
-                '--force' => true
+                '--force' => true,
             ],
             'doctrine:fixtures:load' => [
-                '--append' => true
-             ],
+                '--append' => true,
+            ],
         ];
 
-        foreach($commands as $command => $arguments) {
+        foreach ($commands as $command => $arguments) {
             $output->writeln('<comment>Run command: '.$command.'</comment>');
 
             $this->getApplication()->find($command)->run(

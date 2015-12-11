@@ -10,108 +10,112 @@ use Araneum\Bundle\MainBundle\Repository\ClusterRepository;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
 use Araneum\Bundle\MainBundle\Service\ClusterApiHandlerService;
 
+/**
+ * Class ClusterApiControllerTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Functional\Api
+ */
 class ClusterApiControllerTest extends BaseController
 {
-	/**
-	 * @var Client
-	 */
-	private $client;
+    /**
+     * @var Client
+     */
+    private $client;
 
-	/**
-	 * @var ClusterRepository
-	 */
-	private $repository;
+    /**
+     * @var ClusterRepository
+     */
+    private $repository;
 
-	/**
-	 * @var ClusterApiHandlerService
-	 */
-	private $handler;
+    /**
+     * @var ClusterApiHandlerService
+     */
+    private $handler;
 
-	/**
-	 * Create request and return response from cluster api
-	 *
-	 * @param string $name Name Of Route
-	 * @param array $parameters
-	 * @return null|Response
-	 */
-	private function createRequest($name, $parameters = [])
-	{
-		$this->client = self::createAdminAuthorizedClient('api');
+    /**
+     * Test get applications configs by cluster id
+     *
+     *
+     */
+    public function testGetApplicationsConfigsList()
+    {
+        /** @var Cluster $cluster */
+        $cluster = $this->repository->findOneByName(ClusterFixtures::TEST_CLU_NAME);
+        $response = $this->createRequest(
+            'araneum_main_api_cluster_applications_configs_list',
+            [
+                'clusterId' => $cluster->getId(),
+            ]
+        );
+        $content = $response->getContent();
 
-		$this->client->request(
-			'GET',
-			$this->client
-				->getContainer()
-				->get('router')
-				->generate($name, $parameters)
-		);
+        $this->assertEquals(
+            Response::HTTP_OK,
+            $response->getStatusCode(),
+            $content
+        );
+        $this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
 
-		return $this->client->getResponse();
-	}
+        foreach (json_decode($content, true) as $i => $application) {
+            $this->assertTrue(
+                $application === $this->handler->getApplicationConfigStructure($cluster->getApplications()[$i]),
+                'Structure or value of structure is not equals'
+            );
+        }
+    }
 
-	/**
-	 * Initialize requirements
-	 */
-	protected function setUp()
-	{
-		$this->client = self::createAdminAuthorizedClient('api');
-		$container = $this->client->getContainer();
-		$this->handler = $container->get('araneum.main.cluster.api_handler');
-		$this->repository = $container
-			->get('doctrine.orm.entity_manager')
-			->getRepository('AraneumMainBundle:Cluster');
-	}
+    /**
+     * Test get applications configs list by not existing cluster id
+     *
+     *
+     */
+    public function testGetApplicationsConfigsListByNotExistingCluster()
+    {
+        $response = $this->createRequest(
+            'araneum_main_api_cluster_applications_configs_list',
+            [
+                'clusterId' => 0,
+            ]
+        );
 
-	/**
-	 * Test get applications configs by cluster id
-	 *
-	 *
-	 */
-	public function testGetApplicationsConfigsList()
-	{
-		/** @var Cluster $cluster */
-		$cluster = $this->repository->findOneByName(ClusterFixtures::TEST_CLU_NAME);
-		$response = $this->createRequest(
-			'araneum_main_api_cluster_applications_configs_list',
-			[
-				'clusterId' => $cluster->getId()
-			]
-		);
-		$content = $response->getContent();
+        $this->assertEquals(
+            Response::HTTP_NOT_FOUND,
+            $response->getStatusCode()
+        );
+    }
 
-		$this->assertEquals(
-			Response::HTTP_OK,
-			$response->getStatusCode(),
-			$content
-		);
-		$this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
+    /**
+     * Initialize requirements
+     */
+    protected function setUp()
+    {
+        $this->client = self::createAdminAuthorizedClient('api');
+        $container = $this->client->getContainer();
+        $this->handler = $container->get('araneum.main.cluster.api_handler');
+        $this->repository = $container
+            ->get('doctrine.orm.entity_manager')
+            ->getRepository('AraneumMainBundle:Cluster');
+    }
 
-		foreach(json_decode($content, true) as $i => $application)
-		{
-			$this->assertTrue(
-				$application === $this->handler->getApplicationConfigStructure($cluster->getApplications()[$i]),
-				'Structure or value of structure is not equals'
-			);
-		}
-	}
+    /**
+     * Create request and return response from cluster api
+     *
+     * @param string $name Name Of Route
+     * @param array  $parameters
+     * @return null|Response
+     */
+    private function createRequest($name, $parameters = [])
+    {
+        $this->client = self::createAdminAuthorizedClient('api');
 
-	/**
-	 * Test get applications configs list by not existing cluster id
-	 *
-	 *
-	 */
-	public function testGetApplicationsConfigsListByNotExistingCluster()
-	{
-		$response = $this->createRequest(
-			'araneum_main_api_cluster_applications_configs_list',
-			[
-				'clusterId' => 0
-			]
-		);
+        $this->client->request(
+            'GET',
+            $this->client
+                ->getContainer()
+                ->get('router')
+                ->generate($name, $parameters)
+        );
 
-		$this->assertEquals(
-			Response::HTTP_NOT_FOUND,
-			$response->getStatusCode()
-		);
-	}
+        return $this->client->getResponse();
+    }
 }

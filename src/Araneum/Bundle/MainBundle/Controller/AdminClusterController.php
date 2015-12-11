@@ -9,14 +9,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Araneum\Base\Controller\AdminBaseController;
 
+/**
+ * Class AdminClusterController
+ *
+ * @package Araneum\Bundle\MainBundle\Controller
+ */
 class AdminClusterController extends AdminBaseController
 {
     /**
      * Check Status
      *
-     * @param $id
+     * @param int $id
      * @return Response
-     * @Route("/checkStatus/{id}", name="araneum_main_admin_cluster_checkStatus")
+     * @Route("/checkStatus/{id}", name="araneum_main_admin_cluster_checkStatus", requirements={"id": "\d+"})
      */
     public function checkStatusAction($id)
     {

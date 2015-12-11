@@ -6,6 +6,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class ProfileType
+ *
+ * @package Araneum\Bundle\UserBundle\Form\Type
+ */
 class ProfileType extends AbstractType
 {
     /**
@@ -19,7 +24,7 @@ class ProfileType extends AbstractType
                 'text',
                 [
                     'label' => 'login',
-                    'attr' => ['class' => 'form-control']
+                    'attr' => ['class' => 'form-control'],
                 ]
             )
             ->add(
@@ -28,7 +33,7 @@ class ProfileType extends AbstractType
                 [
                     'required' => false,
                     'label' => 'full_name',
-                    'attr' => ['class' => 'form-control']
+                    'attr' => ['class' => 'form-control'],
                 ]
             )
             ->add(
@@ -36,7 +41,7 @@ class ProfileType extends AbstractType
                 'text',
                 [
                     'label' => 'email',
-                    'attr' => ['class' => 'form-control']
+                    'attr' => ['class' => 'form-control'],
                 ]
             );
     }
@@ -48,7 +53,7 @@ class ProfileType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'validation_groups' => ['Profile']
+                'validation_groups' => ['Profile'],
             ]
         );
     }

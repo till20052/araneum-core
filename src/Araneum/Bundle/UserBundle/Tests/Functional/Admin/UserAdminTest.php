@@ -1,19 +1,23 @@
 <?php
 namespace Araneum\Bundle\UserBundle\Tests\Functional\Admin;
 
-use Araneum\Base\Tests\Controller\BaseAdminController;
+use Araneum\Base\Tests\Controller\AbstractBaseAdminController;
 use Araneum\Base\Tests\Fixtures\User\UserFixtures;
 use Araneum\Bundle\UserBundle\Entity\Role;
 use Araneum\Bundle\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class UserAdminTest extends BaseAdminController
+/**
+ * Class UserAdminTest
+ *
+ * @package Araneum\Bundle\UserBundle\Tests\Functional\Admin
+ */
+class UserAdminTestAbstractBaseAdminController extends AbstractBaseAdminController
 {
     protected $createRoute = 'admin_araneum_user_user_create';
     protected $listRoute   = 'admin_araneum_user_user_list';
     protected $deleteRoute = 'admin_araneum_user_user_delete';
     protected $updateRoute = 'admin_araneum_user_user_edit';
-
 
     /**
      * Set up Before class
@@ -28,25 +32,24 @@ class UserAdminTest extends BaseAdminController
         $repository = $manager
             ->getRepository('AraneumUserBundle:User');
 
-        $create = $repository->findOneBy(['email'=>'testUserAdminCreate@test.com']);
+        $create = $repository->findOneBy(['email' => 'testUserAdminCreate@test.com']);
 
         $delete = $repository->findOneBy(['username' => UserFixtures::TEST_USER_NAME_DELETE]);
 
         $update = $repository->findOneBy(['email' => 'userAdminTestAfterUpdate@test.com']);
 
-        if($create){
+        if ($create) {
             $manager->remove($create);
             $manager->flush();
         }
 
-        if($update){
+        if ($update) {
             $manager->remove($update);
             $manager->flush();
         }
 
-        if(!$delete){
-            $role = $manager->getRepository('AraneumUserBundle:Role')->findOneBy(['name'=>'ROLE_USER']);
-
+        if (!$delete) {
+            $role = $manager->getRepository('AraneumUserBundle:Role')->findOneBy(['name' => 'ROLE_USER']);
 
             $delete = new User();
             $delete
@@ -59,14 +62,14 @@ class UserAdminTest extends BaseAdminController
             $manager->persist($delete);
             $manager->flush();
         }
-
     }
-        /**
+
+    /**
      * {@inheritdoc}
      */
     public function filterDataSource()
     {
-        $manager =static::createClient()
+        $manager = static::createClient()
             ->getContainer()
             ->get('doctrine.orm.entity_manager');
 
@@ -74,7 +77,7 @@ class UserAdminTest extends BaseAdminController
             ->getRepository('AraneumUserBundle:User')
             ->findOneBy(['email' => UserFixtures::TEST_USER_EMAIL_FILTER]);
 
-        if(!$user){
+        if (!$user) {
             $user = new User();
             $user
                 ->setUsername(UserFixtures::TEST_USER_NAME.'filter')
@@ -132,7 +135,7 @@ class UserAdminTest extends BaseAdminController
                         'fullName' => 'TestFullName',
                         'plainPassword' => 'pAs$w0rd',
                     ],
-                    true
+                    true,
                 ],
                 'exist email' => [
                     [
@@ -141,7 +144,7 @@ class UserAdminTest extends BaseAdminController
                         'fullName' => 'TestFullName',
                         'plainPassword' => 'pAs$w0rd',
                     ],
-                    false
+                    false,
                 ],
                 'exist username' => [
                     [
@@ -150,7 +153,7 @@ class UserAdminTest extends BaseAdminController
                         'fullName' => 'TestFullName',
                         'plainPassword' => 'pAs$w0rd',
                     ],
-                    false
+                    false,
                 ],
                 'not valid email' => [
                     [
@@ -159,7 +162,7 @@ class UserAdminTest extends BaseAdminController
                         'fullName' => 'TestFullName',
                         'plainPassword' => 'pAs$w0rd',
                     ],
-                    false
+                    false,
                 ],
                 'short password' => [
                     [
@@ -168,7 +171,7 @@ class UserAdminTest extends BaseAdminController
                         'fullName' => 'TestFullName',
                         'plainPassword' => '1',
                     ],
-                    false
+                    false,
                 ],
                 'empty email' => [
                     [
@@ -177,7 +180,7 @@ class UserAdminTest extends BaseAdminController
                         'fullName' => 'TestFullName',
                         'plainPassword' => 'pAs$w0rd',
                     ],
-                    false
+                    false,
                 ],
                 'empty username' => [
                     [
@@ -186,7 +189,7 @@ class UserAdminTest extends BaseAdminController
                         'fullName' => 'TestFullName',
                         'plainPassword' => 'pAs$w0rd',
                     ],
-                    false
+                    false,
                 ],
             ];
     }
@@ -196,7 +199,7 @@ class UserAdminTest extends BaseAdminController
      */
     public function updateDataSource()
     {
-        $manager =static::createClient()
+        $manager = static::createClient()
             ->getContainer()
             ->get('doctrine.orm.entity_manager');
 
@@ -204,7 +207,7 @@ class UserAdminTest extends BaseAdminController
             ->getRepository('AraneumUserBundle:User')
             ->findOneBy(['username' => UserFixtures::TEST_USER_NAME_UPDATE]);
 
-        if(!$user){
+        if (!$user) {
             $user = new User();
             $user
                 ->setUsername(UserFixtures::TEST_USER_NAME_UPDATE)
@@ -214,7 +217,6 @@ class UserAdminTest extends BaseAdminController
 
             $manager->persist($user);
             $manager->flush();
-
         }
 
         return

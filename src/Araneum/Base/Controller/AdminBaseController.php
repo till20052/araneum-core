@@ -6,6 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class AdminBaseController
+ *
+ * @package Araneum\Base\Controller
+ */
 class AdminBaseController extends Controller
 {
     public $admin;
@@ -19,8 +24,9 @@ class AdminBaseController extends Controller
      */
     protected function getIdxElements($request, $adminCode)
     {
-        $idx = $request->idx;
-        $allElements = $request->all_elements;
+        $data = (array) $request;
+        $idx = $data['idx'];
+        $allElements = $data['all_elements'];
 
         if ($allElements && count($idx) == 0) {
             $this->admin = $this->get('sonata.admin.pool')->getAdminByAdminCode($adminCode);

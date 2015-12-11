@@ -9,6 +9,11 @@ use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
+/**
+ * Class ApplicationData
+ *
+ * @package Araneum\Bundle\MainBundle\DataFixtures\ORM
+ */
 class ApplicationData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
     /**

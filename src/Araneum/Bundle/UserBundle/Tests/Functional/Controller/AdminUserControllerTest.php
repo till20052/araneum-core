@@ -10,6 +10,11 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\DomCrawler\Link;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class AdminUserControllerTest
+ *
+ * @package Araneum\Bundle\UserBundle\Tests\Functional\Controller
+ */
 class AdminUserControllerTest extends BaseController
 {
     /**
@@ -42,7 +47,7 @@ class AdminUserControllerTest extends BaseController
 
         self::$settings = [
             'Param1' => 'value1',
-            'Param2' => 'value2'
+            'Param2' => 'value2',
         ];
     }
 

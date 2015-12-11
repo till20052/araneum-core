@@ -7,6 +7,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 
+/**
+ * Class ConnectionData
+ *
+ * @package Araneum\Bundle\MainBundle\DataFixtures\ORM
+ */
 class ConnectionData extends AbstractFixture implements FixtureInterface
 {
     /**

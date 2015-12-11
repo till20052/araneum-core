@@ -8,15 +8,18 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class MaintenanceTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Maintenance
+ */
 class MaintenanceTest extends WebTestCase
 {
 
     /**
      * Test is maintenance mode enabled without errors
-     *
-     *
      */
-    public function testMaintenanceOn_503Status()
+    public function testMaintenanceOn503Status()
     {
         $client = $this->createClient();
         $container = $client->getContainer();
@@ -27,7 +30,7 @@ class MaintenanceTest extends WebTestCase
             new ArrayInput(
                 [
                     'command' => 'lexik:maintenance:lock',
-                    '-n' => true
+                    '-n' => true,
                 ]
             ),
             new NullOutput()
@@ -46,7 +49,7 @@ class MaintenanceTest extends WebTestCase
      *
      *
      */
-    public function testMaintenanceOff_Not503Status()
+    public function testMaintenanceOffNot503Status()
     {
         $client = $this->createClient();
         $container = $client->getContainer();
@@ -57,7 +60,7 @@ class MaintenanceTest extends WebTestCase
             new ArrayInput(
                 [
                     'command' => 'lexik:maintenance:unlock',
-                    '-n' => true
+                    '-n' => true,
                 ]
             ),
             new NullOutput()

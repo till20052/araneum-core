@@ -5,6 +5,11 @@ namespace Araneum\Bundle\MainBundle\Service\Actions;
 use Araneum\Base\Service\Actions\AbstractActions;
 use Araneum\Base\Service\Actions\ActionBuilderInterface;
 
+/**
+ * Class LocaleActions
+ *
+ * @package Araneum\Bundle\MainBundle\Service\Actions
+ */
 class LocaleActions extends AbstractActions
 {
     /**
@@ -17,18 +22,19 @@ class LocaleActions extends AbstractActions
         $builder->add(
             'deleteGroup',
             [
-                'resource' => 'araneum_root', //example!!! plz change in AC-228
+                'resource' => 'araneum_root',
+                //example!!! plz change in AC-228
                 'callback' => 'deleteRow',
                 'confirm' => [
                     'title' => 'Are you sure?',
                     'yes' => [
                         'class' => 'confirm',
-                        'title' => 'Yes, delete it!'
+                        'title' => 'Yes, delete it!',
                     ],
                     'no' => [
                         'class' => 'cancel',
-                        'title' => 'Cancel'
-                    ]
+                        'title' => 'Cancel',
+                    ],
                 ],
                 'display' => [
                     'btnClass' => 'btn-danger',

@@ -38,7 +38,7 @@ class Problem
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -61,7 +61,7 @@ class Problem
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {
@@ -84,7 +84,7 @@ class Problem
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
