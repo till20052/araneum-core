@@ -9,6 +9,11 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * Class ClusterData
+ *
+ * @package Araneum\Bundle\MainBundle\DataFixtures\ORM
+ */
 class ClusterData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
     /**
@@ -24,7 +29,7 @@ class ClusterData extends AbstractFixture implements FixtureInterface, Dependent
             $cluster->setHosts(
                 new ArrayCollection(
                     [
-                        $this->getReference('connectionHost')
+                        $this->getReference('connectionHost'),
                     ]
                 )
             );

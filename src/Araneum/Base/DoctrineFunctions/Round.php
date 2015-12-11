@@ -9,6 +9,7 @@ use Doctrine\ORM\Query\Parser;
 
 /**
  * Class Round
+ *
  * @package Araneum\Base\DoctrineFunctions
  *
  * Round ::= "ROUND" "(" "ArithmeticPrimary" "," "ArithmeticExpression" ")"
@@ -29,6 +30,7 @@ class Round extends FunctionNode
      * @access public
      */
     public $roundPrecission;
+
     /**
      * getSql
      *
@@ -38,11 +40,9 @@ class Round extends FunctionNode
      */
     public function getSql(SqlWalker $sqlWalker)
     {
-        return 'ROUND(' .
-        $sqlWalker->walkSimpleArithmeticExpression($this->simpleArithmeticExpression) .','.
-        $sqlWalker->walkStringPrimary($this->roundPrecission) .
-        ')';
+        return 'ROUND('.$sqlWalker->walkSimpleArithmeticExpression($this->simpleArithmeticExpression).','.$sqlWalker->walkStringPrimary($this->roundPrecission).')';
     }
+
     /**
      * parse
      *

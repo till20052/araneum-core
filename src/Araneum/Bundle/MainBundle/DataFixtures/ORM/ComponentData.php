@@ -9,6 +9,11 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * Class ComponentData
+ *
+ * @package Araneum\Bundle\MainBundle\DataFixtures\ORM
+ */
 class ComponentData extends AbstractFixture implements FixtureInterface
 {
     /**
@@ -26,7 +31,7 @@ class ComponentData extends AbstractFixture implements FixtureInterface
             $component->setDefault(true);
             $component->setOptions(
                 [
-                    'option1' => 'param1'
+                    'option1' => 'param1',
                 ]
             );
             $manager->persist($component);

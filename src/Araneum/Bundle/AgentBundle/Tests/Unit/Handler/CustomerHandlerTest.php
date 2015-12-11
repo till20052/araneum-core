@@ -15,6 +15,11 @@ use Araneum\Bundle\MainBundle\Entity\Application;
 use Symfony\Component\Form\FormFactory;
 use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
 
+/**
+ * Class CustomerHandlerTest
+ *
+ * @package Araneum\Bundle\AgentBundle\Tests\Unit\Handler
+ */
 class CustomerHandlerTest extends BaseController
 {
     const PARAMETER = [
@@ -23,7 +28,7 @@ class CustomerHandlerTest extends BaseController
         'country' => 'country',
         'email' => 'email@email2.com',
         'callback' => true,
-        'phone' => '322223'
+        'phone' => '322223',
     ];
     protected $entityManager;
     protected $repositoryMock;
@@ -75,7 +80,7 @@ class CustomerHandlerTest extends BaseController
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->customer = new Customer;
+        $this->customer = new Customer();
     }
 
     /**
@@ -84,7 +89,7 @@ class CustomerHandlerTest extends BaseController
      * @throws \Araneum\Base\Exception\InvalidFormException
      * @runTestsInSeparateProcesses
      */
-    public function testProcessFormNormal_True()
+    public function testProcessFormNormalTrue()
     {
         $this->container->expects($this->at(0))
             ->method('get')
@@ -128,7 +133,7 @@ class CustomerHandlerTest extends BaseController
      * @expectedException \Araneum\Base\Exception\InvalidFormException
      * @runTestsInSeparateProcesses
      */
-    public function testProcessFormException_False()
+    public function testProcessFormExceptionFalse()
     {
         $this->container->expects($this->at(0))
             ->method('get')
@@ -213,5 +218,4 @@ class CustomerHandlerTest extends BaseController
         $customerHandler = new CustomerApiHandlerService($this->container);
         $customerHandler->login(CustomerFixtures::TEST_EMAIL, 'password', $this->appKey);
     }
-
 }

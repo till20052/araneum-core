@@ -10,143 +10,163 @@ use Symfony\Component\Console\Application as App;
 use Symfony\Component\Console\Tester\CommandTester;
 use \Symfony\Component\DependencyInjection\Container;
 
+/**
+ * Class CheckerCheckCommandTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Command
+ */
 class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
 {
-	/**
-	 * @var CheckerCheckCommand
-	 */
-	private $command;
+    /**
+     * @var CheckerCheckCommand
+     */
+    private $command;
 
-	/**
-	 * @var CommandTester
-	 */
-	private $commandTester;
+    /**
+     * @var CommandTester
+     */
+    private $commandTester;
 
-	/**
-	 * @var
-	 */
-	private $checker;
+    /**
+     * @var
+     */
+    private $checker;
 
-	/**
-	 * Mock DI Container
-	 *
-	 * @return Container
-	 */
-	private function getContainer()
-	{
-		$container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\Container')
-			->disableOriginalConstructor()
-			->getMock();
+    /**
+     * Test to check Connection in the Command
+     */
+    public function testCheckConnection()
+    {
+        $this->checker->expects($this->once())
+            ->method('checkConnection')
+            ->with($this->equalTo(777))
+            ->will($this->returnValue(Connection::STATUS_OK));
 
-		$this->checker = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Service\ApplicationCheckerService')
-			->disableOriginalConstructor()
-			->getMock();
+        $this->commandTester->execute(
+            [
+                'command' => $this->command->getName(),
+                'target' => 'connection',
+                'id' => 777,
+            ]
+        );
 
-		$container->expects($this->any())
-			->method('get')
-			->with($this->equalTo('araneum.main.application.checker'))
-			->will($this->returnValue($this->checker));
+        $this->assertEquals(
+            1,
+            preg_match(
+                '/Connection\n ID: (\d+)\n Status: (\w+)/',
+                $this->commandTester->getDisplay(),
+                $match
+            )
+        );
 
-		return $container;
-	}
+        $this->assertEquals(
+            Connection::getStatusDescription(Connection::STATUS_OK),
+            $match[2]
+        );
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function setUp()
-	{
-		$app = new App();
-		$app->add(new CheckerCheckCommand());
+    /**
+     * Test to check Cluster in the Command
+     */
+    public function testCheckCluster()
+    {
+        $this->checker->expects($this->once())
+            ->method('checkCluster')
+            ->with($this->equalTo(777))
+            ->will($this->returnValue(Cluster::STATUS_OK));
 
-		/** @var CheckerCheckCommand command */
-		$this->command = $app->find('checker:check');
-		$this->command->setContainer($this->getContainer());
+        $this->commandTester->execute(
+            [
+                'command' => $this->command->getName(),
+                'target' => 'cluster',
+                'id' => 777,
+            ]
+        );
 
-		/** @var CommandTester commandTester */
-		$this->commandTester = new CommandTester($this->command);
-	}
+        $this->assertEquals(
+            1,
+            preg_match(
+                '/Cluster\n ID: (\d+)\n Status: (\w+)/',
+                $this->commandTester->getDisplay(),
+                $match
+            )
+        );
 
-	/**
-	 * Test to check Connection in the Command
-	 */
-	public function testCheckConnection()
-	{
-		$this->checker->expects($this->once())
-			->method('checkConnection')
-			->with($this->equalTo(777))
-			->will($this->returnValue(Connection::STATUS_OK));
+        $this->assertEquals(
+            Cluster::getStatusDescription(Cluster::STATUS_OK),
+            $match[2]
+        );
+    }
 
-		$this->commandTester->execute([
-			'command' => $this->command->getName(),
-			'target' => 'connection',
-			'id' => 777
-		]);
+    /**
+     * Test to check Application in the Command
+     */
+    public function testCheckApplication()
+    {
+        $this->checker->expects($this->once())
+            ->method('checkApplication')
+            ->with($this->equalTo(777))
+            ->will($this->returnValue(Application::STATUS_OK));
 
-		$this->assertEquals(1, preg_match(
-			'/Connection\n ID: (\d+)\n Status: (\w+)/',
-			$this->commandTester->getDisplay(),
-			$match
-		));
+        $this->commandTester->execute(
+            [
+                'command' => $this->command->getName(),
+                'target' => 'application',
+                'id' => 777,
+            ]
+        );
 
-		$this->assertEquals(
-			Connection::getStatusDescription(Connection::STATUS_OK),
-			$match[2]
-		);
-	}
+        $this->assertEquals(
+            1,
+            preg_match(
+                '/Application\n ID: (\d+)\n Status: (\w+)/',
+                $this->commandTester->getDisplay(),
+                $match
+            )
+        );
 
-	/**
-	 * Test to check Cluster in the Command
-	 */
-	public function testCheckCluster()
-	{
-		$this->checker->expects($this->once())
-			->method('checkCluster')
-			->with($this->equalTo(777))
-			->will($this->returnValue(Cluster::STATUS_OK));
+        $this->assertEquals(
+            Application::getStatusDescription(Application::STATUS_OK),
+            $match[2]
+        );
+    }
 
-		$this->commandTester->execute([
-			'command' => $this->command->getName(),
-			'target' => 'cluster',
-			'id' => 777
-		]);
+    /**
+     * Mock DI Container
+     *
+     * @return Container
+     */
+    private function getContainer()
+    {
+        $container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\Container')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$this->assertEquals(1, preg_match(
-			'/Cluster\n ID: (\d+)\n Status: (\w+)/',
-			$this->commandTester->getDisplay(),
-			$match
-		));
+        $this->checker = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Service\ApplicationCheckerService')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$this->assertEquals(
-			Cluster::getStatusDescription(Cluster::STATUS_OK),
-			$match[2]
-		);
-	}
+        $container->expects($this->any())
+            ->method('get')
+            ->with($this->equalTo('araneum.main.application.checker'))
+            ->will($this->returnValue($this->checker));
 
-	/**
-	 * Test to check Application in the Command
-	 */
-	public function testCheckApplication()
-	{
-		$this->checker->expects($this->once())
-			->method('checkApplication')
-			->with($this->equalTo(777))
-			->will($this->returnValue(Application::STATUS_OK));
+        return $container;
+    }
 
-		$this->commandTester->execute([
-			'command' => $this->command->getName(),
-			'target' => 'application',
-			'id' => 777
-		]);
+    /**
+     * @inheritdoc
+     */
+    protected function setUp()
+    {
+        $app = new App();
+        $app->add(new CheckerCheckCommand());
 
-		$this->assertEquals(1, preg_match(
-			'/Application\n ID: (\d+)\n Status: (\w+)/',
-			$this->commandTester->getDisplay(),
-			$match
-		));
+        /** @var CheckerCheckCommand command */
+        $this->command = $app->find('checker:check');
+        $this->command->setContainer($this->getContainer());
 
-		$this->assertEquals(
-			Application::getStatusDescription(Application::STATUS_OK),
-			$match[2]
-		);
-	}
+        /** @var CommandTester commandTester */
+        $this->commandTester = new CommandTester($this->command);
+    }
 }

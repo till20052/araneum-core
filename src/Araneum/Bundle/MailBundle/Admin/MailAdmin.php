@@ -8,6 +8,11 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 
+/**
+ * Class MailAdmin
+ *
+ * @package Araneum\Bundle\MailBundle\Admin
+ */
 class MailAdmin extends Admin
 {
     /**
@@ -45,7 +50,7 @@ class MailAdmin extends Admin
                         Mail::STATUS_PENDING => $this->trans('pending'),
                         Mail::STATUS_SENT => $this->trans('sent'),
                         Mail::STATUS_READ => $this->trans('read'),
-                    ]
+                    ],
 
                 ]
             )
@@ -59,7 +64,7 @@ class MailAdmin extends Admin
                 null,
                 ['format' => 'MM/dd/y']
             )
-            ->add('textBody', null, ['label'=> 'text_body'])
+            ->add('textBody', null, ['label' => 'text_body'])
             ->add(
                 'createdAt',
                 'doctrine_orm_date_range',
@@ -95,7 +100,7 @@ class MailAdmin extends Admin
                         Mail::STATUS_SENT => $this->trans('sent'),
                         Mail::STATUS_READ => $this->trans('read'),
                     ],
-                    'label' => 'status'
+                    'label' => 'status',
                 ]
             )
             ->add('sentAt', null, ['label' => 'sent_at'])
@@ -104,7 +109,7 @@ class MailAdmin extends Admin
                 null,
                 [
                     'format' => 'm/d/Y',
-                    'label' => 'created_at'
+                    'label' => 'created_at',
                 ]
             )
             ->add(
@@ -114,7 +119,7 @@ class MailAdmin extends Admin
                     'actions' => [
                         'show' => [],
                     ],
-                    'label' => 'actions'
+                    'label' => 'actions',
                 ]
             );
     }
@@ -142,7 +147,7 @@ class MailAdmin extends Admin
                         Mail::STATUS_SENT => $this->trans('sent'),
                         Mail::STATUS_READ => $this->trans('read'),
                     ],
-                    'label' => 'status'
+                    'label' => 'status',
                 ]
             )
             ->add(
@@ -150,7 +155,7 @@ class MailAdmin extends Admin
                 null,
                 [
                     'format' => 'm/d/Y',
-                    'label' => 'status'
+                    'label' => 'status',
                 ]
             )
             ->add('textBody', null, ['label' => 'text_body'])
@@ -161,7 +166,7 @@ class MailAdmin extends Admin
                 null,
                 [
                     'format' => 'm/d/Y',
-                    'label' => 'updated_at'
+                    'label' => 'updated_at',
                 ]
             )
             ->add(
@@ -169,7 +174,7 @@ class MailAdmin extends Admin
                 null,
                 [
                     'format' => 'm/d/Y',
-                    'label' => 'created_at'
+                    'label' => 'created_at',
                 ]
             );
     }

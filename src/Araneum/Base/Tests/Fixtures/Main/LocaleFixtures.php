@@ -7,6 +7,11 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Knp\RadBundle\DataFixtures\AbstractFixture;
 
+/**
+ * Class LocaleFixtures
+ *
+ * @package Araneum\Base\Tests\Fixtures\Main
+ */
 class LocaleFixtures extends AbstractFixture implements FixtureInterface
 {
     const TEST_LOC_NAME           = 'TestLocaleName';

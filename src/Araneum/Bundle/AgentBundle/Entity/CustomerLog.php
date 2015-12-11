@@ -17,12 +17,12 @@ class CustomerLog
 {
     use DateTrait;
 
-    const STATUS_OK = 0;
+    const STATUS_OK    = 0;
     const STATUS_ERROR = 100;
 
     private static $statuses = [
         self::STATUS_OK => 'ok',
-        self::STATUS_ERROR => 'error'
+        self::STATUS_ERROR => 'error',
     ];
 
     /**
@@ -84,7 +84,7 @@ class CustomerLog
     /**
      * Get Customer status description
      *
-     * @param $status
+     * @param integer $status
      * @return string
      */
     public static function getStatusDescription($status)

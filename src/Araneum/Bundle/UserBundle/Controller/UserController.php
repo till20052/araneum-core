@@ -10,6 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Araneum\Bundle\UserBundle\Entity\User;
 use Araneum\Bundle\UserBundle\Form\Type\ProfileType;
 
+/**
+ * Class UserController
+ *
+ * @package Araneum\Bundle\UserBundle\Controller
+ */
 class UserController extends Controller
 {
     /**
@@ -39,7 +44,7 @@ class UserController extends Controller
                     'AraneumUserBundle:Profile:show.html.twig',
                     [
                         'form' => $form->createView(),
-                        'admin_pool' => $this->get('sonata.admin.pool')
+                        'admin_pool' => $this->get('sonata.admin.pool'),
                     ]
                 );
             }
@@ -49,7 +54,7 @@ class UserController extends Controller
             'AraneumUserBundle:Profile:show.html.twig',
             [
                 'form' => $form->createView(),
-                'admin_pool' => $this->get('sonata.admin.pool')
+                'admin_pool' => $this->get('sonata.admin.pool'),
             ]
         );
     }

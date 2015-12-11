@@ -12,11 +12,12 @@ use Doctrine\ORM\Query\SqlWalker;
  */
 class DatePart extends FunctionNode
 {
-    public $unit = null;
+    public $unit              = null;
     public $arithmeticPrimary = null;
 
     /**
      * Function Parse
+     *
      * @param Parser $parser
      */
     public function parse(Parser $parser)
@@ -39,6 +40,6 @@ class DatePart extends FunctionNode
      */
     public function getSql(SqlWalker $sqlWalker)
     {
-        return "DATE_PART('" . $this->unit . "'," . $this->arithmeticPrimary->dispatch($sqlWalker) . ")";
+        return "DATE_PART('".$this->unit."',".$this->arithmeticPrimary->dispatch($sqlWalker).")";
     }
 }

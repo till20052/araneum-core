@@ -4,6 +4,11 @@ namespace Araneum\Base\Exception;
 
 use Symfony\Component\Form\FormInterface;
 
+/**
+ * Class InvalidFormException
+ *
+ * @package Araneum\Base\Exception
+ */
 class InvalidFormException extends \Exception
 {
     /**
@@ -32,7 +37,7 @@ class InvalidFormException extends \Exception
      */
     public function getFormErrorMessage()
     {
-        return (string)$this->form->getErrors(true, false);
+        return (string) $this->form->getErrors(true, false);
     }
 
     /**

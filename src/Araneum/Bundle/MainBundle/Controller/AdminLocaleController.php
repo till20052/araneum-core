@@ -17,6 +17,11 @@ use Symfony\Component\Validator\Constraints\All;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
+/**
+ * Class AdminLocaleController
+ *
+ * @package Araneum\Bundle\MainBundle\Controller
+ */
 class AdminLocaleController extends AdminBaseController
 {
     /**

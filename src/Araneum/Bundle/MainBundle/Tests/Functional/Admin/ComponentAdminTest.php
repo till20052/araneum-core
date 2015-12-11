@@ -2,18 +2,23 @@
 
 namespace Araneum\Bundle\MainBundle\Tests\Functional\Admin;
 
-use Araneum\Base\Tests\Controller\BaseAdminController;
+use Araneum\Base\Tests\Controller\AbstractBaseAdminController;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ComponentFixtures;
 use Araneum\Bundle\MainBundle\Entity\Application;
 
-class ComponentAdminTest extends BaseAdminController
+/**
+ * Class ComponentAdminTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Functional\Admin
+ */
+class ComponentAdminTestAbstractBaseAdminController extends AbstractBaseAdminController
 {
     const TEST_COMP_NAME = 'TestComponentName';
     protected $createRoute = 'admin_araneum_main_component_create';
     protected $updateRoute = 'admin_araneum_main_component_edit';
     protected $deleteRoute = 'admin_araneum_main_component_delete';
-    protected $listRoute = 'admin_araneum_main_component_list';
+    protected $listRoute   = 'admin_araneum_main_component_list';
 
     /**
      * Set of arguments for testCreate method
@@ -30,13 +35,13 @@ class ComponentAdminTest extends BaseAdminController
         return [
             'Simple component creation' => [
                 [
-                    'name' => self::TEST_COMP_NAME . '_' . md5(self::TEST_COMP_NAME),
+                    'name' => self::TEST_COMP_NAME.'_'.md5(self::TEST_COMP_NAME),
                     'applications' => $application->getId(),
                     'description' => '',
                     'enabled' => true,
                     'default' => true,
                 ],
-                true
+                true,
             ],
             'Check component unique name' => [
                 [
@@ -46,8 +51,8 @@ class ComponentAdminTest extends BaseAdminController
                     'enabled' => true,
                     'default' => true,
                 ],
-                false
-            ]
+                false,
+            ],
         ];
     }
 
@@ -80,10 +85,10 @@ class ComponentAdminTest extends BaseAdminController
                     'filter[enabled][value]' => ComponentFixtures::TEST_COMP_ENABLED,
                     'filter[default][value]' => ComponentFixtures::TEST_COMP_DEFAULT,
                     'filter[createdAt][value][start]' => '01/01/1971',
-                    'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
+                    'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400),
                 ],
                 true,
-                $fxtComponent
+                $fxtComponent,
             ],
             'try to find temp fixture by first fixture values' => [
                 [
@@ -93,11 +98,11 @@ class ComponentAdminTest extends BaseAdminController
                     'filter[enabled][value]' => ComponentFixtures::TEST_COMP_ENABLED,
                     'filter[default][value]' => ComponentFixtures::TEST_COMP_DEFAULT,
                     'filter[createdAt][value][start]' => '01/01/1971',
-                    'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
+                    'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400),
                 ],
                 false,
-                $tempComponent
-            ]
+                $tempComponent,
+            ],
         ];
     }
 
@@ -130,7 +135,7 @@ class ComponentAdminTest extends BaseAdminController
                     'default' => true,
                 ],
                 true,
-                $tempComponent
+                $tempComponent,
             ],
             'Check update temp component name if component with this name already exists' => [
                 [
@@ -142,7 +147,7 @@ class ComponentAdminTest extends BaseAdminController
                     'default' => true,
                 ],
                 false,
-                $tempComponent
+                $tempComponent,
             ],
             'Set first values of temp component' => [
                 [
@@ -153,8 +158,8 @@ class ComponentAdminTest extends BaseAdminController
                     'default' => ComponentFixtures::TEST_COMP_TEMP_DEFAULT,
                 ],
                 true,
-                $tempComponent
-            ]
+                $tempComponent,
+            ],
         ];
     }
 
@@ -171,6 +176,6 @@ class ComponentAdminTest extends BaseAdminController
             ->getContainer()
             ->get('doctrine.orm.entity_manager')
             ->getRepository('AraneumMainBundle:Component')
-            ->findOneByName(self::TEST_COMP_NAME . '_' . md5(self::TEST_COMP_NAME));
+            ->findOneByName(self::TEST_COMP_NAME.'_'.md5(self::TEST_COMP_NAME));
     }
 }

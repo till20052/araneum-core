@@ -9,6 +9,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class ApplicationApiController
+ *
+ * @package Araneum\Bundle\MainBundle\Controller
+ */
 class ApplicationApiController extends FOSRestController
 {
     /**

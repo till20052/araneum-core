@@ -2,17 +2,21 @@
 
 namespace Araneum\Bundle\MainBundle\Tests\Functional\Admin;
 
-use Araneum\Base\Tests\Controller\BaseAdminController;
+use Araneum\Base\Tests\Controller\AbstractBaseAdminController;
 use Araneum\Base\Tests\Fixtures\Main\LocaleFixtures;
 use Araneum\Bundle\MainBundle\Entity\Locale;
 
-class LocaleAdminTest extends BaseAdminController
+/**
+ * Class LocaleAdminTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Functional\Admin
+ */
+class LocaleAdminTestAbstractBaseAdminController extends AbstractBaseAdminController
 {
     protected $createRoute = 'admin_araneum_main_locale_create';
     protected $updateRoute = 'admin_araneum_main_locale_edit';
     protected $deleteRoute = 'admin_araneum_main_locale_delete';
-    protected $listRoute = 'admin_araneum_main_locale_list';
-
+    protected $listRoute   = 'admin_araneum_main_locale_list';
 
     /**
      * Set up Before class
@@ -43,7 +47,6 @@ class LocaleAdminTest extends BaseAdminController
                 ->setEncoding(LocaleFixtures::TEST_LOC_ENCOD_FILTER)
                 ->setOrientation(LocaleFixtures::TEST_LOC_ORIENT);
 
-
             $manager->persist($filterLocale);
             $manager->flush();
         }
@@ -58,11 +61,9 @@ class LocaleAdminTest extends BaseAdminController
                 ->setEncoding(LocaleFixtures::TEST_LOC_ENCOD)
                 ->setOrientation(LocaleFixtures::TEST_LOC_ORIENT);
 
-
             $manager->persist($updateLocale);
             $manager->flush();
         }
-
 
         $delete = $repository->findOneByName(LocaleFixtures::TEST_LOC_NAME_DELETE);
 
@@ -94,7 +95,7 @@ class LocaleAdminTest extends BaseAdminController
                     'orientation' => Locale::ORIENT_LFT_TO_RGT,
                     'encoding' => 'testLocaleEncodingCreate',
                 ],
-                false
+                false,
             ],
             'not valid name, too long' => [
                 [
@@ -103,7 +104,7 @@ class LocaleAdminTest extends BaseAdminController
                     'orientation' => Locale::ORIENT_LFT_TO_RGT,
                     'encoding' => 'testLocaleEncodingCreate',
                 ],
-                false
+                false,
             ],
             'empty name' => [
                 [
@@ -112,7 +113,7 @@ class LocaleAdminTest extends BaseAdminController
                     'orientation' => Locale::ORIENT_LFT_TO_RGT,
                     'encoding' => 'testLocaleEncodingCreate',
                 ],
-                false
+                false,
             ],
             'not valid encoding, too long' => [
                 [
@@ -121,7 +122,7 @@ class LocaleAdminTest extends BaseAdminController
                     'orientation' => Locale::ORIENT_LFT_TO_RGT,
                     'encoding' => '123456789 123456789 123456789 123456789 ',
                 ],
-                false
+                false,
             ],
             'empty encoding' => [
                 [
@@ -130,7 +131,7 @@ class LocaleAdminTest extends BaseAdminController
                     'orientation' => Locale::ORIENT_LFT_TO_RGT,
                     'encoding' => '',
                 ],
-                false
+                false,
             ],
             'normal' => [
                 [
@@ -140,7 +141,7 @@ class LocaleAdminTest extends BaseAdminController
                     'enabled' => false,
                     'encoding' => LocaleFixtures::TEST_LOC_ENCOD,
                 ],
-                true
+                true,
             ],
 
         ];
@@ -158,7 +159,6 @@ class LocaleAdminTest extends BaseAdminController
             ->get('doctrine.orm.entity_manager')
             ->getRepository('AraneumMainBundle:Locale')
             ->findOneBy(['name' => LocaleFixtures::TEST_LOC_NAME_FILTER]);
-
 
         return
             [
@@ -199,22 +199,21 @@ class LocaleAdminTest extends BaseAdminController
             ->getRepository('AraneumMainBundle:Locale')
             ->findOneByName(LocaleFixtures::TEST_LOC_NAME_UPDATE);
 
-
         return [
             'not uniq locale' => [
                 [
                     'locale' => 'en_US',
                 ],
                 false,
-                $locale
+                $locale,
             ],
             'not uniq name' => [
                 [
 
-                    'name' => LocaleFixtures::TEST_LOC_NAME_FILTER
+                    'name' => LocaleFixtures::TEST_LOC_NAME_FILTER,
                 ],
                 false,
-                $locale
+                $locale,
             ],
             'normal' => [
                 [
@@ -224,7 +223,7 @@ class LocaleAdminTest extends BaseAdminController
                     'enabled' => false,
                 ],
                 true,
-                $locale
+                $locale,
             ],
 
         ];
@@ -245,5 +244,4 @@ class LocaleAdminTest extends BaseAdminController
             ->getRepository('AraneumMainBundle:Locale')
             ->findOneByName(LocaleFixtures::TEST_LOC_NAME_DELETE);
     }
-
 }

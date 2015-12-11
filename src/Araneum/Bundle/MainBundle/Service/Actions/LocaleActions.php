@@ -5,6 +5,11 @@ namespace Araneum\Bundle\MainBundle\Service\Actions;
 use Araneum\Base\Service\Actions\AbstractActions;
 use Araneum\Base\Service\Actions\ActionBuilderInterface;
 
+/**
+ * Class LocaleActions
+ *
+ * @package Araneum\Bundle\MainBundle\Service\Actions
+ */
 class LocaleActions extends AbstractActions
 {
     /**

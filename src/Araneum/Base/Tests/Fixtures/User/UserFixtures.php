@@ -7,22 +7,27 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Knp\RadBundle\DataFixtures\AbstractFixture;
 
+/**
+ * Class UserFixtures
+ *
+ * @package Araneum\Base\Tests\Fixtures\User
+ */
 class UserFixtures extends AbstractFixture implements FixtureInterface
 {
-    const TEST_USER_NAME     = 'TestUserName';
-    const TEST_USER_EMAIL    = 'test@user.email';
-    const TEST_USER_FULLNAME = 'TestUserFullName';
-    const TEST_USER_PASSWORD = 'TestUserPassword';
-    const TEST_USER_ENABLED  = true;
-    const TEST_USER_ROLES    = [User::ROLE_USER];
+    const TEST_USER_NAME            = 'TestUserName';
+    const TEST_USER_EMAIL           = 'test@user.email';
+    const TEST_USER_FULLNAME        = 'TestUserFullName';
+    const TEST_USER_PASSWORD        = 'TestUserPassword';
+    const TEST_USER_ENABLED         = true;
+    const TEST_USER_ROLES           = [User::ROLE_USER];
     const TEST_USER_NAME_DELETE     = 'TestUserNameForDelete';
     const TEST_USER_EMAIL_FILTER    = 'TestUserEmailForFilter@test.com';
     const TEST_USER_FULLNAME_FILTER = 'TestUserFullnameForFilter';
     const TEST_USER_ENABLED_FILTER  = true;
     const TEST_USER_NAME_UPDATE     = 'TestUserNameForUpdate';
     const TEST_USER_EMAIL_UPDATE    = 'TestUserEmailForUpdate@test.com';
-    const ADMIN_USER_NAME     = "AdminName";
-    const ADMIN_USER_PASSWORD = 'admin_123';
+    const ADMIN_USER_NAME           = "AdminName";
+    const ADMIN_USER_PASSWORD       = 'admin_123';
 
     /**
      * {@inheritDoc}

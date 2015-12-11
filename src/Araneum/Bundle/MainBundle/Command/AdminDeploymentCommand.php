@@ -7,6 +7,11 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class AdminDeploymentCommand
+ *
+ * @package Araneum\Bundle\MainBundle\Command
+ */
 class AdminDeploymentCommand extends ContainerAwareCommand
 {
     /**
@@ -38,7 +43,7 @@ class AdminDeploymentCommand extends ContainerAwareCommand
         ];
 
         foreach ($commands as $command) {
-            $output->writeln('<comment>Run command: ' . $command . '</comment>');
+            $output->writeln('<comment>Run command: '.$command.'</comment>');
 
             $commandRunner = $this->getContainer()->get('araneum.command_runner.service');
             $resultMessage = $commandRunner->runDeployCommandsInSeparateProcess($command, $pathToRun);

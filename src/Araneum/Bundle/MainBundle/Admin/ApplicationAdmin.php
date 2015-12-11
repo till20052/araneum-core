@@ -14,14 +14,15 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 /**
  * Class ApplicationAdmin
+ *
  * @package Araneum\Bundle\MainBundle\Admin
  */
 class ApplicationAdmin extends Admin
 {
-	/**
-	 * @var TokenStorage
-	 */
-	private $tokenStorage;
+    /**
+     * @var TokenStorage
+     */
+    private $tokenStorage;
 
     /**
      * @var EventDispatcherInterface
@@ -41,8 +42,8 @@ class ApplicationAdmin extends Admin
             [
                 'checkStatus' => [
                     'label' => 'Check Status',
-                    'ask_confirmation' => true
-                ]
+                    'ask_confirmation' => true,
+                ],
             ]
         );
     }
@@ -57,55 +58,55 @@ class ApplicationAdmin extends Admin
     {
         $application->setOwner(
             $this->tokenStorage
-	            ->getToken()
+                ->getToken()
                 ->getUser()
         );
     }
 
-	/**
-	 * Invoke method after creation of application
-	 *
-	 * @param Application $application
-	 * @return void
-	 */
-	public function postPersist($application)
-	{
-		$event = new ApplicationEvent();
+    /**
+     * Invoke method after creation of application
+     *
+     * @param Application $application
+     * @return void
+     */
+    public function postPersist($application)
+    {
+        $event = new ApplicationEvent();
 
-		$event->addApplication($application);
+        $event->addApplication($application);
 
-		$this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
-	}
+        $this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
+    }
 
-	/**
-	 * Invoke method after modification of application
-	 *
+    /**
+     * Invoke method after modification of application
+     *
      * @param Application $application
      * @return void
      */
     public function postUpdate($application)
     {
-	    $event = new ApplicationEvent();
+        $event = new ApplicationEvent();
 
-	    $event->addApplication($application);
+        $event->addApplication($application);
 
-	    $this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
+        $this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
     }
 
-	/**
-	 * Invoke method after deletion of application
-	 *
-	 * @param Application $application
-	 * @return void
-	 */
+    /**
+     * Invoke method after deletion of application
+     *
+     * @param Application $application
+     * @return void
+     */
     public function preRemove($application)
-	{
-		$event = new ApplicationEvent();
+    {
+        $event = new ApplicationEvent();
 
-		$event->addApplication($application);
+        $event->addApplication($application);
 
         $this->dispatcher->dispatch(ApplicationEvents::PRE_REMOVE, $event);
-	}
+    }
 
     /**
      * Set Service Container
@@ -117,11 +118,11 @@ class ApplicationAdmin extends Admin
         $this->tokenStorage = $tokenStorage;
     }
 
-	/**
-	 * Set Event Dispatcher
-	 *
-	 * @param EventDispatcherInterface $eventDispatcherInterface
-	 */
+    /**
+     * Set Event Dispatcher
+     *
+     * @param EventDispatcherInterface $eventDispatcherInterface
+     */
     public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
     {
         $this->dispatcher = $eventDispatcherInterface;
@@ -142,25 +143,25 @@ class ApplicationAdmin extends Admin
                 [
                     'label' => 'type',
                     'required' => false,
-                    'choices' => []
+                    'choices' => [],
                 ]
             )
             ->add('name', 'text', ['label' => 'name'])
             ->add('domain', 'text', ['label' => 'domain'])
-	        ->add(
-		        'useSsl',
-		        'checkbox',
-		        [
-			        'label' => 'use_ssl',
-			        'required' => false
-		        ]
-	        )
+            ->add(
+                'useSsl',
+                'checkbox',
+                [
+                    'label' => 'use_ssl',
+                    'required' => false,
+                ]
+            )
             ->add(
                 'aliases',
                 'text',
                 [
                     'label' => 'aliases',
-                    'required' => false
+                    'required' => false,
                 ]
             )
             ->add(
@@ -168,7 +169,7 @@ class ApplicationAdmin extends Admin
                 'checkbox',
                 [
                     'label' => 'public',
-                    'required' => false
+                    'required' => false,
                 ]
             )
             ->add(
@@ -176,7 +177,7 @@ class ApplicationAdmin extends Admin
                 'checkbox',
                 [
                     'label' => 'enabled',
-                    'required' => false
+                    'required' => false,
                 ]
             )
             ->add('template', 'text', ['label' => 'template'])
@@ -193,7 +194,7 @@ class ApplicationAdmin extends Admin
                 'sonata_type_model',
                 [
                     'label' => 'locales',
-                    'multiple' => true
+                    'multiple' => true,
                 ]
             )
             ->end()
@@ -203,7 +204,7 @@ class ApplicationAdmin extends Admin
                 'sonata_type_model',
                 [
                     'label' => 'components',
-                    'multiple' => true
+                    'multiple' => true,
                 ]
             )
             ->end();
@@ -222,14 +223,14 @@ class ApplicationAdmin extends Admin
             ->add('type', null, ['label' => 'type'])
             ->add('name', null, ['label' => 'name'])
             ->add('domain', null, ['label' => 'domain'])
-	        ->add('useSsl', null, ['label' => 'use_ssl'])
+            ->add('useSsl', null, ['label' => 'use_ssl'])
             ->add('db', null, ['label' => 'database'])
             ->add(
                 'public',
                 null,
                 [
                     'label' => 'public',
-                    'editable' => true
+                    'editable' => true,
                 ]
             )
             ->add(
@@ -237,7 +238,7 @@ class ApplicationAdmin extends Admin
                 null,
                 [
                     'label' => 'enabled',
-                    'editable' => true
+                    'editable' => true,
                 ]
             )
             ->add('locales', null, ['label' => 'locales'])
@@ -247,7 +248,7 @@ class ApplicationAdmin extends Admin
                 'choice',
                 [
                     'label' => 'status',
-                    'choices' => Application::getStatuses()
+                    'choices' => Application::getStatuses(),
                 ]
             )
             ->add('template', null, ['label' => 'template'])
@@ -256,7 +257,7 @@ class ApplicationAdmin extends Admin
                 'datetime',
                 [
                     'label' => 'created_at',
-                    'format' => 'm/d/Y'
+                    'format' => 'm/d/Y',
                 ]
             )
             ->add(
@@ -269,10 +270,10 @@ class ApplicationAdmin extends Admin
                             'edit' => [],
                             'check_status_state' =>
                                 [
-                                    'template' => 'AraneumMainBundle:AdminAction:checkStatusApplication.html.twig'
+                                    'template' => 'AraneumMainBundle:AdminAction:checkStatusApplication.html.twig',
                                 ],
                             'delete' => [],
-                        ]
+                        ],
                 ]
             );
     }
@@ -287,7 +288,7 @@ class ApplicationAdmin extends Admin
             ->add('type', 'doctrine_orm_choice', ['label' => 'type'], 'choice', ['choices' => []])
             ->add('name', null, ['label' => 'name'])
             ->add('domain', null, ['label' => 'domain'])
-	        ->add('useSsl', null, ['label' => 'use_ssl'])
+            ->add('useSsl', null, ['label' => 'use_ssl'])
             ->add('db', null, ['label' => 'database'])
             ->add('public', null, ['label' => 'public'])
             ->add('enabled', null, ['label' => 'enabled'])
@@ -306,12 +307,12 @@ class ApplicationAdmin extends Admin
                 'doctrine_orm_datetime_range',
                 [
                     'label' => 'created_at',
-                    'field_type' => 'sonata_type_datetime_range_picker'
+                    'field_type' => 'sonata_type_datetime_range_picker',
                 ],
                 null,
                 [
                     'widget' => 'single_text',
-                    'format' => 'MM/dd/yyyy'
+                    'format' => 'MM/dd/yyyy',
                 ]
             );
     }

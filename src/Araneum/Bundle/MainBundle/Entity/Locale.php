@@ -25,14 +25,14 @@ class Locale
     const ORIENT_RGT_TO_LFT = 2;
     const LOC_TO_STR        = 'Create';
 
-    static $orientations = [
+    public static $orientations = [
         self::ORIENT_LFT_TO_RGT => 'Left to Right',
-        self::ORIENT_RGT_TO_LFT => 'Right to Left'
+        self::ORIENT_RGT_TO_LFT => 'Right to Left',
     ];
 
-    static $enable = [
+    public static $enable = [
         true => 'Enabled',
-        false => 'Disabled'
+        false => 'Disabled',
     ];
 
     /**
@@ -214,6 +214,6 @@ class Locale
      */
     public function __toString()
     {
-        return $this->name ? $this->name . " (" . $this->locale . ")" : 'Create Locale';
+        return $this->name ? $this->name." (".$this->locale.")" : 'Create Locale';
     }
 }

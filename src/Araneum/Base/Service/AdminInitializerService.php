@@ -2,10 +2,17 @@
 
 namespace Araneum\Base\Service;
 
+use Araneum\Base\Ali\DatatableBundle\Builder\AbstractList;
 use Araneum\Base\Ali\DatatableBundle\Util\Factory\DatatableFactory;
 use Araneum\Base\Service\Actions\AbstractActions;
 use Araneum\Base\Service\Actions\ActionFactory;
+use Symfony\Component\Form\FormTypeInterface;
 
+/**
+ * Class AdminInitializerService
+ *
+ * @package Araneum\Base\Service
+ */
 class AdminInitializerService
 {
     private $datatableFactory;
@@ -26,8 +33,8 @@ class AdminInitializerService
      * AdminInitializerService constructor.
      *
      * @param FromExporterService $formExporter
-     * @param DatatableFactory $datatableFactory
-     * @param ActionFactory $actionFactory
+     * @param DatatableFactory    $datatableFactory
+     * @param ActionFactory       $actionFactory
      */
     public function __construct($formExporter, $datatableFactory, $actionFactory)
     {
@@ -46,10 +53,10 @@ class AdminInitializerService
         $result = [
             'filter' => $this->filter,
             'action' => $this->action,
-            'grid' => $this->grid
+            'grid' => $this->grid,
         ];
 
-        if(count($this->error)) {
+        if (count($this->error)) {
             $result['errors'] = $this->error;
         }
 
@@ -59,7 +66,7 @@ class AdminInitializerService
     /**
      * Set filters
      *
-     * @param $filter
+     * @param FormTypeInterface $filter
      * @return mixed
      */
     public function setFilters($filter)
@@ -85,11 +92,11 @@ class AdminInitializerService
     /**
      * Set grid
      *
-     * @param $gridType
-     * @param $source
+     * @param AbstractList $gridType
+     * @param string       $source
      * @return $this
      */
-    public function setGrid($gridType, $source)
+    public function setGrid(AbstractList $gridType, $source)
     {
         $this->grid = [
             'columns' => $this->datatableFactory->create($gridType)->getFieldLabels(),
