@@ -3,7 +3,6 @@
 namespace Araneum\Bundle\MainBundle\Service;
 
 use Araneum\Bundle\MainBundle\Entity\Application;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;

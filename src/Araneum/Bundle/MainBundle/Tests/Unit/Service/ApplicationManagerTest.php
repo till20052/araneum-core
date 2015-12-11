@@ -26,7 +26,7 @@ class ApplicationManagerServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->doctrineMock = $this->getMockBuilder('Doctrine\Bundle\DoctrineBundle\Registry')
+        $this->doctrineMock = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
         $this->repositoryMock = $this
