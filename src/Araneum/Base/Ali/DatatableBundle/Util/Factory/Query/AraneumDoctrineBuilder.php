@@ -154,7 +154,7 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
     public function getResultQueryBuilder()
     {
         $qb = clone $this->queryBuilder;
-        $this->addSearch($qb);
+        $this->_addSearch($qb);
 
         return $qb;
     }
@@ -216,7 +216,7 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
     public function getTotalRecords()
     {
         $qb = clone $this->queryBuilder;
-        $this->addSearch($qb);
+        $this->_addSearch($qb);
 
         if ($this->isEmptyQuery()) {
             return 0;
@@ -243,7 +243,7 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
      * @param \Doctrine\ORM\QueryBuilder $queryBuilder
      * @return string|void
      */
-    protected function addSearch(\Doctrine\ORM\QueryBuilder $queryBuilder)
+    protected function _addSearch(\Doctrine\ORM\QueryBuilder $queryBuilder)
     {
         if ($this->search == true) {
 

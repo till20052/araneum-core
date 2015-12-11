@@ -131,7 +131,8 @@ class Application
     protected $appKey;
 
     /**
-     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Customer", mappedBy="application", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Customer", mappedBy="application",
+     *     cascade={"remove", "persist"})
      */
     protected $customers;
 
@@ -147,6 +148,23 @@ class Application
      */
     protected $applicationLog;
 
+    /**
+     * @ORM\Column(type="string", name="spot_api_user", length=25, nullable=true)
+     * @var string
+     */
+    protected $spotApiUser;
+
+    /**
+     * @ORM\Column(type="string", name="spot_api_password", length=255, nullable=true)
+     * @var string
+     */
+    protected $spotApiPassword;
+
+    /**
+     * @ORM\Column(type="string", name="spot_api_url", length=255, nullable=true)
+     * @var string
+     */
+    protected $spotApiUrl;
 
     /**
      * Get list of Application statuses
@@ -656,6 +674,75 @@ class Application
     public function __toString()
     {
         return $this->name ?: 'Create Application';
+    }
+
+    /**
+     * Get SpotApiUser
+     *
+     * @return string
+     */
+    public function getSpotApiUser()
+    {
+        return $this->spotApiUser;
+    }
+
+    /**
+     * Set spotApiUser
+     *
+     * @param string $spotApiUser
+     * @return Application
+     */
+    public function setSpotApiUser($spotApiUser)
+    {
+        $this->spotApiUser = $spotApiUser;
+
+        return $this;
+    }
+
+    /**
+     * Get SpotApiPassword
+     *
+     * @return string
+     */
+    public function getSpotApiPassword()
+    {
+        return $this->spotApiPassword;
+    }
+
+    /**
+     * Set spotApiPassword
+     *
+     * @param string $spotApiPassword
+     * @return Application
+     */
+    public function setSpotApiPassword($spotApiPassword)
+    {
+        $this->spotApiPassword = $spotApiPassword;
+
+        return $this;
+    }
+
+    /**
+     * Get SpotApiUrl
+     *
+     * @return string
+     */
+    public function getSpotApiUrl()
+    {
+        return $this->spotApiUrl;
+    }
+
+    /**
+     * Set spotApiUrl
+     *
+     * @param string $spotApiUrl
+     * @return Application
+     */
+    public function setSpotApiUrl($spotApiUrl)
+    {
+        $this->spotApiUrl = $spotApiUrl;
+
+        return $this;
     }
 
     /**

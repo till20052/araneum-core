@@ -4,7 +4,7 @@ namespace Araneum\Base\Service;
 
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormTypeInterface;
-use Symfony\Component\Serializer\SerializerInterface;
+use JMS\Serializer\SerializerInterface;
 
 /**
  * Class FromExporterService
