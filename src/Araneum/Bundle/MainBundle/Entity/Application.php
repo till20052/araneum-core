@@ -149,19 +149,19 @@ class Application
     protected $applicationLog;
 
     /**
-     * @ORM\Column(type="string", name="spot_api_user", length=25)
+     * @ORM\Column(type="string", name="spot_api_user", length=25, nullable=true)
      * @var string
      */
     protected $spotApiUser;
 
     /**
-     * @ORM\Column(type="string", name="spot_api_password", length=255)
+     * @ORM\Column(type="string", name="spot_api_password", length=255, nullable=true)
      * @var string
      */
     protected $spotApiPassword;
 
     /**
-     * @ORM\Column(type="string", name="spot_api_url", length=255)
+     * @ORM\Column(type="string", name="spot_api_url", length=255, nullable=true)
      * @var string
      */
     protected $spotApiUrl;
