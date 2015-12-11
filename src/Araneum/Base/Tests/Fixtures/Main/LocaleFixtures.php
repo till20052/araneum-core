@@ -107,6 +107,40 @@ class LocaleFixtures extends AbstractFixture implements FixtureInterface
             $manager->persist($localePack3);
         }
 
+
+        $localeDeletePack1 = $manager->getRepository('AraneumMainBundle:Locale')->findOneByName('LocaleDeletePack1');
+        if (empty($localeDeletePack1)) {
+            $localeDeletePack1 = new Locale();
+            $localeDeletePack1->setName('LocaleDeletePack1');
+            $localeDeletePack1->setLocale('mk_MK');
+            $localeDeletePack1->setEnabled(true);
+            $localeDeletePack1->setOrientation(Locale::ORIENT_LFT_TO_RGT);
+            $localeDeletePack1->setEncoding(self::TEST_LOC_ENCOD);
+            $manager->persist($localeDeletePack1);
+        }
+
+        $localeDeletePack2 = $manager->getRepository('AraneumMainBundle:Locale')->findOneByName('LocaleDeletePack2');
+        if (empty($localeDeletePack2)) {
+            $localeDeletePack2 = new Locale();
+            $localeDeletePack2->setName('LocaleDeletePack2');
+            $localeDeletePack2->setLocale('es_EU');
+            $localeDeletePack2->setEnabled(true);
+            $localeDeletePack2->setOrientation(Locale::ORIENT_LFT_TO_RGT);
+            $localeDeletePack2->setEncoding(self::TEST_LOC_ENCOD);
+            $manager->persist($localeDeletePack2);
+        }
+        $localeDeletePack3 = $manager->getRepository('AraneumMainBundle:Locale')->findOneByName('LocaleDeletePack3');
+        if (empty($localeDeletePack3)) {
+            $localeDeletePack3 = new Locale();
+            $localeDeletePack3->setName('LocaleDeletePack3');
+            $localeDeletePack3->setLocale('fr_FR');
+            $localeDeletePack3->setEnabled(true);
+            $localeDeletePack3->setOrientation(Locale::ORIENT_LFT_TO_RGT);
+            $localeDeletePack3->setEncoding(self::TEST_LOC_ENCOD);
+            $manager->persist($localeDeletePack3);
+        }
+
+
         $manager->flush();
     }
 }

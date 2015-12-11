@@ -12,48 +12,22 @@ use Symfony\Component\Routing\Annotation\Route;
 use Araneum\Base\Controller\AdminBaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Finder\Expression\Regex;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\All;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations as Rest;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class AdminLocaleController extends AdminBaseController
 {
     /**
      * Get locale by id
      *
-     * @ApiDoc(
-     *   resource = "Locale",
-     *   section = "MainBundle",
-     *   description = "Gets a locale",
-     *   output = "Araneum\Bundle\MainBundle\Entity\Locale",
-     *   statusCodes = {
-     *      200 = "Returned when successful",
-     *      403 = "Returned when authorization is failed",
-     *      404 = "Returned when Locale not found"
-     *   },
-     *   requirements = {
-     *      {
-     *          "name" = "_format",
-     *          "dataType" = "json",
-     *          "description" = "Output format must be json"
-     *      }
-     *   },
-     *   parameters={
-     *      {"name"="id", "dataType"="string", "required"=true}
-     *   },
-     *   tags={"ApplicationApi"}
-     * )
-     *
-     * @Rest\Get(
-     *      "/manage/admin/locale/{id}",
+     * @Route(
+     *      "/manage/locales/locale/{id}",
      *      name="araneum_admin_main_locale_get",
-     *      defaults={"_format"="json", "_locale"="en"}
+     *     requirements={"id" = "\d+"}
      * )
-     *
-     * @Rest\View()
+     * @Method("GET")
      * @param $id
      * @return JsonResponse
      */
@@ -89,7 +63,31 @@ class AdminLocaleController extends AdminBaseController
     /**
      * Save locale
      *
-     * @Route("/manage/admin/locale/save", name="araneum_admin_main_locale_post")
+     * @ApiDoc(
+     *  resource = "Locale",
+     *  section = "MainBundle",
+     *  description = "Save locale",
+     *  requirements={
+     *      {"name"="_format", "dataType"="json", "description"="Output format must be json"}
+     *  },
+     *  parameters={
+     *      {"name"="id", "dataType"="int", "required"=true, "description"="Id"},
+     *      {"name"="name", "dataType"="string", "required"=true, "description"="Name"},
+     *      {"name"="locale", "dataType"="string", "required"=true, "description"="Locale parameter example en_US"},
+     *      {"name"="enabled", "dataType"="boolean", "required"=true, "description"="Enabled or disabled parameter"},
+     *      {"name"="orientation", "dataType"="string", "required"=true, "description"="Left to right or right to left"},
+     *      {"name"="encoding", "dataType"="string", "required"=true, "description"="Encoding example UTF-8"}
+     *  },
+     *  statusCodes = {
+     *      202 = "Returned when reset customer password was successful",
+     *      400 = "Returned when validation failed",
+     *      403 = "Returned when authorization is failed",
+     *      404 = "Returned when Application or Customer not found by defined condition"
+     *  },
+     *  tags={"Agent"}
+     * )
+     *
+     * @Route("/manage/locales/locale/save", defaults={"_format"="json"})
      * @Method("POST")
      *
      * @param Request $request
@@ -141,60 +139,51 @@ class AdminLocaleController extends AdminBaseController
     }
 
     /**
-     * Create locale Entity
-     * @param Request $request
-     * @return Response
-     * @Route("/manage/admin/locale/create", condition="request.request.get('data') matches '/create/'"
-     *     ,name="araneum_main_admin_locale_create")
-     */
-    public function createAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $data = json_decode($request->request->get('data'));
-
-        $locale = new Locale();
-
-        $locale->setName($data['name'])
-            ->setEncoding($data['encoding'])
-            ->setLocale($data['locale'])
-            ->setOrientation($data['orientation'])
-            ->setEnabled(true);
-
-        $em->persist($locale);
-        $em->flush();
-
-        return new JsonResponse('success');
-    }
-
-
-    /**
      * Delete locales one or many
      *
+     * @ApiDoc(
+     *  resource = "Locale",
+     *  section = "MainBundle",
+     *  description = "Delete locales",
+     *  requirements={
+     *      {"name"="_format", "dataType"="json", "description"="Output format must be json"}
+     *  },
+     *  parameters={
+     *      {"name"="data", "dataType"="collection", "required"=true, "description"="array[id]"},
+     *  },
+     *  statusCodes = {
+     *      202 = "Returned when reset customer password was successful",
+     *      400 = "Returned when validation failed",
+     *      403 = "Returned when authorization is failed",
+     *      404 = "Returned when Application or Customer not found by defined condition"
+     *  },
+     *  tags={"Agent"}
+     * )
+     *
+     * @Route("/manage/locales/locale/delete", defaults={"_format"="json"})
      * @param Request $request
-     * @return Response
-     * @Route("/manage/admin/locale/delete", condition="request.request.get('data') matches '/delete/'"
-     *     ,name="araneum_main_admin_locale_delete")
+     * @return JsonResponse
      */
     public function deleteAction(Request $request)
     {
-        $idx = $this->getIdxElements(json_decode($request->request->get('data')), 'araneum.main.admin.locale');
+        $idx = $request->request->get('data');
         $localeRepository = $this->getDoctrine()->getRepository('AraneumMainBundle:Locale');
 
         if (is_array($idx) && count($idx) > 0) {
             $localeRepository->delete($idx);
         }
 
-        return new JsonResponse('success');
+        return new JsonResponse('Success');
     }
 
     /**
      * Enable locales one or many
      *
+     * @Route("/manage/locales/locale/enable", name="araneum_main_admin_locale_enable")
+     *
+     * @Method("POST")
      * @param Request $request
      * @return Response
-     * @Route("/manage/admin/locale/enable", condition="request.request.get('data') matches '/enable/'"
-     *     ,name="araneum_main_admin_locale_enable")
      */
     public function enableAction(Request $request)
     {
@@ -207,8 +196,7 @@ class AdminLocaleController extends AdminBaseController
      *
      * @param Request $request
      * @return Response
-     * @Route("/manage/admin/locale/disable", condition="request.request.get('data') matches '/disable/'"
-     *     ,name="araneum_main_admin_locale_disable")
+     * @Route("/manage/locales/locale/disable",name="araneum_main_admin_locale_disable")
      */
     public function disableAction(Request $request)
     {
@@ -225,12 +213,12 @@ class AdminLocaleController extends AdminBaseController
      */
     private function updateLocaleEnableDisableAction(Request $request, $state)
     {
-        $idx = $this->getIdxElements(json_decode($request->request->get('data')), 'araneum.main.admin.locale');
+        $idx = $request->request->get('data');
 
         $localeRepository = $this->getDoctrine()->getRepository('AraneumMainBundle:Locale');
 
         if (!is_array($idx)) {
-            return new JsonResponse('data must be an array');
+            return new JsonResponse('Data must be an array');
         }
 
         $errors = $this->get('validator')->validate($idx, new All([new Regex('/^\d+$/')]));
@@ -240,7 +228,7 @@ class AdminLocaleController extends AdminBaseController
 
         $localeRepository->updateEnabled($idx, $state);
 
-        return new JsonResponse('success');
+        return new JsonResponse('Success');
     }
 
     /**

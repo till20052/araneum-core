@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LocaleRestAdminTest extends BaseController
 {
-
     /**
      * Test GetLocaleJson default
      *
@@ -18,15 +17,13 @@ class LocaleRestAdminTest extends BaseController
         $client = self::createAdminAuthorizedClient('admin');
         $client->request(
             'GET',
-            '/manage/admin/locale',
+            '/manage/locales/locale/0',
             [],
             [],
             ['HTTP_X-Requested-With' => 'XMLHttpRequest']
         );
 
         $response = $client->getResponse();
-        /*var_dump($response);
-        die();*/
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
     }
@@ -46,7 +43,7 @@ class LocaleRestAdminTest extends BaseController
             ->findOneByName('TestLocaleName');
         $client->request(
             'GET',
-            '/manage/admin/locale/' . $locale->getId(),
+            '/manage/locales/locale/' . $locale->getId(),
             [],
             [],
             ['HTTP_X-Requested-With' => 'XMLHttpRequest']
@@ -85,7 +82,7 @@ class LocaleRestAdminTest extends BaseController
         ];
         $client->request(
             'POST',
-            '/manage/admin/locale/save',
+            '/manage/locales/locale/save',
             $localeData,
             [],
             ['HTTP_X-Requested-With' => 'XMLHttpRequest']
@@ -121,7 +118,7 @@ class LocaleRestAdminTest extends BaseController
         ];
         $client->request(
             'POST',
-            '/manage/admin/locale/save',
+            '/manage/locales/locale/save',
             $localeData,
             [],
             ['HTTP_X-Requested-With' => 'XMLHttpRequest']
@@ -153,7 +150,7 @@ class LocaleRestAdminTest extends BaseController
     ERROR: This value should not be blank.';
         $client->request(
             'POST',
-            '/manage/admin/locale',
+            '/manage/locales/locale/save',
             $localeData,
             [],
             ['HTTP_X-Requested-With' => 'XMLHttpRequest']
@@ -164,6 +161,87 @@ class LocaleRestAdminTest extends BaseController
 
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
         $this->assertEquals($expectedErrorMessage, trim($decoded['message']));
+    }
 
+    /**
+     * test disabled packdata
+     * @runInSeparateProcess
+     */
+    public function testDisabledPack(){
+        $client = self::createAdminAuthorizedClient('admin');
+
+        $em = $client
+            ->getContainer()
+            ->get('doctrine.orm.default_entity_manager');
+
+        $qb = $em->createQueryBuilder();
+
+        $result = $qb->addSelect('l.id')
+            ->add('from', 'Araneum\Bundle\MainBundle\Entity\Locale l')
+            ->add('where', 'l.name LIKE :like')
+            ->setParameter('like', '%Pack%')
+            ->getQuery()
+            ->getResult();
+
+        $arrIdx=[];
+        $arrIdx['data']=[];
+
+        foreach($result as $res){
+            array_push($arrIdx['data'], $res['id']);
+        }
+
+        $client->request(
+            'POST',
+            '/manage/locales/locale/disable',
+            $arrIdx,
+            [],
+            ['HTTP_X-Requested-With' => 'XMLHttpRequest']
+        );
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals('"Success"', $response->getContent());
+    }
+
+    /**
+     * test delete packdata
+     * @runInSeparateProcess
+     */
+    public function testDeletePack(){
+        $client = self::createAdminAuthorizedClient('admin');
+
+        $em = $client
+            ->getContainer()
+            ->get('doctrine.orm.default_entity_manager');
+
+        $qb = $em->createQueryBuilder();
+
+        $result = $qb->addSelect('l.id')
+            ->add('from', 'Araneum\Bundle\MainBundle\Entity\Locale l')
+            ->add('where', 'l.name LIKE :like')
+            ->setParameter('like', '%DeletePack%')
+            ->getQuery()
+            ->getResult();
+
+        $arrIdx=[];
+        $arrIdx['data']=[];
+
+        foreach($result as $res){
+            array_push($arrIdx['data'], $res['id']);
+        }
+
+        $client->request(
+            'POST',
+            '/manage/locales/locale/delete',
+            $arrIdx,
+            [],
+            ['HTTP_X-Requested-With' => 'XMLHttpRequest']
+        );
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals('"Success"', $response->getContent());
     }
 }

@@ -43,7 +43,6 @@ class LocaleRepository extends EntityRepository implements \Countable
             ->execute();
     }
 
-
     /**
      * Return Locale Query Builder without any conditions
      *
