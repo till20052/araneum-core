@@ -11,6 +11,7 @@ class LocaleRepository extends EntityRepository implements \Countable
 {
     /**
      * Delete entities
+     *
      * @param array $idx
      */
     public function delete(array $idx)
@@ -28,7 +29,7 @@ class LocaleRepository extends EntityRepository implements \Countable
      * Update enable/disable field
      *
      * @param array $idx
-     * @param $state
+     * @param mixed $state
      */
     public function updateEnabled(array $idx, $state)
     {
@@ -55,7 +56,8 @@ class LocaleRepository extends EntityRepository implements \Countable
 
     /**
      * Count elements of an object
-     * @link http://php.net/manual/en/countable.count.php
+     *
+     * @link  http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
      * </p>
      * <p>
@@ -64,9 +66,9 @@ class LocaleRepository extends EntityRepository implements \Countable
      */
     public function count()
     {
-        return (int)$this->createQueryBuilder('l')
-            ->select('COUNT(l.id) as cnt')
-            ->getQuery()
-            ->getOneOrNullResult()['cnt'];
+        return (int) $this->createQueryBuilder('l')
+                         ->select('COUNT(l.id) as cnt')
+                         ->getQuery()
+                         ->getOneOrNullResult()['cnt'];
     }
 }

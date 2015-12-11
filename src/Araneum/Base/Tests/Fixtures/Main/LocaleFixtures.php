@@ -112,7 +112,6 @@ class LocaleFixtures extends AbstractFixture implements FixtureInterface
             $manager->persist($localePack3);
         }
 
-
         $localeDeletePack1 = $manager->getRepository('AraneumMainBundle:Locale')->findOneByName('LocaleDeletePack1');
         if (empty($localeDeletePack1)) {
             $localeDeletePack1 = new Locale();
@@ -144,7 +143,6 @@ class LocaleFixtures extends AbstractFixture implements FixtureInterface
             $localeDeletePack3->setEncoding(self::TEST_LOC_ENCOD);
             $manager->persist($localeDeletePack3);
         }
-
 
         $manager->flush();
     }

@@ -7,13 +7,18 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Araneum\Bundle\MainBundle\Entity\Locale;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class LocaleType
+ *
+ * @package Araneum\Bundle\MainBundle\Form\Type
+ */
 class LocaleType extends AbstractType
 {
     /**
      * @inheritdoc
      *
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -22,7 +27,7 @@ class LocaleType extends AbstractType
                 'id',
                 'hidden',
                 [
-                    'mapped' => false
+                    'mapped' => false,
                 ]
             )
             ->add(
@@ -31,7 +36,7 @@ class LocaleType extends AbstractType
                 [
                     'label' => 'Name',
                     'attr' => [
-                        'placeholder' => 'Enter locale name'
+                        'placeholder' => 'Enter locale name',
                     ],
                 ]
             )
@@ -41,7 +46,7 @@ class LocaleType extends AbstractType
                 [
                     'label' => 'Locale',
                     'attr' => [
-                        'placeholder' => 'Enter locale'
+                        'placeholder' => 'Enter locale',
                     ],
                 ]
             )
@@ -69,7 +74,7 @@ class LocaleType extends AbstractType
                 [
                     'label' => 'Encoding',
                     'attr' => [
-                        'placeholder' => 'Enter encoding'
+                        'placeholder' => 'Enter encoding',
                     ],
                 ]
             );
@@ -82,10 +87,12 @@ class LocaleType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'Araneum\Bundle\MainBundle\Entity\Locale',
-            'csrf_protection' => false
-        ));
+        $resolver->setDefaults(
+            [
+                'data_class' => 'Araneum\Bundle\MainBundle\Entity\Locale',
+                'csrf_protection' => false,
+            ]
+        );
     }
 
     /**
@@ -97,5 +104,4 @@ class LocaleType extends AbstractType
     {
         return 'araneum_mainbundle_locale';
     }
-
 }

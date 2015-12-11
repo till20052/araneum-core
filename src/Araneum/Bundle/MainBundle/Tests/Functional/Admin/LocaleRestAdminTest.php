@@ -5,6 +5,10 @@ namespace Functional\Admin;
 use Araneum\Base\Tests\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class LocaleRestAdminTest
+ *
+ */
 class LocaleRestAdminTest extends BaseController
 {
     /**
@@ -43,7 +47,7 @@ class LocaleRestAdminTest extends BaseController
             ->findOneByName('TestLocaleName');
         $client->request(
             'GET',
-            '/manage/locales/locale/' . $locale->getId(),
+            '/manage/locales/locale/'.$locale->getId(),
             [],
             [],
             ['HTTP_X-Requested-With' => 'XMLHttpRequest']
@@ -78,7 +82,7 @@ class LocaleRestAdminTest extends BaseController
             'locale' => 'am',
             'enabled' => true,
             'orientation' => 1,
-            'encoding' => 'UTF-8'
+            'encoding' => 'UTF-8',
         ];
         $client->request(
             'POST',
@@ -114,7 +118,7 @@ class LocaleRestAdminTest extends BaseController
             'locale' => 'or',
             'enabled' => true,
             'orientation' => 1,
-            'encoding' => 'UTF-16'
+            'encoding' => 'UTF-16',
         ];
         $client->request(
             'POST',
@@ -144,7 +148,7 @@ class LocaleRestAdminTest extends BaseController
             'locale' => '',
             'enabled' => 1,
             'orientation' => 1,
-            'encoding' => 'UTF-8'
+            'encoding' => 'UTF-8',
         ];
         $expectedErrorMessage = 'locale:
     ERROR: This value should not be blank.';
@@ -165,9 +169,11 @@ class LocaleRestAdminTest extends BaseController
 
     /**
      * test disabled packdata
+     *
      * @runInSeparateProcess
      */
-    public function testDisabledPack(){
+    public function testDisabledPack()
+    {
         $client = self::createAdminAuthorizedClient('admin');
 
         $em = $client
@@ -183,10 +189,10 @@ class LocaleRestAdminTest extends BaseController
             ->getQuery()
             ->getResult();
 
-        $arrIdx=[];
-        $arrIdx['data']=[];
+        $arrIdx = [];
+        $arrIdx['data'] = [];
 
-        foreach($result as $res){
+        foreach ($result as $res) {
             array_push($arrIdx['data'], $res['id']);
         }
 
@@ -206,9 +212,11 @@ class LocaleRestAdminTest extends BaseController
 
     /**
      * test delete packdata
+     *
      * @runInSeparateProcess
      */
-    public function testDeletePack(){
+    public function testDeletePack()
+    {
         $client = self::createAdminAuthorizedClient('admin');
 
         $em = $client
@@ -224,13 +232,12 @@ class LocaleRestAdminTest extends BaseController
             ->getQuery()
             ->getResult();
 
-        $arrIdx=[];
-        $arrIdx['data']=[];
+        $arrIdx = [];
+        $arrIdx['data'] = [];
 
-        foreach($result as $res){
+        foreach ($result as $res) {
             array_push($arrIdx['data'], $res['id']);
         }
-
         $client->request(
             'POST',
             '/manage/locales/locale/delete',

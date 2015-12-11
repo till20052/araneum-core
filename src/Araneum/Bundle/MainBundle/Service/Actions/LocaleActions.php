@@ -28,12 +28,12 @@ class LocaleActions extends AbstractActions
                     'title' => 'Are you sure?',
                     'yes' => [
                         'class' => 'confirm',
-                        'title' => 'Yes, delete it!'
+                        'title' => 'Yes, delete it!',
                     ],
                     'no' => [
                         'class' => 'cancel',
-                        'title' => 'Cancel'
-                    ]
+                        'title' => 'Cancel',
+                    ],
                 ],
                 'display' => [
                     'btnClass' => 'btn-danger',
@@ -52,12 +52,12 @@ class LocaleActions extends AbstractActions
                         'title' => 'Are you sure?',
                         'yes' => [
                             'class' => 'confirm',
-                            'title' => 'Yes, delete it!'
+                            'title' => 'Yes, delete it!',
                         ],
                         'no' => [
                             'class' => 'cancel',
-                            'title' => 'Cancel'
-                        ]
+                            'title' => 'Cancel',
+                        ],
                     ],
                     'display' => [
                         'btnClass' => 'btn-danger',
@@ -76,12 +76,12 @@ class LocaleActions extends AbstractActions
                         'title' => 'Are you sure?',
                         'yes' => [
                             'class' => 'confirm',
-                            'title' => 'Yes, delete it!'
+                            'title' => 'Yes, delete it!',
                         ],
                         'no' => [
                             'class' => 'cancel',
-                            'title' => 'Cancel'
-                        ]
+                            'title' => 'Cancel',
+                        ],
                     ],
                     'display' => [
                         'btnClass' => 'btn-danger',
@@ -100,12 +100,12 @@ class LocaleActions extends AbstractActions
                         'title' => 'Are you sure?',
                         'yes' => [
                             'class' => 'confirm',
-                            'title' => 'Yes, delete it!'
+                            'title' => 'Yes, delete it!',
                         ],
                         'no' => [
                             'class' => 'cancel',
-                            'title' => 'Cancel'
-                        ]
+                            'title' => 'Cancel',
+                        ],
                     ],
                     'display' => [
                         'btnClass' => 'icon-lock-open',
@@ -141,19 +141,18 @@ class LocaleActions extends AbstractActions
                     'position' => ActionBuilderInterface::POSITION_ROW,
                 ]
             )
-        ->add(
-            'Create',
-            [
-                'resourse'  => 'araneum_main_admin_locale_create',
-                'callback'  => 'create',
-                'display'   =>[
-                    'btnClass' => 'btn-success',
-                    'icon' => 'fa-plus',
-                    'label' => 'Create',
-                ],
-                'position' => ActionBuilderInterface::POSITION_TOP,
-            ]
-        );
-
+            ->add(
+                'Create',
+                [
+                    'resourse' => 'araneum_main_admin_locale_create',
+                    'callback' => 'create',
+                    'display' => [
+                        'btnClass' => 'btn-success',
+                        'icon' => 'fa-plus',
+                        'label' => 'Create',
+                    ],
+                    'position' => ActionBuilderInterface::POSITION_TOP,
+                ]
+            );
     }
 }

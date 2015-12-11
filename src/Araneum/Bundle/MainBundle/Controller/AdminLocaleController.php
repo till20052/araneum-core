@@ -2,7 +2,6 @@
 
 namespace Araneum\Bundle\MainBundle\Controller;
 
-
 use Araneum\Bundle\MainBundle\Entity\Locale;
 use Araneum\Bundle\MainBundle\Service\Actions\LocaleActions;
 use Araneum\Bundle\MainBundle\Service\DataTable\LocaleDataTableList;
@@ -33,7 +32,7 @@ class AdminLocaleController extends AdminBaseController
      *     requirements={"id" = "\d+"}
      * )
      * @Method("GET")
-     * @param $id
+     * @param int $id
      * @return JsonResponse
      */
     public function getLocaleJsonAction($id)
@@ -80,7 +79,8 @@ class AdminLocaleController extends AdminBaseController
      *      {"name"="name", "dataType"="string", "required"=true, "description"="Name"},
      *      {"name"="locale", "dataType"="string", "required"=true, "description"="Locale parameter example en_US"},
      *      {"name"="enabled", "dataType"="boolean", "required"=true, "description"="Enabled or disabled parameter"},
-     *      {"name"="orientation", "dataType"="string", "required"=true, "description"="Left to right or right to left"},
+     *      {"name"="orientation", "dataType"="string", "required"=true, "description"="Left to right or right to
+     *     left"},
      *      {"name"="encoding", "dataType"="string", "required"=true, "description"="Encoding example UTF-8"}
      *  },
      *  statusCodes = {
@@ -123,14 +123,14 @@ class AdminLocaleController extends AdminBaseController
                 return new JsonResponse(
                     [
                         'message' => 'Locale has been saved',
-                        'id' => $locale->getId()
+                        'id' => $locale->getId(),
                     ],
                     $code
                 );
             } else {
 
                 return new JsonResponse(
-                    ['message' => (string)$form->getErrors(true, false)],
+                    ['message' => (string) $form->getErrors(true, false)],
                     JsonResponse::HTTP_BAD_REQUEST
                 );
             }
@@ -210,33 +210,6 @@ class AdminLocaleController extends AdminBaseController
     }
 
     /**
-     * Update locale state
-     *
-     * @param Request $request
-     * @param bool $state
-     * @return JsonResponse
-     */
-    private function updateLocaleEnableDisableAction(Request $request, $state)
-    {
-        $idx = $request->request->get('data');
-
-        $localeRepository = $this->getDoctrine()->getRepository('AraneumMainBundle:Locale');
-
-        if (!is_array($idx)) {
-            return new JsonResponse('Data must be an array');
-        }
-
-        $errors = $this->get('validator')->validate($idx, new All([new Regex('/^\d+$/')]));
-        if (count($errors) > 0) {
-            return new JsonResponse((string)$errors);
-        }
-
-        $localeRepository->updateEnabled($idx, $state);
-
-        return new JsonResponse('Success');
-    }
-
-    /**
      * Locales module initialization
      *
      * @Route("/manage/locales/init.json", name="araneum_manage_locales_init")
@@ -275,5 +248,32 @@ class AdminLocaleController extends AdminBaseController
             ->get('araneum_datatable.factory')
             ->create(new LocaleDataTableList($this->container))
             ->execute();
+    }
+
+    /**
+     * Update locale state
+     *
+     * @param Request $request
+     * @param bool    $state
+     * @return JsonResponse
+     */
+    private function updateLocaleEnableDisableAction(Request $request, $state)
+    {
+        $idx = $request->request->get('data');
+
+        $localeRepository = $this->getDoctrine()->getRepository('AraneumMainBundle:Locale');
+
+        if (!is_array($idx)) {
+            return new JsonResponse('Data must be an array');
+        }
+
+        $errors = $this->get('validator')->validate($idx, new All([new Regex('/^\d+$/')]));
+        if (count($errors) > 0) {
+            return new JsonResponse((string) $errors);
+        }
+
+        $localeRepository->updateEnabled($idx, $state);
+
+        return new JsonResponse('Success');
     }
 }
