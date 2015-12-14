@@ -84,34 +84,9 @@ class MailAdmin extends Admin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
+        $this->setFieldsMapper($listMapper);
         $listMapper
             ->addIdentifier('id', null, ['label' => 'id'])
-            ->add('application', null, ['label' => 'application'])
-            ->add('sender', null, ['label' => 'from'])
-            ->add('target', null, ['label' => 'to'])
-            ->add('headline', null, ['label' => 'headline'])
-            ->add(
-                'status',
-                'choice',
-                [
-                    'choices' => [
-                        Mail::STATUS_NEW => $this->trans('new'),
-                        Mail::STATUS_PENDING => $this->trans('pending'),
-                        Mail::STATUS_SENT => $this->trans('sent'),
-                        Mail::STATUS_READ => $this->trans('read'),
-                    ],
-                    'label' => 'status',
-                ]
-            )
-            ->add('sentAt', null, ['label' => 'sent_at'])
-            ->add(
-                'createdAt',
-                null,
-                [
-                    'format' => 'm/d/Y',
-                    'label' => 'created_at',
-                ]
-            )
             ->add(
                 '_action',
                 'actions',
@@ -131,8 +106,30 @@ class MailAdmin extends Admin
      */
     protected function configureShowFields(ShowMapper $formMapper)
     {
+        $this->setFieldsMapper($formMapper);
+
         $formMapper
-            ->add('id')
+            ->add('textBody', null, ['label' => 'text_body'])
+            ->add('htmlBody', 'html', ['label' => 'html_body'])
+            ->add('attachment', 'link', ['label' => 'attachment'])
+            ->add(
+                'updatedAt',
+                null,
+                [
+                    'format' => 'm/d/Y',
+                    'label' => 'updated_at',
+                ]
+            );
+    }
+
+    /**
+     *  Set same fields for show and list mappers
+     *
+     * @param $mapper
+     */
+    protected function setFieldsMapper($mapper)
+    {
+        $mapper
             ->add('application', null, ['label' => 'application'])
             ->add('sender', null, ['label' => 'from'])
             ->add('target', null, ['label' => 'to'])
@@ -150,25 +147,7 @@ class MailAdmin extends Admin
                     'label' => 'status',
                 ]
             )
-            ->add(
-                'sentAt',
-                null,
-                [
-                    'format' => 'm/d/Y',
-                    'label' => 'status',
-                ]
-            )
-            ->add('textBody', null, ['label' => 'text_body'])
-            ->add('htmlBody', 'html', ['label' => 'html_body'])
-            ->add('attachment', 'link', ['label' => 'attachment'])
-            ->add(
-                'updatedAt',
-                null,
-                [
-                    'format' => 'm/d/Y',
-                    'label' => 'updated_at',
-                ]
-            )
+            ->add('sentAt', null, ['label' => 'sent_at'])
             ->add(
                 'createdAt',
                 null,
