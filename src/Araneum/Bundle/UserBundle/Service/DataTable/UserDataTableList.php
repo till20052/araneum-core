@@ -7,7 +7,14 @@ use Araneum\Base\Ali\DatatableBundle\Builder\ListBuilderInterface;
 use Araneum\Bundle\MainBundle\Entity\Locale;
 use Araneum\Bundle\MainBundle\Repository\LocaleRepository;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\ORM\EntityManager;
 
+/**
+ * Class UserDataTableList
+ *
+ * @package Araneum\Bundle\UserBundle\Service\DataTable
+ */
 class UserDataTableList extends AbstractList
 {
     /**
@@ -27,7 +34,7 @@ class UserDataTableList extends AbstractList
     /**
      * UserDatatableList constructor.
      *
-     * @param $container
+     * @param ContainerInterface $container
      */
     public function __construct($container)
     {
@@ -55,14 +62,14 @@ class UserDataTableList extends AbstractList
                     'search_type' => 'datetime',
                     'render' => function ($value) {
                         return $value instanceof \DateTime ? $value->format('Y-m-d') : '';
-                    }
+                    },
                 ]
             )
             ->add(
                 'createdAt',
                 [
                     'label' => 'Register',
-                    'search_type' => 'datetime'
+                    'search_type' => 'datetime',
                 ]
             )
             ->setOrderBy('createdAt', 'desc')
@@ -82,13 +89,12 @@ class UserDataTableList extends AbstractList
     /**
      * Create query builder
      *
-     * @param $doctrine
+     * @param EntityManager $em
      * @return \Ali\DatatableBundle\Util\Factory\Query\QueryInterface
      */
-    public function createQueryBuilder($doctrine)
+    public function createQueryBuilder($em)
     {
-        /** @var UserRepository $repository */
-        $repository = $doctrine->getRepository($this->getEntityClass());
+        $repository = $em->getRepository($this->getEntityClass());
         if (empty($this->queryBuilder)) {
             $this->queryBuilder = $repository->getQueryBuilder();
 

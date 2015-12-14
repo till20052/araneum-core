@@ -131,49 +131,48 @@ class AdminUserController extends Controller
             return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         }
 
-		return (new JsonResponse())
-				->setStatusCode(Response::HTTP_ACCEPTED);
-	}
+        return (new JsonResponse())
+            ->setStatusCode(Response::HTTP_ACCEPTED);
+    }
 
+    /**
+     * Locales module initialization
+     *
+     * @Route("/manage/users/init.json", name="araneum_manage_users_init")
+     * @return JsonResponse
+     */
+    public function initAction()
+    {
+        $initializer = $this->get('araneum.admin.initializer.service');
+        $filter = $this->get('araneum_user.user.filter.form');
+        $code = JsonResponse::HTTP_OK;
 
-	/**
-	 * Locales module initialization
-	 *
-	 * @Route("/manage/users/init.json", name="araneum_manage_users_init")
-	 * @return JsonResponse
-	 */
-	public function initAction()
-	{
-		$initializer = $this->get('araneum.admin.initializer.service');
-		$filter = $this->get('araneum_user.user.filter.form');
-		$code = JsonResponse::HTTP_OK;
+        try {
+            $initializer->setFilters($filter);
+            $initializer->setGrid(
+                new UserDataTableList($this->container),
+                $this->generateUrl('araneum_manage_users_grid')
+            );
+            $initializer->setActions(new UserActions());
+        } catch (\Exception $exception) {
+            $code = JsonResponse::HTTP_INTERNAL_SERVER_ERROR;
+            $initializer->setError($exception);
+        }
 
-		try {
-			$initializer->setFilters($filter);
-			$initializer->setGrid(
-					new UserDataTableList($this->container),
-					$this->generateUrl('araneum_manage_users_grid')
-			);
-			$initializer->setActions(new UserActions());
-		} catch (\Exception $exception) {
-			$code = JsonResponse::HTTP_INTERNAL_SERVER_ERROR;
-			$initializer->setError($exception);
-		}
+        return new JsonResponse($initializer->get(), $code);
+    }
 
-		return new JsonResponse($initializer->get(), $code);
-	}
-
-	/**
-	 * Server/client datatable communication
-	 *
-	 * @Route("/manage/users/datatable.json", name="araneum_manage_users_grid")
-	 * @return JsonResponse
-	 */
-	public function datatableAction()
-	{
-		return $this
-				->get('araneum_datatable.factory')
-				->create(new UserDataTableList($this->container))
-				->execute();
-	}
+    /**
+     * Server/client datatable communication
+     *
+     * @Route("/manage/users/datatable.json", name="araneum_manage_users_grid")
+     * @return JsonResponse
+     */
+    public function datatableAction()
+    {
+        return $this
+            ->get('araneum_datatable.factory')
+            ->create(new UserDataTableList($this->container))
+            ->execute();
+    }
 }

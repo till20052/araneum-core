@@ -34,11 +34,11 @@ class User extends BaseUser
     ];
 
     /**
-     * @var array
+     * @var array $enable
      */
-    static $enable = [
+    public static $enable = [
         true => 'Enabled',
-        false => 'Disabled'
+        false => 'Disabled',
     ];
 
     /**

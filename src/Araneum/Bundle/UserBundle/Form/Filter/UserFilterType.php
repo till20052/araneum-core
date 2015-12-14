@@ -6,6 +6,8 @@ use Araneum\Bundle\UserBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class UserFilterType
@@ -31,8 +33,8 @@ class UserFilterType extends AbstractType
     /**
      * Constructor
      *
-     * @param $doctrine
-     * @param $container
+     * @param EntityManager      $doctrine
+     * @param ContainerInterface $container
      */
     public function __construct($doctrine, $container)
     {
@@ -59,53 +61,53 @@ class UserFilterType extends AbstractType
                 ],
             ]
         )
-        ->add(
-            'fullName',
-            'filter_text',
-            [
-                'label' => 'Full name',
-                'attr' => [
-                    'placeholder' => 'user.ENTER_FULLNAME',
-                    'translateLabel' => 'user.FULLNAME',
+            ->add(
+                'fullName',
+                'filter_text',
+                [
+                    'label' => 'Full name',
+                    'attr' => [
+                        'placeholder' => 'user.ENTER_FULLNAME',
+                        'translateLabel' => 'user.FULLNAME',
 
-                ],
-            ]
-        )
-        ->add(
-            'enabled',
-            'filter_choice',
-            [
-                'label' => 'Enabled',
-                'choices' => User::$enable,
-                'empty_value' => 'admin.general.SELECT',
-                'attr' => [
-                    'translateLabel' => 'admin.general.ENABLED',
-                ],
-            ]
-        )
-        ->add(
-            'lastLogin',
-            'filter_text',
-            [
-                'label' => 'Last login',
-                'attr' => [
-                    'placeholder' => 'Enter date',
-                    'translateLabel' => 'user.LAST_LOGIN',
-                ],
-            ]
-        )
-        ->add(
-            'roles',
-            'filter_choice',
-            [
-                'label' => 'Role',
-                'choices' => User::$roleNames,
-                'empty_value' => 'admin.general.SELECT',
-                'attr' => [
-                    'translateLabel' => 'user.ROLE',
-                ],
-            ]
-        );
+                    ],
+                ]
+            )
+            ->add(
+                'enabled',
+                'filter_choice',
+                [
+                    'label' => 'Enabled',
+                    'choices' => User::$enable,
+                    'empty_value' => 'admin.general.SELECT',
+                    'attr' => [
+                        'translateLabel' => 'admin.general.ENABLED',
+                    ],
+                ]
+            )
+            ->add(
+                'lastLogin',
+                'filter_text',
+                [
+                    'label' => 'Last login',
+                    'attr' => [
+                        'placeholder' => 'Enter date',
+                        'translateLabel' => 'user.LAST_LOGIN',
+                    ],
+                ]
+            )
+            ->add(
+                'roles',
+                'filter_choice',
+                [
+                    'label' => 'Role',
+                    'choices' => User::$roleNames,
+                    'empty_value' => 'admin.general.SELECT',
+                    'attr' => [
+                        'translateLabel' => 'user.ROLE',
+                    ],
+                ]
+            );
     }
 
     /**
@@ -125,7 +127,7 @@ class UserFilterType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'csrf_protection'   => false,
+                'csrf_protection' => false,
                 'validation_groups' => [
                     'filtering',
                 ],
