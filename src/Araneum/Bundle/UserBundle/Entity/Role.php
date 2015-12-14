@@ -53,8 +53,8 @@ class Role
     /**
      * Set id
      *
-     * @param $id
-     * @return $this
+     * @param integer $id
+     * @return Role
      */
     public function setId($id)
     {

@@ -8,46 +8,110 @@ use Araneum\Base\Ali\DatatableBundle\Builder\AbstractList;
 use Araneum\Base\Ali\DatatableBundle\Builder\ListBuilder;
 use Araneum\Base\Ali\DatatableBundle\Util\AraneumDatatable;
 use Araneum\Base\Ali\Helper\ArrayHelper;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
+/**
+ * Class DatatableFactory
+ *
+ * @package Araneum\Base\Ali\DatatableBundle\Util\Factory
+ */
 class DatatableFactory
 {
-    /** @var $datatable AraneumDatatable */
+    /**
+     * @var $datatable AraneumDatatable
+     */
     private $datatable;
-    /** @var  Registry */
+
+    /**
+     * @var  Registry
+     */
     private $doctrine;
+
+    /**
+     * @var
+     */
     private $templating;
-    /** @var  AnnotationReader */
+
+    /**
+     * @var  AnnotationReader
+     */
     private $annotationReader;
+
+    /**
+     * @var
+     */
     private $user;
+
+    /**
+     * @var string
+     */
     private $entityAlias = 'x';
-    private $fields      = [];
-    private $joinColumn  = [];
+
+    /**
+     * @var array
+     */
+    private $fields = [];
+
+    /**
+     * @var array
+     */
+    private $joinColumn = [];
+
+    /**
+     * @var array
+     */
     private $searchQuery = [];
+
+    /**
+     * @var array
+     */
+    private static $postgresNumericTypesRange = [
+        'smallint' => [
+            'min' => -32768,
+            'max' => 32768,
+        ],
+        'integer' => [
+            'min' => -2147483648,
+            'max' => 2147483648,
+        ],
+        'bigint' => [
+            'min' => -9223372036854775808,
+            'max' => 9223372036854775808,
+        ],
+        'decimal' => [
+            'min' => INF * -1,
+            'max' => INF,
+        ],
+        'float' => [
+            'min' => INF * -1,
+            'max' => INF,
+        ],
+    ];
 
     const DEFAULT_DATE_FORMAT = 'Y-m-d, H:i:s';
 
     /**
-     * @param $datatable
-     * @param $doctrine
-     * @param $templating
-     * @param $annotationReader
-     * @param TokenStorage $tokenStorage
+     * DatatableFactory constructor.
+     *
+     * @param object $datatable
+     * @param object $doctrine
+     * @param object $templating
+     * @param object $annotationReader
+     * @param object $securityContext
      */
-    public function __construct($datatable, $doctrine, $templating, $annotationReader, TokenStorage $tokenStorage)
+    public function __construct($datatable, $doctrine, $templating, $annotationReader, $securityContext)
     {
         $this->datatable = $datatable;
         $this->doctrine = $doctrine;
         $this->templating = $templating;
         $this->annotationReader = $annotationReader;
-        $this->user = $tokenStorage->getToken()->getUser();;
+        $this->user = $securityContext->getToken()->getUser();
     }
 
     /**
      * Create configured datatable
      *
      * @param AbstractList $list
-     * @return AraneumDatatable
+     * @return AraneumDatatable|object
      */
     public function create(AbstractList $list)
     {
@@ -57,7 +121,7 @@ class DatatableFactory
         $entity = $this->getEntityClassNameByAlias($list->getEntityClass());
         $listField = $builderList->getList();
 
-        $queryBuilder = $list->createQueryBuilder($this->doctrine, $this->user);
+        $queryBuilder = $list->createQueryBuilder($this->doctrine);
         if ($queryBuilder) {
             $this->entityAlias = $queryBuilder->getRootAlias();
         }
@@ -105,8 +169,13 @@ class DatatableFactory
         }
 
         if ($orderBy = $builderList->getOrderBy()) {
+            $order = strpos($orderBy['field'], '.') !== false
+                ? $orderBy['field']
+                : $this->getQueryFieldName(
+                    $orderBy['field']
+                );
             $this->datatable->setOrder(
-                strpos($orderBy['field'], '.') !== false ? $orderBy['field'] : $this->getQueryFieldName($orderBy['field']),
+                $order,
                 $orderBy['sort']
             );
         }
@@ -116,6 +185,142 @@ class DatatableFactory
             ->setHasAction(false);
 
         return $this->datatable;
+    }
+
+    /**
+     * Set render fields
+     *
+     * @param array  $data
+     * @param array  $listField
+     * @param object $this1
+     * @return mixed
+     */
+    public function setRenderFields(&$data, $listField, $this1)
+    {
+        foreach ($data as $key => $value) {
+            foreach ($listField as $fieldDescription) {
+                if (array_key_exists('column', $fieldDescription) && $fieldDescription['column'] === $key &&
+                    array_key_exists('render', $fieldDescription) && !empty($fieldDescription['render'])
+                ) {
+                    $data[$key] = $fieldDescription['render'](
+                        $value,
+                        $data,
+                        $this1->doctrine,
+                        $this1->templating,
+                        $this1->user
+                    );
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Get filed with alias dot separated
+     *
+     * @param string $name
+     * @param null   $alias
+     * @return string
+     */
+    public function getQueryFieldName($name, $alias = null)
+    {
+        $alias = $alias ?: $this->entityAlias;
+
+        return $alias.'.'.$name;
+    }
+
+    /**
+     * Add Search condition to QueryBuilder
+     *
+     * @param string $name
+     * @param string $description
+     * @throws \Exception
+     */
+    public function prepareSearch($name, &$description)
+    {
+        if (array_key_exists('search_type', $description) && !empty($description['search_type']) &&
+            !array_key_exists('custom_search', $description) && empty($description['custom_search'])
+        ) {
+            switch ($description['search_type']) {
+                case 'datetime':
+                    $this->searchQuery[$this->getSearchField($name, $description)] =
+                        function ($thisBuilder, $searchField, $value) {
+
+                            return $thisBuilder->searchDateIntervalDay($searchField, $value);
+                        };
+                    break;
+
+                case 'like':
+                    if ($this->isFieldNumericType($description) === true) {
+                        throw new \Exception('Not supported field for like search field'.$name);
+                    }
+                    $this->searchQuery[$this->getSearchField($name, $description)] =
+                        function ($thisBuilder, $searchField, $value) {
+
+                            return $thisBuilder->searchLike($searchField, $value);
+                        };
+                    break;
+
+                case 'like_array':
+                    if (!array_key_exists('search_array', $description) || empty($description['search_array'])) {
+                        throw new \Exception('Specify search_array field for column'.$name);
+                    }
+
+                    $this->searchQuery[$this->getSearchField($name, $description)] =
+                        function ($thisBuilder, $searchField, $value) use ($description) {
+                            $arrayKeys = ArrayHelper::searchLike($value, $description['search_array']);
+
+                            if (empty($arrayKeys)) {
+                                return false;
+                            }
+
+                            return $thisBuilder->searchIn($searchField, array_keys($arrayKeys));
+                        };
+                    break;
+
+                case 'equals':
+                    if ($this->isFieldNumericType($description) === true) {
+                        $maxNumber = self::$postgresNumericTypesRange[$description['columnType']]['max'];
+                        $minNumber = self::$postgresNumericTypesRange[$description['columnType']]['min'];
+                        $this->searchQuery[$this->getSearchField($name, $description)] =
+                            function ($thisBuilder, $searchField, $value) use ($maxNumber, $minNumber) {
+                                if (!is_numeric($value) || $value >= $maxNumber || $value <= $minNumber) {
+                                    return false;
+                                }
+
+                                return $thisBuilder->searchEquals($searchField, $value);
+                            };
+                    } else {
+
+                        $this->searchQuery[$this->getSearchField($name, $description)] =
+                            function ($thisBuilder, $searchField, $value) {
+                                return $thisBuilder->searchEquals($searchField, $value);
+                            };
+                    }
+
+                    break;
+                case 'callback':
+                    if (!array_key_exists('callback_function', $description) ||
+                        empty($description['callback_function'])
+                    ) {
+                        throw new \Exception('Specify callback_function field for column'.$name);
+                    }
+
+                    $doctrine = $this->doctrine;
+                    $this->searchQuery[$this->getSearchField($name, $description)] =
+                        function ($thisBuilder, $searchField, $value) use ($description, $doctrine) {
+                            return $description['callback_function']($thisBuilder, $searchField, $value, $doctrine);
+                        };
+
+                    break;
+                default:
+                    throw new \Exception('Unsupported search type');
+            }
+        }
+
+        if (array_key_exists('custom_search', $description) && !empty($description['custom_search'])) {
+            $this->searchQuery[$this->getQueryFieldName($name)] = $description['custom_search'];
+        }
     }
 
     /**
@@ -154,7 +359,7 @@ class DatatableFactory
         $bundle = substr($alias, $bundlePosition, strpos($alias, ':') - $bundlePosition);
         $entity = substr($alias, strpos($alias, ':') + 1);
 
-        return $vendor . '\\Bundle\\' . $bundle . '\\Entity\\' . $entity;
+        return $vendor.'\\Bundle\\'.$bundle.'\\Entity\\'.$entity;
     }
 
     /**
@@ -174,16 +379,14 @@ class DatatableFactory
                 $secondReference = substr($foreignTableColumn, 0, strpos($foreignTableColumn, '.'));
                 $foreignTableColumn = substr($foreignTableColumn, strpos($foreignTableColumn, '.') + 1);
 
-                $joinField = [
-                    'field' => $reference
-                ];
+                $joinField = ['field' => $reference];
                 if (!in_array($joinField, $this->joinColumn)) {
                     $this->joinColumn[] = $joinField;
                 }
 
                 $secondJoinField = [
                     'field' => $secondReference,
-                    'relation' => $reference
+                    'relation' => $reference,
                 ];
                 if (!in_array($secondJoinField, $this->joinColumn)) {
                     $this->joinColumn[] = $secondJoinField;
@@ -203,9 +406,7 @@ class DatatableFactory
                 $entity = $this->getMappingClass($entity, $reference);
                 $this->setDescriptionByType($entity, $foreignTableColumn, $description);
 
-                $joinField = [
-                    'field' => $reference
-                ];
+                $joinField = ['field' => $reference];
                 if (!in_array($joinField, $this->joinColumn)) {
                     $this->joinColumn[] = $joinField;
                 }
@@ -222,143 +423,11 @@ class DatatableFactory
     }
 
     /**
-     * Set render fields
+     * Guest from annotation field type(only for datatime, date)
      *
-     * @param $data
-     * @param $listField
-     * @param $this1
-     * @return mixed
-     */
-    public function setRenderFields(&$data, $listField, $this1)
-    {
-        foreach ($data as $key => $value) {
-            foreach ($listField as $fieldDescription) {
-                if (array_key_exists('column', $fieldDescription) && $fieldDescription['column'] === $key &&
-                    array_key_exists('render', $fieldDescription) && !empty($fieldDescription['render'])
-                ) {
-                    $data[$key] = $fieldDescription['render'](
-                        $value,
-                        $data,
-                        $this1->doctrine,
-                        $this1->templating,
-                        $this1->user
-                    );
-                    break;
-                }
-            }
-        }
-    }
-
-    /**
-     * Get filed with alias dot separated
-     *
-     * @param      $name
-     * @param null $alias
-     * @return string
-     */
-    public function getQueryFieldName($name, $alias = null)
-    {
-        $alias = $alias ?: $this->entityAlias;
-
-        return $alias . '.' . $name;
-    }
-
-    /**
-     * @param $description
-     * @param $name
-     * @return mixed
-     * @throws \Exception
-     */
-    public function prepareSearch($name, &$description)
-    {
-        if (array_key_exists('search_type', $description) && !empty($description['search_type']) &&
-            !array_key_exists('custom_search', $description) && empty($description['custom_search'])
-        ) {
-            switch ($description['search_type']) {
-                case 'datetime': {
-                    $this->searchQuery[$this->getSearchField($name, $description)] =
-                        function ($thisBuilder, $search_field, $value) {
-
-                            return $thisBuilder->searchDateIntervalDay($search_field, $value);
-                        };
-                    break;
-                }
-                case 'like': {
-                    if ($this->isFieldNumericType($description) === true) {
-                        throw new \Exception('Not supported field for like search field' . $name);
-                    }
-                    $this->searchQuery[$this->getSearchField($name, $description)] =
-                        function ($thisBuilder, $search_field, $value) {
-
-                            return $thisBuilder->searchLike($search_field, $value);
-                        };
-                    break;
-                }
-                case 'like_array': {
-                    if (!array_key_exists('search_array', $description) || empty($description['search_array'])) {
-                        throw new \Exception('Specify search_array field for column' . $name);
-                    }
-
-                    $this->searchQuery[$this->getSearchField($name, $description)] =
-                        function ($thisBuilder, $search_field, $value) use ($description) {
-                            $arrayKeys = ArrayHelper::searchLike($value, $description['search_array']);
-
-                            if (empty($arrayKeys)) {
-                                return false;
-                            }
-
-                            return $thisBuilder->searchIn($search_field, array_keys($arrayKeys));
-                        };
-                    break;
-                }
-                case 'equals': {
-                    if ($this->isFieldNumericType($description) === true) {
-
-                        $this->searchQuery[$this->getSearchField($name, $description)] =
-                            function ($thisBuilder, $search_field, $value) {
-                                if (!is_numeric($value)) {
-                                    return false;
-                                }
-
-                                return $thisBuilder->searchEquals($search_field, $value);
-                            };
-                    } else {
-
-                        $this->searchQuery[$this->getSearchField($name, $description)] =
-                            function ($thisBuilder, $search_field, $value) {
-                                return $thisBuilder->searchEquals($search_field, $value);
-                            };
-                    }
-                    break;
-                }
-                case 'callback': {
-                    if (!array_key_exists('callback_function', $description) ||
-                        empty($description['callback_function'])
-                    ) {
-                        throw new \Exception('Specify callback_function field for column' . $name);
-                    }
-
-                    $doctrine = $this->doctrine;
-                    $this->searchQuery[$this->getSearchField($name, $description)] =
-                        function ($thisBuilder, $search_field, $value) use ($description, $doctrine) {
-                            return $description['callback_function']($thisBuilder, $search_field, $value, $doctrine);
-                        };
-                    break;
-                }
-                default:
-                    throw new \Exception('Unsupported search type');
-            }
-        }
-
-        if (array_key_exists('custom_search', $description) && !empty($description['custom_search'])) {
-            $this->searchQuery[$this->getQueryFieldName($name)] = $description['custom_search'];
-        }
-    }
-
-    /**
-     * @param $entity
-     * @param $name
-     * @param $description
+     * @param object $entity
+     * @param string $name
+     * @param string $description
      */
     private function setDescriptionByType($entity, $name, &$description)
     {
@@ -380,7 +449,19 @@ class DatatableFactory
                 }
 
                 if (!array_key_exists('render', $description)) {
-                    $description['render'] = function ($value, $data, $doctrine, $templating, $user) use (
+                    $description['render'] = function ($value) use (
+                        $description
+                    ) {
+                        return $value instanceof \DateTime ? $value->format($description['date_format']) : '';
+                    };
+                }
+            } elseif (strtolower($column->type) == 'date') {
+                if (!array_key_exists('date_format', $description)) {
+                    $description['date_format'] = 'Y-m-d';
+                }
+
+                if (!array_key_exists('render', $description)) {
+                    $description['render'] = function ($value) use (
                         $description
                     ) {
                         return $value instanceof \DateTime ? $value->format($description['date_format']) : '';
@@ -393,8 +474,8 @@ class DatatableFactory
     /**
      * Get mapped class
      *
-     * @param $entity
-     * @param $reference
+     * @param object $entity
+     * @param string $reference
      * @return bool
      * @throws \Exception
      */
@@ -404,7 +485,7 @@ class DatatableFactory
             'Doctrine\\ORM\\Mapping\\ManyToOne',
             'Doctrine\\ORM\\Mapping\\OneToOne',
             'Doctrine\\ORM\\Mapping\\ManyToMany',
-            'Doctrine\\ORM\\Mapping\\OneToMany'
+            'Doctrine\\ORM\\Mapping\\OneToMany',
         ];
 
         foreach ($relationAnnotations as $relationAnnotation) {
@@ -413,15 +494,15 @@ class DatatableFactory
             }
         }
 
-        throw new \Exception('Not found mapping information for column ' . $reference . ' in class ' . $entity);
+        throw new \Exception('Not found mapping information for column '.$reference.' in class '.$entity);
     }
 
     /**
      * Get target entity from mapping annotation
      *
-     * @param $entity
-     * @param $reference
-     * @param $annotation
+     * @param object $entity
+     * @param string $reference
+     * @param string $annotation
      * @return bool
      */
     private function getTargetEntity($entity, $reference, $annotation)
@@ -440,8 +521,8 @@ class DatatableFactory
     /**
      * Return field for search
      *
-     * @param $name
-     * @param $description
+     * @param string $name
+     * @param string $description
      * @return string
      */
     private function getSearchField($name, $description)
@@ -454,7 +535,7 @@ class DatatableFactory
     /**
      * Check is field numeric
      *
-     * @param $description
+     * @param string $description
      * @return bool
      */
     private function isFieldNumericType(&$description)
@@ -474,8 +555,8 @@ class DatatableFactory
     /**
      * Prepare widget
      *
-     * @param $builderList
-     * @param $listField
+     * @param string $builderList
+     * @param string $listField
      * @return mixed
      */
     private function prepareWidget($builderList, $listField)
@@ -497,7 +578,7 @@ class DatatableFactory
                     }
 
                     return json_encode($html);
-                }
+                },
         ];
 
         return $listField;

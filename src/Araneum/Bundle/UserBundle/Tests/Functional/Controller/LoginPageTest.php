@@ -5,6 +5,11 @@ namespace Araneum\Bundle\UserBundle\Tests\Functional\Admin;
 use Araneum\Base\Tests\Fixtures\User\UserFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * Class LoginPageTest
+ *
+ * @package Araneum\Bundle\UserBundle\Tests\Functional\Admin
+ */
 class LoginPageTest extends WebTestCase
 {
     /**
@@ -14,7 +19,6 @@ class LoginPageTest extends WebTestCase
      * @param string $password
      * @param mixed  $expected
      * @dataProvider dataSource
-     *
      */
     public function testLoginPage($user, $password, $expected)
     {
@@ -46,7 +50,7 @@ class LoginPageTest extends WebTestCase
                 '_username' => UserFixtures::ADMIN_USER_NAME,
                 '_password' => UserFixtures::ADMIN_USER_PASSWORD,
                 '__expected_value' => false,
-            ]
+            ],
         ];
     }
 }

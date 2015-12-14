@@ -23,16 +23,16 @@ class Application
 {
     use DateTrait;
 
-    const STATUS_OK = 0;
+    const STATUS_OK             = 0;
     const STATUS_CODE_INCORRECT = 1;
-    const STATUS_ERROR = 100;
-    const STATUS_DISABLED = 999;
+    const STATUS_ERROR          = 100;
+    const STATUS_DISABLED       = 999;
 
     private static $statuses = [
         self::STATUS_OK => 'ok',
         self::STATUS_CODE_INCORRECT => 'status_code_incorrect',
         self::STATUS_ERROR => 'error',
-        self::STATUS_DISABLED => 'disabled'
+        self::STATUS_DISABLED => 'disabled',
     ];
 
     /**
@@ -66,10 +66,10 @@ class Application
      */
     protected $domain;
 
-	/**
-	 * @ORM\Column(type="boolean", name="use_ssl", options={"default"=false})
-	 */
-	protected $useSsl;
+    /**
+     * @ORM\Column(type="boolean", name="use_ssl", options={"default"=false})
+     */
+    protected $useSsl;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -131,21 +131,40 @@ class Application
     protected $appKey;
 
     /**
-     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Customer", mappedBy="application", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Customer", mappedBy="application",
+     *     cascade={"remove", "persist"})
      */
     protected $customers;
 
-
     /**
-     * @ORM\OneToMany(targetEntity="Araneum\Bundle\MailBundle\Entity\Mail", mappedBy="application", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\MailBundle\Entity\Mail", mappedBy="application", cascade={"remove",
+     *     "persist"})
      */
-    protected  $mails;
+    protected $mails;
 
     /**
-     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ApplicationLog", mappedBy="application", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ApplicationLog", mappedBy="application",
+     *     cascade={"remove", "persist"})
      */
     protected $applicationLog;
 
+    /**
+     * @ORM\Column(type="string", name="spot_api_user", length=25, nullable=true)
+     * @var string
+     */
+    protected $spotApiUser;
+
+    /**
+     * @ORM\Column(type="string", name="spot_api_password", length=255, nullable=true)
+     * @var string
+     */
+    protected $spotApiPassword;
+
+    /**
+     * @ORM\Column(type="string", name="spot_api_url", length=255, nullable=true)
+     * @var string
+     */
+    protected $spotApiUrl;
 
     /**
      * Get list of Application statuses
@@ -160,7 +179,7 @@ class Application
     /**
      * Get Application status description
      *
-     * @param $status
+     * @param int $status
      * @return string
      */
     public static function getStatusDescription($status)
@@ -299,28 +318,28 @@ class Application
         return $this;
     }
 
-	/**
-	 * Get use ssl
-	 *
-	 * @return boolean
-	 */
-	public function isUseSsl()
-	{
-		return $this->useSsl;
-	}
+    /**
+     * Get use ssl
+     *
+     * @return boolean
+     */
+    public function isUseSsl()
+    {
+        return $this->useSsl;
+    }
 
-	/**
-	 * Set use ssl
-	 *
-	 * @param boolean $useSsl
-	 * @return Application $this
-	 */
-	public function setUseSsl($useSsl)
-	{
-		$this->useSsl = $useSsl;
+    /**
+     * Set use ssl
+     *
+     * @param boolean $useSsl
+     * @return Application $this
+     */
+    public function setUseSsl($useSsl)
+    {
+        $this->useSsl = $useSsl;
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * Get aliases
@@ -579,16 +598,6 @@ class Application
     }
 
     /**
-     * Generate unique key for Application
-     *
-     * @return string
-     */
-    private function generateUniqueKey()
-    {
-        return uniqid(sha1(time()), true);
-    }
-
-    /**
      * Get customers
      *
      * @return ArrayCollection
@@ -610,7 +619,6 @@ class Application
 
         return $this;
     }
-
 
     /**
      * Get mails
@@ -635,7 +643,6 @@ class Application
         return $this;
     }
 
-
     /**
      * Get applicationLog
      *
@@ -659,7 +666,6 @@ class Application
         return $this;
     }
 
-
     /**
      * Convert entity to string
      *
@@ -668,5 +674,84 @@ class Application
     public function __toString()
     {
         return $this->name ?: 'Create Application';
+    }
+
+    /**
+     * Get SpotApiUser
+     *
+     * @return string
+     */
+    public function getSpotApiUser()
+    {
+        return $this->spotApiUser;
+    }
+
+    /**
+     * Set spotApiUser
+     *
+     * @param string $spotApiUser
+     * @return Application
+     */
+    public function setSpotApiUser($spotApiUser)
+    {
+        $this->spotApiUser = $spotApiUser;
+
+        return $this;
+    }
+
+    /**
+     * Get SpotApiPassword
+     *
+     * @return string
+     */
+    public function getSpotApiPassword()
+    {
+        return $this->spotApiPassword;
+    }
+
+    /**
+     * Set spotApiPassword
+     *
+     * @param string $spotApiPassword
+     * @return Application
+     */
+    public function setSpotApiPassword($spotApiPassword)
+    {
+        $this->spotApiPassword = $spotApiPassword;
+
+        return $this;
+    }
+
+    /**
+     * Get SpotApiUrl
+     *
+     * @return string
+     */
+    public function getSpotApiUrl()
+    {
+        return $this->spotApiUrl;
+    }
+
+    /**
+     * Set spotApiUrl
+     *
+     * @param string $spotApiUrl
+     * @return Application
+     */
+    public function setSpotApiUrl($spotApiUrl)
+    {
+        $this->spotApiUrl = $spotApiUrl;
+
+        return $this;
+    }
+
+    /**
+     * Generate unique key for Application
+     *
+     * @return string
+     */
+    private function generateUniqueKey()
+    {
+        return uniqid(sha1(time()), true);
     }
 }

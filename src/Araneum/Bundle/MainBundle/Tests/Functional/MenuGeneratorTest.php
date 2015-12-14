@@ -11,6 +11,11 @@ namespace Araneum\Bundle\MainBundle\Tests\Functional;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
+/**
+ * Class MenuGeneratorTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Functional
+ */
 class MenuGeneratorTest extends WebTestCase
 {
 

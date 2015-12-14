@@ -9,22 +9,29 @@ use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormFactoryInterface;
 
+/**
+ * Class MailApiHandlerService
+ *
+ * @package Araneum\Bundle\MailBundle\Service
+ */
 class MailApiHandlerService
 {
     protected $manager;
     protected $formFactory;
-    /** @var  ApplicationManagerService */
     protected $applicationManager;
 
     /**
      * Class construct
      *
-     * @param EntityManager        $manager
-     * @param FormFactoryInterface $formFactory
-     * @param                      $applicationManager
+     * @param EntityManager             $manager
+     * @param FormFactoryInterface      $formFactory
+     * @param ApplicationManagerService $applicationManager
      */
-    public function __construct(EntityManager $manager, FormFactoryInterface $formFactory, $applicationManager)
-    {
+    public function __construct(
+        EntityManager $manager,
+        FormFactoryInterface $formFactory,
+        ApplicationManagerService $applicationManager
+    ) {
         $this->manager = $manager;
         $this->formFactory = $formFactory;
         $this->applicationManager = $applicationManager;
@@ -33,8 +40,8 @@ class MailApiHandlerService
     /**
      * Post new mail
      *
-     * @param       $appkey
-     * @param array $parameters
+     * @param string $appkey
+     * @param array  $parameters
      * @return Mail
      * @throws InvalidFormException
      */

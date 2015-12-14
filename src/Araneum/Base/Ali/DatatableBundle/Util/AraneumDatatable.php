@@ -2,40 +2,45 @@
 
 namespace Araneum\Base\Ali\DatatableBundle\Util;
 
+use Araneum\Base\Ali\DatatableBundle\Util\Factory\Query\AraneumDoctrineBuilder;
 use Doctrine\ORM\Query;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Ali\DatatableBundle\Util\Datatable;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
+/**
+ * Class AraneumDatatable
+ *
+ * @package Araneum\Base\Ali\DatatableBundle\Util
+ */
 class AraneumDatatable extends Datatable
 {
     /**
-     * Class constructor
+     * AraneumDatatable constructor.
      *
-     * @param ContainerInterface $container
-     * @param                    $queryBuilder
+     * @param ContainerInterface     $container
+     * @param AraneumDoctrineBuilder $queryBuilder
      */
-    public function __construct(ContainerInterface $container, $queryBuilder)
+    public function __construct(ContainerInterface $container, AraneumDoctrineBuilder $queryBuilder)
     {
         parent::__construct($container);
         $this->_queryBuilder = $queryBuilder;
     }
 
-	/**
-	 * Get Datatable Columns
-	 *
-	 * @return array
-	 */
-	public function getFieldLabels()
-	{
-		$fields = $this->getFields();
+    /**
+     * Get Datatable Columns
+     *
+     * @return array
+     */
+    public function getFieldLabels()
+    {
+        $fields = $this->getFields();
 
-		if (array_key_exists('_identifier_', $fields)) {
-			unset($fields['_identifier_']);
-		}
+        if (array_key_exists('_identifier_', $fields)) {
+            unset($fields['_identifier_']);
+        }
 
-		return array_keys($fields);
-	}
+        return array_keys($fields);
+    }
 
     /**
      * Get data without page limits
@@ -60,7 +65,7 @@ class AraneumDatatable extends Datatable
     /**
      * Get search query
      *
-     * @param $searchQuery
+     * @param string $searchQuery
      * @return $this
      */
     public function setSearchQuery($searchQuery)

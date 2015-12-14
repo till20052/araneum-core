@@ -10,109 +10,115 @@ use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
 use Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ * Class AgentLoggerServiceTest
+ *
+ * @package Araneum\Bundle\AgentBundle\Tests\Unit\Service
+ */
 class AgentLoggerServiceTest extends \PHPUnit_Framework_TestCase
 {
-	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
-	 */
-	private $entityManager;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $entityManager;
 
-	/**
-	 * @var AgentLoggerService
-	 */
-	private $logger;
+    /**
+     * @var AgentLoggerService
+     */
+    private $logger;
 
-	/**
-	 * Mock EntityManager
-	 *
-	 * @return \PHPUnit_Framework_MockObject_MockObject
-	 */
-	private function mockEntityManager()
-	{
-		$entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
-			->disableOriginalConstructor()
-			->getMock();
 
-		$entityManager->expects($this->any())
-			->method('flush');
+    /**
+     * Test Log Connection
+     */
+    public function testLogConnection()
+    {
+        $connection = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Connection')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		return $entityManager;
-	}
+        $cluster = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Cluster')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function setUp()
-	{
-		$this->entityManager = $this->mockEntityManager();
-		$this->logger = new AgentLoggerService($this->entityManager);
-	}
+        $log = (new ConnectionLog())
+            ->setConnection($connection)
+            ->setCluster($cluster)
+            ->setPercentLostPackages(0)
+            ->setAveragePingTime(0);
 
-	/**
-	 * Test Log Connection
-	 */
-	public function testLogConnection()
-	{
-		$connection = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Connection')
-			->disableOriginalConstructor()
-			->getMock();
+        $this->entityManager->expects($this->any())
+            ->method('persist')
+            ->with($this->equalTo($log));
 
-		$cluster = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Cluster')
-			->disableOriginalConstructor()
-			->getMock();
+        $this->logger->logConnection($connection, $cluster, 0, 0);
+    }
 
-		$log = (new ConnectionLog())
-			->setConnection($connection)
-			->setCluster($cluster)
-			->setPercentLostPackages(0)
-			->setAveragePingTime(0);
+    /**
+     * Test Log Connection
+     */
+    public function testLogApplication()
+    {
+        $application = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Application')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$this->entityManager->expects($this->any())
-			->method('persist')
-			->with($this->equalTo($log));
+        $log = (new ApplicationLog())
+            ->setApplication($application)
+            ->setStatus(Application::STATUS_OK)
+            ->setProblems(new ArrayCollection());
 
-		$this->logger->logConnection($connection, $cluster, 0, 0);
-	}
+        $this->entityManager->expects($this->any())
+            ->method('persist')
+            ->with($this->equalTo($log));
 
-	/**
-	 * Test Log Connection
-	 */
-	public function testLogApplication()
-	{
-		$application = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Application')
-			->disableOriginalConstructor()
-			->getMock();
+        $this->logger->logApplication($application, Application::STATUS_OK, new ArrayCollection());
+    }
 
-		$log = (new ApplicationLog())
-			->setApplication($application)
-			->setStatus(Application::STATUS_OK)
-			->setProblems(new ArrayCollection());
+    /**
+     * Test Log Connection
+     */
+    public function testLogCluster()
+    {
+        $cluster = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Cluster')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$this->entityManager->expects($this->any())
-			->method('persist')
-			->with($this->equalTo($log));
+        $log = (new ClusterLog())
+            ->setCluster($cluster)
+            ->setStatus(Cluster::STATUS_OK)
+            ->setProblems(new ArrayCollection());
 
-		$this->logger->logApplication($application, Application::STATUS_OK, new ArrayCollection());
-	}
+        $this->entityManager->expects($this->any())
+            ->method('persist')
+            ->with($this->equalTo($log));
 
-	/**
-	 * Test Log Connection
-	 */
-	public function testLogCluster()
-	{
-		$cluster = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Cluster')
-			->disableOriginalConstructor()
-			->getMock();
+        $this->logger->logCluster($cluster, Cluster::STATUS_OK, new ArrayCollection());
+    }
 
-		$log = (new ClusterLog())
-			->setCluster($cluster)
-			->setStatus(Cluster::STATUS_OK)
-			->setProblems(new ArrayCollection());
+    /**
+     * @inheritdoc
+     */
+    protected function setUp()
+    {
+        $this->entityManager = $this->mockEntityManager();
+        $this->logger = new AgentLoggerService($this->entityManager);
+    }
 
-		$this->entityManager->expects($this->any())
-			->method('persist')
-			->with($this->equalTo($log));
+    /**
+     * Mock EntityManager
+     *
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    private function mockEntityManager()
+    {
+        $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$this->logger->logCluster($cluster, Cluster::STATUS_OK, new ArrayCollection());
-	}
+        $entityManager->expects($this->any())
+            ->method('flush');
+
+        return $entityManager;
+    }
 }

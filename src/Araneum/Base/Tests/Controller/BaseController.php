@@ -5,6 +5,11 @@ namespace Araneum\Base\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
 
+/**
+ * Class BaseController
+ *
+ * @package Araneum\Base\Tests\Controller
+ */
 class BaseController extends WebTestCase
 {
     /**
@@ -29,7 +34,7 @@ class BaseController extends WebTestCase
         $loginManager->loginUser($firewallName, $user);
 
         $container->get('session')->set(
-            '_security_' . $firewallName,
+            '_security_'.$firewallName,
             serialize($container->get('security.context')->getToken())
         );
 

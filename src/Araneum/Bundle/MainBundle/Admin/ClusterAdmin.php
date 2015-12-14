@@ -15,70 +15,71 @@ use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
 
 /**
  * Class ClusterAdmin
+ *
  * @package Araneum\Bundle\MainBundle\Admin
  */
 class ClusterAdmin extends Admin
 {
     /**
-	 * @var EventDispatcherInterface
-	 */
-	private $dispatcher;
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
 
-	/**
-	 * Invoke method after creation of cluster
-	 *
-	 * @param Cluster $cluster
-	 * @return void
-	 */
-	public function postPersist($cluster)
-	{
-		$event = new ApplicationEvent();
+    /**
+     * Invoke method after creation of cluster
+     *
+     * @param Cluster $cluster
+     * @return void
+     */
+    public function postPersist($cluster)
+    {
+        $event = new ApplicationEvent();
 
-		$event->setApplications($cluster->getApplications());
+        $event->setApplications($cluster->getApplications());
 
-		$this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
-	}
+        $this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
+    }
 
-	/**
-	 * Invoke method after modification of cluster
-	 *
-	 * @param Cluster $cluster
-	 * @return void
-	 */
-	public function postUpdate($cluster)
-	{
-		$event = new ApplicationEvent();
+    /**
+     * Invoke method after modification of cluster
+     *
+     * @param Cluster $cluster
+     * @return void
+     */
+    public function postUpdate($cluster)
+    {
+        $event = new ApplicationEvent();
 
-		$event->setApplications($cluster->getApplications());
+        $event->setApplications($cluster->getApplications());
 
-		$this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
-	}
+        $this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
+    }
 
-	/**
-	 * Invoke method after deletion of cluster
-	 *
-	 * @param Cluster $cluster
-	 * @return void
-	 */
-	public function preRemove($cluster)
-	{
-		$event = new ApplicationEvent();
+    /**
+     * Invoke method after deletion of cluster
+     *
+     * @param Cluster $cluster
+     * @return void
+     */
+    public function preRemove($cluster)
+    {
+        $event = new ApplicationEvent();
 
-		$event->setApplications($cluster->getApplications());
+        $event->setApplications($cluster->getApplications());
 
         $this->dispatcher->dispatch(ApplicationEvents::PRE_REMOVE, $event);
-	}
+    }
 
-	/**
-	 * Set Event Dispatcher
-	 *
-	 * @param EventDispatcherInterface $eventDispatcherInterface
-	 */
-	public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
-	{
-		$this->dispatcher = $eventDispatcherInterface;
-	}
-    
+    /**
+     * Set Event Dispatcher
+     *
+     * @param EventDispatcherInterface $eventDispatcherInterface
+     */
+    public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
+    {
+        $this->dispatcher = $eventDispatcherInterface;
+    }
+
     /**
      * Get Batch
      *
@@ -91,8 +92,8 @@ class ClusterAdmin extends Admin
             [
                 'checkStatus' => [
                     'label' => 'Check Status',
-                    'ask_confirmation' => true
-                ]
+                    'ask_confirmation' => true,
+                ],
             ]
         );
     }
@@ -112,7 +113,7 @@ class ClusterAdmin extends Admin
                 [
                     'multiple' => true,
                     'by_reference' => false,
-                    'required' => false
+                    'required' => false,
                 ]
             )
             ->add(
@@ -121,9 +122,9 @@ class ClusterAdmin extends Admin
                 [
                     'choices' => [
                         Cluster::TYPE_MULTIPLE => 'multiple',
-                        Cluster::TYPE_SINGLE => 'single'
+                        Cluster::TYPE_SINGLE => 'single',
                     ],
-                    'label' => 'type'
+                    'label' => 'type',
                 ]
             )
             ->add(
@@ -131,7 +132,7 @@ class ClusterAdmin extends Admin
                 'choice',
                 [
                     'choices' => Cluster::getStatuses(),
-                    'label' => 'status'
+                    'label' => 'status',
                 ]
             )
             ->add(
@@ -139,7 +140,7 @@ class ClusterAdmin extends Admin
                 'checkbox',
                 [
                     'label' => 'enabled',
-                    'required' => false
+                    'required' => false,
                 ]
             );
     }
@@ -158,25 +159,25 @@ class ClusterAdmin extends Admin
                 'type',
                 null,
                 [
-                    'label' => 'type'
+                    'label' => 'type',
                 ],
                 'choice',
                 [
                     'choices' => [
                         Cluster::TYPE_MULTIPLE => 'multiple',
-                        Cluster::TYPE_SINGLE => 'single'
-                    ]
+                        Cluster::TYPE_SINGLE => 'single',
+                    ],
                 ]
             )
             ->add(
                 'status',
                 null,
                 [
-                    'label' => 'status'
+                    'label' => 'status',
                 ],
                 'choice',
                 [
-                    'choices' => Cluster::getStatuses()
+                    'choices' => Cluster::getStatuses(),
                 ]
             )
             ->add('enabled', null, ['label' => 'enabled'])
@@ -186,7 +187,7 @@ class ClusterAdmin extends Admin
                 [
                     'label' => 'created_at',
                     'field_type' => 'sonata_type_datetime_range_picker',
-                    'pattern' => 'MM.dd.YYY'
+                    'pattern' => 'MM.dd.YYY',
                 ]
             );
     }
@@ -205,7 +206,7 @@ class ClusterAdmin extends Admin
                 'text',
                 [
                     'editable' => true,
-                    'label' => 'name'
+                    'label' => 'name',
                 ]
             )
             ->add(
@@ -213,7 +214,7 @@ class ClusterAdmin extends Admin
                 'sonata_type_model',
                 [
                     'editable' => false,
-                    'label' => 'host'
+                    'label' => 'host',
                 ]
             )
             ->add(
@@ -222,9 +223,9 @@ class ClusterAdmin extends Admin
                 [
                     'choices' => [
                         Cluster::TYPE_MULTIPLE => 'multiple',
-                        Cluster::TYPE_SINGLE => 'single'
+                        Cluster::TYPE_SINGLE => 'single',
                     ],
-                    'label' => 'type'
+                    'label' => 'type',
                 ]
             )
             ->add(
@@ -232,7 +233,7 @@ class ClusterAdmin extends Admin
                 'choice',
                 [
                     'choices' => Cluster::getStatuses(),
-                    'label' => 'status'
+                    'label' => 'status',
                 ]
             )
             ->add(
@@ -242,7 +243,7 @@ class ClusterAdmin extends Admin
                     'editable' => true,
                     'label' => 'enabled',
                     'row_align' => 'center',
-                    'text_align' => 'center'
+                    'text_align' => 'center',
                 ]
             )
             ->add(
@@ -250,7 +251,7 @@ class ClusterAdmin extends Admin
                 'datetime',
                 [
                     'format' => 'm.d.Y',
-                    'label' => 'created_at'
+                    'label' => 'created_at',
                 ]
             )
             ->add(
@@ -261,10 +262,10 @@ class ClusterAdmin extends Admin
                     'actions' => [
                         'edit' => [],
                         'check_status' => [
-                            'template' => 'AraneumMainBundle:AdminAction:checkStatusCluster.html.twig'
+                            'template' => 'AraneumMainBundle:AdminAction:checkStatusCluster.html.twig',
                         ],
-                        'delete' => []
-                    ]
+                        'delete' => [],
+                    ],
                 ]
             );
     }

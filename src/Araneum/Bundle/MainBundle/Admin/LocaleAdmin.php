@@ -9,6 +9,11 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 
+/**
+ * Class LocaleAdmin
+ *
+ * @package Araneum\Bundle\MainBundle\Admin
+ */
 class LocaleAdmin extends Admin
 {
     /**
@@ -26,7 +31,7 @@ class LocaleAdmin extends Admin
                 'checkbox',
                 [
                     'required' => false,
-                    'label' => 'enabled'
+                    'label' => 'enabled',
                 ]
             )
             ->add(
@@ -36,8 +41,8 @@ class LocaleAdmin extends Admin
                     'label' => 'orientation',
                     'choices' => [
                         Locale::ORIENT_LFT_TO_RGT => 'left_to_right',
-                        Locale::ORIENT_RGT_TO_LFT => 'right_to_left'
-                    ]
+                        Locale::ORIENT_RGT_TO_LFT => 'right_to_left',
+                    ],
                 ]
             )
             ->add('encoding', 'text', ['label' => 'encoding']);
@@ -66,8 +71,8 @@ class LocaleAdmin extends Admin
                 [
                     'choices' => [
                         Locale::ORIENT_LFT_TO_RGT => 'left_to_right',
-                        Locale::ORIENT_RGT_TO_LFT => 'right_to_left'
-                    ]
+                        Locale::ORIENT_RGT_TO_LFT => 'right_to_left',
+                    ],
                 ]
             )
             ->add('encoding', null, ['label' => 'encoding'])
@@ -80,7 +85,7 @@ class LocaleAdmin extends Admin
                 ],
                 null,
                 [
-                    'format' => 'MM/dd/y'
+                    'format' => 'MM/dd/y',
                 ]
             );
     }
@@ -99,7 +104,7 @@ class LocaleAdmin extends Admin
                 'text',
                 [
                     'label' => 'name',
-                    'editable' => true
+                    'editable' => true,
                 ]
             )
             ->add(
@@ -107,7 +112,7 @@ class LocaleAdmin extends Admin
                 'text',
                 [
                     'label' => 'locale',
-                    'editable' => true
+                    'editable' => true,
                 ]
             )
             ->add(
@@ -127,7 +132,7 @@ class LocaleAdmin extends Admin
                     'choices' => [
                         Locale::ORIENT_LFT_TO_RGT => $this->getTranslator()->trans('left_to_right'),
                         Locale::ORIENT_RGT_TO_LFT => $this->getTranslator()->trans('right_to_left'),
-                    ]
+                    ],
                 ]
             )
             ->add(
@@ -135,7 +140,7 @@ class LocaleAdmin extends Admin
                 'text',
                 [
                     'label' => 'encoding',
-                    'editable' => true
+                    'editable' => true,
                 ]
             )
             ->add(
@@ -143,7 +148,7 @@ class LocaleAdmin extends Admin
                 'datetime',
                 [
                     'label' => 'created_at',
-                    'format' => 'm/d/Y'
+                    'format' => 'm/d/Y',
                 ]
             )
             ->add(
@@ -154,7 +159,7 @@ class LocaleAdmin extends Admin
                     'actions' => [
                         'edit' => [],
                         'delete' => [],
-                    ]
+                    ],
                 ]
             );
     }

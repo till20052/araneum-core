@@ -7,6 +7,11 @@ use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Service\ApplicationApiHandlerService;
 use Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ * Class ApplicationApiHandlerTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Unit\Service
+ */
 class ApplicationApiHandlerTest extends BaseController
 {
     const APP_CLASS = 'AraneumMainBundle:Application';
@@ -82,7 +87,7 @@ class ApplicationApiHandlerTest extends BaseController
             'components' => new ArrayCollection([$component]),
             'owner' => $owner,
             'status' => 1,
-            'template' => 'testtemplate'
+            'template' => 'testtemplate',
         ];
 
         $this->repository

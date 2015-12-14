@@ -2,7 +2,15 @@
 
 namespace Araneum\Base\Service;
 
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormTypeInterface;
+use JMS\Serializer\SerializerInterface;
 
+/**
+ * Class FromExporterService
+ *
+ * @package Araneum\Base\Service
+ */
 class FromExporterService
 {
     private $serializer;
@@ -10,12 +18,10 @@ class FromExporterService
     private $factory;
 
     /**
-     * FromExporter constructor.
-     *
-     * @param $serializer
-     * @param $formFactory
+     * @param SerializerInterface  $serializer
+     * @param FormFactoryInterface $formFactory
      */
-    public function __construct($serializer, $formFactory)
+    public function __construct(SerializerInterface $serializer, FormFactoryInterface $formFactory)
     {
         $this->serializer = $serializer;
         $this->factory = $formFactory;
@@ -24,8 +30,8 @@ class FromExporterService
     /**
      * Export form to array
      *
-     * @param $form
-     * @param array $data
+     * @param string|FormTypeInterface $form The type of the form
+     * @param array                    $data
      * @return mixed
      */
     public function get($form, $data = [])

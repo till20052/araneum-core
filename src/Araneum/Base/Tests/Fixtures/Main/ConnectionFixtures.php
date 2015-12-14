@@ -7,21 +7,26 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * Class ConnectionFixtures
+ *
+ * @package Araneum\Base\Tests\Fixtures\Main
+ */
 class ConnectionFixtures extends AbstractFixture implements FixtureInterface
 {
-    const TEST_CONN_DB_TYPE = 1;
-    const TEST_CONN_HOST_TYPE = 2;
-    const TEST_CONN_NAME = 'TestConnection';
-    const TEST_CONN_DB_NAME = 'TestDbConnection';
-    const TEST_CONN_HOST = '192.168.1.200';
-    const TEST_CONN_PORT = 1234;
-    const TEST_CONN_DB_PORT = 4321;
-    const TEST_CONN_ENABLED = true;
-    const TEST_CONN_USERNAME = 'TestConnectionUserName';
+    const TEST_CONN_DB_TYPE     = 1;
+    const TEST_CONN_HOST_TYPE   = 2;
+    const TEST_CONN_NAME        = 'TestConnection';
+    const TEST_CONN_DB_NAME     = 'TestDbConnection';
+    const TEST_CONN_HOST        = '192.168.1.200';
+    const TEST_CONN_PORT        = 1234;
+    const TEST_CONN_DB_PORT     = 4321;
+    const TEST_CONN_ENABLED     = true;
+    const TEST_CONN_USERNAME    = 'TestConnectionUserName';
     const TEST_CONN_DB_USERNAME = 'TestDbConnectionUserName';
-    const TEST_CONN_PASS = 'TestConnectionPassword';
-    const TEST_CONN_DB_PASS = 'TestDbConnectionPassword';
-    const TEST_CONN_FREE_NAME = 'TestConnectionFreeName';
+    const TEST_CONN_PASS        = 'TestConnectionPassword';
+    const TEST_CONN_DB_PASS     = 'TestDbConnectionPassword';
+    const TEST_CONN_FREE_NAME   = 'TestConnectionFreeName';
 
     /**
      * {@inheritDoc}
@@ -75,7 +80,6 @@ class ConnectionFixtures extends AbstractFixture implements FixtureInterface
             $manager->persist($connectionFree);
             $manager->flush();
         }
-
 
         $this->addReference('connectionHost', $connectionHost);
         $this->addReference('connectionDb', $connectionDb);

@@ -8,7 +8,7 @@
 
 namespace Araneum\Bundle\MainBundle\Tests\Functional\Admin;
 
-use Araneum\Base\Tests\Controller\BaseAdminController;
+use Araneum\Base\Tests\Controller\AbstractBaseAdminController;
 use Araneum\Base\Tests\Fixtures\Main\ClusterFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures;
 use Araneum\Bundle\MainBundle\Entity\Application;
@@ -17,13 +17,18 @@ use Araneum\Bundle\MainBundle\Entity\Connection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityNotFoundException;
 
-class ClusterAdminTest extends BaseAdminController
+/**
+ * Class ClusterAdminTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Functional\Admin
+ */
+class ClusterAdminTestAbstractBaseAdminController extends AbstractBaseAdminController
 {
     const CLUSTER_TEST_NAME = 'TestCluTmp';
     protected $createRoute = 'admin_araneum_main_cluster_create';
     protected $updateRoute = 'admin_araneum_main_cluster_edit';
     protected $deleteRoute = 'admin_araneum_main_cluster_delete';
-    protected $listRoute = 'admin_araneum_main_cluster_list';
+    protected $listRoute   = 'admin_araneum_main_cluster_list';
 
     /**
      * Set up Before class
@@ -34,7 +39,6 @@ class ClusterAdminTest extends BaseAdminController
         $manager = $client
             ->getContainer()
             ->get('doctrine.orm.entity_manager');
-
 
         $repository = $manager
             ->getRepository('AraneumMainBundle:Connection');
@@ -66,7 +70,7 @@ class ClusterAdminTest extends BaseAdminController
         $update = $repository->findOneByName(ClusterFixtures::TEST_CLU_NAME);
 
         $clusterTmp = $repository
-            ->findOneByName(ClusterFixtures::TEST_TEMP_CLU_NAME . '1');
+            ->findOneByName(ClusterFixtures::TEST_TEMP_CLU_NAME.'1');
 
         if ($clusterTmp) {
             $manager->remove($clusterTmp);
@@ -86,7 +90,6 @@ class ClusterAdminTest extends BaseAdminController
                 ->setType(1)
                 ->setStatus(Cluster::STATUS_OK);
 
-
             $manager->persist($delete);
             $manager->flush();
         }
@@ -103,7 +106,6 @@ class ClusterAdminTest extends BaseAdminController
             $manager->persist($update);
             $manager->flush();
         }
-
     }
 
     /**
@@ -120,7 +122,6 @@ class ClusterAdminTest extends BaseAdminController
             ->getRepository('AraneumMainBundle:Connection')
             ->findOneByName(ConnectionFixtures::TEST_CONN_NAME);
 
-
         if (!isset($connection)) {
             throw new EntityNotFoundException('Connection entity not found');
         }
@@ -132,9 +133,9 @@ class ClusterAdminTest extends BaseAdminController
                     'hosts' => [$connection->getId()],
                     'type' => 2,
                     'status' => Cluster::STATUS_OK,
-                    'enabled' => true
+                    'enabled' => true,
                 ],
-                true
+                true,
             ],
             'Check entity unique name' => [
                 [
@@ -142,10 +143,10 @@ class ClusterAdminTest extends BaseAdminController
                     'hosts' => [$connection->getId()],
                     'type' => 2,
                     'status' => Cluster::STATUS_OK,
-                    'enabled' => true
+                    'enabled' => true,
                 ],
-                false
-            ]
+                false,
+            ],
         ];
     }
 
@@ -178,10 +179,10 @@ class ClusterAdminTest extends BaseAdminController
                     //'filter[status][value]' => Cluster::STATUS_OK,
                     'filter[type][value]' => ClusterFixtures::TEST_CLU_TYPE,
                     'filter[createdAt][value][start]' => '01/01/1971',
-                    'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
+                    'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400),
                 ],
                 true,
-                $cluster
+                $cluster,
             ],
             'Try find non exist entity' => [
                 [
@@ -191,11 +192,11 @@ class ClusterAdminTest extends BaseAdminController
                     'filter[status][value]' => ClusterFixtures::TEST_CLU_STATUS,
                     'filter[type][value]' => ClusterFixtures::TEST_CLU_TYPE,
                     'filter[createdAt][value][start]' => '01/01/1971',
-                    'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400)
+                    'filter[createdAt][value][end]' => date('m/d/Y', time() + 86400),
                 ],
                 false,
-                $cluster
-            ]
+                $cluster,
+            ],
         ];
     }
 
@@ -250,24 +251,24 @@ class ClusterAdminTest extends BaseAdminController
         return [
             'Update temporary entity to new name' => [
                 [
-                    'name' => ClusterFixtures::TEST_TEMP_CLU_NAME . '1',
+                    'name' => ClusterFixtures::TEST_TEMP_CLU_NAME.'1',
                     'type' => 2,
                     'status' => Cluster::STATUS_OK,
-                    'enabled' => true
+                    'enabled' => true,
                 ],
                 true,
-                $cluster
+                $cluster,
             ],
             'Update temporary entity to exist name' => [
                 [
                     'name' => self::CLUSTER_TEST_NAME,
                     'type' => 2,
                     'status' => Cluster::STATUS_OK,
-                    'enabled' => true
+                    'enabled' => true,
                 ],
                 false,
-                $cluster
-            ]
+                $cluster,
+            ],
         ];
     }
 

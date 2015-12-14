@@ -17,97 +17,98 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class ConnectionAdmin
+ *
  * @package Araneum\Bundle\MainBundle\Admin
  */
 class ConnectionAdmin extends Admin
 {
-	/**
-	 * @var EntityManager
-	 */
-	private $entityManager;
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
 
-	/**
-	 * @var EventDispatcherInterface
-	 */
-	private $dispatcher;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
 
-	/**
-	 * Get Array of Applications by Cluster Id
-	 *
-	 * @param $id
-	 * @return ArrayCollection
-	 */
-	public function getApplications($id)
-	{
-		return $this->entityManager
-			->getRepository('AraneumMainBundle:Connection')
-			->getApplications($id);
-	}
+    /**
+     * Get Array of Applications by Cluster Id
+     *
+     * @param integer $id
+     * @return ArrayCollection
+     */
+    public function getApplications($id)
+    {
+        return $this->entityManager
+            ->getRepository('AraneumMainBundle:Connection')
+            ->getApplications($id);
+    }
 
-	/**
-	 * Invoke method after creation of connection
-	 *
-	 * @param Connection $connection
-	 * @return void
-	 */
-	public function postPersist($connection)
-	{
-		$event = new ApplicationEvent();
+    /**
+     * Invoke method after creation of connection
+     *
+     * @param Connection $connection
+     * @return void
+     */
+    public function postPersist($connection)
+    {
+        $event = new ApplicationEvent();
 
-		$event->setApplications($this->getApplications($connection->getId()));
+        $event->setApplications($this->getApplications($connection->getId()));
 
-		$this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
-	}
+        $this->dispatcher->dispatch(ApplicationEvents::POST_PERSIST, $event);
+    }
 
-	/**
-	 * Invoke method after modification of connection
-	 *
-	 * @param Connection $connection
-	 * @return void
-	 */
-	public function postUpdate($connection)
-	{
-		$event = new ApplicationEvent();
+    /**
+     * Invoke method after modification of connection
+     *
+     * @param Connection $connection
+     * @return void
+     */
+    public function postUpdate($connection)
+    {
+        $event = new ApplicationEvent();
 
-		$event->setApplications($this->getApplications($connection->getId()));
+        $event->setApplications($this->getApplications($connection->getId()));
 
-		$this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
-	}
+        $this->dispatcher->dispatch(ApplicationEvents::POST_UPDATE, $event);
+    }
 
-	/**
-	 * Invoke method after deletion of connection
-	 *
-	 * @param Connection $connection
-	 * @return void
-	 */
-	public function preRemove($connection)
-	{
-		$event = new ApplicationEvent();
+    /**
+     * Invoke method after deletion of connection
+     *
+     * @param Connection $connection
+     * @return void
+     */
+    public function preRemove($connection)
+    {
+        $event = new ApplicationEvent();
 
-		$event->setApplications($this->getApplications($connection->getId()));
+        $event->setApplications($this->getApplications($connection->getId()));
 
         $this->dispatcher->dispatch(ApplicationEvents::PRE_REMOVE, $event);
-	}
+    }
 
-	/**
-	 * Set Entity Manager
-	 *
-	 * @param EntityManager $entityManager
-	 */
-	public function setEntityManager(EntityManager $entityManager)
-	{
-		$this->entityManager = $entityManager;
-	}
+    /**
+     * Set Entity Manager
+     *
+     * @param EntityManager $entityManager
+     */
+    public function setEntityManager(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
-	/**
-	 * Set Event Dispatcher
-	 *
-	 * @param EventDispatcherInterface $eventDispatcherInterface
-	 */
-	public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
-	{
-		$this->dispatcher = $eventDispatcherInterface;
-	}
+    /**
+     * Set Event Dispatcher
+     *
+     * @param EventDispatcherInterface $eventDispatcherInterface
+     */
+    public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
+    {
+        $this->dispatcher = $eventDispatcherInterface;
+    }
 
     /**
      * Get Batch
@@ -121,8 +122,8 @@ class ConnectionAdmin extends Admin
             [
                 'checkStatus' => [
                     'label' => 'Check Status',
-                    'ask_confirmation' => true
-                ]
+                    'ask_confirmation' => true,
+                ],
             ]
         );
     }
@@ -142,8 +143,8 @@ class ConnectionAdmin extends Admin
                     'label' => 'type',
                     'choices' => [
                         Connection::CONN_DB => 'db_connection',
-                        Connection::CONN_HOST => 'host_connection'
-                    ]
+                        Connection::CONN_HOST => 'host_connection',
+                    ],
                 ]
             )
             ->add('name', 'text', ['label' => 'name'])
@@ -155,7 +156,7 @@ class ConnectionAdmin extends Admin
                 'checkbox',
                 [
                     'label' => 'enabled',
-                    'required' => false
+                    'required' => false,
                 ]
             )
             ->add('password', 'text', ['label' => 'password']);
@@ -176,8 +177,8 @@ class ConnectionAdmin extends Admin
                     'label' => 'type',
                     'choices' => [
                         Connection::CONN_DB => 'db_connection',
-                        Connection::CONN_HOST => 'host_connection'
-                    ]
+                        Connection::CONN_HOST => 'host_connection',
+                    ],
                 ]
             )
             ->add('name', 'text', ['label' => 'name'])
@@ -200,14 +201,14 @@ class ConnectionAdmin extends Admin
                 'type',
                 'doctrine_orm_choice',
                 [
-                    'label' => 'type'
+                    'label' => 'type',
                 ],
                 'choice',
                 [
                     'choices' => [
                         Connection::CONN_DB => 'db_connection',
-                        Connection::CONN_HOST => 'host_connection'
-                    ]
+                        Connection::CONN_HOST => 'host_connection',
+                    ],
                 ]
             )
             ->add('name', null, ['label' => 'name'])
@@ -220,11 +221,11 @@ class ConnectionAdmin extends Admin
                 'doctrine_orm_date_range',
                 [
                     'field_type' => 'sonata_type_date_range_picker',
-                    'label' => 'created_at'
+                    'label' => 'created_at',
                 ],
                 null,
                 [
-                    'format' => 'MM/dd/yyyy'
+                    'format' => 'MM/dd/yyyy',
                 ]
             )
             ->add(
@@ -232,11 +233,11 @@ class ConnectionAdmin extends Admin
                 'doctrine_orm_date_range',
                 [
                     'field_type' => 'sonata_type_date_range_picker',
-                    'label' => 'updated_at'
+                    'label' => 'updated_at',
                 ],
                 null,
                 [
-                    'format' => 'MM/dd/yyyy'
+                    'format' => 'MM/dd/yyyy',
                 ]
             );
     }
@@ -257,8 +258,8 @@ class ConnectionAdmin extends Admin
                     'label' => 'type',
                     'choices' => [
                         Connection::CONN_DB => $this->getTranslator()->trans('db_connection'),
-                        Connection::CONN_HOST => $this->getTranslator()->trans('host_connection')
-                    ]
+                        Connection::CONN_HOST => $this->getTranslator()->trans('host_connection'),
+                    ],
                 ]
             )
             ->add(
@@ -266,7 +267,7 @@ class ConnectionAdmin extends Admin
                 'text',
                 [
                     'label' => 'name',
-                    'editable' => true
+                    'editable' => true,
                 ]
             )
             ->add(
@@ -274,7 +275,7 @@ class ConnectionAdmin extends Admin
                 'text',
                 [
                     'label' => 'host',
-                    'editable' => true
+                    'editable' => true,
                 ]
             )
             ->add(
@@ -282,7 +283,7 @@ class ConnectionAdmin extends Admin
                 'integer',
                 [
                     'label' => 'port',
-                    'editable' => true
+                    'editable' => true,
                 ]
             )
             ->add(
@@ -290,7 +291,7 @@ class ConnectionAdmin extends Admin
                 'text',
                 [
                     'label' => 'username',
-                    'editable' => true
+                    'editable' => true,
                 ]
             )
             ->add(
@@ -298,7 +299,7 @@ class ConnectionAdmin extends Admin
                 null,
                 [
                     'label' => 'enabled',
-                    'editable' => true
+                    'editable' => true,
                 ]
             )
             ->add(
@@ -306,7 +307,7 @@ class ConnectionAdmin extends Admin
                 'datetime',
                 [
                     'label' => 'created_at',
-                    'format' => 'm/d/Y'
+                    'format' => 'm/d/Y',
                 ]
             )
             ->add(
@@ -314,7 +315,7 @@ class ConnectionAdmin extends Admin
                 'datetime',
                 [
                     'label' => 'updated_at',
-                    'format' => 'm/d/Y'
+                    'format' => 'm/d/Y',
                 ]
             )
             ->add(
@@ -325,7 +326,7 @@ class ConnectionAdmin extends Admin
                     'actions' => [
                         'edit' => [],
                         'testConnection' => [
-                            'template' => 'AraneumMainBundle:AdminAction:testConnection.html.twig'
+                            'template' => 'AraneumMainBundle:AdminAction:testConnection.html.twig',
                         ],
                         'delete' => [],
                     ],
