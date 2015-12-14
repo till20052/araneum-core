@@ -84,9 +84,12 @@ class MailAdmin extends Admin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        $this->setFieldsMapper($listMapper);
         $listMapper
-            ->addIdentifier('id', null, ['label' => 'id'])
+            ->addIdentifier('id', null, ['label' => 'id']);
+
+        $this->setFieldsMapper($listMapper);
+
+        $listMapper
             ->add(
                 '_action',
                 'actions',
