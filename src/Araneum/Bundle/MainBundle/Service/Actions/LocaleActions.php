@@ -21,64 +21,64 @@ class LocaleActions extends AbstractActions
     {
         $builder
             ->add(
-                'locales.DELETE_LOCALE',
+                'Delete',
                 [
                     'resource' => 'araneum_main_admin_locale_delete',
                     'callback' => 'deleteRow',
                     'confirm' => [
-                        'title' => 'Are you sure?',
+                        'title' => 'admin.general.SURE',
                         'yes' => [
                             'class' => 'confirm',
-                            'title' => 'Yes, delete it!',
+                            'title' => 'admin.general.CONFIRM_DELETE',
                         ],
                         'no' => [
                             'class' => 'cancel',
-                            'title' => 'Cancel',
+                            'title' => 'admin.general.CANCEL',
                         ],
                     ],
                     'display' => [
                         'btnClass' => 'btn-danger',
                         'icon' => 'icon-user-unfollow',
-                        'label' => 'Delete locale',
+                        'label' => 'locales.DELETE_LOCALE',
                     ],
                     'position' => ActionBuilderInterface::POSITION_ALL,
                 ]
             )
             ->add(
-                'locales.DISABLE_LOCALE',
+                'enabledDisabled',
                 [
                     'resource' => 'araneum_main_admin_locale_disable',
                     'callback' => 'editRow',
                     'display' => [
                         'btnClass' => 'btn btn-sm btn-default',
                         'icon' => 'icon-lock-open',
-                        'label' => 'Disable locale',
+                        'label' => 'locales.DISABLE_LOCALE',
                     ],
                     'position' => ActionBuilderInterface::POSITION_ALL,
                 ]
             )
             ->add(
-                'locales.ENABLE_LOCALE',
+                'enabledDisable',
                 [
                     'resource' => 'araneum_main_admin_locale_enable',
                     'callback' => 'editRow',
                     'display' => [
                         'btnClass' => 'btn btn-sm btn-default',
                         'icon' => 'icon-lock-open',
-                        'label' => 'Enable locale',
+                        'label' => 'locales.ENABLE_LOCALE',
                     ],
                     'position' => ActionBuilderInterface::POSITION_ALL,
                 ]
             )
             ->add(
-                'locales.CREATE_NEW',
+                'Create',
                 [
                     'resourse' => 'araneum_main_admin_locale_create',
                     'callback' => 'create',
                     'display' => [
                         'btnClass' => 'btn-success',
                         'icon' => 'icon-user-follow',
-                        'label' => 'Create',
+                        'label' => 'locales.CREATE_NEW',
                     ],
                     'position' => ActionBuilderInterface::POSITION_TOP,
                 ]
