@@ -218,7 +218,7 @@ class LocaleAdminTestAbstractBaseAdminController extends AbstractBaseAdminContro
             'normal' => [
                 [
                     'name' => LocaleFixtures::TEST_LOC_NAME_UPDATE,
-                    'locale' => 'ru_RU',
+                    'locale' => 'af',
                     'orientation' => Locale::ORIENT_LFT_TO_RGT,
                     'enabled' => false,
                 ],
