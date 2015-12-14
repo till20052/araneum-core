@@ -2,8 +2,8 @@
 
 namespace Araneum\Base\Ali\DatatableBundle\Util;
 
+use Araneum\Base\Ali\DatatableBundle\Util\Factory\Query\AraneumDoctrineBuilder;
 use Doctrine\ORM\Query;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Ali\DatatableBundle\Util\Datatable;
 
@@ -17,10 +17,10 @@ class AraneumDatatable extends Datatable
     /**
      * AraneumDatatable constructor.
      *
-     * @param ContainerInterface $container
-     * @param QueryBuilder       $queryBuilder
+     * @param ContainerInterface     $container
+     * @param AraneumDoctrineBuilder $queryBuilder
      */
-    public function __construct(ContainerInterface $container, QueryBuilder $queryBuilder)
+    public function __construct(ContainerInterface $container, AraneumDoctrineBuilder $queryBuilder)
     {
         parent::__construct($container);
         $this->_queryBuilder = $queryBuilder;
