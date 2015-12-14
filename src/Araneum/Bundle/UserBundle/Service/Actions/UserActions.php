@@ -5,6 +5,11 @@ namespace Araneum\Bundle\UserBundle\Service\Actions;
 use Araneum\Base\Service\Actions\AbstractActions;
 use Araneum\Base\Service\Actions\ActionBuilderInterface;
 
+/**
+ * Class UserActions
+ *
+ * @package Araneum\Bundle\UserBundle\Service\Actions
+ */
 class UserActions extends AbstractActions
 {
     /**
@@ -23,12 +28,12 @@ class UserActions extends AbstractActions
                     'title' => 'Are you sure?',
                     'yes' => [
                         'class' => 'confirm',
-                        'title' => 'Yes, delete it!'
+                        'title' => 'Yes, delete it!',
                     ],
                     'no' => [
                         'class' => 'cancel',
-                        'title' => 'Cancel'
-                    ]
+                        'title' => 'Cancel',
+                    ],
                 ],
                 'display' => [
                     'btnClass' => 'btn-danger',

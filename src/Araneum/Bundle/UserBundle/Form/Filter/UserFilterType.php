@@ -7,6 +7,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class UserFilterType
+ *
+ * @package Araneum\Bundle\UserBundle\Form\Filter
+ */
 class UserFilterType extends AbstractType
 {
     /**
@@ -50,7 +55,7 @@ class UserFilterType extends AbstractType
                 'label' => 'Email',
                 'attr' => [
                     'placeholder' => 'user.ENTER_EMAIL',
-                    'translateLabel' => 'Email'
+                    'translateLabel' => 'Email',
                 ],
             ]
         )
@@ -61,7 +66,7 @@ class UserFilterType extends AbstractType
                 'label' => 'Full name',
                 'attr' => [
                     'placeholder' => 'user.ENTER_FULLNAME',
-                    'translateLabel' => 'user.FULLNAME'
+                    'translateLabel' => 'user.FULLNAME',
 
                 ],
             ]
@@ -73,9 +78,9 @@ class UserFilterType extends AbstractType
                 'label' => 'Enabled',
                 'choices' => User::$enable,
                 'empty_value' => 'admin.general.SELECT',
-                'attr'=>[
-                    'translateLabel' => 'admin.general.ENABLED'
-                ]
+                'attr' => [
+                    'translateLabel' => 'admin.general.ENABLED',
+                ],
             ]
         )
         ->add(
@@ -83,10 +88,10 @@ class UserFilterType extends AbstractType
             'filter_text',
             [
                 'label' => 'Last login',
-                'attr'=>[
+                'attr' => [
                     'placeholder' => 'Enter date',
-                    'translateLabel' => 'user.LAST_LOGIN'
-                ]
+                    'translateLabel' => 'user.LAST_LOGIN',
+                ],
             ]
         )
         ->add(
@@ -97,8 +102,8 @@ class UserFilterType extends AbstractType
                 'choices' => User::$roleNames,
                 'empty_value' => 'admin.general.SELECT',
                 'attr' => [
-                    'translateLabel' => 'user.ROLE'
-                ]
+                    'translateLabel' => 'user.ROLE',
+                ],
             ]
         );
     }
@@ -122,8 +127,8 @@ class UserFilterType extends AbstractType
             [
                 'csrf_protection'   => false,
                 'validation_groups' => [
-                    'filtering'
-                ]
+                    'filtering',
+                ],
             ]
         );
     }
