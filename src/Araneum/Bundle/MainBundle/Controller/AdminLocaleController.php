@@ -165,7 +165,7 @@ class AdminLocaleController extends AdminBaseController
      *  tags={"Agent"}
      * )
      *
-     * @Route("/manage/locales/locale/delete", defaults={"_format"="json"})
+     * @Route("/manage/locales/locale/delete", defaults={"_format"="json"}, name="araneum_main_admin_locale_delete")
      * @param Request $request
      * @return JsonResponse
      */
