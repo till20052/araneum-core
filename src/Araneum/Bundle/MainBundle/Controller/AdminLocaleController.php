@@ -1,5 +1,4 @@
 <?php
-
 namespace Araneum\Bundle\MainBundle\Controller;
 
 use Araneum\Bundle\MainBundle\Entity\Locale;
@@ -29,7 +28,7 @@ class AdminLocaleController extends AdminBaseController
      * @Route(
      *      "/manage/locales/locale/{id}",
      *      name="araneum_admin_main_locale_get",
-     *     requirements={"id" = "\d+"}
+     *      requirements={"id" = "\d+"}
      * )
      * @Method("GET")
      * @param int $id
@@ -192,7 +191,6 @@ class AdminLocaleController extends AdminBaseController
      */
     public function enableAction(Request $request)
     {
-
         return $this->updateLocaleEnableDisableAction($request, true);
     }
 
@@ -205,7 +203,6 @@ class AdminLocaleController extends AdminBaseController
      */
     public function disableAction(Request $request)
     {
-
         return $this->updateLocaleEnableDisableAction($request, false);
     }
 

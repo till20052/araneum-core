@@ -11,12 +11,12 @@ security:
             id: fos_user.user_provider.username
 
     firewalls:
-        api:
-            pattern: ^/.*/api
-            anonymous: ~
-            http_basic:
-                realm: "Araneum.Core API secure"
-            stateless: true
+#        api:
+#            pattern: ^/.*/api
+#            anonymous: ~
+#            http_basic:
+#                realm: "Araneum.Core API secure"
+#            stateless: true
 
         manage:
             pattern: ^/manage
@@ -43,4 +43,4 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/[a-zA-Z]+/admin/, role: ROLE_ADMIN }
         - { path: ^/admin/, role: ROLE_ADMIN }
-        - { path: ^/.*/api, role: ROLE_API }
+#        - { path: ^/.*/api, role: ROLE_API }
