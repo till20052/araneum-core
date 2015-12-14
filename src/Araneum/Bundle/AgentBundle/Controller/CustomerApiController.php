@@ -7,8 +7,6 @@ use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\Request;
 use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\AgentBundle\Form\CustomerType;
@@ -19,6 +17,7 @@ use FOS\RestBundle\Request\ParamFetcher;
 
 class CustomerApiController extends FOSRestController
 {
+
 	/**
 	 * Insert customer by appKey
 	 *

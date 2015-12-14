@@ -2,6 +2,8 @@ services:
     araneum.agent.customer.api_handler:
         class: Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService
         arguments: [@service_container]
+        calls:
+            - [setDispatcher, [@event_dispatcher]]
 
     araneum.agent.spotoption.service:
         class: Araneum\Bundle\AgentBundle\Service\SpotOptionService
@@ -13,3 +15,9 @@ services:
     araneum.agent.lead.api_handler:
         class: Araneum\Bundle\AgentBundle\Service\LeadApiHandlerService
         arguments: [@doctrine.orm.entity_manager, @form.factory]
+
+    araneum.agent.customer.event_listener:
+        class: Araneum\Bundle\AgentBundle\Service\CustomerEventListenerService
+        arguments: [@araneum.agent.customer.api_handler]
+        tags:
+            - { name: kernel.event_listener, event: araneum.agent.customer.event.post_persist, method: postPersist }

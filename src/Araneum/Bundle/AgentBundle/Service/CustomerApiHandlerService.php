@@ -12,9 +12,17 @@ use Araneum\Base\Exception\InvalidFormException;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormFactory;
+use Araneum\Bundle\AgentBundle\Event\CustomerEvent;
+use Araneum\Bundle\AgentBundle\CustomerEvents;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class CustomerApiHandlerService
 {
+	/**
+	 * @var
+	 */
+	private $dispatcher;
+
 	/**
 	 * @var ContainerInterface
 	 */
@@ -59,13 +67,20 @@ class CustomerApiHandlerService
 	 */
 	public function post($appKey, array $parameters)
 	{
+		$event = new CustomerEvent();
+
 		$application = $this->getAppManager()->findOneOr404(['appKey' => $appKey]);
 
 		$customer = new Customer();
 		$customer->setApplication($application);
 
+		$event->setCustomer($customer);
+
+		$this->dispatcher->dispatch(CustomerEvents::POST_PERSIST, $event);
+
 		return $this->processForm($parameters, $customer);
 	}
+
 
 	/**
 	 * Process Form
@@ -219,4 +234,13 @@ class CustomerApiHandlerService
 		return $this->spotOption;
 	}
 
+	/**
+	 * Set Event Dispatcher
+	 *
+	 * @param EventDispatcherInterface $eventDispatcherInterface
+	 */
+	public function setDispatcher(EventDispatcherInterface $eventDispatcherInterface)
+	{
+		$this->dispatcher = $eventDispatcherInterface;
+	}
 }
