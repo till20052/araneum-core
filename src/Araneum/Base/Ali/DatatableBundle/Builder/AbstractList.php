@@ -5,6 +5,11 @@ namespace Araneum\Base\Ali\DatatableBundle\Builder;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Araneum\Bundle\UserBundle\Entity\User;
 
+/**
+ * Class AbstractList
+ *
+ * @package Araneum\Base\Ali\DatatableBundle\Builder
+ */
 abstract class AbstractList
 {
     /**
@@ -18,12 +23,10 @@ abstract class AbstractList
     /**
      * Create query builder
      *
-     * @param $doctrine
+     * @param object $doctrine
      * @return \Ali\DatatableBundle\Util\Factory\Query\QueryInterface
      */
-    public function createQueryBuilder($doctrine)
-    {
-    }
+    abstract public function createQueryBuilder($doctrine);
 
     /**
      * Returns the name of entity class. Example:

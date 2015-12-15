@@ -8,6 +8,11 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\DomCrawler\Link;
 
+/**
+ * Class UserControllerUpdateTest
+ *
+ * @package Araneum\Bundle\UserBundle\Tests\Functional\Controller
+ */
 class UserControllerUpdateTest extends BaseController
 {
     /**
@@ -37,7 +42,8 @@ class UserControllerUpdateTest extends BaseController
             'Try username edit' => [
                 'authLogin' => 'emptyuser',
                 'username' => 'new_emptyuser',
-                'email' => 'emptyuser@araneum.dev', //TODO попытка проапдейтить существующим уникальным значением разобратся https://github.com/symfony/symfony/issues/6651
+                'email' => 'emptyuser@araneum.dev',
+                //TODO попытка проапдейтить существующим уникальным значением разобратся https://github.com/symfony/symfony/issues/6651
                 '__expected_value' => false,
             ],
             'Try short username' => [
@@ -63,7 +69,7 @@ class UserControllerUpdateTest extends BaseController
                 'username' => 'new_emptyuser',
                 'email' => 'emailuser@araneum.dev',
                 '__expected_value' => false,
-            ]
+            ],
         ];
     }
 

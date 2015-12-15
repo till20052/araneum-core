@@ -101,7 +101,7 @@ class Mail
     /**
      * Mail constructor
      */
-    function __construct()
+    public function __construct()
     {
         $this->setStatus(self::STATUS_NEW);
     }
@@ -339,7 +339,6 @@ class Mail
      */
     public function __toString()
     {
-        return $this->id ? $this->id . ' ' . $this->headline : 'Create Mail';
+        return $this->id ? $this->id.' '.$this->headline : 'Create Mail';
     }
-
 }

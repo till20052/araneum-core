@@ -18,7 +18,7 @@ class ConnectionRepository extends EntityRepository implements \Countable
     /**
      * Return query with unused connections for clusters
      *
-     * @param $type
+     * @param int $type
      * @return \Doctrine\ORM\Query
      */
     public function getQueryByUnusedAndType($type)
@@ -37,7 +37,7 @@ class ConnectionRepository extends EntityRepository implements \Countable
     /**
      * Get Applications
      *
-     * @param $id
+     * @param int $id
      * @return ArrayCollection
      */
     public function getApplications($id)
@@ -68,7 +68,7 @@ class ConnectionRepository extends EntityRepository implements \Countable
             ->setParameters(
                 [
                     'type' => Connection::CONN_HOST,
-                    'ids' => $ids
+                    'ids' => $ids,
                 ]
             );
 
@@ -78,7 +78,7 @@ class ConnectionRepository extends EntityRepository implements \Countable
     /**
      * Find Connection by appKey
      *
-     * @param $appKey
+     * @param string $appKey
      * @return array
      */
     public function findConnectionByAppKey($appKey)
@@ -89,9 +89,11 @@ class ConnectionRepository extends EntityRepository implements \Countable
             ->join('conn.clusters', 'clu')
             ->join('clu.applications', 'app')
             ->where('app.appKey = :appKey')
-            ->setParameters([
-                'appKey' => $appKey
-            ]);
+            ->setParameters(
+                [
+                    'appKey' => $appKey,
+                ]
+            );
 
         return $qb->getQuery()->getResult();
     }
@@ -99,7 +101,7 @@ class ConnectionRepository extends EntityRepository implements \Countable
     /**
      * Get host by cluster Id
      *
-     * @param $clusterId
+     * @param int $clusterId
      * @return array
      */
     public function getHostByClusterId($clusterId)
@@ -113,7 +115,7 @@ class ConnectionRepository extends EntityRepository implements \Countable
             ->setParameters(
                 [
                     'clu' => $clusterId,
-                    'type' => ConnectionFixtures::TEST_CONN_HOST_TYPE
+                    'type' => ConnectionFixtures::TEST_CONN_HOST_TYPE,
                 ]
             );
 
@@ -122,6 +124,7 @@ class ConnectionRepository extends EntityRepository implements \Countable
 
     /**
      * Count elements of an object
+     *
      * @link http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
      * </p>
@@ -132,8 +135,8 @@ class ConnectionRepository extends EntityRepository implements \Countable
     public function count()
     {
         return (int) $this->createQueryBuilder('conn')
-            ->select('COUNT(conn.id) as cnt')
-            ->getQuery()
-            ->getOneOrNullResult()['cnt'];
+                         ->select('COUNT(conn.id) as cnt')
+                         ->getQuery()
+                         ->getOneOrNullResult()['cnt'];
     }
 }

@@ -9,6 +9,11 @@ use Araneum\Bundle\MainBundle\Service\ApplicationEventListenerService;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * Class ApplicationEventListenerServiceTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Unit\Service
+ */
 class ApplicationEventListenerServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -54,7 +59,7 @@ class ApplicationEventListenerServiceTest extends \PHPUnit_Framework_TestCase
         foreach ([
                      'create',
                      'update',
-                     'remove'
+                     'remove',
                  ] as $method) {
             $remoteManager->expects($this->once())
                 ->method($method)
@@ -69,21 +74,21 @@ class ApplicationEventListenerServiceTest extends \PHPUnit_Framework_TestCase
             ApplicationEvents::POST_PERSIST,
             [
                 $listener,
-                'postPersist'
+                'postPersist',
             ]
         );
         $this->dispatcher->addListener(
             ApplicationEvents::POST_UPDATE,
             [
                 $listener,
-                'postUpdate'
+                'postUpdate',
             ]
         );
         $this->dispatcher->addListener(
             ApplicationEvents::PRE_REMOVE,
             [
                 $listener,
-                'preRemove'
+                'preRemove',
             ]
         );
 

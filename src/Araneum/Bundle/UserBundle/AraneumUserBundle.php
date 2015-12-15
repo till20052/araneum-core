@@ -6,6 +6,11 @@ use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappi
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/**
+ * Class AraneumUserBundle
+ *
+ * @package Araneum\Bundle\UserBundle
+ */
 class AraneumUserBundle extends Bundle
 {
     /**
@@ -18,7 +23,7 @@ class AraneumUserBundle extends Bundle
         parent::build($container);
 
         $mappings = [
-            realpath(__DIR__ . '/Resources/config/doctrine/model') => 'FOS\UserBundle\Entity',
+            realpath(__DIR__.'/Resources/config/doctrine/model') => 'FOS\UserBundle\Entity',
         ];
 
         $container->addCompilerPass(
@@ -31,7 +36,7 @@ class AraneumUserBundle extends Bundle
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getParent()
     {

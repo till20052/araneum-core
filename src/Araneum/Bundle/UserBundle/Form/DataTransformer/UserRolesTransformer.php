@@ -6,6 +6,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
+/**
+ * Class UserRolesTransformer
+ *
+ * @package Araneum\Bundle\UserBundle\Form\DataTransformer
+ */
 class UserRolesTransformer implements DataTransformerInterface
 {
     /**

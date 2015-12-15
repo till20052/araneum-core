@@ -7,12 +7,17 @@ use Araneum\Base\Tests\Fixtures\Customer\CustomerFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class CustomerApiControllerTest
+ *
+ * @package Araneum\Bundle\AgentBundle\Test\Functional\Api
+ */
 class CustomerApiControllerTest extends BaseController
 {
     /**
      * @var string uri to call rest api method
      */
-    protected $customerInsert = '/agent/api/customers/insert/' . ApplicationFixtures::TEST_APP_APP_KEY;
+    protected $customerInsert = '/agent/api/customers/insert/'.ApplicationFixtures::TEST_APP_APP_KEY;
 
     /**
      * Settings up
@@ -27,9 +32,9 @@ class CustomerApiControllerTest extends BaseController
         $repository = $manager
             ->getRepository('AraneumAgentBundle:Customer');
 
-        $delete = $repository->findOneBy(['email'=>'email@email.com']);
+        $delete = $repository->findOneBy(['email' => 'email@email.com']);
 
-        if($delete){
+        if ($delete) {
             $manager->remove($delete);
             $manager->flush();
         }
@@ -73,22 +78,22 @@ class CustomerApiControllerTest extends BaseController
                     'firstName' => 'ашкыТфьу',
                     'lastName' => 'lastName',
                     'country' => 'country',
-                    'email' => 'testEmail' . sha1(rand()) . '@email.com',
+                    'email' => 'testEmail'.sha1(rand()).'@email.com',
                     'currency' => 'usd',
-                    'phone' => '380993222234'
+                    'phone' => '380993222234',
                 ],
-                Response::HTTP_CREATED
+                Response::HTTP_CREATED,
             ],
             'normal fullName&lastName cirilica letters' => [
                 [
                     'firstName' => "Дим'аЁ",
                     'lastName' => "Дим'аЁ",
                     'country' => 'country',
-                    'email' => 'testEmail' . sha1(rand()) . '@email.com',
+                    'email' => 'testEmail'.sha1(rand()).'@email.com',
                     'currency' => 'usd',
-                    'phone' => '380993222234'
+                    'phone' => '380993222234',
                 ],
-                Response::HTTP_CREATED
+                Response::HTTP_CREATED,
             ],
             'testFailCreate' => [
                 [
@@ -97,10 +102,10 @@ class CustomerApiControllerTest extends BaseController
                     'country' => CustomerFixtures::TEST_COUNTRY,
                     'email' => CustomerFixtures::TEST_EMAIL,
                     'currency' => CustomerFixtures::TEST_CURRENCY,
-                    'phone' => CustomerFixtures::TEST_PHONE
+                    'phone' => CustomerFixtures::TEST_PHONE,
                 ],
-                Response::HTTP_BAD_REQUEST
-            ]
+                Response::HTTP_BAD_REQUEST,
+            ],
         ];
     }
 }

@@ -10,6 +10,11 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * Class MailFixtures
+ *
+ * @package Araneum\Base\Tests\Fixtures\Mail
+ */
 class MailFixtures extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
 

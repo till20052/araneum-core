@@ -7,6 +7,11 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * Class ApplicationApiHandlerService
+ *
+ * @package Araneum\Bundle\MainBundle\Service
+ */
 class ApplicationApiHandlerService
 {
     /**
@@ -36,7 +41,7 @@ class ApplicationApiHandlerService
      */
     public function getRepository()
     {
-        if($this->repository instanceof ApplicationRepository){
+        if ($this->repository instanceof ApplicationRepository) {
             return $this->repository;
         }
 
@@ -73,7 +78,7 @@ class ApplicationApiHandlerService
             'components' => $entity->getComponents(),
             'owner' => $entity->getOwner(),
             'status' => $entity->getStatus(),
-            'template' => $entity->getTemplate()
+            'template' => $entity->getTemplate(),
         ];
 
         return $application;
