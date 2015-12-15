@@ -264,7 +264,7 @@ class ApplicationCheckerService
         }
 
         /** @var Connection $connection */
-        foreach ($cluster->getHosts() as $connection) {
+        foreach ($cluster->getRunner() as $connection) {
             $connectionStatus = $this->getConnectionState($connection, 5, $response);
 
             $this->loggerService->logConnection(

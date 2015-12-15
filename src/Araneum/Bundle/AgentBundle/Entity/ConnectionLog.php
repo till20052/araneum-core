@@ -3,7 +3,7 @@
 namespace Araneum\Bundle\AgentBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
-use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Araneum\Bundle\MainBundle\Entity\Runner;
 use Araneum\Bundle\MainBundle\Entity\Connection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,13 +35,13 @@ class ConnectionLog
     private $connection;
 
     /**
-     * @var Cluster
+     * @var Runner
      *
-     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Cluster", inversedBy="connectionLogs",
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Runner", inversedBy="connectionLogs",
      *     cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="cluster_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="runner_id", referencedColumnName="id", nullable=false)
      */
-    private $cluster;
+    private $runner;
 
     /**
      * @var integer
@@ -91,26 +91,26 @@ class ConnectionLog
     }
 
     /**
-     * Set cluster
+     * Set runner
      *
-     * @param Cluster $cluster
+     * @param Runner $runner
      * @return ConnectionLog $this
      */
-    public function setCluster(Cluster $cluster)
+    public function setRunner(Runner $runner)
     {
-        $this->cluster = $cluster;
+        $this->runner = $runner;
 
         return $this;
     }
 
     /**
-     * Get cluster
+     * Get runner
      *
-     * @return Cluster
+     * @return Runner
      */
-    public function getCluster()
+    public function getRunner()
     {
-        return $this->cluster;
+        return $this->runner;
     }
 
     /**

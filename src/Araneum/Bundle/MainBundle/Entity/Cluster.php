@@ -3,7 +3,6 @@
 namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
-use Araneum\Bundle\AgentBundle\Entity\ConnectionLog;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -57,12 +56,6 @@ class Cluster
     protected $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Connection", inversedBy="cluster", cascade={"persist"})
-     * @ORM\JoinTable(name="araneum_cluster_connection")
-     */
-    protected $hosts;
-
-    /**
      * @ORM\Column(type="smallint", name="type", options={"comment": "1 - single, 2 - multiple"})
      * @Assert\Type(type="int")
      */
@@ -86,13 +79,6 @@ class Cluster
      * @ORM\OneToMany(targetEntity="Application", mappedBy="cluster", cascade={"detach", "persist"})
      */
     protected $applications;
-
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ConnectionLog", mappedBy="cluster",
-     *     cascade={"remove"})
-     */
-    protected $connectionLogs;
 
     /**
      * @var ArrayCollection
@@ -131,9 +117,7 @@ class Cluster
      */
     public function __construct()
     {
-        $this->setHosts(new ArrayCollection());
         $this->setApplications(new ArrayCollection());
-        $this->setConnectionLogs(new ArrayCollection());
         $this->setClusterLogs(new ArrayCollection());
     }
 
@@ -240,52 +224,6 @@ class Cluster
     }
 
     /**
-     * Add host
-     *
-     * @param ArrayCollection $hosts
-     * @return Cluster
-     */
-    public function setHosts(ArrayCollection $hosts)
-    {
-        $this->hosts = $hosts;
-
-        return $this;
-    }
-
-    /**
-     * Get host
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getHosts()
-    {
-        return $this->hosts;
-    }
-
-    /**
-     * Add single host in collection
-     *
-     * @param Connection $host
-     * @return Cluster
-     */
-    public function addHost(Connection $host)
-    {
-        $this->getHosts()->add($host);
-
-        return $this;
-    }
-
-    /**
-     * Remove single host from collection
-     *
-     * @param Connection $host
-     */
-    public function removeHost(Connection $host)
-    {
-        $this->getHosts()->removeElement($host);
-    }
-
-    /**
      * Convert entity to string
      *
      * @return string
@@ -355,66 +293,6 @@ class Cluster
     public function hasApplication(Application $application)
     {
         return $this->applications->contains($application);
-    }
-
-    /**
-     * Set connectionLog
-     *
-     * @param ArrayCollection $connectionLogs
-     * @return Cluster $this
-     */
-    public function setConnectionLogs(ArrayCollection $connectionLogs)
-    {
-        $this->connectionLogs = $connectionLogs;
-
-        return $this;
-    }
-
-    /**
-     * Set connectionsLog
-     *
-     * @return ArrayCollection
-     */
-    public function getConnectionLogs()
-    {
-        return $this->connectionLogs;
-    }
-
-    /**
-     * Add connectionsLog
-     *
-     * @param ConnectionLog $connectionLogs
-     * @return Cluster $this
-     */
-    public function addConnectionLogs(ConnectionLog $connectionLogs)
-    {
-        $this->connectionLogs->add($connectionLogs);
-
-        return $this;
-    }
-
-    /**
-     * Remove connectionsLog
-     *
-     * @param ConnectionLog $connectionLogs
-     * @return Cluster $this
-     */
-    public function removeConnectionLogs(ConnectionLog $connectionLogs)
-    {
-        $this->connectionLogs->removeElement($connectionLogs);
-
-        return $this;
-    }
-
-    /**
-     * Check is cluster has connectionLogs
-     *
-     * @param ConnectionLog $connectionLogs
-     * @return bool
-     */
-    public function hasConnectionLogs(ConnectionLog $connectionLogs)
-    {
-        return $this->connectionLogs->contains($connectionLogs);
     }
 
     /**

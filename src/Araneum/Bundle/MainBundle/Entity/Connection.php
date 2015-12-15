@@ -97,9 +97,9 @@ class Connection
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Cluster", mappedBy="hosts", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Runner", mappedBy="connections", cascade={"persist"})
      */
-    protected $clusters;
+    protected $runners;
 
     /**
      * Get list of Connection statuses
@@ -131,7 +131,7 @@ class Connection
      */
     public function __construct()
     {
-        $this->setClusters(new ArrayCollection());
+        $this->setRunners(new ArrayCollection());
     }
 
     /**
@@ -306,24 +306,24 @@ class Connection
     }
 
     /**
-     * Get Clusters
+     * Get Runners
      *
      * @return ArrayCollection
      */
-    public function getClusters()
+    public function getRunners()
     {
-        return $this->clusters;
+        return $this->runners;
     }
 
     /**
-     * Set Clusters
+     * Set Runners
      *
-     * @param ArrayCollection $clusters
+     * @param ArrayCollection $runners
      * @return Connection
      */
-    public function setClusters(ArrayCollection $clusters)
+    public function setRunners(ArrayCollection $runners)
     {
-        $this->clusters = $clusters;
+        $this->runners = $runners;
 
         return $this;
     }
