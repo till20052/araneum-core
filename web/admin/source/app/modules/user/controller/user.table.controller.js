@@ -11,7 +11,7 @@
      * @param $scope
      */
     function UserTableController($scope) {
-        $scope.title = 'locales.LOCALES';
+        $scope.title = 'admin.sidebar.nav.USERS';
         $scope.titleClass = 'icon-users mr';
     }
 

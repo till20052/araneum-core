@@ -22,14 +22,6 @@
                 resolve: helper.resolveFor('datatables', 'whirl'),
                 controller: 'UserTableController'
             })
-            .state('app.locales', {
-                url: '/locales',
-                title: 'Locales',
-                initialize: '/user/manage/locales/init.json',
-                templateUrl: helper.basepath('grid-template.html'),
-                resolve: helper.resolveFor('datatables', 'whirl'),
-                controller: 'LocalesController'
-            })
             .state('login', {
                 url: '/login',
                 title: 'Authorization',

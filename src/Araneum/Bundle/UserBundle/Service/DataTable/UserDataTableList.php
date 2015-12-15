@@ -51,11 +51,25 @@ class UserDataTableList extends AbstractList
     {
         $builder
             ->add('id')
-            ->add('email', ['search_type' => 'like'])
-            ->add('username', ['search_type' => 'like'])
-            ->add('fullName', ['search_type' => 'like'])
-            ->add('enabled')
-            ->add('roles.name', ['search_type' => 'like'])
+            ->add('email', [
+                'search_type' => 'like',
+                'label' => 'email',
+            ])
+            ->add('username', [
+                'search_type' => 'like',
+                'label' => 'user.LOGIN',
+            ])
+            ->add('fullName', [
+                'search_type' => 'like',
+                'label' => 'user.FULLNAME',
+            ])
+            ->add('enabled', [
+                'label' => 'admin.general.ENABLE',
+            ])
+            ->add('roles.name', [
+                'search_type' => 'like',
+                'label' => 'user.ROLE',
+            ])
             ->add(
                 'lastLogin',
                 [
@@ -63,12 +77,13 @@ class UserDataTableList extends AbstractList
                     'render' => function ($value) {
                         return $value instanceof \DateTime ? $value->format('Y-m-d') : '';
                     },
+                    'label' => 'user.LAST_LOGIN',
                 ]
             )
             ->add(
                 'createdAt',
                 [
-                    'label' => 'Register',
+                    'label' => 'user.REGISTER',
                     'search_type' => 'datetime',
                 ]
             )

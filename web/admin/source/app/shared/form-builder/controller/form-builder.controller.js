@@ -100,10 +100,14 @@
 		 * @param response
 		 */
 		function onInitSuccess(response) {
+			var massTranslate = [];
 			vm.dt.options.sAjaxSource = response.grid.source;
-			angular.forEach(response.grid.columns, function(f) {
-				this.push(f);
-			}, vm.dt.columns);
+
+			angular.forEach(response.grid.columns, function(value){
+				massTranslate.push(value);
+			});
+
+			vm.dt.columns = massTranslate;
 			vm.dt.initialized = true;
 		}
 
@@ -123,6 +127,6 @@
 						.prop('checked', false);
 				}
 			}
-		};
+		}
 	}
 })();

@@ -50,18 +50,42 @@ class LocaleDataTableList extends AbstractList
     {
         $builder
             ->add('id')
-            ->add('name', ['search_type' => 'like'])
-            ->add('locale', ['search_type' => 'like'])
-            ->add('enabled')
+            ->add(
+                'name',
+                [
+                    'search_type' => 'like',
+                    'label' => 'locales.NAME',
+                ]
+            )
+            ->add(
+                'locale',
+                [
+                    'search_type' => 'like',
+                    'label' => 'locales.LOCALE',
+                ]
+            )
+            ->add(
+                'enabled',
+                [
+                    'label' => 'locales.ENABLED',
+                ]
+            )
             ->add(
                 'orientation',
                 [
                     'render' => function ($value, $data, $doctrine, $templating, $user) {
                         return $value != Locale::ORIENT_RGT_TO_LFT ? 'Left to right' : 'Right to left';
                     },
+                    'label' => 'locales.ORIENTATION',
                 ]
             )
-            ->add('encoding', ['search_type' => 'like']);
+            ->add(
+                'encoding',
+                [
+                    'search_type' => 'like',
+                    'label' => 'locales.ENCODING',
+                ]
+            );
     }
 
     /**
