@@ -41,3 +41,8 @@ services:
         arguments: [@doctrine, @service_container]
         tags:
             - { name: form.type, alias: araneum_locale_filter }
+
+    araneum.main.locale.form:
+        class: Araneum\Bundle\MainBundle\Form\Type\LocaleType
+        tags:
+            - { name: form.type }

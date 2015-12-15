@@ -88,6 +88,8 @@ general:
     DELETE: 'Delete'
     ENABLE: 'Enable'
     DISABLE: 'Disable'
+    SURE: 'Are you sure?'
+    CONFIRM_DELETE: 'Yes, delete it'
 datatables:
     PROCESSING: 'Processing...'
     SEARCH: 'Search:'
