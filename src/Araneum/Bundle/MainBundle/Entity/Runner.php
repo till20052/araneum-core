@@ -7,6 +7,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Araneum\Bundle\AgentBundle\Entity\ConnectionLog;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Runner
@@ -68,10 +69,10 @@ class Runner
     protected $status;
 
     /**
-     * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Cluster", mappedBy="runners", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Cluster", cascade={"detach", "persist"})
+     * @ORM\JoinColumn(name="cluster_id", referencedColumnName="id")
      */
-    protected $clusters;
+    protected $cluster;
 
     /**
      * @var ArrayCollection
@@ -261,24 +262,24 @@ class Runner
     }
 
     /**
-     * Get Clusters
+     * Get cluster
      *
-     * @return ArrayCollection
+     * @return Cluster
      */
-    public function getClusters()
+    public function getCluster()
     {
-        return $this->clusters;
+        return $this->cluster;
     }
 
     /**
-     * Set Clusters
+     * Set cluster
      *
-     * @param ArrayCollection $clusters
-     * @return Runner
+     * @param Cluster $cluster
+     * @return $this
      */
-    public function setClusters(ArrayCollection $clusters)
+    public function setCluster(Cluster $cluster)
     {
-        $this->clusters = $clusters;
+        $this->cluster = $cluster;
 
         return $this;
     }

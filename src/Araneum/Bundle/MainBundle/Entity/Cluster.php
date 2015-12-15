@@ -88,6 +88,12 @@ class Cluster
     protected $clusterLogs;
 
     /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Runner", mappedBy="cluster", cascade={"detach", "persist"})
+     */
+    protected $runners;
+
+    /**
      * Get list of Cluster statuses
      *
      * @return array
@@ -293,6 +299,68 @@ class Cluster
     public function hasApplication(Application $application)
     {
         return $this->applications->contains($application);
+    }
+
+    /**
+     * Set runners
+     *
+     * @param ArrayCollection $runners
+     * @return Cluster $this
+     */
+    public function setRunners(ArrayCollection $runners)
+    {
+        $this->runners = $runners;
+
+        return $this;
+    }
+
+    /**
+     * Get runners
+     *
+     * @return ArrayCollection
+     */
+    public function getRunners()
+    {
+        return $this->runners;
+    }
+
+    /**
+     * Add runners
+     *
+     * @param Runner $runner
+     * @return Cluster $this
+     */
+    public function addRunner(Runner $runner)
+    {
+        if (!$this->hasRunner($runner)) {
+            $this->runners->add($runner);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove runner
+     *
+     * @param Runner $runner
+     * @return Cluster $this
+     */
+    public function removeRunner(Runner $runner)
+    {
+        $this->runners->removeElement($runner);
+
+        return $this;
+    }
+
+    /**
+     * Check is cluster has runner
+     *
+     * @param Runner $runner
+     * @return bool
+     */
+    public function hasRunner(Runner $runner)
+    {
+        return $this->runners->contains($runner);
     }
 
     /**
