@@ -44,8 +44,8 @@ class Runner
     protected $domain;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Connection", inversedBy="runners", cascade={"persist"})
-     * @ORM\JoinTable(name="araneum_runner_connection")
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Connection", mappedBy="runner", cascade={"detach", "persist"})
      */
     protected $connections;
 

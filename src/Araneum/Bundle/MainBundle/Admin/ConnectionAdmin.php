@@ -142,8 +142,8 @@ class ConnectionAdmin extends Admin
                 [
                     'label' => 'type',
                     'choices' => [
-                        Connection::CONN_DB => 'db_connection',
-                        Connection::CONN_HOST => 'host_connection',
+                        Connection::CONN_POSTGRESS => 'db_connection',
+                        Connection::CONN_NGINX => 'host_connection',
                     ],
                 ]
             )
@@ -176,8 +176,8 @@ class ConnectionAdmin extends Admin
                 [
                     'label' => 'type',
                     'choices' => [
-                        Connection::CONN_DB => 'db_connection',
-                        Connection::CONN_HOST => 'host_connection',
+                        Connection::CONN_POSTGRESS => 'db_connection',
+                        Connection::CONN_NGINX => 'host_connection',
                     ],
                 ]
             )
@@ -206,8 +206,8 @@ class ConnectionAdmin extends Admin
                 'choice',
                 [
                     'choices' => [
-                        Connection::CONN_DB => 'db_connection',
-                        Connection::CONN_HOST => 'host_connection',
+                        Connection::CONN_POSTGRESS => 'db_connection',
+                        Connection::CONN_NGINX => 'host_connection',
                     ],
                 ]
             )
@@ -257,8 +257,8 @@ class ConnectionAdmin extends Admin
                 [
                     'label' => 'type',
                     'choices' => [
-                        Connection::CONN_DB => $this->getTranslator()->trans('db_connection'),
-                        Connection::CONN_HOST => $this->getTranslator()->trans('host_connection'),
+                        Connection::CONN_POSTGRESS => $this->getTranslator()->trans('db_connection'),
+                        Connection::CONN_NGINX => $this->getTranslator()->trans('host_connection'),
                     ],
                 ]
             )

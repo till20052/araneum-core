@@ -26,13 +26,6 @@ class ClusterData extends AbstractFixture implements FixtureInterface, Dependent
         if (empty($cluster)) {
             $cluster = new Cluster();
             $cluster->setName('DefaultUltratradeCluster');
-            $cluster->setHosts(
-                new ArrayCollection(
-                    [
-                        $this->getReference('connectionHost'),
-                    ]
-                )
-            );
             $cluster->setType(1);
             $cluster->setEnabled(true);
             $cluster->setStatus(1);

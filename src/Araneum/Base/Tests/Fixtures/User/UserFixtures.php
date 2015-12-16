@@ -2,6 +2,7 @@
 
 namespace Araneum\Base\Tests\Fixtures\User;
 
+use Araneum\Bundle\UserBundle\Entity\Role;
 use Araneum\Bundle\UserBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -34,6 +35,7 @@ class UserFixtures extends AbstractFixture implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
+
         $user = $manager->getRepository('AraneumUserBundle:User')
             ->findOneByUsername(self::TEST_USER_NAME);
         if (empty($user)) {

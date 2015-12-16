@@ -312,7 +312,7 @@ class ConnectionAdminTestAbstractBaseAdminController extends AbstractBaseAdminCo
             ->getContainer()
             ->get('doctrine.orm.entity_manager')
             ->getRepository('AraneumMainBundle:Connection')
-            ->findOneByName(ConnectionFixtures::TEST_CONN_DB_NAME);
+            ->findOneByName(ConnectionFixtures::TEST_CONN_POSTGRESS_NAME);
 
         $client = $this->createAdminAuthorizedClient();
 

@@ -14,18 +14,18 @@ use Doctrine\Common\Persistence\ObjectManager;
  */
 class ConnectionFixtures extends AbstractFixture implements FixtureInterface
 {
-    const TEST_CONN_DB_TYPE     = 1;
-    const TEST_CONN_HOST_TYPE   = 2;
+    const TEST_CONN_POSTGRESS_TYPE     = 1;
+    const TEST_CONN_NGINX_TYPE   = 2;
     const TEST_CONN_NAME        = 'TestConnection';
-    const TEST_CONN_DB_NAME     = 'TestDbConnection';
-    const TEST_CONN_HOST        = '192.168.1.200';
+    const TEST_CONN_POSTGRESS_NAME     = 'TestDbConnection';
+    const TEST_CONN_NGINX        = '192.168.1.200';
     const TEST_CONN_PORT        = 1234;
-    const TEST_CONN_DB_PORT     = 4321;
+    const TEST_CONN_POSTGRESS_PORT     = 4321;
     const TEST_CONN_ENABLED     = true;
     const TEST_CONN_USERNAME    = 'TestConnectionUserName';
-    const TEST_CONN_DB_USERNAME = 'TestDbConnectionUserName';
+    const TEST_CONN_POSTGRESS_USERNAME = 'TestDbConnectionUserName';
     const TEST_CONN_PASS        = 'TestConnectionPassword';
-    const TEST_CONN_DB_PASS     = 'TestDbConnectionPassword';
+    const TEST_CONN_POSTGRESS_PASS     = 'TestDbConnectionPassword';
     const TEST_CONN_FREE_NAME   = 'TestConnectionFreeName';
 
     /**
@@ -38,9 +38,9 @@ class ConnectionFixtures extends AbstractFixture implements FixtureInterface
             ->findOneByName(self::TEST_CONN_NAME);
         if (empty($connectionHost)) {
             $connectionHost = new Connection();
-            $connectionHost->setType(self::TEST_CONN_HOST_TYPE);
+            $connectionHost->setType(self::TEST_CONN_NGINX_TYPE);
             $connectionHost->setName(self::TEST_CONN_NAME);
-            $connectionHost->setHost(self::TEST_CONN_HOST);
+            $connectionHost->setHost(self::TEST_CONN_NGINX);
             $connectionHost->setPort(self::TEST_CONN_PORT);
             $connectionHost->setEnabled(self::TEST_CONN_ENABLED);
             $connectionHost->setUserName(self::TEST_CONN_USERNAME);
@@ -51,16 +51,16 @@ class ConnectionFixtures extends AbstractFixture implements FixtureInterface
 
         $connectionDb = $manager
             ->getRepository('AraneumMainBundle:Connection')
-            ->findOneByName(self::TEST_CONN_DB_NAME);
+            ->findOneByName(self::TEST_CONN_POSTGRESS_NAME);
         if (empty($connectionDb)) {
             $connectionDb = new Connection();
-            $connectionDb->setType(self::TEST_CONN_DB_TYPE);
-            $connectionDb->setName(self::TEST_CONN_DB_NAME);
-            $connectionDb->setHost(self::TEST_CONN_HOST);
-            $connectionDb->setPort(self::TEST_CONN_DB_PORT);
+            $connectionDb->setType(self::TEST_CONN_POSTGRESS_TYPE);
+            $connectionDb->setName(self::TEST_CONN_POSTGRESS_NAME);
+            $connectionDb->setHost(self::TEST_CONN_NGINX);
+            $connectionDb->setPort(self::TEST_CONN_POSTGRESS_PORT);
             $connectionDb->setEnabled(self::TEST_CONN_ENABLED);
-            $connectionDb->setUserName(self::TEST_CONN_DB_USERNAME);
-            $connectionDb->setPassword(self::TEST_CONN_DB_PASS);
+            $connectionDb->setUserName(self::TEST_CONN_POSTGRESS_USERNAME);
+            $connectionDb->setPassword(self::TEST_CONN_POSTGRESS_PASS);
             $manager->persist($connectionDb);
             $manager->flush();
         }
@@ -70,9 +70,9 @@ class ConnectionFixtures extends AbstractFixture implements FixtureInterface
             ->findOneByName(self::TEST_CONN_FREE_NAME);
         if (empty($connectionFree)) {
             $connectionFree = new Connection();
-            $connectionFree->setType(self::TEST_CONN_HOST_TYPE);
+            $connectionFree->setType(self::TEST_CONN_NGINX_TYPE);
             $connectionFree->setName(self::TEST_CONN_FREE_NAME);
-            $connectionFree->setHost(self::TEST_CONN_HOST);
+            $connectionFree->setHost(self::TEST_CONN_NGINX);
             $connectionFree->setPort(self::TEST_CONN_PORT);
             $connectionFree->setEnabled(self::TEST_CONN_ENABLED);
             $connectionFree->setUserName(self::TEST_CONN_USERNAME);

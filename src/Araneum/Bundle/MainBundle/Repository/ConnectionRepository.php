@@ -67,7 +67,7 @@ class ConnectionRepository extends EntityRepository implements \Countable
             ->andWhere('con.id IN (:ids)')
             ->setParameters(
                 [
-                    'type' => Connection::CONN_HOST,
+                    'type' => Connection::CONN_NGINX,
                     'ids' => $ids,
                 ]
             );
@@ -108,14 +108,15 @@ class ConnectionRepository extends EntityRepository implements \Countable
     {
         $qb = $this->createQueryBuilder('conn');
         $qb
-            ->join('conn.clusters', 'clu')
+            ->join('conn.runners', 'runners')
+            ->join('runners.cluster', 'clu')
             ->where('clu.id = :clu')
             ->andWhere('conn.type = :type')
             ->andWhere('conn.enabled = true')
             ->setParameters(
                 [
                     'clu' => $clusterId,
-                    'type' => ConnectionFixtures::TEST_CONN_HOST_TYPE,
+                    'type' => ConnectionFixtures::TEST_CONN_NGINX_TYPE,
                 ]
             );
 

@@ -40,7 +40,7 @@ class ApplicationAdminTestAbstractBaseAdminController extends AbstractBaseAdminC
             ->findOneByName(ClusterFixtures::TEST_CLU_NAME);
 
         $db = $manager->getRepository('AraneumMainBundle:Connection')
-            ->findOneByName(ConnectionFixtures::TEST_CONN_DB_NAME);
+            ->findOneByName(ConnectionFixtures::TEST_CONN_POSTGRESS_NAME);
 
         $locale = $manager->getRepository('AraneumMainBundle:Locale')
             ->findOneByName(LocaleFixtures::TEST_LOC_NAME);
@@ -121,7 +121,7 @@ class ApplicationAdminTestAbstractBaseAdminController extends AbstractBaseAdminC
             ->findOneByName(ClusterFixtures::TEST_CLU_NAME);
 
         $db = $manager->getRepository('AraneumMainBundle:Connection')
-            ->findOneByName(ConnectionFixtures::TEST_CONN_DB_NAME);
+            ->findOneByName(ConnectionFixtures::TEST_CONN_POSTGRESS_NAME);
 
         $locale = $manager->getRepository('AraneumMainBundle:Locale')
             ->findOneByName(LocaleFixtures::TEST_LOC_NAME);

@@ -29,7 +29,7 @@ class AdminConnectionController extends AdminBaseController
     {
         $connection = $this->getDoctrine()->getRepository('AraneumMainBundle:Connection')->find($id);
 
-        if ($connection->getType() == Connection::CONN_HOST) {
+        if ($connection->getType() == Connection::CONN_NGINX) {
             $this->container
                 ->get('araneum.main.application.checker')
                 ->checkConnection($id);
