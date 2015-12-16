@@ -59,9 +59,8 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="country", type="string", length=32, nullable=true)
-     * @Assert\Length(min=2, max=30)
-     * @Assert\Regex(pattern="/^\D+$/")
+     * @ORM\Column(name="country", type="smallint", nullable=true)
+     * @Assert\Regex(pattern="/^\d+$/")
      * @Assert\NotBlank()
      */
     private $country;
@@ -93,6 +92,12 @@ class Customer
      * @Assert\NotBlank()
      */
     private $currency;
+
+    /**
+     * @var string
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $birthday;
 
     /**
      * @var boolean
@@ -323,5 +328,25 @@ class Customer
         $this->currency = $currency;
 
         return $this;
+    }
+
+    /**
+     * Get birthday
+     *
+     * @return string
+     */
+    public function getBirthday()
+    {
+        return $this->birthday;
+    }
+
+    /**
+     * Set birthday
+     *
+     * @param string $birthday
+     */
+    public function setBirthday($birthday)
+    {
+        $this->birthday = $birthday;
     }
 }
