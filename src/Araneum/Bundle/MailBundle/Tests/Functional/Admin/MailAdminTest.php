@@ -23,7 +23,7 @@ class MailAdminTest extends BaseController
     {
         $client = $this->createAdminAuthorizedClient();
 
-        $crawler = $client->request(
+        $client->request(
             'GET',
             '/admin/araneum/mail/mail/create'
         );
@@ -45,7 +45,7 @@ class MailAdminTest extends BaseController
             ->getRepository('AraneumMailBundle:Mail')
             ->findOneBySender(MailFixtures::TEST_MAIL_SENDER);
 
-        $crawler = $client->request(
+        $client->request(
             'GET',
             '/admin/araneum/mail/mail/'.$mail->getId().'/edit'
         );
@@ -67,7 +67,7 @@ class MailAdminTest extends BaseController
             ->getRepository('AraneumMailBundle:Mail')
             ->findOneBySender(MailFixtures::TEST_MAIL_SENDER);
 
-        $crawler = $client->request(
+        $client->request(
             'GET',
             '/admin/araneum/mail/mail/'.$mail->getId().'/delete'
         );
@@ -89,7 +89,7 @@ class MailAdminTest extends BaseController
             ->getRepository('AraneumMailBundle:Mail')
             ->findOneBySender(MailFixtures::TEST_MAIL_SENDER);
 
-        $crawler = $client->request(
+        $client->request(
             'GET',
             $client->getContainer()->get('router')->generate('admin_araneum_mail_mail_show', ['id' => $mail->getId()])
         );

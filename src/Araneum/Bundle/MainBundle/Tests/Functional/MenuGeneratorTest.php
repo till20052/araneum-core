@@ -27,7 +27,7 @@ class MenuGeneratorTest extends WebTestCase
 
         $client = static::createClient();
 
-        $crawler = $client->request(
+        $client->request(
             'GET',
             '/manage/menu.json'
         );

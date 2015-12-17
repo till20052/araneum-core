@@ -34,7 +34,7 @@ class FormHandlerService
             $formView = $formView->children;
         }
 
-        foreach ($formView as $name => $child) {
+        foreach ($formView as $child) {
             if (!(count($child->children) > 0)) {
                 $item = [];
 

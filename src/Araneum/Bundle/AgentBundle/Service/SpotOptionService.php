@@ -18,6 +18,9 @@ class SpotOptionService
      */
     public function login($login, $password)
     {
+        $login = null;
+        $password = null;
+
         return true;
     }
 
@@ -31,6 +34,10 @@ class SpotOptionService
      */
     public function resetPassword($login, $currentPassword, $newPassword)
     {
+        $login = null;
+        $currentPassword = null;
+        $newPassword = null;
+
         return true;
     }
 }
