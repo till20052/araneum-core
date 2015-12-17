@@ -53,8 +53,8 @@ class DeploymentCommand extends ContainerAwareCommand
 
             $commandOptions = [];
             $command = $this->getApplication()->find($commandName);
-            foreach($input->getOptions() as $inputOptionName => $inputOptionValue) {
-                if($command->getDefinition()->hasOption($inputOptionName)) {
+            foreach ($input->getOptions() as $inputOptionName => $inputOptionValue) {
+                if ($command->getDefinition()->hasOption($inputOptionName)) {
                     $commandOptions['--'.$inputOptionName] = $inputOptionValue;
                 }
             }
