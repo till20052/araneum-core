@@ -43,7 +43,6 @@ class UserControllerUpdateTest extends BaseController
                 'authLogin' => 'emptyuser',
                 'username' => 'new_emptyuser',
                 'email' => 'emptyuser@araneum.dev',
-                //TODO попытка проапдейтить существующим уникальным значением разобратся https://github.com/symfony/symfony/issues/6651
                 '__expected_value' => true,
             ],
             'Try short username' => [
