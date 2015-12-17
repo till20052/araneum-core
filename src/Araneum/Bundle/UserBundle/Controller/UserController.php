@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function profileShowAction(Request $request)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $form = $this->createForm(new ProfileType(), $this->getUser());
 

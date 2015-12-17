@@ -1,31 +1,42 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Form\Filter;
+namespace Araneum\Bundle\UserBundle\Form\Filter;
 
-use Araneum\Bundle\MainBundle\Entity\Locale;
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Araneum\Bundle\UserBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class LocaleFilterType
+ * Class UserFilterType
  *
- * @package Araneum\Bundle\MainBundle\Form\Filter
+ * @package Araneum\Bundle\UserBundle\Form\Filter
  */
-class LocaleFilterType extends AbstractType
+class UserFilterType extends AbstractType
 {
+    /**
+     * Doctrine
+     *
+     * @var
+     */
     private $doctrine;
+
+    /**
+     * Container
+     *
+     * @var
+     */
     private $container;
 
     /**
      * Constructor
      *
-     * @param Registry           $doctrine
+     * @param EntityManager      $doctrine
      * @param ContainerInterface $container
      */
-    public function __construct(Registry $doctrine, ContainerInterface $container)
+    public function __construct($doctrine, $container)
     {
         $this->doctrine = $doctrine;
         $this->container = $container;
@@ -38,24 +49,25 @@ class LocaleFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'name',
+            'email',
             'filter_text',
             [
-                'label' => 'Name',
+                'label' => 'Email',
                 'attr' => [
-                    'placeholder' => '{{"locales.PLACEHOLDER" | translate }}',
-                    'translateLabel' => 'locales.NAME',
+                    'placeholder' => 'user.ENTER_EMAIL',
+                    'translateLabel' => 'Email',
                 ],
             ]
         )
             ->add(
-                'locale',
+                'fullName',
                 'filter_text',
                 [
-                    'label' => 'Locale',
+                    'label' => 'Full name',
                     'attr' => [
-                        'placeholder' => '{{ "locales.ENTER_LOCALE" | translate}}',
-                        'translateLabel' => 'locales.LOCALE',
+                        'placeholder' => 'user.ENTER_FULLNAME',
+                        'translateLabel' => 'user.FULLNAME',
+
                     ],
                 ]
             )
@@ -64,33 +76,33 @@ class LocaleFilterType extends AbstractType
                 'filter_choice',
                 [
                     'label' => 'Enabled',
-                    'choices' => Locale::$enable,
-                    'empty_value' => '{{ "locales.EMPTY_VALUE" | translate }}',
+                    'choices' => User::$enable,
+                    'empty_value' => 'admin.general.SELECT',
                     'attr' => [
-                        'translateLabel' => 'locales.ENABLED',
+                        'translateLabel' => 'admin.general.ENABLED',
                     ],
                 ]
             )
             ->add(
-                'orientation',
-                'filter_choice',
-                [
-                    'label' => 'Orientation',
-                    'choices' => Locale::$orientations,
-                    'empty_value' => '{{ "locales.EMPTY_VALUE" | translate }}',
-                    'attr' => [
-                        'translateLabel' => 'locales.ORIENTATION',
-                    ],
-                ]
-            )
-            ->add(
-                'encoding',
+                'lastLogin',
                 'filter_text',
                 [
-                    'label' => 'Encoding',
+                    'label' => 'Last login',
                     'attr' => [
-                        'placeholder' => '{{"locales.ENTER_ENCODING" | translate}}',
-                        'translateLabel' => 'locales.ENCODING',
+                        'placeholder' => 'Enter date',
+                        'translateLabel' => 'user.LAST_LOGIN',
+                    ],
+                ]
+            )
+            ->add(
+                'roles',
+                'filter_choice',
+                [
+                    'label' => 'Role',
+                    'choices' => User::$roleNames,
+                    'empty_value' => 'admin.general.SELECT',
+                    'attr' => [
+                        'translateLabel' => 'user.ROLE',
                     ],
                 ]
             );

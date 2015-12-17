@@ -1,6 +1,6 @@
 services:
     araneum.user.authentication_handler:
         class: Araneum\Bundle\UserBundle\Service\AuthenticationHandler
-        arguments: [@router, @session, @form.csrf_provider]
+        arguments: [@router, @session, @security.csrf.token_manager]
         tags:
             - { name: 'monolog.logger', channel: 'securirty' }

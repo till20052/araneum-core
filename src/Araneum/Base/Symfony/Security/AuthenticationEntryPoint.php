@@ -26,7 +26,11 @@ class AuthenticationEntryPoint implements AuthenticationEntryPointInterface
     public function start(Request $request, AuthenticationException $authException = null)
     {
         return new JsonResponse(
-            ['Authorized' => false],
+            [
+                'Authorized' => false,
+                'Request' => $request->getQueryString(),
+                'AuthException' => $authException->getMessage(),
+            ],
             401
         );
     }
