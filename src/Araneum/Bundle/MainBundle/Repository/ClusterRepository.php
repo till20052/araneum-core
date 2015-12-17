@@ -30,7 +30,7 @@ class ClusterRepository extends EntityRepository implements \Countable
                 'r',
                 'WITH',
                 $qb->expr()->andX(
-                    $qb->expr()->eq('c.runners', 'r')
+                    $qb->expr()->eq('r.cluster', 'c')
                 )
             )
             ->leftJoin(
@@ -38,7 +38,7 @@ class ClusterRepository extends EntityRepository implements \Countable
                 'l',
                 'WITH',
                 $qb->expr()->andX(
-                    $qb->expr()->eq('r.cluster', 'c'),
+                    $qb->expr()->eq('l.runner', 'r'),
                     $qb->expr()->neq('l.averagePingTime', -1),
                     $qb->expr()->between('l.createdAt', ':start', ':end')
                 )
