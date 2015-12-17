@@ -23,7 +23,7 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
     const TEST_CALLBACK     = true;
     const TEST_CURRENCY     = 'usd';
     const TEST_PASSWORD     = 'testPassword';
-    const TEST_BIRTHDAY     = '1980-23-11';
+    const TEST_BIRTHDAY     = '1980-12-11';
     const TEST_2_FIRST_NAME = 'AnotherCustomerFirstName';
     const TEST_2_LAST_NAME  = 'AnotherCustomerLastName';
     const TEST_2_EMAIL      = 'TestCustomer2@Email.com';
@@ -32,7 +32,7 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
     const TEST_2_CURRENCY   = 'usd';
     const TEST_2_CALLBACK   = false;
     const TEST_2_PASSWORD   = 'testPassword2';
-    const TEST_2_BIRTHDAY   = '2015-22-10';
+    const TEST_2_BIRTHDAY   = '2015-11-10';
 
 
     /**

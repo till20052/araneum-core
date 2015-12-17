@@ -348,6 +348,8 @@ class Customer
      */
     public function setBirthday($birthday)
     {
-        return $this->birthday = $birthday;
+        $this->birthday = $birthday;
+
+        return $this;
     }
 }
