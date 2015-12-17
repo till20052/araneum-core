@@ -27,7 +27,6 @@ class AgentLoggerServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $logger;
 
-
     /**
      * Test Log Connection
      */

@@ -57,7 +57,7 @@ class LocaleAdminTestAbstractBaseAdminController extends AbstractBaseAdminContro
             $updateLocale = new Locale();
             $updateLocale
                 ->setName(LocaleFixtures::TEST_LOC_NAME_UPDATE)
-                ->setLocale('bg_BG')
+                ->setLocale('ar_SA')
                 ->setEncoding(LocaleFixtures::TEST_LOC_ENCOD)
                 ->setOrientation(LocaleFixtures::TEST_LOC_ORIENT);
 
@@ -127,7 +127,7 @@ class LocaleAdminTestAbstractBaseAdminController extends AbstractBaseAdminContro
             'empty encoding' => [
                 [
                     'name' => 'localeCreate',
-                    'locale' => 'bn_BD',
+                    'locale' => 'ru_RU',
                     'orientation' => Locale::ORIENT_LFT_TO_RGT,
                     'encoding' => '',
                 ],
@@ -218,7 +218,7 @@ class LocaleAdminTestAbstractBaseAdminController extends AbstractBaseAdminContro
             'normal' => [
                 [
                     'name' => LocaleFixtures::TEST_LOC_NAME_UPDATE,
-                    'locale' => 'mk_MK',
+                    'locale' => 'af',
                     'orientation' => Locale::ORIENT_LFT_TO_RGT,
                     'enabled' => false,
                 ],
