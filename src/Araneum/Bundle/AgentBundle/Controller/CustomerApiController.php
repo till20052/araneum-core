@@ -44,7 +44,7 @@ class CustomerApiController extends FOSRestController
      *          "description" = "Output format must be json"
      *      }
      *   },
-     *   input="Araneum\Bundle\AgentBundle\Form\Type",
+     *   input="Araneum\Bundle\AgentBundle\Form\Type\CustomerType",
      *   tags={"Agent"}
      * )
      *
