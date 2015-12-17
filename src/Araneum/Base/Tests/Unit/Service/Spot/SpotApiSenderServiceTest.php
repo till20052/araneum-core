@@ -20,9 +20,15 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
         'key3' => 'value',
     ];
 
+    protected $responseMock;
+
     protected function setUp()
     {
         $this->guzzleMock = $this->getMockBuilder('\Guzzle\Service\ClientInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->responseMock = $this->getMockBuilder('\Guzzle\Http\Message\Response')
+            ->setMethods(['send'])
             ->disableOriginalConstructor()
             ->getMock();
         $this->spotApiSenderService = new SpotApiSenderService($this->guzzleMock, true);
@@ -57,7 +63,7 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
                     )
                 )
             )
-            ->will($this->returnValue('spotUrl'));
+            ->will($this->returnValue($this->responseMock));
 
         $this->spotApiSenderService->send(
             $this->requestData,
