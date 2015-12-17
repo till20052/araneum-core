@@ -80,7 +80,7 @@ class CustomerApiHandlerService
     /**
      * Get Customer
      *
-     * @param string $appKey the application appKey
+     * @param string $appKey     the application appKey
      * @param array  $parameters
      * @return array
      */
