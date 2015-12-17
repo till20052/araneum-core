@@ -343,7 +343,7 @@ class Customer
     /**
      * Set birthday
      *
-     * @param $birthday
+     * @param object $birthday
      * @return mixed
      */
     public function setBirthday($birthday)
