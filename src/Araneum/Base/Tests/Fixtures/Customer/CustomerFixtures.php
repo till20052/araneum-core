@@ -19,14 +19,14 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
     const TEST_LAST_NAME    = 'TestCustomerLastName';
     const TEST_EMAIL        = 'TestCustomer@Email.com';
     const TEST_PHONE        = '380998887766';
-    const TEST_COUNTRY      = 'TestCustomerCountry';
+    const TEST_COUNTRY      = '1';
     const TEST_CALLBACK     = true;
     const TEST_CURRENCY     = 'usd';
     const TEST_2_FIRST_NAME = 'AnotherCustomerFirstName';
     const TEST_2_LAST_NAME  = 'AnotherCustomerLastName';
     const TEST_2_EMAIL      = 'TestCustomer2@Email.com';
     const TEST_2_PHONE      = '380998887766';
-    const TEST_2_COUNTRY    = 'AnotherCustomerCountry';
+    const TEST_2_COUNTRY    = '22';
     const TEST_2_CURRENCY   = 'usd';
     const TEST_2_CALLBACK   = false;
 
