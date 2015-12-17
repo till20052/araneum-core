@@ -309,7 +309,7 @@ class Customer
      */
     public function getCurrency()
     {
-        return $this->currency;
+        return strtoupper($this->currency); // for BC
     }
 
     /**
@@ -320,7 +320,7 @@ class Customer
      */
     public function setCurrency($currency)
     {
-        $this->currency = $currency;
+        $this->currency = strtoupper($currency);
 
         return $this;
     }

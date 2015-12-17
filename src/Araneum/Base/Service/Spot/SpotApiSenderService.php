@@ -15,15 +15,18 @@ class SpotApiSenderService
      * @var ClientInterface
      */
     protected $guzzle;
+    protected $enableJsonResponse;
 
     /**
      * SpotApiService constructor.
      *
      * @param ClientInterface $guzzle
+     * @param boolean         $enableJsonResponse
      */
-    public function __construct(ClientInterface $guzzle)
+    public function __construct(ClientInterface $guzzle, $enableJsonResponse)
     {
         $this->guzzle = $guzzle;
+        $this->enableJsonResponse = $enableJsonResponse;
     }
 
     /**
@@ -31,7 +34,7 @@ class SpotApiSenderService
      *
      * @param array $requestData
      * @param array $spotCredential
-     * @return \Guzzle\Http\Message\EntityEnclosingRequestInterface
+     * @return \Guzzle\Http\Message\Response
      */
     public function send(array $requestData, array $spotCredential)
     {
@@ -40,6 +43,7 @@ class SpotApiSenderService
                 "Check spot credential data, some value invalid: ".print_r($spotCredential, true)
             );
         }
+
         $this->guzzle->setBaseUrl($spotCredential['url']);
 
         return $this->guzzle->post(
@@ -49,10 +53,11 @@ class SpotApiSenderService
                 [
                     'api_username' => $spotCredential['userName'],
                     'api_password' => $spotCredential['password'],
+                    'jsonResponse' => $this->enableJsonResponse ? 'true' : 'false',
                 ],
                 $requestData
             )
-        );
+        )->send();
     }
 
     /**

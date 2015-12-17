@@ -67,7 +67,8 @@ class SpotOptionService
             'LastName' => $customer->getLastName(),
             'email' => $customer->getEmail(),
             'password' => '123456',
-            'Country' => $customer->getCountry(),
+            'Phone' => $customer->getPhone(),
+            'Country' => 123,
             'currency' => $customer->getCurrency(),
             'birthday' => '1980-07-21',
         ];

@@ -55,4 +55,4 @@ services:
 
     araneum.base.spot_api:
         class: Araneum\Base\Service\Spot\SpotApiSenderService
-        arguments: [@guzzle.client]
+        arguments: [@guzzle.client, %spot_enable_json_responce%]

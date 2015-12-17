@@ -25,7 +25,7 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
         $this->guzzleMock = $this->getMockBuilder('\Guzzle\Service\ClientInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->spotApiSenderService = new SpotApiSenderService($this->guzzleMock);
+        $this->spotApiSenderService = new SpotApiSenderService($this->guzzleMock, true);
     }
 
     /**
@@ -52,6 +52,7 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
                         [
                             'api_username' => $spotCredential['userName'],
                             'api_password' => $spotCredential['password'],
+                            'jsonResponse' => 'true',
                         ]
                     )
                 )

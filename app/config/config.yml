@@ -14,6 +14,7 @@ parameters:
         password: QDurWe68
     rabbitmq_queue_expiration: '3600000000' # Time to live message in queue 1 hour in milliseconds
     rabbitmq_message_ttl: '20000'
+    spot_enable_json_responce: true
 
 
 framework:
@@ -155,7 +156,7 @@ old_sound_rabbit_mq:
                 arguments:
                     "message-ttl": ['I', %rabbitmq_message_ttl%]
                     "dead-letter-exchange": ['S', 'araneum.base.rabbitmq.producer.spot']
-                    "dead-letter-routing-key": ['S', 'sendToCore']
+                    "dead-letter-routing-key": ['S', 'sendToSpot']
     consumers:
         spot:
             connection: default

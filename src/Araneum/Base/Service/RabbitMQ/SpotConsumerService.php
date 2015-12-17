@@ -46,6 +46,6 @@ class SpotConsumerService implements ConsumerInterface
     {
         $data = $this->msgConvertHelper->decodeMsg($message->body);
 
-        return $this->spotApiSenderService->send($data->data, $data->spotCredential);
+        return $this->spotApiSenderService->send((array) $data->data, (array) $data->spotCredential);
     }
 }
