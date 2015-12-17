@@ -15,6 +15,7 @@ class ComponentOptionType extends AbstractType
     /**
      * Build token of component options
      *
+     * @inheritdoc
      * @param FormBuilderInterface $builder
      * @param array                $options
      */

@@ -59,7 +59,7 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="country", type="smallint", nullable=true)
+     * @ORM\Column(name="country_id", type="smallint", nullable=true)
      * @Assert\Regex(pattern="/^\d+$/")
      * @Assert\NotBlank()
      */
@@ -279,7 +279,7 @@ class Customer
      *
      * @return boolean
      */
-    public function getCallback()
+    public function isCallback()
     {
         return $this->callback;
     }

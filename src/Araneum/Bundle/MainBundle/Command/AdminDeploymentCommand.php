@@ -26,6 +26,7 @@ class AdminDeploymentCommand extends ContainerAwareCommand
     /**
      * Execute command
      *
+     * @inheritdoc
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
