@@ -6,13 +6,14 @@ use Araneum\Bundle\MainBundle\Entity\Connection;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
  * Class ConnectionFixtures
  *
  * @package Araneum\Base\Tests\Fixtures\Main
  */
-class ConnectionFixtures extends AbstractFixture implements FixtureInterface
+class ConnectionFixtures extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
     const TEST_CONN_POSTGRESS_TYPE     = 1;
     const TEST_CONN_NGINX_TYPE   = 2;
@@ -43,6 +44,7 @@ class ConnectionFixtures extends AbstractFixture implements FixtureInterface
             $connectionHost->setHost(self::TEST_CONN_NGINX);
             $connectionHost->setPort(self::TEST_CONN_PORT);
             $connectionHost->setEnabled(self::TEST_CONN_ENABLED);
+            $connectionHost->setRunner($this->getReference('runner'));
             $connectionHost->setUserName(self::TEST_CONN_USERNAME);
             $connectionHost->setPassword(self::TEST_CONN_PASS);
             $manager->persist($connectionHost);
@@ -59,6 +61,7 @@ class ConnectionFixtures extends AbstractFixture implements FixtureInterface
             $connectionDb->setHost(self::TEST_CONN_NGINX);
             $connectionDb->setPort(self::TEST_CONN_POSTGRESS_PORT);
             $connectionDb->setEnabled(self::TEST_CONN_ENABLED);
+            $connectionDb->setRunner($this->getReference('runner'));
             $connectionDb->setUserName(self::TEST_CONN_POSTGRESS_USERNAME);
             $connectionDb->setPassword(self::TEST_CONN_POSTGRESS_PASS);
             $manager->persist($connectionDb);
@@ -75,6 +78,7 @@ class ConnectionFixtures extends AbstractFixture implements FixtureInterface
             $connectionFree->setHost(self::TEST_CONN_NGINX);
             $connectionFree->setPort(self::TEST_CONN_PORT);
             $connectionFree->setEnabled(self::TEST_CONN_ENABLED);
+            $connectionFree->setRunner($this->getReference('runner'));
             $connectionFree->setUserName(self::TEST_CONN_USERNAME);
             $connectionFree->setPassword(self::TEST_CONN_PASS);
             $manager->persist($connectionFree);
@@ -84,4 +88,15 @@ class ConnectionFixtures extends AbstractFixture implements FixtureInterface
         $this->addReference('connectionHost', $connectionHost);
         $this->addReference('connectionDb', $connectionDb);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDependencies()
+    {
+        return [
+            'Araneum\Base\Tests\Fixtures\Main\RunnerFixtures',
+        ];
+    }
 }
+

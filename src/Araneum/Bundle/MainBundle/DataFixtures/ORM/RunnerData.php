@@ -26,13 +26,6 @@ class RunnerData extends AbstractFixture implements FixtureInterface, DependentF
         if (empty($runner)) {
             $runner = new Runner();
             $runner->setName('DefaultUltratradeRunner');
-            $runner->setConnections(
-                new ArrayCollection(
-                    [
-                        $this->getReference('connectionHost'),
-                    ]
-                )
-            );
             $runner->setCluster($this->getReference('cluster'));
             $runner->setType(1);
             $runner->setEnabled(true);
@@ -51,7 +44,6 @@ class RunnerData extends AbstractFixture implements FixtureInterface, DependentF
     {
         return [
             'Araneum\Bundle\MainBundle\DataFixtures\ORM\ClusterData',
-            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ConnectionData',
         ];
     }
 }

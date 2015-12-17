@@ -34,7 +34,6 @@ class RunnerFixtures extends AbstractFixture implements FixtureInterface, Depend
         if (empty($runner)) {
             $runner = new Runner();
             $runner->setName(self::TEST_RUNNER_NAME);
-            $runner->setConnections(new ArrayCollection([$this->getReference('connectionHost')]));
             $runner->setCluster($this->getReference('cluster'));
             $runner->setType(self::TEST_RUNNER_TYPE);
             $runner->setEnabled(self::TEST_RUNNER_ENABLED);
@@ -43,13 +42,12 @@ class RunnerFixtures extends AbstractFixture implements FixtureInterface, Depend
             $manager->persist($runner);
             $manager->flush();
         }
-        $this->addReference('runner', $runner);
+
 
         $runnerTmp = $manager->getRepository('AraneumMainBundle:Runner')->findOneByName(self::TEST_TEMP_RUNNER_NAME);
         if (empty($runnerTmp)) {
             $runnerTmp = new runner();
             $runnerTmp->setName(self::TEST_TEMP_RUNNER_NAME);
-            $runnerTmp->setConnections(new ArrayCollection([$this->getReference('connectionHost')]));
             $runnerTmp->setCluster($this->getReference('cluster'));
             $runnerTmp->setType(self::TEST_RUNNER_TYPE);
             $runnerTmp->setEnabled(self::TEST_RUNNER_ENABLED);
@@ -63,7 +61,6 @@ class RunnerFixtures extends AbstractFixture implements FixtureInterface, Depend
         if (empty($deleteRunner)) {
             $deleteRunner = new runner();
             $deleteRunner->setName(self::DELETE_RUNNER_NAME);
-            $deleteRunner->setConnections(new ArrayCollection([$this->getReference('connectionHost')]));
             $deleteRunner->setCluster($this->getReference('cluster'));
             $deleteRunner->setType(self::TEST_RUNNER_TYPE);
             $deleteRunner->setEnabled(self::TEST_RUNNER_ENABLED);
@@ -72,6 +69,7 @@ class RunnerFixtures extends AbstractFixture implements FixtureInterface, Depend
             $manager->persist($deleteRunner);
             $manager->flush();
         }
+        $this->addReference('runner', $runner);
     }
 
     /**
@@ -80,7 +78,6 @@ class RunnerFixtures extends AbstractFixture implements FixtureInterface, Depend
     public function getDependencies()
     {
         return [
-            'Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures',
             'Araneum\Base\Tests\Fixtures\Main\ClusterFixtures',
         ];
     }

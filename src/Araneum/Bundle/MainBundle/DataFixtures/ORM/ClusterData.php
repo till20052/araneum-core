@@ -3,9 +3,7 @@
 namespace Araneum\Bundle\MainBundle\DataFixtures\ORM;
 
 use Araneum\Bundle\MainBundle\Entity\Cluster;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -14,7 +12,7 @@ use Doctrine\Common\Persistence\ObjectManager;
  *
  * @package Araneum\Bundle\MainBundle\DataFixtures\ORM
  */
-class ClusterData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
+class ClusterData extends AbstractFixture implements FixtureInterface
 {
     /**
      * {@inheritDoc}
@@ -33,13 +31,5 @@ class ClusterData extends AbstractFixture implements FixtureInterface, Dependent
             $manager->flush();
         }
         $this->addReference('cluster', $cluster);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDependencies()
-    {
-        return ['Araneum\Bundle\MainBundle\DataFixtures\ORM\ConnectionData'];
     }
 }
