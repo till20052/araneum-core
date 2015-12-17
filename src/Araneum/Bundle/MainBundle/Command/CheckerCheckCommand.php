@@ -34,7 +34,6 @@ class CheckerCheckCommand extends ContainerAwareCommand
      */
     private $checker;
 
-
     /**
      * Configure Command
      */
@@ -183,6 +182,7 @@ class CheckerCheckCommand extends ContainerAwareCommand
             )
         );
     }
+
     /**
      * Check Application status state
      *

@@ -96,7 +96,7 @@ class UserControllerUpdateTest extends BaseController
         $client = $this->createAdminAuthorizedClient();
         $router = $client->getContainer()->get('router');
 
-        $crawler = $client->request(
+        $client->request(
             'GET',
             $router->generate('sonata_admin_dashboard', ['_locale' => 'en'])
         );
@@ -123,7 +123,7 @@ class UserControllerUpdateTest extends BaseController
      */
     public function testEdit($authLogin, $username, $email, $expectedValue)
     {
-        $client = $this->createAdminAuthorizedClient();
+        $client = $this->createAdminAuthorizedClient($authLogin);
 
         $form = $client
             ->request(

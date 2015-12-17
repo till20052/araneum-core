@@ -88,6 +88,8 @@ general:
     DELETE: 'Удалить'
     ENABLE: 'Включить'
     DISABLE: 'Выключить'
+    SURE: 'Вы уверены?'
+    CONFIRM_DELETE: 'Да, удалите это'
 datatables:
     PROCESSING: 'Подождите...'
     SEARCH: 'Поиск:'
