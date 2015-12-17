@@ -85,25 +85,6 @@ class ComponentAdmin extends Admin
     }
 
     /**
-     * Component form validator
-     *
-     * @param ErrorElement $errorElement
-     * @param Component    $object
-     */
-    public function validate(ErrorElement $errorElement, $object)
-    {
-        foreach ($object->getOptions() as $key => $value) {
-            if (preg_match('/^([A-z])([\w\d\/\_]+)$/', $key)
-                && preg_match('/^([\w\d\/\_]+)$/', $value)
-            ) {
-                continue;
-            }
-
-            $errorElement->addViolation('One or more tokens of options have not valid key or value');
-        }
-    }
-
-    /**
      * Create/Update Component Form
      *
      * @param FormMapper $formMapper

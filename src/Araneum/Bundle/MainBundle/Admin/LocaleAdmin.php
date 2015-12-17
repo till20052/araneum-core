@@ -55,8 +55,6 @@ class LocaleAdmin extends Admin
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
-        $now = new \DateTime();
-
         $datagridMapper
             ->add('name', null, ['label' => 'name'])
             ->add('locale', null, ['label' => 'locale'])

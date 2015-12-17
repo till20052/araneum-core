@@ -11,7 +11,6 @@ use Araneum\Base\Controller\AdminBaseController;
 
 /**
  * Class AdminApplicationController
- *
  * @package Araneum\Bundle\MainBundle\Controller
  */
 class AdminApplicationController extends AdminBaseController

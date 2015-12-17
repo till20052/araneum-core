@@ -36,7 +36,7 @@ class MaintenanceTest extends WebTestCase
             new NullOutput()
         );
 
-        $crawler = $client->request(
+        $client->request(
             'GET',
             $container->get('router')->generate('fos_user_security_login')
         );
@@ -66,7 +66,7 @@ class MaintenanceTest extends WebTestCase
             new NullOutput()
         );
 
-        $crawler = $client->request(
+        $client->request(
             'GET',
             $container->get('router')->generate('fos_user_security_login')
         );
