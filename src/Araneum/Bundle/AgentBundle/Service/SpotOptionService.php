@@ -2,6 +2,9 @@
 
 namespace Araneum\Bundle\AgentBundle\Service;
 
+use Araneum\Base\Service\RabbitMQ\SpotProducerService;
+use Araneum\Bundle\AgentBundle\Entity\Customer;
+
 /**
  * Class SpotOptionService
  *
@@ -9,6 +12,21 @@ namespace Araneum\Bundle\AgentBundle\Service;
  */
 class SpotOptionService
 {
+    /**
+     * @var SpotProducerService
+     */
+    protected $spotOptionService;
+
+    /**
+     * SpotOptionService constructor.
+     *
+     * @param SpotProducerService $spotOptionService
+     */
+    public function __construct(SpotProducerService $spotOptionService)
+    {
+        $this->spotOptionService = $spotOptionService;
+    }
+
     /**
      * SpotOption Login
      *
@@ -32,5 +50,28 @@ class SpotOptionService
     public function resetPassword($login, $currentPassword, $newPassword)
     {
         return true;
+    }
+
+    /**
+     * Send customer creation data to SpotOption with RabbitMQ
+     *
+     * @param Customer $customer
+     * @return string|true
+     */
+    public function customerCreate(Customer $customer)
+    {
+        $customerData = [
+            'MODULE' => 'Customer',
+            'COMMAND' => 'add',
+            'FirstName' => $customer->getFirstName(),
+            'LastName' => $customer->getLastName(),
+            'email' => $customer->getEmail(),
+            'password' => '123456',
+            'Country' => $customer->getCountry(),
+            'currency' => $customer->getCurrency(),
+            'birthday' => '1980-07-21',
+        ];
+
+        return $this->spotOptionService->publish($customerData, $customer->getApplication());
     }
 }

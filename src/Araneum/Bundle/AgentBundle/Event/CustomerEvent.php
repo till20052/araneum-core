@@ -19,7 +19,7 @@ class CustomerEvent extends Event
     /**
      * Get customer
      *
-     * @return mixed
+     * @return Customer
      */
     public function getCustomer()
     {

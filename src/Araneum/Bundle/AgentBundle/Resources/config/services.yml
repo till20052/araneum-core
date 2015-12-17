@@ -1,12 +1,16 @@
 services:
     araneum.agent.customer.api_handler:
         class: Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService
-        arguments: [@service_container]
-        calls:
-            - [setDispatcher, [@event_dispatcher]]
+        arguments:
+            - @araneum.main.application.manager
+            - @doctrine.orm.entity_manager
+            - @event_dispatcher
+            - @form.factory
+            - @araneum.agent.spotoption.service
 
     araneum.agent.spotoption.service:
         class: Araneum\Bundle\AgentBundle\Service\SpotOptionService
+        arguments: [@araneum.base.rabbitmq.producer.spot]
 
     araneum.agent.logger:
         class: Araneum\Bundle\AgentBundle\Service\AgentLoggerService
@@ -17,7 +21,7 @@ services:
         arguments: [@doctrine.orm.entity_manager, @form.factory]
 
     araneum.agent.customer.event_listener:
-        class: Araneum\Bundle\AgentBundle\Service\CustomerEventListenerService
-        arguments: [@araneum.agent.customer.api_handler]
+        class: Araneum\Bundle\AgentBundle\EventListener\CustomerListener
+        arguments: [@araneum.agent.spotoption.service]
         tags:
-            - { name: kernel.event_listener, event: araneum.agent.customer.event.post_persist, method: postPersist }
+            - { name: kernel.event_listener, event: araneum.agent.customer.new, method: onCreate }

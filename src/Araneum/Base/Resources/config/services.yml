@@ -38,3 +38,21 @@ services:
     araneum.command_runner.service:
         class: Araneum\Base\Service\CommandRunnerService
         arguments: [%kernel.root_dir%]
+
+    araneum.base.rabbitmq.msg_convert_helper:
+        class: Araneum\Base\Service\RabbitMQ\MessageConversionHelper
+
+    araneum.base.rabbitmq.producer.spot:
+        class: Araneum\Base\Service\RabbitMQ\SpotProducerService
+        arguments:
+            - @old_sound_rabbit_mq.spot_producer
+            - @araneum.base.rabbitmq.msg_convert_helper
+            - %rabbitmq_queue_expiration%
+
+    araneum.base.rabbitmq.consumer.spot:
+        class: Araneum\Base\Service\RabbitMQ\SpotConsumerService
+        arguments: [@araneum.base.spot_api, @araneum.base.rabbitmq.msg_convert_helper]
+
+    araneum.base.spot_api:
+        class: Araneum\Base\Service\Spot\SpotApiSenderService
+        arguments: [@guzzle.client]

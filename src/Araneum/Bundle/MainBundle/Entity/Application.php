@@ -746,6 +746,19 @@ class Application
     }
 
     /**
+     *
+     * @return array
+     */
+    public function getSpotCredential()
+    {
+        return [
+            'url' => $this->getSpotApiUrl(),
+            'userName' => $this->getSpotApiUser(),
+            'password' => $this->getSpotApiPassword(),
+        ];
+    }
+
+    /**
      * Generate unique key for Application
      *
      * @return string
