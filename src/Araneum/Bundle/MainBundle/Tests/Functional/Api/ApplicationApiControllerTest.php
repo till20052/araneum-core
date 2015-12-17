@@ -37,22 +37,7 @@ class ApplicationApiControllerTest extends BaseController
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
-        $arrayStructure = $this->getArrayStructure();
-        foreach ($arrayStructure as $k => $v) {
-            $this->assertTrue(isset($decoded[$k]));
-            if ($arrayStructure[$k] == 'int') {
-                $this->assertTrue(is_int($decoded[$k]));
-            }
-            if ($arrayStructure[$k] == 'string') {
-                $this->assertTrue(is_string($decoded[$k]));
-            }
-            if ($arrayStructure[$k] == 'bool') {
-                $this->assertTrue(is_bool($decoded[$k]));
-            }
-            if ($arrayStructure[$k] == 'array') {
-                $this->assertTrue(is_array($decoded[$k]));
-            }
-        }
+        $this->assertArrayStructureEquals($this->getArrayStructure(), $decoded);
     }
 
     /**
@@ -77,5 +62,28 @@ class ApplicationApiControllerTest extends BaseController
             'cluster' => 'array',
             'owner' => 'array',
         ];
+    }
+
+    /**
+     * @param $expectedStructure
+     * @param $actual
+     */
+    private function assertArrayStructureEquals($expectedStructure, $actual)
+    {
+        foreach ($expectedStructure as $fieldName => $fieldType) {
+            $this->assertTrue(isset($actual[$fieldName]));
+            if ($fieldType == 'int') {
+                $this->assertTrue(is_int($actual[$fieldName]));
+            }
+            if ($fieldType == 'string') {
+                $this->assertTrue(is_string($actual[$fieldName]));
+            }
+            if ($fieldType == 'bool') {
+                $this->assertTrue(is_bool($actual[$fieldName]));
+            }
+            if ($fieldType == 'array') {
+                $this->assertTrue(is_array($actual[$fieldName]));
+            }
+        }
     }
 }
