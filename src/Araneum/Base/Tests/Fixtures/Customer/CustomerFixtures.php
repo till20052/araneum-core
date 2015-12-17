@@ -22,6 +22,8 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
     const TEST_COUNTRY      = '1';
     const TEST_CALLBACK     = true;
     const TEST_CURRENCY     = 'usd';
+    const TEST_PASSWORD     = 'testPassword';
+    const TEST_BIRTHDAY     = '23.11.1980';
     const TEST_2_FIRST_NAME = 'AnotherCustomerFirstName';
     const TEST_2_LAST_NAME  = 'AnotherCustomerLastName';
     const TEST_2_EMAIL      = 'TestCustomer2@Email.com';
@@ -29,6 +31,9 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
     const TEST_2_COUNTRY    = '22';
     const TEST_2_CURRENCY   = 'usd';
     const TEST_2_CALLBACK   = false;
+    const TEST_2_PASSWORD   = 'testPassword2';
+    const TEST_2_BIRTHDAY   = '22.10.2015';
+
 
     /**
      * {@inheritDoc}
@@ -49,6 +54,7 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
                     ->setPhone(self::TEST_PHONE)
                     ->setCurrency(self::TEST_CURRENCY)
                     ->setCallback(self::TEST_CALLBACK)
+                    ->setBirthday(self::TEST_BIRTHDAY)
                     ->setDeliveredAt(new \DateTime('2015-10-07'))
             );
         }
@@ -67,6 +73,7 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
                     ->setPhone(self::TEST_2_PHONE)
                     ->setCurrency(self::TEST_2_CURRENCY)
                     ->setCallback(self::TEST_2_CALLBACK)
+                    ->setBirthday(self::TEST_2_BIRTHDAY)
                     ->setDeliveredAt(new \DateTime('2015-10-07'))
             );
         }

@@ -343,10 +343,11 @@ class Customer
     /**
      * Set birthday
      *
-     * @param string $birthday
+     * @param $birthday
+     * @return mixed
      */
     public function setBirthday($birthday)
     {
-        $this->birthday = $birthday;
+        return $this->birthday = $birthday;
     }
 }
