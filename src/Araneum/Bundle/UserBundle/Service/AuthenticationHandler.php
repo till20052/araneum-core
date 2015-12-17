@@ -3,7 +3,6 @@
 namespace Araneum\Bundle\UserBundle\Service;
 
 use Araneum\Bundle\UserBundle\Entity\User;
-use Symfony\Component\Form\Extension\Csrf\CsrfProvider\CsrfTokenManagerAdapter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,10 +12,10 @@ use Symfony\Component\Routing\Router;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\SecurityContext;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class AuthenticationHandler
@@ -36,18 +35,18 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
     private $session;
 
     /**
-     * @var CsrfTokenManagerAdapter
+     * @var CsrfTokenManager
      */
     private $tokenManager;
 
     /**
      * AuthenticationHandler constructor.
      *
-     * @param Router                  $router
-     * @param Session                 $session
-     * @param CsrfTokenManagerAdapter $tokenManager
+     * @param Router           $router
+     * @param Session          $session
+     * @param CsrfTokenManager $tokenManager
      */
-    public function __construct(Router $router, Session $session, CsrfTokenManagerAdapter $tokenManager)
+    public function __construct(Router $router, Session $session, CsrfTokenManager $tokenManager)
     {
         $this->router = $router;
         $this->session = $session;
@@ -63,11 +62,11 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
      */
     public function login(Request $request, \Exception $error = null)
     {
-        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
-            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
-        } elseif (null !== $this->session && $this->session->has(SecurityContext::AUTHENTICATION_ERROR)) {
-            $error = $this->session->get(SecurityContext::AUTHENTICATION_ERROR);
-            $this->session->remove(SecurityContext::AUTHENTICATION_ERROR);
+        if ($request->attributes->has(Security::AUTHENTICATION_ERROR)) {
+            $error = $request->attributes->get(Security::AUTHENTICATION_ERROR);
+        } elseif (null !== $this->session && $this->session->has(Security::AUTHENTICATION_ERROR)) {
+            $error = $this->session->get(Security::AUTHENTICATION_ERROR);
+            $this->session->remove(Security::AUTHENTICATION_ERROR);
         }
 
         if ($error instanceof \Exception) {
@@ -75,7 +74,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
         }
 
         return [
-            '_csrf_token' => $this->tokenManager->generateCsrfToken('authenticate'),
+            '_csrf_token' => $this->tokenManager->getToken('authenticate'),
             'error' => $error,
         ];
     }
@@ -133,7 +132,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
             );
         }
 
-        $request->getSession()->set(SecurityContextInterface::AUTHENTICATION_ERROR, $exception);
+        $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
 
         return new RedirectResponse($this->router->generate('fos_user_security_login'));
     }

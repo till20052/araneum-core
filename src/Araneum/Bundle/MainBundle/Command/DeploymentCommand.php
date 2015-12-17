@@ -5,6 +5,7 @@ namespace Araneum\Bundle\MainBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -47,11 +48,19 @@ class DeploymentCommand extends ContainerAwareCommand
             ],
         ];
 
-        foreach ($commands as $command => $arguments) {
-            $output->writeln('<comment>Run command: '.$command.'</comment>');
+        foreach ($commands as $commandName => $options) {
+            $output->writeln('<comment>Run command: '.$commandName.'</comment>');
 
-            $this->getApplication()->find($command)->run(
-                new ArrayInput(array_merge($arguments, ['command' => $command])),
+            $commandOptions = [];
+            $command = $this->getApplication()->find($commandName);
+            foreach ($input->getOptions() as $inputOptionName => $inputOptionValue) {
+                if ($command->getDefinition()->hasOption($inputOptionName)) {
+                    $commandOptions['--'.$inputOptionName] = $inputOptionValue;
+                }
+            }
+
+            $command->run(
+                new ArrayInput(array_merge($commandOptions, $options)),
                 $output
             );
         }

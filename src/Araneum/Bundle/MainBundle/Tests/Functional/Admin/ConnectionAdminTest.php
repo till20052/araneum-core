@@ -89,7 +89,7 @@ class ConnectionAdminTestAbstractBaseAdminController extends AbstractBaseAdminCo
             ->getRepository('AraneumMainBundle:Connection')
             ->findOneByName(ConnectionFixtures::TEST_CONN_NAME);
 
-        $crawler = $client->request(
+        $client->request(
             'GET',
             $client
                 ->getContainer()

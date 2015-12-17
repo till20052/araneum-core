@@ -26,7 +26,7 @@ class CustomerAdminTest extends BaseController
     {
         $client = $this->createAdminAuthorizedClient();
 
-        $crawler = $client->request(
+        $client->request(
             'GET',
             '/admin/araneum/agent/customer/create'
         );
@@ -48,7 +48,7 @@ class CustomerAdminTest extends BaseController
             ->getRepository('AraneumAgentBundle:Customer')
             ->findOneByEmail(CustomerFixtures::TEST_EMAIL);
 
-        $crawler = $client->request(
+        $client->request(
             'GET',
             '/admin/araneum/agent/customer/'.$customer->getId().'/edit'
         );
@@ -70,7 +70,7 @@ class CustomerAdminTest extends BaseController
             ->getRepository('AraneumAgentBundle:Customer')
             ->findOneByEmail(CustomerFixtures::TEST_EMAIL);
 
-        $crawler = $client->request(
+        $client->request(
             'GET',
             '/admin/araneum/agent/customer/'.$customer->getId().'/delete'
         );

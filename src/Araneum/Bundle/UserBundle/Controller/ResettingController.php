@@ -191,7 +191,7 @@ class ResettingController extends BaseController
             $children = $children->children;
         }
 
-        foreach ($children as $name => $child) {
+        foreach ($children as $child) {
             if (!(count($child->children) > 0)) {
                 $item = [];
 

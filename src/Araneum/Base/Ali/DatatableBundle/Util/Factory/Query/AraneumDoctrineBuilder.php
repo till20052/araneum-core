@@ -257,7 +257,7 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
 
             $orQueries = [];
             $searchQueryArray = $this->getSearchQuery();
-            foreach ($searchFields as $i => $searchField) {
+            foreach ($searchFields as $searchField) {
                 if (!isset($searchQueryArray[$searchField])) {
                     continue;
                 }
