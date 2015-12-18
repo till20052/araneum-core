@@ -109,7 +109,7 @@ class UserFilterType extends AbstractType
                     ],
                     'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
                         $query = $filterQuery->getQueryBuilder();
-                        $query->leftJoin($field, 't');
+                        $query->join($field, 't');
                         $value = $values['value'];
                         if (isset($value)) {
                             $query->andWhere($query->expr()->in('t.id', $value->getId()));
