@@ -8,14 +8,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Araneum\Base\Controller\AdminBaseController;
 
 /**
  * Class AdminConnectionController
  *
  * @package Araneum\Bundle\MainBundle\Controller
  */
-class AdminConnectionController extends AdminBaseController
+class AdminConnectionController extends Controller
 {
 
     /**
@@ -43,33 +42,5 @@ class AdminConnectionController extends AdminBaseController
         }
 
         return new RedirectResponse($referer);
-    }
-
-    /**
-     * Check Statuses
-     *
-     * @param Request $request
-     * @return Response
-     * @Route("/admin/araneum/main/connection/batch", condition="request.request.get('data') matches '/checkStatus/'"
-     *     ,name="araneum_main_admin_connection_batchAction")
-     */
-    public function batchCheckStatusAction(Request $request)
-    {
-        $idx = parent::getIdxElements(json_decode($request->request->get('data')), 'araneum.main.admin.connection');
-        $repository = $this->getDoctrine()->getRepository('AraneumMainBundle:Connection');
-        $connections = $repository->getActiveHostConnections($idx);
-
-        foreach ($connections as $connection) {
-            $this->container
-                ->get('araneum.main.application.checker')
-                ->checkConnection($connection->getId());
-        }
-
-        return new RedirectResponse(
-            $this->admin->generateUrl(
-                'list',
-                ['filter' => $this->admin->getFilterParameters()]
-            )
-        );
     }
 }

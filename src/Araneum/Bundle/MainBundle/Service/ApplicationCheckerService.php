@@ -66,7 +66,7 @@ class ApplicationCheckerService
     /**
      * Check Connection
      *
-     * @param integer $id        of Connection
+     * @param integer $id of Connection
      * @param integer $pingCount
      * @return integer
      *
@@ -264,30 +264,31 @@ class ApplicationCheckerService
         }
 
         /** @var Connection $connection */
-        foreach ($cluster->getRunners() as $connection) {
-            $connectionStatus = $this->getConnectionState($connection, 5, $response);
+        foreach ($cluster->getRunners() as $runner) {
+            foreach ($runner->getConnection() as $connection) {
+                $connectionStatus = $this->getConnectionState($connection, 5, $response);
 
-            $this->loggerService->logConnection(
-                $connection,
-                $cluster,
-                $connectionStatus < Connection::STATUS_HAS_NO_RESPONSE ? $response->packetLoss : -1,
-                $connectionStatus < Connection::STATUS_HAS_NO_RESPONSE ? $response->avg : -1
-            );
+                $this->loggerService->logConnection(
+                    $connection,
+                    $runner,
+                    $connectionStatus < Connection::STATUS_HAS_NO_RESPONSE ? $response->packetLoss : -1,
+                    $connectionStatus < Connection::STATUS_HAS_NO_RESPONSE ? $response->avg : -1
+                );
 
-            if ($connectionStatus != Connection::STATUS_OK) {
-                if ($connectionStatus == Connection::STATUS_SLOW) {
-                    $status = Cluster::STATUS_HAS_SLOW_CONNECTION;
-                } elseif ($connectionStatus == Connection::STATUS_HAS_LOSS) {
-                    $status = Cluster::STATUS_HAS_UNSTABLE_CONNECTION;
-                } elseif ($connectionStatus >= Connection::STATUS_HAS_NO_RESPONSE) {
-                    $status = Cluster::STATUS_OFFLINE;
+                if ($connectionStatus != Connection::STATUS_OK) {
+                    if ($connectionStatus == Connection::STATUS_SLOW) {
+                        $status = Cluster::STATUS_HAS_SLOW_CONNECTION;
+                    } elseif ($connectionStatus == Connection::STATUS_HAS_LOSS) {
+                        $status = Cluster::STATUS_HAS_UNSTABLE_CONNECTION;
+                    } elseif ($connectionStatus >= Connection::STATUS_HAS_NO_RESPONSE) {
+                        $status = Cluster::STATUS_OFFLINE;
+                    }
+
+                    $problem = (new Problem())
+                        ->setStatus($connectionStatus)
+                        ->setDescription(Connection::getStatusDescription($connectionStatus));
+                    $problems->add($problem);
                 }
-
-                $problem = (new Problem())
-                    ->setStatus($connectionStatus)
-                    ->setDescription(Connection::getStatusDescription($connectionStatus));
-
-                $problems->add($problem);
             }
         }
 
