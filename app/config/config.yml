@@ -1,7 +1,6 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
-    - { resource: services.yml }
     - { resource: ../../src/Araneum/Base/Resources/config/services.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
@@ -117,7 +116,10 @@ fos_rest:
         view_response_listener: true
     disable_csrf_role: ROLE_API
 
-nelmio_api_doc: ~
+nelmio_api_doc:
+    sandbox:
+        request_format:
+            method: accept_header
 
 lexik_maintenance:
     driver:
