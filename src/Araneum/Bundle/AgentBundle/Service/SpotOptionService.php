@@ -15,16 +15,16 @@ class SpotOptionService
     /**
      * @var SpotProducerService
      */
-    protected $spotOptionService;
+    protected $spotProducerService;
 
     /**
      * SpotOptionService constructor.
      *
-     * @param SpotProducerService $spotOptionService
+     * @param SpotProducerService $spotProducerService
      */
-    public function __construct(SpotProducerService $spotOptionService)
+    public function __construct(SpotProducerService $spotProducerService)
     {
-        $this->spotOptionService = $spotOptionService;
+        $this->spotProducerService = $spotProducerService;
     }
 
     /**
@@ -73,13 +73,16 @@ class SpotOptionService
             'FirstName' => $customer->getFirstName(),
             'LastName' => $customer->getLastName(),
             'email' => $customer->getEmail(),
-            'password' => '123456',
+            'password' => $customer->getPassword(),
             'Phone' => $customer->getPhone(),
-            'Country' => 123,
+            'Country' => $customer->getCountry(),
             'currency' => $customer->getCurrency(),
-            'birthday' => '1980-07-21',
         ];
 
-        return $this->spotOptionService->publish($customerData, $customer->getApplication());
+        if ($customer->getBirthday()) {
+            $customerData['birthday'] = $customer->getBirthday();
+        }
+
+        return $this->spotProducerService->publish($customerData, $customer->getApplication());
     }
 }
