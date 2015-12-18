@@ -126,6 +126,7 @@ class UserDataTableList extends AbstractList
             }
         }
 
+
         return $this->queryBuilder;
     }
 }
