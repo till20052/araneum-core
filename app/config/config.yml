@@ -116,7 +116,10 @@ fos_rest:
         view_response_listener: true
     disable_csrf_role: ROLE_API
 
-nelmio_api_doc: ~
+nelmio_api_doc:
+    sandbox:
+        request_format:
+            method: accept_header
 
 lexik_maintenance:
     driver:
