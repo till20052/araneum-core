@@ -24,7 +24,13 @@ class CustomerType extends AbstractType
             ->add('country')
             ->add('email')
             ->add('phone')
-            ->add('birthday')
+            ->add(
+                'birthday',
+                'date',
+                [
+                    'date_format' => 'yyyy-MM-dd',
+                ]
+            )
             ->add('currency')
             ->add(
                 'password',
