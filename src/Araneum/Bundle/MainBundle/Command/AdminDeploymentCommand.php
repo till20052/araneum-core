@@ -24,8 +24,13 @@ class AdminDeploymentCommand extends ContainerAwareCommand
     }
 
     /**
-     * {@inheritdoc}
      * Execute command
+     *
+     * @inheritdoc
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return null;
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

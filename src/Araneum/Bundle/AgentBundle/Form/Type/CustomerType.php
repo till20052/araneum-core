@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\AgentBundle\Form;
+namespace Araneum\Bundle\AgentBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,7 +24,20 @@ class CustomerType extends AbstractType
             ->add('country')
             ->add('email')
             ->add('phone')
-            ->add('currency');
+            ->add(
+                'birthday',
+                'datetime',
+                [
+                    'date_format' => 'yyyy-MM-dd',
+                    'widget' => 'single_text',
+                ]
+            )
+            ->add('currency')
+            ->add(
+                'password',
+                'text',
+                ['mapped' => false]
+            );
     }
 
     /**

@@ -4,7 +4,7 @@ namespace Araneum\Bundle\AgentBundle\Service;
 
 use Araneum\Bundle\AgentBundle\AraneumAgentBundle;
 use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
-use Araneum\Bundle\AgentBundle\Form\CustomerType;
+use Araneum\Bundle\AgentBundle\Form\Type\CustomerType;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\EntityManager;
 use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;

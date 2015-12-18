@@ -59,9 +59,8 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="country", type="string", length=32, nullable=true)
-     * @Assert\Length(min=2, max=30)
-     * @Assert\Regex(pattern="/^\D+$/")
+     * @ORM\Column(name="country_id", type="smallint", nullable=true)
+     * @Assert\Regex(pattern="/^\d+$/")
      * @Assert\NotBlank()
      */
     private $country;
@@ -93,6 +92,12 @@ class Customer
      * @Assert\NotBlank()
      */
     private $currency;
+
+    /**
+     * @var string
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $birthday;
 
     /**
      * @var boolean
@@ -274,7 +279,7 @@ class Customer
      *
      * @return boolean
      */
-    public function getCallback()
+    public function isCallback()
     {
         return $this->callback;
     }
@@ -321,6 +326,29 @@ class Customer
     public function setCurrency($currency)
     {
         $this->currency = strtoupper($currency);
+
+        return $this;
+    }
+
+    /**
+     * Get birthday
+     *
+     * @return string
+     */
+    public function getBirthday()
+    {
+        return $this->birthday;
+    }
+
+    /**
+     * Set birthday
+     *
+     * @param object $birthday
+     * @return mixed
+     */
+    public function setBirthday($birthday)
+    {
+        $this->birthday = $birthday;
 
         return $this;
     }
