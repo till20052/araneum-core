@@ -113,7 +113,7 @@ class UserControllerUpdateTest extends BaseController
     /**
      * Test for Edit profile
      *
-     * @param mixed  $authLogin
+     * @param string $authLogin
      * @param string $username
      * @param string $email
      * @param mixed  $expectedValue
