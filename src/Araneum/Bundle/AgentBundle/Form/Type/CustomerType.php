@@ -29,6 +29,7 @@ class CustomerType extends AbstractType
                 'datetime',
                 [
                     'date_format' => 'yyyy-MM-dd',
+                    'widget' => 'single_text',
                 ]
             )
             ->add('currency')
