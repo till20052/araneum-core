@@ -77,7 +77,7 @@ general:
     CANCEL: 'Cancel'
     FILTERS: 'Filter'
     LABEL_FOCUS: 'Label focus'
-    SELECT: 'Выберите'
+    SELECT: 'Select'
     SEARCH: 'Search'
     ENABLED: 'Enabled'
     DISABLED: 'Disabled'
