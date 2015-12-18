@@ -17,7 +17,6 @@
 	 * @param DTInstances changing data in datatable
 	 * @param formDataService factory for store data form server
 	 * @param TranslateDatatablesService
-	 * @param $translate
 	 * @constructor
 	 */
 	function FormBuilderController($state, $scope, $http, $compile, DTOptionsBuilder, DTInstances, formDataService, TranslateDatatablesService) {
@@ -100,14 +99,10 @@
 		 * @param response
 		 */
 		function onInitSuccess(response) {
-			var massTranslate = [];
 			vm.dt.options.sAjaxSource = response.grid.source;
-
-			angular.forEach(response.grid.columns, function(value){
-				massTranslate.push(value);
-			});
-
-			vm.dt.columns = massTranslate;
+			angular.forEach(response.grid.columns, function(f) {
+				this.push(f);
+			}, vm.dt.columns);
 			vm.dt.initialized = true;
 		}
 
