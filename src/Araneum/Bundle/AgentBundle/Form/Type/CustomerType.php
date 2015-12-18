@@ -26,7 +26,7 @@ class CustomerType extends AbstractType
             ->add('phone')
             ->add(
                 'birthday',
-                'date',
+                'datetime',
                 [
                     'date_format' => 'yyyy-MM-dd',
                 ]
