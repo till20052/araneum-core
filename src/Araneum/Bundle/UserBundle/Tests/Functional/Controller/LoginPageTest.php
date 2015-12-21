@@ -22,7 +22,7 @@ class LoginPageTest extends WebTestCase
      */
     public function testLoginPage($user, $password, $expected)
     {
-        $this->markTestIncomplete(
+        $this->markTestSkipped(
             'This test has not been implemented yet.'
         );
 

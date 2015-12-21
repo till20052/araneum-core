@@ -33,8 +33,7 @@ class RecursivePagesTest extends BaseController
      */
     public function testPages()
     {
-
-        $this->markTestIncomplete(
+        $this->markTestSkipped(
             'This test has not been implemented yet.'
         );
 
