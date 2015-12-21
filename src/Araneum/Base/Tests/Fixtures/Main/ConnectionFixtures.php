@@ -99,4 +99,3 @@ class ConnectionFixtures extends AbstractFixture implements FixtureInterface, De
         ];
     }
 }
-
