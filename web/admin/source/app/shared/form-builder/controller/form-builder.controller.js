@@ -17,7 +17,6 @@
 	 * @param DTInstances changing data in datatable
 	 * @param formDataService factory for store data form server
 	 * @param TranslateDatatablesService
-	 * @param $translate
 	 * @constructor
 	 */
 	function FormBuilderController($state, $scope, $http, $compile, DTOptionsBuilder, DTInstances, formDataService, TranslateDatatablesService) {
@@ -101,9 +100,11 @@
 		 */
 		function onInitSuccess(response) {
 			vm.dt.options.sAjaxSource = response.grid.source;
-			angular.forEach(response.grid.columns, function(f) {
-				this.push(f);
-			}, vm.dt.columns);
+
+			angular.forEach(response.grid.columns, function(value){
+				vm.dt.columns.push(value);
+			});
+
 			vm.dt.initialized = true;
 		}
 
@@ -123,6 +124,6 @@
 						.prop('checked', false);
 				}
 			}
-		};
+		}
 	}
 })();

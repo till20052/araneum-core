@@ -37,22 +37,7 @@ class CustomerApiController extends FOSRestController
      *      403 = "Returned when authorization is failed",
      *      404 = "Returned when Application not found"
      *   },
-     *   requirements = {
-     *      {
-     *          "name" = "_format",
-     *          "dataType" = "json",
-     *          "description" = "Output format must be json"
-     *      }
-     *   },
-     *   parameters={
-     *      {"name"="appKey", "dataType"="string", "required"=true, "description"="appKey"},
-     *      {"name"="firstName", "dataType"="string", "required"=true, "description"="firstName"},
-     *      {"name"="lastName", "dataType"="string", "required"=true, "description"="lastName"},
-     *      {"name"="country", "dataType"="string", "required"=true, "description"="country"},
-     *      {"name"="email", "dataType"="string", "required"=true, "description"="email"},
-     *      {"name"="currency", "dataType"="string", "required"=true, "description"="currency"},
-     *      {"name"="phone", "dataType"="string", "required"=true, "description"="phone"}
-     *   },
+     *   input="Araneum\Bundle\AgentBundle\Form\Type\CustomerType",
      *   tags={"Agent"}
      * )
      *
