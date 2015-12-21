@@ -66,8 +66,8 @@ class ApplicationCheckerService
     /**
      * Check Connection
      *
-     * @param integer $id of Connection
-     * @param integer $pingCount
+     * @param  integer $id        of Connection
+     * @param  integer $pingCount
      * @return integer
      *
      * @throws EntityNotFoundException in case if Connection does not exists
