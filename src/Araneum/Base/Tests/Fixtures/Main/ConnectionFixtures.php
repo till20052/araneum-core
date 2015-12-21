@@ -90,6 +90,7 @@ class ConnectionFixtures extends AbstractFixture implements FixtureInterface, De
     }
 
     /**
+     * Dependencies
      * {@inheritDoc}
      */
     public function getDependencies()
