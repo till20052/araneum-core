@@ -4,7 +4,7 @@ namespace Araneum\Bundle\AgentBundle\Tests\Unit\Service;
 
 use Araneum\Base\Tests\Fixtures\Customer\CustomerFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
-use Araneum\Bundle\AgentBundle\Form\CustomerType;
+use Araneum\Bundle\AgentBundle\Form\Type\CustomerType;
 use Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService;
 use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
