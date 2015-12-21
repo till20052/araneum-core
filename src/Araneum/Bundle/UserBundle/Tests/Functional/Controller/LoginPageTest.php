@@ -23,7 +23,7 @@ class LoginPageTest extends WebTestCase
     public function testLoginPage($user, $password, $expected)
     {
         $this->markTestSkipped(
-            'This test has not been implemented yet.'
+            'This test has not been implemented'
         );
 
         $client = static::createClient();
