@@ -29,9 +29,7 @@ class ClusterRepository extends EntityRepository implements \Countable
                 'AraneumMainBundle:Runner',
                 'r',
                 'WITH',
-                $qb->expr()->andX(
-                    $qb->expr()->eq('r.cluster', 'c')
-                )
+                'r.cluster=c'
             )
             ->leftJoin(
                 'AraneumAgentBundle:ConnectionLog',

@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\RunnerRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields="name")
+ *
  * @package Araneum\Bundle\MainBundle\Entity
  */
 class Runner
@@ -77,7 +78,7 @@ class Runner
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ConnectionLog", mappedBy="runner",
-     *     cascade={"persist", "remove"})
+     *                cascade={"persist", "remove"})
      */
     protected $connectionLogs;
 
@@ -90,9 +91,9 @@ class Runner
         $this->setConnectionLogs(new ArrayCollection());
     }
 
-
     /**
      * Get id
+     *
      * @return integer
      */
     public function getId()
@@ -102,6 +103,7 @@ class Runner
 
     /**
      * Set id
+     *
      * @param mixed $id
      * @return Runner
      */
@@ -114,6 +116,7 @@ class Runner
 
     /**
      * Return name
+     *
      * @return string
      */
     public function getName()
@@ -123,6 +126,7 @@ class Runner
 
     /**
      * Set Name
+     *
      * @param mixed $name
      * @return Runner
      */
@@ -135,6 +139,7 @@ class Runner
 
     /**
      * Get domain
+     *
      * @return string
      */
     public function getDomain()
@@ -144,6 +149,7 @@ class Runner
 
     /**
      * Set domain
+     *
      * @param mixed $domain
      * @return Runner
      */
@@ -156,6 +162,7 @@ class Runner
 
     /**
      * Get connections
+     *
      * @return ArrayCollection
      */
     public function getConnections()
@@ -165,6 +172,7 @@ class Runner
 
     /**
      * Set connections
+     *
      * @param mixed $connections
      * @return Runner
      */
@@ -200,6 +208,7 @@ class Runner
 
     /**
      * Get enabled
+     *
      * @return boolean
      */
     public function isEnabled()
@@ -209,6 +218,7 @@ class Runner
 
     /**
      * Set enabled
+     *
      * @param boolean $enabled
      * @return Runner
      */
@@ -221,6 +231,7 @@ class Runner
 
     /**
      * Set type
+     *
      * @param integer $type
      * @return Runner
      */
@@ -233,6 +244,7 @@ class Runner
 
     /**
      * Get type
+     *
      * @return integer
      */
     public function getType()
@@ -242,6 +254,7 @@ class Runner
 
     /**
      * Set status
+     *
      * @param integer $status
      * @return Runner
      */
@@ -254,6 +267,7 @@ class Runner
 
     /**
      * Get status
+     *
      * @return integer
      */
     public function getStatus()

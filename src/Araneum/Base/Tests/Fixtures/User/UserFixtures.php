@@ -2,7 +2,6 @@
 
 namespace Araneum\Base\Tests\Fixtures\User;
 
-use Araneum\Bundle\UserBundle\Entity\Role;
 use Araneum\Bundle\UserBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;

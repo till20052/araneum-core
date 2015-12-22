@@ -189,6 +189,11 @@ class ApplicationCheckerServiceTest extends \PHPUnit_Framework_TestCase
         return $loggerService;
     }
 
+    /**
+     * Mock Runner Entity
+     *
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
     private function mockRunner()
     {
         $entity = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Runner')
@@ -196,8 +201,8 @@ class ApplicationCheckerServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $entity->expects($this->atLeastOnce())
-           ->method('getConnections')
-           ->will($this->returnValue(new ArrayCollection([$this->mockConnection()])));
+            ->method('getConnections')
+            ->will($this->returnValue(new ArrayCollection([$this->mockConnection()])));
 
         return $entity;
     }
