@@ -77,7 +77,7 @@ class Runner
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ConnectionLog", mappedBy="runner",
-     *     cascade={"remove"})
+     *     cascade={"persist", "remove"})
      */
     protected $connectionLogs;
 

@@ -125,6 +125,7 @@ class Cluster
     {
         $this->setApplications(new ArrayCollection());
         $this->setClusterLogs(new ArrayCollection());
+        $this->setRunners(new ArrayCollection());
     }
 
     /**

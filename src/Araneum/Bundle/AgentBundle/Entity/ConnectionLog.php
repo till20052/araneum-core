@@ -39,8 +39,7 @@ class ConnectionLog
      *
      * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Runner", inversedBy="connectionLogs",
      *     cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="runner_id", referencedColumnName="id", nullable=false)
-     * @ORM\Column(type="integer", options={"default":"0"})
+     * @ORM\JoinColumn(name="runner_id", referencedColumnName="id", nullable=true)
      */
     private $runner;
 
