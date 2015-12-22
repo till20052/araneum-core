@@ -41,9 +41,6 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         locales: %locales%
-    form:
-        resources:
-        - 'SonataCoreBundle:Form:datepicker.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -88,21 +85,6 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: Araneum\Bundle\UserBundle\Entity\User
-
-sonata_admin:
-    title:      Araneum Core
-    title_logo: logo_title.png
-    dashboard:
-        blocks:
-        - { position: top, type: sonata.admin.block.admin_list }
-
-sonata_block:
-    default_contexts: [cms]
-    blocks:
-        sonata.admin.block.admin_list:
-            contexts:   [admin]
-        sonata.admin.block.search_result:
-            contexts:   [admin]
 
 accelerator_cache:
     host: %domain%

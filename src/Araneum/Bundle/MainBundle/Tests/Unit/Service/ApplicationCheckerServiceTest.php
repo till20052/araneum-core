@@ -40,6 +40,7 @@ class ApplicationCheckerServiceTest extends \PHPUnit_Framework_TestCase
         $repository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ConnectionRepository')
             ->disableOriginalConstructor()
             ->getMock();
+
         $repository->expects($this->once())
             ->method('find')
             ->with($this->equalTo(777))
@@ -82,12 +83,15 @@ class ApplicationCheckerServiceTest extends \PHPUnit_Framework_TestCase
         $entity = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Cluster')
             ->disableOriginalConstructor()
             ->getMock();
+
         $entity->expects($this->atLeastOnce())
             ->method('getApplications')
             ->will($this->returnValue(new ArrayCollection([$this->mockApplication()])));
+
         $entity->expects($this->atLeastOnce())
-            ->method('getHosts')
-            ->will($this->returnValue(new ArrayCollection([$this->mockConnection()])));
+            ->method('getRunners')
+            ->will($this->returnValue(new ArrayCollection([$this->mockRunner()])));
+
         $entity->expects($this->once())
             ->method('setStatus')
             ->with($this->equalTo(Cluster::STATUS_OK));
@@ -95,6 +99,7 @@ class ApplicationCheckerServiceTest extends \PHPUnit_Framework_TestCase
         $repository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ClusterRepository')
             ->disableOriginalConstructor()
             ->getMock();
+
         $repository->expects($this->once())
             ->method('find')
             ->with($this->equalTo(777))
@@ -182,6 +187,24 @@ class ApplicationCheckerServiceTest extends \PHPUnit_Framework_TestCase
             ->method('logConnection');
 
         return $loggerService;
+    }
+
+    /**
+     * Mock Runner Entity
+     *
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    private function mockRunner()
+    {
+        $entity = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Runner')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $entity->expects($this->atLeastOnce())
+            ->method('getConnections')
+            ->will($this->returnValue(new ArrayCollection([$this->mockConnection()])));
+
+        return $entity;
     }
 
     /**
