@@ -27,6 +27,7 @@ class RecursivePagesTest extends BaseController
 
     private $register     = [];
     private $excludedUrls = [];
+
     /**
      * Test pages status
      */
@@ -42,7 +43,6 @@ class RecursivePagesTest extends BaseController
             );
         }
     }
-
 
     /**
      * Prepare data for test

@@ -1,7 +1,6 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
-    - { resource: services.yml }
     - { resource: ../../src/Araneum/Base/Resources/config/services.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
@@ -12,6 +11,8 @@ parameters:
     site_api:
         user: api
         password: QDurWe68
+    rabbitmq_message_ttl: '20000'
+    spot_enable_json_responce: true
 
 
 framework:
@@ -117,7 +118,10 @@ fos_rest:
         view_response_listener: true
     disable_csrf_role: ROLE_API
 
-nelmio_api_doc: ~
+nelmio_api_doc:
+    sandbox:
+        request_format:
+            method: accept_header
 
 lexik_maintenance:
     driver:
@@ -138,6 +142,33 @@ old_sound_rabbit_mq:
 
             keepalive: false
             heartbeat: 0
+    producers:
+        spot:
+            connection: default
+            exchange_options:
+                name: 'quarantee_delivery'
+                type: direct
+                auto_delete: false
+                durable: true
+            queue_options:
+                name: "sendToSpot"
+                routing_keys:
+                    - "sendToSpot"
+                arguments:
+                    "message-ttl": ['I', %rabbitmq_message_ttl%]
+                    "dead-letter-exchange": ['S', 'araneum.base.rabbitmq.producer.spot']
+                    "dead-letter-routing-key": ['S', 'sendToSpot']
+    consumers:
+        spot:
+            connection: default
+            exchange_options:
+                name: 'quarantee_delivery'
+                type: direct
+                auto_delete: false
+                durable: true
+            queue_options:
+                name: "sendToSpot"
+            callback: araneum.base.rabbitmq.consumer.spot
 
 snc_redis:
     clients:

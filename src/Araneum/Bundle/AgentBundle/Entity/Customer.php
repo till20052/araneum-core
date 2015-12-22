@@ -59,9 +59,8 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="country", type="string", length=32, nullable=true)
-     * @Assert\Length(min=2, max=30)
-     * @Assert\Regex(pattern="/^\D+$/")
+     * @ORM\Column(name="country_id", type="smallint", nullable=true)
+     * @Assert\Regex(pattern="/^\d+$/")
      * @Assert\NotBlank()
      */
     private $country;
@@ -95,6 +94,12 @@ class Customer
     private $currency;
 
     /**
+     * @var string
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $birthday;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="callback", type="boolean")
@@ -107,6 +112,13 @@ class Customer
      * @ORM\Column(type="datetime", name="delivered_at", nullable=true)
      */
     private $deliveredAt;
+
+    /**
+     * Not saved in DB
+     *
+     * @var string
+     */
+    private $password;
 
     /**
      * Get id
@@ -203,7 +215,7 @@ class Customer
     /**
      * Get country
      *
-     * @return string
+     * @return int
      */
     public function getCountry()
     {
@@ -274,7 +286,7 @@ class Customer
      *
      * @return boolean
      */
-    public function getCallback()
+    public function isCallback()
     {
         return $this->callback;
     }
@@ -309,7 +321,7 @@ class Customer
      */
     public function getCurrency()
     {
-        return $this->currency;
+        return strtoupper($this->currency); // for BC
     }
 
     /**
@@ -320,7 +332,53 @@ class Customer
      */
     public function setCurrency($currency)
     {
-        $this->currency = $currency;
+        $this->currency = strtoupper($currency);
+
+        return $this;
+    }
+
+    /**
+     * Get birthday
+     *
+     * @return string
+     */
+    public function getBirthday()
+    {
+        return $this->birthday;
+    }
+
+    /**
+     * Set birthday
+     *
+     * @param object $birthday
+     * @return mixed
+     */
+    public function setBirthday($birthday)
+    {
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    /**
+     * Get Password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     * @return Customer
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
 
         return $this;
     }

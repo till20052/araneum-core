@@ -17,7 +17,7 @@ class CustomerApiControllerTest extends BaseController
     /**
      * @var string uri to call rest api method
      */
-    protected $customerInsert = '/agent/api/customers/insert/'.ApplicationFixtures::TEST_APP_APP_KEY;
+    protected $customerInsert = '/agent/api/customers/insert/';
 
     /**
      * Settings up
@@ -53,7 +53,7 @@ class CustomerApiControllerTest extends BaseController
         $client = self::createAdminAuthorizedClient('api');
         $client->request(
             'POST',
-            $this->customerInsert,
+            $this->customerInsert.ApplicationFixtures::TEST_APP_APP_KEY,
             $post
         );
 
@@ -77,10 +77,12 @@ class CustomerApiControllerTest extends BaseController
                 [
                     'firstName' => 'ашкыТфьу',
                     'lastName' => 'lastName',
-                    'country' => 'country',
+                    'country' => 1,
                     'email' => 'testEmail'.sha1(rand()).'@email.com',
                     'currency' => 'usd',
                     'phone' => '380993222234',
+                    'birthday' => '2020-11-11',
+                    'password' => '1234567',
                 ],
                 Response::HTTP_CREATED,
             ],
@@ -88,10 +90,12 @@ class CustomerApiControllerTest extends BaseController
                 [
                     'firstName' => "Дим'аЁ",
                     'lastName' => "Дим'аЁ",
-                    'country' => 'country',
+                    'country' => 2,
                     'email' => 'testEmail'.sha1(rand()).'@email.com',
                     'currency' => 'usd',
                     'phone' => '380993222234',
+                    'birthday' => '2222-12-12',
+                    'password' => '1234567',
                 ],
                 Response::HTTP_CREATED,
             ],
@@ -103,6 +107,7 @@ class CustomerApiControllerTest extends BaseController
                     'email' => CustomerFixtures::TEST_EMAIL,
                     'currency' => CustomerFixtures::TEST_CURRENCY,
                     'phone' => CustomerFixtures::TEST_PHONE,
+                    'birthday' => CustomerFixtures::TEST_BIRTHDAY,
                 ],
                 Response::HTTP_BAD_REQUEST,
             ],

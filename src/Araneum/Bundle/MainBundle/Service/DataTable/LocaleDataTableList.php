@@ -56,7 +56,7 @@ class LocaleDataTableList extends AbstractList
             ->add(
                 'orientation',
                 [
-                    'render' => function ($value, $data, $doctrine, $templating, $user) {
+                    'render' => function ($value) {
                         return $value != Locale::ORIENT_RGT_TO_LFT ? 'Left to right' : 'Right to left';
                     },
                 ]

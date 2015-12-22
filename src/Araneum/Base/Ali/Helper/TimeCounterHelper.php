@@ -9,7 +9,7 @@ namespace Araneum\Base\Ali\Helper;
  */
 class TimeCounterHelper
 {
-    const TIME_IN_HOUR = 3600;
+    const TIME_IN_HOUR   = 3600;
     const TIME_IN_MINUTE = 60;
 
     /**

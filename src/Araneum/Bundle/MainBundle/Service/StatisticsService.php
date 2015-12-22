@@ -365,7 +365,7 @@ class StatisticsService
      * Create time range
      *
      * @param mixed $start start time, e.g., 9:30am or 9:30
-     * @param mixed $end end time, e.g., 5:30pm or 17:30
+     * @param mixed $end   end time, e.g., 5:30pm or 17:30
      * @access public
      * @return array
      */
