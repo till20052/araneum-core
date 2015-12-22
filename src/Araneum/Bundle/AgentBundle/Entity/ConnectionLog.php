@@ -45,14 +45,12 @@ class ConnectionLog
 
     /**
      * @var integer
-     *
      * @ORM\Column(name="percent_lost_packages", type="integer")
      */
     private $percentLostPackages;
 
     /**
      * @var integer
-     *
      * @ORM\Column(name="average_ping_time", type="float")
      */
     private $averagePingTime;
