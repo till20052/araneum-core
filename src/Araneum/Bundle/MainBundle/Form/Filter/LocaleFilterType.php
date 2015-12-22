@@ -43,57 +43,57 @@ class LocaleFilterType extends AbstractType
             [
                 'label' => 'Name',
                 'attr' => [
-                    'placeholder' => '{{"locales.PLACEHOLDER" | translate }}',
+                    'placeholder' => 'locales.PLACEHOLDER',
                     'translateLabel' => 'locales.NAME',
                 ],
             ]
         )
-            ->add(
-                'locale',
-                'filter_text',
-                [
-                    'label' => 'Locale',
-                    'attr' => [
-                        'placeholder' => '{{ "locales.ENTER_LOCALE" | translate}}',
-                        'translateLabel' => 'locales.LOCALE',
-                    ],
-                ]
-            )
-            ->add(
-                'enabled',
-                'filter_choice',
-                [
-                    'label' => 'Enabled',
-                    'choices' => Locale::$enable,
-                    'empty_value' => '{{ "locales.EMPTY_VALUE" | translate }}',
-                    'attr' => [
-                        'translateLabel' => 'locales.ENABLED',
-                    ],
-                ]
-            )
-            ->add(
-                'orientation',
-                'filter_choice',
-                [
-                    'label' => 'Orientation',
-                    'choices' => Locale::$orientations,
-                    'empty_value' => '{{ "locales.EMPTY_VALUE" | translate }}',
-                    'attr' => [
-                        'translateLabel' => 'locales.ORIENTATION',
-                    ],
-                ]
-            )
-            ->add(
-                'encoding',
-                'filter_text',
-                [
-                    'label' => 'Encoding',
-                    'attr' => [
-                        'placeholder' => '{{"locales.ENTER_ENCODING" | translate}}',
-                        'translateLabel' => 'locales.ENCODING',
-                    ],
-                ]
-            );
+        ->add(
+            'locale',
+            'filter_text',
+            [
+                'label' => 'Locale',
+                'attr' => [
+                    'placeholder' => 'locales.ENTER_LOCALE',
+                    'translateLabel' => 'locales.LOCALE',
+                ],
+            ]
+        )
+        ->add(
+            'enabled',
+            'filter_choice',
+            [
+                'label' => 'Enabled',
+                'choices' => Locale::$enable,
+                'empty_value' => 'locales.EMPTY_VALUE',
+                'attr' => [
+                    'translateLabel' => 'locales.ENABLED',
+                ],
+            ]
+        )
+        ->add(
+            'orientation',
+            'filter_choice',
+            [
+                'label' => 'Orientation',
+                'choices' => Locale::$orientations,
+                'empty_value' => 'locales.EMPTY_VALUE',
+                'attr' => [
+                    'translateLabel' => 'locales.ORIENTATION',
+                ],
+            ]
+        )
+        ->add(
+            'encoding',
+            'filter_text',
+            [
+                'label' => 'Encoding',
+                'attr' => [
+                    'placeholder' => 'locales.ENTER_ENCODING',
+                    'translateLabel' => 'locales.ENCODING',
+                ],
+            ]
+        );
     }
 
     /**
@@ -113,7 +113,7 @@ class LocaleFilterType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'csrf_protection' => false,
+                'csrf_protection'   => false,
                 'validation_groups' => [
                     'filtering',
                 ],

@@ -92,6 +92,7 @@ class ApplicationFixtures extends AbstractFixture implements FixtureInterface, D
     public function getDependencies()
     {
         return [
+            'Araneum\Base\Tests\Fixtures\Main\RunnerFixtures',
             'Araneum\Base\Tests\Fixtures\Main\ClusterFixtures',
             'Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures',
             'Araneum\Base\Tests\Fixtures\Main\ComponentFixtures',
