@@ -33,7 +33,7 @@
         "predis/predis": "1.*",
         "misd/guzzle-bundle": "^1.1",
         "jms/i18n-routing-bundle": "^1.1",
-        "ali/datatable": "^2.0",
+        "ali/datatable": "v2.0.2",
         "lexik/form-filter-bundle": "~4.0"
     },
     "require-dev": {
