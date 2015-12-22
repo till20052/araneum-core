@@ -3,9 +3,7 @@
 namespace Araneum\Base\Tests\Fixtures\Main;
 
 use Araneum\Bundle\MainBundle\Entity\Cluster;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -14,7 +12,7 @@ use Doctrine\Common\Persistence\ObjectManager;
  *
  * @package Araneum\Base\Tests\Fixtures\Main
  */
-class ClusterFixtures extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
+class ClusterFixtures extends AbstractFixture implements FixtureInterface
 {
     const TEST_CLU_NAME    = 'TestClusterName';
     const TEST_CLU_TYPE    = 1;
@@ -33,7 +31,6 @@ class ClusterFixtures extends AbstractFixture implements FixtureInterface, Depen
         if (empty($cluster)) {
             $cluster = new Cluster();
             $cluster->setName(self::TEST_CLU_NAME);
-            $cluster->setHosts(new ArrayCollection([$this->getReference('connectionHost')]));
             $cluster->setType(self::TEST_CLU_TYPE);
             $cluster->setEnabled(self::TEST_CLU_ENABLED);
             $cluster->setStatus(self::TEST_CLU_STATUS);
@@ -46,7 +43,6 @@ class ClusterFixtures extends AbstractFixture implements FixtureInterface, Depen
         if (empty($clusterTmp)) {
             $clusterTmp = new Cluster();
             $clusterTmp->setName(self::TEST_TEMP_CLU_NAME);
-            $clusterTmp->setHosts(new ArrayCollection([$this->getReference('connectionHost')]));
             $clusterTmp->setType(self::TEST_CLU_TYPE);
             $clusterTmp->setEnabled(self::TEST_CLU_ENABLED);
             $clusterTmp->setStatus(self::TEST_CLU_STATUS);
@@ -58,20 +54,11 @@ class ClusterFixtures extends AbstractFixture implements FixtureInterface, Depen
         if (empty($deleteCluster)) {
             $deleteCluster = new Cluster();
             $deleteCluster->setName(self::DELETE_CLU_NAME);
-            $deleteCluster->setHosts(new ArrayCollection([$this->getReference('connectionHost')]));
             $deleteCluster->setType(self::TEST_CLU_TYPE);
             $deleteCluster->setEnabled(self::TEST_CLU_ENABLED);
             $deleteCluster->setStatus(self::TEST_CLU_STATUS);
             $manager->persist($deleteCluster);
             $manager->flush();
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDependencies()
-    {
-        return ['Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures'];
     }
 }

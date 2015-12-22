@@ -20,15 +20,16 @@ class ConnectionRepository extends EntityRepository implements \Countable
      *
      * @param int $type
      * @return \Doctrine\ORM\Query
+     * @deprecated
      */
     public function getQueryByUnusedAndType($type)
     {
         $qb = $this->createQueryBuilder('con');
         $qb
-            ->leftJoin('AraneumMainBundle:Cluster', 'clu', Expr\Join::WITH, 'clu.host = con.id')
+            ->leftJoin('AraneumMainBundle:Runner', 'r', Expr\Join::WITH, 'r.connection = con.id')
             ->where('con.type = :type')
             ->andWhere('con.enabled = true')
-            ->andWhere('clu.id IS NULL')
+            ->andWhere('r.id IS NULL')
             ->setParameters(['type' => $type]);
 
         return $qb->getQuery();
@@ -44,8 +45,9 @@ class ConnectionRepository extends EntityRepository implements \Countable
     {
         $q = $this->createQueryBuilder('cn')
             ->select('a')
-            ->innerJoin('cn.clusters', 'cl')
-            ->innerJoin('AraneumMainBundle:Application', 'a', Expr\Join::WITH, 'a.cluster = cl.id')
+            ->join('cn.runner', 'r')
+            ->join('r.cluster', 'cl')
+            ->join('AraneumMainBundle:Application', 'a', Expr\Join::WITH, 'a.cluster = cl.id')
             ->where('cn.id = :id')
             ->setParameter('id', $id)
             ->getQuery();
@@ -67,7 +69,7 @@ class ConnectionRepository extends EntityRepository implements \Countable
             ->andWhere('con.id IN (:ids)')
             ->setParameters(
                 [
-                    'type' => Connection::CONN_HOST,
+                    'type' => Connection::CONN_NGINX,
                     'ids' => $ids,
                 ]
             );
@@ -86,7 +88,8 @@ class ConnectionRepository extends EntityRepository implements \Countable
         $qb = $this->createQueryBuilder('conn');
 
         $qb
-            ->join('conn.clusters', 'clu')
+            ->join('conn.runner', 'r')
+            ->join('r.cluster', 'clu')
             ->join('clu.applications', 'app')
             ->where('app.appKey = :appKey')
             ->setParameters(
@@ -108,14 +111,15 @@ class ConnectionRepository extends EntityRepository implements \Countable
     {
         $qb = $this->createQueryBuilder('conn');
         $qb
-            ->join('conn.clusters', 'clu')
+            ->join('conn.runner', 'runner')
+            ->join('runner.cluster', 'clu')
             ->where('clu.id = :clu')
             ->andWhere('conn.type = :type')
             ->andWhere('conn.enabled = true')
             ->setParameters(
                 [
                     'clu' => $clusterId,
-                    'type' => ConnectionFixtures::TEST_CONN_HOST_TYPE,
+                    'type' => ConnectionFixtures::TEST_CONN_NGINX_TYPE,
                 ]
             );
 
