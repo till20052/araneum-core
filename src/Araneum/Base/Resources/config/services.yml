@@ -38,3 +38,7 @@ services:
     araneum.command_runner.service:
         class: Araneum\Base\Service\CommandRunnerService
         arguments: [%kernel.root_dir%]
+
+    araneum.base.spot_api:
+        class: Araneum\Base\Service\Spot\SpotApiSenderService
+        arguments: [@guzzle.client]

@@ -167,6 +167,12 @@ class Application
     protected $spotApiUrl;
 
     /**
+     * @ORM\Column(type="string", name="spot_api_public_url", length=255, nullable=true)
+     * @var string
+     */
+    protected $spotApiPublicUrl;
+
+    /**
      * Get list of Application statuses
      *
      * @return array
@@ -741,6 +747,29 @@ class Application
     public function setSpotApiUrl($spotApiUrl)
     {
         $this->spotApiUrl = $spotApiUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get SpotApiPublicUrl
+     *
+     * @return string
+     */
+    public function getSpotApiPublicUrl()
+    {
+        return $this->spotApiPublicUrl;
+    }
+
+    /**
+     * Set spotApiPublicUrl
+     *
+     * @param string $spotApiPublicUrl
+     * @return Application
+     */
+    public function setSpotApiPublicUrl($spotApiPublicUrl)
+    {
+        $this->spotApiPublicUrl = $spotApiPublicUrl;
 
         return $this;
     }

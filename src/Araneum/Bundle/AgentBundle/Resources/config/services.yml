@@ -5,6 +5,7 @@ services:
 
     araneum.agent.spotoption.service:
         class: Araneum\Bundle\AgentBundle\Service\SpotOptionService
+        arguments: [@araneum.base.spot_api, %spot_api_public_url_login%]
 
     araneum.agent.logger:
         class: Araneum\Bundle\AgentBundle\Service\AgentLoggerService

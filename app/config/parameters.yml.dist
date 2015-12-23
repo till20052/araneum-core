@@ -27,3 +27,5 @@ parameters:
     rabbitmq_port: 5672
     rabbitmq_user: 'admin'
     rabbitmq_password: '12345'
+
+    spot_api_public_url_login: '/Login/login/unusedRequiredParameter'

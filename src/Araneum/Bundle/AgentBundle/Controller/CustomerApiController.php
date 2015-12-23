@@ -93,21 +93,24 @@ class CustomerApiController extends FOSRestController
      *
      * @Rest\Post("/api/customers/login/{appKey}", defaults={"_format"="json"})
      *
-     * @Rest\View(statusCode=201)
+     * @Rest\View(statusCode=200)
      * @param string       $appKey
      * @param ParamFetcher $request
-     * @Rest\RequestParam(name="email", allowBlank=false, requirements="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$")
-     * @Rest\RequestParam(name="password", allowBlank=false, requirements="\w{3,}")
+     * @Rest\RequestParam(name="email", allowBlank=false, requirements=".{2,}")
+     * @Rest\RequestParam(name="password", allowBlank=false, requirements=".{6,}")
      * @return mixed
      */
     public function loginAction($appKey, ParamFetcher $request)
     {
         $email = $request->get('email');
         $password = $request->get('password');
-
         $result = $this->container
             ->get('araneum.agent.customer.api_handler')
             ->login($email, $password, $appKey);
+
+        if ($result === false) {
+            return View::create(["errors" => "Wrong username or password"], Response::HTTP_BAD_REQUEST);
+        }
 
         return View::create($result);
     }

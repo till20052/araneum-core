@@ -101,26 +101,30 @@ class CustomerApiHandlerService
      * @param string $email
      * @param string $password
      * @param string $appKey
-     * @return string
+     * @return array|false
      */
     public function login($email, $password, $appKey)
     {
         $application = $this->getAppManager()
             ->findOneOr404(['appKey' => $appKey]);
 
-        $spotResponse = $this->getSpotOption()->login($email, $password);
-
         $customer = $this->getEntityManager()
             ->getRepository('AraneumAgentBundle:Customer')
-            ->findOneBy(['email' => $email]);
+            ->findOneBy(
+                [
+                    'email' => $email,
+                    'application' => $application,
+                ]
+            );
+        $spotResponse = $this->getSpotOption()->login($email, $password, $application);
+
         $log = new CustomerLog();
         $log->setApplication($application);
         $log->setAction('Login');
         $log->setCustomer($customer);
         $log->setSpotResponse($spotResponse);
 
-        //TODO respnonse spotoption description
-        if ($spotResponse) {
+        if ($spotResponse !== false) {
             $log->setStatus(CustomerLog::STATUS_OK);
         } else {
             $log->setStatus(CustomerLog::STATUS_ERROR);
@@ -129,7 +133,7 @@ class CustomerApiHandlerService
         $this->getEntityManager()->persist($log);
         $this->getEntityManager()->flush();
 
-        return $log->getStatus();
+        return $spotResponse;
     }
 
     /**
@@ -155,7 +159,12 @@ class CustomerApiHandlerService
         /** @var Customer $customer */
         $customer = $this->getEntityManager()
             ->getRepository('AraneumAgentBundle:Customer')
-            ->findOneByEmail($email);
+            ->findOneBy(
+                [
+                    'email' => $email,
+                    'application' => $application,
+                ]
+            );
 
         if (empty($application)
             || empty($customer)
