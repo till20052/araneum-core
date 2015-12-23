@@ -69,7 +69,7 @@ class LeadApiController extends Controller
      *  section = "AgentBundle",
      *  description = "Create lead",
      *  input={
-     *      "class"="\Araneum\Bundle\AgentBundle\Form\Type\LeadType",
+     *      "class"="Araneum\Bundle\AgentBundle\Form\Type\LeadType",
      *      "name"=""
      *  },
      *  statusCodes = {

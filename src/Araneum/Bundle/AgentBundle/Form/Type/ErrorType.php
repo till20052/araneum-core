@@ -20,14 +20,27 @@ class ErrorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('type')
-            ->add('message')
             ->add(
-                'sentAt',
+                'error_type',
+                null,
+                [
+                    'property_path' => 'type',
+                ]
+            )
+            ->add(
+                'error_message',
+                null,
+                [
+                    'property_path' => 'message',
+                ]
+            )
+            ->add(
+                'error_sent_at',
                 'datetime',
                 [
                     'date_format' => 'yyyy-MM-ddTHH:mm:ss',
                     'widget' => 'single_text',
+                    'property_path' => 'sentAt',
                 ]
             );
     }

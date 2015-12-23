@@ -627,6 +627,29 @@ class Application
     }
 
     /**
+     * Get errors
+     *
+     * @return ArrayCollection
+     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    /**
+     * Set customers
+     *
+     * @param ArrayCollection $errors
+     * @return Application
+     */
+    public function setErrors(ArrayCollection $errors)
+    {
+        $this->errors = $errors;
+
+        return $this;
+    }
+
+    /**
      * Get mails
      *
      * @return ArrayCollection
