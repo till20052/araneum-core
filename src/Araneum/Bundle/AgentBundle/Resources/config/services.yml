@@ -13,3 +13,7 @@ services:
     araneum.agent.lead.api_handler:
         class: Araneum\Bundle\AgentBundle\Service\LeadApiHandlerService
         arguments: [@doctrine.orm.entity_manager, @form.factory]
+
+    araneum.agent.error.api_handler:
+        class: Araneum\Bundle\AgentBundle\Service\ErrorApiHandlerService
+        arguments: [@service_container]
