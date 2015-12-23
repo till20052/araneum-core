@@ -105,6 +105,8 @@ class CustomerApiHandlerService
      */
     public function login($email, $password, $appKey)
     {
+        $email = strtolower($email);
+
         $application = $this->getAppManager()
             ->findOneOr404(['appKey' => $appKey]);
 
@@ -147,6 +149,8 @@ class CustomerApiHandlerService
      */
     public function resetPassword($appKey, $email, $currentPassword, $newPassword)
     {
+        $email = strtolower($email);
+
         /** @var Application $application */
         $application = $this->getEntityManager()
             ->getRepository('AraneumMainBundle:Application')
