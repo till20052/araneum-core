@@ -10,7 +10,7 @@ use Araneum\Base\EntityTrait\DateTrait;
 /**
  * Error
  *
- * @ORM\Table('araneum_agent_errors')
+ * @ORM\Table("araneum_agent_errors")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\AgentBundle\Repository\ErrorRepository")
  */
 class Error
