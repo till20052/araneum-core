@@ -7,7 +7,6 @@ use Araneum\Bundle\MainBundle\Service\DataTable\LocaleDataTableList;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Araneum\Base\Controller\AdminBaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\Regex;
@@ -20,7 +19,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
  *
  * @package Araneum\Bundle\MainBundle\Controller
  */
-class AdminLocaleController extends AdminBaseController
+class AdminLocaleController extends Controller
 {
     /**
      * Get locale by id

@@ -8,6 +8,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\ORM\QueryBuilder;
+use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * Class UserFilterType
@@ -96,14 +99,22 @@ class UserFilterType extends AbstractType
             )
             ->add(
                 'roles',
-                'filter_choice',
+                'filter_entity',
                 [
-                    'label' => 'Role',
-                    'choices' => User::$roleNames,
+                    'class' => 'Araneum\Bundle\UserBundle\Entity\Role',
+                    'multiple' => false,
                     'empty_value' => 'admin.general.SELECT',
                     'attr' => [
                         'translateLabel' => 'user.ROLE',
                     ],
+                    'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
+                        $query = $filterQuery->getQueryBuilder();
+                        $query->innerJoin($field, 'roles');
+                        $value = $values['value'];
+                        if (isset($value)) {
+                            $query->andWhere($query->expr()->eq('roles.id', $value->getId()));
+                        }
+                    },
                 ]
             );
     }

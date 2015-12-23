@@ -74,7 +74,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
         }
 
         return [
-            '_csrf_token' => $this->tokenManager->getToken('authenticate'),
+            '_csrf_token' => $this->tokenManager->getToken('authenticate')->getValue(),
             'error' => $error,
         ];
     }

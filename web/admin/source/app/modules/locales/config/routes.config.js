@@ -14,13 +14,13 @@
     routesConfig.$inject = ['$stateProvider', 'RouteHelpersProvider'];
     function routesConfig($stateProvider, helper) {
         $stateProvider
-        $stateProvider
             .state('app.locales', {
                 url: '/locales',
                 initialize: '/manage/locales/init.json',
                 templateUrl: helper.basepath('grid-template.html'),
-                resolve: helper.resolveFor('datatables', 'whirl')
-            });
+                resolve: helper.resolveFor('datatables', 'whirl'),
+                controller: 'LocalesController'
+            })
     }
 
 })();

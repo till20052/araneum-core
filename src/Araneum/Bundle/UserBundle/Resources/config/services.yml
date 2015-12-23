@@ -4,3 +4,9 @@ services:
         arguments: [@router, @session, @security.csrf.token_manager]
         tags:
             - { name: 'monolog.logger', channel: 'securirty' }
+
+    araneum_user.user.filter.form:
+        class: Araneum\Bundle\UserBundle\Form\Filter\UserFilterType
+        arguments: [@doctrine, @service_container]
+        tags:
+            - { name: form.type, alias: araneum_user_filter }

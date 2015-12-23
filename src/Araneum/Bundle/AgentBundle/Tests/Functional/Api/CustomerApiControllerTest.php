@@ -58,6 +58,7 @@ class CustomerApiControllerTest extends BaseController
         );
 
         $response = $client->getResponse();
+
         $this->assertEquals(
             $expected,
             $response->getStatusCode(),

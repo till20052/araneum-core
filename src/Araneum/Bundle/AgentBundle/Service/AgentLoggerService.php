@@ -7,6 +7,7 @@ use Araneum\Bundle\AgentBundle\Entity\ClusterLog;
 use Araneum\Bundle\AgentBundle\Entity\ConnectionLog;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Araneum\Bundle\MainBundle\Entity\Runner;
 use Araneum\Bundle\MainBundle\Entity\Connection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
@@ -37,15 +38,15 @@ class AgentLoggerService
      * Log Connection
      *
      * @param Connection $connection
-     * @param Cluster    $cluster
+     * @param Runner     $runner
      * @param integer    $percentLostPackages
      * @param integer    $averagePingTime
      */
-    public function logConnection(Connection $connection, Cluster $cluster, $percentLostPackages, $averagePingTime)
+    public function logConnection(Connection $connection, Runner $runner, $percentLostPackages, $averagePingTime)
     {
         $log = (new ConnectionLog())
             ->setConnection($connection)
-            ->setCluster($cluster)
+            ->setRunner($runner)
             ->setPercentLostPackages($percentLostPackages)
             ->setAveragePingTime($averagePingTime);
 

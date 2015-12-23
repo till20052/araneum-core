@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Service\DataTable;
+namespace Araneum\Bundle\UserBundle\Service\DataTable;
 
 use Araneum\Base\Ali\DatatableBundle\Builder\AbstractList;
 use Araneum\Base\Ali\DatatableBundle\Builder\ListBuilderInterface;
@@ -8,13 +8,14 @@ use Araneum\Bundle\MainBundle\Entity\Locale;
 use Araneum\Bundle\MainBundle\Repository\LocaleRepository;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\ORM\EntityManager;
 
 /**
- * Class LocaleDataTableList
+ * Class UserDataTableList
  *
- * @package Araneum\Bundle\MainBundle\Service\DataTable
+ * @package Araneum\Bundle\UserBundle\Service\DataTable
  */
-class LocaleDataTableList extends AbstractList
+class UserDataTableList extends AbstractList
 {
     /**
      * Query Builder
@@ -50,42 +51,44 @@ class LocaleDataTableList extends AbstractList
     {
         $builder
             ->add('id')
+            ->add('email', [
+                'search_type' => 'like',
+                'label' => 'email',
+            ])
+            ->add('username', [
+                'search_type' => 'like',
+                'label' => 'user.LOGIN',
+            ])
+            ->add('fullName', [
+                'search_type' => 'like',
+                'label' => 'user.FULLNAME',
+            ])
+            ->add('enabled', [
+                'label' => 'admin.general.ENABLE',
+            ])
+            ->add('roles.name', [
+                'search_type' => 'like',
+                'label' => 'user.ROLE',
+            ])
             ->add(
-                'name',
+                'lastLogin',
                 [
-                    'search_type' => 'like',
-                    'label' => 'locales.NAME',
-                ]
-            )
-            ->add(
-                'locale',
-                [
-                    'search_type' => 'like',
-                    'label' => 'locales.LOCALE',
-                ]
-            )
-            ->add(
-                'enabled',
-                [
-                    'label' => 'locales.ENABLED',
-                ]
-            )
-            ->add(
-                'orientation',
-                [
+                    'search_type' => 'datetime',
                     'render' => function ($value) {
-                        return $value != Locale::ORIENT_RGT_TO_LFT ? 'Left to right' : 'Right to left';
+                        return $value instanceof \DateTime ? $value->format('Y-m-d') : '';
                     },
-                    'label' => 'locales.ORIENTATION',
+                    'label' => 'user.LAST_LOGIN',
                 ]
             )
             ->add(
-                'encoding',
+                'createdAt',
                 [
-                    'search_type' => 'like',
-                    'label' => 'locales.ENCODING',
+                    'label' => 'user.REGISTER',
+                    'search_type' => 'datetime',
                 ]
-            );
+            )
+            ->setOrderBy('createdAt', 'desc')
+            ->setSearch(true);
     }
 
     /**
@@ -95,24 +98,23 @@ class LocaleDataTableList extends AbstractList
      */
     public function getEntityClass()
     {
-        return 'AraneumMainBundle:Locale';
+        return 'AraneumUserBundle:User';
     }
 
     /**
      * Create query builder
      *
-     * @param Registry $doctrine
+     * @param EntityManager $em
      * @return \Ali\DatatableBundle\Util\Factory\Query\QueryInterface
      */
-    public function createQueryBuilder($doctrine)
+    public function createQueryBuilder($em)
     {
-        /** @var LocaleRepository $repository */
-        $repository = $doctrine->getRepository($this->getEntityClass());
+        $repository = $em->getRepository($this->getEntityClass());
         if (empty($this->queryBuilder)) {
             $this->queryBuilder = $repository->getQueryBuilder();
 
             $filters = $this->container->get('form.factory')->create(
-                $this->container->get('araneum_main.locale.filter.form')
+                $this->container->get('araneum_user.user.filter.form')
             );
 
             if ($this->container->get('request')->query->has($filters->getName())) {
@@ -123,6 +125,7 @@ class LocaleDataTableList extends AbstractList
                 );
             }
         }
+
 
         return $this->queryBuilder;
     }
