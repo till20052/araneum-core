@@ -21,6 +21,7 @@ class MenuGeneratorTest extends WebTestCase
 
     /**
      *  Test left menu
+     * @runInSeparateProcess
      */
     public function testLeftMenu()
     {

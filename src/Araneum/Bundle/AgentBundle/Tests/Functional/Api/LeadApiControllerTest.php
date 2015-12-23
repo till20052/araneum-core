@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\AgentBundle\Tests\Functional\Controller;
+namespace Araneum\Bundle\AgentBundle\Tests\Functional\Api;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Araneum\Base\Tests\Fixtures\Agent\LeadFixtures;
@@ -61,8 +61,8 @@ class LeadApiControllerTest extends BaseController
     /**
      * Test findAction in LeadApiController
      *
-     *
      * @dataProvider findActionDataProvider
+     * @runInSeparateProcess
      *
      * @param array $filters
      * @param int   $expectedStatusCode
@@ -146,6 +146,7 @@ class LeadApiControllerTest extends BaseController
      *
      *
      * @dataProvider createActionDataProvider
+     * @runInSeparateProcess
      *
      * @param array $data
      * @param int   $expected

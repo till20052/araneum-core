@@ -18,6 +18,7 @@ class MaintenanceTest extends WebTestCase
 
     /**
      * Test is maintenance mode enabled without errors
+     * @runInSeparateProcess
      */
     public function testMaintenanceOn503Status()
     {
@@ -46,7 +47,7 @@ class MaintenanceTest extends WebTestCase
 
     /**
      * Test is maintenance mode disabled without errors
-     *
+     * @runInSeparateProcess
      *
      */
     public function testMaintenanceOffNot503Status()

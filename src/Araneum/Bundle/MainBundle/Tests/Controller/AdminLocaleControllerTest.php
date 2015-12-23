@@ -38,6 +38,7 @@ class AdminLocaleControllerTest extends BaseController
 
     /**
      * Test Initialize Action
+     * @runInSeparateProcess
      */
     public function testInitAction()
     {
@@ -65,6 +66,7 @@ class AdminLocaleControllerTest extends BaseController
 
     /**
      * Test datatable
+     * @runInSeparateProcess
      */
     public function testDatatableAction()
     {
