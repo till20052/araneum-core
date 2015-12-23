@@ -11,7 +11,9 @@
         (function(vm){
 
             vm.layout = User.getSettings();
-            $rootScope.app.layout = vm.layout;
+            if (vm.layout) {
+                $rootScope.app.layout = vm.layout;
+            }
 
             vm.$watch('layout', function () {
                 User.setSettings(vm.layout);
