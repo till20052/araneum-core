@@ -23,6 +23,8 @@ class BaseController extends WebTestCase
         $client = static::createClient();
         $container = $client->getContainer();
 
+        $client->setServerParameters(['HTTP_HOST' => $container->getParameter('session_prefix')]);
+
         $session = $container->get('session');
         /** @var $userManager \FOS\UserBundle\Doctrine\UserManager */
         $userManager = $container->get('fos_user.user_manager');
