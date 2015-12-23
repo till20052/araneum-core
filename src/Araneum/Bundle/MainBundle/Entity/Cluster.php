@@ -3,7 +3,6 @@
 namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
-use Araneum\Bundle\AgentBundle\Entity\ConnectionLog;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -57,12 +56,6 @@ class Cluster
     protected $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Connection", inversedBy="cluster", cascade={"persist"})
-     * @ORM\JoinTable(name="araneum_cluster_connection")
-     */
-    protected $hosts;
-
-    /**
      * @ORM\Column(type="smallint", name="type", options={"comment": "1 - single, 2 - multiple"})
      * @Assert\Type(type="int")
      */
@@ -89,17 +82,16 @@ class Cluster
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ConnectionLog", mappedBy="cluster",
-     *     cascade={"remove"})
-     */
-    protected $connectionLogs;
-
-    /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ClusterLog", mappedBy="cluster",
      *     cascade={"remove"})
      */
     protected $clusterLogs;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Runner", mappedBy="cluster", cascade={"detach", "persist"})
+     */
+    protected $runners;
 
     /**
      * Get list of Cluster statuses
@@ -131,10 +123,9 @@ class Cluster
      */
     public function __construct()
     {
-        $this->setHosts(new ArrayCollection());
         $this->setApplications(new ArrayCollection());
-        $this->setConnectionLogs(new ArrayCollection());
         $this->setClusterLogs(new ArrayCollection());
+        $this->setRunners(new ArrayCollection());
     }
 
     /**
@@ -240,52 +231,6 @@ class Cluster
     }
 
     /**
-     * Add host
-     *
-     * @param ArrayCollection $hosts
-     * @return Cluster
-     */
-    public function setHosts(ArrayCollection $hosts)
-    {
-        $this->hosts = $hosts;
-
-        return $this;
-    }
-
-    /**
-     * Get host
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getHosts()
-    {
-        return $this->hosts;
-    }
-
-    /**
-     * Add single host in collection
-     *
-     * @param Connection $host
-     * @return Cluster
-     */
-    public function addHost(Connection $host)
-    {
-        $this->getHosts()->add($host);
-
-        return $this;
-    }
-
-    /**
-     * Remove single host from collection
-     *
-     * @param Connection $host
-     */
-    public function removeHost(Connection $host)
-    {
-        $this->getHosts()->removeElement($host);
-    }
-
-    /**
      * Convert entity to string
      *
      * @return string
@@ -358,63 +303,65 @@ class Cluster
     }
 
     /**
-     * Set connectionLog
+     * Set runners
      *
-     * @param ArrayCollection $connectionLogs
+     * @param ArrayCollection $runners
      * @return Cluster $this
      */
-    public function setConnectionLogs(ArrayCollection $connectionLogs)
+    public function setRunners(ArrayCollection $runners)
     {
-        $this->connectionLogs = $connectionLogs;
+        $this->runners = $runners;
 
         return $this;
     }
 
     /**
-     * Set connectionsLog
+     * Get runners
      *
      * @return ArrayCollection
      */
-    public function getConnectionLogs()
+    public function getRunners()
     {
-        return $this->connectionLogs;
+        return $this->runners;
     }
 
     /**
-     * Add connectionsLog
+     * Add runners
      *
-     * @param ConnectionLog $connectionLogs
+     * @param Runner $runner
      * @return Cluster $this
      */
-    public function addConnectionLogs(ConnectionLog $connectionLogs)
+    public function addRunner(Runner $runner)
     {
-        $this->connectionLogs->add($connectionLogs);
+        if (!$this->hasRunner($runner)) {
+            $this->runners->add($runner);
+        }
 
         return $this;
     }
 
     /**
-     * Remove connectionsLog
+     * Remove runner
      *
-     * @param ConnectionLog $connectionLogs
+     * @param Runner $runner
      * @return Cluster $this
      */
-    public function removeConnectionLogs(ConnectionLog $connectionLogs)
+    public function removeRunner(Runner $runner)
     {
-        $this->connectionLogs->removeElement($connectionLogs);
+        $this->runners->removeElement($runner);
 
         return $this;
     }
 
     /**
-     * Check is cluster has connectionLogs
+     * Check is cluster has runner
      *
-     * @param ConnectionLog $connectionLogs
+     * @param Runner $runner
      * @return bool
      */
-    public function hasConnectionLogs(ConnectionLog $connectionLogs)
+    public function hasRunner(Runner $runner)
     {
-        return $this->connectionLogs->contains($connectionLogs);
+        return $this->runners->contains($runner);
     }
 
     /**

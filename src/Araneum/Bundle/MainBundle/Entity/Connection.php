@@ -21,8 +21,10 @@ class Connection
 {
     use DateTrait;
 
-    const CONN_DB     = 1;
-    const CONN_HOST   = 2;
+    const CONN_POSTGRESS     = 1;
+    const CONN_NGINX   = 2;
+    const CONN_REDIS = 3;
+    const CONN_RABBIT = 4;
     const CONN_TO_STR = 'Create';
 
     const STATUS_OK              = 0;
@@ -96,10 +98,10 @@ class Connection
     protected $status;
 
     /**
-     * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Cluster", mappedBy="hosts", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Runner", cascade={"detach", "persist"})
+     * @ORM\JoinColumn(name="runner_id", referencedColumnName="id")
      */
-    protected $clusters;
+    protected $runner;
 
     /**
      * Get list of Connection statuses
@@ -124,14 +126,6 @@ class Connection
         }
 
         return self::$statuses[$status];
-    }
-
-    /**
-     * Connection constructor.
-     */
-    public function __construct()
-    {
-        $this->setClusters(new ArrayCollection());
     }
 
     /**
@@ -306,24 +300,24 @@ class Connection
     }
 
     /**
-     * Get Clusters
+     * Get Runners
      *
-     * @return ArrayCollection
+     * @return Runner
      */
-    public function getClusters()
+    public function getRunner()
     {
-        return $this->clusters;
+        return $this->runner;
     }
 
     /**
-     * Set Clusters
+     * Set Runner
      *
-     * @param ArrayCollection $clusters
+     * @param Runner $runner
      * @return Connection
      */
-    public function setClusters(ArrayCollection $clusters)
+    public function setRunner(Runner $runner)
     {
-        $this->clusters = $clusters;
+        $this->runner = $runner;
 
         return $this;
     }

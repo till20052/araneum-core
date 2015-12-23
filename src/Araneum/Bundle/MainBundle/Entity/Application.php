@@ -62,7 +62,7 @@ class Application
 
     /**
      * @ORM\Column(type="string")
-     * @Assert\Regex("/^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$/", message="application_domain_not_valid_url")
+     * @Assert\Regex("/^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$/", message="domain_not_valid_url")
      */
     protected $domain;
 

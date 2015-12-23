@@ -1,4 +1,4 @@
 incorrect_locale_format: Incorrect locale format. Recommended format en_US
-application_domain_not_valid_url: This value is not a valid domain
+domain_not_valid_url: This value is not a valid domain
 FIELD_REQUIRED: Field required
 NOT_VALID_EMAIL: Not valid email

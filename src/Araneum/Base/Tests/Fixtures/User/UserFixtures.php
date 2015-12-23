@@ -34,6 +34,7 @@ class UserFixtures extends AbstractFixture implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
+
         $user = $manager->getRepository('AraneumUserBundle:User')
             ->findOneByUsername(self::TEST_USER_NAME);
         if (empty($user)) {

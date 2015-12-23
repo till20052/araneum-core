@@ -25,12 +25,18 @@ class ClusterRepository extends EntityRepository implements \Countable
             ->select('c.name')
             ->addSelect('DATE_PART(hour, l.createdAt) AS hours')
             ->addSelect('SUM(l.averagePingTime)/count(l.averagePingTime) *100 AS apt')
+            ->innerJoin(
+                'AraneumMainBundle:Runner',
+                'r',
+                'WITH',
+                'r.cluster=c'
+            )
             ->leftJoin(
                 'AraneumAgentBundle:ConnectionLog',
                 'l',
                 'WITH',
                 $qb->expr()->andX(
-                    $qb->expr()->eq('l.cluster', 'c'),
+                    $qb->expr()->eq('l.runner', 'r'),
                     $qb->expr()->neq('l.averagePingTime', -1),
                     $qb->expr()->between('l.createdAt', ':start', ':end')
                 )
