@@ -34,8 +34,7 @@ class ClusterApiControllerTest extends BaseController
 
     /**
      * Test get applications configs by cluster id
-     *
-     *
+     * @runInSeparateProcess
      */
     public function testGetApplicationsConfigsList()
     {
@@ -66,7 +65,7 @@ class ClusterApiControllerTest extends BaseController
 
     /**
      * Test get applications configs list by not existing cluster id
-     *
+     * @runInSeparateProcess
      *
      */
     public function testGetApplicationsConfigsListByNotExistingCluster()

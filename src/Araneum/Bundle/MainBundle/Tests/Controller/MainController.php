@@ -16,8 +16,7 @@ class TopMenuTest extends BaseController
 
     /**
      * Test for Edit profile link
-     *
-     *
+     * @runInSeparateProcess
      */
     public function testProfileLink()
     {
@@ -37,7 +36,7 @@ class TopMenuTest extends BaseController
     /**
      * Test for Logout link
      *
-     *
+     * @runInSeparateProcess
      */
     public function testLogoutLink()
     {

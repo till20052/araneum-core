@@ -21,6 +21,7 @@ class AdminDefaultControllerTest extends BaseController
 
     /**
      * Test AdminDefaultController
+     * @runInSeparateProcess
      */
     public function testGetTranslateList()
     {

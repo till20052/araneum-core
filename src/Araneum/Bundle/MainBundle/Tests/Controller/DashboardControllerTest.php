@@ -27,6 +27,7 @@ class DashboardControllerTest extends BaseController
 
     /**
      * Test getting DataSource of Dashboard
+     * @runInSeparateProcess
      */
     public function testGetDataSourceAction()
     {
