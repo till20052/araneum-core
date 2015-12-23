@@ -18,7 +18,7 @@ use FOS\RestBundle\View\View;
 class ErrorApiController extends FOSRestController
 {
     /**
-     * Insert customer by appKey
+     * Insert error by appKey
      *
      * @ApiDoc(
      *   resource = "Error",

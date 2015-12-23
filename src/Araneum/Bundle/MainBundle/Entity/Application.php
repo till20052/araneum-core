@@ -202,9 +202,10 @@ class Application
      */
     public function __construct()
     {
-        $this->setComponents(new ArrayCollection());
         $this->setAppKey();
+        $this->setComponents(new ArrayCollection());
         $this->setCustomers(new ArrayCollection());
+        $this->setErrors(new ArrayCollection());
         $this->setMails(new ArrayCollection());
         $this->setApplicationLog(new ArrayCollection());
     }

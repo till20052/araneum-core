@@ -59,12 +59,4 @@ class ErrorType extends AbstractType
             ]
         );
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'error';
-    }
 }
