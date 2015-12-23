@@ -33,9 +33,9 @@ class SpotOptionService
     /**
      * SpotOptionService constructor.
      *
-     * @param SpotProducerService $spotProducerService
+     * @param SpotProducerService  $spotProducerService
      * @param SpotApiSenderService $spotApiSenderService
-     * @param EntityManager $entityManager
+     * @param EntityManager        $entityManager
      */
     public function __construct(
         SpotProducerService $spotProducerService,
