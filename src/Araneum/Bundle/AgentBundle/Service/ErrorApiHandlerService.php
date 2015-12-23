@@ -4,13 +4,9 @@ namespace Araneum\Bundle\AgentBundle\Service;
 
 use Araneum\Bundle\AgentBundle\Entity\Error;
 use Araneum\Bundle\AgentBundle\Form\Type\ErrorType;
-use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\EntityManager;
 use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
-use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Base\Exception\InvalidFormException;
-use Doctrine\ORM\EntityNotFoundException;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormFactory;
 
 /**
@@ -20,11 +16,6 @@ use Symfony\Component\Form\FormFactory;
  */
 class ErrorApiHandlerService
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
     /**
      * @var EntityManager
      */
@@ -41,13 +32,21 @@ class ErrorApiHandlerService
     protected $formFactory;
 
     /**
-     * Service Constructor
+     * ErrorApiHandlerService constructor.
      *
-     * @param ContainerInterface $container
+     * @param \Doctrine\ORM\EntityManager                                  $em
+     * @param \Symfony\Component\Form\FormFactory                          $formFactory
+     * @param \Araneum\Bundle\MainBundle\Service\ApplicationManagerService $applicationManager
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(
+        EntityManager $em,
+        FormFactory $formFactory,
+        ApplicationManagerService $applicationManager
+    )
     {
-        $this->container = $container;
+        $this->entityManager = $em;
+        $this->formFactory = $formFactory;
+        $this->appManager = $applicationManager;
     }
 
     /**
@@ -59,7 +58,7 @@ class ErrorApiHandlerService
      */
     public function post($appKey, array $parameters)
     {
-        $application = $this->getAppManager()->findOneOr404(['appKey' => $appKey]);
+        $application = $this->appManager->findOneOr404(['appKey' => $appKey]);
 
         $customer = new Error();
         $customer->setApplication($application);
@@ -77,8 +76,8 @@ class ErrorApiHandlerService
      */
     public function processForm(array $parameters, $error)
     {
-        $em = $this->getEntityManager();
-        $form = $this->container->get('form.factory')->create(new ErrorType(), $error);
+        $em = $this->entityManager;
+        $form = $this->formFactory->create(new ErrorType(), $error);
         $form->submit($parameters);
 
         if ($form->isValid()) {
@@ -89,33 +88,5 @@ class ErrorApiHandlerService
         } else {
             throw new InvalidFormException($form, 'Invalid submitted data');
         }
-    }
-
-    /**
-     * Get entity Manager
-     *
-     * @return EntityManager
-     */
-    private function getEntityManager()
-    {
-        if (is_null($this->entityManager)) {
-            $this->entityManager = $this->container->get('doctrine.orm.entity_manager');
-        }
-
-        return $this->entityManager;
-    }
-
-    /**
-     * Get application Manager
-     *
-     * @return ApplicationManagerService
-     */
-    private function getAppManager()
-    {
-        if (is_null($this->appManager)) {
-            $this->appManager = $this->container->get('araneum.main.application.manager');
-        }
-
-        return $this->appManager;
     }
 }

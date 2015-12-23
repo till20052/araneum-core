@@ -60,8 +60,6 @@ class ErrorApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->application = new Application();
-
         $this->entityManagerMock = $this
             ->getMockBuilder('\Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
@@ -72,7 +70,7 @@ class ErrorApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->formFactoryMock = $this
-            ->getMockBuilder('Symfony\Component\Form\FormFactoryInterface')
+            ->getMockBuilder('\Symfony\Component\Form\FormFactory')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -86,15 +84,17 @@ class ErrorApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->application = new Application();
+
         $this->applicationManagerMock->expects($this->once())
             ->method('findOneOr404')
             ->will($this->returnValue($this->application));
 
-        $container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\Container')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->errorApiHandlerService = new ErrorApiHandlerService($container);
+        $this->errorApiHandlerService = new ErrorApiHandlerService(
+            $this->entityManagerMock,
+            $this->formFactoryMock,
+            $this->applicationManagerMock
+        );
     }
 
     /**
@@ -123,7 +123,7 @@ class ErrorApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
             ->method('flush');
 
         $this->assertInstanceOf(
-            'Araneum\Bundle\AgentlBundle\Entity\Error',
+            '\Araneum\Bundle\AgentBundle\Entity\Error',
             $this->errorApiHandlerService->post('appKey', $parameters)
         );
     }

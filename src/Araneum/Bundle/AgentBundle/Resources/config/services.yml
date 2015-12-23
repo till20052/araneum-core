@@ -16,4 +16,4 @@ services:
 
     araneum.agent.error.api_handler:
         class: Araneum\Bundle\AgentBundle\Service\ErrorApiHandlerService
-        arguments: [@service_container]
+        arguments: [@doctrine.orm.entity_manager, @form.factory, @araneum.main.application.manager]
