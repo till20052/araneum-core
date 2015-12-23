@@ -49,7 +49,7 @@ class Error
     /**
      * @var Application
      *
-     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Application", inversedBy="customers")
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Application", inversedBy="errors")
      * @ORM\JoinColumn(name="application_id", referencedColumnName="id")
      */
     private $application;

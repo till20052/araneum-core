@@ -137,6 +137,12 @@ class Application
     protected $customers;
 
     /**
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Error", mappedBy="application",
+     *     cascade={"remove", "persist"})
+     */
+    protected $errors;
+
+    /**
      * @ORM\OneToMany(targetEntity="Araneum\Bundle\MailBundle\Entity\Mail", mappedBy="application", cascade={"remove",
      *     "persist"})
      */
