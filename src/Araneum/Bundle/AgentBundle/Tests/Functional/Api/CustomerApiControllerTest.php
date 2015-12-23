@@ -87,6 +87,18 @@ class CustomerApiControllerTest extends BaseController
                 ],
                 Response::HTTP_CREATED,
             ],
+            'testFailCreate' => [
+                [
+                    'firstName' => CustomerFixtures::TEST_FIRST_NAME,
+                    'lastName' => CustomerFixtures::TEST_LAST_NAME,
+                    'country' => 12,
+                    'email' => CustomerFixtures::TEST_EMAIL,
+                    'currency' => CustomerFixtures::TEST_CURRENCY,
+                    'phone' => CustomerFixtures::TEST_PHONE,
+                    'birthday' => CustomerFixtures::TEST_BIRTHDAY,
+                ],
+                Response::HTTP_BAD_REQUEST,
+            ],
             'normal fullName&lastName cirilica letters' => [
                 [
                     'firstName' => "Дим'аЁ",
@@ -99,18 +111,6 @@ class CustomerApiControllerTest extends BaseController
                     'password' => '1234567',
                 ],
                 Response::HTTP_CREATED,
-            ],
-            'testFailCreate' => [
-                [
-                    'firstName' => CustomerFixtures::TEST_FIRST_NAME,
-                    'lastName' => CustomerFixtures::TEST_LAST_NAME,
-                    'country' => CustomerFixtures::TEST_COUNTRY,
-                    'email' => CustomerFixtures::TEST_EMAIL,
-                    'currency' => CustomerFixtures::TEST_CURRENCY,
-                    'phone' => CustomerFixtures::TEST_PHONE,
-                    'birthday' => CustomerFixtures::TEST_BIRTHDAY,
-                ],
-                Response::HTTP_BAD_REQUEST,
             ],
         ];
     }
