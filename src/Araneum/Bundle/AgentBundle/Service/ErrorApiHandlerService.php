@@ -71,7 +71,7 @@ class ErrorApiHandlerService
      *
      * @param array $parameters
      * @param Error $error
-     * @return Customer $customer
+     * @return array $error
      * @throws InvalidFormException
      */
     public function processForm(array $parameters, $error)
@@ -84,7 +84,10 @@ class ErrorApiHandlerService
             $em->persist($error);
             $em->flush();
 
-            return $error;
+            return [
+                'id' => $error->getId(),
+                'message' => 'Error has been inserted',
+            ];
         } else {
             throw new InvalidFormException($form, 'Invalid submitted data');
         }

@@ -12,6 +12,7 @@ use Araneum\Base\EntityTrait\DateTrait;
  *
  * @ORM\Table("araneum_agent_errors")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\AgentBundle\Repository\ErrorRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Error
 {
@@ -58,8 +59,8 @@ class Error
      * @var integer
      *
      * @ORM\Column(name="type", type="smallint")
+     * @Assert\Choice(choices = {1, 2})
      * @Assert\NotBlank()
-     * @Assert\Type(type="integer")
      */
     private $type;
 
@@ -74,7 +75,8 @@ class Error
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="sentAt", type="datetime")
+     * @ORM\Column(name="sent_at", type="datetime")
+     * @Assert\NotBlank()
      * @Assert\DateTime()
      */
     private $sentAt;

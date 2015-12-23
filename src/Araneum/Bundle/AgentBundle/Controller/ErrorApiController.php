@@ -20,8 +20,6 @@ class ErrorApiController extends FOSRestController
     /**
      * Insert customer by appKey
      *
-     * @Security("has_role='ROLE_API'")
-     *
      * @ApiDoc(
      *   resource = "Error",
      *   section = "AgentBundle",
