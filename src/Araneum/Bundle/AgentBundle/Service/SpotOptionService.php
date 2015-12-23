@@ -4,6 +4,9 @@ namespace Araneum\Bundle\AgentBundle\Service;
 
 use Araneum\Base\Service\RabbitMQ\SpotProducerService;
 use Araneum\Bundle\AgentBundle\Entity\Customer;
+use Araneum\Bundle\MainBundle\Entity\Application;
+use Araneum\Base\Service\Spot\SpotApiSenderService;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Class SpotOptionService
@@ -18,13 +21,30 @@ class SpotOptionService
     protected $spotProducerService;
 
     /**
+     * @var SpotOptionService
+     */
+    protected $spotApiSenderService;
+
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    /**
      * SpotOptionService constructor.
      *
      * @param SpotProducerService $spotProducerService
+     * @param SpotApiSenderService $spotApiSenderService
+     * @param EntityManager $entityManager
      */
-    public function __construct(SpotProducerService $spotProducerService)
-    {
+    public function __construct(
+        SpotProducerService $spotProducerService,
+        SpotApiSenderService $spotApiSenderService,
+        EntityManager $entityManager
+    ) {
         $this->spotProducerService = $spotProducerService;
+        $this->spotApiSenderService = $spotApiSenderService;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -84,5 +104,26 @@ class SpotOptionService
         }
 
         return $this->spotProducerService->publish($customerData, $customer->getApplication());
+    }
+
+    /**
+     * Get countries method
+     *
+     * @param string $appKey
+     * @return mixed
+     */
+    public function getCountries($appKey)
+    {
+        $repository = $this->entityManager->getRepository('AraneumMainBundle:Application');
+        $entity = $repository->findOneBy(['appKey' => $appKey]);
+
+        $spotCredential = $entity->getSpotCredential();
+
+        $data = [
+            'MODULE' => 'Country',
+            'COMMAND' => 'view',
+        ];
+
+        return $this->spotApiSenderService->get($data, $spotCredential);
     }
 }

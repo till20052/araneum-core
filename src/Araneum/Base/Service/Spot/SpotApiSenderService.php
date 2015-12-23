@@ -30,6 +30,28 @@ class SpotApiSenderService
     }
 
     /**
+     * Get data from spotoption
+     *
+     * @param array $requestData
+     * @param array $spotCredential
+     * @return array
+     */
+    public function get(array $requestData, array $spotCredential)
+    {
+        $response = $this->send($requestData, $spotCredential);
+        $response = $response->json();
+
+        if (isset($response['status']['connection_status']) &&
+            ($response['status']['connection_status'] == 'successful' &&
+                $response['status']['operation_status'] == 'successful')
+        ) {
+            return $response['status'][$requestData['MODULE']];
+        } else {
+            return $response['status']['errors']['error'];
+        }
+    }
+
+    /**
      * Send request to core
      *
      * @param array $requestData
