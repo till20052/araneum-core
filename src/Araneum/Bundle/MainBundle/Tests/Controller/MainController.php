@@ -16,6 +16,7 @@ class TopMenuTest extends BaseController
 
     /**
      * Test for Edit profile link
+     *
      * @runInSeparateProcess
      */
     public function testProfileLink()
