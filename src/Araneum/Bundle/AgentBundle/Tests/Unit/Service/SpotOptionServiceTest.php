@@ -34,6 +34,9 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $spotApiSender;
 
+    /**
+     * Setup
+     */
     protected function setUp()
     {
         $this->spotProducerServiceMock = $this->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotProducerService')
