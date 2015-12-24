@@ -13,7 +13,7 @@ dashboard :
         CLUSTER_LOAD_AVERAGE: "Cluster load average by last 24 hours"
         CLUSTER_UP_TIME: "Clusters UpTime by last 24 hours"
         CUSTOMERS_REGISTRATION: "Customers registration received from applications (24 hours)"
-        EMAIL_RECIEVED: "Email received from applications (24 hours)"
+        RECEIVED_EMAILS_FROM_APPS_24H: "Email received from applications (24 hours)"
         RECEIVED_FROM_APPLICATION: "Received from all applications"
         REGISTERED_LEADS_FROM_APPS_24H: "Leads registration received from applications (24 hours)"
         ERRORS_RECEIVED_FROM_APPS_24H: "Errors received from applications (24 hours)"

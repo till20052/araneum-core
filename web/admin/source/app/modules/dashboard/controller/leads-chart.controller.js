@@ -26,7 +26,32 @@
 
         /** @typedef {Object|{data: Array<Array>}} */
         vm.chart = {
-            data: [],
+            data: [
+                [11, 3],
+                [12, 10],
+                [13, 20],
+                [14, 0],
+                [15, 0],
+                [16, 20],
+                [17, 0],
+                [18, 0],
+                [19, 0],
+                [20, 0],
+                [21, 20],
+                [22, 20],
+                [23, 0],
+                ["00", 0],
+                ["01", 0],
+                ["02", 0],
+                ["03", 0],
+                ["04", 0],
+                ["05", 0],
+                ["06", 0],
+                ["07", 0],
+                ["08", 0],
+                ["09", 0],
+                [10, 0]
+            ],
             options: {
                 series: {
                     lines: {
@@ -56,6 +81,7 @@
                 },
                 yaxis: {
                     min: 0,
+                    minTickSize: 1,
                     tickColor: '#eee',
                     position: ($rootScope.app.layout.isRTL ? 'right' : 'left'),
                     tickFormatter: function (v) {
@@ -65,7 +91,6 @@
                 shadowSize: 0
             }
         };
-
 
         DashboardService.onDataLoaded(
             /**
