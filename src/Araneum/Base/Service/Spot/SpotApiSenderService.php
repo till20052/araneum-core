@@ -42,8 +42,8 @@ class SpotApiSenderService
         $response = $response->json();
 
         if (isset($response['status']['connection_status']) &&
-            ($response['status']['connection_status'] == 'successful' &&
-                $response['status']['operation_status'] == 'successful')
+            $response['status']['connection_status'] === 'successful' &&
+            $response['status']['operation_status'] === 'successful'
         ) {
             return $response['status'][$requestData['MODULE']];
         } else {
