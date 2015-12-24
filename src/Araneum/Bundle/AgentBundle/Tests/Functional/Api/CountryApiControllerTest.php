@@ -38,7 +38,7 @@ class CountryApiControllerTest extends BaseController
      */
     public function testGetCountry(array $post, $expected, $expectedCount)
     {
-        $client = $this->createConfiguredMockedClient($expected);
+        $client = $this->createConfiguredMockedClient();
 
         $client->request(
             'GET',
@@ -108,10 +108,9 @@ class CountryApiControllerTest extends BaseController
     /**
      * Create client with mocked guzzle and response
      *
-     * @param $isSpotSuccessful
      * @return \Symfony\Bundle\FrameworkBundle\Client
      */
-    private function createConfiguredMockedClient($isSpotSuccessful)
+    private function createConfiguredMockedClient()
     {
         $this->markTestSkipped();
 
