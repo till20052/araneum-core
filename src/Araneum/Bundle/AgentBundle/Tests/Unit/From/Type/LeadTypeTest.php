@@ -77,7 +77,7 @@ class LeadTypeTest extends KernelTestCase
      * Test LeadType
      *
      * @dataProvider dataSource
-     *
+     * @runInSeparateProcess
      * @param array    $data
      * @param callable $assertions
      */
