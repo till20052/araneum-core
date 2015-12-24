@@ -18,8 +18,8 @@ class ConnectionRepository extends EntityRepository implements \Countable
     /**
      * Return query with unused connections for clusters
      *
-     * @param int $type
-     * @return \Doctrine\ORM\Query
+     * @param      int $type
+     * @return     \Doctrine\ORM\Query
      * @deprecated
      */
     public function getQueryByUnusedAndType($type)
@@ -38,7 +38,7 @@ class ConnectionRepository extends EntityRepository implements \Countable
     /**
      * Get Applications
      *
-     * @param int $id
+     * @param  int $id
      * @return ArrayCollection
      */
     public function getApplications($id)
@@ -58,7 +58,7 @@ class ConnectionRepository extends EntityRepository implements \Countable
     /**
      * get active host connections
      *
-     * @param array $ids
+     * @param  array $ids
      * @return array
      */
     public function getActiveHostConnections(array $ids)
@@ -80,7 +80,7 @@ class ConnectionRepository extends EntityRepository implements \Countable
     /**
      * Find Connection by appKey
      *
-     * @param string $appKey
+     * @param  string $appKey
      * @return array
      */
     public function findConnectionByAppKey($appKey)
@@ -104,7 +104,7 @@ class ConnectionRepository extends EntityRepository implements \Countable
     /**
      * Get host by cluster Id
      *
-     * @param int $clusterId
+     * @param  int $clusterId
      * @return array
      */
     public function getHostByClusterId($clusterId)
@@ -129,12 +129,12 @@ class ConnectionRepository extends EntityRepository implements \Countable
     /**
      * Count elements of an object
      *
-     * @link  http://php.net/manual/en/countable.count.php
+     * @link   http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
      * </p>
      * <p>
      * The return value is cast to an integer.
-     * @since 5.1.0
+     * @since  5.1.0
      */
     public function count()
     {

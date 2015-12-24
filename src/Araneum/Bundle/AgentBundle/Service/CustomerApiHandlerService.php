@@ -58,8 +58,8 @@ class CustomerApiHandlerService
     /**
      * Get Customer
      *
-     * @param string $appKey     the application appKey
-     * @param array  $parameters
+     * @param  string $appKey the application appKey
+     * @param  array  $parameters
      * @return array
      */
     public function post($appKey, array $parameters)
@@ -75,8 +75,8 @@ class CustomerApiHandlerService
     /**
      * Process Form
      *
-     * @param array    $parameters
-     * @param Customer $customer
+     * @param  array    $parameters
+     * @param  Customer $customer
      * @return Customer $customer
      * @throws InvalidFormException
      */
@@ -98,9 +98,9 @@ class CustomerApiHandlerService
     /**
      * Login Customer
      *
-     * @param string $email
-     * @param string $password
-     * @param string $appKey
+     * @param  string $email
+     * @param  string $password
+     * @param  string $appKey
      * @return string
      */
     public function login($email, $password, $appKey)
@@ -147,12 +147,16 @@ class CustomerApiHandlerService
      */
     public function resetPassword($appKey, $email, $currentPassword, $newPassword)
     {
-        /** @var Application $application */
+        /**
+         * @var Application $application
+         */
         $application = $this->getEntityManager()
             ->getRepository('AraneumMainBundle:Application')
             ->findOneByAppKey($appKey);
 
-        /** @var Customer $customer */
+        /**
+         * @var Customer $customer
+         */
         $customer = $this->getEntityManager()
             ->getRepository('AraneumAgentBundle:Customer')
             ->findOneByEmail($email);

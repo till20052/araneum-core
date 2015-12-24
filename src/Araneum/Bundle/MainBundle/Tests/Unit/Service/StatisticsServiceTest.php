@@ -53,8 +53,8 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
      * Test get Applications
      *
      * @dataProvider dataFields
-     * @param array  $expected
-     * @param string $field
+     * @param        array  $expected
+     * @param        string $field
      */
     public function testGetFields(array $expected, $field)
     {

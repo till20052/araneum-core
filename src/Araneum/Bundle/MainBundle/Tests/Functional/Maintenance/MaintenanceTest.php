@@ -46,8 +46,6 @@ class MaintenanceTest extends WebTestCase
 
     /**
      * Test is maintenance mode disabled without errors
-     *
-     *
      */
     public function testMaintenanceOffNot503Status()
     {

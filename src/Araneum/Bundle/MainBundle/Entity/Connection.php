@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table(name="araneum_connections")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ConnectionRepository")
  * @UniqueEntity(fields="name")
- * @package Araneum\Bundle\MainBundle\Entity
+ * @package                                                                                 Araneum\Bundle\MainBundle\Entity
  */
 class Connection
 {
@@ -116,7 +116,7 @@ class Connection
     /**
      * Get Connection status description
      *
-     * @param integer $status
+     * @param  integer $status
      * @return string
      */
     public static function getStatusDescription($status)
@@ -141,7 +141,7 @@ class Connection
     /**
      * Set type
      *
-     * @param integer $type
+     * @param  integer $type
      * @return Connection
      */
     public function setType($type)
@@ -164,7 +164,7 @@ class Connection
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return Connection
      */
     public function setName($name)
@@ -187,7 +187,7 @@ class Connection
     /**
      * Set host
      *
-     * @param string $host
+     * @param  string $host
      * @return Connection
      */
     public function setHost($host)
@@ -210,7 +210,7 @@ class Connection
     /**
      * Set port
      *
-     * @param integer $port
+     * @param  integer $port
      * @return Connection
      */
     public function setPort($port)
@@ -233,7 +233,7 @@ class Connection
     /**
      * Set userName
      *
-     * @param string $userName
+     * @param  string $userName
      * @return Connection
      */
     public function setUserName($userName)
@@ -256,7 +256,7 @@ class Connection
     /**
      * Set password
      *
-     * @param string $password
+     * @param  string $password
      * @return Connection
      */
     public function setPassword($password)
@@ -279,7 +279,7 @@ class Connection
     /**
      * Set enabled
      *
-     * @param boolean $enabled
+     * @param  boolean $enabled
      * @return Connection
      */
     public function setEnabled($enabled)
@@ -312,7 +312,7 @@ class Connection
     /**
      * Set Runner
      *
-     * @param Runner $runner
+     * @param  Runner $runner
      * @return Connection
      */
     public function setRunner(Runner $runner)
@@ -345,7 +345,7 @@ class Connection
     /**
      * Set Status
      *
-     * @param int $status
+     * @param  int $status
      * @return Connection $this
      */
     public function setStatus($status)

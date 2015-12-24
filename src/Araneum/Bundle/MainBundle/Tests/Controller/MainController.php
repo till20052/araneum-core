@@ -16,8 +16,6 @@ class TopMenuTest extends BaseController
 
     /**
      * Test for Edit profile link
-     *
-     *
      */
     public function testProfileLink()
     {
@@ -36,8 +34,6 @@ class TopMenuTest extends BaseController
 
     /**
      * Test for Logout link
-     *
-     *
      */
     public function testLogoutLink()
     {
@@ -59,7 +55,7 @@ class TopMenuTest extends BaseController
     /**
      * Get route from Url
      *
-     * @param Link $link
+     * @param  Link $link
      * @return mixed
      */
     public function getUrl(Link $link)

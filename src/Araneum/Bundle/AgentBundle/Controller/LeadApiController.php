@@ -37,11 +37,11 @@ class LeadApiController extends Controller
      *  tags={"Agent"}
      * )
      *
-     * @Rest\Get("/api/lead/find", defaults={"_format"="json"})
+     * @Rest\Get("/api/lead/find",      defaults={"_format"="json"})
      * @Rest\QueryParam(name="filters", array=true)
      * @Rest\View(statusCode=200)
      *
-     * @param ParamFetcher $paramFetcher
+     * @param  ParamFetcher $paramFetcher
      * @return array
      */
     public function findAction(ParamFetcher $paramFetcher)
@@ -84,7 +84,7 @@ class LeadApiController extends Controller
      * @Rest\Post("/api/lead/create", defaults={"_format"="json"})
      * @Rest\View(statusCode=201)
      *
-     * @param Request $request
+     * @param  Request $request
      * @return array
      */
     public function createAction(Request $request)

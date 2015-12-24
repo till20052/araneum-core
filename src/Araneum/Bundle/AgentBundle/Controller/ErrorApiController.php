@@ -37,8 +37,8 @@ class ErrorApiController extends FOSRestController
      * @Rest\Post("/api/errors/insert/{appKey}", defaults={"_format"="json"})
      * @Rest\View(statusCode=201)
      *
-     * @param string  $appKey
-     * @param Request $request
+     * @param  string  $appKey
+     * @param  Request $request
      * @return mixed
      */
     public function setErrorAction($appKey, Request $request)

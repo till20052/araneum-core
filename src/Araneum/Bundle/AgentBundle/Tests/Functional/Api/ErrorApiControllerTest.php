@@ -21,10 +21,10 @@ class ErrorApiControllerTest extends BaseController
     /**
      * Test customer controller
      *
-     * @dataProvider apiDataProvider
+     * @dataProvider                apiDataProvider
      * @runTestsInSeparateProcesses
-     * @param array $post
-     * @param int   $expected
+     * @param                       array $post
+     * @param                       int   $expected
      */
     public function testPostError(array $post, $expected)
     {

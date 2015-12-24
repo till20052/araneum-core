@@ -40,7 +40,7 @@ class LeadApiHandlerService
     /**
      * Find list of leads by email and/or phone as optionality
      *
-     * @param array $filters
+     * @param  array $filters
      * @return array
      */
     public function find(array $filters = [])
@@ -53,7 +53,7 @@ class LeadApiHandlerService
     /**
      * Create lead
      *
-     * @param array $data
+     * @param  array $data
      * @return Lead
      */
     public function create(array $data)
@@ -69,7 +69,7 @@ class LeadApiHandlerService
     /**
      * Check incoming data
      *
-     * @param array $data
+     * @param  array $data
      * @return Lead
      *
      * @throws InvalidFormException

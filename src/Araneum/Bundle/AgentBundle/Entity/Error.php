@@ -94,7 +94,7 @@ class Error
     /**
      * Set application
      *
-     * @param string $application
+     * @param  string $application
      * @return Error
      */
     public function setApplication($application)
@@ -117,7 +117,7 @@ class Error
     /**
      * Set type
      *
-     * @param integer $type
+     * @param  integer $type
      * @return Error
      */
     public function setType($type)
@@ -140,7 +140,7 @@ class Error
     /**
      * Set message
      *
-     * @param string $message
+     * @param  string $message
      * @return Error
      */
     public function setMessage($message)
@@ -163,7 +163,7 @@ class Error
     /**
      * Set sentAt
      *
-     * @param \DateTime $sentAt
+     * @param  \DateTime $sentAt
      * @return Error
      */
     public function setSentAt($sentAt)
