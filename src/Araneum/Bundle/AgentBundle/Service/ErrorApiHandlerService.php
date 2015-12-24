@@ -75,13 +75,12 @@ class ErrorApiHandlerService
      */
     public function processForm(array $parameters, $error)
     {
-        $em = $this->entityManager;
         $form = $this->formFactory->create(new ErrorType(), $error);
         $form->submit($parameters);
 
         if ($form->isValid()) {
-            $em->persist($error);
-            $em->flush();
+            $this->entityManager->persist($error);
+            $this->entityManager->flush();
 
             return [
                 'id' => $error->getId(),

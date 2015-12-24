@@ -122,8 +122,8 @@ class ErrorApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
         $this->entityManagerMock->expects($this->once())
             ->method('flush');
 
-        $this->assertInstanceOf(
-            '\Araneum\Bundle\AgentBundle\Entity\Error',
+        $this->assertArrayHasKey(
+            'id',
             $this->errorApiHandlerService->post('appKey', $parameters)
         );
     }
