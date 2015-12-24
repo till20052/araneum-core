@@ -66,7 +66,7 @@ class AdminInitializerService
     /**
      * Set filters
      *
-     * @param FormTypeInterface $filter
+     * @param  FormTypeInterface $filter
      * @return mixed
      */
     public function setFilters($filter)
@@ -79,7 +79,7 @@ class AdminInitializerService
     /**
      * Set actions
      *
-     * @param AbstractActions $action
+     * @param  AbstractActions $action
      * @return mixed
      */
     public function setActions(AbstractActions $action)
@@ -92,8 +92,8 @@ class AdminInitializerService
     /**
      * Set grid
      *
-     * @param AbstractList $gridType
-     * @param string       $source
+     * @param  AbstractList $gridType
+     * @param  string       $source
      * @return $this
      */
     public function setGrid(AbstractList $gridType, $source)

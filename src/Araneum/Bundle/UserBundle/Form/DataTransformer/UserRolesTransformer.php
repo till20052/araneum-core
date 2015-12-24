@@ -16,7 +16,7 @@ class UserRolesTransformer implements DataTransformerInterface
     /**
      * Transform roles
      *
-     * @param mixed $value
+     * @param  mixed $value
      * @return void|ArrayCollection
      */
     public function transform($value)
@@ -31,7 +31,7 @@ class UserRolesTransformer implements DataTransformerInterface
     /**
      * Reverse transform roles
      *
-     * @param mixed $roles
+     * @param  mixed $roles
      * @return array
      */
     public function reverseTransform($roles)

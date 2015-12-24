@@ -61,7 +61,6 @@ class LeadApiControllerTest extends BaseController
     /**
      * Test findAction in LeadApiController
      *
-     *
      * @dataProvider findActionDataProvider
      *
      * @param array $filters
@@ -143,7 +142,6 @@ class LeadApiControllerTest extends BaseController
 
     /**
      * Test createAction in LeadApiController
-     *
      *
      * @dataProvider createActionDataProvider
      *

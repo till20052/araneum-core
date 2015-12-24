@@ -21,8 +21,8 @@ interface ActionBuilderInterface
     /**
      * Add new field to datatable
      *
-     * @param string $groupGroupName
-     * @param array  $actionDescription
+     * @param  string $groupGroupName
+     * @param  array  $actionDescription
      * @return $this
      */
     public function add($groupGroupName, array $actionDescription = []);

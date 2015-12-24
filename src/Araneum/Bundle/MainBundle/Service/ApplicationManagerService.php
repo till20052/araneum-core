@@ -30,7 +30,7 @@ class ApplicationManagerService
     /**
      * Find entity or throw NotFoundHttpException
      *
-     * @param array $criteria
+     * @param  array $criteria
      * @throws NotFoundHttpException
      * @return null|Application
      */

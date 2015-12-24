@@ -15,7 +15,7 @@ class TimeCounterHelper
     /**
      * Convert int to time
      *
-     * @param int $time
+     * @param  int $time
      * @return string
      */
     public static function intToString($time)
@@ -34,7 +34,7 @@ class TimeCounterHelper
     /**
      * String to int
      *
-     * @param string $timeString
+     * @param  string $timeString
      * @return mixed
      */
     public function stringToInt($timeString)
@@ -50,7 +50,7 @@ class TimeCounterHelper
     /**
      * Validate time online
      *
-     * @param int $time
+     * @param  int $time
      * @return bool
      */
     public function validateTimeCounter($time)

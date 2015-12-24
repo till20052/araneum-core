@@ -64,7 +64,6 @@ class MenuGeneratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test generate one dimentional method
-     *
      */
     public function testGenerateOneDimentional()
     {

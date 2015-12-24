@@ -43,7 +43,7 @@ class LocaleDataTableList extends AbstractList
     /**
      * Build the list
      *
-     * @param ListBuilderInterface $builder
+     * @param  ListBuilderInterface $builder
      * @return null
      */
     public function buildList(ListBuilderInterface $builder)
@@ -101,12 +101,14 @@ class LocaleDataTableList extends AbstractList
     /**
      * Create query builder
      *
-     * @param Registry $doctrine
+     * @param  Registry $doctrine
      * @return \Ali\DatatableBundle\Util\Factory\Query\QueryInterface
      */
     public function createQueryBuilder($doctrine)
     {
-        /** @var LocaleRepository $repository */
+        /**
+         * @var LocaleRepository $repository
+         */
         $repository = $doctrine->getRepository($this->getEntityClass());
         if (empty($this->queryBuilder)) {
             $this->queryBuilder = $repository->getQueryBuilder();

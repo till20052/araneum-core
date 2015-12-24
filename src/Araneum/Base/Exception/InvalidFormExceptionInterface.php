@@ -14,7 +14,7 @@ interface InvalidFormExceptionInterface
     /**
      * Return message form
      *
-     * @param Form $form
+     * @param  Form $form
      * @return mixed
      */
     public function getFormErrorMessage(Form $form);

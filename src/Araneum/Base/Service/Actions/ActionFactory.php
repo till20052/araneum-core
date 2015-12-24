@@ -26,7 +26,7 @@ class ActionFactory
     /**
      * Create action list
      *
-     * @param AbstractActions $actions
+     * @param  AbstractActions $actions
      * @return array
      */
     public function create(AbstractActions $actions)
@@ -39,7 +39,7 @@ class ActionFactory
     /**
      * Return JsonResponse encoded action list
      *
-     * @param AbstractActions $actions
+     * @param  AbstractActions $actions
      * @return string
      */
     public function createJsonResponse(AbstractActions $actions)
