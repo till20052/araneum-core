@@ -133,10 +133,10 @@
 </div>
 <!-- END widgets box-->
 
-
 <div class="row">
+
     <div class="col-lg-6" ng-controller="AppStatusesChartController">
-        <div id="panelChart5" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+        <div id="AppStatusesChartPanel" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
             <div class="panel-heading">
                 <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
                 <div class="panel-title" translate="admin.dashboard.widget.APPLICATION_STATUSES">
@@ -144,7 +144,7 @@
                     Statuses for last 24 hour by applications
                 </div>
             </div>
-            <div collapse="panelChart5" class="panel-wrapper">
+            <div collapse="AppStatusesChartPanel" class="panel-wrapper">
                 <div class="panel-body">
                     <div class="container-fluid">
                         <div class="row mb-lg">
@@ -168,13 +168,14 @@
             </div>
         </div>
     </div>
+
     <div class="col-lg-6" ng-controller="StateAvgAppChartController">
         <!-- START chart-->
         <div class="row">
             <div class="col-lg-12">
                 <!-- START widget-->
                 <div class="container-fluid">
-                    <div id="panelChart1" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+                    <div id="StateAvgAppChartPanel" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
                         <div class="panel-heading">
                             <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
                             <div class="panel-title" translate="admin.dashboard.widget.AVERAGE_APPLICATION_STATUSES">
@@ -189,7 +190,7 @@
                         >{{error}}
                         </div>
 
-                        <div ng-show="lineData" collapse="panelChart1" class="panel-wrapperl">
+                        <div ng-show="lineData" collapse="StateAvgAppChartPanel" class="panel-wrapperl">
                             <div class="panel-body">
                                 <flot dataset="lineData" options="lineOptions"></flot>
                             </div>
@@ -201,6 +202,7 @@
         </div>
         <!-- END chart-->
     </div>
+
 </div>
 
 <div class="row">
@@ -210,7 +212,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <!-- START widget-->
-                <div id="panelChart9" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+                <div id="ClusterLoadAveragePanel" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
                     <div class="panel-heading">
                         <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
                         <div class="panel-title" translate="admin.dashboard.widget.CLUSTER_LOAD_AVERAGE">
@@ -218,7 +220,7 @@
                             Cluster load average by last 24 hours
                         </div>
                     </div>
-                    <div collapse="panelChart9" class="panel-wrapper">
+                    <div collapse="ClusterLoadAveragePanel" class="panel-wrapper">
                         <div class="panel-body">
                             <flot dataset="splineData" options="splineOptions" class="ng-isolate-scope"
                                   height="300px"></flot>
@@ -232,7 +234,7 @@
     </div>
     <div class="col-lg-3">
         <div ng-controller="UpTimeClusterController" class="container-fluid">
-            <div id="panelChart2" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+            <div id="UpTimeClusterPanel" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
                 <div class="panel-heading">
                     <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
                     <div class="panel-title">
@@ -240,7 +242,7 @@
                         <span class="ng-binding" translate="admin.dashboard.widget.CLUSTER_UP_TIME">Clusters UpTime by last 24 hours</span>
                     </div>
                 </div>
-                <div collapse="panelChart2" class="panel-wrapper">
+                <div collapse="UpTimeClusterPanel" class="panel-wrapper">
                     <div class="panel-body">
                         <flot dataset="barData" options="barOptions" height="300px"></flot>
                     </div>
@@ -280,7 +282,7 @@
     <!-- START dashboard main content-->
     <div class="col-lg-6">
         <div ng-controller="RegisteredCustomersController" class="container-fluid">
-            <div id="panelChart11" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+            <div id="RegisteredCustomersPanel" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
                 <div class="panel-heading">
                     <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
                     <div class="panel-title" translate="admin.dashboard.widget.CUSTOMERS_REGISTRATION">
@@ -288,7 +290,7 @@
                         Customers registration received from applications (24 hours)
                     </div>
                 </div>
-                <div collapse="panelChart2" class="panel-wrapper">
+                <div collapse="RegisteredCustomersPanel" class="panel-wrapper">
                     <div class="panel-body">
                         <flot dataset="data" options="options" height="300px"></flot>
                     </div>
@@ -297,7 +299,7 @@
                     <p class="text-muted">
                         <em class="icon-cloud-upload mr-sm"></em>
                         <span translate="admin.dashboard.widget.RECEIVED_FROM_APPLICATION">Received from all applications</span>
-                        <span class="text-dark">{{ count }} <span translate="">customers</span></span>
+                        <span class="text-dark">{{ count }} <span translate="admin.dashboard.widget.CUSTOMERS">customers</span></span>
                     </p>
                 </div>
             </div>
@@ -305,7 +307,7 @@
     </div>
     <div class="col-lg-6">
         <div ng-controller="ReceivedEmailsController" class="container-fluid">
-            <div id="panelChart12" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+            <div id="ReceivedEmailsPanel" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
                 <div class="panel-heading">
                     <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
                     <div class="panel-title" translate="admin.dashboard.widget.EMAIL_RECIEVED">
@@ -313,7 +315,7 @@
                         Email received from applications (24 hours)
                     </div>
                 </div>
-                <div collapse="panelChart2" class="panel-wrapper">
+                <div collapse="ReceivedEmailsPanel" class="panel-wrapper">
                     <div class="panel-body">
                         <flot dataset="data" options="options" height="300px"></flot>
                     </div>
@@ -341,7 +343,7 @@
                     <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
                     <div class="panel-title">
                         <em class="icon-layers mr"></em>
-                        Leads registration received from applications (24 hours)
+                        <span translate="admin.dashboard.widget.REGISTERED_LEADS_FROM_APPS_24H">Leads registration received from applications (24 hours)</span>
                     </div>
                 </div>
                 <div collapse="leadsPanel" class="panel-wrapper">
@@ -376,7 +378,7 @@
                     <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
                     <div class="panel-title">
                         <em class="icon-layers mr"></em>
-                        <span translate="admin.dashboard.widget.ERRORS_RECEIVED_FROM_APPS_24HOURS">Errors received from applications (24 hours)</span>
+                        <span translate="admin.dashboard.widget.ERRORS_RECEIVED_FROM_APPS_24H">Errors received from applications (24 hours)</span>
                     </div>
                 </div>
                 <div collapse="errorsPanel" class="panel-wrapper">
