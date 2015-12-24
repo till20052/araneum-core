@@ -58,8 +58,8 @@ class CustomerApiHandlerService
     /**
      * Get Customer
      *
-     * @param  string $appKey the application appKey
-     * @param  array  $parameters
+     * @param string $appKey the application appKey
+     * @param array  $parameters
      * @return array
      */
     public function post($appKey, array $parameters)
