@@ -5,16 +5,17 @@
         .module('app.dashboard')
         .controller('LeadsChartController', LeadsChartController);
 
-    LeadsChartController.$inject = ['$rootScope', 'DashboardService'];
+    LeadsChartController.$inject = ['DashboardService', '$rootScope', '$translate'];
 
     /**
      * Leads chart controller
      *
-     * @constructor
-     * @param $rootScope
      * @param DashboardService
+     * @param $rootScope
+     * @param $translate
+     * @constructor
      */
-    function LeadsChartController($rootScope, DashboardService) {
+    function LeadsChartController(DashboardService, $rootScope, $translate) {
         /* jshint validthis: true */
         var vm = this;
 
@@ -56,15 +57,19 @@
                 },
                 yaxis: {
                     min: 0,
-                    minTickSize: 1,
+                    tickDecimals: 0,
                     tickColor: '#eee',
                     position: ($rootScope.app.layout.isRTL ? 'right' : 'left'),
                     tickFormatter: function (v) {
-                        return v.toFixed(1) + ' leads';
+                        return v + ' ' + vm.captions.leads;
                     }
                 },
                 shadowSize: 0
             }
+        };
+
+        vm.captions = {
+            leads: 'leads'
         };
 
         DashboardService.onDataLoaded(
@@ -89,6 +94,10 @@
         function assignChartData(chart, data) {
             chart.data = data;
         }
+
+        $translate('admin.dashboard.widget.LEADS').then(function (value) {
+            vm.captions.leads = value;
+        });
 
     }
 
