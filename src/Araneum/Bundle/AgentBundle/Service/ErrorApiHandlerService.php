@@ -51,8 +51,8 @@ class ErrorApiHandlerService
     /**
      * Post error data
      *
-     * @param  string $appKey the application appKey
-     * @param  array  $parameters
+     * @param string $appKey the application appKey
+     * @param array  $parameters
      * @return array
      */
     public function post($appKey, array $parameters)
@@ -68,8 +68,8 @@ class ErrorApiHandlerService
     /**
      * Process Form
      *
-     * @param  array $parameters
-     * @param  Error $error
+     * @param array $parameters
+     * @param Error $error
      * @return array $error
      * @throws InvalidFormException
      */
