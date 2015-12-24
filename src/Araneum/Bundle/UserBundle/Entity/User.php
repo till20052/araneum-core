@@ -14,7 +14,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity(repositoryClass="Araneum\Bundle\UserBundle\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="araneum_users")
- *
  */
 class User extends BaseUser
 {
@@ -98,7 +97,7 @@ class User extends BaseUser
      * Pre Flush Event
      *
      * @ORM\PreFlush
-     * @param PreFlushEventArgs $preFlushEventArgs
+     * @param        PreFlushEventArgs $preFlushEventArgs
      */
     public function beforeFlush(PreFlushEventArgs $preFlushEventArgs)
     {
@@ -138,7 +137,7 @@ class User extends BaseUser
     /**
      * Set user roles
      *
-     * @param array $roles
+     * @param  array $roles
      * @return User
      */
     public function setRoles(array $roles)
@@ -155,7 +154,7 @@ class User extends BaseUser
     /**
      * Add user role
      *
-     * @param string $role
+     * @param  string $role
      * @return $this
      */
     public function addRole($role)
@@ -172,7 +171,7 @@ class User extends BaseUser
     /**
      * Remove user role
      *
-     * @param string $role
+     * @param  string $role
      * @return $this
      */
     public function removeRole($role)
@@ -188,7 +187,7 @@ class User extends BaseUser
     /**
      * Check has user role
      *
-     * @param string $role
+     * @param  string $role
      * @return bool
      */
     public function hasRole($role)
@@ -210,7 +209,7 @@ class User extends BaseUser
     /**
      * Set fullName
      *
-     * @param string $fullName
+     * @param  string $fullName
      * @return User
      */
     public function setFullName($fullName)
@@ -233,7 +232,7 @@ class User extends BaseUser
     /**
      * Set settings
      *
-     * @param array $settings
+     * @param  array $settings
      * @return $this
      */
     public function setSettings(array $settings)

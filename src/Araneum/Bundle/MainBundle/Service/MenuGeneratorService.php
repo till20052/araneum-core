@@ -30,7 +30,7 @@ class MenuGeneratorService
     /**
      * Generate one dimentional array
      *
-     * @param array $array
+     * @param  array $array
      * @return array
      */
     public function generateOneDimentional($array)

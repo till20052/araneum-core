@@ -88,7 +88,7 @@ class Lead
     /**
      * Set firstName
      *
-     * @param string $firstName
+     * @param  string $firstName
      * @return Lead
      */
     public function setFirstName($firstName)
@@ -111,7 +111,7 @@ class Lead
     /**
      * Set lastName
      *
-     * @param string $lastName
+     * @param  string $lastName
      * @return Lead
      */
     public function setLastName($lastName)
@@ -134,7 +134,7 @@ class Lead
     /**
      * Set country
      *
-     * @param integer $country
+     * @param  integer $country
      * @return Lead
      */
     public function setCountry($country)
@@ -157,7 +157,7 @@ class Lead
     /**
      * Set phone
      *
-     * @param string $phone
+     * @param  string $phone
      * @return Lead
      */
     public function setPhone($phone)
@@ -180,7 +180,7 @@ class Lead
     /**
      * Set email
      *
-     * @param string $email
+     * @param  string $email
      * @return Lead
      */
     public function setEmail($email)
@@ -203,7 +203,7 @@ class Lead
     /**
      * Set appKey
      *
-     * @param string $appKey
+     * @param  string $appKey
      * @return Lead $this
      */
     public function setAppKey($appKey)

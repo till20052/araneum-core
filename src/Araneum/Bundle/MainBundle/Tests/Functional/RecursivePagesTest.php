@@ -67,7 +67,7 @@ class RecursivePagesTest extends BaseController
     /**
      * Prepare url
      *
-     * @param $url
+     * @param  $url
      * @return string
      */
     private function prepareUrl($url)

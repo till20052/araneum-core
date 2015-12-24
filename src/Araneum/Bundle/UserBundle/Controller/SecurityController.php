@@ -20,12 +20,16 @@ class SecurityController extends BaseController
      */
     public function loginAction()
     {
-        /** @var Request $request */
+        /**
+         * @var Request $request
+         */
         $request = $this->container->get('request');
 
         if ($request->isXmlHttpRequest()) {
 
-            /** @var User $user */
+            /**
+             * @var User $user
+             */
             $user = $this->container
                 ->get('security.token_storage')
                 ->getToken()

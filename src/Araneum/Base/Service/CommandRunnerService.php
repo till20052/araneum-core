@@ -38,8 +38,8 @@ class CommandRunnerService
     /**
      * Run Symfony deployment command as separate process.
      *
-     * @param string $comand
-     * @param string $path
+     * @param  string $comand
+     * @param  string $path
      * @return string
      */
     public function runDeployCommandsInSeparateProcess($comand, $path = '')

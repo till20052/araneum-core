@@ -40,8 +40,8 @@ class MailApiHandlerService
     /**
      * Post new mail
      *
-     * @param string $appkey
-     * @param array  $parameters
+     * @param  string $appkey
+     * @param  array  $parameters
      * @return Mail
      * @throws InvalidFormException
      */

@@ -20,8 +20,6 @@ class ApplicationApiControllerTest extends BaseController
 
     /**
      * Test ApplicationApiController
-     *
-     *
      */
     public function testGet()
     {

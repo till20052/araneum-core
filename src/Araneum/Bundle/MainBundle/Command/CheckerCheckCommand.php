@@ -98,7 +98,9 @@ class CheckerCheckCommand extends ContainerAwareCommand
             return;
         }
 
-        /** @var ApplicationCheckerService $checker */
+        /**
+         * @var ApplicationCheckerService $checker
+         */
         $this->checker = $this->getContainer()->get('araneum.main.application.checker');
 
         if ($target == 'connection') {
@@ -113,9 +115,9 @@ class CheckerCheckCommand extends ContainerAwareCommand
     /**
      * Get Formatted Notification Block
      *
-     * @param            $messages
-     * @param            $style
-     * @param bool|false $large
+     * @param             $messages
+     * @param             $style
+     * @param  bool|false $large
      * @return string
      */
     private function getFormatBlock($messages, $style, $large = false)

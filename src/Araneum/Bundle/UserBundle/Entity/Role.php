@@ -53,7 +53,7 @@ class Role
     /**
      * Set id
      *
-     * @param integer $id
+     * @param  integer $id
      * @return Role
      */
     public function setId($id)
@@ -66,7 +66,7 @@ class Role
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return Role
      */
     public function setName($name)

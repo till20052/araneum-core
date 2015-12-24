@@ -45,8 +45,8 @@ class CustomerApiController extends FOSRestController
      *
      * @Rest\View(statusCode=201)
      *
-     * @param string  $appKey
-     * @param Request $request
+     * @param  string  $appKey
+     * @param  Request $request
      * @return mixed
      */
     public function setCustomerAction($appKey, Request $request)
@@ -94,11 +94,11 @@ class CustomerApiController extends FOSRestController
      * @Rest\Post("/api/customers/login/{appKey}", defaults={"_format"="json"})
      *
      * @Rest\View(statusCode=201)
-     * @param string       $appKey
-     * @param ParamFetcher $request
-     * @Rest\RequestParam(name="email", allowBlank=false, requirements="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$")
+     * @param                              string       $appKey
+     * @param                              ParamFetcher $request
+     * @Rest\RequestParam(name="email",    allowBlank=false, requirements="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$")
      * @Rest\RequestParam(name="password", allowBlank=false, requirements="\w{3,}")
-     * @return mixed
+     * @return                             mixed
      */
     public function loginAction($appKey, ParamFetcher $request)
     {
@@ -141,13 +141,13 @@ class CustomerApiController extends FOSRestController
      * )
      *
      * @Rest\Post("/api/customers/reset_password", defaults={"_format"="json"})
-     * @Rest\QueryParam(name="app_key", allowBlank=false)
-     * @Rest\RequestParam(name="email", allowBlank=false)
+     * @Rest\QueryParam(name="app_key",            allowBlank=false)
+     * @Rest\RequestParam(name="email",            allowBlank=false)
      * @Rest\RequestParam(name="current_password", allowBlank=false)
-     * @Rest\RequestParam(name="new_password", allowBlank=false)
+     * @Rest\RequestParam(name="new_password",     allowBlank=false)
      * @Rest\View(statusCode=202)
      *
-     * @param ParamFetcher $paramFetcher
+     * @param  ParamFetcher $paramFetcher
      * @return array
      */
     public function resetPasswordAction(ParamFetcher $paramFetcher)

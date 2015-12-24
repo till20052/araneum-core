@@ -53,7 +53,7 @@ class ApplicationApiHandlerService
     /**
      * Get Application
      *
-     * @param string $appKey the application appKey
+     * @param  string $appKey the application appKey
      * @return array
      */
     public function get($appKey)

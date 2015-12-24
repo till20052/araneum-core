@@ -16,7 +16,7 @@ class LeadRepository extends EntityRepository
     /**
      * Find list of leads by email and/or phone as optionality
      *
-     * @param array $filters
+     * @param  array $filters
      * @return array
      */
     public function findByFilter($filters = [])

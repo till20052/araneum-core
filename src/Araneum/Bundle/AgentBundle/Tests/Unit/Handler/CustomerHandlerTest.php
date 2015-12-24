@@ -86,7 +86,7 @@ class CustomerHandlerTest extends BaseController
     /**
      * Test method ProcessForm with normal data
      *
-     * @throws \Araneum\Base\Exception\InvalidFormException
+     * @throws                      \Araneum\Base\Exception\InvalidFormException
      * @runTestsInSeparateProcesses
      */
     public function testProcessFormNormalTrue()
