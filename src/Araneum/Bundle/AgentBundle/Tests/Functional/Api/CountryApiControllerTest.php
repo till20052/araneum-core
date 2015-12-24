@@ -113,6 +113,8 @@ class CountryApiControllerTest extends BaseController
      */
     private function createConfiguredMockedClient($isSpotSuccessful)
     {
+        $this->markTestSkipped();
+
         $client = $this->createClientWithMockServices('api');
 
         $this->guzzleHttpResponseMock = $this
