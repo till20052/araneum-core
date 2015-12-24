@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @package Functional\Api
  */
-class CountryApiControllerTest extends BaseController
+class CountryApiControllerIntegrationTest extends BaseController
 {
     /**
      * @var string
