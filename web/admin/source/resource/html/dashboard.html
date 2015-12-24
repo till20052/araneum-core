@@ -281,25 +281,25 @@
 <div class="row">
     <!-- START dashboard main content-->
     <div class="col-lg-6">
-        <div ng-controller="RegisteredCustomersController" class="container-fluid">
-            <div id="RegisteredCustomersPanel" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+        <div ng-controller="RegisteredCustomersController as vm" class="container-fluid">
+            <div id="RegisteredCustomersPanel" class="panel panel-default" ng-class="{'traditional whirl' : vm.onLoading}">
                 <div class="panel-heading">
                     <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-                    <div class="panel-title" translate="admin.dashboard.widget.CUSTOMERS_REGISTRATION">
+                    <div class="panel-title">
                         <em class="icon-user-follow mr"></em>
-                        Customers registration received from applications (24 hours)
+                        <span translate="admin.dashboard.widget.CUSTOMERS_REGISTRATION">Customers registration received from applications (24 hours)</span>
                     </div>
                 </div>
                 <div collapse="RegisteredCustomersPanel" class="panel-wrapper">
                     <div class="panel-body">
-                        <flot dataset="data" options="options" height="300px"></flot>
+                        <flot dataset="vm.data" options="vm.options" height="300px"></flot>
                     </div>
                 </div>
                 <div class="panel-footer">
                     <p class="text-muted">
                         <em class="icon-cloud-upload mr-sm"></em>
                         <span translate="admin.dashboard.widget.RECEIVED_FROM_APPLICATION">Received from all applications</span>
-                        <span class="text-dark">{{ count }} <span translate="admin.dashboard.widget.CUSTOMERS">customers</span></span>
+                        <span class="text-dark">{{ vm.count }} <span translate="admin.dashboard.widget.CUSTOMERS">customers</span></span>
                     </p>
                 </div>
             </div>
