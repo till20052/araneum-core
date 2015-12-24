@@ -7,7 +7,7 @@ dashboard :
         PROBLEM: "Проблема"
         ERROR: "Ошибка"
         DISABLED: "Выключен"
-    wiget:
+    widget:
         APPLICATION_STATUSES: "Статусы приложений за 24 часа"
         AVERAGE_APPLICATION_STATUSES: "Усредненные показатели состояний приложений за 24 часа"
         CLUSTER_LOAD_AVERAGE: "Усредненная нагрузка по кластерам за 24 часа"
@@ -15,6 +15,7 @@ dashboard :
         CUSTOMERS_REGISTRATION: "Заявки на регистрацию от клиентов за последние 24 часа"
         EMAIL_RECIEVED: "Сообщений принято от сайтов за 24 часа"
         RECEIVED_FROM_APPLICATION: "Принято ото всех приложений"
+        ERRORS_RECEIVED_FROM_APPS_24HOURS: "Ошибки, полученные от приложений (24 часа)"
         CUSTOMERS: "Клиентов"
         EMAILS: "сообщений"
         APPLICATIONS: "Сайтов"
@@ -25,6 +26,9 @@ dashboard :
         COLLAPSE: "Свернуть панель"
         REFRESH: "Обновить панель"
         CLOSE: "Закрыть панель"
+        LEADS: "лидов"
+        ERRORS: "ошибок"
+        CHART_IS_NOT_AVAILABLE: "Этот график еще не доступен"
 topbar:
     messages:
         UNREAD: "Непрочтенных сообщений"
