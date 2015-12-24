@@ -306,8 +306,8 @@
         </div>
     </div>
     <div class="col-lg-6">
-        <div ng-controller="ReceivedEmailsController" class="container-fluid">
-            <div id="ReceivedEmailsPanel" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+        <div ng-controller="ReceivedEmailsController as vm" class="container-fluid">
+            <div id="ReceivedEmailsPanel" class="panel panel-default" ng-class="{'traditional whirl' : vm.onLoading}">
                 <div class="panel-heading">
                     <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
                     <div class="panel-title">
@@ -317,13 +317,13 @@
                 </div>
                 <div collapse="ReceivedEmailsPanel" class="panel-wrapper">
                     <div class="panel-body">
-                        <flot dataset="data" options="options" height="300px"></flot>
+                        <flot dataset="vm.data" options="vm.options" height="300px"></flot>
                     </div>
                     <div class="panel-footer">
                         <p class="text-muted">
                             <em class="icon-cloud-upload mr-sm"></em>
                             <span translate="admin.dashboard.widget.RECEIVED_FROM_APPLICATION">Received from all applications</span>
-                            <span class="text-dark">{{ count }} <span
+                            <span class="text-dark">{{ vm.count }} <span
                                     translate="admin.dashboard.widget.EMAILS">emails</span></span>
                         </p>
                     </div>
@@ -337,7 +337,7 @@
 
     <div class="col-lg-6">
 
-        <div ng-controller="LeadsChartController as controller">
+        <div ng-controller="LeadsChartController as vm">
             <div id="leadsPanel" class="panel panel-default">
                 <div class="panel-heading">
                     <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
@@ -348,14 +348,14 @@
                 </div>
                 <div collapse="leadsPanel" class="panel-wrapper">
                     <div class="panel-body">
-                        <flot dataset="controller.chart.data" options="controller.chart.options"
+                        <flot dataset="vm.chart.data" options="vm.chart.options"
                               height="300px"></flot>
                     </div>
                     <div class="panel-footer">
                         <p class="text-muted">
                             <em class="icon-cloud-upload mr-sm"></em>
                             <span translate="admin.dashboard.widget.RECEIVED_FROM_APPLICATION">Received from all applications</span>
-                            <span class="text-dark">{{ controller.count }} <span translate="admin.dashboard.widget.LEADS">leads</span></span>
+                            <span class="text-dark">{{ vm.count }} <span translate="admin.dashboard.widget.LEADS">leads</span></span>
                         </p>
                     </div>
                 </div>
@@ -372,7 +372,7 @@
                 <span translate="admin.dashboard.widget.CHART_IS_NOT_AVAILABLE">This chart is not available</span>
             </div>
         </div>
-        <div ng-controller="ErrorsChartController as controller">
+        <div ng-controller="ErrorsChartController as vm">
             <div id="errorsPanel" class="panel panel-default">
                 <div class="panel-heading">
                     <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
@@ -383,14 +383,14 @@
                 </div>
                 <div collapse="errorsPanel" class="panel-wrapper">
                     <div class="panel-body">
-                        <flot dataset="controller.chart.data" options="controller.chart.options"
+                        <flot dataset="vm.chart.data" options="vm.chart.options"
                               height="300px"></flot>
                     </div>
                     <div class="panel-footer">
                         <p class="text-muted">
                             <em class="icon-cloud-upload mr-sm"></em>
                             <span translate="admin.dashboard.widget.RECEIVED_FROM_APPLICATION">Received from all applications</span>
-                            <span class="text-dark">{{ controller.count }} <span translate="admin.dashboard.widget.ERRORS">errors</span></span>
+                            <span class="text-dark">{{ vm.count }} <span translate="admin.dashboard.widget.ERRORS">errors</span></span>
                         </p>
                     </div>
                 </div>
