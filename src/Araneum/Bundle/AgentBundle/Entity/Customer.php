@@ -94,8 +94,9 @@ class Customer
     private $currency;
 
     /**
-     * @var string
+     * @var \DateTime
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\Date()
      */
     private $birthday;
 
@@ -340,7 +341,7 @@ class Customer
     /**
      * Get birthday
      *
-     * @return string
+     * @return \DateTime
      */
     public function getBirthday()
     {
@@ -350,10 +351,10 @@ class Customer
     /**
      * Set birthday
      *
-     * @param object $birthday
+     * @param \DateTime $birthday
      * @return mixed
      */
-    public function setBirthday($birthday)
+    public function setBirthday(\DateTime $birthday = null)
     {
         $this->birthday = $birthday;
 

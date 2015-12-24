@@ -80,7 +80,7 @@ class SpotOptionService
         ];
 
         if ($customer->getBirthday()) {
-            $customerData['birthday'] = $customer->getBirthday();
+            $customerData['birthday'] = $customer->getBirthday()->format('Y-m-d');
         }
 
         return $this->spotProducerService->publish($customerData, $customer->getApplication());
