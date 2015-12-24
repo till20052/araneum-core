@@ -1,6 +1,6 @@
 <?php
 
-namespace Functional\Api;
+namespace Integration\Api;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @package Functional\Api
  */
-class CountryApiControllerIntegrationTest extends BaseController
+class CountryApiControllerTest extends BaseController
 {
     /**
      * @var string
