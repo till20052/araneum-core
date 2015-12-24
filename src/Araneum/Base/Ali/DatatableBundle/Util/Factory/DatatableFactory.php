@@ -285,14 +285,14 @@ class DatatableFactory
                         $this->searchQuery[$this->getSearchField($name, $description)] =
                             function ($thisBuilder, $searchField, $value) use ($maxNumber, $minNumber) {
                                 if (!is_numeric($value) || $value >= $maxNumber || $value <= $minNumber) {
-                                return false;
-                            }
+                                    return false;
+                                }
 
                                 return $thisBuilder->searchEquals($searchField, $value);
-                        };
+                            };
                     } else {
 
-                    $this->searchQuery[$this->getSearchField($name, $description)] =
+                        $this->searchQuery[$this->getSearchField($name, $description)] =
                         function ($thisBuilder, $searchField, $value) {
                             return $thisBuilder->searchEquals($searchField, $value);
                         };
