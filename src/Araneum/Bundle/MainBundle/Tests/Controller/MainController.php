@@ -59,7 +59,7 @@ class TopMenuTest extends BaseController
     /**
      * Get route from Url
      *
-     * @param Link $link
+     * @param  Link $link
      * @return mixed
      */
     public function getUrl(Link $link)

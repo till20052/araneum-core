@@ -162,11 +162,15 @@ class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
         $app = new App();
         $app->add(new CheckerCheckCommand());
 
-        /** @var CheckerCheckCommand command */
+        /**
+         * @var CheckerCheckCommand command
+         */
         $this->command = $app->find('checker:check');
         $this->command->setContainer($this->getContainer());
 
-        /** @var CommandTester commandTester */
+        /**
+         * @var CommandTester commandTester
+         */
         $this->commandTester = new CommandTester($this->command);
     }
 }

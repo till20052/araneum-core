@@ -68,7 +68,7 @@ class ConnectionLog
     /**
      * Set connection
      *
-     * @param Connection $connection
+     * @param  Connection $connection
      * @return ConnectionLog $this
      */
     public function setConnection(Connection $connection)
@@ -91,7 +91,7 @@ class ConnectionLog
     /**
      * Set runner
      *
-     * @param Runner $runner
+     * @param  Runner $runner
      * @return ConnectionLog $this
      */
     public function setRunner(Runner $runner)
@@ -114,7 +114,7 @@ class ConnectionLog
     /**
      * Set percentLostPackages
      *
-     * @param integer $percentLostPackages
+     * @param  integer $percentLostPackages
      * @return ConnectionLog
      */
     public function setPercentLostPackages($percentLostPackages)
@@ -137,7 +137,7 @@ class ConnectionLog
     /**
      * Set averagePingTime
      *
-     * @param integer $averagePingTime
+     * @param  integer $averagePingTime
      * @return ConnectionLog
      */
     public function setAveragePingTime($averagePingTime)

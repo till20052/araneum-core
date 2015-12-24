@@ -32,7 +32,9 @@ class AdminLocaleControllerTest extends BaseController
     {
         $this->client = self::createAdminAuthorizedClient();
 
-        /** @var Router router */
+        /**
+         * @var Router router
+         */
         $this->router = $this->client->getContainer()->get('router');
     }
 
@@ -50,7 +52,9 @@ class AdminLocaleControllerTest extends BaseController
             ['HTTP_X-Requested-With' => 'XMLHttpRequest']
         );
 
-        /** @var Response $response */
+        /**
+         * @var Response $response
+         */
         $response = $this->client->getResponse();
 
         $this->assertTrue($response->isSuccessful());
@@ -78,7 +82,9 @@ class AdminLocaleControllerTest extends BaseController
             ['HTTP_X-Requested-With' => 'XMLHttpRequest']
         );
 
-        /** @var Response $response */
+        /**
+         * @var Response $response
+         */
         $response = $this->client->getResponse();
 
         $this->assertTrue($response->isSuccessful());

@@ -144,7 +144,6 @@ class LeadApiControllerTest extends BaseController
     /**
      * Test createAction in LeadApiController
      *
-     *
      * @dataProvider createActionDataProvider
      * @runInSeparateProcess
      *

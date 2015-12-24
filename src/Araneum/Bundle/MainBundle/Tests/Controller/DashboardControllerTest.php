@@ -40,7 +40,9 @@ class DashboardControllerTest extends BaseController
                 ['HTTP_X-Requested-With' => 'XMLHttpRequest']
             );
 
-        /** @var Response $response */
+        /**
+         * @var Response $response
+         */
         $response = $this->client->getResponse();
 
         $this->assertTrue($response->isSuccessful(), $response->getContent());
@@ -88,10 +90,14 @@ class DashboardControllerTest extends BaseController
      */
     protected function setUp()
     {
-        /** @var Client client */
+        /**
+         * @var Client client
+         */
         $this->client = self::createClient();
 
-        /** @var router router */
+        /**
+         * @var router router
+         */
         $this->router = $this->client
             ->getContainer()
             ->get('router');

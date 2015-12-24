@@ -74,7 +74,7 @@ class ApplicationLog
     /**
      * Set status
      *
-     * @param integer $status
+     * @param  integer $status
      * @return ApplicationLog
      */
     public function setStatus($status)
@@ -97,7 +97,7 @@ class ApplicationLog
     /**
      * Set application
      *
-     * @param Application $application
+     * @param  Application $application
      * @return ApplicationLog $this
      */
     public function setApplication(Application $application)
@@ -120,7 +120,7 @@ class ApplicationLog
     /**
      * Set problems
      *
-     * @param Collection|ArrayCollection $problems
+     * @param  Collection|ArrayCollection $problems
      * @return ApplicationLog $this
      */
     public function setProblems(Collection $problems)
@@ -143,7 +143,7 @@ class ApplicationLog
     /**
      * Add problem
      *
-     * @param Problem $problem
+     * @param  Problem $problem
      * @return ApplicationLog $this
      */
     public function addProblem(Problem $problem)
@@ -158,7 +158,7 @@ class ApplicationLog
     /**
      * Remove problem
      *
-     * @param Problem $problem
+     * @param  Problem $problem
      * @return ApplicationLog $this
      */
     public function removeProblem(Problem $problem)
@@ -173,7 +173,7 @@ class ApplicationLog
     /**
      * Has problem
      *
-     * @param Problem $problem
+     * @param  Problem $problem
      * @return bool
      */
     public function hasProblem(Problem $problem)

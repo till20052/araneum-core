@@ -35,7 +35,6 @@
             var subNav = $();
 
             $sidebar.on(eventName, '.nav > li', function () {
-
                 if (Utils.isSidebarCollapsed() || $rootScope.app.layout.asideHover) {
 
                     subNav.trigger('mouseleave');

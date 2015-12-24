@@ -54,7 +54,6 @@ class CustomerApiHandlerService
     protected $formFactory;
 
     /**
-     *
      * Service Constructor
      *
      * @param ApplicationManagerService $applicationManager
@@ -80,7 +79,7 @@ class CustomerApiHandlerService
     /**
      * Get Customer
      *
-     * @param string $appKey     the application appKey
+     * @param string $appKey
      * @param array  $parameters
      * @return array
      */
@@ -103,8 +102,8 @@ class CustomerApiHandlerService
     /**
      * Process Form
      *
-     * @param array    $parameters
-     * @param Customer $customer
+     * @param  array    $parameters
+     * @param  Customer $customer
      * @return Customer $customer
      * @throws InvalidFormException
      */
@@ -126,9 +125,9 @@ class CustomerApiHandlerService
     /**
      * Login Customer
      *
-     * @param string $email
-     * @param string $password
-     * @param string $appKey
+     * @param  string $email
+     * @param  string $password
+     * @param  string $appKey
      * @return string
      */
     public function login($email, $password, $appKey)

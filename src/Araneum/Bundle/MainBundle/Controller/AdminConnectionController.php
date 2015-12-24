@@ -20,8 +20,8 @@ class AdminConnectionController extends Controller
     /**
      * Test connection
      *
-     * @param int $id
-     * @return Response
+     * @param                         int $id
+     * @return                        Response
      * @Route("/testConnection/{id}", name="araneum_main_admin_connection_testConnection")
      */
     public function testConnectionAction($id)

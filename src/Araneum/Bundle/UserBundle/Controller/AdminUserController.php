@@ -46,7 +46,9 @@ class AdminUserController extends Controller
      */
     public function getAuthorizedUserData()
     {
-        /** @var User $user */
+        /**
+         * @var User $user
+         */
         $user = $this->getUser();
 
         return new JsonResponse(
@@ -62,19 +64,23 @@ class AdminUserController extends Controller
     /**
      * Edit profile
      *
-     * @Route("/profile/edit", name="araneum_user_adminUser_edit")
+     * @Route("/profile/edit",             name="araneum_user_adminUser_edit")
      * @Security("has_role('ROLE_ADMIN')")
-     * @param Request $request
-     * @return Response
+     * @param                              Request $request
+     * @return                             Response
      */
     public function editAction(Request $request)
     {
         $em = $this->get('doctrine.orm.entity_manager');
-        /** @var User $user */
+        /**
+         * @var User $user
+         */
         $user = $this->getUser();
         $form = $this->createForm(new ProfileType(), $user);
 
-        /** @var FormHandlerService $formHandler */
+        /**
+         * @var FormHandlerService $formHandler
+         */
         $formHandler = $this->get('araneum.base.form.handler');
 
         if ($request->getMethod() === 'POST') {
@@ -110,14 +116,16 @@ class AdminUserController extends Controller
      * Set user settings
      *
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/profile/settings", name="araneum_user_adminUser_setSettings")
+     * @Route("/profile/settings",         name="araneum_user_adminUser_setSettings")
      * @Method("POST")
-     * @param Request $request
-     * @return JsonResponse $response
+     * @param                              Request $request
+     * @return                             JsonResponse $response
      */
     public function setSettingsAction(Request $request)
     {
-        /** @var EntityManager $entityManager */
+        /**
+         * @var EntityManager $entityManager
+         */
         $entityManager = $this->getDoctrine()->getManager();
 
         try {
@@ -139,7 +147,7 @@ class AdminUserController extends Controller
      * Locales module initialization
      *
      * @Route("/manage/users/init.json", name="araneum_manage_users_init")
-     * @return JsonResponse
+     * @return                           JsonResponse
      */
     public function initAction()
     {
@@ -166,7 +174,7 @@ class AdminUserController extends Controller
      * Server/client datatable communication
      *
      * @Route("/manage/users/datatable.json", name="araneum_manage_users_grid")
-     * @return JsonResponse
+     * @return                                JsonResponse
      */
     public function datatableAction()
     {
