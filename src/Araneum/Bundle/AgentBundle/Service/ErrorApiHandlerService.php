@@ -51,7 +51,7 @@ class ErrorApiHandlerService
     /**
      * Post error data
      *
-     * @param string $appKey the application appKey
+     * @param string $appKey
      * @param array  $parameters
      * @return array
      */
