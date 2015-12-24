@@ -48,9 +48,9 @@ class Cluster
     protected $id;
 
     /**
-     * @ORM\Column(type="string", name="name", unique=true, length=255)
+     * @ORM\Column(type="string", name="name", unique=true, length=35)
      * @Assert\NotBlank()
-     * @Assert\Length(min=2, max=255)
+     * @Assert\Length(min=2, max=35)
      * @Assert\Type(type="string")
      */
     protected $name;

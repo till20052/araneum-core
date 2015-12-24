@@ -55,7 +55,7 @@ class User extends BaseUser
     protected $roles;
     /**
      * @var string
-     * @ORM\Column(type="string", name="full_name", nullable=true)
+     * @ORM\Column(type="string", name="full_name", nullable=true, length=35)
      */
     private $fullName;
     /**

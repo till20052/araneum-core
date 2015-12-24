@@ -28,7 +28,7 @@ class Role
 
     /**
      *
-     * @ORM\Column(type="string", name="name", unique=true, length=255)
+     * @ORM\Column(type="string", name="name", unique=true, length=35)
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      */
