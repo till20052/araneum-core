@@ -153,5 +153,4 @@ class ErrorApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->errorApiHandlerService->post('appKey', $parameters);
     }
-
 }

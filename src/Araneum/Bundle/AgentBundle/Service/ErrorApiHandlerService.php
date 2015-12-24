@@ -42,8 +42,7 @@ class ErrorApiHandlerService
         EntityManager $em,
         FormFactory $formFactory,
         ApplicationManagerService $applicationManager
-    )
-    {
+    ) {
         $this->entityManager = $em;
         $this->formFactory = $formFactory;
         $this->appManager = $applicationManager;
