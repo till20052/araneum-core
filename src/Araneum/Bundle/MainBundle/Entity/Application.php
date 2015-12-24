@@ -746,6 +746,7 @@ class Application
     }
 
     /**
+     * Return all Spot.Api credential
      *
      * @return array
      */
