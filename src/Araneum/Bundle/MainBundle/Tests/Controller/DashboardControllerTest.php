@@ -79,6 +79,12 @@ class DashboardControllerTest extends BaseController
                     'registeredCustomers' => [],
                     'receivedEmails' => [],
                 ],
+                'charts' => [
+                    'leads' => [
+                        'count' => rand(),
+                        'data' => [],
+                    ],
+                ],
             ],
             json_decode($response->getContent())
         );
