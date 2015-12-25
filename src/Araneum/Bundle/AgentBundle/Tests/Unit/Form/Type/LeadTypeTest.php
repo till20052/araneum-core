@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\AgentBundle\Tests\Unit\From\Type;
+namespace Araneum\Bundle\AgentBundle\Tests\Unit\Form\Type;
 
 use Araneum\Bundle\AgentBundle\Entity\Lead;
 use Araneum\Bundle\AgentBundle\Form\Type\LeadType;
@@ -40,7 +40,7 @@ class LeadTypeTest extends KernelTestCase
     public function dataSource()
     {
         return [
-            'scenario 1' => [
+            'normal' => [
                 [
                     'firstName' => 'Hugo',
                     'lastName' => 'Boss',
@@ -49,26 +49,29 @@ class LeadTypeTest extends KernelTestCase
                     'phone' => '380507894561',
                     'appKey' => md5(microtime(true)),
                 ],
-                function (Form $form, Lead $lead, KernelTestCase $testCase) {
-                    $testCase->assertTrue($form->isValid());
-                    $testCase->assertEquals('hogo.boss@test.com', $lead->getEmail());
-                    $testCase->assertEquals('380507894561', $lead->getPhone());
-                },
+                true,
             ],
-            'scenario 2' => [
+            'not valid email' => [
                 [
                     'firstName' => 'Aston',
                     'lastName' => 'Martin',
                     'country' => rand(1, 239),
                     'email' => md5(microtime(true)),
+                    'phone' => '380507894561',
+                    'appKey' => md5(microtime(true)),
+                ],
+                false,
+            ],
+            'not valid phone' => [
+                [
+                    'firstName' => 'Aston',
+                    'lastName' => 'Martin',
+                    'country' => rand(1, 239),
+                    'email' => 'hogo.boss@test.com',
                     'phone' => md5(microtime(true)),
                     'appKey' => md5(microtime(true)),
                 ],
-                function (Form $form, Lead $lead, KernelTestCase $testCase) {
-                    $testCase->assertFalse($form->isValid());
-                    $testCase->assertCount(1, $form->get('email')->getErrors());
-                    $testCase->assertCount(1, $form->get('phone')->getErrors());
-                },
+                false,
             ],
         ];
     }
@@ -76,21 +79,19 @@ class LeadTypeTest extends KernelTestCase
     /**
      * Test LeadType
      *
+     * @param array   $data
+     * @param boolean $expected
      * @dataProvider dataSource
      * @runInSeparateProcess
-     * @param array    $data
-     * @param callable $assertions
      */
-    public function testLeadType($data, $assertions)
+    public function testLeadType($data, $expected)
     {
         $lead = new Lead();
+        $form = $this->formFactory
+            ->create(new LeadType(), $lead)
+            ->submit($data);
 
-        $assertions(
-            $this->formFactory
-                ->create(new LeadType(), $lead)
-                ->submit($data),
-            $lead,
-            $this
-        );
+        $this->assertEquals($expected, $form->isValid());
+        $this->assertCount($expected ? 0 : 1, $form->getErrors(true, false), $form->getErrors(true, false));
     }
 }

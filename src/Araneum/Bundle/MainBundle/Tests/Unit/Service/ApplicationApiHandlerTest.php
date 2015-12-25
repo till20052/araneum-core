@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @package Araneum\Bundle\MainBundle\Tests\Unit\Service
  */
-class ApplicationApiHandlerTest extends BaseController
+class ApplicationApiHandlerTest extends \PHPUnit_Framework_TestCase
 {
     const APP_CLASS = 'AraneumMainBundle:Application';
 
