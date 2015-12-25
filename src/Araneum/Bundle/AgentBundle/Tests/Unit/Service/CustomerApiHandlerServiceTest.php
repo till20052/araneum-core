@@ -2,203 +2,194 @@
 
 namespace Araneum\Bundle\AgentBundle\Tests\Unit\Service;
 
-use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
+use Araneum\Base\Tests\Fixtures\Customer\CustomerFixtures;
+use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
+use Araneum\Bundle\AgentBundle\Form\Type\CustomerType;
 use Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService;
-use Doctrine\Common\Collections\ArrayCollection;
+use Araneum\Bundle\AgentBundle\Entity\Customer;
+use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
+use Araneum\Bundle\MainBundle\Entity\Application;
 
 /**
  * Class CustomerApiHandlerServiceTest
  *
- * @package Araneum\Bundle\AgentBundle\Tests\Unit\Service
+ * @package Araneum\Bundle\AgentBundle\Tests\Unit\Handler
  */
 class CustomerApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $application;
+    const PARAMETER = [
+        'firstName' => 'firstName',
+        'lastName' => 'lastName',
+        'country' => 'country',
+        'email' => 'email@email2.com',
+        'callback' => true,
+        'phone' => '322223',
+    ];
+    protected $entityManagerMock;
+    protected $repositoryMock;
+    protected $doctrineMock;
+    protected $applicationManagerMock;
+    protected $formFactoryMock;
+    protected $form;
+    protected $customer;
+    protected $spotOptionServiceMock;
+    protected $appKey = ApplicationFixtures::TEST_APP_APP_KEY;
+    protected $dispatcherMock;
+    protected $customerApiHandlerService;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * Set Up
      */
-    private $customer;
-
-    /**
-     * @var CustomerApiHandlerService
-     */
-    private $service;
-
-    /**
-     * Test reset customer password
-     *
-     * @throws \Doctrine\ORM\EntityNotFoundException
-     * @throws \Exception
-     */
-    public function testResetPassword()
+    public function setUp()
     {
-        $this->application->expects($this->any())
-            ->method('getCustomers')
-            ->will($this->returnValue(new ArrayCollection([$this->customer])));
+        $this->entityManagerMock = $this
+            ->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $this->assertEquals(
-            CustomerLog::STATUS_OK,
-            $this->service->resetPassword('123456789', 'user@test.com', 'current_password', 'new_password')
+        $this->dispatcherMock = $this
+            ->getMockBuilder('\Symfony\Component\EventDispatcher\EventDispatcherInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->repositoryMock = $this
+            ->getMockBuilder('Doctrine\ORM\EntityRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->doctrineMock = $this->getMockBuilder('Doctrine\Bundle\DoctrineBundle\Registry')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->applicationManagerMock = $this->getMockBuilder(
+            'Araneum\Bundle\MainBundle\Service\ApplicationManagerService'
+        )
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->spotOptionServiceMock = $this->getMockBuilder('Araneum\Bundle\AgentBundle\Service\SpotOptionService')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->formFactoryMock = $this->getMockBuilder('Symfony\Component\Form\FormFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->form = $this->getMockBuilder('Symfony\Component\Form\Form')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->customer = $this->getMock('\Araneum\Bundle\AgentBundle\Entity\Customer');
+        $this->customer->method('getId')->will($this->returnValue(1));
+
+        $this->customerApiHandlerService = new CustomerApiHandlerService(
+            $this->applicationManagerMock,
+            $this->entityManagerMock,
+            $this->dispatcherMock,
+            $this->formFactoryMock,
+            $this->spotOptionServiceMock
         );
     }
 
     /**
-     * Test reset customer password in case if application does not contain customer
+     * Test method ProcessForm with normal data
      *
-     * @expectedException \Exception
+     * @throws \Araneum\Base\Exception\InvalidFormException
+     * @runTestsInSeparateProcesses
      */
-    public function testResetPasswordInCaseException()
+    public function testProcessFormNormalTrue()
     {
-        $this->application->expects($this->any())
-            ->method('getCustomers')
-            ->will($this->returnValue(new ArrayCollection()));
+        $this->formFactoryMock->expects($this->once())
+            ->method('create')
+            ->with($this->equalTo(new CustomerType()), $this->equalTo($this->customer))
+            ->will($this->returnValue($this->form));
 
-        $this->service->resetPassword('123456789', 'user@test.com', 'current_password', 'new_password');
-    }
+        $this->form->expects($this->once())
+            ->method('submit')
+            ->with($this->equalTo(self::PARAMETER));
 
-    /**
-     * Test reset customer password in case if customer does not exists
-     *
-     * @expectedException \Doctrine\ORM\EntityNotFoundException
-     */
-    public function testResetPasswordInCaseEntityNotFoundException()
-    {
-        $this->service->resetPassword('123456789', 'not_mocked_value@test.com', 'current_password', 'new_password');
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function setUp()
-    {
-        $container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\Container')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $entityManager = $this->entityManager();
-
-        $spotOptionService = $this->getMockBuilder('\Araneum\Bundle\AgentBundle\Service\SpotOptionService')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $spotOptionService->expects($this->any())
-            ->method('resetPassword')
-            ->with(
-                $this->equalTo('user@test.com'),
-                $this->equalTo('current_password'),
-                $this->equalTo('new_password')
-            )
+        $this->form->expects($this->once())
+            ->method('isValid')
             ->will($this->returnValue(true));
 
-        $container->expects($this->any())
-            ->method('get')
-            ->with(
-                $this->logicalOr(
-                    $this->equalTo('doctrine.orm.entity_manager'),
-                    $this->equalTo('araneum.agent.spotoption.service')
-                )
-            )
-            ->will(
-                $this->returnCallback(
-                    function ($arg) use ($entityManager, $spotOptionService) {
-                        switch ($arg) {
-                            case 'doctrine.orm.entity_manager':
-                                return $entityManager;
-                                break;
+        $this->entityManagerMock->expects($this->once())
+            ->method('persist')
+            ->with($this->customer);
 
-                            case 'araneum.agent.spotoption.service':
-                                return $spotOptionService;
-                                break;
-                        }
-                    }
-                )
-            );
+        $this->entityManagerMock->expects($this->once())
+            ->method('flush');
 
-        $this->service = new CustomerApiHandlerService($container);
+        $this->assertEquals(
+            ['id' => 1],
+            $this->customerApiHandlerService->processForm(self::PARAMETER, $this->customer)
+        );
     }
 
     /**
-     * Init EntityManager
-     *
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @expectedException \Araneum\Base\Exception\InvalidFormException
+     * @runTestsInSeparateProcesses
      */
-    private function entityManager()
+    public function testProcessFormExceptionFalse()
     {
-        $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->formFactoryMock->expects($this->once())
+            ->method('create')
+            ->with($this->equalTo(new CustomerType()), $this->equalTo($this->customer))
+            ->will($this->returnValue($this->form));
 
-        $applicationRepository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ApplicationRepository')
-            ->setMethods(['findOneByAppKey'])
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->form->expects($this->once())
+            ->method('submit')
+            ->with($this->equalTo(self::PARAMETER));
 
-        $this->application = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Application')
-            ->disableOriginalConstructor()
-            ->getMock();
 
-        $applicationRepository->expects($this->any())
-            ->method('findOneByAppKey')
-            ->with($this->equalTo('123456789'))
-            ->will($this->returnValue($this->application));
+        $this->assertInstanceOf(
+            'Araneum\Bundle\AgentBundle\Entity\Customer',
+            $this->customerApiHandlerService->processForm(self::PARAMETER, $this->customer)
+        );
+    }
 
-        $entityManager->expects($this->at(0))
-            ->method('getRepository')
-            ->with($this->equalTo('AraneumMainBundle:Application'))
-            ->will($this->returnValue($applicationRepository));
+    /**
+     * Test login method
+     *
+     * @runTestsInSeparateProcesses
+     */
+    public function testLogin()
+    {
+        $application = new Application();
 
-        $customerRepository = $this->getMockBuilder('\Araneum\Bundle\AgentBundle\Repository\CustomerRepository')
-            ->setMethods(['findOneByEmail'])
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->applicationManagerMock
+            ->expects($this->once())
+            ->method('findOneOr404')
+            ->with($this->equalTo(['appKey' => $this->appKey]))
+            ->will($this->returnValue($application));
 
-        $this->customer = $customer = $this->getMockBuilder('\Araneum\Bundle\AgentBundle\Entity\Customer')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->spotOptionServiceMock->expects($this->once())
+            ->method('login')
+            ->with($this->equalTo(CustomerFixtures::TEST_EMAIL), $this->equalTo('password'))
+            ->will($this->returnValue(true));
 
-        $customerRepository->expects($this->any())
-            ->method('findOneByEmail')
-            ->with(
-                $this->logicalOr(
-                    $this->equalTo('user@test.com'),
-                    $this->equalTo('not_mocked_value@test.com')
-                )
-            )
-            ->will(
-                $this->returnCallback(
-                    function ($email) use ($customer) {
-                        if ($email != 'user@test.com') {
-                            return null;
-                        }
+        $customer = $this->getMock('Araneum\Bundle\AgentBundle\Entity\Customer');
 
-                        return $customer;
-                    }
-                )
-            );
+        $this->repositoryMock->expects($this->once())
+            ->method('findOneBy')
+            ->with($this->equalTo(['email' => CustomerFixtures::TEST_EMAIL]))
+            ->will($this->returnValue($customer));
 
-        $entityManager->expects($this->at(1))
+        $this->entityManagerMock->expects($this->at(0))
             ->method('getRepository')
             ->with($this->equalTo('AraneumAgentBundle:Customer'))
-            ->will($this->returnValue($customerRepository));
+            ->will($this->returnValue($this->repositoryMock));
 
-        $customerLog = (new CustomerLog())
-            ->setAction('reset_password')
-            ->setApplication($this->application)
-            ->setCustomer($customer)
-            ->setSpotResponse(true)
-            ->setStatus(CustomerLog::STATUS_OK);
+        $log = new CustomerLog();
+        $log->setApplication($application);
+        $log->setAction('Login');
+        $log->setCustomer($customer);
+        $log->setSpotResponse(true);
+        $log->setStatus(CustomerLog::STATUS_OK);
 
-        $entityManager->expects($this->any())
+        $this->entityManagerMock->expects($this->at(1))
             ->method('persist')
-            ->with($this->equalTo($customerLog));
+            ->with($this->equalTo($log));
 
-        $entityManager->expects($this->any())
-            ->method('flush');
-
-        return $entityManager;
+        $this->customerApiHandlerService->login(CustomerFixtures::TEST_EMAIL, 'password', $this->appKey);
     }
 }

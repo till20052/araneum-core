@@ -2,23 +2,15 @@
 
 namespace Araneum\Bundle\MainBundle\Tests\Unit\Service;
 
-use Araneum\Base\Tests\Controller\BaseController;
-use Araneum\Bundle\MainBundle\Entity\Application;
-use Araneum\Bundle\MainBundle\Entity\Cluster;
-use Araneum\Bundle\MainBundle\Entity\Connection;
-use Araneum\Bundle\MainBundle\Service\ApplicationApiHandlerService;
 use Araneum\Bundle\MainBundle\Service\RemoteApplicationManagerService;
-use Doctrine\Common\Collections\ArrayCollection;
-use Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\EntityManager;
 
 /**
  * Class RemoteApplicationManagerTest
  *
  * @package Araneum\Bundle\MainBundle\Tests\Unit\Service
  */
-class RemoteApplicationManagerTest extends BaseController
+class RemoteApplicationManagerTest extends \PHPUnit_Framework_TestCase
 {
     protected $manager;
 
@@ -45,12 +37,8 @@ class RemoteApplicationManagerTest extends BaseController
      */
     public function setUp()
     {
-        static::$kernel = static::createKernel();
-        static::$kernel->boot();
-        $params = static::$kernel->getContainer()->getParameter('site_api');
-
-        $this->user = $params['user'];
-        $this->password = $params['password'];
+        $this->user = 'apiUser';
+        $this->password = 'apiPassword';
 
         $this->manager = $this
             ->getMockBuilder('Doctrine\ORM\EntityManager')
@@ -240,8 +228,8 @@ class RemoteApplicationManagerTest extends BaseController
 
         $params = [
             'auth' => [
-                'api',
-                'QDurWe68',
+                $this->user,
+                $this->password,
             ],
             'connect_timeout' => 1,
         ];

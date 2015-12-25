@@ -11,4 +11,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class AraneumAgentBundle extends Bundle
 {
+    const EVENT_CUSTOMER_NEW = 'araneum.agent.customer.new';
 }
