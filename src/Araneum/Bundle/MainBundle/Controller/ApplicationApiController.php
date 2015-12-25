@@ -50,7 +50,7 @@ class ApplicationApiController extends FOSRestController
      *
      * @Rest\View()
      *
-     * @param string $appKey The application appKey
+     * @param  string $appKey The application appKey
      * @return array
      */
     public function getConfigAction($appKey)

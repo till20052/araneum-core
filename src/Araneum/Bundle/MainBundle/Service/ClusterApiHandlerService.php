@@ -55,7 +55,7 @@ class ClusterApiHandlerService
     /**
      * Get application config structure
      *
-     * @param Application $application
+     * @param  Application $application
      * @return array
      */
     public function getApplicationConfigStructure(Application $application)
@@ -79,7 +79,9 @@ class ClusterApiHandlerService
             'components' => [],
         ];
 
-        /** @var Locale $locale */
+        /**
+         * @var Locale $locale
+         */
         foreach ($application->getLocales() as $locale) {
             $structure['locales'][] = [
                 'name' => $locale->getName(),
@@ -89,7 +91,9 @@ class ClusterApiHandlerService
             ];
         }
 
-        /** @var Component $component */
+        /**
+         * @var Component $component
+         */
         foreach ($application->getComponents() as $component) {
             $structure['components'][] = [
                 'name' => $component->getName(),
@@ -103,12 +107,14 @@ class ClusterApiHandlerService
     /**
      * Get configurations list of applications which cluster contains
      *
-     * @param integer $clusterId
+     * @param  integer $clusterId
      * @return array|bool
      */
     public function getApplicationsConfigsList($clusterId)
     {
-        /** @var Cluster $cluster */
+        /**
+         * @var Cluster $cluster
+         */
         $cluster = $this->getRepository()->find($clusterId);
 
         if (empty($cluster)) {
@@ -117,7 +123,9 @@ class ClusterApiHandlerService
 
         $list = [];
 
-        /** @var Application $application */
+        /**
+         * @var Application $application
+         */
         foreach ($cluster->getApplications() as $application) {
             $list[] = $this->getApplicationConfigStructure($application);
         }

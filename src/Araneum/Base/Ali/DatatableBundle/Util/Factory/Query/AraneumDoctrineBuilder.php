@@ -45,8 +45,8 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
     /**
      * Search case insensitive like
      *
-     * @param string $searchField
-     * @param string $value
+     * @param  string $searchField
+     * @param  string $value
      * @return string
      */
     public function searchLike($searchField, $value)
@@ -57,8 +57,8 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
     /**
      * Search equals
      *
-     * @param string $searchField
-     * @param string $value
+     * @param  string $searchField
+     * @param  string $value
      * @return string
      */
     public function searchEquals($searchField, $value)
@@ -69,8 +69,8 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
     /**
      * Search by date interval changed with the date format
      *
-     * @param string $searchField
-     * @param string $date
+     * @param  string $searchField
+     * @param  string $date
      * @return string
      */
     public function searchDateIntervalDay($searchField, $date)
@@ -104,8 +104,8 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
     /**
      * Search in array
      *
-     * @param string $searchField
-     * @param string $value
+     * @param  string $searchField
+     * @param  string $value
      * @return string
      */
     public function searchIn($searchField, $value)
@@ -116,8 +116,8 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
     /**
      * Search time
      *
-     * @param string $searchField
-     * @param string $value
+     * @param  string $searchField
+     * @param  string $value
      * @return string
      */
     public function searchTime($searchField, $value)
@@ -162,7 +162,7 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
     /**
      * Adds an item that is to be returned in the query result.
      *
-     * @param null $select
+     * @param  null $select
      * @return \Doctrine\ORM\QueryBuilder
      */
     public function addSelect($select = null)
@@ -193,7 +193,7 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
     /**
      * Get data
      *
-     * @param int $hydrationMode
+     * @param  int $hydrationMode
      * @return array
      */
     public function getData($hydrationMode)
@@ -240,7 +240,7 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
     /**
      * Get the search dql
      *
-     * @param \Doctrine\ORM\QueryBuilder $queryBuilder
+     * @param  \Doctrine\ORM\QueryBuilder $queryBuilder
      * @return string|void
      */
     protected function _addSearch(\Doctrine\ORM\QueryBuilder $queryBuilder)
@@ -264,8 +264,8 @@ class AraneumDoctrineBuilder extends DoctrineBuilder
 
                 $field = explode(' ', trim($searchField));
                 $searchField = $field[0];
-                if (($oneQuery = $searchQueryArray[$searchField]($this, $searchField, $searchParam)) !== false &&
-                    !empty($oneQuery)
+                if (($oneQuery = $searchQueryArray[$searchField]($this, $searchField, $searchParam)) !== false
+                    && !empty($oneQuery)
                 ) {
                     $orQueries[] = $oneQuery;
                 }

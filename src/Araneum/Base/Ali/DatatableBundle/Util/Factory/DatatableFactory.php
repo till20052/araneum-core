@@ -110,7 +110,7 @@ class DatatableFactory
     /**
      * Create configured datatable
      *
-     * @param AbstractList $list
+     * @param  AbstractList $list
      * @return AraneumDatatable|object
      */
     public function create(AbstractList $list)
@@ -190,17 +190,17 @@ class DatatableFactory
     /**
      * Set render fields
      *
-     * @param array  $data
-     * @param array  $listField
-     * @param object $this1
+     * @param  array  $data
+     * @param  array  $listField
+     * @param  object $this1
      * @return mixed
      */
     public function setRenderFields(&$data, $listField, $this1)
     {
         foreach ($data as $key => $value) {
             foreach ($listField as $fieldDescription) {
-                if (array_key_exists('column', $fieldDescription) && $fieldDescription['column'] === $key &&
-                    array_key_exists('render', $fieldDescription) && !empty($fieldDescription['render'])
+                if (array_key_exists('column', $fieldDescription) && $fieldDescription['column'] === $key
+                    && array_key_exists('render', $fieldDescription) && !empty($fieldDescription['render'])
                 ) {
                     $data[$key] = $fieldDescription['render'](
                         $value,
@@ -218,8 +218,8 @@ class DatatableFactory
     /**
      * Get filed with alias dot separated
      *
-     * @param string $name
-     * @param null   $alias
+     * @param  string $name
+     * @param  null   $alias
      * @return string
      */
     public function getQueryFieldName($name, $alias = null)
@@ -232,14 +232,14 @@ class DatatableFactory
     /**
      * Add Search condition to QueryBuilder
      *
-     * @param string $name
-     * @param string $description
+     * @param  string $name
+     * @param  string $description
      * @throws \Exception
      */
     public function prepareSearch($name, &$description)
     {
-        if (array_key_exists('search_type', $description) && !empty($description['search_type']) &&
-            !array_key_exists('custom_search', $description) && empty($description['custom_search'])
+        if (array_key_exists('search_type', $description) && !empty($description['search_type'])
+            && !array_key_exists('custom_search', $description) && empty($description['custom_search'])
         ) {
             switch ($description['search_type']) {
                 case 'datetime':
@@ -293,15 +293,15 @@ class DatatableFactory
                     } else {
 
                         $this->searchQuery[$this->getSearchField($name, $description)] =
-                            function ($thisBuilder, $searchField, $value) {
-                                return $thisBuilder->searchEquals($searchField, $value);
-                            };
+                        function ($thisBuilder, $searchField, $value) {
+                            return $thisBuilder->searchEquals($searchField, $value);
+                        };
                     }
 
                     break;
                 case 'callback':
-                    if (!array_key_exists('callback_function', $description) ||
-                        empty($description['callback_function'])
+                    if (!array_key_exists('callback_function', $description)
+                        || empty($description['callback_function'])
                     ) {
                         throw new \Exception('Specify callback_function field for column'.$name);
                     }
@@ -326,8 +326,8 @@ class DatatableFactory
     /**
      * Check for join exists
      *
-     * @param $queryBuilder
-     * @param $alias
+     * @param  $queryBuilder
+     * @param  $alias
      * @return bool
      */
     private function isJoinExist($queryBuilder, $alias)
@@ -348,7 +348,7 @@ class DatatableFactory
     /**
      * Get fully qualified class name
      *
-     * @param $alias
+     * @param  $alias
      * @return string
      */
     private function getEntityClassNameByAlias($alias)
@@ -474,8 +474,8 @@ class DatatableFactory
     /**
      * Get mapped class
      *
-     * @param object $entity
-     * @param string $reference
+     * @param  object $entity
+     * @param  string $reference
      * @return bool
      * @throws \Exception
      */
@@ -500,9 +500,9 @@ class DatatableFactory
     /**
      * Get target entity from mapping annotation
      *
-     * @param object $entity
-     * @param string $reference
-     * @param string $annotation
+     * @param  object $entity
+     * @param  string $reference
+     * @param  string $annotation
      * @return bool
      */
     private function getTargetEntity($entity, $reference, $annotation)
@@ -521,8 +521,8 @@ class DatatableFactory
     /**
      * Return field for search
      *
-     * @param string $name
-     * @param string $description
+     * @param  string $name
+     * @param  string $description
      * @return string
      */
     private function getSearchField($name, $description)
@@ -535,7 +535,7 @@ class DatatableFactory
     /**
      * Check is field numeric
      *
-     * @param string $description
+     * @param  string $description
      * @return bool
      */
     private function isFieldNumericType(&$description)
@@ -555,8 +555,8 @@ class DatatableFactory
     /**
      * Prepare widget
      *
-     * @param string $builderList
-     * @param string $listField
+     * @param  string $builderList
+     * @param  string $listField
      * @return mixed
      */
     private function prepareWidget($builderList, $listField)

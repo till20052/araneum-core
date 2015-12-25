@@ -15,7 +15,7 @@ class Mailer extends BaseMailer
     /**
      * Send an email to a user to confirm the password reset
      *
-     * @param UserInterface $user
+     * @param  UserInterface $user
      * @return void
      */
     public function sendResettingEmailMessage(UserInterface $user)

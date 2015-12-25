@@ -65,7 +65,7 @@ class AraneumDatatable extends Datatable
     /**
      * Get search query
      *
-     * @param string $searchQuery
+     * @param  string $searchQuery
      * @return $this
      */
     public function setSearchQuery($searchQuery)

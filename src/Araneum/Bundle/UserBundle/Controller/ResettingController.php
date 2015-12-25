@@ -22,7 +22,9 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
  */
 class ResettingController extends BaseController
 {
-    /** @var Translator */
+    /**
+     * @var Translator
+     */
     private $translator;
 
     /**
@@ -39,7 +41,9 @@ class ResettingController extends BaseController
 
             $username = $this->container->get('request')->request->get('username');
 
-            /** @var $user UserInterface */
+            /**
+             * @var $user UserInterface
+             */
             $user = $this->container->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
 
             if (empty($user)) {
@@ -51,7 +55,9 @@ class ResettingController extends BaseController
             }
 
             if (null === $user->getConfirmationToken()) {
-                /** @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface */
+                /**
+                 * @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface
+                 */
                 $tokenGenerator = $this->container->get('fos_user.util.token_generator');
                 $user->setConfirmationToken($tokenGenerator->generateToken());
             }
@@ -82,7 +88,7 @@ class ResettingController extends BaseController
     /**
      * Reset user password
      *
-     * @param string $token
+     * @param  string $token
      * @return JsonResponse
      *
      * @throws AuthenticationException in case if process of reset password was finished successfully
@@ -95,7 +101,9 @@ class ResettingController extends BaseController
 
         try {
 
-            /** @var Request $request */
+            /**
+             * @var Request $request
+             */
             $request = $this->container->get('request');
 
             if ($request->isMethod('GET')) {
@@ -156,8 +164,8 @@ class ResettingController extends BaseController
     /**
      * Translate message by message id
      *
-     * @param       $id
-     * @param array $parameters
+     * @param        $id
+     * @param  array $parameters
      * @return string
      */
     private function trans($id, $parameters = [])
@@ -172,8 +180,8 @@ class ResettingController extends BaseController
     /**
      * Convert children of FormView to Array
      *
-     * @param FormView|array $children
-     * @param array          $fields
+     * @param  FormView|array $children
+     * @param  array          $fields
      * @return array
      */
     private function extract(

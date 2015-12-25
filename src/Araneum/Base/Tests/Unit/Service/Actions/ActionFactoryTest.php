@@ -72,7 +72,9 @@ class ActionBuilderTest extends \PHPUnit_Framework_TestCase
         ],
     ];
 
-    /** @var  ActionBuilder */
+    /**
+     * @var  ActionBuilder
+     */
     private $actionBuilder;
 
     /**

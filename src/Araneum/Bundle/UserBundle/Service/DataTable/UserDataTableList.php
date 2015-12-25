@@ -44,32 +44,47 @@ class UserDataTableList extends AbstractList
     /**
      * Build the list
      *
-     * @param ListBuilderInterface $builder
+     * @param  ListBuilderInterface $builder
      * @return null
      */
     public function buildList(ListBuilderInterface $builder)
     {
         $builder
             ->add('id')
-            ->add('email', [
+            ->add(
+                'email',
+                [
                 'search_type' => 'like',
                 'label' => 'email',
-            ])
-            ->add('username', [
+                ]
+            )
+            ->add(
+                'username',
+                [
                 'search_type' => 'like',
                 'label' => 'user.LOGIN',
-            ])
-            ->add('fullName', [
+                ]
+            )
+            ->add(
+                'fullName',
+                [
                 'search_type' => 'like',
                 'label' => 'user.FULLNAME',
-            ])
-            ->add('enabled', [
+                ]
+            )
+            ->add(
+                'enabled',
+                [
                 'label' => 'admin.general.ENABLE',
-            ])
-            ->add('roles.name', [
+                ]
+            )
+            ->add(
+                'roles.name',
+                [
                 'search_type' => 'like',
                 'label' => 'user.ROLE',
-            ])
+                ]
+            )
             ->add(
                 'lastLogin',
                 [
@@ -104,7 +119,7 @@ class UserDataTableList extends AbstractList
     /**
      * Create query builder
      *
-     * @param EntityManager $em
+     * @param  EntityManager $em
      * @return \Ali\DatatableBundle\Util\Factory\Query\QueryInterface
      */
     public function createQueryBuilder($em)
