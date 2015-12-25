@@ -7,6 +7,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,6 +41,7 @@ class LeadApiController extends Controller
      * @Rest\Get("/api/lead/find",      defaults={"_format"="json"})
      * @Rest\QueryParam(name="filters", array=true)
      * @Rest\View(statusCode=200)
+     * @Security("has_role('ROLE_API')")
      *
      * @param  ParamFetcher $paramFetcher
      * @return array
@@ -83,6 +85,7 @@ class LeadApiController extends Controller
      *
      * @Rest\Post("/api/lead/create", defaults={"_format"="json"})
      * @Rest\View(statusCode=201)
+     * @Security("has_role('ROLE_API')")
      *
      * @param  Request $request
      * @return array
