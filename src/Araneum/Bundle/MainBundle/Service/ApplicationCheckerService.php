@@ -74,10 +74,14 @@ class ApplicationCheckerService
      */
     public function checkConnection($id, $pingCount = 5)
     {
-        /** @var ConnectionRepository $repository */
+        /**
+         * @var ConnectionRepository $repository
+         */
         $repository = $this->entityManager->getRepository('AraneumMainBundle:Connection');
 
-        /** @var Connection $connection */
+        /**
+         * @var Connection $connection
+         */
         $connection = $repository->find($id);
 
         if (empty($connection)) {
@@ -90,17 +94,21 @@ class ApplicationCheckerService
     /**
      * Check Application state
      *
-     * @param integer $id of Application
+     * @param  integer $id of Application
      * @return integer
      *
      * @throws EntityNotFoundException in case if application does not exists
      */
     public function checkApplication($id)
     {
-        /** @var ApplicationRepository $repository */
+        /**
+         * @var ApplicationRepository $repository
+         */
         $repository = $this->entityManager->getRepository('AraneumMainBundle:Application');
 
-        /** @var Application $application */
+        /**
+         * @var Application $application
+         */
         $application = $repository->find($id);
 
         if (empty($application)) {
@@ -113,17 +121,21 @@ class ApplicationCheckerService
     /**
      * Check Cluster
      *
-     * @param integer $id of Cluster
+     * @param  integer $id of Cluster
      * @return integer
      *
      * @throws EntityNotFoundException in case if Cluster does not exists
      */
     public function checkCluster($id)
     {
-        /** @var ClusterRepository $repository */
+        /**
+         * @var ClusterRepository $repository
+         */
         $repository = $this->entityManager->getRepository('AraneumMainBundle:Cluster');
 
-        /** @var Cluster $cluster */
+        /**
+         * @var Cluster $cluster
+         */
         $cluster = $repository->find($id);
 
         if (empty($cluster)) {
@@ -136,9 +148,9 @@ class ApplicationCheckerService
     /**
      * Get State of Connection
      *
-     * @param Connection     $connection
-     * @param integer        $pingCount
-     * @param null|\stdClass $response
+     * @param  Connection     $connection
+     * @param  integer        $pingCount
+     * @param  null|\stdClass $response
      * @return integer
      */
     private function getConnectionState(Connection $connection, $pingCount = 5, &$response = null)
@@ -199,7 +211,7 @@ class ApplicationCheckerService
     /**
      * Get State of Application
      *
-     * @param Application $application
+     * @param  Application $application
      * @return integer
      */
     private function getApplicationState(Application $application)
@@ -208,7 +220,9 @@ class ApplicationCheckerService
         $problems = new ArrayCollection();
 
         try {
-            /** @var GuzzleResponse $request */
+            /**
+             * @var GuzzleResponse $request
+             */
             $response = $this->client
                 ->get('http'.($application->isUseSsl() ? 's' : '').'://'.$application->getDomain())
                 ->send();
@@ -239,7 +253,7 @@ class ApplicationCheckerService
     /**
      * Get State of Cluster
      *
-     * @param Cluster $cluster
+     * @param  Cluster $cluster
      * @return \stdClass
      */
     private function getClusterState(Cluster $cluster)
@@ -248,7 +262,9 @@ class ApplicationCheckerService
 
         $problems = new ArrayCollection();
 
-        /** @var Application $application */
+        /**
+         * @var Application $application
+         */
         foreach ($cluster->getApplications() as $application) {
             $applicationStatus = $this->getApplicationState($application);
 
@@ -263,7 +279,9 @@ class ApplicationCheckerService
             }
         }
 
-        /** @var Connection $connection */
+        /**
+         * @var Connection $connection
+         */
         foreach ($cluster->getRunners() as $runner) {
             foreach ($runner->getConnections() as $connection) {
                 $connectionStatus = $this->getConnectionState($connection, 5, $response);

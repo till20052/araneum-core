@@ -133,7 +133,7 @@ old_sound_rabbit_mq:
                 auto_delete: false
                 durable: true
             queue_options:
-                name: "sendToSpot"
+                name: sendToSpot_%session_prefix%
                 routing_keys:
                     - "sendToSpot"
                 arguments:
@@ -149,7 +149,7 @@ old_sound_rabbit_mq:
                 auto_delete: false
                 durable: true
             queue_options:
-                name: "sendToSpot"
+                name: sendToSpot_%session_prefix%
             callback: araneum.base.rabbitmq.consumer.spot
 
 snc_redis:

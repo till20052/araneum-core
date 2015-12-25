@@ -94,8 +94,9 @@ class Customer
     private $currency;
 
     /**
-     * @var string
+     * @var \DateTime
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\Date()
      */
     private $birthday;
 
@@ -133,7 +134,7 @@ class Customer
     /**
      * Set application
      *
-     * @param Application $application
+     * @param  Application $application
      * @return Customer
      */
     public function setApplication(Application $application)
@@ -156,7 +157,7 @@ class Customer
     /**
      * Set firstName
      *
-     * @param string $firstName
+     * @param  string $firstName
      * @return Customer
      */
     public function setFirstName($firstName)
@@ -179,7 +180,7 @@ class Customer
     /**
      * Set lastName
      *
-     * @param string $lastName
+     * @param  string $lastName
      * @return Customer
      */
     public function setLastName($lastName)
@@ -202,7 +203,7 @@ class Customer
     /**
      * Set country
      *
-     * @param string $country
+     * @param  string $country
      * @return Customer
      */
     public function setCountry($country)
@@ -225,7 +226,7 @@ class Customer
     /**
      * Set email
      *
-     * @param string $email
+     * @param  string $email
      * @return Customer
      */
     public function setEmail($email)
@@ -248,7 +249,7 @@ class Customer
     /**
      * Set phone
      *
-     * @param string $phone
+     * @param  string $phone
      * @return Customer
      */
     public function setPhone($phone)
@@ -271,7 +272,7 @@ class Customer
     /**
      * Set callback
      *
-     * @param boolean $callback
+     * @param  boolean $callback
      * @return Customer
      */
     public function setCallback($callback)
@@ -304,7 +305,7 @@ class Customer
     /**
      * Set deliveredAt
      *
-     * @param null|\DateTime $deliveredAt
+     * @param  null|\DateTime $deliveredAt
      * @return $this
      */
     public function setDeliveredAt($deliveredAt)
@@ -327,7 +328,7 @@ class Customer
     /**
      * Set currency
      *
-     * @param string $currency
+     * @param  string $currency
      * @return $this
      */
     public function setCurrency($currency)
@@ -340,7 +341,7 @@ class Customer
     /**
      * Get birthday
      *
-     * @return string
+     * @return \DateTime
      */
     public function getBirthday()
     {
@@ -350,10 +351,10 @@ class Customer
     /**
      * Set birthday
      *
-     * @param object $birthday
+     * @param \DateTime $birthday
      * @return mixed
      */
-    public function setBirthday($birthday)
+    public function setBirthday(\DateTime $birthday = null)
     {
         $this->birthday = $birthday;
 

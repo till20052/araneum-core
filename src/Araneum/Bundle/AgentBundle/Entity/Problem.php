@@ -48,7 +48,7 @@ class Problem
     /**
      * Set status
      *
-     * @param integer $status
+     * @param  integer $status
      * @return Problem
      */
     public function setStatus($status)
@@ -71,7 +71,7 @@ class Problem
     /**
      * Set description
      *
-     * @param string $description
+     * @param  string $description
      * @return Problem
      */
     public function setDescription($description)

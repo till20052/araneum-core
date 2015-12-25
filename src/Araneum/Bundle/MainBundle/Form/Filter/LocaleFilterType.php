@@ -48,62 +48,52 @@ class LocaleFilterType extends AbstractType
                 ],
             ]
         )
-        ->add(
-            'locale',
-            'filter_text',
-            [
+            ->add(
+                'locale',
+                'filter_text',
+                [
                 'label' => 'Locale',
                 'attr' => [
                     'placeholder' => 'locales.ENTER_LOCALE',
                     'translateLabel' => 'locales.LOCALE',
                 ],
-            ]
-        )
-        ->add(
-            'enabled',
-            'filter_choice',
-            [
+                ]
+            )
+            ->add(
+                'enabled',
+                'filter_choice',
+                [
                 'label' => 'Enabled',
                 'choices' => Locale::$enable,
                 'empty_value' => 'locales.EMPTY_VALUE',
                 'attr' => [
                     'translateLabel' => 'locales.ENABLED',
                 ],
-            ]
-        )
-        ->add(
-            'orientation',
-            'filter_choice',
-            [
+                ]
+            )
+            ->add(
+                'orientation',
+                'filter_choice',
+                [
                 'label' => 'Orientation',
                 'choices' => Locale::$orientations,
                 'empty_value' => 'locales.EMPTY_VALUE',
                 'attr' => [
                     'translateLabel' => 'locales.ORIENTATION',
                 ],
-            ]
-        )
-        ->add(
-            'encoding',
-            'filter_text',
-            [
+                ]
+            )
+            ->add(
+                'encoding',
+                'filter_text',
+                [
                 'label' => 'Encoding',
                 'attr' => [
                     'placeholder' => 'locales.ENTER_ENCODING',
                     'translateLabel' => 'locales.ENCODING',
                 ],
-            ]
-        );
-    }
-
-    /**
-     * Get form name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'user_filter';
+                ]
+            );
     }
 
     /**

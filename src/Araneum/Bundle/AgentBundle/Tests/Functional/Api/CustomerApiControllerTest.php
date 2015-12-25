@@ -43,10 +43,10 @@ class CustomerApiControllerTest extends BaseController
     /**
      * Test customer controller
      *
-     * @dataProvider apiDataProvider
-     * @runInSeparateProcess
-     * @param array $post
-     * @param int   $expected
+     * @dataProvider                apiDataProvider
+     * @runTestsInSeparateProcesses
+     * @param                       array $post
+     * @param                       int   $expected
      */
     public function testPostCustomer(array $post, $expected)
     {

@@ -61,7 +61,7 @@ class ActionBuilder implements ActionBuilderInterface
      * Get prepared action item
      * generate url for resource
      *
-     * @param array $actionDescription
+     * @param  array $actionDescription
      * @return array
      */
     private function getPreparedItem(array $actionDescription)

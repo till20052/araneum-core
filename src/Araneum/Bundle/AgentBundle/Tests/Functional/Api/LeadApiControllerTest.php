@@ -25,14 +25,6 @@ class LeadApiControllerTest extends BaseController
     private $tempEmail;
 
     /**
-     * Initialization
-     */
-    protected function setUp()
-    {
-        $this->client = self::createAdminAuthorizedClient('api');
-    }
-
-    /**
      * Data for test find action
      *
      * @return array
@@ -70,6 +62,7 @@ class LeadApiControllerTest extends BaseController
      */
     public function testFindAction($filters, $expectedStatusCode, $expectedFindResultsCount)
     {
+        $this->client = self::createAdminAuthorizedClient('api');
         $this->client->request('GET', '/agent/api/lead/find', ['filters' => $filters]);
 
         $response = $this->client->getResponse();
@@ -99,7 +92,7 @@ class LeadApiControllerTest extends BaseController
                     'firstName' => 'Hugo',
                     'lastName' => 'Boss',
                     'country' => rand(1, 239),
-                    'email' => 'hogo.boss@test.com',
+                    'email' => 'testLead'.rand(1, 999).'@test.com',
                     'phone' => '380507894561',
                     'appKey' => md5(microtime(true)),
                 ],
@@ -110,7 +103,7 @@ class LeadApiControllerTest extends BaseController
                     'firstName' => "Дим'аЁ",
                     'lastName' => "Дим'аЁ",
                     'country' => rand(1, 239),
-                    'email' => 'hogo.boss@test.com',
+                    'email' => 'testLead'.rand(1, 999).'@test.com',
                     'phone' => '380507894561',
                     'appKey' => md5(microtime(true)),
                 ],
@@ -144,7 +137,6 @@ class LeadApiControllerTest extends BaseController
     /**
      * Test createAction in LeadApiController
      *
-     *
      * @dataProvider createActionDataProvider
      * @runInSeparateProcess
      *
@@ -155,6 +147,7 @@ class LeadApiControllerTest extends BaseController
     {
         $this->tempEmail = $data['email'];
 
+        $this->client = self::createAdminAuthorizedClient('api');
         $this->client->request(
             'POST',
             '/agent/api/lead/create',
@@ -163,31 +156,10 @@ class LeadApiControllerTest extends BaseController
 
         $response = $this->client->getResponse();
 
-        $this->assertEquals(
+        $this->assertSame(
             $expected,
             $response->getStatusCode(),
             $response->getContent()
         );
-    }
-
-    /**
-     * Clean temporary data
-     */
-    protected function tearDown()
-    {
-        if (!empty($this->tempEmail)) {
-            $entityManager = $this->client
-                ->getContainer()
-                ->get('doctrine.orm.entity_manager');
-
-            $lead = $entityManager
-                ->getRepository('AraneumAgentBundle:Lead')
-                ->findOneByEmail($this->tempEmail);
-
-            if (!empty($lead)) {
-                $entityManager->remove($lead);
-                $entityManager->flush();
-            }
-        }
     }
 }

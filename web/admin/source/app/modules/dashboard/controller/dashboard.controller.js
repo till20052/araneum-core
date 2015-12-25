@@ -7,8 +7,8 @@
 
     DashboardController.$inject = ['$scope', 'DashboardService'];
 
-	/**
-	 * Dashboard Controller
+    /**
+     * Dashboard Controller
      *
      * @param $scope
      * @param DashboardService
@@ -23,15 +23,15 @@
 
             DashboardService
                 .appendSpinkit()
-				.onDataLoaded(function(response){
-					$scope.statistics = response.data.statistics;
-				})
-				.loadData();
+                .onDataLoaded(function (response) {
+                    $scope.statistics = response.data.statistics;
+                })
+                .loadData();
 
             $scope.$on('panel-refresh', function (event, id) {
-				DashboardService.refreshData(function(){
-					$scope.$broadcast('removeSpinner', id);
-				});
+                DashboardService.refreshData(function () {
+                    $scope.$broadcast('removeSpinner', id);
+                });
             });
 
             $scope.$on('panel-remove', function (event, id, deferred) {

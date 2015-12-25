@@ -15,8 +15,8 @@ class FormHandlerService
     /**
      * Extract children attributes from FormView to Array
      *
-     * @param array|FormView $formView
-     * @param array          $fields
+     * @param  array|FormView $formView
+     * @param  array          $fields
      * @return array
      */
     public function extract(
@@ -58,7 +58,7 @@ class FormHandlerService
     /**
      * Get Form Errors
      *
-     * @param Form $form
+     * @param  Form $form
      * @return array
      */
     public function getErrorMessages(Form $form)

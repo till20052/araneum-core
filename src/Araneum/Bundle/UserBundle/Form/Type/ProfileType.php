@@ -57,12 +57,4 @@ class ProfileType extends AbstractType
             ]
         );
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'araneum_user_form_profile';
-    }
 }

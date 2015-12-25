@@ -21,7 +21,7 @@ class UserData extends AbstractFixture implements FixtureInterface, DependentFix
     /**
      * Load data fixtures with the passed EntityManager
      *
-     * @param ObjectManager $manager
+     * @param  ObjectManager $manager
      * @return null
      */
     public function load(ObjectManager $manager)

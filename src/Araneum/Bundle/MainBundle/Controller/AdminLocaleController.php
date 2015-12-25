@@ -30,8 +30,8 @@ class AdminLocaleController extends Controller
      *      requirements={"id" = "\d+"}
      * )
      * @Method("GET")
-     * @param int $id
-     * @return JsonResponse
+     * @param         int $id
+     * @return        JsonResponse
      */
     public function getLocaleJsonAction($id)
     {
@@ -93,7 +93,7 @@ class AdminLocaleController extends Controller
      * @Route("/manage/locales/locale/save", defaults={"_format"="json"})
      * @Method("POST")
      *
-     * @param Request $request
+     * @param  Request $request
      * @return JsonResponse
      */
     public function saveLocalePostAction(Request $request)
@@ -164,8 +164,8 @@ class AdminLocaleController extends Controller
      * )
      *
      * @Route("/manage/locales/locale/delete", defaults={"_format"="json"}, name="araneum_main_admin_locale_delete")
-     * @param Request $request
-     * @return JsonResponse
+     * @param                                  Request $request
+     * @return                                 JsonResponse
      */
     public function deleteAction(Request $request)
     {
@@ -185,8 +185,8 @@ class AdminLocaleController extends Controller
      * @Route("/manage/locales/locale/enable", name="araneum_main_admin_locale_enable")
      *
      * @Method("POST")
-     * @param Request $request
-     * @return Response
+     * @param          Request $request
+     * @return         Response
      */
     public function enableAction(Request $request)
     {
@@ -196,8 +196,8 @@ class AdminLocaleController extends Controller
     /**
      * Disable locales one or many
      *
-     * @param Request $request
-     * @return Response
+     * @param                                                                            Request $request
+     * @return                                                                           Response
      * @Route("/manage/locales/locale/disable",name="araneum_main_admin_locale_disable")
      */
     public function disableAction(Request $request)
@@ -209,7 +209,7 @@ class AdminLocaleController extends Controller
      * Locales module initialization
      *
      * @Route("/manage/locales/init.json", name="araneum_manage_locales_init")
-     * @return JsonResponse
+     * @return                             JsonResponse
      */
     public function initAction()
     {
@@ -236,7 +236,7 @@ class AdminLocaleController extends Controller
      * Server/client datatable communication
      *
      * @Route("/manage/locales/datatable.json", name="araneum_manage_locales_grid")
-     * @return JsonResponse
+     * @return                                  JsonResponse
      */
     public function datatableAction()
     {
@@ -249,8 +249,8 @@ class AdminLocaleController extends Controller
     /**
      * Update locale state
      *
-     * @param Request $request
-     * @param bool    $state
+     * @param  Request $request
+     * @param  bool    $state
      * @return JsonResponse
      */
     private function updateLocaleEnableDisableAction(Request $request, $state)

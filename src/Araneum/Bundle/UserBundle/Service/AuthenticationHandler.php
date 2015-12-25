@@ -56,8 +56,8 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
     /**
      * Login
      *
-     * @param Request    $request
-     * @param \Exception $error
+     * @param  Request    $request
+     * @param  \Exception $error
      * @return array
      */
     public function login(Request $request, \Exception $error = null)
@@ -92,7 +92,9 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
         if ($request->isXmlHttpRequest()) {
-            /** @var User $user */
+            /**
+             * @var User $user
+             */
             $user = $token->getUser();
 
             return new JsonResponse(

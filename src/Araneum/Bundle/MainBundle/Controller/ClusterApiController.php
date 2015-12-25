@@ -47,7 +47,7 @@ class ClusterApiController extends FOSRestController
      *
      * @Rest\View()
      *
-     * @param int $clusterId The cluster id
+     * @param  int $clusterId The cluster id
      * @return array
      */
     public function applicationsCoreConfigsListAction($clusterId)
@@ -96,7 +96,7 @@ class ClusterApiController extends FOSRestController
      *
      * @Rest\View()
      *
-     * @param int $clusterId The cluster id
+     * @param  int $clusterId The cluster id
      * @return array
      */
     public function remoteApplicationGetDataAction($clusterId)

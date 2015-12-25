@@ -28,3 +28,7 @@ services:
         arguments: [@araneum.agent.spotoption.service]
         tags:
             - { name: kernel.event_listener, event: araneum.agent.customer.new, method: onCreate }
+            
+    araneum.agent.error.api_handler:
+        class: Araneum\Bundle\AgentBundle\Service\ErrorApiHandlerService
+        arguments: [@doctrine.orm.entity_manager, @form.factory, @araneum.main.application.manager]

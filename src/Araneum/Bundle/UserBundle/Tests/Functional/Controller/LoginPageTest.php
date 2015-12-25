@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\UserBundle\Tests\Functional\Admin;
+namespace Araneum\Bundle\UserBundle\Tests\Functional\Controller;
 
 use Araneum\Base\Tests\Fixtures\User\UserFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -8,17 +8,18 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * Class LoginPageTest
  *
- * @package Araneum\Bundle\UserBundle\Tests\Functional\Admin
+ * @package Araneum\Bundle\UserBundle\Tests\Functional\Controller
  */
 class LoginPageTest extends WebTestCase
 {
     /**
      * Test for login Page
      *
-     * @param string $user
-     * @param string $password
-     * @param mixed  $expected
+     * @param        string $user
+     * @param        string $password
+     * @param        mixed  $expected
      * @dataProvider dataSource
+     * @runInSeparateProcess
      */
     public function testLoginPage($user, $password, $expected)
     {
@@ -32,7 +33,7 @@ class LoginPageTest extends WebTestCase
         $form = $crawler->selectButton('Sign in')->form();
         $form['_username'] = $user;
         $form['_password'] = $password;
-        $crawler = $client->submit($form);
+        $client->submit($form);
         $crawler = $client->followRedirect();
         $this->assertEquals($expected, count($crawler->filter('title:contains("Admin")')) <= 0);
     }

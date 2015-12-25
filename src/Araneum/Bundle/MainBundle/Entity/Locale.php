@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="araneum_locales")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\LocaleRepository")
- * @package Araneum\Bundle\MainBundle\Entity
+ * @package                                                                             Araneum\Bundle\MainBundle\Entity
  * @UniqueEntity(fields="name")
  * @UniqueEntity(fields="locale")
  */
@@ -95,7 +95,7 @@ class Locale
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return Locale
      */
     public function setName($name)
@@ -118,7 +118,7 @@ class Locale
     /**
      * Set locale
      *
-     * @param string $locale
+     * @param  string $locale
      * @return Locale
      */
     public function setLocale($locale)
@@ -141,7 +141,7 @@ class Locale
     /**
      * Set enabled
      *
-     * @param boolean $enabled
+     * @param  boolean $enabled
      * @return Locale
      */
     public function setEnabled($enabled)
@@ -164,7 +164,7 @@ class Locale
     /**
      * Set orientation
      *
-     * @param int $orientation
+     * @param  int $orientation
      * @return Locale
      */
     public function setOrientation($orientation)
@@ -187,7 +187,7 @@ class Locale
     /**
      * Set encoding
      *
-     * @param string $encoding
+     * @param  string $encoding
      * @return Locale
      */
     public function setEncoding($encoding)

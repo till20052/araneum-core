@@ -50,8 +50,8 @@ class SpotOptionService
     /**
      * SpotOption Login
      *
-     * @param string $login
-     * @param string $password
+     * @param  string $login
+     * @param  string $password
      * @return bool
      */
     public function login($login, $password)
@@ -65,9 +65,9 @@ class SpotOptionService
     /**
      * Reset Customer Password on SpotOption
      *
-     * @param string $login
-     * @param string $currentPassword
-     * @param string $newPassword
+     * @param  string $login
+     * @param  string $currentPassword
+     * @param  string $newPassword
      * @return bool
      */
     public function resetPassword($login, $currentPassword, $newPassword)
@@ -100,7 +100,7 @@ class SpotOptionService
         ];
 
         if ($customer->getBirthday()) {
-            $customerData['birthday'] = $customer->getBirthday();
+            $customerData['birthday'] = $customer->getBirthday()->format('Y-m-d');
         }
 
         return $this->spotProducerService->publish($customerData, $customer->getApplication());

@@ -94,14 +94,4 @@ class LocaleType extends AbstractType
             ]
         );
     }
-
-    /**
-     * @inheritdoc
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'araneum_mainbundle_locale';
-    }
 }

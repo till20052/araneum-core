@@ -27,7 +27,9 @@ class DashboardController extends Controller
      */
     public function getDataSourceAction()
     {
-        /** @var StatisticsService $service */
+        /**
+         * @var StatisticsService $service
+         */
         $statisticService = $this->get('araneum.main.statistics.service');
 
         $result = [
@@ -40,6 +42,9 @@ class DashboardController extends Controller
                 'summary' => $statisticService->getSummary(),
                 'registeredCustomers' => $statisticService->getRegisteredCustomersFromApplications(),
                 'receivedEmails' => $statisticService->getReceivedEmailsFromApplications(),
+            ],
+            'charts' => [
+                'leads' => $statisticService->getLeads(),
             ],
         ];
 

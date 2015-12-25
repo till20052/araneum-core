@@ -30,8 +30,8 @@ class FromExporterService
     /**
      * Export form to array
      *
-     * @param string|FormTypeInterface $form The type of the form
-     * @param array                    $data
+     * @param  string|FormTypeInterface $form The type of the form
+     * @param  array                    $data
      * @return mixed
      */
     public function get($form, $data = [])
