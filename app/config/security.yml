@@ -9,8 +9,9 @@ security:
     providers:
         fos_userbundle:
             id: fos_user.user_provider.username
-
     firewalls:
+        api_doc:
+            pattern:
         api:
             pattern: ^/.*/api
             anonymous: ~
@@ -43,3 +44,4 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/[a-zA-Z]+/admin/, role: ROLE_ADMIN }
         - { path: ^/.*/api, role: ROLE_API }
+        - { path: ^/api/doc, role: ROLE_API }
