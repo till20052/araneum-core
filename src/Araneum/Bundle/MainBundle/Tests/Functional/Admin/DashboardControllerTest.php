@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Tests\Controller;
+namespace Araneum\Bundle\MainBundle\Tests\Functional\Admin;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Symfony\Bundle\FrameworkBundle\Client;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class DashboardControllerTest
  *
- * @package Araneum\Bundle\MainBundle\Tests\Controller
+ * @package Araneum\Bundle\MainBundle\Tests\Functional\Admin
  */
 class DashboardControllerTest extends BaseController
 {
@@ -27,6 +27,7 @@ class DashboardControllerTest extends BaseController
 
     /**
      * Test getting DataSource of Dashboard
+     * @runInSeparateProcess
      */
     public function testGetDataSourceAction()
     {
@@ -106,22 +107,5 @@ class DashboardControllerTest extends BaseController
         $this->router = $this->client
             ->getContainer()
             ->get('router');
-    }
-
-    /**
-     * Asserting Structures of Objects are Equal
-     *
-     * @param \stdClass $expected
-     * @param \stdClass $actual
-     */
-    private function assertObjectsStructuresEquals(\stdClass $expected, \stdClass $actual)
-    {
-        foreach ($expected as $key => $value) {
-            $this->assertObjectHasAttribute($key, $actual, json_encode($actual));
-
-            if (is_object($value)) {
-                $this->assertObjectsStructuresEquals($value, $actual->{$key});
-            }
-        }
     }
 }

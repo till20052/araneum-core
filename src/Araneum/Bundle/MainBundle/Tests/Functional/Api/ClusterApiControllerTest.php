@@ -34,6 +34,7 @@ class ClusterApiControllerTest extends BaseController
 
     /**
      * Test get applications configs by cluster id
+     * @runInSeparateProcess
      */
     public function testGetApplicationsConfigsList()
     {
@@ -66,6 +67,8 @@ class ClusterApiControllerTest extends BaseController
 
     /**
      * Test get applications configs list by not existing cluster id
+     * @runInSeparateProcess
+     *
      */
     public function testGetApplicationsConfigsListByNotExistingCluster()
     {
@@ -98,7 +101,7 @@ class ClusterApiControllerTest extends BaseController
     /**
      * Create request and return response from cluster api
      *
-     * @param  string $name Name Of Route
+     * @param  string $name       Name Of Route
      * @param  array  $parameters
      * @return null|Response
      */

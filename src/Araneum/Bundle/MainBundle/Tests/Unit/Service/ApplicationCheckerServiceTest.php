@@ -2,7 +2,6 @@
 
 namespace Araneum\Bundle\MainBundle\Tests\Unit\Service;
 
-use Araneum\Bundle\AgentBundle\Service\AgentLoggerService;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
 use Araneum\Bundle\MainBundle\Entity\Connection;
