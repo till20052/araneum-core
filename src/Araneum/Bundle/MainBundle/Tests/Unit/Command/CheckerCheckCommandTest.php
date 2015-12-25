@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Tests\Command;
+namespace Araneum\Bundle\MainBundle\Tests\Unit\Command;
 
 use Araneum\Bundle\MainBundle\Command\CheckerCheckCommand;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
@@ -13,7 +13,7 @@ use \Symfony\Component\DependencyInjection\Container;
 /**
  * Class CheckerCheckCommandTest
  *
- * @package Araneum\Bundle\MainBundle\Tests\Command
+ * @package Araneum\Bundle\MainBundle\Tests\Unit\Command
  */
 class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
 {

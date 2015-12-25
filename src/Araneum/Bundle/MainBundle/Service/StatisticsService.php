@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\MainBundle\Service;
 
 use Araneum\Bundle\AgentBundle\Repository\CustomerRepository;
+use Araneum\Bundle\AgentBundle\Repository\LeadRepository;
 use Araneum\Bundle\MailBundle\Repository\MailRepository;
 use Araneum\Bundle\MainBundle\Repository\ApplicationRepository;
 use Araneum\Bundle\AgentBundle\Repository\ApplicationLogRepository;
@@ -231,6 +232,25 @@ class StatisticsService
             'locales' => $this->entityManager
                 ->getRepository('AraneumMainBundle:Locale')
                 ->count(),
+        ];
+    }
+
+    /**
+     * Get registered leads from applications at last 24 hours
+     *
+     * @return array
+     */
+    public function getLeads()
+    {
+        /** @var LeadRepository $repository */
+        $repository = $this->entityManager->getRepository('AraneumAgentBundle:Lead');
+
+        return [
+            'count' => $repository->count(),
+            'data' => $this->getChartStructure(
+                $repository->getRegisteredLeadsFromApplicationsAtLast24Hours(),
+                'leadsCount'
+            ),
         ];
     }
 
