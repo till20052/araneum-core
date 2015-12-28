@@ -23,16 +23,16 @@ class Application
 {
     use DateTrait;
 
-    const STATUS_OK = 0;
+    const STATUS_OK             = 0;
     const STATUS_CODE_INCORRECT = 1;
-    const STATUS_ERROR = 100;
-    const STATUS_DISABLED = 999;
+    const STATUS_ERROR          = 100;
+    const STATUS_DISABLED       = 999;
 
     private static $statuses = [
         self::STATUS_OK => 'ok',
         self::STATUS_CODE_INCORRECT => 'status_code_incorrect',
         self::STATUS_ERROR => 'error',
-        self::STATUS_DISABLED => 'disabled'
+        self::STATUS_DISABLED => 'disabled',
     ];
 
     /**
@@ -62,14 +62,14 @@ class Application
 
     /**
      * @ORM\Column(type="string")
-     * @Assert\Regex("/^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$/", message="application_domain_not_valid_url")
+     * @Assert\Regex("/^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$/", message="domain_not_valid_url")
      */
     protected $domain;
 
-	/**
-	 * @ORM\Column(type="boolean", name="use_ssl", options={"default"=false})
-	 */
-	protected $useSsl;
+    /**
+     * @ORM\Column(type="boolean", name="use_ssl", options={"default"=false})
+     */
+    protected $useSsl;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -131,21 +131,46 @@ class Application
     protected $appKey;
 
     /**
-     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Customer", mappedBy="application", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Customer", mappedBy="application",
+     *     cascade={"remove", "persist"})
      */
     protected $customers;
 
-
     /**
-     * @ORM\OneToMany(targetEntity="Araneum\Bundle\MailBundle\Entity\Mail", mappedBy="application", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\Error", mappedBy="application",
+     *     cascade={"remove", "persist"})
      */
-    protected  $mails;
+    protected $errors;
 
     /**
-     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ApplicationLog", mappedBy="application", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\MailBundle\Entity\Mail", mappedBy="application", cascade={"remove",
+     *     "persist"})
+     */
+    protected $mails;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ApplicationLog", mappedBy="application",
+     *     cascade={"remove", "persist"})
      */
     protected $applicationLog;
 
+    /**
+     * @ORM\Column(type="string", name="spot_api_user", length=25, nullable=true)
+     * @var string
+     */
+    protected $spotApiUser;
+
+    /**
+     * @ORM\Column(type="string", name="spot_api_password", length=255, nullable=true)
+     * @var string
+     */
+    protected $spotApiPassword;
+
+    /**
+     * @ORM\Column(type="string", name="spot_api_url", length=255, nullable=true)
+     * @var string
+     */
+    protected $spotApiUrl;
 
     /**
      * Get list of Application statuses
@@ -160,7 +185,7 @@ class Application
     /**
      * Get Application status description
      *
-     * @param $status
+     * @param  int $status
      * @return string
      */
     public static function getStatusDescription($status)
@@ -177,9 +202,10 @@ class Application
      */
     public function __construct()
     {
-        $this->setComponents(new ArrayCollection());
         $this->setAppKey();
+        $this->setComponents(new ArrayCollection());
         $this->setCustomers(new ArrayCollection());
+        $this->setErrors(new ArrayCollection());
         $this->setMails(new ArrayCollection());
         $this->setApplicationLog(new ArrayCollection());
     }
@@ -197,7 +223,7 @@ class Application
     /**
      * Set id
      *
-     * @param mixed $id
+     * @param  mixed $id
      * @return mixed
      */
     public function setId($id)
@@ -220,7 +246,7 @@ class Application
     /**
      * Set cluster
      *
-     * @param Cluster $cluster
+     * @param  Cluster $cluster
      * @return $this
      */
     public function setCluster(Cluster $cluster)
@@ -233,7 +259,7 @@ class Application
     /**
      * Set type
      *
-     * @param int $type
+     * @param  int $type
      * @return $this
      */
     public function setType($type)
@@ -266,7 +292,7 @@ class Application
     /**
      * Set name
      *
-     * @param mixed $name
+     * @param  mixed $name
      * @return Application $this
      */
     public function setName($name)
@@ -289,7 +315,7 @@ class Application
     /**
      * Set domain
      *
-     * @param string $domain
+     * @param  string $domain
      * @return Application $this
      */
     public function setDomain($domain)
@@ -299,28 +325,28 @@ class Application
         return $this;
     }
 
-	/**
-	 * Get use ssl
-	 *
-	 * @return boolean
-	 */
-	public function isUseSsl()
-	{
-		return $this->useSsl;
-	}
+    /**
+     * Get use ssl
+     *
+     * @return boolean
+     */
+    public function isUseSsl()
+    {
+        return $this->useSsl;
+    }
 
-	/**
-	 * Set use ssl
-	 *
-	 * @param boolean $useSsl
-	 * @return Application $this
-	 */
-	public function setUseSsl($useSsl)
-	{
-		$this->useSsl = $useSsl;
+    /**
+     * Set use ssl
+     *
+     * @param  boolean $useSsl
+     * @return Application $this
+     */
+    public function setUseSsl($useSsl)
+    {
+        $this->useSsl = $useSsl;
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * Get aliases
@@ -335,7 +361,7 @@ class Application
     /**
      * Set aliases
      *
-     * @param string $aliases
+     * @param  string $aliases
      * @return Application $this
      */
     public function setAliases($aliases)
@@ -358,7 +384,7 @@ class Application
     /**
      * Set Db
      *
-     * @param Connection $db
+     * @param  Connection $db
      * @return $this
      */
     public function setDb(Connection $db)
@@ -381,7 +407,7 @@ class Application
     /**
      * Set public
      *
-     * @param mixed $public
+     * @param  mixed $public
      * @return Application $this
      */
     public function setPublic($public = true)
@@ -404,7 +430,7 @@ class Application
     /**
      * Set enabled
      *
-     * @param mixed $enabled
+     * @param  mixed $enabled
      * @return Application $this
      */
     public function setEnabled($enabled = true)
@@ -427,7 +453,7 @@ class Application
     /**
      * Set locales
      *
-     * @param ArrayCollection $locales
+     * @param  ArrayCollection $locales
      * @return $this
      */
     public function setLocales(ArrayCollection $locales)
@@ -450,7 +476,7 @@ class Application
     /**
      * Set components
      *
-     * @param ArrayCollection $components
+     * @param  ArrayCollection $components
      * @return $this
      */
     public function setComponents(ArrayCollection $components)
@@ -463,7 +489,7 @@ class Application
     /**
      * Add Component
      *
-     * @param Component $component
+     * @param  Component $component
      * @return $this
      */
     public function addComponent(Component $component)
@@ -476,7 +502,7 @@ class Application
     /**
      * Remove Component
      *
-     * @param Component $component
+     * @param  Component $component
      * @return $this
      */
     public function removeComponent(Component $component)
@@ -499,7 +525,7 @@ class Application
     /**
      * Set owner
      *
-     * @param User $owner
+     * @param  User $owner
      * @return $this
      */
     public function setOwner(User $owner)
@@ -522,7 +548,7 @@ class Application
     /**
      * Set status
      *
-     * @param mixed $status
+     * @param  mixed $status
      * @return Application $this
      */
     public function setStatus($status)
@@ -545,7 +571,7 @@ class Application
     /**
      * Set template
      *
-     * @param string $template
+     * @param  string $template
      * @return Application $this
      */
     public function setTemplate($template)
@@ -568,7 +594,7 @@ class Application
     /**
      * Set appKey
      *
-     * @param null|string $appKey
+     * @param  null|string $appKey
      * @return Application $this
      */
     public function setAppKey($appKey = null)
@@ -576,16 +602,6 @@ class Application
         $this->appKey = is_null($appKey) ? $this->generateUniqueKey() : $appKey;
 
         return $this;
-    }
-
-    /**
-     * Generate unique key for Application
-     *
-     * @return string
-     */
-    private function generateUniqueKey()
-    {
-        return uniqid(sha1(time()), true);
     }
 
     /**
@@ -601,7 +617,7 @@ class Application
     /**
      * Set customers
      *
-     * @param ArrayCollection $customers
+     * @param  ArrayCollection $customers
      * @return Application
      */
     public function setCustomers(ArrayCollection $customers)
@@ -611,6 +627,28 @@ class Application
         return $this;
     }
 
+    /**
+     * Get errors
+     *
+     * @return ArrayCollection
+     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    /**
+     * Set customers
+     *
+     * @param  ArrayCollection $errors
+     * @return Application
+     */
+    public function setErrors(ArrayCollection $errors)
+    {
+        $this->errors = $errors;
+
+        return $this;
+    }
 
     /**
      * Get mails
@@ -625,7 +663,7 @@ class Application
     /**
      * Set mails
      *
-     * @param ArrayCollection $mails
+     * @param  ArrayCollection $mails
      * @return Application
      */
     public function setMails(ArrayCollection $mails)
@@ -634,7 +672,6 @@ class Application
 
         return $this;
     }
-
 
     /**
      * Get applicationLog
@@ -649,7 +686,7 @@ class Application
     /**
      * Set applicationLog
      *
-     * @param ArrayCollection $applicationLog
+     * @param  ArrayCollection $applicationLog
      * @return Application
      */
     public function setApplicationLog(ArrayCollection $applicationLog)
@@ -659,7 +696,6 @@ class Application
         return $this;
     }
 
-
     /**
      * Convert entity to string
      *
@@ -668,5 +704,98 @@ class Application
     public function __toString()
     {
         return $this->name ?: 'Create Application';
+    }
+
+    /**
+     * Get SpotApiUser
+     *
+     * @return string
+     */
+    public function getSpotApiUser()
+    {
+        return $this->spotApiUser;
+    }
+
+    /**
+     * Set spotApiUser
+     *
+     * @param  string $spotApiUser
+     * @return Application
+     */
+    public function setSpotApiUser($spotApiUser)
+    {
+        $this->spotApiUser = $spotApiUser;
+
+        return $this;
+    }
+
+    /**
+     * Get SpotApiPassword
+     *
+     * @return string
+     */
+    public function getSpotApiPassword()
+    {
+        return $this->spotApiPassword;
+    }
+
+    /**
+     * Set spotApiPassword
+     *
+     * @param  string $spotApiPassword
+     * @return Application
+     */
+    public function setSpotApiPassword($spotApiPassword)
+    {
+        $this->spotApiPassword = $spotApiPassword;
+
+        return $this;
+    }
+
+    /**
+     * Get SpotApiUrl
+     *
+     * @return string
+     */
+    public function getSpotApiUrl()
+    {
+        return $this->spotApiUrl;
+    }
+
+    /**
+     * Set spotApiUrl
+     *
+     * @param  string $spotApiUrl
+     * @return Application
+     */
+    public function setSpotApiUrl($spotApiUrl)
+    {
+        $this->spotApiUrl = $spotApiUrl;
+
+        return $this;
+    }
+
+    /**
+     * Return all Spot.Api credential
+     *
+     * @return array
+     */
+    public function getSpotCredential()
+    {
+        return [
+            'url' => $this->getSpotApiUrl(),
+            'userName' => $this->getSpotApiUser(),
+            'password' => $this->getSpotApiPassword(),
+        ];
+    }
+
+    /**
+     * Generate unique key for Application
+     *
+     * @return string
+     */
+    private function generateUniqueKey()
+    {
+        return uniqid(sha1(time()), true);
     }
 }

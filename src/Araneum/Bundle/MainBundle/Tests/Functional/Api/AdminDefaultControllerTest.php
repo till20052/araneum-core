@@ -9,6 +9,7 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class TranslatesApiGetTest
+ *
  * @package Araneum\Bundle\MainBundle\Tests\Functional\Api
  */
 class AdminDefaultControllerTest extends BaseController
@@ -20,6 +21,8 @@ class AdminDefaultControllerTest extends BaseController
 
     /**
      * Test AdminDefaultController
+     *
+     * @runInSeparateProcess
      */
     public function testGetTranslateList()
     {

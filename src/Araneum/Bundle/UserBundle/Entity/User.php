@@ -14,15 +14,14 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity(repositoryClass="Araneum\Bundle\UserBundle\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="araneum_users")
- *
  */
 class User extends BaseUser
 {
     use DateTrait;
 
-    const ROLE_USER = 'ROLE_USER';
+    const ROLE_USER  = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
-    const ROLE_API = 'ROLE_API';
+    const ROLE_API   = 'ROLE_API';
 
     /**
      * @var array
@@ -30,7 +29,15 @@ class User extends BaseUser
     public static $roleNames = [
         self::ROLE_USER,
         self::ROLE_ADMIN,
-        self::ROLE_API
+        self::ROLE_API,
+    ];
+
+    /**
+     * @var array $enable
+     */
+    public static $enable = [
+        true => 'Enabled',
+        false => 'Disabled',
     ];
 
     /**
@@ -41,7 +48,7 @@ class User extends BaseUser
     protected $id;
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Role", cascade={"detach", "persist"}, inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Araneum\Bundle\UserBundle\Entity\Role", cascade={"detach", "persist"}, inversedBy="users")
      * @ORM\JoinTable(name="araneum_user_role")
      */
     protected $roles;
@@ -79,8 +86,10 @@ class User extends BaseUser
     {
         $this->rolesBuffer = [];
 
-        foreach ($this->roles as $role) {
-            $this->rolesBuffer[] = $role->getName();
+        if (is_array($this->roles) || $this->roles instanceof \Traversable) {
+            foreach ($this->roles as $role) {
+                $this->rolesBuffer[] = $role->getName();
+            }
         }
     }
 
@@ -88,7 +97,7 @@ class User extends BaseUser
      * Pre Flush Event
      *
      * @ORM\PreFlush
-     * @param PreFlushEventArgs $preFlushEventArgs
+     * @param        PreFlushEventArgs $preFlushEventArgs
      */
     public function beforeFlush(PreFlushEventArgs $preFlushEventArgs)
     {
@@ -110,8 +119,7 @@ class User extends BaseUser
      */
     public function getRoles()
     {
-        if (
-            isset($this->rolesBuffer)
+        if (isset($this->rolesBuffer)
             && is_array($this->rolesBuffer)
         ) {
             return $this->rolesBuffer;
@@ -129,7 +137,7 @@ class User extends BaseUser
     /**
      * Set user roles
      *
-     * @param array $roles
+     * @param  array $roles
      * @return User
      */
     public function setRoles(array $roles)
@@ -146,7 +154,7 @@ class User extends BaseUser
     /**
      * Add user role
      *
-     * @param string $role
+     * @param  string $role
      * @return $this
      */
     public function addRole($role)
@@ -161,32 +169,9 @@ class User extends BaseUser
     }
 
     /**
-     * Get fullName
-     *
-     * @return string
-     */
-    public function getFullName()
-    {
-        return $this->fullName;
-    }
-
-    /**
-     * Set fullName
-     *
-     * @param string $fullName
-     * @return User
-     */
-    public function setFullName($fullName)
-    {
-        $this->fullName = $fullName;
-
-        return $this;
-    }
-
-    /**
      * Remove user role
      *
-     * @param string $role
+     * @param  string $role
      * @return $this
      */
     public function removeRole($role)
@@ -202,12 +187,36 @@ class User extends BaseUser
     /**
      * Check has user role
      *
-     * @param string $role
+     * @param  string $role
      * @return bool
      */
     public function hasRole($role)
     {
         return in_array(strtoupper($role), $this->getRoles(), true);
+    }
+
+
+    /**
+     * Get fullName
+     *
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->fullName;
+    }
+
+    /**
+     * Set fullName
+     *
+     * @param  string $fullName
+     * @return User
+     */
+    public function setFullName($fullName)
+    {
+        $this->fullName = $fullName;
+
+        return $this;
     }
 
     /**
@@ -223,7 +232,7 @@ class User extends BaseUser
     /**
      * Set settings
      *
-     * @param array $settings
+     * @param  array $settings
      * @return $this
      */
     public function setSettings(array $settings)

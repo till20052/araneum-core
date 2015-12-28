@@ -2,18 +2,15 @@
 
 namespace Araneum\Bundle\MainBundle\Tests\Unit\Service;
 
-use Araneum\Base\Tests\Controller\BaseController;
-use Araneum\Bundle\MainBundle\Entity\Application;
-use Araneum\Bundle\MainBundle\Entity\Cluster;
-use Araneum\Bundle\MainBundle\Entity\Connection;
-use Araneum\Bundle\MainBundle\Service\ApplicationApiHandlerService;
 use Araneum\Bundle\MainBundle\Service\RemoteApplicationManagerService;
-use Doctrine\Common\Collections\ArrayCollection;
-use Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\EntityManager;
 
-class RemoteApplicationManagerTest extends BaseController
+/**
+ * Class RemoteApplicationManagerTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Unit\Service
+ */
+class RemoteApplicationManagerTest extends \PHPUnit_Framework_TestCase
 {
     protected $manager;
 
@@ -40,12 +37,8 @@ class RemoteApplicationManagerTest extends BaseController
      */
     public function setUp()
     {
-        static::$kernel = static::createKernel();
-        static::$kernel->boot();
-        $params = static::$kernel->getContainer()->getParameter('site_api');
-
-        $this->user = $params['user'];
-        $this->password = $params['password'];
+        $this->user = 'apiUser';
+        $this->password = 'apiPassword';
 
         $this->manager = $this
             ->getMockBuilder('Doctrine\ORM\EntityManager')
@@ -96,7 +89,7 @@ class RemoteApplicationManagerTest extends BaseController
                 $this->returnValue(
                     [
                         'user' => $this->user,
-                        'password' => $this->password
+                        'password' => $this->password,
                     ]
                 )
             );
@@ -134,9 +127,9 @@ class RemoteApplicationManagerTest extends BaseController
                     [
                         'auth' => [
                             $this->user,
-                            $this->password
+                            $this->password,
                         ],
-                        'connect_timeout' => 1
+                        'connect_timeout' => 1,
                     ]
                 )
             )
@@ -235,10 +228,10 @@ class RemoteApplicationManagerTest extends BaseController
 
         $params = [
             'auth' => [
-                'api',
-                'QDurWe68'
+                $this->user,
+                $this->password,
             ],
-            'connect_timeout' => 1
+            'connect_timeout' => 1,
         ];
 
         $query = [
@@ -255,7 +248,7 @@ class RemoteApplicationManagerTest extends BaseController
                 'port' => 5432,
                 'user_name' => 'postrgese',
                 'password' => 'password',
-            ]
+            ],
         ];
 
         $this->request->expects($this->any())

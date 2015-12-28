@@ -3,7 +3,6 @@
 namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
-use Araneum\Bundle\AgentBundle\Entity\ConnectionLog;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -17,460 +16,411 @@ use Araneum\Bundle\AgentBundle\Entity\ClusterLog;
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ClusterRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields="name")
- * @package Araneum\Bundle\MainBundle\Entity
+ * @package                                                                              Araneum\Bundle\MainBundle\Entity
  */
 class Cluster
 {
-	use DateTrait;
+    use DateTrait;
 
-	const STATUS_OK = 0;
-	const STATUS_HAS_INCORRECT_APPLICATION = 10;
-	const STATUS_HAS_SLOW_CONNECTION = 20;
-	const STATUS_HAS_UNSTABLE_CONNECTION = 25;
-	const STATUS_OFFLINE = 30;
+    const STATUS_OK                        = 0;
+    const STATUS_HAS_INCORRECT_APPLICATION = 10;
+    const STATUS_HAS_SLOW_CONNECTION       = 20;
+    const STATUS_HAS_UNSTABLE_CONNECTION   = 25;
+    const STATUS_OFFLINE                   = 30;
 
-	private static $statuses = [
-		self::STATUS_OK => 'ok',
-		self::STATUS_HAS_INCORRECT_APPLICATION => 'has_incorrect_application',
-		self::STATUS_HAS_SLOW_CONNECTION => 'has_slow_connection',
-		self::STATUS_HAS_UNSTABLE_CONNECTION => 'has_unstable_connection',
-		self::STATUS_OFFLINE => 'offline'
-	];
+    private static $statuses = [
+        self::STATUS_OK => 'ok',
+        self::STATUS_HAS_INCORRECT_APPLICATION => 'has_incorrect_application',
+        self::STATUS_HAS_SLOW_CONNECTION => 'has_slow_connection',
+        self::STATUS_HAS_UNSTABLE_CONNECTION => 'has_unstable_connection',
+        self::STATUS_OFFLINE => 'offline',
+    ];
 
-	const TYPE_SINGLE = 1;
-	const TYPE_MULTIPLE = 2;
+    const TYPE_SINGLE   = 1;
+    const TYPE_MULTIPLE = 2;
 
-	/**
-	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 * @Assert\Type(type="int")
-	 */
-	protected $id;
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @Assert\Type(type="int")
+     */
+    protected $id;
 
-	/**
-	 * @ORM\Column(type="string", name="name", unique=true, length=255)
-	 * @Assert\NotBlank()
-	 * @Assert\Length(min=2, max=255)
-	 * @Assert\Type(type="string")
-	 */
-	protected $name;
+    /**
+     * @ORM\Column(type="string", name="name", unique=true, length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=2, max=255)
+     * @Assert\Type(type="string")
+     */
+    protected $name;
 
-	/**
-	 * @ORM\ManyToMany(targetEntity="Connection", inversedBy="cluster", cascade={"persist"})
-	 * @ORM\JoinTable(name="araneum_cluster_connection")
-	 */
-	protected $hosts;
+    /**
+     * @ORM\Column(type="smallint", name="type", options={"comment": "1 - single, 2 - multiple"})
+     * @Assert\Type(type="int")
+     */
+    protected $type = self::TYPE_MULTIPLE;
 
-	/**
-	 * @ORM\Column(type="smallint", name="type", options={"comment": "1 - single, 2 - multiple"})
-	 * @Assert\Type(type="int")
-	 */
-	protected $type = self::TYPE_MULTIPLE;
+    /**
+     * @ORM\Column(type="boolean", name="enabled")
+     * @Assert\Type(type="boolean")
+     */
+    protected $enabled;
 
-	/**
-	 * @ORM\Column(type="boolean", name="enabled")
-	 * @Assert\Type(type="boolean")
-	 */
-	protected $enabled;
+    /**
+     * @ORM\Column(type="smallint", name="status")
+     * @Assert\NotBlank()
+     * @Assert\Type(type="int")
+     */
+    protected $status;
 
-	/**
-	 * @ORM\Column(type="smallint", name="status")
-	 * @Assert\NotBlank()
-	 * @Assert\Type(type="int")
-	 */
-	protected $status;
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Application", mappedBy="cluster", cascade={"detach", "persist"})
+     */
+    protected $applications;
 
-	/**
-	 * @var ArrayCollection
-	 * @ORM\OneToMany(targetEntity="Application", mappedBy="cluster", cascade={"detach", "persist"})
-	 */
-	protected $applications;
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ClusterLog", mappedBy="cluster",
+     *     cascade={"remove"})
+     */
+    protected $clusterLogs;
 
-	/**
-	 * @var ArrayCollection
-	 * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ConnectionLog", mappedBy="cluster", cascade={"remove"})
-	 */
-	protected $connectionLogs;
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Runner", mappedBy="cluster", cascade={"detach", "persist"})
+     */
+    protected $runners;
 
-	/**
-	 * @var ArrayCollection
-	 * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ClusterLog", mappedBy="cluster", cascade={"remove"})
-	 */
-	protected $clusterLogs;
+    /**
+     * Get list of Cluster statuses
+     *
+     * @return array
+     */
+    public static function getStatuses()
+    {
+        return self::$statuses;
+    }
 
+    /**
+     * Get Cluster status description
+     *
+     * @param  integer $status
+     * @return string
+     */
+    public static function getStatusDescription($status)
+    {
+        if (!isset(self::$statuses[$status])) {
+            return '[undefined]';
+        }
 
-	/**
-	 * Get list of Cluster statuses
-	 *
-	 * @return array
-	 */
-	public static function getStatuses()
-	{
-		return self::$statuses;
-	}
+        return self::$statuses[$status];
+    }
 
-	/**
-	 * Get Cluster status description
-	 *
-	 * @param $status
-	 * @return string
-	 */
-	public static function getStatusDescription($status)
-	{
-		if (!isset(self::$statuses[$status])) {
-			return '[undefined]';
-		}
+    /**
+     * Cluster constructor.
+     */
+    public function __construct()
+    {
+        $this->setApplications(new ArrayCollection());
+        $this->setClusterLogs(new ArrayCollection());
+        $this->setRunners(new ArrayCollection());
+    }
 
-		return self::$statuses[$status];
-	}
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
-	/**
-	 * Cluster constructor.
-	 */
-	public function __construct()
-	{
-		$this->setHosts(new ArrayCollection());
-		$this->setApplications(new ArrayCollection());
-		$this->setConnectionLogs(new ArrayCollection());
-		$this->setClusterLogs(new ArrayCollection());
-	}
+    /**
+     * Set name
+     *
+     * @param  string $name
+     * @return Cluster
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
+        return $this;
+    }
 
-	/**
-	 * Set name
-	 *
-	 * @param string $name
-	 * @return Cluster
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-		return $this;
-	}
+    /**
+     * Set type
+     *
+     * @param  integer $type
+     * @return Cluster
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
 
-	/**
-	 * Get name
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
+        return $this;
+    }
 
-	/**
-	 * Set type
-	 *
-	 * @param integer $type
-	 * @return Cluster
-	 */
-	public function setType($type)
-	{
-		$this->type = $type;
+    /**
+     * Get type
+     *
+     * @return integer
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 
-		return $this;
-	}
+    /**
+     * Set enabled
+     *
+     * @param  boolean $enabled
+     * @return Cluster
+     */
+    public function setEnabled($enabled = true)
+    {
+        $this->enabled = (bool) $enabled;
 
-	/**
-	 * Get type
-	 *
-	 * @return integer
-	 */
-	public function getType()
-	{
-		return $this->type;
-	}
+        return $this;
+    }
 
-	/**
-	 * Set enabled
-	 *
-	 * @param boolean $enabled
-	 * @return Cluster
-	 */
-	public function setEnabled($enabled = true)
-	{
-		$this->enabled = (bool)$enabled;
+    /**
+     * Get enabled
+     *
+     * @return boolean
+     */
+    public function isEnabled()
+    {
+        return (bool) $this->enabled;
+    }
 
-		return $this;
-	}
+    /**
+     * Set status
+     *
+     * @param  integer $status
+     * @return Cluster
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
 
-	/**
-	 * Get enabled
-	 *
-	 * @return boolean
-	 */
-	public function isEnabled()
-	{
-		return (bool)$this->enabled;
-	}
+        return $this;
+    }
 
-	/**
-	 * Set status
-	 *
-	 * @param integer $status
-	 * @return Cluster
-	 */
-	public function setStatus($status)
-	{
-		$this->status = $status;
+    /**
+     * Get status
+     *
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
 
-		return $this;
-	}
+    /**
+     * Convert entity to string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name ?: 'Create Cluster';
+    }
 
-	/**
-	 * Get status
-	 *
-	 * @return integer
-	 */
-	public function getStatus()
-	{
-		return $this->status;
-	}
+    /**
+     * Set applications
+     *
+     * @param  ArrayCollection $applications
+     * @return Cluster $this
+     */
+    public function setApplications(ArrayCollection $applications)
+    {
+        $this->applications = $applications;
 
-	/**
-	 * Add host
-	 *
-	 * @param ArrayCollection $hosts
-	 * @return Cluster
-	 */
-	public function setHosts(ArrayCollection $hosts)
-	{
-		$this->hosts = $hosts;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Get applications
+     *
+     * @return ArrayCollection
+     */
+    public function getApplications()
+    {
+        return $this->applications;
+    }
 
-	/**
-	 * Get host
-	 *
-	 * @return \Doctrine\Common\Collections\Collection
-	 */
-	public function getHosts()
-	{
-		return $this->hosts;
-	}
+    /**
+     * Add application
+     *
+     * @param  Application $application
+     * @return Cluster $this
+     */
+    public function addApplication(Application $application)
+    {
+        if (!$this->hasApplication($application)) {
+            $this->applications->add($application);
+        }
 
-	/**
-	 * Add single host in collection
-	 *
-	 * @param Connection $host
-	 * @return Cluster
-	 */
-	public function addHost(Connection $host)
-	{
-		$this->getHosts()->add($host);
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Remove application
+     *
+     * @param  Application $application
+     * @return Cluster $this
+     */
+    public function removeApplication(Application $application)
+    {
+        $this->applications->removeElement($application);
 
-	/**
-	 * Remove single host from collection
-	 *
-	 * @param Connection $host
-	 */
-	public function removeHost(Connection $host)
-	{
-		$this->getHosts()->removeElement($host);
-	}
+        return $this;
+    }
 
-	/**
-	 * Convert entity to string
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return $this->name ?: 'Create Cluster';
-	}
+    /**
+     * Check is cluster has application
+     *
+     * @param  Application $application
+     * @return bool
+     */
+    public function hasApplication(Application $application)
+    {
+        return $this->applications->contains($application);
+    }
 
-	/**
-	 * Set applications
-	 *
-	 * @param ArrayCollection $applications
-	 * @return Cluster $this
-	 */
-	public function setApplications(ArrayCollection $applications)
-	{
-		$this->applications = $applications;
+    /**
+     * Set runners
+     *
+     * @param  ArrayCollection $runners
+     * @return Cluster $this
+     */
+    public function setRunners(ArrayCollection $runners)
+    {
+        $this->runners = $runners;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get applications
-	 *
-	 * @return ArrayCollection
-	 */
-	public function getApplications()
-	{
-		return $this->applications;
-	}
+    /**
+     * Get runners
+     *
+     * @return ArrayCollection
+     */
+    public function getRunners()
+    {
+        return $this->runners;
+    }
 
-	/**
-	 * Add application
-	 *
-	 * @param Application $application
-	 * @return Cluster $this
-	 */
-	public function addApplication(Application $application)
-	{
-		if (!$this->hasApplication($application)) {
-			$this->applications->add($application);
-		}
+    /**
+     * Add runners
+     *
+     * @param  Runner $runner
+     * @return Cluster $this
+     */
+    public function addRunner(Runner $runner)
+    {
+        if (!$this->hasRunner($runner)) {
+            $this->runners->add($runner);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Remove application
-	 *
-	 * @param Application $application
-	 * @return Cluster $this
-	 */
-	public function removeApplication(Application $application)
-	{
-		$this->applications->removeElement($application);
+    /**
+     * Remove runner
+     *
+     * @param  Runner $runner
+     * @return Cluster $this
+     */
+    public function removeRunner(Runner $runner)
+    {
+        $this->runners->removeElement($runner);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Check is cluster has application
-	 *
-	 * @param Application $application
-	 * @return bool
-	 */
-	public function hasApplication(Application $application)
-	{
-		return $this->applications->contains($application);
-	}
+    /**
+     * Check is cluster has runner
+     *
+     * @param  Runner $runner
+     * @return bool
+     */
+    public function hasRunner(Runner $runner)
+    {
+        return $this->runners->contains($runner);
+    }
 
-	/**
-	 * Set connectionLog
-	 *
-	 * @param ArrayCollection $connectionLogs
-	 * @return Cluster $this
-	 */
-	public function setConnectionLogs(ArrayCollection $connectionLogs)
-	{
-		$this->connectionLogs = $connectionLogs;
+    /**
+     * Set clusterLog
+     *
+     * @param  ArrayCollection $clusterLogs
+     * @return Cluster $this
+     */
+    public function setClusterLogs(ArrayCollection $clusterLogs)
+    {
+        $this->clusterLogs = $clusterLogs;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Set connectionsLog
-	 *
-	 * @return ArrayCollection
-	 */
-	public function getConnectionLogs()
-	{
-		return $this->connectionLogs;
-	}
+    /**
+     * Set clusterLogs
+     *
+     * @return ArrayCollection
+     */
+    public function getClusterLogs()
+    {
+        return $this->clusterLogs;
+    }
 
-	/**
-	 * Add connectionsLog
-	 *
-	 * @param ConnectionLog $connectionLogs
-	 * @return Cluster $this
-	 */
-	public function addConnectionLogs(ConnectionLog $connectionLogs)
-	{
-			$this->connectionLogs->add($connectionLogs);
-			return $this;
-	}
+    /**
+     * Add clusterLog
+     *
+     * @param  ClusterLog $clusterLogs
+     * @return Cluster $this
+     */
+    public function addClusterLogs(ClusterLog $clusterLogs)
+    {
+        $this->clusterLogs->add($clusterLogs);
 
-	/**
-	 * Remove connectionsLog
-	 *
-	 * @param ConnectionLog $connectionLogs
-	 * @return Cluster $this
-	 */
-	public function removeConnectionLogs(ConnectionLog $connectionLogs)
-	{
-		$this->connectionLogs->removeElement($connectionLogs);
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * Remove clusterLog
+     *
+     * @param  ClusterLog $clusterLogs
+     * @return Cluster $this
+     */
+    public function removeClusterLogs(ClusterLog $clusterLogs)
+    {
+        $this->clusterLogs->removeElement($clusterLogs);
 
-	/**
-	 * Check is cluster has connectionLogs
-	 *
-	 * @param ConnectionLog $connectionLogs
-	 * @return bool
-	 */
-	public function hasConnectionLogs(ConnectionLog $connectionLogs)
-	{
-		return $this->connectionLogs->contains($connectionLogs);
-	}
+        return $this;
+    }
 
-	/**
-	 * Set clusterLog
-	 *
-	 * @param ArrayCollection $clusterLogs
-	 * @return Cluster $this
-	 */
-	public function setClusterLogs(ArrayCollection $clusterLogs)
-	{
-		$this->clusterLogs = $clusterLogs;
-
-		return $this;
-	}
-
-	/**
-	 * Set clusterLogs
-	 *
-	 * @return ArrayCollection
-	 */
-	public function getClusterLogs()
-	{
-		return $this->clusterLogs;
-	}
-
-	/**
-	 * Add clusterLog
-	 *
-	 * @param ClusterLog $clusterLogs
-	 * @return Cluster $this
-	 */
-	public function addClusterLogs(ClusterLog $clusterLogs)
-	{
-		$this->clusterLogs->add($clusterLogs);
-		return $this;
-	}
-
-	/**
-	 * Remove clusterLog
-	 *
-	 * @param ClusterLog $clusterLogs
-	 * @return Cluster $this
-	 */
-	public function removeClusterLogs(ClusterLog $clusterLogs)
-	{
-		$this->clusterLogs->removeElement($clusterLogs);
-
-		return $this;
-	}
-
-	/**
-	 * Check is cluster has connectionLogs
-	 *
-	 * @param ClusterLog $clusterLogs
-	 * @return bool
-	 */
-	public function hasClusterLogs(ClusterLog $clusterLogs)
-	{
-		return $this->clusterLogs->contains($clusterLogs);
-	}
+    /**
+     * Check is cluster has connectionLogs
+     *
+     * @param  ClusterLog $clusterLogs
+     * @return bool
+     */
+    public function hasClusterLogs(ClusterLog $clusterLogs)
+    {
+        return $this->clusterLogs->contains($clusterLogs);
+    }
 }

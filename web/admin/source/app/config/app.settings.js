@@ -13,6 +13,7 @@
      * @param $rootScope
      */
     function settingsRun($rootScope) {
+
         $rootScope.app = {
             name: 'Manage :: Araneum',
             description: 'Multisite manage tool',

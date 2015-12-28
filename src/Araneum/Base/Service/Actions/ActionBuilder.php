@@ -4,6 +4,11 @@ namespace Araneum\Base\Service\Actions;
 
 use Symfony\Component\Routing\Router;
 
+/**
+ * Class ActionBuilder
+ *
+ * @package Araneum\Base\Service\Actions
+ */
 class ActionBuilder implements ActionBuilderInterface
 {
     private $list = [];
@@ -14,7 +19,7 @@ class ActionBuilder implements ActionBuilderInterface
      *
      * @param Router $router
      */
-    function __construct(Router $router)
+    public function __construct(Router $router)
     {
         $this->router = $router;
     }
@@ -28,8 +33,7 @@ class ActionBuilder implements ActionBuilderInterface
             throw new \InvalidArgumentException('Position must be specified');
         } elseif (!in_array($actionDescription['position'], self::POSITIONS)) {
             throw new \InvalidArgumentException(
-                'Invalid position "' . $actionDescription['position'] . '" must be one of ' .
-                implode(', ', self::POSITIONS)
+                'Invalid position "'.$actionDescription['position'].'" must be one of '.implode(', ', self::POSITIONS)
             );
         }
         $actionPosition = $actionDescription['position'];
@@ -57,7 +61,7 @@ class ActionBuilder implements ActionBuilderInterface
      * Get prepared action item
      * generate url for resource
      *
-     * @param array $actionDescription
+     * @param  array $actionDescription
      * @return array
      */
     private function getPreparedItem(array $actionDescription)

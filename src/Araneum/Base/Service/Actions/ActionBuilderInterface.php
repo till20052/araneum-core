@@ -2,6 +2,11 @@
 
 namespace Araneum\Base\Service\Actions;
 
+/**
+ * Interface ActionBuilderInterface
+ *
+ * @package Araneum\Base\Service\Actions
+ */
 interface ActionBuilderInterface
 {
     const POSITION_TOP = 'top';
@@ -10,14 +15,14 @@ interface ActionBuilderInterface
     const POSITIONS    = [
         self::POSITION_TOP,
         self::POSITION_ROW,
-        self::POSITION_ALL
+        self::POSITION_ALL,
     ];
 
     /**
      * Add new field to datatable
      *
-     * @param string $groupGroupName
-     * @param array  $actionDescription
+     * @param  string $groupGroupName
+     * @param  array  $actionDescription
      * @return $this
      */
     public function add($groupGroupName, array $actionDescription = []);

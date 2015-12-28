@@ -11,18 +11,24 @@ namespace Araneum\Bundle\MainBundle\Tests\Functional;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
+/**
+ * Class MenuGeneratorTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Functional
+ */
 class MenuGeneratorTest extends WebTestCase
 {
 
     /**
      *  Test left menu
+     * @runInSeparateProcess
      */
     public function testLeftMenu()
     {
 
         $client = static::createClient();
 
-        $crawler = $client->request(
+        $client->request(
             'GET',
             '/manage/menu.json'
         );

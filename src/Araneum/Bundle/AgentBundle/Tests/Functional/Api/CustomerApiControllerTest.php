@@ -7,12 +7,17 @@ use Araneum\Base\Tests\Fixtures\Customer\CustomerFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class CustomerApiControllerTest
+ *
+ * @package Araneum\Bundle\AgentBundle\Test\Functional\Api
+ */
 class CustomerApiControllerTest extends BaseController
 {
     /**
      * @var string uri to call rest api method
      */
-    protected $customerInsert = '/agent/api/customers/insert/' . ApplicationFixtures::TEST_APP_APP_KEY;
+    protected $customerInsert = '/agent/api/customers/insert/';
 
     /**
      * Settings up
@@ -27,9 +32,9 @@ class CustomerApiControllerTest extends BaseController
         $repository = $manager
             ->getRepository('AraneumAgentBundle:Customer');
 
-        $delete = $repository->findOneBy(['email'=>'email@email.com']);
+        $delete = $repository->findOneBy(['email' => 'email@email.com']);
 
-        if($delete){
+        if ($delete) {
             $manager->remove($delete);
             $manager->flush();
         }
@@ -38,21 +43,22 @@ class CustomerApiControllerTest extends BaseController
     /**
      * Test customer controller
      *
-     * @dataProvider apiDataProvider
+     * @dataProvider                apiDataProvider
      * @runTestsInSeparateProcesses
-     * @param array $post
-     * @param int   $expected
+     * @param                       array $post
+     * @param                       int   $expected
      */
     public function testPostCustomer(array $post, $expected)
     {
         $client = self::createAdminAuthorizedClient('api');
         $client->request(
             'POST',
-            $this->customerInsert,
+            $this->customerInsert.ApplicationFixtures::TEST_APP_APP_KEY,
             $post
         );
 
         $response = $client->getResponse();
+
         $this->assertEquals(
             $expected,
             $response->getStatusCode(),
@@ -72,35 +78,40 @@ class CustomerApiControllerTest extends BaseController
                 [
                     'firstName' => 'ашкыТфьу',
                     'lastName' => 'lastName',
-                    'country' => 'country',
-                    'email' => 'testEmail' . sha1(rand()) . '@email.com',
+                    'country' => 1,
+                    'email' => 'testEmail'.sha1(rand()).'@email.com',
                     'currency' => 'usd',
-                    'phone' => '380993222234'
+                    'phone' => '380993222234',
+                    'birthday' => '2020-11-11',
+                    'password' => '1234567',
                 ],
-                Response::HTTP_CREATED
-            ],
-            'normal fullName&lastName cirilica letters' => [
-                [
-                    'firstName' => "Дим'аЁ",
-                    'lastName' => "Дим'аЁ",
-                    'country' => 'country',
-                    'email' => 'testEmail' . sha1(rand()) . '@email.com',
-                    'currency' => 'usd',
-                    'phone' => '380993222234'
-                ],
-                Response::HTTP_CREATED
+                Response::HTTP_CREATED,
             ],
             'testFailCreate' => [
                 [
                     'firstName' => CustomerFixtures::TEST_FIRST_NAME,
                     'lastName' => CustomerFixtures::TEST_LAST_NAME,
-                    'country' => CustomerFixtures::TEST_COUNTRY,
+                    'country' => 12,
                     'email' => CustomerFixtures::TEST_EMAIL,
                     'currency' => CustomerFixtures::TEST_CURRENCY,
-                    'phone' => CustomerFixtures::TEST_PHONE
+                    'phone' => CustomerFixtures::TEST_PHONE,
+                    'birthday' => CustomerFixtures::TEST_BIRTHDAY,
                 ],
-                Response::HTTP_BAD_REQUEST
-            ]
+                Response::HTTP_BAD_REQUEST,
+            ],
+            'normal fullName&lastName cirilica letters' => [
+                [
+                    'firstName' => "Дим'аЁ",
+                    'lastName' => "Дим'аЁ",
+                    'country' => 2,
+                    'email' => 'testEmail'.sha1(rand()).'@email.com',
+                    'currency' => 'usd',
+                    'phone' => '380993222234',
+                    'birthday' => '2222-12-12',
+                    'password' => '1234567',
+                ],
+                Response::HTTP_CREATED,
+            ],
         ];
     }
 }

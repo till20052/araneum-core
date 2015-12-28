@@ -6,12 +6,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
+/**
+ * Class UserRolesTransformer
+ *
+ * @package Araneum\Bundle\UserBundle\Form\DataTransformer
+ */
 class UserRolesTransformer implements DataTransformerInterface
 {
     /**
      * Transform roles
      *
-     * @param mixed $value
+     * @param  mixed $value
      * @return void|ArrayCollection
      */
     public function transform($value)
@@ -26,7 +31,7 @@ class UserRolesTransformer implements DataTransformerInterface
     /**
      * Reverse transform roles
      *
-     * @param mixed $roles
+     * @param  mixed $roles
      * @return array
      */
     public function reverseTransform($roles)

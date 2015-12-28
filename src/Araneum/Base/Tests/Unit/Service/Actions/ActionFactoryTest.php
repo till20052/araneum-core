@@ -5,25 +5,30 @@ namespace Araneum\Base\Tests\Unit\Service\Actions;
 use Araneum\Base\Service\Actions\ActionBuilder;
 use Araneum\Base\Service\Actions\ActionBuilderInterface;
 
+/**
+ * Class ActionBuilderTest
+ *
+ * @package Araneum\Base\Tests\Unit\Service\Actions
+ */
 class ActionBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    protected $expectedAddOneAction = [
+    protected $expectedAddOneAction                                = [
         "row" => [
             "deleteGroup" => [
                 [
                     "resource" => "generatedUrl",
-                ]
-            ]
+                ],
+            ],
         ],
         "top" => [
             "deleteGroup" => [
                 [
                     "resource" => "generatedUrl",
-                ]
-            ]
-        ]
+                ],
+            ],
+        ],
     ];
-    protected $expectedAddTwoActionSameGroup = [
+    protected $expectedAddTwoActionSameGroup                       = [
         "row" => [
             "deleteGroup" => [
                 [
@@ -32,7 +37,7 @@ class ActionBuilderTest extends \PHPUnit_Framework_TestCase
                 [
                     "resource" => "generatedUrl",
                 ],
-            ]
+            ],
         ],
         "top" => [
             "deleteGroup" => [
@@ -42,8 +47,8 @@ class ActionBuilderTest extends \PHPUnit_Framework_TestCase
                 [
                     "resource" => "generatedUrl",
                 ],
-            ]
-        ]
+            ],
+        ],
     ];
     protected $expectedAddTwoActionDifferentGroupDifferentPosition = [
         "row" => [
@@ -51,23 +56,25 @@ class ActionBuilderTest extends \PHPUnit_Framework_TestCase
                 [
                     "resource" => "generatedUrl",
                 ],
-            ]
+            ],
         ],
         "top" => [
             "deleteGroup" => [
                 [
                     "resource" => "generatedUrl",
-                ]
+                ],
             ],
             "addGroup" => [
                 [
                     "resource" => "generatedUrl",
-                ]
+                ],
             ],
-        ]
+        ],
     ];
 
-    /** @var  ActionBuilder */
+    /**
+     * @var  ActionBuilder
+     */
     private $actionBuilder;
 
     /**
@@ -100,12 +107,12 @@ class ActionBuilderTest extends \PHPUnit_Framework_TestCase
                         'group' => 'deleteGroup',
                         'options' => [
                             'resource' => 'deleteLocaleActionRoute',
-                            'position' => ActionBuilderInterface::POSITION_ALL
+                            'position' => ActionBuilderInterface::POSITION_ALL,
 
                         ],
                     ],
                 ],
-                $this->expectedAddOneAction
+                $this->expectedAddOneAction,
             ],
             'two action same group normal return' => [
                 [
@@ -113,7 +120,7 @@ class ActionBuilderTest extends \PHPUnit_Framework_TestCase
                         'group' => 'deleteGroup',
                         'options' => [
                             'resource' => 'deleteLocaleActionRoute',
-                            'position' => ActionBuilderInterface::POSITION_ALL
+                            'position' => ActionBuilderInterface::POSITION_ALL,
 
                         ],
                     ],
@@ -121,12 +128,12 @@ class ActionBuilderTest extends \PHPUnit_Framework_TestCase
                         'group' => 'deleteGroup',
                         'options' => [
                             'resource' => 'deleteLocaleActionRoute',
-                            'position' => ActionBuilderInterface::POSITION_ALL
+                            'position' => ActionBuilderInterface::POSITION_ALL,
 
                         ],
                     ],
                 ],
-                $this->expectedAddTwoActionSameGroup
+                $this->expectedAddTwoActionSameGroup,
             ],
             'two action different group different position normal return' => [
                 [
@@ -134,7 +141,7 @@ class ActionBuilderTest extends \PHPUnit_Framework_TestCase
                         'group' => 'deleteGroup',
                         'options' => [
                             'resource' => 'deleteLocaleActionRoute',
-                            'position' => ActionBuilderInterface::POSITION_ALL
+                            'position' => ActionBuilderInterface::POSITION_ALL,
 
                         ],
                     ],
@@ -142,13 +149,13 @@ class ActionBuilderTest extends \PHPUnit_Framework_TestCase
                         'group' => 'addGroup',
                         'options' => [
                             'resource' => 'deleteLocaleActionRoute',
-                            'position' => ActionBuilderInterface::POSITION_TOP
+                            'position' => ActionBuilderInterface::POSITION_TOP,
 
                         ],
                     ],
                 ],
-                $this->expectedAddTwoActionDifferentGroupDifferentPosition
-            ]
+                $this->expectedAddTwoActionDifferentGroupDifferentPosition,
+            ],
         ];
     }
 
@@ -157,8 +164,8 @@ class ActionBuilderTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider addDataSource
      *
-     * @param $actions
-     * @param $expected
+     * @param array $actions
+     * @param array $expected
      */
     public function testAdd($actions, $expected)
     {
@@ -174,7 +181,7 @@ class ActionBuilderTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \InvalidArgumentException
      */
-    public function testAdd_NoPosition_Exception()
+    public function testAddNoPositionException()
     {
         $this->actionBuilder->add(
             'deleteGroup',
@@ -189,13 +196,13 @@ class ActionBuilderTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \InvalidArgumentException
      */
-    public function testAdd_NotValidPosition_Exception()
+    public function testAddNotValidPositionException()
     {
         $this->actionBuilder->add(
             'deleteGroup',
             [
                 'resource' => 'deleteLocaleActionRoute',
-                'position' => 'wrongPosition'
+                'position' => 'wrongPosition',
             ]
         );
     }

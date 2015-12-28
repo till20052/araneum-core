@@ -6,6 +6,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class MailType
+ *
+ * @package Araneum\Bundle\MailBundle\Form\Api
+ */
 class MailType extends AbstractType
 {
     /**
@@ -22,7 +27,7 @@ class MailType extends AbstractType
                 null,
                 [
                     'mapped' => 'textBody',
-                    'required' => true
+                    'required' => true,
                 ]
             )
             ->add(
@@ -30,7 +35,7 @@ class MailType extends AbstractType
                 null,
                 [
                     'mapped' => 'htmlBody',
-                    'required' => true
+                    'required' => true,
                 ]
             )
             ->add('attachment');
@@ -42,13 +47,5 @@ class MailType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['data_class' => 'Araneum\Bundle\MailBundle\Entity\Mail']);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'araneum_mail_form_mail_api';
     }
 }

@@ -9,6 +9,11 @@ use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
+/**
+ * Class ApplicationData
+ *
+ * @package Araneum\Bundle\MainBundle\DataFixtures\ORM
+ */
 class ApplicationData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
     /**
@@ -33,6 +38,9 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
             $app->setLocales(new ArrayCollection([$this->getReference('locale')]));
             $app->setOwner($this->getReference('userAdmin'));
             $app->setComponents(new ArrayCollection([$this->getReference('component')]));
+            $app->setSpotApiUrl('http://api-spotplatform.ultratrade.com/Api');
+            $app->setSpotApiUser('araneum');
+            $app->setSpotApiPassword('wU7tc2YKg2');
             $manager->persist($app);
             $manager->flush();
         }

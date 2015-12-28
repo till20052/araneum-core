@@ -5,6 +5,11 @@ namespace Araneum\Bundle\MainBundle\Tests\Unit\Service;
 use Araneum\Bundle\MainBundle\Service\StatisticsService;
 use Doctrine\ORM\EntityManager;
 
+/**
+ * Class StatisticsServiceTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Unit\Service
+ */
 class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -21,65 +26,6 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     private $applicationsDaylyStatistics;
-
-
-    /**
-     * Mock instance of EntityManager
-     *
-     * @return EntityManager
-     */
-    private function entityManager()
-    {
-        $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $applicationRepository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ApplicationRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $applicationRepository->expects($this->any())
-            ->method('getApplicationsStatistics')
-            ->will($this->returnValue($this->applicationsStatistics));
-
-        $applicationRepository->expects($this->any())
-            ->method('getApplicationStatusesDayly')
-            ->will($this->returnValue($this->applicationsDaylyStatistics));
-
-        $entityManager->expects($this->any())
-            ->method('getRepository')
-            ->with($this->equalTo('AraneumMainBundle:Application'))
-            ->will($this->returnValue($applicationRepository));
-
-        return $entityManager;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function setUp()
-    {
-        $this->applicationsStatistics = (object)
-        [
-            'online' => rand(),
-            'hasProblems' => rand(),
-            'hasErrors' => rand(),
-            'disabled' => rand()
-        ];
-
-        $this->applicationsDaylyStatistics =
-            [
-                [
-                    'name' => 'Name',
-                    'errors' => 100,
-                    'problems' => 0,
-                    'success' => 0,
-                    'disabled' => 0
-                ]
-            ];
-
-        $this->service = new StatisticsService($this->entityManager());
-    }
 
     /**
      * Test getting statistics of each application
@@ -105,17 +51,23 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test get Applications
+     *
      * @dataProvider dataFields
-     * @param array $expected
-     * @param string $field
+     * @param        array  $expected
+     * @param        string $field
      */
     public function testGetFields(array $expected, $field)
     {
-        $this->assertEquals($expected, $this->service->getResultByColumnName($this->applicationsDaylyStatistics, $field));
+        $this->assertEquals(
+            $expected,
+            $this->service->getResultByColumnName($this->applicationsDaylyStatistics, $field)
+        );
     }
 
     /**
-     * Data provicer
+     * Data provider
+     *
+     * @return array
      */
     public function dataFields()
     {
@@ -123,28 +75,28 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
             'Test appName' =>
                 [
                     ['Name'],
-                    'name'
+                    'name',
                 ],
             'Test errors' =>
                 [
                     [100],
-                    'errors'
+                    'errors',
                 ],
             'Test success' =>
                 [
                     [0],
-                    'success'
+                    'success',
                 ],
             'Test problems' =>
                 [
                     [0],
-                    'problems'
+                    'problems',
                 ],
             'Test disabled' =>
                 [
                     [0],
-                    'disabled'
-                ]
+                    'disabled',
+                ],
         ];
     }
 
@@ -158,7 +110,7 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
             'errors' => '',
             'problems' => '',
             'success' => '',
-            'disabled' => ''
+            'disabled' => '',
         ];
 
         $statuses = $this->service->getApplicationsStatusesDayly();
@@ -177,10 +129,12 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
             'errors' => '',
             'problems' => '',
             'success' => '',
-            'disabled' => ''
+            'disabled' => '',
         ];
 
-        $applicationLogRepository = $this->getMockBuilder('\Araneum\Bundle\AgentBundle\Repository\ApplicationLogRepository')
+        $applicationLogRepository = $this->getMockBuilder(
+            '\Araneum\Bundle\AgentBundle\Repository\ApplicationLogRepository'
+        )
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -210,11 +164,13 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
     public function testPrepareResultForClusterAverage()
     {
 
-        $array = [[
-            'name' => 'name',
-            'hours' => '10',
-            'apt' => '1'
-        ]];
+        $array = [
+            [
+                'name' => 'name',
+                'hours' => '10',
+                'apt' => '1',
+            ],
+        ];
 
         $clusterRepository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ClusterRepository')
             ->disableOriginalConstructor()
@@ -246,21 +202,21 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
     public function testPrepareResultForClusterUpTime()
     {
 
-        $array =[
+        $array = [
             [
                 'label' => '',
                 'color' => '',
-                'data' => []
+                'data' => [],
             ],
             [
                 'label' => '',
                 'color' => '',
-                'data' => []
+                'data' => [],
             ],
             [
                 'label' => '',
                 'color' => '',
-                'data' => []
+                'data' => [],
             ],
         ];
 
@@ -269,8 +225,8 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
                 'name' => '',
                 'success' => '',
                 'problem' => '',
-                'offline' => ''
-            ]
+                'offline' => '',
+            ],
         ];
 
         $clusterRepository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ClusterRepository')
@@ -295,5 +251,62 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
         $clusterUpTime = $service->prepareResultForClusterUpTime();
 
         $this->assertEquals(array_keys($array), array_keys($clusterUpTime));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function setUp()
+    {
+        $this->applicationsStatistics = (object) [
+            'online' => rand(),
+            'hasProblems' => rand(),
+            'hasErrors' => rand(),
+            'disabled' => rand(),
+        ];
+
+        $this->applicationsDaylyStatistics =
+            [
+                [
+                    'name' => 'Name',
+                    'errors' => 100,
+                    'problems' => 0,
+                    'success' => 0,
+                    'disabled' => 0,
+                ],
+            ];
+
+        $this->service = new StatisticsService($this->entityManager());
+    }
+
+    /**
+     * Mock instance of EntityManager
+     *
+     * @return EntityManager
+     */
+    private function entityManager()
+    {
+        $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $applicationRepository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ApplicationRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $applicationRepository->expects($this->any())
+            ->method('getApplicationsStatistics')
+            ->will($this->returnValue($this->applicationsStatistics));
+
+        $applicationRepository->expects($this->any())
+            ->method('getApplicationStatusesDayly')
+            ->will($this->returnValue($this->applicationsDaylyStatistics));
+
+        $entityManager->expects($this->any())
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumMainBundle:Application'))
+            ->will($this->returnValue($applicationRepository));
+
+        return $entityManager;
     }
 }

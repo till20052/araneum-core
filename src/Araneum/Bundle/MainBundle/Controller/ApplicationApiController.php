@@ -9,6 +9,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class ApplicationApiController
+ *
+ * @package Araneum\Bundle\MainBundle\Controller
+ */
 class ApplicationApiController extends FOSRestController
 {
     /**
@@ -45,7 +50,7 @@ class ApplicationApiController extends FOSRestController
      *
      * @Rest\View()
      *
-     * @param string $appKey The application appKey
+     * @param  string $appKey The application appKey
      * @return array
      */
     public function getConfigAction($appKey)

@@ -11,6 +11,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class MailApiController
+ *
+ * @package Araneum\Bundle\MailBundle\Controller
+ */
 class MailApiController extends FOSRestController
 {
     /**
@@ -35,10 +40,11 @@ class MailApiController extends FOSRestController
      *      {"name"="appKey", "dataType"="string", "required"=true, "description"="Application key"}
      *   }
      * )
-     * @Rest\Post("api/mail", name="araneum_mail_api_mail_post", defaults={"_format"="json"})
+     * @Rest\Post("api/mail",     name="araneum_mail_api_mail_post", defaults={"_format"="json"})
      * @Rest\View(statusCode=201)
      *
-     * @return array
+     * @param  Request $request
+     * @return array|View
      */
     public function postMailAction(Request $request)
     {

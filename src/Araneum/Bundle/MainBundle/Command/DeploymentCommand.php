@@ -5,19 +5,24 @@ namespace Araneum\Bundle\MainBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class DeploymentCommand
+ *
+ * @package Araneum\Bundle\MainBundle\Command
+ */
 class DeploymentCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
             ->setName('deployment:run')
-            ->setDescription('Deploy active project. Run all deployment command in one time.')
-        ;
+            ->setDescription('Deploy active project. Run all deployment command in one time.');
     }
 
     /**
@@ -33,21 +38,30 @@ class DeploymentCommand extends ContainerAwareCommand
         $commands = [
             'cache:accelerator:clear' => [],
             'cache:clear' => [
-                '--no-debug' => true
+                '--no-debug' => true,
+                '--no-warmup' => true,
             ],
             'doctrine:schema:update' => [
-                '--force' => true
+                '--force' => true,
             ],
             'doctrine:fixtures:load' => [
-                '--append' => true
-             ],
+                '--append' => true,
+            ],
         ];
 
-        foreach($commands as $command => $arguments) {
-            $output->writeln('<comment>Run command: '.$command.'</comment>');
+        foreach ($commands as $commandName => $options) {
+            $output->writeln('<comment>Run command: '.$commandName.'</comment>');
 
-            $this->getApplication()->find($command)->run(
-                new ArrayInput(array_merge($arguments, ['command' => $command])),
+            $commandOptions = [];
+            $command = $this->getApplication()->find($commandName);
+            foreach ($input->getOptions() as $inputOptionName => $inputOptionValue) {
+                if ($command->getDefinition()->hasOption($inputOptionName)) {
+                    $commandOptions['--'.$inputOptionName] = $inputOptionValue;
+                }
+            }
+
+            $command->run(
+                new ArrayInput(array_merge($commandOptions, $options)),
                 $output
             );
         }

@@ -4,6 +4,11 @@ namespace Araneum\Bundle\MainBundle\Service;
 
 use Symfony\Component\Yaml\Parser;
 
+/**
+ * Class MenuGeneratorService
+ *
+ * @package Araneum\Bundle\MainBundle\Service
+ */
 class MenuGeneratorService
 {
 
@@ -17,16 +22,15 @@ class MenuGeneratorService
     public function leftMenuGenerate()
     {
         $yaml = new Parser();
-        $array = $yaml->parse(file_get_contents(__DIR__ . '/../Resources/menu/left.yml'));
+        $array = $yaml->parse(file_get_contents(__DIR__.'/../Resources/menu/left.yml'));
 
         return $this->generateOneDimentional($array);
     }
 
-
     /**
      * Generate one dimentional array
      *
-     * @param $array
+     * @param  array $array
      * @return array
      */
     public function generateOneDimentional($array)
@@ -68,5 +72,4 @@ class MenuGeneratorService
 
         return $this->output;
     }
-
 }

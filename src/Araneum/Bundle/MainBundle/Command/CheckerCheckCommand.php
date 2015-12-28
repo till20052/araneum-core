@@ -12,177 +12,194 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class CheckerCheckCommand
+ *
+ * @package Araneum\Bundle\MainBundle\Command
+ */
 class CheckerCheckCommand extends ContainerAwareCommand
 {
-	/**
-	 * @var OutputInterface
-	 */
-	private $output;
+    /**
+     * @var OutputInterface
+     */
+    private $output;
 
-	/**
-	 * @var FormatterHelper
-	 */
-	private $formatter;
+    /**
+     * @var FormatterHelper
+     */
+    private $formatter;
 
-	/**
-	 * @var ApplicationCheckerService
-	 */
-	private $checker;
+    /**
+     * @var ApplicationCheckerService
+     */
+    private $checker;
 
-	/**
-	 * Get Formatted Notification Block
-	 *
-	 * @param $messages
-	 * @param $style
-	 * @param bool|false $large
-	 * @return string
-	 */
-	private function getFormatBlock($messages, $style, $large = false)
-	{
-		if (!$this->formatter instanceof FormatterHelper) {
-			$this->formatter = $this->getHelper('formatter');
-		}
+    /**
+     * Configure Command
+     */
+    protected function configure()
+    {
+        $this
+            ->setName('checker:check')
+            ->setDescription('Check cluster or application state status.')
+            ->addArgument(
+                'target',
+                InputArgument::REQUIRED,
+                'Need to set target. The target may be: connection, application'
+            )
+            ->addArgument(
+                'id',
+                InputArgument::OPTIONAL,
+                'Target ID. Need this option to find target entity'
+            );
+    }
 
-		return $this->formatter->formatBlock($messages, $style, $large);
-	}
+    /**
+     * Execute command
+     *
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return void
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $this->output = $output;
 
-	/**
-	 * Show Error Message
-	 *
-	 * @param $message
-	 */
-	private function showError($message)
-	{
-		$this->output->writeln("\n" . $this->getFormatBlock($message, 'error', true));
-	}
+        $targets = [
+            'connection',
+            'cluster',
+            'application',
+        ];
 
-	/**
-	 * Show Info Message
-	 *
-	 * @param $message
-	 */
-	private function showInfo($message)
-	{
-		$this->output->writeln($this->getFormatBlock($message, 'info'));
-	}
+        $target = strtolower($input->getArgument('target'));
+        $targetId = intval($input->getArgument('id'));
 
-	/**
-	 * Check Connection status state
-	 *
-	 * @param $id
-	 */
-	private function checkConnection($id)
-	{
-		$status = $this->checker->checkConnection($id);
+        if (!in_array($target, $targets)) {
+            $this->showError(
+                sprintf(
+                    'This target "%s" is not isset in list of arguments: %s',
+                    $target,
+                    implode(', ', $targets)
+                )
+            );
 
-		$this->showInfo(sprintf(
-			"Connection\n ID: %d\n Status: %s",
-			$id,
-			Connection::getStatusDescription($status)
-		));
-	}
+            return;
+        }
 
-	/**
-	 * Check Cluster status state
-	 *
-	 * @param $id
-	 */
-	private function checkCluster($id)
-	{
-		$status = $this->checker->checkCluster($id);
+        if (!($targetId > 0)) {
+            $this->showError(
+                sprintf(
+                    'ID has not valid value or %s Entity does not exists by this ID',
+                    ucfirst($target)
+                )
+            );
 
-		$this->showInfo(sprintf(
-			"Cluster\n ID: %d\n Status: %s",
-			$id,
-			Cluster::getStatusDescription($status)
-		));
-	}
+            return;
+        }
 
-	/**
-	 * Check Application status state
-	 *
-	 * @param $id
-	 */
-	private function checkApplication($id)
-	{
-		$status = $this->checker->checkApplication($id);
+        /**
+         * @var ApplicationCheckerService $checker
+         */
+        $this->checker = $this->getContainer()->get('araneum.main.application.checker');
 
-		$this->showInfo(sprintf(
-			"Application\n ID: %d\n Status: %s",
-			$id,
-			Application::getStatusDescription($status)
-		));
-	}
+        if ($target == 'connection') {
+            $this->checkConnection($targetId);
+        } elseif ($target == 'cluster') {
+            $this->checkCluster($targetId);
+        } elseif ($target == 'application') {
+            $this->checkApplication($targetId);
+        }
+    }
 
-	/**
-	 * Configure Command
-	 */
-	protected function configure()
-	{
-		$this
-			->setName('checker:check')
-			->setDescription('Check cluster or application state status.')
-			->addArgument(
-				'target',
-				InputArgument::REQUIRED,
-				'Need to set target. The target may be: connection, application'
-			)
-			->addArgument(
-				'id',
-				InputArgument::OPTIONAL,
-				'Target ID. Need this option to find target entity'
-			);
-	}
+    /**
+     * Get Formatted Notification Block
+     *
+     * @param             $messages
+     * @param             $style
+     * @param  bool|false $large
+     * @return string
+     */
+    private function getFormatBlock($messages, $style, $large = false)
+    {
+        if (!$this->formatter instanceof FormatterHelper) {
+            $this->formatter = $this->getHelper('formatter');
+        }
 
-	/**
-	 * Execute command
-	 *
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
-	 *
-	 * @return void
-	 */
-	protected function execute(InputInterface $input, OutputInterface $output)
-	{
-		$this->output = $output;
+        return $this->formatter->formatBlock($messages, $style, $large);
+    }
 
-		$targets = [
-			'connection',
-			'cluster',
-			'application'
-		];
+    /**
+     * Show Error Message
+     *
+     * @param $message
+     */
+    private function showError($message)
+    {
+        $this->output->writeln("\n".$this->getFormatBlock($message, 'error', true));
+    }
 
-		$target = strtolower($input->getArgument('target'));
-		$targetId = intval($input->getArgument('id'));
+    /**
+     * Show Info Message
+     *
+     * @param $message
+     */
+    private function showInfo($message)
+    {
+        $this->output->writeln($this->getFormatBlock($message, 'info'));
+    }
 
-		if (!in_array($target, $targets)) {
-			$this->showError(sprintf(
-				'This target "%s" is not isset in list of arguments: %s',
-				$target,
-				implode(', ', $targets)
-			));
+    /**
+     * Check Connection status state
+     *
+     * @param $id
+     */
+    private function checkConnection($id)
+    {
+        $status = $this->checker->checkConnection($id);
 
-			return;
-		}
+        $this->showInfo(
+            sprintf(
+                "Connection\n ID: %d\n Status: %s",
+                $id,
+                Connection::getStatusDescription($status)
+            )
+        );
+    }
 
-		if (!($targetId > 0)) {
-			$this->showError(sprintf(
-				'ID has not valid value or %s Entity does not exists by this ID',
-				ucfirst($target)
-			));
+    /**
+     * Check Cluster status state
+     *
+     * @param $id
+     */
+    private function checkCluster($id)
+    {
+        $status = $this->checker->checkCluster($id);
 
-			return;
-		}
+        $this->showInfo(
+            sprintf(
+                "Cluster\n ID: %d\n Status: %s",
+                $id,
+                Cluster::getStatusDescription($status)
+            )
+        );
+    }
 
-		/** @var ApplicationCheckerService $checker */
-		$this->checker = $this->getContainer()->get('araneum.main.application.checker');
+    /**
+     * Check Application status state
+     *
+     * @param $id
+     */
+    private function checkApplication($id)
+    {
+        $status = $this->checker->checkApplication($id);
 
-		if ($target == 'connection') {
-			$this->checkConnection($targetId);
-		} elseif ($target == 'cluster') {
-			$this->checkCluster($targetId);
-		} elseif ($target == 'application') {
-			$this->checkApplication($targetId);
-		}
-	}
+        $this->showInfo(
+            sprintf(
+                "Application\n ID: %d\n Status: %s",
+                $id,
+                Application::getStatusDescription($status)
+            )
+        );
+    }
 }

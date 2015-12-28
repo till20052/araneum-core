@@ -2,34 +2,39 @@
 
 namespace Araneum\Base\Ali\Helper;
 
+/**
+ * Class TimeCounterHelper
+ *
+ * @package Araneum\Base\Ali\Helper
+ */
 class TimeCounterHelper
 {
-    const TIME_IN_HOUR = 3600;
+    const TIME_IN_HOUR   = 3600;
     const TIME_IN_MINUTE = 60;
 
     /**
      * Convert int to time
      *
-     * @param $time
+     * @param  int $time
      * @return string
      */
     public static function intToString($time)
     {
         $seconds = $time % 60;
-        $secondsValue = ($seconds < 10) ? '0' . $seconds : $seconds;
+        $secondsValue = ($seconds < 10) ? '0'.$seconds : $seconds;
         $time = ($time - $seconds) / 60;
         $minutes = $time % 60;
-        $minutesValue = ($minutes < 10) ? '0' . $minutes : $minutes;
+        $minutesValue = ($minutes < 10) ? '0'.$minutes : $minutes;
         $hours = ($time - $minutes) / 60;
-        $hoursValue = ($hours < 10) ? '0' . $hours : $hours;
+        $hoursValue = ($hours < 10) ? '0'.$hours : $hours;
 
-        return $hoursValue . ":" . $minutesValue . ":" . $secondsValue;
+        return $hoursValue.":".$minutesValue.":".$secondsValue;
     }
 
     /**
      * String to int
      *
-     * @param $timeString
+     * @param  string $timeString
      * @return mixed
      */
     public function stringToInt($timeString)
@@ -45,7 +50,7 @@ class TimeCounterHelper
     /**
      * Validate time online
      *
-     * @param $time
+     * @param  int $time
      * @return bool
      */
     public function validateTimeCounter($time)

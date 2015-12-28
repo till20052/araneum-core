@@ -18,6 +18,11 @@ use Guzzle\Http\Message\Response as GuzzleResponse;
 use Symfony\Component\Yaml\Yaml;
 use Araneum\Bundle\MainBundle\Entity\Application;
 
+/**
+ * Class RemoteApplicationManagerService
+ *
+ * @package Araneum\Bundle\MainBundle\Service
+ */
 class RemoteApplicationManagerService
 {
     /**
@@ -26,20 +31,20 @@ class RemoteApplicationManagerService
     private static $requestParams = [
         'get' => [
             'method' => 'GET',
-            'uri' => '/api/cluster/application/list'
+            'uri' => '/api/cluster/application/list',
         ],
         'create' => [
             'method' => 'POST',
-            'uri' => '/api/cluster/application/insert'
+            'uri' => '/api/cluster/application/insert',
         ],
         'update' => [
             'method' => 'PUT',
-            'uri' => '/api/cluster/application/update/'
+            'uri' => '/api/cluster/application/update/',
         ],
         'remove' => [
             'method' => 'DELETE',
-            'uri' => '/api/cluster/application/delete/'
-        ]
+            'uri' => '/api/cluster/application/delete/',
+        ],
     ];
 
     /**
@@ -67,7 +72,7 @@ class RemoteApplicationManagerService
     /**
      * Remote application handler constructor
      *
-     * @param Client $client
+     * @param Client             $client
      * @param ContainerInterface $container
      */
     public function __construct(Client $client, ContainerInterface $container)
@@ -83,16 +88,16 @@ class RemoteApplicationManagerService
         $this->params = [
             'auth' => [
                 $user,
-                $password
+                $password,
             ],
-            'connect_timeout' => 1
+            'connect_timeout' => 1,
         ];
     }
 
     /**
      * Get application data from cluster
      *
-     * @param int $clusterId
+     * @param  int $clusterId
      * @return mixed
      */
     public function get($clusterId)
@@ -117,7 +122,7 @@ class RemoteApplicationManagerService
     /**
      * Create application on cluster
      *
-     * @param string $appKey
+     * @param  string $appKey
      * @return bool
      */
     public function create($appKey)
@@ -134,7 +139,7 @@ class RemoteApplicationManagerService
     /**
      * Update application config in cluster
      *
-     * @param string $appKey
+     * @param  string $appKey
      * @return bool
      */
     public function update($appKey)
@@ -151,7 +156,7 @@ class RemoteApplicationManagerService
     /**
      * Remove application from cluster
      *
-     * @param string $appKey
+     * @param  string $appKey
      * @return bool
      */
     public function remove($appKey)
@@ -164,7 +169,7 @@ class RemoteApplicationManagerService
 
         $response = $this->sendRequest(
             $connection->getHost(),
-            self::$requestParams['remove']['uri'] . $appKey,
+            self::$requestParams['remove']['uri'].$appKey,
             null,
             null,
             $this->params,
@@ -177,13 +182,13 @@ class RemoteApplicationManagerService
     /**
      * Request
      *
-     * @param $host
-     * @param $uri
-     * @param $header
-     * @param $body
-     * @param $params
-     * @param $method
-     * @param Application $application
+     * @param  string                          $host
+     * @param  string                          $uri
+     * @param  array|\Guzzle\Common\Collection $header
+     * @param  array|string                    $body
+     * @param  array                           $params
+     * @param  string                          $method
+     * @param  Application                     $application
      * @return \Exception|CurlException|GuzzleResponse
      */
     public function sendRequest($host, $uri, $header, $body, $params, $method, Application $application = null)
@@ -193,7 +198,7 @@ class RemoteApplicationManagerService
         try {
             $response = $this
                 ->client
-                ->createRequest($method, 'http://' . $host . $uri, $header, $body, $params)
+                ->createRequest($method, 'http://'.$host.$uri, $header, $body, $params)
                 ->send();
             $code = $response->getStatusCode();
         } catch (BadResponseException $e) {
@@ -228,9 +233,9 @@ class RemoteApplicationManagerService
     /**
      * Prepare request for insert and update
      *
-     * @param $appKey
-     * @param $method
-     * @param $uri
+     * @param  $appKey
+     * @param  $method
+     * @param  $uri
      * @return \Exception|CurlException|GuzzleResponse
      */
     private function createOrUpdatePreparation($appKey, $method, $uri)
@@ -277,14 +282,22 @@ class RemoteApplicationManagerService
             //temporary not used but must be not empty
             'components' => '123',
             'app_key' => $application->getAppKey(),
-            'db' => $db
+            'db' => $db,
         ];
 
         if ($method == 'PUT') {
             $uri .= $application->getDomain();
         }
 
-        $response = $this->sendRequest($connection->getHost(), $uri, null, $request, $this->params, $method, $application);
+        $response = $this->sendRequest(
+            $connection->getHost(),
+            $uri,
+            null,
+            $request,
+            $this->params,
+            $method,
+            $application
+        );
 
         return $response;
     }

@@ -2,14 +2,19 @@
 
 namespace Araneum\Base\Ali\Helper;
 
+/**
+ * Class ArrayHelper
+ *
+ * @package Araneum\Base\Ali\Helper
+ */
 class ArrayHelper
 {
 
     /**
      * Searches the array for a given value and returns array corresponding values
      *
-     * @param string $needle
-     * @param array  $haystack
+     * @param  string $needle
+     * @param  array  $haystack
      * @return null|array
      */
     public static function searchLike($needle, array $haystack)

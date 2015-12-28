@@ -3,7 +3,7 @@
 namespace Araneum\Bundle\AgentBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
-use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Araneum\Bundle\MainBundle\Entity\Runner;
 use Araneum\Bundle\MainBundle\Entity\Connection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,23 +35,22 @@ class ConnectionLog
     private $connection;
 
     /**
-     * @var Cluster
+     * @var Runner
      *
-     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Cluster", inversedBy="connectionLogs", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="cluster_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Runner", inversedBy="connectionLogs",
+     *     cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="runner_id", referencedColumnName="id", nullable=true)
      */
-    private $cluster;
+    private $runner;
 
     /**
      * @var integer
-     *
      * @ORM\Column(name="percent_lost_packages", type="integer")
      */
     private $percentLostPackages;
 
     /**
      * @var integer
-     *
      * @ORM\Column(name="average_ping_time", type="float")
      */
     private $averagePingTime;
@@ -59,7 +58,7 @@ class ConnectionLog
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -69,7 +68,7 @@ class ConnectionLog
     /**
      * Set connection
      *
-     * @param Connection $connection
+     * @param  Connection $connection
      * @return ConnectionLog $this
      */
     public function setConnection(Connection $connection)
@@ -90,32 +89,32 @@ class ConnectionLog
     }
 
     /**
-     * Set cluster
+     * Set runner
      *
-     * @param Cluster $cluster
+     * @param  Runner $runner
      * @return ConnectionLog $this
      */
-    public function setCluster(Cluster $cluster)
+    public function setRunner(Runner $runner)
     {
-        $this->cluster = $cluster;
+        $this->runner = $runner;
 
         return $this;
     }
 
     /**
-     * Get cluster
+     * Get runner
      *
-     * @return Cluster
+     * @return Runner
      */
-    public function getCluster()
+    public function getRunner()
     {
-        return $this->cluster;
+        return $this->runner;
     }
 
     /**
      * Set percentLostPackages
      *
-     * @param integer $percentLostPackages
+     * @param  integer $percentLostPackages
      * @return ConnectionLog
      */
     public function setPercentLostPackages($percentLostPackages)
@@ -128,7 +127,7 @@ class ConnectionLog
     /**
      * Get percentLostPackages
      *
-     * @return integer 
+     * @return integer
      */
     public function getPercentLostPackages()
     {
@@ -138,7 +137,7 @@ class ConnectionLog
     /**
      * Set averagePingTime
      *
-     * @param integer $averagePingTime
+     * @param  integer $averagePingTime
      * @return ConnectionLog
      */
     public function setAveragePingTime($averagePingTime)
@@ -151,7 +150,7 @@ class ConnectionLog
     /**
      * Get averagePingTime
      *
-     * @return integer 
+     * @return integer
      */
     public function getAveragePingTime()
     {

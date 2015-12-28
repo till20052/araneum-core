@@ -79,7 +79,8 @@
 							elementTemplate.find('select')
 							               .append($('<option></option>').attr({
 								               'selected': ''
-							               }).text(element.emptyValue));
+							               }).text('{{"'+element.emptyValue+'" | translate}}'));
+
 
 							for (var key in element.choices) {
 								$('select', elementTemplate).append($('<option />').val(element.choices[key].value).text(element.choices[key].label));
@@ -114,7 +115,8 @@
 				addOptionsToInputElement: function(el, template) {
 					$('input', template).attr($.extend(el.attrs, {
 						name: el.name,
-						ngModel: el.name
+						ngModel: el.name,
+						placeholder: '{{"'+el.attrs.placeholder+'" | translate}}'
 					})).val(el.value);
 
 					$('label', template).attr({

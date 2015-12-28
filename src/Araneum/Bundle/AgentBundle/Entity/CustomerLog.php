@@ -17,12 +17,12 @@ class CustomerLog
 {
     use DateTrait;
 
-    const STATUS_OK = 0;
+    const STATUS_OK    = 0;
     const STATUS_ERROR = 100;
 
     private static $statuses = [
         self::STATUS_OK => 'ok',
-        self::STATUS_ERROR => 'error'
+        self::STATUS_ERROR => 'error',
     ];
 
     /**
@@ -84,7 +84,7 @@ class CustomerLog
     /**
      * Get Customer status description
      *
-     * @param $status
+     * @param  integer $status
      * @return string
      */
     public static function getStatusDescription($status)
@@ -119,7 +119,7 @@ class CustomerLog
     /**
      * Set application
      *
-     * @param Application $application
+     * @param  Application $application
      * @return CustomerLog
      */
     public function setApplication($application)
@@ -142,7 +142,7 @@ class CustomerLog
     /**
      * Set customer
      *
-     * @param Customer $customer
+     * @param  Customer $customer
      * @return CustomerLog
      */
     public function setCustomer($customer)
@@ -165,7 +165,7 @@ class CustomerLog
     /**
      * Set action
      *
-     * @param string $action
+     * @param  string $action
      * @return CustomerLog
      */
     public function setAction($action)
@@ -188,7 +188,7 @@ class CustomerLog
     /**
      * Set spot Option response
      *
-     * @param string $spotResponse
+     * @param  string $spotResponse
      * @return CustomerLog
      */
     public function setSpotResponse($spotResponse)
@@ -211,7 +211,7 @@ class CustomerLog
     /**
      * Set status
      *
-     * @param string $status
+     * @param  string $status
      * @return CustomerLog
      */
     public function setStatus($status)

@@ -101,7 +101,7 @@ class Mail
     /**
      * Mail constructor
      */
-    function __construct()
+    public function __construct()
     {
         $this->setStatus(self::STATUS_NEW);
     }
@@ -119,7 +119,7 @@ class Mail
     /**
      * Set application
      *
-     * @param Application $application
+     * @param  Application $application
      * @return Mail
      */
     public function setApplication(Application $application)
@@ -142,7 +142,7 @@ class Mail
     /**
      * Set sender
      *
-     * @param string $sender
+     * @param  string $sender
      * @return Mail
      */
     public function setSender($sender)
@@ -165,7 +165,7 @@ class Mail
     /**
      * Set target
      *
-     * @param string $target
+     * @param  string $target
      * @return Mail
      */
     public function setTarget($target)
@@ -188,7 +188,7 @@ class Mail
     /**
      * Set headline
      *
-     * @param string $headline
+     * @param  string $headline
      * @return Mail
      */
     public function setHeadline($headline)
@@ -211,7 +211,7 @@ class Mail
     /**
      * Set htmlBody
      *
-     * @param string $htmlBody
+     * @param  string $htmlBody
      * @return Mail
      */
     public function setHtmlBody($htmlBody)
@@ -234,7 +234,7 @@ class Mail
     /**
      * Set testBody
      *
-     * @param string $textBody
+     * @param  string $textBody
      * @return Mail
      */
     public function setTextBody($textBody)
@@ -257,7 +257,7 @@ class Mail
     /**
      * Set attachment
      *
-     * @param string $attachment
+     * @param  string $attachment
      * @return Mail
      */
     public function setAttachment($attachment)
@@ -280,7 +280,7 @@ class Mail
     /**
      * Set status
      *
-     * @param integer $status
+     * @param  integer $status
      * @return Mail
      */
     public function setStatus($status)
@@ -303,7 +303,7 @@ class Mail
     /**
      * Set sentAt
      *
-     * @param \DateTime $sentAt
+     * @param  \DateTime $sentAt
      * @return Mail
      */
     public function setSentAt(\DateTime $sentAt)
@@ -339,7 +339,6 @@ class Mail
      */
     public function __toString()
     {
-        return $this->id ? $this->id . ' ' . $this->headline : 'Create Mail';
+        return $this->id ? $this->id.' '.$this->headline : 'Create Mail';
     }
-
 }

@@ -6,8 +6,14 @@ use Araneum\Bundle\MainBundle\Entity\Connection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class ConnectionData extends AbstractFixture implements FixtureInterface
+/**
+ * Class ConnectionData
+ *
+ * @package Araneum\Bundle\MainBundle\DataFixtures\ORM
+ */
+class ConnectionData extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
     /**
      * {@inheritDoc}
@@ -25,6 +31,7 @@ class ConnectionData extends AbstractFixture implements FixtureInterface
             $connectionHost->setEnabled(true);
             $connectionHost->setUserName('user');
             $connectionHost->setPassword('123');
+            $connectionHost->setRunner($this->getReference('runner'));
             $manager->persist($connectionHost);
             $manager->flush();
         }
@@ -41,11 +48,22 @@ class ConnectionData extends AbstractFixture implements FixtureInterface
             $connectionDb->setEnabled(true);
             $connectionDb->setUserName('bamboo');
             $connectionDb->setPassword('hu8jmn3');
+            $connectionDb->setRunner($this->getReference('runner'));
             $manager->persist($connectionDb);
             $manager->flush();
         }
 
         $this->addReference('connectionHost', $connectionHost);
         $this->addReference('connectionDb', $connectionDb);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDependencies()
+    {
+        return [
+            'Araneum\Bundle\MainBundle\DataFixtures\ORM\RunnerData',
+        ];
     }
 }

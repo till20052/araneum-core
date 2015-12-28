@@ -7,15 +7,20 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * Class ComponentFixtures
+ *
+ * @package Araneum\Base\Tests\Fixtures\Main
+ */
 class ComponentFixtures extends AbstractFixture implements FixtureInterface
 {
-    const TEST_COMP_NAME = 'TestComponent';
-    const TEST_COMP_DESC = 'Test component description';
+    const TEST_COMP_NAME    = 'TestComponent';
+    const TEST_COMP_DESC    = 'Test component description';
     const TEST_COMP_ENABLED = true;
     const TEST_COMP_DEFAULT = true;
 
-    const TEST_COMP_TEMP_NAME = 'TestTempComponent';
-    const TEST_COMP_TEMP_DESC = 'Test temp component description';
+    const TEST_COMP_TEMP_NAME    = 'TestTempComponent';
+    const TEST_COMP_TEMP_DESC    = 'Test temp component description';
     const TEST_COMP_TEMP_ENABLED = true;
     const TEST_COMP_TEMP_DEFAULT = true;
 
@@ -38,7 +43,9 @@ class ComponentFixtures extends AbstractFixture implements FixtureInterface
 
         $this->addReference('component', $component);
 
-        $tempComponent = $manager->getRepository('AraneumMainBundle:Component')->findOneByName(self::TEST_COMP_TEMP_NAME);
+        $tempComponent = $manager->getRepository('AraneumMainBundle:Component')->findOneByName(
+            self::TEST_COMP_TEMP_NAME
+        );
 
         if (empty($tempComponent)) {
             $tempComponent = new Component();
@@ -48,7 +55,7 @@ class ComponentFixtures extends AbstractFixture implements FixtureInterface
                 [
                     'test_option_key_1' => 'test_option_value_1',
                     'test_option_key_2' => 'test_option_value_2',
-                    'test_option_key_3' => 'test_option_value_3'
+                    'test_option_key_3' => 'test_option_value_3',
                 ]
             );
             $tempComponent->setEnabled(self::TEST_COMP_TEMP_ENABLED);

@@ -7,7 +7,12 @@ use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Service\ApplicationApiHandlerService;
 use Doctrine\Common\Collections\ArrayCollection;
 
-class ApplicationApiHandlerTest extends BaseController
+/**
+ * Class ApplicationApiHandlerTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Unit\Service
+ */
+class ApplicationApiHandlerTest extends \PHPUnit_Framework_TestCase
 {
     const APP_CLASS = 'AraneumMainBundle:Application';
 
@@ -82,7 +87,7 @@ class ApplicationApiHandlerTest extends BaseController
             'components' => new ArrayCollection([$component]),
             'owner' => $owner,
             'status' => 1,
-            'template' => 'testtemplate'
+            'template' => 'testtemplate',
         ];
 
         $this->repository
@@ -98,8 +103,8 @@ class ApplicationApiHandlerTest extends BaseController
     /**
      * Test ApplicationHandler Exception
      *
-     * @expectedException \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @expectedExceptionCode \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND
+     * @expectedException        \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @expectedExceptionCode    \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND
      * @expectedExceptionMessage Not Application found for this appKey
      */
     public function testGetException()

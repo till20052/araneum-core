@@ -7,21 +7,27 @@ use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class MailApiControllerTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Functional\Api
+ */
 class MailApiControllerTest extends BaseController
 {
     /**
      * Test post mail api
      *
      * @dataProvider postMailData
+     * @runInSeparateProcess
      *
-     * @param $parameters
-     * @param $expectedHTTPCode
+     * @param array $parameters
+     * @param int   $expectedHTTPCode
      */
     public function testPostMail($parameters, $expectedHTTPCode)
     {
         $client = self::createAdminAuthorizedClient('api');
 
-        $client->request('POST', 'mail/api/mail?appKey=' . ApplicationFixtures::TEST_APP_APP_KEY, $parameters);
+        $client->request('POST', 'mail/api/mail?appKey='.ApplicationFixtures::TEST_APP_APP_KEY, $parameters);
 
         $this->assertEquals(
             $expectedHTTPCode,

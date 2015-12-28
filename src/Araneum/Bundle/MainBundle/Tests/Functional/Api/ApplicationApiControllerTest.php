@@ -6,6 +6,11 @@ use Araneum\Base\Tests\Controller\BaseController;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class ApplicationApiControllerTest
+ *
+ * @package Araneum\Bundle\MainBundle\Tests\Functional\Api
+ */
 class ApplicationApiControllerTest extends BaseController
 {
     /**
@@ -15,8 +20,7 @@ class ApplicationApiControllerTest extends BaseController
 
     /**
      * Test ApplicationApiController
-     *
-     *
+     * @runInSeparateProcess
      */
     public function testGet()
     {
@@ -24,7 +28,7 @@ class ApplicationApiControllerTest extends BaseController
 
         $client->request(
             'GET',
-            $this->configGetUri . ApplicationFixtures::TEST_APP_APP_KEY
+            $this->configGetUri.ApplicationFixtures::TEST_APP_APP_KEY
         );
         $response = $client->getResponse();
         $content = $response->getContent();
@@ -32,22 +36,7 @@ class ApplicationApiControllerTest extends BaseController
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
-        $arrayStructure = $this->getArrayStructure();
-        foreach ($arrayStructure as $k => $v) {
-            $this->assertTrue(isset($decoded[$k]));
-            if ($arrayStructure[$k] == 'int') {
-                $this->assertTrue(is_int($decoded[$k]));
-            }
-            if ($arrayStructure[$k] == 'string') {
-                $this->assertTrue(is_string($decoded[$k]));
-            }
-            if ($arrayStructure[$k] == 'bool') {
-                $this->assertTrue(is_bool($decoded[$k]));
-            }
-            if ($arrayStructure[$k] == 'array') {
-                $this->assertTrue(is_array($decoded[$k]));
-            }
-        }
+        $this->assertArrayStructureEquals($this->getArrayStructure(), $decoded);
     }
 
     /**
@@ -70,7 +59,30 @@ class ApplicationApiControllerTest extends BaseController
             'locales' => 'array',
             'components' => 'array',
             'cluster' => 'array',
-            'owner' => 'array'
+            'owner' => 'array',
         ];
+    }
+
+    /**
+     * @param $expectedStructure
+     * @param $actual
+     */
+    private function assertArrayStructureEquals($expectedStructure, $actual)
+    {
+        foreach ($expectedStructure as $fieldName => $fieldType) {
+            $this->assertTrue(isset($actual[$fieldName]));
+            if ($fieldType == 'int') {
+                $this->assertTrue(is_int($actual[$fieldName]));
+            }
+            if ($fieldType == 'string') {
+                $this->assertTrue(is_string($actual[$fieldName]));
+            }
+            if ($fieldType == 'bool') {
+                $this->assertTrue(is_bool($actual[$fieldName]));
+            }
+            if ($fieldType == 'array') {
+                $this->assertTrue(is_array($actual[$fieldName]));
+            }
+        }
     }
 }

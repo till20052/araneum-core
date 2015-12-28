@@ -8,13 +8,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\RestBundle\Controller\Annotations as Rest;
 
-
+/**
+ * Class AdminDefaultController
+ *
+ * @package Araneum\Bundle\MainBundle\Controller
+ */
 class AdminDefaultController extends Controller
 {
     /**
      * Araneum home page action
      *
      * @Route("/manage/menu.json", name="araneum_admin_main_menu")
+     * @return                     JsonResponse
      */
     public function menuAction()
     {
@@ -49,7 +54,7 @@ class AdminDefaultController extends Controller
      *   },
      *   tags={"AdminApi"}
      * )
-     * @Rest\Get("/manage/translates.json", name="araneum_admin_translations")
+     * @Rest\Get("/manage/translates.json",         name="araneum_admin_translations")
      * @Rest\Get("%locale%/manage/translates.json", name="araneum_admin_translation_default_locale")
      *
      * @return JsonResponse

@@ -7,14 +7,13 @@ use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\SqlWalker;
 use Doctrine\ORM\Query\Parser;
 
-
 /**
  * CastFunction ::= "CAST" "(" StringPrimary "AS" Identifier ")"
  */
 class Cast extends FunctionNode
 {
     public $convertExpression = null;
-    public $unit = null;
+    public $unit              = null;
 
     /**
      * Function parse
@@ -42,6 +41,6 @@ class Cast extends FunctionNode
      */
     public function getSql(SqlWalker $sqlWalker)
     {
-        return sprintf('CAST(%s AS %s)',  $this->convertExpression->dispatch($sqlWalker), $this->unit);
+        return sprintf('CAST(%s AS %s)', $this->convertExpression->dispatch($sqlWalker), $this->unit);
     }
 }

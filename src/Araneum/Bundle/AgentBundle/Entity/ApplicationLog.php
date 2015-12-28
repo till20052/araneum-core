@@ -53,6 +53,9 @@ class ApplicationLog
      */
     private $problems;
 
+    /**
+     * ApplicationLog construct
+     */
     public function __construct()
     {
         $this->problems = new ArrayCollection([]);
@@ -61,7 +64,7 @@ class ApplicationLog
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -71,7 +74,7 @@ class ApplicationLog
     /**
      * Set status
      *
-     * @param integer $status
+     * @param  integer $status
      * @return ApplicationLog
      */
     public function setStatus($status)
@@ -84,7 +87,7 @@ class ApplicationLog
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {
@@ -94,7 +97,7 @@ class ApplicationLog
     /**
      * Set application
      *
-     * @param Application $application
+     * @param  Application $application
      * @return ApplicationLog $this
      */
     public function setApplication(Application $application)
@@ -117,7 +120,7 @@ class ApplicationLog
     /**
      * Set problems
      *
-     * @param Collection|ArrayCollection $problems
+     * @param  Collection|ArrayCollection $problems
      * @return ApplicationLog $this
      */
     public function setProblems(Collection $problems)
@@ -140,12 +143,12 @@ class ApplicationLog
     /**
      * Add problem
      *
-     * @param Problem $problem
+     * @param  Problem $problem
      * @return ApplicationLog $this
      */
     public function addProblem(Problem $problem)
     {
-        if( ! $this->hasProblem($problem)){
+        if (!$this->hasProblem($problem)) {
             $this->problems->add($problem);
         }
 
@@ -155,12 +158,12 @@ class ApplicationLog
     /**
      * Remove problem
      *
-     * @param Problem $problem
+     * @param  Problem $problem
      * @return ApplicationLog $this
      */
     public function removeProblem(Problem $problem)
     {
-        if( ! $this->hasProblem($problem)){
+        if (!$this->hasProblem($problem)) {
             $this->problems->remove($problem);
         }
 
@@ -170,7 +173,7 @@ class ApplicationLog
     /**
      * Has problem
      *
-     * @param Problem $problem
+     * @param  Problem $problem
      * @return bool
      */
     public function hasProblem(Problem $problem)

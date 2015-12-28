@@ -38,7 +38,7 @@ class Problem
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -48,7 +48,7 @@ class Problem
     /**
      * Set status
      *
-     * @param integer $status
+     * @param  integer $status
      * @return Problem
      */
     public function setStatus($status)
@@ -61,7 +61,7 @@ class Problem
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {
@@ -71,7 +71,7 @@ class Problem
     /**
      * Set description
      *
-     * @param string $description
+     * @param  string $description
      * @return Problem
      */
     public function setDescription($description)
@@ -84,7 +84,7 @@ class Problem
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {

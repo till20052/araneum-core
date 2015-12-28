@@ -19,278 +19,304 @@ use Guzzle\Service\Client;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
+/**
+ * Class ApplicationCheckerService
+ *
+ * @package Araneum\Bundle\MainBundle\Service
+ */
 class ApplicationCheckerService
 {
-	/**
-	 * @var EntityManager
-	 */
-	private $entityManager;
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
 
-	/**
-	 * @var Client
-	 */
-	private $client;
+    /**
+     * @var Client
+     */
+    private $client;
 
-	/**
-	 * @var AgentLoggerService
-	 */
-	private $loggerService;
+    /**
+     * @var AgentLoggerService
+     */
+    private $loggerService;
 
-	/**
-	 * Get State of Connection
-	 *
-	 * @param Connection $connection
-	 * @param integer $pingCount
-	 * @param null|\stdClass $response
-	 * @return integer
-	 */
-	private function getConnectionState(Connection $connection, $pingCount = 5, &$response = null)
-	{
-		$status = Connection::STATUS_OK;
-		$response = new \stdClass();
+    /**
+     * Constructor
+     *
+     * @param EntityManager $entityManager
+     * @param Client        $client
+     */
+    public function __construct(EntityManager $entityManager, Client $client)
+    {
+        $this->entityManager = $entityManager;
+        $this->client = $client;
+    }
 
-		try {
-			$process = new Process('ping -c ' . $pingCount . ' ' . $connection->getHost());
-			$process->start();
-			$process->wait(function ($type, $buffer) use ($process, $response) {
-				if ($type == Process::ERR) {
-					throw new ProcessFailedException($process);
-				}
+    /**
+     * Set Agent Logger Service
+     *
+     * @param AgentLoggerService $loggerService
+     */
+    public function setAgentLogger(AgentLoggerService $loggerService)
+    {
+        $this->loggerService = $loggerService;
+    }
 
-				if (preg_match(
-					'/(\d+)\spackets\stransmitted,\s(\d+)\sreceived,\s(\d+)%\spacket\sloss,\stime\s(\d+)ms/',
-					$buffer,
-					$match
-				)) {
-					$response->packetsTransmitted = $match[1];
-					$response->received = $match[2];
-					$response->packetLoss = $match[3];
-					$response->time = $match[4];
+    /**
+     * Check Connection
+     *
+     * @param  integer $id        of Connection
+     * @param  integer $pingCount
+     * @return integer
+     *
+     * @throws EntityNotFoundException in case if Connection does not exists
+     */
+    public function checkConnection($id, $pingCount = 5)
+    {
+        /**
+         * @var ConnectionRepository $repository
+         */
+        $repository = $this->entityManager->getRepository('AraneumMainBundle:Connection');
 
-					if (preg_match(
-						'/rtt\smin\/avg\/max\/mdev\s=\s([0-9\.]+)\/([0-9\.]+)\/([0-9\.]+)\/([0-9\.]+)\sms/',
-						$buffer,
-						$match
-					)) {
-						$response->min = $match[1];
-						$response->avg = $match[2];
-						$response->max = $match[3];
-						$response->mdev = $match[4];
-					}
-				}
-			});
+        /**
+         * @var Connection $connection
+         */
+        $connection = $repository->find($id);
 
-			if ($response->packetsTransmitted == $response->received && $response->avg > 100) {
-				$status = Connection::STATUS_SLOW;
-			} elseif ($response->packetLoss > 0 && $response->received > 0) {
-				$status = Connection::STATUS_HAS_LOSS;
-			} elseif ($response->packetLoss == 100) {
-				$status = Connection::STATUS_HAS_NO_RESPONSE;
-			}
-		} catch (\Exception $exception) {
-			$status = Connection::STATUS_UNKNOWN_HOST;
-		}
+        if (empty($connection)) {
+            throw new EntityNotFoundException();
+        }
 
-		$connection->setStatus($status);
-		$this->entityManager->flush();
+        return $this->getConnectionState($connection, $pingCount);
+    }
 
-		return $status;
-	}
+    /**
+     * Check Application state
+     *
+     * @param  integer $id of Application
+     * @return integer
+     *
+     * @throws EntityNotFoundException in case if application does not exists
+     */
+    public function checkApplication($id)
+    {
+        /**
+         * @var ApplicationRepository $repository
+         */
+        $repository = $this->entityManager->getRepository('AraneumMainBundle:Application');
 
-	/**
-	 * Get State of Application
-	 *
-	 * @param Application $application
-	 * @return integer
-	 */
-	private function getApplicationState(Application $application)
-	{
-		$status = Application::STATUS_OK;
-		$problems = new ArrayCollection();
+        /**
+         * @var Application $application
+         */
+        $application = $repository->find($id);
 
-		try {
-			/** @var GuzzleResponse $request */
-			$response = $this->client
-				->get('http' . ($application->isUseSsl() ? 's' : '') . '://' . $application->getDomain())
-				->send();
+        if (empty($application)) {
+            throw new EntityNotFoundException();
+        }
 
-			if( ! $response->isSuccessful()){
-				$status = Application::STATUS_CODE_INCORRECT;
-			}
-		} catch (RequestException $e) {
-			$status = Application::STATUS_ERROR;
-		}
+        return $this->getApplicationState($application);
+    }
 
-		$application->setStatus($status);
-		$this->entityManager->flush();
+    /**
+     * Check Cluster
+     *
+     * @param  integer $id of Cluster
+     * @return integer
+     *
+     * @throws EntityNotFoundException in case if Cluster does not exists
+     */
+    public function checkCluster($id)
+    {
+        /**
+         * @var ClusterRepository $repository
+         */
+        $repository = $this->entityManager->getRepository('AraneumMainBundle:Cluster');
 
-		if($status != Application::STATUS_OK){
-			$problem = (new Problem())
-				->setStatus($status)
-				->setDescription(Application::getStatusDescription($status));
+        /**
+         * @var Cluster $cluster
+         */
+        $cluster = $repository->find($id);
 
-			$problems->add($problem);
+        if (empty($cluster)) {
+            throw new EntityNotFoundException();
+        }
 
-			$this->loggerService->logApplication($application, $status, $problems);
-		}
+        return $this->getClusterState($cluster);
+    }
 
-		return $status;
-	}
+    /**
+     * Get State of Connection
+     *
+     * @param  Connection     $connection
+     * @param  integer        $pingCount
+     * @param  null|\stdClass $response
+     * @return integer
+     */
+    private function getConnectionState(Connection $connection, $pingCount = 5, &$response = null)
+    {
+        $status = Connection::STATUS_OK;
+        $response = new \stdClass();
 
-	/**
-	 * Get State of Cluster
-	 *
-	 * @param Cluster $cluster
-	 * @return \stdClass
-	 */
-	private function getClusterState(Cluster $cluster)
-	{
-		$status = Cluster::STATUS_OK;
+        try {
+            $process = new Process('ping -c '.$pingCount.' '.$connection->getHost());
+            $process->start();
+            $process->wait(
+                function ($type, $buffer) use ($process, $response) {
+                    if ($type == Process::ERR) {
+                        throw new ProcessFailedException($process);
+                    }
 
-		$problems = new ArrayCollection();
+                    if (preg_match(
+                        '/(\d+)\spackets\stransmitted,\s(\d+)\sreceived,\s(\d+)%\spacket\sloss,\stime\s(\d+)ms/',
+                        $buffer,
+                        $match
+                    )) {
+                        $response->packetsTransmitted = $match[1];
+                        $response->received = $match[2];
+                        $response->packetLoss = $match[3];
+                        $response->time = $match[4];
 
-		/** @var Application $application */
-		foreach ($cluster->getApplications() as $application) {
-			$applicationStatus = $this->getApplicationState($application);
+                        if (preg_match(
+                            '/rtt\smin\/avg\/max\/mdev\s=\s([0-9\.]+)\/([0-9\.]+)\/([0-9\.]+)\/([0-9\.]+)\sms/',
+                            $buffer,
+                            $match
+                        )) {
+                            $response->min = $match[1];
+                            $response->avg = $match[2];
+                            $response->max = $match[3];
+                            $response->mdev = $match[4];
+                        }
+                    }
+                }
+            );
 
-			if($applicationStatus != Application::STATUS_OK){
-				$status = Cluster::STATUS_HAS_INCORRECT_APPLICATION;
+            if ($response->packetsTransmitted == $response->received && $response->avg > 100) {
+                $status = Connection::STATUS_SLOW;
+            } elseif ($response->packetLoss > 0 && $response->received > 0) {
+                $status = Connection::STATUS_HAS_LOSS;
+            } elseif ($response->packetLoss == 100) {
+                $status = Connection::STATUS_HAS_NO_RESPONSE;
+            }
+        } catch (\Exception $exception) {
+            $status = Connection::STATUS_UNKNOWN_HOST;
+        }
 
-				$problem = (new Problem())
-					->setStatus($applicationStatus)
-					->setDescription(Application::getStatusDescription($applicationStatus));
+        $connection->setStatus($status);
+        $this->entityManager->flush();
 
-				$problems->add($problem);
-			}
-		}
+        return $status;
+    }
 
-		/** @var Connection $connection */
-		foreach ($cluster->getHosts() as $connection) {
-			$connectionStatus = $this->getConnectionState($connection, 5, $response);
+    /**
+     * Get State of Application
+     *
+     * @param  Application $application
+     * @return integer
+     */
+    private function getApplicationState(Application $application)
+    {
+        $status = Application::STATUS_OK;
+        $problems = new ArrayCollection();
 
-			$this->loggerService->logConnection(
-				$connection,
-				$cluster,
-				$connectionStatus < Connection::STATUS_HAS_NO_RESPONSE ? $response->packetLoss : -1,
-				$connectionStatus < Connection::STATUS_HAS_NO_RESPONSE ? $response->avg : -1
-			);
+        try {
+            /**
+             * @var GuzzleResponse $request
+             */
+            $response = $this->client
+                ->get('http'.($application->isUseSsl() ? 's' : '').'://'.$application->getDomain())
+                ->send();
 
-			if ($connectionStatus != Connection::STATUS_OK) {
-				if ($connectionStatus == Connection::STATUS_SLOW) {
-					$status = Cluster::STATUS_HAS_SLOW_CONNECTION;
-				} elseif ($connectionStatus == Connection::STATUS_HAS_LOSS) {
-					$status = Cluster::STATUS_HAS_UNSTABLE_CONNECTION;
-				} elseif ($connectionStatus >= Connection::STATUS_HAS_NO_RESPONSE) {
-					$status = Cluster::STATUS_OFFLINE;
-				}
+            if (!$response->isSuccessful()) {
+                $status = Application::STATUS_CODE_INCORRECT;
+            }
+        } catch (RequestException $e) {
+            $status = Application::STATUS_ERROR;
+        }
 
-				$problem = (new Problem())
-					->setStatus($connectionStatus)
-					->setDescription(Connection::getStatusDescription($connectionStatus));
+        $application->setStatus($status);
+        $this->entityManager->flush();
 
-				$problems->add($problem);
-			}
-		}
+        if ($status != Application::STATUS_OK) {
+            $problem = (new Problem())
+                ->setStatus($status)
+                ->setDescription(Application::getStatusDescription($status));
 
-		$cluster->setStatus($status);
-		$this->entityManager->flush();
+            $problems->add($problem);
 
-		if ($status != Cluster::STATUS_OK) {
-			$this->loggerService->logCluster($cluster, $status, $problems);
-		}
+            $this->loggerService->logApplication($application, $status, $problems);
+        }
 
-		return $status;
-	}
+        return $status;
+    }
 
-	/**
-	 * Constructor
-	 *
-	 * @param EntityManager $entityManager
-	 * @param Client $client
-	 */
-	public function __construct(EntityManager $entityManager, Client $client)
-	{
-		$this->entityManager = $entityManager;
-		$this->client = $client;
-	}
+    /**
+     * Get State of Cluster
+     *
+     * @param  Cluster $cluster
+     * @return \stdClass
+     */
+    private function getClusterState(Cluster $cluster)
+    {
+        $status = Cluster::STATUS_OK;
 
-	/**
-	 * Set Agent Logger Service
-	 *
-	 * @param AgentLoggerService $loggerService
-	 */
-	public function setAgentLogger(AgentLoggerService $loggerService)
-	{
-		$this->loggerService = $loggerService;
-	}
+        $problems = new ArrayCollection();
 
-	/**
-	 * Check Connection
-	 *
-	 * @param integer $id of Connection
-	 * @param integer $pingCount
-	 * @return integer
-	 *
-	 * @throws EntityNotFoundException in case if Connection does not exists
-	 */
-	public function checkConnection($id, $pingCount = 5)
-	{
-		/** @var ConnectionRepository $repository */
-		$repository = $this->entityManager->getRepository('AraneumMainBundle:Connection');
+        /**
+         * @var Application $application
+         */
+        foreach ($cluster->getApplications() as $application) {
+            $applicationStatus = $this->getApplicationState($application);
 
-		/** @var Connection $connection */
-		$connection = $repository->find($id);
+            if ($applicationStatus != Application::STATUS_OK) {
+                $status = Cluster::STATUS_HAS_INCORRECT_APPLICATION;
 
-		if (empty($connection)) {
-			throw new EntityNotFoundException();
-		}
+                $problem = (new Problem())
+                    ->setStatus($applicationStatus)
+                    ->setDescription(Application::getStatusDescription($applicationStatus));
 
-		return $this->getConnectionState($connection, $pingCount);
-	}
+                $problems->add($problem);
+            }
+        }
 
-	/**
-	 * Check Application state
-	 *
-	 * @param integer $id of Application
-	 * @return integer
-	 *
-	 * @throws EntityNotFoundException in case if application does not exists
-	 */
-	public function checkApplication($id)
-	{
-		/** @var ApplicationRepository $repository */
-		$repository = $this->entityManager->getRepository('AraneumMainBundle:Application');
+        /**
+         * @var Connection $connection
+         */
+        foreach ($cluster->getRunners() as $runner) {
+            foreach ($runner->getConnections() as $connection) {
+                $connectionStatus = $this->getConnectionState($connection, 5, $response);
 
-		/** @var Application $application */
-		$application = $repository->find($id);
+                $this->loggerService->logConnection(
+                    $connection,
+                    $runner,
+                    $connectionStatus < Connection::STATUS_HAS_NO_RESPONSE ? $response->packetLoss : -1,
+                    $connectionStatus < Connection::STATUS_HAS_NO_RESPONSE ? $response->avg : -1
+                );
 
-		if(empty($application)){
-			throw new EntityNotFoundException();
-		}
+                if ($connectionStatus != Connection::STATUS_OK) {
+                    if ($connectionStatus == Connection::STATUS_SLOW) {
+                        $status = Cluster::STATUS_HAS_SLOW_CONNECTION;
+                    } elseif ($connectionStatus == Connection::STATUS_HAS_LOSS) {
+                        $status = Cluster::STATUS_HAS_UNSTABLE_CONNECTION;
+                    } elseif ($connectionStatus >= Connection::STATUS_HAS_NO_RESPONSE) {
+                        $status = Cluster::STATUS_OFFLINE;
+                    }
 
-		return $this->getApplicationState($application);
-	}
+                    $problem = (new Problem())
+                        ->setStatus($connectionStatus)
+                        ->setDescription(Connection::getStatusDescription($connectionStatus));
+                    $problems->add($problem);
+                }
+            }
+        }
 
-	/**
-	 * Check Cluster
-	 *
-	 * @param integer $id of Cluster
-	 * @return integer
-	 *
-	 * @throws EntityNotFoundException in case if Cluster does not exists
-	 */
-	public function checkCluster($id)
-	{
-		/** @var ClusterRepository $repository */
-		$repository = $this->entityManager->getRepository('AraneumMainBundle:Cluster');
+        $cluster->setStatus($status);
+        $this->entityManager->flush();
 
-		/** @var Cluster $cluster */
-		$cluster = $repository->find($id);
+        if ($status != Cluster::STATUS_OK) {
+            $this->loggerService->logCluster($cluster, $status, $problems);
+        }
 
-		if (empty($cluster)) {
-			throw new EntityNotFoundException();
-		}
-
-		return $this->getClusterState($cluster);
-	}
+        return $status;
+    }
 }

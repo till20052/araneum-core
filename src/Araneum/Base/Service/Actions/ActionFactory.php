@@ -4,6 +4,11 @@ namespace Araneum\Base\Service\Actions;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+/**
+ * Class ActionFactory
+ *
+ * @package Araneum\Base\Service\Actions
+ */
 class ActionFactory
 {
     private $builder;
@@ -21,7 +26,7 @@ class ActionFactory
     /**
      * Create action list
      *
-     * @param AbstractActions $actions
+     * @param  AbstractActions $actions
      * @return array
      */
     public function create(AbstractActions $actions)
@@ -34,7 +39,7 @@ class ActionFactory
     /**
      * Return JsonResponse encoded action list
      *
-     * @param AbstractActions $actions
+     * @param  AbstractActions $actions
      * @return string
      */
     public function createJsonResponse(AbstractActions $actions)

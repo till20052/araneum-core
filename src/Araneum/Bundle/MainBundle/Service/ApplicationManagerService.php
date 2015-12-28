@@ -3,30 +3,34 @@
 namespace Araneum\Bundle\MainBundle\Service;
 
 use Araneum\Bundle\MainBundle\Entity\Application;
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class ApplicationManagerService
+ *
+ * @package Araneum\Bundle\MainBundle\Service
+ */
 class ApplicationManagerService
 {
-    /** @var  Registry */
-    private $doctrine;
+    private $em;
     private $repository;
 
     /**
      * ApplicationManager constructor
      *
-     * @param $doctrine
+     * @param EntityManager $em
      */
-    public function __construct($doctrine)
+    public function __construct(EntityManager $em)
     {
-        $this->doctrine = $doctrine;
+        $this->em = $em;
     }
 
     /**
      * Find entity or throw NotFoundHttpException
      *
-     * @param array $criteria
+     * @param  array $criteria
      * @throws NotFoundHttpException
      * @return null|Application
      */
@@ -51,7 +55,7 @@ class ApplicationManagerService
             return $this->repository;
         }
 
-        $this->repository = $this->doctrine->getRepository('AraneumMainBundle:Application');
+        $this->repository = $this->em->getRepository('AraneumMainBundle:Application');
 
         return $this->repository;
     }

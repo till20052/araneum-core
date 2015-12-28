@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="araneum_locales")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\LocaleRepository")
- * @package Araneum\Bundle\MainBundle\Entity
+ * @package                                                                             Araneum\Bundle\MainBundle\Entity
  * @UniqueEntity(fields="name")
  * @UniqueEntity(fields="locale")
  */
@@ -25,14 +25,14 @@ class Locale
     const ORIENT_RGT_TO_LFT = 2;
     const LOC_TO_STR        = 'Create';
 
-    static $orientations = [
+    public static $orientations = [
         self::ORIENT_LFT_TO_RGT => 'Left to Right',
-        self::ORIENT_RGT_TO_LFT => 'Right to Left'
+        self::ORIENT_RGT_TO_LFT => 'Right to Left',
     ];
 
-    static $enable = [
+    public static $enable = [
         true => 'Enabled',
-        false => 'Disabled'
+        false => 'Disabled',
     ];
 
     /**
@@ -95,7 +95,7 @@ class Locale
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return Locale
      */
     public function setName($name)
@@ -118,7 +118,7 @@ class Locale
     /**
      * Set locale
      *
-     * @param string $locale
+     * @param  string $locale
      * @return Locale
      */
     public function setLocale($locale)
@@ -141,7 +141,7 @@ class Locale
     /**
      * Set enabled
      *
-     * @param boolean $enabled
+     * @param  boolean $enabled
      * @return Locale
      */
     public function setEnabled($enabled)
@@ -164,7 +164,7 @@ class Locale
     /**
      * Set orientation
      *
-     * @param int $orientation
+     * @param  int $orientation
      * @return Locale
      */
     public function setOrientation($orientation)
@@ -187,7 +187,7 @@ class Locale
     /**
      * Set encoding
      *
-     * @param string $encoding
+     * @param  string $encoding
      * @return Locale
      */
     public function setEncoding($encoding)
@@ -214,6 +214,6 @@ class Locale
      */
     public function __toString()
     {
-        return $this->name ? $this->name . " (" . $this->locale . ")" : 'Create Locale';
+        return $this->name ? $this->name." (".$this->locale.")" : 'Create Locale';
     }
 }

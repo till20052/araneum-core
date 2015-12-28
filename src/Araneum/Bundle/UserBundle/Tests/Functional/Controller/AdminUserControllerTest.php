@@ -10,44 +10,16 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\DomCrawler\Link;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class AdminUserControllerTest
+ *
+ * @package Araneum\Bundle\UserBundle\Tests\Functional\Controller
+ */
 class AdminUserControllerTest extends BaseController
 {
     /**
-     * @var EntityManager
-     */
-    private static $manager;
-
-    /**
-     * @var EntityRepository
-     */
-    private static $repository;
-
-    /**
-     * @var user settings
-     */
-    private static $settings;
-
-    /**
-     * @inheritdoc
-     */
-    public static function setUpBeforeClass()
-    {
-        self::bootKernel();
-
-        self::$manager = static::$kernel
-            ->getContainer()
-            ->get('doctrine.orm.entity_manager');
-
-        self::$repository = self::$manager->getRepository('AraneumUserBundle:User');
-
-        self::$settings = [
-            'Param1' => 'value1',
-            'Param2' => 'value2'
-        ];
-    }
-
-    /**
      * Test for set
+     * @runInSeparateProcess
      */
     public function testSettingsSet()
     {
@@ -60,7 +32,10 @@ class AdminUserControllerTest extends BaseController
         $client->request(
             'POST',
             $router->generate('araneum_user_adminUser_setSettings'),
-            self::$settings
+            [
+                'Param1' => 'value1',
+                'Param2' => 'value2',
+            ]
         );
 
         $response = $client->getResponse();

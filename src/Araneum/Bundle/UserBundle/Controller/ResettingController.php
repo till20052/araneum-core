@@ -15,64 +15,17 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
+/**
+ * Class ResettingController
+ *
+ * @package Araneum\Bundle\UserBundle\Controller
+ */
 class ResettingController extends BaseController
 {
     /**
      * @var Translator
      */
     private $translator;
-
-    /**
-     * Translate message by message id
-     *
-     * @param $id
-     * @param array $parameters
-     * @return string
-     */
-    private function trans($id, $parameters = [])
-    {
-        if (!$this->translator instanceof Translator) {
-            $this->translator = $this->container->get('translator.default');
-        }
-
-        return $this->translator->trans($id, $parameters, 'FOSUserBundle');
-    }
-
-    /**
-     * Convert children of FormView to Array
-     *
-     * @param FormView|array $children
-     * @param array $fields
-     * @return array
-     */
-    private function extract($children, array $fields = ['name', 'full_name', 'label', 'value'])
-    {
-        $list = [];
-
-        if ($children instanceof FormView) {
-            $children = $children->children;
-        }
-
-        foreach ($children as $name => $child) {
-            if (!(count($child->children) > 0)) {
-                $item = [];
-
-                foreach ($fields as $field) {
-                    if (!isset($child->vars[$field])) {
-                        continue;
-                    }
-
-                    $item[$field] = $child->vars[$field];
-                }
-
-                $list[] = $item;
-            } else {
-                $list = $list + $this->extract($child->children, $fields);
-            }
-        }
-
-        return $list;
-    }
 
     /**
      * Request reset user password: submit form and send email
@@ -88,7 +41,9 @@ class ResettingController extends BaseController
 
             $username = $this->container->get('request')->request->get('username');
 
-            /** @var $user UserInterface */
+            /**
+             * @var $user UserInterface
+             */
             $user = $this->container->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
 
             if (empty($user)) {
@@ -100,7 +55,9 @@ class ResettingController extends BaseController
             }
 
             if (null === $user->getConfirmationToken()) {
-                /** @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface */
+                /**
+                 * @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface
+                 */
                 $tokenGenerator = $this->container->get('fos_user.util.token_generator');
                 $user->setConfirmationToken($tokenGenerator->generateToken());
             }
@@ -112,28 +69,26 @@ class ResettingController extends BaseController
             return new JsonResponse(
                 [
                     'success' => true,
-                    'email' => $this->getObfuscatedEmail($user)
+                    'email' => $this->getObfuscatedEmail($user),
                 ],
                 Response::HTTP_OK
             );
-
         } catch (\Exception $exception) {
 
             return new JsonResponse(
                 [
                     'success' => false,
-                    'error' => $exception->getMessage()
+                    'error' => $exception->getMessage(),
                 ],
                 Response::HTTP_BAD_REQUEST
             );
-
         }
     }
 
     /**
      * Reset user password
-	 *
-     * @param $token
+     *
+     * @param  string $token
      * @return JsonResponse
      *
      * @throws AuthenticationException in case if process of reset password was finished successfully
@@ -146,19 +101,21 @@ class ResettingController extends BaseController
 
         try {
 
-            /** @var Request $request */
-			$request = $this->container->get('request');
+            /**
+             * @var Request $request
+             */
+            $request = $this->container->get('request');
 
-			if($request->isMethod('GET')){
-				return new RedirectResponse(
-					$this->container
-						->get('router')
-						->generate(
-							'manage_all',
-							['path' => trim($request->getRequestUri(), '/')]
-						)
-				);
-			}
+            if ($request->isMethod('GET')) {
+                return new RedirectResponse(
+                    $this->container
+                        ->get('router')
+                        ->generate(
+                            'manage_all',
+                            ['path' => trim($request->getRequestUri(), '/')]
+                        )
+                );
+            }
 
             $user = $this->container->get('fos_user.user_manager')->findUserByConfirmationToken($token);
 
@@ -179,33 +136,87 @@ class ResettingController extends BaseController
                 throw new AuthenticationException();
             }
 
-			$errors = $this->container
-				->get('araneum.base.form.handler')
-				->getErrorMessages($form);
+            $errors = $this->container
+                ->get('araneum.base.form.handler')
+                ->getErrorMessages($form);
 
-			if(
-				$request->request->count() > 0
-				&& count($errors) > 0
-			){
-				throw new BadRequestHttpException(implode("\n", $errors));
-			}
+            if ($request->request->count() > 0
+                && count($errors) > 0
+            ) {
+                throw new BadRequestHttpException(implode("\n", $errors));
+            }
 
             return $response->setData($this->extract($form->createView()));
-
         } catch (AuthenticationException $exception) {
 
-			return $response->setStatusCode(Response::HTTP_ACCEPTED);
+            return $response->setStatusCode(Response::HTTP_ACCEPTED);
+        } catch (HttpException $exception) {
 
-		} catch (HttpException $exception) {
-
-			return $response->setData(['error' => $exception->getMessage()])
-				->setStatusCode($exception->getStatusCode());
-
+            return $response->setData(['error' => $exception->getMessage()])
+                ->setStatusCode($exception->getStatusCode());
         } catch (\Exception $exception) {
 
             return $response->setData(['error' => $exception->getMessage()])
                 ->setStatusCode(Response::HTTP_BAD_REQUEST);
-
         }
+    }
+
+    /**
+     * Translate message by message id
+     *
+     * @param        $id
+     * @param  array $parameters
+     * @return string
+     */
+    private function trans($id, $parameters = [])
+    {
+        if (!$this->translator instanceof Translator) {
+            $this->translator = $this->container->get('translator.default');
+        }
+
+        return $this->translator->trans($id, $parameters, 'FOSUserBundle');
+    }
+
+    /**
+     * Convert children of FormView to Array
+     *
+     * @param  FormView|array $children
+     * @param  array          $fields
+     * @return array
+     */
+    private function extract(
+        $children,
+        array $fields = [
+            'name',
+            'full_name',
+            'label',
+            'value',
+        ]
+    ) {
+        $list = [];
+
+        if ($children instanceof FormView) {
+            $children = $children->children;
+        }
+
+        foreach ($children as $child) {
+            if (!(count($child->children) > 0)) {
+                $item = [];
+
+                foreach ($fields as $field) {
+                    if (!isset($child->vars[$field])) {
+                        continue;
+                    }
+
+                    $item[$field] = $child->vars[$field];
+                }
+
+                $list[] = $item;
+            } else {
+                $list = $list + $this->extract($child->children, $fields);
+            }
+        }
+
+        return $list;
     }
 }

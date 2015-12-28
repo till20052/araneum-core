@@ -4,6 +4,11 @@ namespace Araneum\Base\Ali\DatatableBundle\Builder;
 
 use Closure;
 
+/**
+ * Class ListBuilder
+ *
+ * @package Araneum\Base\Ali\DatatableBundle\Builder
+ */
 class ListBuilder implements ListBuilderInterface
 {
     private $list = [];
@@ -24,7 +29,10 @@ class ListBuilder implements ListBuilderInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Set search enabled
+     *
+     * @param  bool $search
+     * @return $this
      */
     public function setSearch($search = true)
     {
@@ -36,7 +44,7 @@ class ListBuilder implements ListBuilderInterface
     /**
      * Add widget to datatable
      *
-     * @param Closure $data
+     * @param  Closure $data
      * @return $this
      * @throws \Exception
      */
@@ -54,15 +62,15 @@ class ListBuilder implements ListBuilderInterface
     /**
      * Set field for order
      *
-     * @param        $field
-     * @param string $sort
+     * @param  string $field
+     * @param  string $sort
      * @return mixed
      */
     public function setOrderBy($field, $sort = 'DESC')
     {
         $this->orderBy = [
             'field' => $field,
-            'sort' => $sort
+            'sort' => $sort,
         ];
 
         return $this;
@@ -78,10 +86,10 @@ class ListBuilder implements ListBuilderInterface
         return $this->orderBy;
     }
 
-
     /**
      * Return true if search is enabled
      *
+     * @return bool
      */
     public function isSearchEnabled()
     {
