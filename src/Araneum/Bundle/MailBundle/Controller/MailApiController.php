@@ -10,6 +10,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class MailApiController
@@ -42,7 +43,7 @@ class MailApiController extends FOSRestController
      * )
      * @Rest\Post("api/mail",     name="araneum_mail_api_mail_post", defaults={"_format"="json"})
      * @Rest\View(statusCode=201)
-     *
+     * @Security("has_role('ROLE_API')")
      * @param  Request $request
      * @return array|View
      */

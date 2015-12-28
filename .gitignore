@@ -14,5 +14,5 @@
 /web/admin/build
 /web/admin/source/require/bower_components/
 !/web/bundles/araneumuser/*
-/.idea/
+.idea
 .jscsrc

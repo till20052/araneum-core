@@ -132,6 +132,8 @@ class CustomerApiHandlerService
      */
     public function login($email, $password, $appKey)
     {
+        $email = strtolower($email);
+
         $application = $this->applicationManager->findOneOr404(['appKey' => $appKey]);
 
         $spotResponse = $this->spotOptionService->login($email, $password);
@@ -173,6 +175,8 @@ class CustomerApiHandlerService
      */
     public function resetPassword($appKey, $email, $currentPassword, $newPassword)
     {
+        $email = strtolower($email);
+
         /** @var Application $application */
         $application = $this->entityManager
             ->getRepository('AraneumMainBundle:Application')
