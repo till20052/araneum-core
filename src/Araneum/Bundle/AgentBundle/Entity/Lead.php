@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\AgentBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
+use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints;
 
@@ -74,6 +75,14 @@ class Lead
      * @ORM\Column(type="string", name="app_key", length=70)
      */
     private $appKey;
+
+    /**
+     * @var Application
+     *
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Application", inversedBy="leads")
+     * @ORM\JoinColumn(name="application_id", referencedColumnName="id")
+     */
+    private $application;
 
     /**
      * Get id
@@ -221,5 +230,28 @@ class Lead
     public function getAppKey()
     {
         return $this->appKey;
+    }
+
+    /**
+     * Set application
+     *
+     * @param Application $application
+     * @return Customer
+     */
+    public function setApplication(Application $application)
+    {
+        $this->application = $application;
+
+        return $this;
+    }
+
+    /**
+     * Get application
+     *
+     * @return Application
+     */
+    public function getApplication()
+    {
+        return $this->application;
     }
 }

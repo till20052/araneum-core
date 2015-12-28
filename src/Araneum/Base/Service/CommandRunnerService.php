@@ -50,7 +50,6 @@ class CommandRunnerService
         $deploymentCommand->wait(
             function ($type, $buffer) use (&$message) {
                 if (Process::ERR === $type) {
-                    var_dump($buffer);
                     $message = 'ERR > '.$buffer;
                 } else {
                     $message = 'OUT > '.$buffer;

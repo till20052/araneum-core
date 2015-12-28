@@ -2,12 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Tests\Unit\Service;
 
-use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
-use Araneum\Bundle\MainBundle\Entity\Application;
-use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
 use Araneum\Bundle\MainBundle\Service\MenuGeneratorService;
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class MenuGeneratorTest
