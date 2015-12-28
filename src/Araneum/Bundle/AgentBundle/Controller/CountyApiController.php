@@ -13,9 +13,8 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
  */
 class CountyApiController extends FOSRestController
 {
-
     /**
-     *     Get countries
+     * Get countries
      *
      * @ApiDoc(
      *   resource = "SpotOption API",
