@@ -18,8 +18,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 class MailFixtures extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
 
-    const TEST_MAIL_SENDER   = 'testSender@test.test';
-    const TEST_MAIL_TARGET   = 'testTargetr@test.test';
+    const TEST_MAIL_SENDER   = 'testsender@test.test';
+    const TEST_MAIL_TARGET   = 'testtargetr@test.test';
     const TEST_MAIL_STATUS   = Mail::STATUS_NEW;
     const TEST_MAIL_HEADLINE = 'Test mail admin headline';
     const TEST_MAIL_TEXTBODY = 'Test mail admin text body';

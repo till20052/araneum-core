@@ -231,7 +231,7 @@ class Customer
      */
     public function setEmail($email)
     {
-        $this->email = $email;
+        $this->email = strtolower($email);
 
         return $this;
     }
@@ -243,7 +243,7 @@ class Customer
      */
     public function getEmail()
     {
-        return $this->email;
+        return strtolower($this->email);
     }
 
     /**
