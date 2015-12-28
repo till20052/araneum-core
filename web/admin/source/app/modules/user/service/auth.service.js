@@ -1,4 +1,4 @@
-(function (angular) {
+(function () {
 
     'use strict';
 
@@ -12,7 +12,12 @@
      * @param $http
      * @param User
      * @param $state
-     * @returns {{initLoginForm: initLoginForm, onStartChangeState: onStartChangeState, login: login, logout: logout}}
+     * @returns {{
+     *  initLoginForm: initLoginForm,
+     *  onStartChangeState: onStartChangeState,
+     *  login: login,
+     *  logout: logout
+     * }}
      * @constructor
      */
     function UserAuth($http, User, $state) {
@@ -168,4 +173,4 @@
 
     }
 
-})(angular);
+})();

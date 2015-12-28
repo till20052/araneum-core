@@ -1,26 +1,31 @@
-(function(angular){
-
+(function () {
     'use strict';
 
     angular
         .module('app.users')
-        .controller('ProfileSettingsController', ['$scope', '$rootScope', 'User', ProfileSettingsController]);
+        .controller('UserSettingsController', UserSettingsController);
 
-    function ProfileSettingsController($scope, $rootScope, User){
+    UserSettingsController.$inject = ['User', '$rootScope'];
 
-        (function(vm){
+    function UserSettingsController(User, $rootScope) {
+        /* jshint validthis: true */
+        var vm = this;
 
-            vm.layout = User.getSettings();
-            if (vm.layout) {
-                $rootScope.app.layout = vm.layout;
-            }
+        console.log(vm);
 
-            vm.$watch('layout', function () {
-                User.setSettings(vm.layout);
-            }, true);
-
-        })($scope);
+        //(function (vm) {
+        //
+        //    vm.layout = User.getSettings();
+        //    if (vm.layout) {
+        //        $rootScope.app.layout = vm.layout;
+        //    }
+        //
+        //    vm.$watch('layout', function () {
+        //        User.setSettings(vm.layout);
+        //    }, true);
+        //
+        //})($scope);
 
     }
 
-})(angular);
+})();
