@@ -21,7 +21,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *  ),
  *  @ORM\AttributeOverride(
  *      name="usernameCanonical",
- *      column=@ORM\Column(name="usernameCanonical", type="string", length=35)
+ *      column=@ORM\Column(name="usernameCanonical", type="string", length=35, nullable=true)
  *  )
  * })
  */
