@@ -6,6 +6,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class ClusterApiController
@@ -44,7 +45,7 @@ class ClusterApiController extends FOSRestController
      *      name="araneum_main_api_cluster_applications_configs_list",
      *      defaults={"_format"="json", "_locale"="en"}
      * )
-     *
+     * @Security("has_role('ROLE_API')")
      * @Rest\View()
      *
      * @param  int $clusterId The cluster id
@@ -93,7 +94,7 @@ class ClusterApiController extends FOSRestController
      *      name="araneum_main_api_cluster_remote_application_config",
      *      defaults={"_format"="json", "_locale"="en"}
      * )
-     *
+     * @Security("has_role('ROLE_API')")
      * @Rest\View()
      *
      * @param  int $clusterId The cluster id

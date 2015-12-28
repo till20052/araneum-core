@@ -36,6 +36,7 @@ class ErrorApiController extends FOSRestController
      *
      * @Rest\Post("/api/errors/insert/{appKey}", defaults={"_format"="json"})
      * @Rest\View(statusCode=201)
+     * @Security("has_role('ROLE_API')")
      *
      * @param  string  $appKey
      * @param  Request $request
