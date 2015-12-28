@@ -7,14 +7,16 @@ dashboard :
         PROBLEM: "Problem"
         ERROR: "Error"
         DISABLED: "Disabled"
-    wiget:
+    widget:
         APPLICATION_STATUSES: "Statuses for last 24 hour by applications"
         AVERAGE_APPLICATION_STATUSES: "Average application statuses by last 24 hours"
         CLUSTER_LOAD_AVERAGE: "Cluster load average by last 24 hours"
         CLUSTER_UP_TIME: "Clusters UpTime by last 24 hours"
         CUSTOMERS_REGISTRATION: "Customers registration received from applications (24 hours)"
-        EMAIL_RECIEVED: "Email received from applications (24 hours)"
+        RECEIVED_EMAILS_FROM_APPS_24H: "Email received from applications (24 hours)"
         RECEIVED_FROM_APPLICATION: "Received from all applications"
+        REGISTERED_LEADS_FROM_APPS_24H: "Leads registration received from applications (24 hours)"
+        ERRORS_RECEIVED_FROM_APPS_24H: "Errors received from applications (24 hours)"
         CUSTOMERS: "Customers"
         EMAILS: "messages"
         APPLICATIONS: "Applications"
@@ -25,6 +27,9 @@ dashboard :
         COLLAPSE: "Collapse panel"
         REFRESH: "Refresh panel"
         CLOSE: "Close panel"
+        LEADS: "leads"
+        ERRORS: "errors"
+        CHART_IS_NOT_AVAILABLE: "This chart is not available"
 topbar:
     messages:
         UNREAD: "Unread messages"

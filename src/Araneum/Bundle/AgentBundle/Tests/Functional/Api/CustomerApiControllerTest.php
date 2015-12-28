@@ -83,8 +83,21 @@ class CustomerApiControllerTest extends BaseController
                     'currency' => 'usd',
                     'phone' => '380993222234',
                     'birthday' => '2020-11-11',
+                    'password' => '1234567',
                 ],
                 Response::HTTP_CREATED,
+            ],
+            'testFailCreate' => [
+                [
+                    'firstName' => CustomerFixtures::TEST_FIRST_NAME,
+                    'lastName' => CustomerFixtures::TEST_LAST_NAME,
+                    'country' => 12,
+                    'email' => CustomerFixtures::TEST_EMAIL,
+                    'currency' => CustomerFixtures::TEST_CURRENCY,
+                    'phone' => CustomerFixtures::TEST_PHONE,
+                    'birthday' => CustomerFixtures::TEST_BIRTHDAY,
+                ],
+                Response::HTTP_BAD_REQUEST,
             ],
             'normal fullName&lastName cirilica letters' => [
                 [
@@ -95,20 +108,9 @@ class CustomerApiControllerTest extends BaseController
                     'currency' => 'usd',
                     'phone' => '380993222234',
                     'birthday' => '2222-12-12',
+                    'password' => '1234567',
                 ],
                 Response::HTTP_CREATED,
-            ],
-            'testFailCreate' => [
-                [
-                    'firstName' => CustomerFixtures::TEST_FIRST_NAME,
-                    'lastName' => CustomerFixtures::TEST_LAST_NAME,
-                    'country' => CustomerFixtures::TEST_COUNTRY,
-                    'email' => CustomerFixtures::TEST_EMAIL,
-                    'currency' => CustomerFixtures::TEST_CURRENCY,
-                    'phone' => CustomerFixtures::TEST_PHONE,
-                    'birthday' => CustomerFixtures::TEST_BIRTHDAY,
-                ],
-                Response::HTTP_BAD_REQUEST,
             ],
         ];
     }

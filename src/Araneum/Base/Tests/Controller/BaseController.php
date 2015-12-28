@@ -51,4 +51,21 @@ class BaseController extends WebTestCase
 
         return $client;
     }
+
+    /**
+     * Asserting Structures of Objects are Equal
+     *
+     * @param \stdClass $expected
+     * @param \stdClass $actual
+     */
+    protected function assertObjectsStructuresEquals(\stdClass $expected, \stdClass $actual)
+    {
+        foreach ($expected as $key => $value) {
+            $this->assertObjectHasAttribute($key, $actual, json_encode($actual));
+
+            if (is_object($value)) {
+                $this->assertObjectsStructuresEquals($value, $actual->{$key});
+            }
+        }
+    }
 }

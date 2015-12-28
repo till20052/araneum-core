@@ -94,8 +94,9 @@ class Customer
     private $currency;
 
     /**
-     * @var string
+     * @var \DateTime
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\Date()
      */
     private $birthday;
 
@@ -112,6 +113,13 @@ class Customer
      * @ORM\Column(type="datetime", name="delivered_at", nullable=true)
      */
     private $deliveredAt;
+
+    /**
+     * Not saved in DB
+     *
+     * @var string
+     */
+    private $password;
 
     /**
      * Get id
@@ -208,7 +216,7 @@ class Customer
     /**
      * Get country
      *
-     * @return string
+     * @return int
      */
     public function getCountry()
     {
@@ -314,7 +322,7 @@ class Customer
      */
     public function getCurrency()
     {
-        return $this->currency;
+        return strtoupper($this->currency); // for BC
     }
 
     /**
@@ -325,7 +333,7 @@ class Customer
      */
     public function setCurrency($currency)
     {
-        $this->currency = $currency;
+        $this->currency = strtoupper($currency);
 
         return $this;
     }
@@ -333,7 +341,7 @@ class Customer
     /**
      * Get birthday
      *
-     * @return string
+     * @return \DateTime
      */
     public function getBirthday()
     {
@@ -343,12 +351,35 @@ class Customer
     /**
      * Set birthday
      *
-     * @param  object $birthday
+     * @param \DateTime $birthday
      * @return mixed
      */
-    public function setBirthday($birthday)
+    public function setBirthday(\DateTime $birthday = null)
     {
         $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    /**
+     * Get Password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     * @return Customer
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
 
         return $this;
     }

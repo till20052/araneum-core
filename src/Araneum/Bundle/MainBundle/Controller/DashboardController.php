@@ -43,6 +43,9 @@ class DashboardController extends Controller
                 'registeredCustomers' => $statisticService->getRegisteredCustomersFromApplications(),
                 'receivedEmails' => $statisticService->getReceivedEmailsFromApplications(),
             ],
+            'charts' => [
+                'leads' => $statisticService->getLeads(),
+            ],
         ];
 
         return new JsonResponse($result, Response::HTTP_OK);
