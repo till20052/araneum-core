@@ -4,7 +4,9 @@ namespace Araneum\Bundle\AgentBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class CountyApiController
@@ -48,8 +50,12 @@ class CountyApiController extends FOSRestController
      */
     public function getCountriesAction($appKey)
     {
-        return $this->container
-            ->get('araneum.agent.spotoption.service')
-            ->getCountries($appKey);
+        try {
+            return $this->container
+                ->get('araneum.agent.spotoption.service')
+                ->getCountries($appKey);
+        } catch (\Exception $exception) {
+            return View::create(['error' => $exception->getMessage()], Response::HTTP_NOT_FOUND);
+        }
     }
 }

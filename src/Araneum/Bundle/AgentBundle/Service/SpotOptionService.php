@@ -7,6 +7,7 @@ use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Base\Service\Spot\SpotApiSenderService;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityNotFoundException;
 
 /**
  * Class SpotOptionService
@@ -111,19 +112,25 @@ class SpotOptionService
      *
      * @param string $appKey
      * @return mixed
+     * @throws EntityNotFoundException in case if can't found by application appKey
      */
     public function getCountries($appKey)
     {
-        $repository = $this->entityManager->getRepository('AraneumMainBundle:Application');
-        $entity = $repository->findOneBy(['appKey' => $appKey]);
+        /** @var Application $application */
+        $application = $this->entityManager
+            ->getRepository('AraneumMainBundle:Application')
+            ->findOneByAppKey($appKey);
 
-        $spotCredential = $entity->getSpotCredential();
+        if (empty($application)) {
+            throw new EntityNotFoundException();
+        }
 
-        $data = [
-            'MODULE' => 'Country',
-            'COMMAND' => 'view',
-        ];
-
-        return $this->spotApiSenderService->get($data, $spotCredential);
+        return $this->spotApiSenderService->get(
+            [
+                'MODULE' => 'Country',
+                'COMMAND' => 'view',
+            ],
+            $application->getSpotCredential()
+        );
     }
 }
