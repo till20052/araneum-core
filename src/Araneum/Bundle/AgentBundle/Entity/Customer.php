@@ -122,6 +122,13 @@ class Customer
     private $password;
 
     /**
+     * Not saved in DB
+     *
+     * @var int
+     */
+    private $spotId;
+
+    /**
      * Get id
      *
      * @return integer
@@ -380,6 +387,29 @@ class Customer
     public function setPassword($password)
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get spotId
+     *
+     * @return int
+     */
+    public function getSpotId()
+    {
+        return $this->spotId;
+    }
+
+    /**
+     * Set spotId
+     *
+     * @param int $spotId
+     * @return Customer
+     */
+    public function setSpotId($spotId)
+    {
+        $this->spotId = $spotId;
 
         return $this;
     }

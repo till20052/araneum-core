@@ -11,27 +11,85 @@ use Araneum\Base\Service\Spot\SpotApiSenderService;
  */
 class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
     protected $guzzleMock;
+    /**
+     * @var SpotApiSenderService
+     */
     protected $spotApiSenderService;
-
     protected $requestData = [
         'key' => 'value',
         'key2' => 'value',
         'key3' => 'value',
     ];
-
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
     protected $responseMock;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $requestMock;
 
-    protected function setUp()
+    /**
+     * Test getErrors with normal data
+     */
+    public function testGetErrorsNormal()
     {
-        $this->guzzleMock = $this->getMockBuilder('\Guzzle\Service\ClientInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->responseMock = $this->getMockBuilder('\Guzzle\Http\Message\Response')
-            ->setMethods(['send'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->spotApiSenderService = new SpotApiSenderService($this->guzzleMock, true);
+        $this->responseMock
+            ->expects($this->once())
+            ->method('json')
+            ->will(
+                $this->returnValue(
+                    [
+                        'status' => [
+                            'connection_status' => 'successful',
+                            'operation_status' => 'successful',
+                        ],
+                    ]
+                )
+            );
+
+        $this->assertNull($this->spotApiSenderService->getErrors($this->responseMock));
+    }
+
+    /**
+     * Test getErrors with normal data
+     */
+    public function testGetErrorsBad()
+    {
+        $this->responseMock
+            ->expects($this->once())
+            ->method('json')
+            ->will(
+                $this->returnValue(
+                    [
+                        'status' => [
+                            'connection_status' => 'successful',
+                            'operation_status' => 'fail',
+                            'errors' => 'errors message',
+                        ],
+                    ]
+                )
+            );
+
+        $this->assertEquals(json_encode('errors message'), $this->spotApiSenderService->getErrors($this->responseMock));
+    }
+
+    /**
+     * Test getErrors with Exception
+     *
+     * @expectedException \BadMethodCallException
+     */
+    public function testGetErrorsException()
+    {
+        $this->responseMock
+            ->expects($this->once())
+            ->method('json')
+            ->will($this->returnValue(['not valid response']));
+        $this->spotApiSenderService->getErrors($this->responseMock);
     }
 
     /**
@@ -39,6 +97,7 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSendNormalData()
     {
+        $this->requestMock->expects($this->once())->method('send');
         $spotCredential = [
             'url' => 'http://spotUrl.com',
             'userName' => 'spotUserName',
@@ -63,7 +122,7 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
                     )
                 )
             )
-            ->will($this->returnValue($this->responseMock));
+            ->will($this->returnValue($this->requestMock));
 
         $this->spotApiSenderService->send(
             $this->requestData,
@@ -88,5 +147,23 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
             $this->requestData,
             $spotCredential
         );
+    }
+
+    /**
+     * Set Up
+     */
+    protected function setUp()
+    {
+        $this->guzzleMock = $this->getMockBuilder('\Guzzle\Service\ClientInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->responseMock = $this->getMockBuilder('\Guzzle\Http\Message\Response')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->requestMock = $this->getMockBuilder('\Guzzle\Http\Message\EntityEnclosingRequestInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->spotApiSenderService = new SpotApiSenderService($this->guzzleMock, true);
     }
 }

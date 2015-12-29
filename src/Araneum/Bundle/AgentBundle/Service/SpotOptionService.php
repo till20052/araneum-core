@@ -2,8 +2,9 @@
 
 namespace Araneum\Bundle\AgentBundle\Service;
 
-use Araneum\Base\Service\RabbitMQ\SpotProducerService;
+use Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService;
 use Araneum\Bundle\AgentBundle\Entity\Customer;
+use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
 
 /**
  * Class SpotOptionService
@@ -13,16 +14,16 @@ use Araneum\Bundle\AgentBundle\Entity\Customer;
 class SpotOptionService
 {
     /**
-     * @var SpotProducerService
+     * @var SpotCustomerProducerService
      */
     protected $spotProducerService;
 
     /**
      * SpotOptionService constructor.
      *
-     * @param SpotProducerService $spotProducerService
+     * @param SpotCustomerProducerService $spotProducerService
      */
-    public function __construct(SpotProducerService $spotProducerService)
+    public function __construct(SpotCustomerProducerService $spotProducerService)
     {
         $this->spotProducerService = $spotProducerService;
     }
@@ -45,18 +46,19 @@ class SpotOptionService
     /**
      * Reset Customer Password on SpotOption
      *
-     * @param  string $login
-     * @param  string $currentPassword
-     * @param  string $newPassword
+     * @param Customer $customer
      * @return bool
      */
-    public function resetPassword($login, $currentPassword, $newPassword)
+    public function customerResetPassword(Customer $customer)
     {
-        $login = null;
-        $currentPassword = null;
-        $newPassword = null;
+        $customerData = [
+            'MODULE' => 'Customer',
+            'COMMAND' => 'edit',
+            'customerId' => $customer->getSpotId(),
+            'password' => $customer->getPassword(),
+        ];
 
-        return true;
+        return $this->spotProducerService->publish($customerData, $customer, CustomerLog::ACTION_RESET_PASSWORD);
     }
 
     /**
@@ -83,6 +85,6 @@ class SpotOptionService
             $customerData['birthday'] = $customer->getBirthday()->format('Y-m-d');
         }
 
-        return $this->spotProducerService->publish($customerData, $customer->getApplication());
+        return $this->spotProducerService->publish($customerData, $customer, CustomerLog::ACTION_CREATE);
     }
 }

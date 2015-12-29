@@ -3,7 +3,7 @@
 namespace Araneum\Bundle\AgentBundle\Test\Functional\Api;
 
 use Araneum\Base\Tests\Controller\BaseController;
-use Araneum\Base\Tests\Fixtures\Customer\CustomerFixtures;
+use Araneum\Base\Tests\Fixtures\Agent\CustomerFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,7 +17,8 @@ class CustomerApiControllerTest extends BaseController
     /**
      * @var string uri to call rest api method
      */
-    protected $customerInsert = '/agent/api/customers/insert/';
+    protected $customerInsert        = '/agent/api/customers/insert/';
+    protected $customerResetPassword = '/agent/api/customers/reset_password';
 
     /**
      * Settings up
@@ -46,9 +47,9 @@ class CustomerApiControllerTest extends BaseController
      * @dataProvider                apiDataProvider
      * @runTestsInSeparateProcesses
      * @param                       array $post
-     * @param                       int   $expected
+     * @param                       int   $expectedCode
      */
-    public function testPostCustomer(array $post, $expected)
+    public function testPostCustomer(array $post, $expectedCode)
     {
         $client = self::createAdminAuthorizedClient('api');
         $client->request(
@@ -59,11 +60,62 @@ class CustomerApiControllerTest extends BaseController
 
         $response = $client->getResponse();
 
-        $this->assertEquals(
-            $expected,
-            $response->getStatusCode(),
-            $response->getContent()
+        $this->assertEquals($expectedCode, $response->getStatusCode(), $response->getContent());
+    }
+
+    /**
+     * Test reset password customer method
+     *
+     * @param array $requestData
+     * @param int   $expectedCode
+     * @dataProvider resetPasswordDataSource
+     */
+    public function testResetPassword(array $requestData, $expectedCode)
+    {
+        $client = self::createAdminAuthorizedClient('api');
+        $client->request(
+            'POST',
+            $this->customerResetPassword.'?appKey='.ApplicationFixtures::TEST_APP_APP_KEY,
+            $requestData
         );
+        $response = $client->getResponse();
+
+        $this->assertEquals($expectedCode, $response->getStatusCode(), $response->getContent());
+    }
+
+    /**
+     * ResetPassword data provider
+     *
+     * @return array
+     */
+    public function resetPasswordDataSource()
+    {
+        return [
+            'normal' => [
+                [
+                    'password' => 'password',
+                    'customer_id' => 123,
+                    'email' => CustomerFixtures::TEST_2_EMAIL,
+                ],
+                Response::HTTP_OK,
+            ],
+            'short password' => [
+                [
+                    'password' => '1',
+                    'customer_id' => 123,
+                    'email' => CustomerFixtures::TEST_2_EMAIL,
+                ],
+                Response::HTTP_BAD_REQUEST,
+            ],
+            'not linked customer to application' => [
+                [
+                    'password' => '123456',
+                    'customer_id' => 123,
+                    'email' => CustomerFixtures::TEST_RESET_EMAIL,
+                ],
+                Response::HTTP_BAD_REQUEST,
+            ],
+        ];
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\AgentBundle\Test\Service;
 
 use Araneum\Bundle\AgentBundle\Entity\Customer;
+use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
 use Araneum\Bundle\AgentBundle\Service\SpotOptionService;
 
 /**
@@ -24,16 +25,43 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->spotProducerServiceMock = $this->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotProducerService')
+        $this->spotProducerServiceMock = $this
+            ->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService')
             ->disableOriginalConstructor()
             ->getMock();
-
 
         $this->spotOptionService = new SpotOptionService($this->spotProducerServiceMock);
     }
 
+    public function testCustomerResetNormal()
+    {
+        $customer = (new Customer())
+            ->setSpotId(123)
+            ->setPassword('password');
+
+        $customerData = [
+            'MODULE' => 'Customer',
+            'COMMAND' => 'edit',
+            'customerId' => $customer->getSpotId(),
+            'password' => $customer->getPassword(),
+        ];
+
+        $this->spotProducerServiceMock
+            ->expects($this->once())
+            ->method('publish')
+            ->with(
+                $this->equalTo($customerData),
+                $this->equalTo($customer),
+                $this->equalTo(CustomerLog::ACTION_RESET_PASSWORD)
+            )
+            ->will($this->returnValue(true));
+
+        $this->assertTrue($this->spotOptionService->customerResetPassword($customer));
+    }
+
+
     /**
-     *  Test
+     *  Test customer create
      */
     public function testCustomerCreateNormal()
     {
@@ -65,7 +93,8 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
             ->method('publish')
             ->with(
                 $this->equalTo($customerData),
-                $this->equalTo($application)
+                $this->equalTo($customer),
+                $this->equalTo(CustomerLog::ACTION_CREATE)
             )
             ->will($this->returnValue(true));
 

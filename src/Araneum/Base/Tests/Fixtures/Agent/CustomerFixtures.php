@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Base\Tests\Fixtures\Customer;
+namespace Araneum\Base\Tests\Fixtures\Agent;
 
 use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -11,7 +11,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 /**
  * Class CustomerFixtures
  *
- * @package Araneum\Base\Tests\Fixtures\Customer
+ * @package Araneum\Base\Tests\Fixtures\Agent
  */
 class CustomerFixtures extends AbstractFixture implements FixtureInterface, DependentFixtureInterface
 {
@@ -33,7 +33,7 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
     const TEST_2_CALLBACK   = false;
     const TEST_2_PASSWORD   = 'testPassword2';
     const TEST_2_BIRTHDAY   = '2015-11-10';
-
+    const TEST_RESET_EMAIL = 'testCustomerReset@test.com';
 
     /**
      * {@inheritDoc}
@@ -70,6 +70,24 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
                     ->setLastName(self::TEST_2_LAST_NAME)
                     ->setCountry(self::TEST_2_COUNTRY)
                     ->setEmail(self::TEST_2_EMAIL)
+                    ->setPhone(self::TEST_2_PHONE)
+                    ->setCurrency(self::TEST_2_CURRENCY)
+                    ->setCallback(self::TEST_2_CALLBACK)
+                    ->setBirthday(new \DateTime(self::TEST_2_BIRTHDAY))
+                    ->setDeliveredAt(new \DateTime('2015-10-07'))
+            );
+        }
+
+        $customerReset = $manager->getRepository('AraneumAgentBundle:Customer')
+            ->findByEmail(self::TEST_RESET_EMAIL);
+
+        if (empty($customerReset)) {
+            $manager->persist(
+                (new Customer())
+                    ->setFirstName(self::TEST_2_FIRST_NAME)
+                    ->setLastName(self::TEST_2_LAST_NAME)
+                    ->setCountry(self::TEST_2_COUNTRY)
+                    ->setEmail(self::TEST_RESET_EMAIL)
                     ->setPhone(self::TEST_2_PHONE)
                     ->setCurrency(self::TEST_2_CURRENCY)
                     ->setCallback(self::TEST_2_CALLBACK)

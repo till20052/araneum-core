@@ -150,7 +150,7 @@ old_sound_rabbit_mq:
                 durable: true
             queue_options:
                 name: sendToSpot_%session_prefix%
-            callback: araneum.base.rabbitmq.consumer.spot
+            callback: araneum.base.rabbitmq.consumer.spot_customer
 
 snc_redis:
     clients:

@@ -27,27 +27,22 @@ class CustomerApiHandlerService
      * @var EventDispatcherInterface
      */
     private $dispatcher;
-
     /**
      * @var ContainerInterface
      */
     protected $container;
-
     /**
      * @var EntityManager
      */
     protected $entityManager;
-
     /**
      * @var ApplicationManagerService
      */
     protected $applicationManager;
-
     /**
      * @var SpotOptionService
      */
     protected $spotOptionService;
-
     /**
      * @var FormFactory
      */
@@ -92,9 +87,7 @@ class CustomerApiHandlerService
 
         $result = $this->processForm($parameters, $customer);
 
-        $event = new CustomerEvent();
-        $event->setCustomer($customer);
-        $this->dispatcher->dispatch(AraneumAgentBundle::EVENT_CUSTOMER_NEW, $event);
+        $this->createCustomerEvent($customer, AraneumAgentBundle::EVENT_CUSTOMER_NEW);
 
         return $result;
     }
@@ -132,30 +125,11 @@ class CustomerApiHandlerService
      */
     public function login($email, $password, $appKey)
     {
-        $application = $this->applicationManager->findOneOr404(['appKey' => $appKey]);
-
+        $customer = $this->validateCustomerAndApplication($appKey, $email);
         $spotResponse = $this->spotOptionService->login($email, $password);
+        $this->createCustomerLog(CustomerLog::ACTION_LOGIN, $customer, $spotResponse);
 
-        $customer = $this->entityManager
-            ->getRepository('AraneumAgentBundle:Customer')
-            ->findOneBy(['email' => $email]);
-        $log = new CustomerLog();
-        $log->setApplication($application);
-        $log->setAction('Login');
-        $log->setCustomer($customer);
-        $log->setSpotResponse($spotResponse);
-
-        //TODO respnonse spotoption description
-        if ($spotResponse) {
-            $log->setStatus(CustomerLog::STATUS_OK);
-        } else {
-            $log->setStatus(CustomerLog::STATUS_ERROR);
-        }
-
-        $this->entityManager->persist($log);
-        $this->entityManager->flush();
-
-        return $log->getStatus();
+        return 0;
     }
 
     /**
@@ -163,45 +137,90 @@ class CustomerApiHandlerService
      *
      * @param string $appKey
      * @param string $email
-     * @param string $currentPassword
-     * @param string $newPassword
+     * @param int    $customerId
+     * @param string $password
      *
      * @throws EntityNotFoundException in case if Application or Customer does not exists
      * @throws \Exception in case if Application does not have Customer
      *
      * @return bool
      */
-    public function resetPassword($appKey, $email, $currentPassword, $newPassword)
+    public function resetPassword($appKey, $email, $customerId, $password)
     {
-        /** @var Application $application */
-        $application = $this->entityManager
-            ->getRepository('AraneumMainBundle:Application')
-            ->findOneByAppKey($appKey);
+        $customer = $this->validateCustomerAndApplication($appKey, $email);
+        $customer
+            ->setPassword($password)
+            ->setSpotId($customerId);
+        $this->createCustomerEvent($customer, AraneumAgentBundle::EVENT_CUSTOMER_RESET_PASSWORD);
 
-        /** @var Customer $customer */
-        $customer = $this->entityManager
-            ->getRepository('AraneumAgentBundle:Customer')
-            ->findOneByEmail($email);
+        return 'successful';
+    }
 
-        if (empty($application) || empty($customer)) {
-            throw new EntityNotFoundException();
-        } elseif (!$application->getCustomers()->contains($customer)) {
-            throw new \Exception('Application does not have this Customer');
+    /**
+     * Create and save customer log
+     *
+     * @param string   $actionName
+     * @param Customer $customer
+     * @param string   $spotResponse
+     * @return CustomerLog
+     */
+    private function createCustomerLog($actionName, Customer $customer, $spotResponse)
+    {
+        $logStatus = CustomerLog::STATUS_ERROR;
+        if ($spotResponse) {
+            $logStatus = CustomerLog::STATUS_OK;
         }
 
-        $spotResponse = $this->spotOptionService
-            ->resetPassword($email, $currentPassword, $newPassword);
-
         $customerLog = (new CustomerLog())
-            ->setAction('reset_password')
-            ->setApplication($application)
+            ->setAction($actionName)
+            ->setApplication($customer->getApplication())
             ->setCustomer($customer)
             ->setSpotResponse($spotResponse)
-            ->setStatus(CustomerLog::STATUS_OK);
+            ->setStatus($logStatus);
 
         $this->entityManager->persist($customerLog);
         $this->entityManager->flush();
 
-        return $customerLog->getStatus();
+        return $customerLog;
+    }
+
+    /**
+     * Validate customer and application, if all is return customer
+     *
+     * @param $appKey
+     * @param $email
+     * @return Customer
+     * @throws EntityNotFoundException
+     * @throws \Exception
+     */
+    private function validateCustomerAndApplication($appKey, $email)
+    {
+        /** @var Application $application */
+        $application = $this->applicationManager->findOneOr404(['appKey' => $appKey]);
+        /** @var Customer $customer */
+        $customer = $this->entityManager->getRepository('AraneumAgentBundle:Customer')->findOneBy(['email' => $email]);
+
+        if (empty($customer)) {
+            throw new EntityNotFoundException('Not Customer found for this $email: '.$email);
+        }
+
+        if (!$application->getCustomers()->contains($customer)) {
+            throw new \Exception("Application does not have this Customer. customer.id=".$customer->getId());
+        }
+
+        return $customer;
+    }
+
+    /**
+     * Create and dispatch Customer event
+     *
+     * @param Customer $customer
+     * @param string   $eventName
+     */
+    private function createCustomerEvent(Customer $customer, $eventName)
+    {
+        $event = new CustomerEvent();
+        $event->setCustomer($customer);
+        $this->dispatcher->dispatch($eventName, $event);
     }
 }

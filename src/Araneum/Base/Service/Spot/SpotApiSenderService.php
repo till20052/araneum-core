@@ -2,6 +2,7 @@
 
 namespace Araneum\Base\Service\Spot;
 
+use Guzzle\Http\Message\Response;
 use Guzzle\Service\ClientInterface;
 
 /**
@@ -58,6 +59,31 @@ class SpotApiSenderService
                 $requestData
             )
         )->send();
+    }
+
+    /**
+     * Get errors from Spot response or null if no errors
+     *
+     * @param Response $response
+     * @return string|null
+     */
+    public function getErrors(Response $response)
+    {
+        $decodedResponse = $response->json();
+        if (!array_key_exists('status', $decodedResponse)) {
+            throw new \BadMethodCallException('Unsupported response format');
+        }
+
+        $status = $decodedResponse['status'];
+        if (array_key_exists('connection_status', $status) &&
+            $status['connection_status'] === 'successful' &&
+            array_key_exists('operation_status', $status) &&
+            $status['operation_status'] === 'successful'
+        ) {
+            return null;
+        }
+
+        return json_encode($status['errors']);
     }
 
     /**

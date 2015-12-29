@@ -142,10 +142,10 @@ class CustomerApiController extends FOSRestController
      *
      * @Rest\Post("/api/customers/reset_password", defaults={"_format"="json"})
      * @Rest\QueryParam(name="app_key",            allowBlank=false)
-     * @Rest\RequestParam(name="email",            allowBlank=false)
-     * @Rest\RequestParam(name="current_password", allowBlank=false)
-     * @Rest\RequestParam(name="new_password",     allowBlank=false)
-     * @Rest\View(statusCode=202)
+     * @Rest\RequestParam(name="email",              allowBlank=false)
+     * @Rest\RequestParam(name="customer_id",      allowBlank=false)
+     * @Rest\RequestParam(name="password",         allowBlank=false, requirements=".{6,}")
+     * @Rest\View(statusCode=200)
      *
      * @param  ParamFetcher $paramFetcher
      * @return array
@@ -158,13 +158,13 @@ class CustomerApiController extends FOSRestController
                 ->resetPassword(
                     $paramFetcher->get('app_key'),
                     $paramFetcher->get('email'),
-                    $paramFetcher->get('current_password'),
-                    $paramFetcher->get('new_password')
+                    $paramFetcher->get('customer_id'),
+                    $paramFetcher->get('password')
                 );
 
             return ['status' => $status];
         } catch (\Exception $exception) {
-            return View::create(['error' => $exception->getMessage()], Response::HTTP_NOT_FOUND);
+            return View::create(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }
 }
