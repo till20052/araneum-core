@@ -125,13 +125,14 @@ class CustomerApiHandlerService
      */
     public function login($email, $password, $appKey)
     {
+        $email = strtolower($email);
+        
         $customer = $this->validateCustomerAndApplication($appKey, $email);
         $spotResponse = $this->spotOptionService->login($email, $password);
         $this->createCustomerLog(CustomerLog::ACTION_LOGIN, $customer, $spotResponse);
 
         return 0;
     }
-
     /**
      * Reset Customer Password
      *
@@ -147,6 +148,8 @@ class CustomerApiHandlerService
      */
     public function resetPassword($appKey, $email, $customerId, $password)
     {
+        $email = strtolower($email);
+        
         $customer = $this->validateCustomerAndApplication($appKey, $email);
         $customer
             ->setPassword($password)

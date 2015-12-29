@@ -47,7 +47,7 @@ class ApplicationApiController extends FOSRestController
      *      name="araneum_main_api_application",
      *      defaults={"_format"="json", "_locale"="en"}
      * )
-     *
+     * @Security("has_role('ROLE_API')")
      * @Rest\View()
      *
      * @param  string $appKey The application appKey

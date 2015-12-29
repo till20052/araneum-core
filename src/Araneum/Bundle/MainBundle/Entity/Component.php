@@ -29,9 +29,9 @@ class Component
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=35)
      * @Assert\NotBlank()
-     * @Assert\Length(min=2, max=255)
+     * @Assert\Length(min=2, max=35)
      * @Assert\Regex(pattern="/^\w([\w\d\s]+)$/")
      */
     protected $name;

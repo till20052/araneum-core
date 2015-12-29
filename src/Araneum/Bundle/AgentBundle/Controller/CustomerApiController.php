@@ -40,9 +40,8 @@ class CustomerApiController extends FOSRestController
      *   input="Araneum\Bundle\AgentBundle\Form\Type\CustomerType",
      *   tags={"Agent"}
      * )
-     *
+     * @Security("has_role('ROLE_API')")
      * @Rest\Post("/api/customers/insert/{appKey}", defaults={"_format"="json"})
-     *
      * @Rest\View(statusCode=201)
      *
      * @param  string  $appKey
@@ -98,6 +97,7 @@ class CustomerApiController extends FOSRestController
      * @param                              ParamFetcher $request
      * @Rest\RequestParam(name="email",    allowBlank=false, requirements="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$")
      * @Rest\RequestParam(name="password", allowBlank=false, requirements="\w{3,}")
+     * @Security("has_role('ROLE_API')")
      * @return                             mixed
      */
     public function loginAction($appKey, ParamFetcher $request)
@@ -142,11 +142,12 @@ class CustomerApiController extends FOSRestController
      *
      * @Rest\Post("/api/customers/reset_password", defaults={"_format"="json"})
      * @Rest\QueryParam(name="app_key",            allowBlank=false)
-     * @Rest\RequestParam(name="email",              allowBlank=false)
+     * @Rest\RequestParam(name="email",            allowBlank=false)
      * @Rest\RequestParam(name="customer_id",      allowBlank=false)
      * @Rest\RequestParam(name="password",         allowBlank=false, requirements=".{6,}")
      * @Rest\View(statusCode=200)
-     *
+     * @Security("has_role('ROLE_API')")
+     * 
      * @param  ParamFetcher $paramFetcher
      * @return array
      */

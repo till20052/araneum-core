@@ -24,6 +24,7 @@ class ApplicationApiHandlerService
      */
     protected $repository;
 
+
     /**
      * Class construct
      *

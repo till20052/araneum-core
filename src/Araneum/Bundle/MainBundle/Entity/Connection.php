@@ -54,8 +54,8 @@ class Connection
     protected $type;
 
     /**
-     * @ORM\Column(type="string", name="name", unique=true, length=100)
-     * @Assert\Length(min=3, max=100)
+     * @ORM\Column(type="string", name="name", unique=true, length=35)
+     * @Assert\Length(min=3, max=35)
      */
     protected $name;
 
