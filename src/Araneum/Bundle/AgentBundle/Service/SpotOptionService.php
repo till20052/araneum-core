@@ -37,7 +37,6 @@ class SpotOptionService
      * SpotOptionService constructor.
      *
      * @param SpotCustomerProducerService $spotProducerService
-     * @param SpotCustomerProducerService $spotProducerService
      * @param SpotApiSenderService        $spotApiSenderService
      * @param EntityManager               $entityManager
      */

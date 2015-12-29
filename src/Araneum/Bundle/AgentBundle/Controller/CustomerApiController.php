@@ -147,7 +147,7 @@ class CustomerApiController extends FOSRestController
      * @Rest\RequestParam(name="password",         allowBlank=false, requirements=".{6,}")
      * @Rest\View(statusCode=200)
      * @Security("has_role('ROLE_API')")
-     * 
+     *
      * @param  ParamFetcher $paramFetcher
      * @return array
      */
