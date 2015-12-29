@@ -45,7 +45,7 @@ class CustomerApiControllerTest extends BaseController
      * Test customer controller
      *
      * @dataProvider                apiDataProvider
-     * @runTestsInSeparateProcesses
+     * @runInSeparateProcess
      * @param                       array $post
      * @param                       int   $expectedCode
      */
@@ -69,6 +69,7 @@ class CustomerApiControllerTest extends BaseController
      * @param array $requestData
      * @param int   $expectedCode
      * @dataProvider resetPasswordDataSource
+     * @runInSeparateProcess
      */
     public function testResetPassword(array $requestData, $expectedCode)
     {
