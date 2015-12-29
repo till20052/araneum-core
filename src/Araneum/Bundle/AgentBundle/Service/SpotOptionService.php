@@ -7,7 +7,8 @@ use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Base\Service\Spot\SpotApiSenderService;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityNotFoundException;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class SpotOptionService
@@ -112,7 +113,7 @@ class SpotOptionService
      *
      * @param string $appKey
      * @return mixed
-     * @throws EntityNotFoundException in case if can't found by application appKey
+     * @throws NotFoundHttpException in case if can't found by application appKey
      */
     public function getCountries($appKey)
     {
@@ -122,7 +123,7 @@ class SpotOptionService
             ->findOneByAppKey($appKey);
 
         if (empty($application)) {
-            throw new EntityNotFoundException();
+            throw new NotFoundHttpException('Not Application found for this appKey', null, Response::HTTP_NOT_FOUND);
         }
 
         return $this->spotApiSenderService->get(

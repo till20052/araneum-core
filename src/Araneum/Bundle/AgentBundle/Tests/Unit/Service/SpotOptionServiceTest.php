@@ -4,8 +4,8 @@ namespace Araneum\Bundle\AgentBundle\Test\Service;
 
 use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\AgentBundle\Service\SpotOptionService;
-use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class SpotOptionService
@@ -14,11 +14,11 @@ use Doctrine\ORM\EntityManager;
  */
 class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var SpotOptionService
      */
     protected $spotOptionService;
+
     /**
      * @var
      */
@@ -59,7 +59,7 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *  Test
+     * Test
      */
     public function testCustomerCreateNormal()
     {
@@ -103,48 +103,71 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCountries()
     {
-
-        $spotCredencials = [
+        $appKey = md5(microtime(true));
+        $data = [
+            'MODULE' => 'Country',
+            'COMMAND' => 'view',
+        ];
+        $spotCredentials = [
             'url' => 'http:/\/\ultratrade.office.dev',
             'userName' => 'araneum',
             'password' => 'wU7tc2YKg2',
         ];
 
         $application = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Application')
+            ->disableOriginalConstructor()
             ->getMock();
-
         $application->expects($this->once())
             ->method('getSpotCredential')
-            ->will(
-                $this->returnValue(
-                    $spotCredencials
-                )
-            );
+            ->will($this->returnValue($spotCredentials));
 
         $repository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ApplicationRepository')
             ->disableOriginalConstructor()
+            ->setMethods(['findOneByAppKey'])
             ->getMock();
+        $repository->expects($this->once())
+            ->method('findOneByAppKey')
+            ->with($this->equalTo($appKey))
+            ->will($this->returnValue($application));
 
         $this->entityManager->expects($this->once())
             ->method('getRepository')
             ->with($this->equalTo('AraneumMainBundle:Application'))
             ->will($this->returnValue($repository));
 
-        $repository->expects($this->once())
-            ->method('findOneBy')
-            ->with($this->equalTo(['appKey' => 111111]))
-            ->will($this->returnValue($application));
-
-        $data = [
-            'MODULE' => 'Country',
-            'COMMAND' => 'view',
-        ];
-
         $this->spotApiSender->expects($this->once())
             ->method('get')
-            ->with($this->equalTo($data), $this->equalTo($spotCredencials))
+            ->with($this->equalTo($data), $this->equalTo($spotCredentials))
             ->will($this->returnValue(true));
 
-        $this->assertTrue($this->spotOptionService->getCountries(111111));
+        $this->assertTrue($this->spotOptionService->getCountries($appKey));
+    }
+
+    /**
+     * Test SpotOptionService.getCountries(...) in case if return NotFoundHttpException
+     *
+     * @expectedException           \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @expectedExceptionCode       \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND
+     * @expectedExceptionMessage    Not Application found for this appKey
+     */
+    public function testGetCountriesEntityNotFoundException()
+    {
+        $appKey = md5(microtime(true));
+
+        $repository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ApplicationRepository')
+            ->disableOriginalConstructor()
+            ->setMethods(['findOneByAppKey'])
+            ->getMock();
+        $repository->expects($this->once())
+            ->method('findOneByAppKey')
+            ->with($this->equalTo($appKey))
+            ->will($this->returnValue(null));
+
+        $this->entityManager->expects($this->once())
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumMainBundle:Application'))
+            ->will($this->returnValue($repository));
+
+        $this->spotOptionService->getCountries($appKey);
     }
 }

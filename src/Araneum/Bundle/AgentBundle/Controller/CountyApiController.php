@@ -55,7 +55,7 @@ class CountyApiController extends FOSRestController
                 ->get('araneum.agent.spotoption.service')
                 ->getCountries($appKey);
         } catch (\Exception $exception) {
-            return View::create(['error' => $exception->getMessage()], Response::HTTP_NOT_FOUND);
+            return View::create(['error' => $exception->getMessage()], $exception->getCode());
         }
     }
 }
