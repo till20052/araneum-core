@@ -1,45 +1,53 @@
 <p class="text-center pv" translate="user.PASSWORD_RESET">PASSWORD RESET</p>
 
-<form ng-submit="ctrl.resetAction()" role="form" name="ctrl.reset" novalidate="" class="form-validate">
+<form ng-show="ctrl.showForm" ng-submit="ctrl.resetAction()" role="form" name="ctrl.reset" novalidate=""
+      class="form-validate">
 
-	<div ng-bind="ctrl.error" ng-show="ctrl.error != ''" class="alert alert-danger text-center"></div>
+    <div ng-show="ctrl.error != ''" class="alert alert-danger text-center"></div>
 
-	<div class="form-group has-feedback">
+    <div class="form-group has-feedback">
 
-		<label
-			ng-repeat-start="ui in ctrl.fosUi track by $index"
-			ng-class="{ 'mt-lg': $index > 0 }"
-			class="text-muted"
-		>{{ 'FOSUserBundle.' + ui.label | translate }}</label>
-		<input
-			ng-model="ctrl.fosUi[ui.name].ng"
-			ng-pattern="/.{2,}/"
-			compare-with="{{ $index > 0 ? 'ctrl.fosUi.first.ng' : 'ctrl.fosUi.second.ng' }}"
-			type="password"
-			name="{{ ctrl.fosUi[ui.name].full_name }}"
-			placeholder="Enter your password"
-			autocomplete="off"
-			required="required"
-			class="form-control"
-		/>
+        <label
+                ng-repeat-start="ui in ctrl.fosUi track by $index"
+                ng-class="{ 'mt-lg': $index > 0 }"
+                class="text-muted"
+        >{{ 'FOSUserBundle.' + ui.label | translate }}</label>
+        <input
+                ng-model="ctrl.fosUi[ui.name].ng"
+                ng-pattern="/.{2,}/"
+                compare-with="{{ $index > 0 ? 'ctrl.fosUi.first.ng' : 'ctrl.fosUi.second.ng' }}"
+                type="password"
+                name="{{ ctrl.fosUi[ui.name].full_name }}"
+                placeholder="Enter your password"
+                autocomplete="off"
+                required="required"
+                class="form-control"
+        />
 
-		<div
-			ng-repeat-end
-			ng-show="ctrl.reset[ui.full_name].$dirty && ctrl.reset[ui.full_name].$error.required"
-			class="text-danger"
-			translate="validators.FIELD_REQUIRED"
-		>This field is required</div>
+        <div
+                ng-repeat-end
+                ng-show="ctrl.reset[ui.full_name].$dirty && ctrl.reset[ui.full_name].$error.required"
+                class="text-danger"
+                translate="validators.FIELD_REQUIRED"
+        >This field is required
+        </div>
 
-		<div ng-show="ctrl.reset[ctrl.fosUi.second.full_name].$error.match" class="text-danger" >Value of confirm Password field should be same as value of Password field.</div>
+        <div ng-show="ctrl.reset[ctrl.fosUi.second.full_name].$error.match" class="text-danger">Value of confirm
+            Password field should be same as value of Password field.
+        </div>
 
-		<span class="fa fa-envelope form-control-feedback text-muted"></span>
+        <span class="fa fa-envelope form-control-feedback text-muted"></span>
 
-	</div>
+    </div>
 
-	<button type="submit" class="btn btn-danger btn-block" translate="general.RESET">Reset</button>
-
-	<div class="mt-lg text-center">
-		<a ui-sref="login" class="text-muted" translate="user.SIGN_IN">Sign In</a>
-	</div>
+    <button type="submit" class="btn btn-danger btn-block" translate="general.RESET">Reset</button>
 
 </form>
+
+<div ng-show="!ctrl.showForm" class="text-center" translate="admin.general.CURRENT_URL_NOT_VALID">
+    Current URL is not valid more
+</div>
+
+<div class="mt-lg text-center">
+    <a ui-sref="login" class="text-muted" translate="user.SIGN_IN">Sign In</a>
+</div>

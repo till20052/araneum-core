@@ -95,6 +95,7 @@ general:
     DISABLE: 'Disable'
     SURE: 'Are you sure?'
     CONFIRM_DELETE: 'Yes, delete it'
+    CURRENT_URL_NOT_VALID: 'Current URL is not valid more'
 datatables:
     PROCESSING: 'Processing...'
     SEARCH: 'Search:'
