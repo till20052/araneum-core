@@ -127,9 +127,8 @@ class CustomerApiController extends FOSRestController
      *     parameter"},
      *      {"name"="email", "dataType"="string", "required"=true, "description"="Searching Customer by this
      *     parameter"},
-     *      {"name"="current_password", "dataType"="string", "required"=true, "description"="Customer current
-     *     password"},
-     *      {"name"="new_password", "dataType"="string", "required"=true, "description"="Customer new password"}
+     *      {"name"="password", "dataType"="string", "required"=true, "description"="Customer new password"},
+     *      {"name"="customer_id", "dataType"="int", "required"=true, "description"="Customer spot id"}
      *  },
      *  statusCodes = {
      *      202 = "Returned when reset customer password was successful",
