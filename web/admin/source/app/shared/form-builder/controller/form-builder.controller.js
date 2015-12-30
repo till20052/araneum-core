@@ -10,7 +10,7 @@
     /**
      *
      * @param $state
-     * @param $scope
+     * @param a
      * @param $http
      * @param $compile
      * @param DTOptionsBuilder options for datatabe
@@ -154,12 +154,12 @@
                     $('tbody input[type="checkbox"]', $(tag.parents('table').eq(0)))
                         .prop('checked', tag.prop('checked'))
                         .addClass('selectedRow');
-                        vm.checkBoxData = vm.datatableItems;
+                    vm.checkBoxData = vm.datatableItems;
                 } else if (!tag.prop('checked')) {
                     $('thead input[type="checkbox"]', $(tag.parents('table').eq(0)))
                         .prop('checked', false)
                         .removeClass('selectedRow');
-                        vm.checkBoxData = []
+                    vm.checkBoxData = []
                 }
             }
         }
@@ -220,7 +220,7 @@
 
                             sendDataCreate(url, data, function(result) {
                                 console.log(actionConfig)
-                                callbackManager(actionConfig.callback, data);
+                                callbackManager(actionConfig.callback, data, result.id);
                                 $scope.closeThisDialog();
                                 toaster.pop(
                                     'success',
@@ -350,7 +350,9 @@
             $http({
                 method: 'POST',
                 url: url,
-                data: {data: data}
+                data: {
+                    data: data
+                }
             }).then(success, error);
         }
 
@@ -370,9 +372,9 @@
         }
 
 
-        function callbackManager (callback, data) {
+        function callbackManager(callback, data, id) {
             try {
-                vm[callback](data);
+                vm[callback](data, id);
             } catch (err) {
                 console.log(err.message);
             }
@@ -386,10 +388,21 @@
         }
 
 
-        vm.create = function(data) {
+        vm.create = function(data, id) {
             // DELETE ROW FROM DATATABLE
             console.log("create");
-            $('#datatable').DataTable().add(data).draw();
+            var values = [id];
+            vm.datatableItems[id] = data;
+
+            for (var key in data) {
+                console.log(key);
+                values.push(data[key]);
+            }
+
+            values.push('<div data-item="row" ng-model="vm.datatableItems[' + id + ']" />');
+            values.push('<div data-item="checkbox" ng-model="vm.datatableItems[' + id + ']" />');
+
+            $('#datatable').DataTable().draw();
         }
 
         vm.update = function(data) {

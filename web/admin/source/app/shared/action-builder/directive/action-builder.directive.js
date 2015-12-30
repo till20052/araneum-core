@@ -1,6 +1,7 @@
 (function() {
     "use strict";
 
+    var dataActionCache; // надо будет создать общею фабрику что то вроде dataCache, для кеширования данных 
     angular
         .module( 'app.action-builder' )
         .directive( 'actionBuilder', actionBuilder );
@@ -28,7 +29,9 @@
             promise.then( getDataForActions );
 
             function getDataForActions ( response ) {
-                var actions = response.action,
+                dataActionCache = dataActionCache ? dataActionCache : response.action;
+
+                var actions = dataActionCache,
                     actionsTemplate = '';
 
                 if ( actions[ type ] === undefined ) {
