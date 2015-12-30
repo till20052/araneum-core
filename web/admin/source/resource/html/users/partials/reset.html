@@ -1,8 +1,9 @@
 <p class="text-center pv" translate="user.PASSWORD_RESET">PASSWORD RESET</p>
 
-<form ng-submit="ctrl.resetAction()" role="form" name="ctrl.reset" novalidate="" class="form-validate">
+<form ng-show="ctrl.showForm" ng-submit="ctrl.resetAction()" role="form" name="ctrl.reset" novalidate=""
+      class="form-validate">
 
-    <div ng-bind="ctrl.error" ng-show="ctrl.error != ''" class="alert alert-danger text-center"></div>
+    <div ng-show="ctrl.error != ''" class="alert alert-danger text-center"></div>
 
     <div class="form-group has-feedback">
 
@@ -41,8 +42,12 @@
 
     <button type="submit" class="btn btn-danger btn-block" translate="admin.general.RESET">Reset</button>
 
-    <div class="mt-lg text-center">
-        <a ui-sref="login" class="text-muted" translate="user.SIGN_IN">Sign In</a>
-    </div>
-
 </form>
+
+<div ng-show="!ctrl.showForm" class="text-center" translate="admin.general.CURRENT_URL_NOT_VALID">
+    Current URL is not valid more
+</div>
+
+<div class="mt-lg text-center">
+    <a ui-sref="login" class="text-muted" translate="user.SIGN_IN">Sign In</a>
+</div>
