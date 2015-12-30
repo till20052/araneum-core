@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('layout')
+        .module('app.layout')
         .factory('layout', Layout);
 
     Layout.$inject = [];
