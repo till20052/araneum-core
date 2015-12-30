@@ -40,28 +40,6 @@ class AdminUserController extends Controller
     }
 
     /**
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/profile/get_authorized_user_data", name="araneum_user_adminUser_getAuthorizedUserData")
-     * @return Response
-     */
-    public function getAuthorizedUserData()
-    {
-        /**
-         * @var User $user
-         */
-        $user = $this->getUser();
-
-        return new JsonResponse(
-            [
-                'name' => $user->getFullName(),
-                'email' => $user->getEmail(),
-                'settings' => $user->getSettings(),
-            ],
-            Response::HTTP_OK
-        );
-    }
-
-    /**
      * Edit profile
      *
      * @Route("/profile/edit",             name="araneum_user_adminUser_edit")
@@ -113,13 +91,43 @@ class AdminUserController extends Controller
     }
 
     /**
+     * Get Authorized User Data
+     *
+     * @Route(
+     *     "/profile/get_authorized_user_data",
+     *     name="araneum_user_adminUser_getAuthorizedUserData"
+     * )
+     * @Security("has_role('ROLE_ADMIN')")
+     * @return JsonResponse
+     */
+    public function getAuthorizedUserData()
+    {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+
+        return new JsonResponse(
+            [
+                'name' => $user->getFullName(),
+                'email' => $user->getEmail(),
+                'settings' => $user->getSettings(),
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
      * Set user settings
      *
+     * @Route(
+     *     "/profile/settings",
+     *     name="araneum_user_adminUser_setSettings"
+     * )
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/profile/settings",         name="araneum_user_adminUser_setSettings")
      * @Method("POST")
-     * @param                              Request $request
-     * @return                             JsonResponse $response
+     * @param Request $request
+     * @return JsonResponse $response
      */
     public function setSettingsAction(Request $request)
     {
@@ -129,13 +137,11 @@ class AdminUserController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
 
         try {
-
             $this->getUser()
                 ->setSettings($request->request->all());
 
             $entityManager->flush();
         } catch (\Exception $e) {
-
             return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         }
 

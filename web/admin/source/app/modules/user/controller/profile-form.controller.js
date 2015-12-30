@@ -71,7 +71,7 @@
                     if (name == 'fullName') {
                         name = 'name';
                     }
-                    User.set(name, value);
+                    User[name] = value;
                 });
                 close();
             }

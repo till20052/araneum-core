@@ -1,10 +1,9 @@
-(function (angular) {
-
+(function () {
     'use strict';
 
     angular
         .module('app.users')
-        .service('UserAuth', ['$http', 'User', '$state', UserAuth]);
+        .service('UserAuth', ['$http', 'User', '$state', Auth]);
 
     /**
      * User auth service constructor
@@ -12,10 +11,15 @@
      * @param $http
      * @param User
      * @param $state
-     * @returns {{initLoginForm: initLoginForm, onStartChangeState: onStartChangeState, login: login, logout: logout}}
+     * @returns {{
+     *  initLoginForm: initLoginForm,
+     *  onStartChangeState: onStartChangeState,
+     *  login: login,
+     *  logout: logout
+     * }}
      * @constructor
      */
-    function UserAuth($http, User, $state) {
+    function Auth($http, User, $state) {
 
         var _csrf_token;
         var targetState = {name: 'app.users'};
@@ -61,7 +65,7 @@
                 })
                 .error(function (response, statusCode) {
                     if (statusCode == 403 || statusCode == 401) {
-                        User.data($.extend(response, {isAuthorized: true}));
+                        User.setData($.extend(response, {authorized: true}));
                         $state.go(targetState.name);
                     }
                 });
@@ -90,7 +94,7 @@
                     }
 
                     if (!event.isPropagationStopped()) {
-                        User.data($.extend(response, {isAuthorized: true}));
+                        User.setData(angular.extend(response, {authorized: true}));
                         $state.go(targetState.name);
                     }
                 })
@@ -168,4 +172,4 @@
 
     }
 
-})(angular);
+})();

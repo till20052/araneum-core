@@ -18,7 +18,7 @@
                 compare-with="{{ $index > 0 ? 'ctrl.fosUi.first.ng' : 'ctrl.fosUi.second.ng' }}"
                 type="password"
                 name="{{ ctrl.fosUi[ui.name].full_name }}"
-                placeholder="Enter your password"
+                placeholder="{{ 'user.ENTER_YOUR_PASSWD' | translate }}"
                 autocomplete="off"
                 required="required"
                 class="form-control"
@@ -40,7 +40,7 @@
 
     </div>
 
-    <button type="submit" class="btn btn-danger btn-block" translate="general.RESET">Reset</button>
+    <button type="submit" class="btn btn-danger btn-block" translate="admin.general.RESET">Reset</button>
 
 </form>
 
