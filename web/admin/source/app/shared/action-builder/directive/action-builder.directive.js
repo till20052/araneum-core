@@ -1,7 +1,10 @@
 (function() {
     "use strict";
 
-    var dataActionCache; // надо будет создать общею фабрику что то вроде dataCache, для кеширования данных 
+     // надо будет создать общею фабрику что то вроде dataCache, для кеширования данных 
+     // чтобы можно было добавлять, извлекать и удалять данные
+    var dataActionCache;
+
     angular
         .module( 'app.action-builder' )
         .directive( 'actionBuilder', actionBuilder );
