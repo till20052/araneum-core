@@ -93,7 +93,7 @@
             for (var key in el.choices) {
                 $('select', template).append($('<option />').val(el.choices[key].value).text(el.choices[key].label));
             }
-            $('label', template).attr('translate', el.translatelabel)
+            $('label', template).attr('translate', el.translatelabel);
 
             return template;
         };
