@@ -16,6 +16,13 @@
      */
     function DashboardController($scope, DashboardService) {
 
+        $scope.testMe = testMe;
+
+        function testMe($event){
+            $scope.statistics.applicationsState.online += 1;
+            console.log($scope.statistics.applicationsState);
+        }
+
         /**
          * Constructor
          */
