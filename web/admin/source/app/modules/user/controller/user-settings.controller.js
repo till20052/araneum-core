@@ -5,27 +5,47 @@
         .module('app.users')
         .controller('UserSettingsController', UserSettingsController);
 
-    UserSettingsController.$inject = ['User', '$rootScope'];
+    UserSettingsController.$inject = ['User', 'layout'];
 
-    function UserSettingsController(User, $rootScope) {
-        /* jshint validthis: true */
+    /**
+     * Controller of User Settings
+     *
+     * @param User
+     * @param layout
+     * @constructor
+     */
+    function UserSettingsController(User, layout) {
+        /* jshint validthis: true,
+            eqeqeq: false */
         var vm = this;
 
-        console.log(vm);
+        vm.layout = layout;
+        vm.changeLayout = changeLayout;
 
-        //(function (vm) {
-        //
-        //    vm.layout = User.getSettings();
-        //    if (vm.layout) {
-        //        $rootScope.app.layout = vm.layout;
-        //    }
-        //
-        //    vm.$watch('layout', function () {
-        //        User.setSettings(vm.layout);
-        //    }, true);
-        //
-        //})($scope);
+        activate();
 
+        /**
+         * Activation
+         */
+        function activate(){
+            User.init(function(service){
+                for(var key in service.settings){
+                    vm.layout[key] = service.settings[key];
+                }
+            });
+            layout = User.settings;
+        }
+
+        /**
+         * Change Layout Event invokes in case if click at any ui controls
+         *
+         * @param $event
+         */
+        function changeLayout($event){
+            if($($event.target).prop('tagName') == 'INPUT'){
+                User.setSettings(vm.layout);
+            }
+        }
     }
 
 })();

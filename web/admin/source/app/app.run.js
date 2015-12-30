@@ -44,8 +44,8 @@
 
         $rootScope.currTitle = $state.current.title;
         $rootScope.pageTitle = function () {
-            return document.title = $rootScope.app.name + ' - '
-                + ($rootScope.currTitle || $rootScope.app.description);
+            return document.title = $rootScope.app.name + ' - ' +
+                ($rootScope.currTitle || $rootScope.app.description);
         };
 
         $rootScope.$on('toggleUserBlock', function () {

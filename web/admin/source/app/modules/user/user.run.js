@@ -5,17 +5,15 @@
         .module('app.users')
         .run(userRun);
 
-    userRun.$inject = ['$rootScope'];
+    userRun.$inject = ['$rootScope', 'UserAuth'];
 
     /**
      * Run user application
      */
-    function userRun($rootScope) {
+    function userRun($rootScope, Auth) {
         $rootScope.$on('$stateChangeStart', function (event, toState) {
-            //UserAuth.onStartChangeState(event, toState);
+            Auth.onStartChangeState(event, toState);
         });
-
-        //
     }
 
 })();
