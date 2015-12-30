@@ -10,7 +10,7 @@
 					var builder = formBuilderFactory.getBuilder(type);
 					var promise = {},
 						dataUrl = $scope.url;
-
+					
 					if (builder === undefined) {
 						return false;
 					}
@@ -43,7 +43,7 @@
 						if ( dataUrl !== undefined ) {
 							element
 								.find('form')
-								.append($compile(builder.getButtonsForForm(data.var.action))($scope));
+								.append($compile(builder.getButtonsForForm(data.vars.action))($scope));
 						}
 					});
 				}

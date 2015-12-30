@@ -10,12 +10,12 @@
 				 * @param {string} type type of form
 				 * @returns {*} form builder service
 				 */
-				getBuilder: function(type) {
-					if (type === 'filter') {
+				getBuilder: function( type ) {
+					if ( type === 'filter' ) {
 						this.builder = formBuildFiltersService;
 					}
 
-					if (type === 'create-update') {
+					if ( type === 'create-update' ) {
 						this.builder = formBuildCreateUpdateService;
 					}
 

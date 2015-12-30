@@ -21,7 +21,7 @@ class LocaleActions extends AbstractActions
     {
         $builder
             ->add(
-                'Delete',
+                'delete',
                 [
                     'resource' => 'araneum_main_admin_locale_delete',
                     'callback' => 'deleteRow',
@@ -71,9 +71,9 @@ class LocaleActions extends AbstractActions
                 ]
             )
             ->add(
-                'Create',
+                'create',
                 [
-                    'resourse' => 'araneum_main_admin_locale_create',
+                    'form' => 'araneum_admin_main_locale_get',
                     'callback' => 'create',
                     'display' => [
                         'btnClass' => 'btn-success',

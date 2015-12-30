@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Araneum\Bundle\MainBundle\Entity\Locale;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\Router;
 
 /**
  * Class LocaleType
@@ -14,6 +15,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class LocaleType extends AbstractType
 {
+    protected $router;
+
+    /**
+     * UserAdminType constructor.
+     *
+     * @param Router $router
+     */
+    public function __construct(Router $router)
+    {
+        $this->router = $router;
+    }
+
     /**
      * @inheritdoc
      *
@@ -89,6 +102,7 @@ class LocaleType extends AbstractType
     {
         $resolver->setDefaults(
             [
+                'action' => $this->router->generate('araneum_admin_main_locale_post'),
                 'data_class' => 'Araneum\Bundle\MainBundle\Entity\Locale',
                 'csrf_protection' => false,
             ]

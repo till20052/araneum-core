@@ -1,40 +1,44 @@
 (function() {
-	"use strict";
+    "use strict";
 
-	angular
-		.module( 'app.action-builder' )
-		.directive( 'actionBuilder', actionBuilder );
+    angular
+        .module( 'app.action-builder' )
+        .directive( 'actionBuilder', actionBuilder );
 
-	actionBuilder.$inject = ['$compile', 'formDataService', 'creatorActionBuilder', 'RouteHelpers'];
+    actionBuilder.$inject = ['$compile', 'formDataService', 'creatorActionBuilder', 'RouteHelpers'];
 
-	function actionBuilder( $compile, formDataService, creatorActionBuilder ) {
-		var directive = {
-			restrict: 'E',
-			link: link
-		};
-		
-		return directive;
+    function actionBuilder( $compile, formDataService, creatorActionBuilder ) {
+        var directive = {
+            restrict: 'E',
+            link: link
+        };
+        
+        return directive;
 
-		function link( $scope, element, attrs ) {
-			var type = element.data('item'), // top or row
-				builder = creatorActionBuilder.getBuilder(type), // return top or row action service builder
-				promise = formDataService.getPromise();
+        function link ( $scope, element, attrs ) {
+            var type = element.data( 'item' ), // top or row
+                builder = creatorActionBuilder.getBuilder( type ), // return top or row action service builder
+                promise = formDataService.getPromise();
 
-			if ( typeof type === "undefined" ) {
-				element.remove();
-				return false;
-			}
+            if ( typeof type === "undefined" ) {
+                element.remove();
+                return false;
+            }
 
-			promise.then(getDataForActions);
+            promise.then( getDataForActions );
 
-			function getDataForActions( response ) {
-				var actions = response.action,
-					actionsTemplate = '';
+            function getDataForActions ( response ) {
+                var actions = response.action,
+                    actionsTemplate = '';
 
-				builder.setData(actions[type], attrs.model, $scope);
-				actionsTemplate = builder.getActionsTemplate();
-				element.append($compile(actionsTemplate)($scope));
-			}
-		}
-	}
+                if ( actions[ type ] === undefined ) {
+                    return false;
+                }
+
+                builder.setData( actions[ type ], attrs.model, $scope );
+                actionsTemplate = builder.getActionsTemplate();
+                element.append( $compile( actionsTemplate )( $scope ) );
+            }
+        }
+    }
 })();

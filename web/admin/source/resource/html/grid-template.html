@@ -1,32 +1,32 @@
 <h3>
-	<em class={{titleClass}}></em>
-	<span translate="{{title}}"></span>
+    <em class={{titleClass}}></em>
+    <span translate="{{title}}"></span>
 </h3>
 
-	<div ng-controller="FormBuilderController as vm">
+    <div ng-controller="FormBuilderController as vm">
 
-		<div id="filters.panel" class="panel panel-default">
-			<div class="panel-heading">
+        <div id="filters.panel" class="panel panel-default">
+            <div class="panel-heading">
                 <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-				<h3 class="panel-title">
-					<em class="fa fa-filter mr-sm"></em>
-					<span translate="admin.general.FILTERS">Filters</span>
-				</h3>
-			</div>
-			<div  class="form-horizontal">
-				<div collapse="filters.panel" class="panel-wrapper">
-					<div class="panel-body pb">
-						<div class="row">
-							<div class="col-lg-10">
-								<div class="row">
-									<form-builder data-item="filter"></form-builder>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                <h3 class="panel-title">
+                    <em class="fa fa-filter mr-sm"></em>
+                    <span translate="admin.general.FILTERS">Filters</span>
+                </h3>
+            </div>
+            <div  class="form-horizontal">
+                <div collapse="filters.panel" class="panel-wrapper">
+                    <div class="panel-body pb">
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <div class="row">
+                                    <form-builder data-type="filter"></form-builder>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <div class="panel panel-default">
         <div class="panel-heading pb0">
@@ -59,6 +59,7 @@
         <div ng-class="{'p-xl whirl traditional': !vm.dt.initialized}" class="panel-body">
 
             <table
+                    id="datatable"
                     ng-if="vm.dt.initialized"
                     datatable="locales"
                     dt-options="vm.dt.options"
@@ -88,11 +89,11 @@
 <script type="text/ng-template" id="fromId">
     <div style="overflow: auto">
         <h3 class="mt0 mb-lg">
-            <em class="icon-user-follow"></em>
-            Create new user
+            <em class={{$parent.titleClass}}></em>
+            Create new {{$parent.title}}
         </h3>
-
         <form-builder data-type="create-update" class="form-horizontal"></form-builder>
-
     </div>
 </script>
+
+<toaster-container style="z-index:200000;"  toaster-options="{'position-class': 'toast-bottom-right'}"></toaster-container>

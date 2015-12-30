@@ -12,7 +12,10 @@
 					'<label></label>' +
 					'<input type="date" class="form-control" id="usr">' +
 					'</div>',
-
+					hidden: '<div class="form-group">' +
+					'<label></label>' +
+					'<input type="hidden" class="form-control" id="usr">' +
+					'</div>',
 					choice: '<select class="form-control"></select>'
 				},
 				data: {},
@@ -51,9 +54,14 @@
 				 */
 				getTemplateByElement: function(element) {
 					var elementTemplate = undefined;
-
+					
 					switch (element.type) {
 						case 'text':
+							elementTemplate = $(this.templates[element.type]);
+							elementTemplate = this.addOptionsToInputElement(element, elementTemplate);
+							break;
+
+						case 'hidden':
 							elementTemplate = $(this.templates[element.type]);
 							elementTemplate = this.addOptionsToInputElement(element, elementTemplate);
 							break;
@@ -74,18 +82,7 @@
 
 						case 'choice':
 							elementTemplate = $(this.templates[element.type]);
-							elementTemplate.attr('ng-model', element.name);
-							elementTemplate.find('select').attr('name', element.name);
-							elementTemplate.find('select')
-							               .append($('<option></option>').attr({
-								               'selected': ''
-							               }).text('{{"'+element.emptyValue+'" | translate}}'));
-
-
-							for (var key in element.choices) {
-								$('select', elementTemplate).append($('<option />').val(element.choices[key].value).text(element.choices[key].label));
-							}
-							$('label', elementTemplate).attr('translate', element.translateLabel)
+							elementTemplate = this.addOptionsToSelectElement(element, elementTemplate);
 							break;
 					}
 
@@ -104,6 +101,39 @@
 					}
 
 					return elementTemplate;
+				},
+
+				/**
+				 * Add attributes to input
+				 * @param el object with data
+				 * @param template base html template
+				 * @returns {*} html template
+				 */
+				addOptionsToSelectElement: function(el, template) {
+					$('select', template).attr($.extend(el.attrs, {
+						name: el.name,
+						ngModel: el.name,
+						placeholder: '{{"'+el.attrs.placeholder+'" | translate}}'
+					})).val(el.value);
+
+					$('label', template).attr({
+						'for': el.value,
+						'translate': el.translateLabel
+					});
+
+					$('select', template).attr('name', el.name);
+					$('select', template)
+					               .append($('<option></option>').attr({
+						               'selected': ''
+					               }).text('{{"'+el.emptyValue+'" | translate}}'));
+
+
+					for (var key in el.choices) {
+						$('select', template).append($('<option />').val(el.choices[key].value).text(el.choices[key].label));
+					}
+					$('label', template).attr('translate', el.translateLabel)
+
+					return template;
 				},
 
 				/**
@@ -192,6 +222,7 @@
 						if (angular.isArray(formEl[el]['children'])) {
 							elements[currEl.full_name] = {
 								name: currEl.full_name,
+								name_create: currEl.name,
 								type: currEl.block_prefixes[1],
 								attrs: {'placeholder': currEl.attr.placeholder, 'required': currEl.required},
 								value: currEl.value,
@@ -208,6 +239,7 @@
 								currEl = formEl[el]['children'][elem]['vars'];
 								elements[currEl.full_name] = {
 									name: currEl.full_name,
+									name_create: currEl.name,
 									type: currEl.block_prefixes[1],
 									attrs: {'placeholder': currEl.attr.placeholder, 'required': currEl.required},
 									value: currEl.value,
