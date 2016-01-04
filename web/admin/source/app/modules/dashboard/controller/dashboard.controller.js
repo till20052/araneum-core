@@ -15,7 +15,6 @@
      * @constructor
      */
     function DashboardController($scope, DashboardService) {
-
         /**
          * Constructor
          */
