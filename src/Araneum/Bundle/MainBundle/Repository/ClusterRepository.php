@@ -25,12 +25,18 @@ class ClusterRepository extends EntityRepository implements \Countable
             ->select('c.name')
             ->addSelect('DATE_PART(hour, l.createdAt) AS hours')
             ->addSelect('SUM(l.averagePingTime)/count(l.averagePingTime) *100 AS apt')
+            ->innerJoin(
+                'AraneumMainBundle:Runner',
+                'r',
+                'WITH',
+                'r.cluster=c'
+            )
             ->leftJoin(
                 'AraneumAgentBundle:ConnectionLog',
                 'l',
                 'WITH',
                 $qb->expr()->andX(
-                    $qb->expr()->eq('l.cluster', 'c'),
+                    $qb->expr()->eq('l.runner', 'r'),
                     $qb->expr()->neq('l.averagePingTime', -1),
                     $qb->expr()->between('l.createdAt', ':start', ':end')
                 )
@@ -52,7 +58,7 @@ class ClusterRepository extends EntityRepository implements \Countable
     /**
      * Get statistics of cluster statuses last 24 hours
      *
-     * @param int $maxResults
+     * @param  int $maxResults
      * @return array
      */
     public function getClusterUpTime($maxResults = 4)
@@ -101,12 +107,12 @@ class ClusterRepository extends EntityRepository implements \Countable
     /**
      * Count elements of an object
      *
-     * @link  http://php.net/manual/en/countable.count.php
+     * @link   http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
      * </p>
      * <p>
      * The return value is cast to an integer.
-     * @since 5.1.0
+     * @since  5.1.0
      */
     public function count()
     {

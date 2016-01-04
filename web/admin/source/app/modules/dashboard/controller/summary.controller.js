@@ -23,23 +23,23 @@
 			vm.error = '';
 			vm.statistics = {
 				applications: {
-					name: 'admin.dashboard.wiget.APPLICATIONS',
+					name: 'admin.dashboard.widget.APPLICATIONS',
 					icon: 'screen-tablet'
 				},
 				clusters: {
-					name: 'admin.dashboard.wiget.CLUSTERS',
+					name: 'admin.dashboard.widget.CLUSTERS',
 					icon: 'grid'
 				},
 				admins: {
-					name: 'admin.dashboard.wiget.ADMINS',
+					name: 'admin.dashboard.widget.ADMINS',
 					icon: 'users'
 				},
 				connections: {
-					name: 'admin.dashboard.wiget.CONNECTIONS',
+					name: 'admin.dashboard.widget.CONNECTIONS',
 					icon: 'share-alt'
 				},
 				locales: {
-					name: 'admin.dashboard.wiget.LOCALES',
+					name: 'admin.dashboard.widget.LOCALES',
 					icon: 'globe-alt'
 				}
 			};

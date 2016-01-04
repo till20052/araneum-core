@@ -10,7 +10,7 @@
     },
     "require": {
         "php": ">=5.3.9",
-        "symfony/symfony": "2.7.*",
+        "symfony/symfony": "2.8.*",
         "doctrine/orm": "~2.2,>=2.2.3,<2.5",
         "doctrine/dbal": "<2.5",
         "doctrine/doctrine-bundle": "~1.4",
@@ -22,8 +22,6 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "knplabs/rad-bundle": "^2.7",
         "friendsofsymfony/user-bundle": "~1.3",
-        "sonata-project/admin-bundle": "^2.3",
-        "sonata-project/doctrine-orm-admin-bundle": "^2.3",
         "doctrine/doctrine-fixtures-bundle": "^2.2",
         "smart-core/accelerator-cache-bundle": "^1.0",
         "friendsofsymfony/rest-bundle": "^1.7",
@@ -35,7 +33,7 @@
         "predis/predis": "1.*",
         "misd/guzzle-bundle": "^1.1",
         "jms/i18n-routing-bundle": "^1.1",
-        "ali/datatable": "^2.0",
+        "ali/datatable": "v2.0.2",
         "lexik/form-filter-bundle": "~4.0"
     },
     "require-dev": {

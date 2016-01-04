@@ -1,4 +1,4 @@
 incorrect_locale_format: Неправильный формат локали. Рекомендуемый формат en_US
-application_domain_not_valid_url: Неправильный формат доменного имени
+domain_not_valid_url: Неправильный формат доменного имени
 FIELD_REQUIRED: Поле не должно быть пустым
 NOT_VALID_EMAIL: Не правильно введен E-mail

@@ -38,8 +38,8 @@ class CommandRunnerService
     /**
      * Run Symfony deployment command as separate process.
      *
-     * @param string $comand
-     * @param string $path
+     * @param  string $comand
+     * @param  string $path
      * @return string
      */
     public function runDeployCommandsInSeparateProcess($comand, $path = '')
@@ -50,7 +50,6 @@ class CommandRunnerService
         $deploymentCommand->wait(
             function ($type, $buffer) use (&$message) {
                 if (Process::ERR === $type) {
-                    var_dump($buffer);
                     $message = 'ERR > '.$buffer;
                 } else {
                     $message = 'OUT > '.$buffer;

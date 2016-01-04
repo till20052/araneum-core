@@ -3,7 +3,7 @@
 namespace Araneum\Bundle\AgentBundle\Test\Functional\Api;
 
 use Araneum\Base\Tests\Controller\BaseController;
-use Araneum\Base\Tests\Fixtures\Customer\CustomerFixtures;
+use Araneum\Base\Tests\Fixtures\Agent\CustomerFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,7 +17,8 @@ class CustomerApiControllerTest extends BaseController
     /**
      * @var string uri to call rest api method
      */
-    protected $customerInsert = '/agent/api/customers/insert/';
+    protected $customerInsert        = '/agent/api/customers/insert/';
+    protected $customerResetPassword = '/agent/api/customers/reset_password';
 
     /**
      * Settings up
@@ -43,12 +44,12 @@ class CustomerApiControllerTest extends BaseController
     /**
      * Test customer controller
      *
-     * @dataProvider apiDataProvider
-     * @runTestsInSeparateProcesses
-     * @param array $post
-     * @param int   $expected
+     * @dataProvider                apiDataProvider
+     * @runInSeparateProcess
+     * @param                       array $post
+     * @param                       int   $expectedCode
      */
-    public function testPostCustomer(array $post, $expected)
+    public function testPostCustomer(array $post, $expectedCode)
     {
         $client = self::createAdminAuthorizedClient('api');
         $client->request(
@@ -58,11 +59,64 @@ class CustomerApiControllerTest extends BaseController
         );
 
         $response = $client->getResponse();
-        $this->assertEquals(
-            $expected,
-            $response->getStatusCode(),
-            $response->getContent()
+
+        $this->assertEquals($expectedCode, $response->getStatusCode(), $response->getContent());
+    }
+
+    /**
+     * Test reset password customer method
+     *
+     * @param array $requestData
+     * @param int   $expectedCode
+     * @dataProvider resetPasswordDataSource
+     * @runInSeparateProcess
+     */
+    public function testResetPassword(array $requestData, $expectedCode)
+    {
+        $client = self::createAdminAuthorizedClient('api');
+        $client->request(
+            'POST',
+            $this->customerResetPassword.'?app_key='.ApplicationFixtures::TEST_APP_APP_KEY,
+            $requestData
         );
+        $response = $client->getResponse();
+
+        $this->assertEquals($expectedCode, $response->getStatusCode(), $response->getContent());
+    }
+
+    /**
+     * ResetPassword data provider
+     *
+     * @return array
+     */
+    public function resetPasswordDataSource()
+    {
+        return [
+            'normal' => [
+                [
+                    'password' => 'password',
+                    'customer_id' => 123,
+                    'email' => CustomerFixtures::TEST_2_EMAIL,
+                ],
+                Response::HTTP_OK,
+            ],
+//            'short password' => [
+//                [
+//                    'password' => '1',
+//                    'customer_id' => 123,
+//                    'email' => CustomerFixtures::TEST_2_EMAIL,
+//                ],
+//                Response::HTTP_BAD_REQUEST,
+//            ],
+//            'not linked customer to application' => [
+//                [
+//                    'password' => '123456',
+//                    'customer_id' => 123,
+//                    'email' => CustomerFixtures::TEST_RESET_EMAIL,
+//                ],
+//                Response::HTTP_BAD_REQUEST,
+//            ],
+        ];
     }
 
     /**
@@ -82,8 +136,21 @@ class CustomerApiControllerTest extends BaseController
                     'currency' => 'usd',
                     'phone' => '380993222234',
                     'birthday' => '2020-11-11',
+                    'password' => '1234567',
                 ],
                 Response::HTTP_CREATED,
+            ],
+            'testFailCreate' => [
+                [
+                    'firstName' => CustomerFixtures::TEST_FIRST_NAME,
+                    'lastName' => CustomerFixtures::TEST_LAST_NAME,
+                    'country' => 12,
+                    'email' => CustomerFixtures::TEST_EMAIL,
+                    'currency' => CustomerFixtures::TEST_CURRENCY,
+                    'phone' => CustomerFixtures::TEST_PHONE,
+                    'birthday' => CustomerFixtures::TEST_BIRTHDAY,
+                ],
+                Response::HTTP_BAD_REQUEST,
             ],
             'normal fullName&lastName cirilica letters' => [
                 [
@@ -94,20 +161,9 @@ class CustomerApiControllerTest extends BaseController
                     'currency' => 'usd',
                     'phone' => '380993222234',
                     'birthday' => '2222-12-12',
+                    'password' => '1234567',
                 ],
                 Response::HTTP_CREATED,
-            ],
-            'testFailCreate' => [
-                [
-                    'firstName' => CustomerFixtures::TEST_FIRST_NAME,
-                    'lastName' => CustomerFixtures::TEST_LAST_NAME,
-                    'country' => CustomerFixtures::TEST_COUNTRY,
-                    'email' => CustomerFixtures::TEST_EMAIL,
-                    'currency' => CustomerFixtures::TEST_CURRENCY,
-                    'phone' => CustomerFixtures::TEST_PHONE,
-                    'birthday' => CustomerFixtures::TEST_BIRTHDAY,
-                ],
-                Response::HTTP_BAD_REQUEST,
             ],
         ];
     }

@@ -18,10 +18,10 @@
         core.constant = $provide.constant;
         core.value = $provide.value;
 
-        HTTPEventListenerProvider.onError(function(httpEvent){
-            if(httpEvent.content.status == 401){
-				httpEvent.state.go('login');
-			}
+        HTTPEventListenerProvider.onError(function (httpEvent) {
+            if (httpEvent.content.status == 401) {
+                httpEvent.state.go('login');
+            }
         });
 
     }

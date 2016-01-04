@@ -10,33 +10,33 @@
         return {
             request: onRequest,
             response: onResponse,
-			responseError: onError
+            responseError: onError
         };
 
-		function httpEvent(content){
-			return {
-				content: content,
-				state: $rootScope.$state
-			};
-		}
+        function httpEvent(content) {
+            return {
+                content: content,
+                state: $rootScope.$state
+            };
+        }
 
-        function onRequest(request){
+        function onRequest(request) {
             HTTPEventListenerService
-	            .triggerEvents('onRequest', httpEvent(request));
+                .triggerEvents('onRequest', httpEvent(request));
 
             return request;
         }
 
-        function onResponse(response){
+        function onResponse(response) {
             HTTPEventListenerService
-	            .triggerEvents('onResponse', httpEvent(response));
+                .triggerEvents('onResponse', httpEvent(response));
 
             return response;
         }
 
-        function onError(response){
-	        HTTPEventListenerService
-		        .triggerEvents('onError', httpEvent(response));
+        function onError(response) {
+            HTTPEventListenerService
+                .triggerEvents('onError', httpEvent(response));
 
             return $q.reject(response);
         }

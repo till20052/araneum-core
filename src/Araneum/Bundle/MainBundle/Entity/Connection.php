@@ -15,14 +15,16 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table(name="araneum_connections")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ConnectionRepository")
  * @UniqueEntity(fields="name")
- * @package Araneum\Bundle\MainBundle\Entity
+ * @package                                                                                 Araneum\Bundle\MainBundle\Entity
  */
 class Connection
 {
     use DateTrait;
 
-    const CONN_DB     = 1;
-    const CONN_HOST   = 2;
+    const CONN_POSTGRESS     = 1;
+    const CONN_NGINX   = 2;
+    const CONN_REDIS = 3;
+    const CONN_RABBIT = 4;
     const CONN_TO_STR = 'Create';
 
     const STATUS_OK              = 0;
@@ -52,8 +54,8 @@ class Connection
     protected $type;
 
     /**
-     * @ORM\Column(type="string", name="name", unique=true, length=100)
-     * @Assert\Length(min=3, max=100)
+     * @ORM\Column(type="string", name="name", unique=true, length=35)
+     * @Assert\Length(min=3, max=35)
      */
     protected $name;
 
@@ -96,10 +98,10 @@ class Connection
     protected $status;
 
     /**
-     * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Cluster", mappedBy="hosts", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Runner", cascade={"detach", "persist"})
+     * @ORM\JoinColumn(name="runner_id", referencedColumnName="id")
      */
-    protected $clusters;
+    protected $runner;
 
     /**
      * Get list of Connection statuses
@@ -114,7 +116,7 @@ class Connection
     /**
      * Get Connection status description
      *
-     * @param integer $status
+     * @param  integer $status
      * @return string
      */
     public static function getStatusDescription($status)
@@ -124,14 +126,6 @@ class Connection
         }
 
         return self::$statuses[$status];
-    }
-
-    /**
-     * Connection constructor.
-     */
-    public function __construct()
-    {
-        $this->setClusters(new ArrayCollection());
     }
 
     /**
@@ -147,7 +141,7 @@ class Connection
     /**
      * Set type
      *
-     * @param integer $type
+     * @param  integer $type
      * @return Connection
      */
     public function setType($type)
@@ -170,7 +164,7 @@ class Connection
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return Connection
      */
     public function setName($name)
@@ -193,7 +187,7 @@ class Connection
     /**
      * Set host
      *
-     * @param string $host
+     * @param  string $host
      * @return Connection
      */
     public function setHost($host)
@@ -216,7 +210,7 @@ class Connection
     /**
      * Set port
      *
-     * @param integer $port
+     * @param  integer $port
      * @return Connection
      */
     public function setPort($port)
@@ -239,7 +233,7 @@ class Connection
     /**
      * Set userName
      *
-     * @param string $userName
+     * @param  string $userName
      * @return Connection
      */
     public function setUserName($userName)
@@ -262,7 +256,7 @@ class Connection
     /**
      * Set password
      *
-     * @param string $password
+     * @param  string $password
      * @return Connection
      */
     public function setPassword($password)
@@ -285,7 +279,7 @@ class Connection
     /**
      * Set enabled
      *
-     * @param boolean $enabled
+     * @param  boolean $enabled
      * @return Connection
      */
     public function setEnabled($enabled)
@@ -306,24 +300,24 @@ class Connection
     }
 
     /**
-     * Get Clusters
+     * Get Runners
      *
-     * @return ArrayCollection
+     * @return Runner
      */
-    public function getClusters()
+    public function getRunner()
     {
-        return $this->clusters;
+        return $this->runner;
     }
 
     /**
-     * Set Clusters
+     * Set Runner
      *
-     * @param ArrayCollection $clusters
+     * @param  Runner $runner
      * @return Connection
      */
-    public function setClusters(ArrayCollection $clusters)
+    public function setRunner(Runner $runner)
     {
-        $this->clusters = $clusters;
+        $this->runner = $runner;
 
         return $this;
     }
@@ -351,7 +345,7 @@ class Connection
     /**
      * Set Status
      *
-     * @param int $status
+     * @param  int $status
      * @return Connection $this
      */
     public function setStatus($status)

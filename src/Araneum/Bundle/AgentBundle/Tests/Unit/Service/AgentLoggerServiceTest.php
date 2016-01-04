@@ -36,13 +36,13 @@ class AgentLoggerServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $cluster = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Cluster')
+        $runner = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Runner')
             ->disableOriginalConstructor()
             ->getMock();
 
         $log = (new ConnectionLog())
             ->setConnection($connection)
-            ->setCluster($cluster)
+            ->setRunner($runner)
             ->setPercentLostPackages(0)
             ->setAveragePingTime(0);
 
@@ -50,7 +50,7 @@ class AgentLoggerServiceTest extends \PHPUnit_Framework_TestCase
             ->method('persist')
             ->with($this->equalTo($log));
 
-        $this->logger->logConnection($connection, $cluster, 0, 0);
+        $this->logger->logConnection($connection, $runner, 0, 0);
     }
 
     /**

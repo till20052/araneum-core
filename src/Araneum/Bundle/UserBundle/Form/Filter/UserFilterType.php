@@ -120,16 +120,6 @@ class UserFilterType extends AbstractType
     }
 
     /**
-     * Get form name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'user_filter';
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)

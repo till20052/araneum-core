@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\MainBundle\Service;
 
 use Araneum\Bundle\AgentBundle\Repository\CustomerRepository;
+use Araneum\Bundle\AgentBundle\Repository\LeadRepository;
 use Araneum\Bundle\MailBundle\Repository\MailRepository;
 use Araneum\Bundle\MainBundle\Repository\ApplicationRepository;
 use Araneum\Bundle\AgentBundle\Repository\ApplicationLogRepository;
@@ -95,8 +96,8 @@ class StatisticsService
     /**
      *  Get array
      *
-     * @param array $pack
-     * @param mixed $column
+     * @param  array $pack
+     * @param  mixed $column
      * @return array
      */
     public function getResultByColumnName(array $pack, $column)
@@ -235,13 +236,34 @@ class StatisticsService
     }
 
     /**
+     * Get registered leads from applications at last 24 hours
+     *
+     * @return array
+     */
+    public function getLeads()
+    {
+        /** @var LeadRepository $repository */
+        $repository = $this->entityManager->getRepository('AraneumAgentBundle:Lead');
+
+        return [
+            'count' => $repository->count(),
+            'data' => $this->getChartStructure(
+                $repository->getRegisteredLeadsFromApplicationsAtLast24Hours(),
+                'leadsCount'
+            ),
+        ];
+    }
+
+    /**
      * Get Registered Customers
      *
      * @return array
      */
     public function getRegisteredCustomersFromApplications()
     {
-        /** @var CustomerRepository $repository */
+        /**
+         * @var CustomerRepository $repository
+         */
         $repository = $this->entityManager->getRepository('AraneumAgentBundle:Customer');
 
         return [
@@ -257,7 +279,9 @@ class StatisticsService
      */
     public function getReceivedEmailsFromApplications()
     {
-        /** @var MailRepository $repository */
+        /**
+         * @var MailRepository $repository
+         */
         $repository = $this->entityManager->getRepository('AraneumMailBundle:Mail');
 
         return [
@@ -269,8 +293,8 @@ class StatisticsService
     /**
      * Init chart structure
      *
-     * @param array  $list
-     * @param string $countField
+     * @param  array  $list
+     * @param  string $countField
      * @return array
      */
     private function getChartStructure(array $list, $countField = 'cnt')
@@ -321,7 +345,6 @@ class StatisticsService
     }
 
     /**
-     *
      * Get data from repository
      */
     private function getClusterUpTime()
@@ -332,7 +355,7 @@ class StatisticsService
     /**
      * Get errors by Application by hour
      *
-     * @param array $pack
+     * @param  array $pack
      * @return array
      */
     private function getStatusesByPeriod(array $pack, $status, $period = 'hours')
@@ -364,8 +387,8 @@ class StatisticsService
     /**
      * Create time range
      *
-     * @param mixed $start start time, e.g., 9:30am or 9:30
-     * @param mixed $end   end time, e.g., 5:30pm or 17:30
+     * @param  mixed $start start time, e.g., 9:30am or 9:30
+     * @param  mixed $end   end time, e.g., 5:30pm or 17:30
      * @access public
      * @return array
      */

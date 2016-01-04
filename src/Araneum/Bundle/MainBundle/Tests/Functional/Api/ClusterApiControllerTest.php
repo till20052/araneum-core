@@ -34,12 +34,13 @@ class ClusterApiControllerTest extends BaseController
 
     /**
      * Test get applications configs by cluster id
-     *
-     *
+     * @runInSeparateProcess
      */
     public function testGetApplicationsConfigsList()
     {
-        /** @var Cluster $cluster */
+        /**
+         * @var Cluster $cluster
+         */
         $cluster = $this->repository->findOneByName(ClusterFixtures::TEST_CLU_NAME);
         $response = $this->createRequest(
             'araneum_main_api_cluster_applications_configs_list',
@@ -66,7 +67,7 @@ class ClusterApiControllerTest extends BaseController
 
     /**
      * Test get applications configs list by not existing cluster id
-     *
+     * @runInSeparateProcess
      *
      */
     public function testGetApplicationsConfigsListByNotExistingCluster()
@@ -100,8 +101,8 @@ class ClusterApiControllerTest extends BaseController
     /**
      * Create request and return response from cluster api
      *
-     * @param string $name Name Of Route
-     * @param array  $parameters
+     * @param  string $name       Name Of Route
+     * @param  array  $parameters
      * @return null|Response
      */
     private function createRequest($name, $parameters = [])

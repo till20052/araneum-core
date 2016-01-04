@@ -11,7 +11,7 @@
         (function (vm) {
 
             vm.inLoading = false;
-            vm.user = User.getUser();
+            vm.user = User;
 
             vm.editProfile = editProfile;
             vm.logout = logout;

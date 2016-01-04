@@ -7,14 +7,16 @@ dashboard :
         PROBLEM: "Проблема"
         ERROR: "Ошибка"
         DISABLED: "Выключен"
-    wiget:
+    widget:
         APPLICATION_STATUSES: "Статусы приложений за 24 часа"
         AVERAGE_APPLICATION_STATUSES: "Усредненные показатели состояний приложений за 24 часа"
         CLUSTER_LOAD_AVERAGE: "Усредненная нагрузка по кластерам за 24 часа"
         CLUSTER_UP_TIME: "Время непрерырвной работы за 24 часа"
         CUSTOMERS_REGISTRATION: "Заявки на регистрацию от клиентов за последние 24 часа"
-        EMAIL_RECIEVED: "Сообщений принято от сайтов за 24 часа"
+        RECEIVED_EMAILS_FROM_APPS_24H: "Сообщений принято от сайтов за 24 часа"
         RECEIVED_FROM_APPLICATION: "Принято ото всех приложений"
+        REGISTERED_LEADS_FROM_APPS_24H: "Регистация лидов принятых ото всех приложений (24 часа)"
+        ERRORS_RECEIVED_FROM_APPS_24H: "Ошибки, полученные от приложений (24 часа)"
         CUSTOMERS: "Клиентов"
         EMAILS: "сообщений"
         APPLICATIONS: "Сайтов"
@@ -25,6 +27,9 @@ dashboard :
         COLLAPSE: "Свернуть панель"
         REFRESH: "Обновить панель"
         CLOSE: "Закрыть панель"
+        LEADS: "лидов"
+        ERRORS: "ошибок"
+        CHART_IS_NOT_AVAILABLE: "Этот график еще не доступен"
 topbar:
     messages:
         UNREAD: "Непрочтенных сообщений"
@@ -90,6 +95,7 @@ general:
     DISABLE: 'Выключить'
     SURE: 'Вы уверены?'
     CONFIRM_DELETE: 'Да, удалите это'
+    CURRENT_URL_NOT_VALID: 'Текущий URL больше недоступен'
 datatables:
     PROCESSING: 'Подождите...'
     SEARCH: 'Поиск:'

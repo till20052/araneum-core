@@ -3,7 +3,6 @@
 namespace Araneum\Bundle\MainBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
-use Araneum\Bundle\AgentBundle\Entity\ConnectionLog;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -17,7 +16,7 @@ use Araneum\Bundle\AgentBundle\Entity\ClusterLog;
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ClusterRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields="name")
- * @package Araneum\Bundle\MainBundle\Entity
+ * @package                                                                              Araneum\Bundle\MainBundle\Entity
  */
 class Cluster
 {
@@ -49,18 +48,12 @@ class Cluster
     protected $id;
 
     /**
-     * @ORM\Column(type="string", name="name", unique=true, length=255)
+     * @ORM\Column(type="string", name="name", unique=true, length=35)
      * @Assert\NotBlank()
-     * @Assert\Length(min=2, max=255)
+     * @Assert\Length(min=2, max=35)
      * @Assert\Type(type="string")
      */
     protected $name;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="Connection", inversedBy="cluster", cascade={"persist"})
-     * @ORM\JoinTable(name="araneum_cluster_connection")
-     */
-    protected $hosts;
 
     /**
      * @ORM\Column(type="smallint", name="type", options={"comment": "1 - single, 2 - multiple"})
@@ -89,17 +82,16 @@ class Cluster
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ConnectionLog", mappedBy="cluster",
-     *     cascade={"remove"})
-     */
-    protected $connectionLogs;
-
-    /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Araneum\Bundle\AgentBundle\Entity\ClusterLog", mappedBy="cluster",
      *     cascade={"remove"})
      */
     protected $clusterLogs;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Runner", mappedBy="cluster", cascade={"detach", "persist"})
+     */
+    protected $runners;
 
     /**
      * Get list of Cluster statuses
@@ -114,7 +106,7 @@ class Cluster
     /**
      * Get Cluster status description
      *
-     * @param integer $status
+     * @param  integer $status
      * @return string
      */
     public static function getStatusDescription($status)
@@ -131,10 +123,9 @@ class Cluster
      */
     public function __construct()
     {
-        $this->setHosts(new ArrayCollection());
         $this->setApplications(new ArrayCollection());
-        $this->setConnectionLogs(new ArrayCollection());
         $this->setClusterLogs(new ArrayCollection());
+        $this->setRunners(new ArrayCollection());
     }
 
     /**
@@ -150,7 +141,7 @@ class Cluster
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return Cluster
      */
     public function setName($name)
@@ -173,7 +164,7 @@ class Cluster
     /**
      * Set type
      *
-     * @param integer $type
+     * @param  integer $type
      * @return Cluster
      */
     public function setType($type)
@@ -196,7 +187,7 @@ class Cluster
     /**
      * Set enabled
      *
-     * @param boolean $enabled
+     * @param  boolean $enabled
      * @return Cluster
      */
     public function setEnabled($enabled = true)
@@ -219,7 +210,7 @@ class Cluster
     /**
      * Set status
      *
-     * @param integer $status
+     * @param  integer $status
      * @return Cluster
      */
     public function setStatus($status)
@@ -240,52 +231,6 @@ class Cluster
     }
 
     /**
-     * Add host
-     *
-     * @param ArrayCollection $hosts
-     * @return Cluster
-     */
-    public function setHosts(ArrayCollection $hosts)
-    {
-        $this->hosts = $hosts;
-
-        return $this;
-    }
-
-    /**
-     * Get host
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getHosts()
-    {
-        return $this->hosts;
-    }
-
-    /**
-     * Add single host in collection
-     *
-     * @param Connection $host
-     * @return Cluster
-     */
-    public function addHost(Connection $host)
-    {
-        $this->getHosts()->add($host);
-
-        return $this;
-    }
-
-    /**
-     * Remove single host from collection
-     *
-     * @param Connection $host
-     */
-    public function removeHost(Connection $host)
-    {
-        $this->getHosts()->removeElement($host);
-    }
-
-    /**
      * Convert entity to string
      *
      * @return string
@@ -298,7 +243,7 @@ class Cluster
     /**
      * Set applications
      *
-     * @param ArrayCollection $applications
+     * @param  ArrayCollection $applications
      * @return Cluster $this
      */
     public function setApplications(ArrayCollection $applications)
@@ -321,7 +266,7 @@ class Cluster
     /**
      * Add application
      *
-     * @param Application $application
+     * @param  Application $application
      * @return Cluster $this
      */
     public function addApplication(Application $application)
@@ -336,7 +281,7 @@ class Cluster
     /**
      * Remove application
      *
-     * @param Application $application
+     * @param  Application $application
      * @return Cluster $this
      */
     public function removeApplication(Application $application)
@@ -349,7 +294,7 @@ class Cluster
     /**
      * Check is cluster has application
      *
-     * @param Application $application
+     * @param  Application $application
      * @return bool
      */
     public function hasApplication(Application $application)
@@ -358,69 +303,71 @@ class Cluster
     }
 
     /**
-     * Set connectionLog
+     * Set runners
      *
-     * @param ArrayCollection $connectionLogs
+     * @param  ArrayCollection $runners
      * @return Cluster $this
      */
-    public function setConnectionLogs(ArrayCollection $connectionLogs)
+    public function setRunners(ArrayCollection $runners)
     {
-        $this->connectionLogs = $connectionLogs;
+        $this->runners = $runners;
 
         return $this;
     }
 
     /**
-     * Set connectionsLog
+     * Get runners
      *
      * @return ArrayCollection
      */
-    public function getConnectionLogs()
+    public function getRunners()
     {
-        return $this->connectionLogs;
+        return $this->runners;
     }
 
     /**
-     * Add connectionsLog
+     * Add runners
      *
-     * @param ConnectionLog $connectionLogs
+     * @param  Runner $runner
      * @return Cluster $this
      */
-    public function addConnectionLogs(ConnectionLog $connectionLogs)
+    public function addRunner(Runner $runner)
     {
-        $this->connectionLogs->add($connectionLogs);
+        if (!$this->hasRunner($runner)) {
+            $this->runners->add($runner);
+        }
 
         return $this;
     }
 
     /**
-     * Remove connectionsLog
+     * Remove runner
      *
-     * @param ConnectionLog $connectionLogs
+     * @param  Runner $runner
      * @return Cluster $this
      */
-    public function removeConnectionLogs(ConnectionLog $connectionLogs)
+    public function removeRunner(Runner $runner)
     {
-        $this->connectionLogs->removeElement($connectionLogs);
+        $this->runners->removeElement($runner);
 
         return $this;
     }
 
     /**
-     * Check is cluster has connectionLogs
+     * Check is cluster has runner
      *
-     * @param ConnectionLog $connectionLogs
+     * @param  Runner $runner
      * @return bool
      */
-    public function hasConnectionLogs(ConnectionLog $connectionLogs)
+    public function hasRunner(Runner $runner)
     {
-        return $this->connectionLogs->contains($connectionLogs);
+        return $this->runners->contains($runner);
     }
 
     /**
      * Set clusterLog
      *
-     * @param ArrayCollection $clusterLogs
+     * @param  ArrayCollection $clusterLogs
      * @return Cluster $this
      */
     public function setClusterLogs(ArrayCollection $clusterLogs)
@@ -443,7 +390,7 @@ class Cluster
     /**
      * Add clusterLog
      *
-     * @param ClusterLog $clusterLogs
+     * @param  ClusterLog $clusterLogs
      * @return Cluster $this
      */
     public function addClusterLogs(ClusterLog $clusterLogs)
@@ -456,7 +403,7 @@ class Cluster
     /**
      * Remove clusterLog
      *
-     * @param ClusterLog $clusterLogs
+     * @param  ClusterLog $clusterLogs
      * @return Cluster $this
      */
     public function removeClusterLogs(ClusterLog $clusterLogs)
@@ -469,7 +416,7 @@ class Cluster
     /**
      * Check is cluster has connectionLogs
      *
-     * @param ClusterLog $clusterLogs
+     * @param  ClusterLog $clusterLogs
      * @return bool
      */
     public function hasClusterLogs(ClusterLog $clusterLogs)

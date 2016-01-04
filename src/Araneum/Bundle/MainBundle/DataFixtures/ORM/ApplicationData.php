@@ -39,6 +39,9 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
             $app->setOwner($this->getReference('userAdmin'));
             $app->setComponents(new ArrayCollection([$this->getReference('component')]));
             $app->setAppKey('ultratradeAppKeyTest');
+            $app->setSpotApiUrl('http://api-spotplatform.ultratrade.com/Api');
+            $app->setSpotApiUser('araneum');
+            $app->setSpotApiPassword('wU7tc2YKg2');
             $manager->persist($app);
             $manager->flush();
         }

@@ -35,7 +35,9 @@ class ApplicationEventListenerService
      */
     public function postPersist(ApplicationEvent $event)
     {
-        /** @var Application $application */
+        /**
+         * @var Application $application
+         */
         foreach ($event->getApplications() as $application) {
             $this->remoteManager->create($application->getAppKey());
         }
@@ -48,7 +50,9 @@ class ApplicationEventListenerService
      */
     public function postUpdate(ApplicationEvent $event)
     {
-        /** @var Application $application */
+        /**
+         * @var Application $application
+         */
         foreach ($event->getApplications() as $application) {
             $this->remoteManager->update($application->getAppKey());
         }
@@ -61,7 +65,9 @@ class ApplicationEventListenerService
      */
     public function preRemove(ApplicationEvent $event)
     {
-        /** @var Application $application */
+        /**
+         * @var Application $application
+         */
         foreach ($event->getApplications() as $application) {
             $this->remoteManager->remove($application->getAppKey());
         }

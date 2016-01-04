@@ -31,7 +31,7 @@ class ListBuilder implements ListBuilderInterface
     /**
      * Set search enabled
      *
-     * @param bool $search
+     * @param  bool $search
      * @return $this
      */
     public function setSearch($search = true)
@@ -44,7 +44,7 @@ class ListBuilder implements ListBuilderInterface
     /**
      * Add widget to datatable
      *
-     * @param Closure $data
+     * @param  Closure $data
      * @return $this
      * @throws \Exception
      */
@@ -62,8 +62,8 @@ class ListBuilder implements ListBuilderInterface
     /**
      * Set field for order
      *
-     * @param string $field
-     * @param string $sort
+     * @param  string $field
+     * @param  string $sort
      * @return mixed
      */
     public function setOrderBy($field, $sort = 'DESC')

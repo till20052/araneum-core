@@ -51,14 +51,16 @@ class ApplicationEvent extends Event
     /**
      * Set applications.
      *
-     * @param Collection|ArrayCollection|PersistentCollection $applications
+     * @param  Collection|ArrayCollection|PersistentCollection $applications
      * @return ApplicationEvent $this
      */
     public function setApplications(Collection $applications)
     {
         $this->applications->clear();
 
-        /** @var Application $application */
+        /**
+         * @var Application $application
+         */
         foreach ($applications as $application) {
             $this->addApplication($application);
         }

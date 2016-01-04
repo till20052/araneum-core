@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Class Component
  *
- * @package Entity
+ * @package                                                                                Entity
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ComponentRepository")
  * @ORM\Table(name="araneum_components")
  * @ORM\HasLifecycleCallbacks()
@@ -29,9 +29,9 @@ class Component
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=35)
      * @Assert\NotBlank()
-     * @Assert\Length(min=2, max=255)
+     * @Assert\Length(min=2, max=35)
      * @Assert\Regex(pattern="/^\w([\w\d\s]+)$/")
      */
     protected $name;
@@ -85,7 +85,7 @@ class Component
     /**
      * Set id
      *
-     * @param mixed $id
+     * @param  mixed $id
      * @return mixed
      */
     public function setId($id)
@@ -108,7 +108,7 @@ class Component
     /**
      * Set name
      *
-     * @param mixed $name
+     * @param  mixed $name
      * @return $this
      */
     public function setName($name)
@@ -131,7 +131,7 @@ class Component
     /**
      * Set options
      *
-     * @param array $options
+     * @param  array $options
      * @return $this
      */
     public function setOptions(array $options)
@@ -154,7 +154,7 @@ class Component
     /**
      * Set description
      *
-     * @param mixed $description
+     * @param  mixed $description
      * @return $this
      */
     public function setDescription($description)
@@ -177,7 +177,7 @@ class Component
     /**
      * Set Applications
      *
-     * @param array|Collection $applications
+     * @param  array|Collection $applications
      * @return Component $this
      */
     public function setApplications($applications)
@@ -222,7 +222,7 @@ class Component
     /**
      * Set enabled
      *
-     * @param bool|true $enabled
+     * @param  bool|true $enabled
      * @return $this
      */
     public function setEnabled($enabled = true)
@@ -255,7 +255,7 @@ class Component
     /**
      * Set default
      *
-     * @param bool|true $default
+     * @param  bool|true $default
      * @return $this
      */
     public function setDefault($default = true)
