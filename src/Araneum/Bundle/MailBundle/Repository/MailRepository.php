@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\MailBundle\Repository;
 
+use Araneum\Base\Repository\CountableTrait;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -12,6 +13,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class MailRepository extends EntityRepository implements \Countable
 {
+    use CountableTrait;
+
     /**
      * Get Received Emails
      *
@@ -35,23 +38,5 @@ class MailRepository extends EntityRepository implements \Countable
             )
             ->getQuery()
             ->getResult();
-    }
-
-    /**
-     * Count elements of an object
-     *
-     * @link   http://php.net/manual/en/countable.count.php
-     * @return int The custom count as an integer.
-     * </p>
-     * <p>
-     * The return value is cast to an integer.
-     * @since  5.1.0
-     */
-    public function count()
-    {
-        return (int) $this->createQueryBuilder('m')
-                         ->select('COUNT(m.id) as cnt')
-                         ->getQuery()
-                         ->getOneOrNullResult()['cnt'];
     }
 }

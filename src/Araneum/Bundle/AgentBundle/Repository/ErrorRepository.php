@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\AgentBundle\Repository;
 
+use Araneum\Base\Repository\CountableTrait;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -12,18 +13,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class ErrorRepository extends EntityRepository implements \Countable
 {
-    /**
-     * Count elements of an object
-     *
-     * @return int The custom count as an integer.
-     */
-    public function count()
-    {
-        return (int) $this->createQueryBuilder('ERR')
-            ->select('COUNT(ERR.id) as errorsCount')
-            ->getQuery()
-            ->getOneOrNullResult()['errorsCount'];
-    }
+    use CountableTrait;
 
     /**
      * Get received Errors from all Applications in last 24 hours
