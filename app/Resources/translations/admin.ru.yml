@@ -2,6 +2,7 @@ dashboard :
     WELCOME: "Добро пожаловать в систему управления сайтом"
     DASHBOARD: "Статистика"
     application:
+        DECLENSION: "['сайт','сайта','сайтов']"
         APPLICATION: "Сайт"
         ONLINE: "Доступно"
         PROBLEM: "Проблема"
