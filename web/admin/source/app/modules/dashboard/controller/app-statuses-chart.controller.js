@@ -9,44 +9,44 @@
 
     function AppStatusesChartController(Colors, $scope, DashboardService) {
 
-		/**
-		 * Constructor
-		 */
-        (function(){
+        /**
+         * Constructor
+         */
+        (function () {
             $scope.barData = {
-                labels:  [],
-                datasets : [
+                labels: [],
+                datasets: [
                     {
                         label: 'Error',
-                        fillColor : Colors.byName('danger'),
-                        strokeColor : Colors.byName('danger'),
+                        fillColor: Colors.byName('danger'),
+                        strokeColor: Colors.byName('danger'),
                         highlightFill: Colors.byName('danger'),
                         highlightStroke: Colors.byName('danger'),
-                        data : []
+                        data: []
                     },
                     {
                         label: 'Success',
-                        fillColor : Colors.byName('success'),
-                        strokeColor : Colors.byName('success'),
-                        highlightFill : Colors.byName('success'),
-                        highlightStroke : Colors.byName('success'),
-                        data : []
+                        fillColor: Colors.byName('success'),
+                        strokeColor: Colors.byName('success'),
+                        highlightFill: Colors.byName('success'),
+                        highlightStroke: Colors.byName('success'),
+                        data: []
                     },
                     {
                         label: 'Warning',
-                        fillColor : Colors.byName('warning'),
-                        strokeColor : Colors.byName('warning'),
-                        highlightFill : Colors.byName('warning'),
-                        highlightStroke : Colors.byName('warning'),
-                        data : []
+                        fillColor: Colors.byName('warning'),
+                        strokeColor: Colors.byName('warning'),
+                        highlightFill: Colors.byName('warning'),
+                        highlightStroke: Colors.byName('warning'),
+                        data: []
                     },
                     {
                         label: 'Disabled',
-                        fillColor : Colors.byName('gray'),
-                        strokeColor : Colors.byName('gray'),
-                        highlightFill : Colors.byName('gray'),
-                        highlightStroke : Colors.byName('gray'),
-                        data : []
+                        fillColor: Colors.byName('gray'),
+                        strokeColor: Colors.byName('gray'),
+                        highlightFill: Colors.byName('gray'),
+                        highlightStroke: Colors.byName('gray'),
+                        data: []
                     }
                 ]
             };
@@ -67,19 +67,19 @@
 
             $scope.onLoading = true;
 
-            DashboardService.onDataLoaded(function(response){
+            DashboardService.onDataLoaded(function (response) {
 
-				var data = response.data;
+                var data = response.data;
 
                 $scope.onLoading = false;
 
                 $scope.barData.labels = data.statistics.daylyApplications.applications;
 
-                angular.forEach(['errors', 'success', 'problems', 'disabled'], function(value, i){
+                angular.forEach(['errors', 'success', 'problems', 'disabled'], function (value, i) {
                     this[i].data = data.statistics.daylyApplications[value];
                 }, $scope.barData.datasets);
 
-            }, function(error){
+            }, function (error) {
                 $scope.onLoading = false;
                 $scope.errors.push('No data load:' + error.statusText);
             });

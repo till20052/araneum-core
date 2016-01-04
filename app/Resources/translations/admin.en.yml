@@ -16,7 +16,7 @@ dashboard :
         RECEIVED_EMAILS_FROM_APPS_24H: "Email received from applications (24 hours)"
         RECEIVED_FROM_APPLICATION: "Received from all applications"
         REGISTERED_LEADS_FROM_APPS_24H: "Leads registration received from applications (24 hours)"
-        ERRORS_RECEIVED_FROM_APPS_24H: "Errors received from applications (24 hours)"
+        RECEIVED_ERRORS_FROM_APPS_IN_LAST_24H: "Errors which received from all applications in the last 24 hours"
         CUSTOMERS: "Customers"
         EMAILS: "messages"
         APPLICATIONS: "Applications"

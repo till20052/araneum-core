@@ -2,7 +2,9 @@
 
 namespace Araneum\Bundle\MainBundle\Service;
 
+use Araneum\Bundle\AgentBundle\Entity\Error;
 use Araneum\Bundle\AgentBundle\Repository\CustomerRepository;
+use Araneum\Bundle\AgentBundle\Repository\ErrorRepository;
 use Araneum\Bundle\AgentBundle\Repository\LeadRepository;
 use Araneum\Bundle\MailBundle\Repository\MailRepository;
 use Araneum\Bundle\MainBundle\Repository\ApplicationRepository;
@@ -236,11 +238,11 @@ class StatisticsService
     }
 
     /**
-     * Get registered leads from applications at last 24 hours
+     * Get registered Leads from all Applications in last 24 hours
      *
      * @return array
      */
-    public function getLeads()
+    public function getRegisteredLeadsFromAppsInLast24H()
     {
         /** @var LeadRepository $repository */
         $repository = $this->entityManager->getRepository('AraneumAgentBundle:Lead');
@@ -248,9 +250,26 @@ class StatisticsService
         return [
             'count' => $repository->count(),
             'data' => $this->getChartStructure(
-                $repository->getRegisteredLeadsFromApplicationsAtLast24Hours(),
+                $repository->getRegisteredLeadsFromAppsInLast24H(),
                 'leadsCount'
             ),
+        ];
+    }
+
+    /**
+     * Get received Errors from all Applications in last 24 hours
+     *
+     * @return array
+     */
+    public function getReceivedErrorsFromAppsInLast24H()
+    {
+        /** @var ErrorRepository $repository */
+        $repository = $this->entityManager->getRepository('AraneumAgentBundle:Error');
+
+        return [
+            'count' => $repository->count(),
+            'types' => Error::$types,
+            'data' => $repository->getReceivedErrorsFromAppsInLast24H(),
         ];
     }
 

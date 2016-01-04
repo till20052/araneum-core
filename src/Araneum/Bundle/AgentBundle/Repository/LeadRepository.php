@@ -62,7 +62,7 @@ class LeadRepository extends EntityRepository implements \Countable
      *
      * @return array
      */
-    public function getRegisteredLeadsFromApplicationsAtLast24Hours()
+    public function getRegisteredLeadsFromAppsInLast24H()
     {
         $qb = $this->createQueryBuilder('L');
 

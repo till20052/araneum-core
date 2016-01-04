@@ -30,21 +30,22 @@ class DashboardController extends Controller
         /**
          * @var StatisticsService $service
          */
-        $statisticService = $this->get('araneum.main.statistics.service');
+        $service = $this->get('araneum.main.statistics.service');
 
         $result = [
             'statistics' => [
-                'applicationsState' => $statisticService->getApplicationsStatistics(),
-                'daylyApplications' => $statisticService->prepareResulForDaylyApplications(),
-                'daylyAverageStatuses' => $statisticService->prepareResultForDaylyAverageStatuses(),
-                'clusterLoadAverage' => $statisticService->prepareResultForClusterAverage(),
-                'clusterUpTime' => $statisticService->prepareResultForClusterUpTime(),
-                'summary' => $statisticService->getSummary(),
-                'registeredCustomers' => $statisticService->getRegisteredCustomersFromApplications(),
-                'receivedEmails' => $statisticService->getReceivedEmailsFromApplications(),
+                'applicationsState' => $service->getApplicationsStatistics(),
+                'daylyApplications' => $service->prepareResulForDaylyApplications(),
+                'daylyAverageStatuses' => $service->prepareResultForDaylyAverageStatuses(),
+                'clusterLoadAverage' => $service->prepareResultForClusterAverage(),
+                'clusterUpTime' => $service->prepareResultForClusterUpTime(),
+                'summary' => $service->getSummary(),
+                'registeredCustomers' => $service->getRegisteredCustomersFromApplications(),
+                'receivedEmails' => $service->getReceivedEmailsFromApplications(),
             ],
             'charts' => [
-                'leads' => $statisticService->getLeads(),
+                'leads' => $service->getRegisteredLeadsFromAppsInLast24H(),
+                'errors' => $service->getReceivedErrorsFromAppsInLast24H(),
             ],
         ];
 
