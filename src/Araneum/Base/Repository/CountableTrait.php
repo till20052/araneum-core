@@ -11,9 +11,15 @@ trait CountableTrait
      */
     public function count()
     {
-        return (int) $this->createQueryBuilder('REPO')
-                         ->select('COUNT(REPO.id) as repoCount')
-                         ->getQuery()
-                         ->getOneOrNullResult()['repoCount'];
+        $result = $this->createQueryBuilder('REPO')
+            ->select('COUNT(REPO.id) as repoCount')
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if (is_null($result)) {
+            $result = ['repoCount' => 0];
+        }
+
+        return (int) $result['repoCount'];
     }
 }
