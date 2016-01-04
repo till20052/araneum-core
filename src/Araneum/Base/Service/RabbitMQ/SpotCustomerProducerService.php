@@ -2,15 +2,15 @@
 
 namespace Araneum\Base\Service\RabbitMQ;
 
-use Araneum\Bundle\MainBundle\Entity\Application;
+use Araneum\Bundle\AgentBundle\Entity\Customer;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 
 /**
- * Class producerService
+ * Class SpotCustomerProducerService
  *
  * @package Araneum\Base\Service\RabbitMQ
  */
-class SpotProducerService
+class SpotCustomerProducerService
 {
     /**
      * @var Producer
@@ -45,17 +45,30 @@ class SpotProducerService
      * Send msg to queue.
      * Return true
      *
-     * @param array       $msgBody
-     * @param Application $application
-     * @param string      $routingKey           queue name
-     * @param array       $additionalProperties
+     * @param array    $msgBody
+     * @param Customer $customer
+     * @param string   $logAction
+     * @param string   $routingKey           queue name
+     * @param array    $additionalProperties
      * @return string|true
      */
-    public function publish($msgBody, Application $application, $routingKey = 'sendToSpot', $additionalProperties = [])
-    {
+    public function publish(
+        $msgBody,
+        Customer $customer,
+        $logAction,
+        $routingKey = 'sendToSpot',
+        $additionalProperties = []
+    ) {
+        $application = $customer->getApplication();
         $msg = $this->getStdClass();
         $msg->data = $msgBody;
         $msg->spotCredential = $application->getSpotCredential();
+        $msg->log = [
+            'action' => $logAction,
+            'customerId' => $customer->getId(),
+            'applicationId' => $application->getId(),
+        ];
+
         try {
             $this->producer->publish(
                 $this->msgConvertHelper->encodeMsg($msg),

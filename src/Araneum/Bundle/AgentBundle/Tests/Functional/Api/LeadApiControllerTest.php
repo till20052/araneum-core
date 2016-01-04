@@ -42,10 +42,10 @@ class LeadApiControllerTest extends BaseController
             ],
             'Find 2 Leads' => [
                 [
-                    'phone' => substr(LeadFixtures::LEAD_FST_PHONE, 0, 5),
+                    'phone' => substr(LeadFixtures::LEAD_FST_PHONE, 0, 6),
                 ],
                 Response::HTTP_OK,
-                2,
+                1,
             ],
         ];
     }
@@ -73,10 +73,7 @@ class LeadApiControllerTest extends BaseController
             $response->getContent()
         );
 
-        $this->assertEquals(
-            $expectedFindResultsCount,
-            count(json_decode($response->getContent(), true))
-        );
+        $this->assertCount($expectedFindResultsCount, (json_decode($response->getContent(), true)));
     }
 
     /**

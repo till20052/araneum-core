@@ -20,11 +20,11 @@ services:
         class: Araneum\Bundle\AgentBundle\Service\LeadApiHandlerService
         arguments: [@doctrine.orm.entity_manager, @form.factory]
 
-    araneum.agent.customer.event_listener:
-        class: Araneum\Bundle\AgentBundle\EventListener\CustomerListener
+    araneum.agent.customer.event_subscriber:
+        class: Araneum\Bundle\AgentBundle\EventListener\CustomerSubscriber
         arguments: [@araneum.agent.spotoption.service]
         tags:
-            - { name: kernel.event_listener, event: araneum.agent.customer.new, method: onCreate }
+            - { name: kernel.event_subscriber}
             
     araneum.agent.error.api_handler:
         class: Araneum\Bundle\AgentBundle\Service\ErrorApiHandlerService

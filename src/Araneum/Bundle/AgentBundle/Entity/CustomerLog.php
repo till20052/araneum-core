@@ -20,6 +20,10 @@ class CustomerLog
     const STATUS_OK    = 0;
     const STATUS_ERROR = 100;
 
+    const ACTION_RESET_PASSWORD = 'reset_password';
+    const ACTION_LOGIN = 'login';
+    const ACTION_CREATE = 'create';
+
     private static $statuses = [
         self::STATUS_OK => 'ok',
         self::STATUS_ERROR => 'error',
@@ -65,7 +69,7 @@ class CustomerLog
     private $spotResponse;
 
     /**
-     * @var string
+     * @var int
      *
      * @ORM\Column(name="status", type="smallint", nullable=true)
      */
@@ -201,7 +205,7 @@ class CustomerLog
     /**
      * Get status
      *
-     * @return string
+     * @return int
      */
     public function getStatus()
     {
@@ -211,7 +215,7 @@ class CustomerLog
     /**
      * Set status
      *
-     * @param  string $status
+     * @param  int $status
      * @return CustomerLog
      */
     public function setStatus($status)

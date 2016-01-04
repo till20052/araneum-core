@@ -32,6 +32,7 @@ class CountryApiControllerTest extends BaseController
      * test Get Country
      *
      * @dataProvider apiDataProvider
+     * @runInSeparateProcess
      * @param array $post
      * @param mixed $expected
      * @param int   $expectedCount
