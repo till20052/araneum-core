@@ -2,7 +2,9 @@
 
 namespace Araneum\Bundle\AgentBundle\Service;
 
+use Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService;
 use Araneum\Base\Service\Spot\SpotApiSenderService;
+use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Guzzle\Http\Message\Request;
 use Guzzle\Http\Message\Response;
@@ -14,52 +16,35 @@ use Guzzle\Http\Message\Response;
  */
 class SpotOptionService
 {
-    protected $spotApiSenderService;
+    protected $customerLoginProducerService;
     protected $spotApiPublicUrlLogin;
 
     /**
      * SpotOptionService constructor.
      *
-     * @param SpotApiSenderService $spotApiSenderService
-     * @param string               $spotApiPublicUrlLogin
+     * @param SpotCustomerLoginProducerService $customerLoginProducerService
+     * @param                                  $spotApiPublicUrlLogin
      */
-    public function __construct(SpotApiSenderService $spotApiSenderService, $spotApiPublicUrlLogin)
+    public function __construct(SpotCustomerLoginProducerService $customerLoginProducerService, $spotApiPublicUrlLogin)
     {
         $this->spotApiPublicUrlLogin = $spotApiPublicUrlLogin;
-        $this->spotApiSenderService = $spotApiSenderService;
+        $this->customerLoginProducerService = $customerLoginProducerService;
     }
 
     /**
      * SpotOption Login
      *
-     * @param string      $email
-     * @param string      $password
-     * @param Application $application
-     * @return array|false
+     * @param Customer $customer
+     * @return array|bool
      */
-    public function login($email, $password, $application)
+    public function login(Customer $customer)
     {
+        return $this->customerLoginProducerService->publish($customer);
+
         $requestData = [
             'email' => $email,
             'password' => $password,
         ];
-        $response = $this->spotApiSenderService->sendToPublicUrl(
-            Request::POST,
-            $this->spotApiPublicUrlLogin,
-            $requestData,
-            $application
-        );
-
-        if ($this->responseIsSuccessful($response)) {
-            $decodedResponse = $response->json();
-
-            return [
-                'spotsession' => $this->getSpotSession($response->getSetCookie()),
-                'customerId' => $decodedResponse['customerId'],
-            ];
-        } else {
-            return false;
-        }
     }
 
     /**
@@ -77,34 +62,5 @@ class SpotOptionService
         $newPassword = null;
 
         return true;
-    }
-
-    /**
-     * Check is response is successful
-     *
-     * @param Response $response
-     * @return bool
-     */
-    public function responseIsSuccessful(Response $response)
-    {
-        $decodedSpotResponse = $response->json();
-
-        return array_key_exists('status', $decodedSpotResponse) && $decodedSpotResponse['status'] === true;
-    }
-
-    /**
-     * Get spotsession from cookies
-     *
-     * @param $cookie
-     * @return mixed
-     */
-    private function getSpotSession($cookie)
-    {
-        preg_match('/spotsession.{10,15}=(.{32}); /', $cookie, $matches);
-        if (!array_key_exists(1, $matches)) {
-            throw new \BadMethodCallException('Cookie must contains spotsession, cookie: '.$cookie);
-        }
-
-        return $matches[1];
     }
 }

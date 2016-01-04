@@ -1,34 +1,31 @@
 <?php
 
-namespace Araneum\Base\Service\Spot;
+namespace Araneum\Base\Service;
 
 use Guzzle\Http\Message\Response;
 use Guzzle\Service\ClientInterface;
 use Symfony\Component\Console\Application;
 
 /**
- * Class SpotApiSenderService
+ * Class SiteApiSenderService
  *
  * @package Araneum\Base\Service\Guzzle
  */
-class SpotApiSenderService
+class SiteApiSenderService
 {
     /**
      * @var ClientInterface
      */
     protected $guzzle;
-    protected $enableJsonResponse;
 
     /**
-     * SpotApiService constructor.
+     * SiteApiSenderService constructor.
      *
      * @param ClientInterface $guzzle
-     * @param boolean         $enableJsonResponse
      */
-    public function __construct(ClientInterface $guzzle, $enableJsonResponse)
+    public function __construct(ClientInterface $guzzle)
     {
         $this->guzzle = $guzzle;
-        $this->enableJsonResponse = $enableJsonResponse;
     }
 
     /**

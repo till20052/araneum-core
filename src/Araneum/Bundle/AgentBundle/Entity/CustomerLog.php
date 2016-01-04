@@ -20,6 +20,10 @@ class CustomerLog
     const STATUS_OK    = 0;
     const STATUS_ERROR = 100;
 
+    const ACTION_RESET_PASSWORD = 'reset_password';
+    const ACTION_LOGIN = 'login';
+    const ACTION_CREATE = 'create';
+
     private static $statuses = [
         self::STATUS_OK => 'ok',
         self::STATUS_ERROR => 'error',

@@ -114,6 +114,13 @@ class Customer
     private $deliveredAt;
 
     /**
+     * Not saved in DB
+     *
+     * @var string
+     */
+    private $password;
+
+    /**
      * Get id
      *
      * @return integer
@@ -349,6 +356,29 @@ class Customer
     public function setBirthday($birthday)
     {
         $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    /**
+     * Get Password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     * @return Customer
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
 
         return $this;
     }

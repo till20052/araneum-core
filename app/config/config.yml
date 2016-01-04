@@ -122,6 +122,33 @@ old_sound_rabbit_mq:
 
             keepalive: false
             heartbeat: 0
+    producers:
+        spot:
+            connection: default
+            exchange_options:
+                name: 'quarantee_delivery'
+                type: direct
+                auto_delete: false
+                durable: true
+            queue_options:
+                name: sendToSpot_%session_prefix%
+                routing_keys:
+                    - "sendToSpot"
+                arguments:
+                    "message-ttl": ['I', %rabbitmq_message_ttl%]
+                    "dead-letter-exchange": ['S', 'araneum.base.rabbitmq.producer.spot']
+                    "dead-letter-routing-key": ['S', 'sendToSpot']
+    consumers:
+        spot:
+            connection: default
+            exchange_options:
+                name: 'quarantee_delivery'
+                type: direct
+                auto_delete: false
+                durable: true
+            queue_options:
+                name: sendToSpot_%session_prefix%
+            callback: araneum.base.rabbitmq.consumer.spot_customer
 
 snc_redis:
     clients:

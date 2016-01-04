@@ -102,7 +102,6 @@ class RemoteApplicationManagerService
      */
     public function get($clusterId)
     {
-
         $repository = $this->entityManager->getRepository('AraneumMainBundle:Connection');
         $connections = $repository->getHostByClusterId($clusterId);
         $connection = reset($connections);
