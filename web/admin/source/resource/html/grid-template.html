@@ -3,30 +3,55 @@
     <span translate="{{title}}"></span>
 </h3>
 
-    <div ng-controller="FormBuilderController as vm">
+<div ng-controller="FormBuilderController as vm">
 
-        <div id="filters.panel" class="panel panel-default">
-            <div class="panel-heading">
-                <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
-                <h3 class="panel-title">
-                    <em class="fa fa-filter mr-sm"></em>
-                    <span translate="admin.general.FILTERS">Filters</span>
-                </h3>
+    <div id="filters.panel" class="panel panel-default">
+        <div class="panel-heading">
+            <div class="pull-right">
+                <a href="#"
+                   style="
+                        display: inline-block;
+                        color: #c1c2c3;
+                        width: 2em;
+                        text-align: center;"
+                       panel-collapse=""
+                       tooltip="Collapse Panel"
+                       ng-click="filters.panel = !filters.panel"
+                       class="ng-scope">
+                <em ng-show="filters.panel" class="fa fa-plus ng-hide" style=""></em> <em ng-show="!filters.panel"
+                                                                                          class="fa fa-minus"></em> </a>
+                <a
+                        style="
+                        display: inline-block;
+                        color: #c1c2c3;
+                        width: 2em;
+                        text-align: center;"
+                        href="#" id="resetForm" class="ng-scope"
+                        tooltip="Refresh Panel">
+                    <em
+                            ng-click="vm.reset($event, vm.resetConfig.url, vm.resetConfig.idForm)"
+                            class="fa fa-refresh"></em>
+                </a>
             </div>
-            <div  class="form-horizontal">
-                <div collapse="filters.panel" class="panel-wrapper">
-                    <div class="panel-body pb">
-                        <div class="row">
-                            <div class="col-lg-10">
-                                <div class="row">
-                                    <form-builder data-type="filter"></form-builder>
-                                </div>
+            <h3 class="panel-title">
+                <em class="fa fa-filter mr-sm"></em>
+                <span translate="admin.general.FILTERS">Filters</span>
+            </h3>
+        </div>
+        <div class="form-horizontal">
+            <div collapse="filters.panel" class="panel-wrapper">
+                <div class="panel-body pb">
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <div class="row">
+                                <form-builder data-type="filter"></form-builder>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
     <div class="panel panel-default">
         <div class="panel-heading pb0">
@@ -74,7 +99,7 @@
                     <th data-sortable="false" class="bt0 bl0 p text-center" width="1">
                         <div class="checkbox c-checkbox needsclick m0">
                             <label class="needsclick">
-                                <input type="checkbox" value="" class="needsclick" rel="select-all" />
+                                <input type="checkbox" value="" class="needsclick" rel="select-all"/>
                                 <span class="fa fa-check mr0"></span>
                             </label>
                         </div>
@@ -96,4 +121,5 @@
     </div>
 </script>
 
-<toaster-container style="z-index:200000;"  toaster-options="{'position-class': 'toast-bottom-right'}"></toaster-container>
+<toaster-container style="z-index:200000;"
+                   toaster-options="{'position-class': 'toast-bottom-right'}"></toaster-container>

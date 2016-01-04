@@ -24,7 +24,7 @@
         var formJsonUrl = $state.$current.initialize;
         formDataService.setFromUrl(formJsonUrl);
         var promise = formDataService.getPromise();
-        vm.onTableClickEvent = onTableClickEvent
+        vm.onTableClickEvent = onTableClickEvent;
         vm.confirm = confirm;
         vm.datatableItems = {};
         vm.checkBoxData = {};
@@ -34,6 +34,7 @@
         };
         vm.actionClick = actionClick;
         vm.clickCheckBox = clickCheckBox;
+        vm.resetConfig = {};
 
         $scope.$on('addActionConfig', addActionConfig);
 
@@ -121,7 +122,13 @@
          * @param id
          */
         vm.reset = function($event, url, id) {
-            $($event.currentTarget).closest('.row').find('#' + id)[0].reset();
+            var form = $($event.currentTarget).closest('.row').find('#' + id).get(0);
+
+            if (form === undefined) {
+                form =  $($event.currentTarget).closest('.panel.panel-default').find('#' + id).get(0);
+            }
+
+            form.reset();
             vm.dt.options.sAjaxSource = url;
         };
 
@@ -129,6 +136,10 @@
 
         promise.then(function(response) {
             onInitSuccess(response);
+            vm.resetConfig = {
+                url: response.grid.source,
+                idForm: response.filter.vars.id
+            }
         });
 
         /**
@@ -219,7 +230,6 @@
                             }
 
                             sendDataCreate(url, data, function(result) {
-                                console.log(actionConfig)
                                 callbackManager(actionConfig.callback, data, result.id);
                                 $scope.closeThisDialog();
                                 toaster.pop(
@@ -296,7 +306,6 @@
                     vm.checkBoxData = [];
                     $('input[type="checkbox"]', $('.panel.panel-default'))
                         .prop('checked', false);
-
 
                     toaster.pop(
                         'success',
@@ -382,10 +391,9 @@
 
         vm.deleteRow = function() {
             // DELETE ROW FROM DATATABLE
-            console.log("delete");
             vm.datatableItems = [];
             $('#datatable').DataTable().rows('.selectedRow').remove().draw();
-        }
+        };
 
 
         vm.create = function(data, id) {
@@ -403,11 +411,11 @@
             values.push('<div data-item="checkbox" ng-model="vm.datatableItems[' + id + ']" />');
 
             $('#datatable').DataTable().draw();
-        }
+        };
 
         vm.update = function(data) {
             // DELETE ROW FROM DATATABLE
             console.log("update");
-        }
+        };
     }
 })();
