@@ -2,6 +2,7 @@ dashboard :
     WELCOME: "Welcome to Site manager"
     DASHBOARD: "Dashboard"
     application:
+        DECLENSION: "['application','applications']"
         APPLICATION: "application"
         ONLINE: "Online"
         PROBLEM: "Problem"
