@@ -69,45 +69,11 @@
                 <div class="col-xs-6">
                     <action-builder data-item="top"></action-builder>
                 </div>
-
             </div>
         </div>
 
         <hr class="mb0 mt-lg">
-
-        <div ng-show="vm.errors.length > 0" class="p-lg">
-            <div class="mb0 alert alert-danger">
-                <div ng-repeat="error in vm.errors track by $index">{{ $index }}. {{ error }}</div>
-            </div>
-        </div>
-
-        <div ng-class="{'p-xl whirl traditional': !vm.dt.initialized}" class="panel-body">
-
-            <table
-                    id="datatable"
-                    ng-if="vm.dt.initialized"
-                    datatable="locales"
-                    dt-options="vm.dt.options"
-                    dt-instance="vm.dt.instance"
-                    class="table-bordered table-striped hover"
-                    cellspacing="0"
-                    ng-click="vm.onTableClickEvent($event)">
-                <thead>
-                <tr>
-                    <th ng-repeat="column in vm.dt.columns" class="bt0 bl0">translate="{{ column }}"</th>
-                    <th data-sortable="false" class="bt0 bl0" width="1"></th>
-                    <th data-sortable="false" class="bt0 bl0 p text-center" width="1">
-                        <div class="checkbox c-checkbox needsclick m0">
-                            <label class="needsclick">
-                                <input type="checkbox" value="" class="needsclick" rel="select-all"/>
-                                <span class="fa fa-check mr0"></span>
-                            </label>
-                        </div>
-                    </th>
-                </tr>
-                </thead>
-            </table>
-        </div>
+        <datatable-dir></datatable-dir>
     </div>
 </div>
 

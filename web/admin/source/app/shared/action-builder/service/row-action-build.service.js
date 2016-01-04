@@ -104,7 +104,7 @@
 
             if (button.callback) {
                 actionConfig.config.callback = button.callback;
-            };
+            }
 
             if ( button.resource ) {
                 actionConfig.config.url = button.resource;
@@ -121,8 +121,7 @@
             $('a', actionTemplate).attr('ng-click', 'vm.actionClick($event,' + this.model  +')');
             $('a', actionTemplate).attr('data-conf', button.id + ',row');
             $(actionTemplate).attr('data-target', '#myModal');
-
-            this.scope.$broadcast('addActionConfig', actionConfig);
+            this.scope.$parent.$broadcast('addActionConfig', actionConfig);
 
             return actionTemplate;
         }
