@@ -19,8 +19,7 @@
                 initialize: '/manage/locales/init.json',
                 templateUrl: helper.basepath('grid-template.html'),
                 resolve: angular.extend(helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert', 'whirl', 'toaster'))
-                //controller: 'LocalesController'
-                });
+            });
     }
 
 })();
