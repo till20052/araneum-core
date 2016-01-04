@@ -53,7 +53,7 @@ class SpotCustomerLoginProducerService
      */
     public function publish(
         Customer $customer,
-        $routingKey = 'sendToSpot',
+        $routingKey = '',
         $additionalProperties = []
     ) {
         $application = $customer->getApplication();

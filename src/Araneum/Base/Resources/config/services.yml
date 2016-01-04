@@ -56,3 +56,18 @@ services:
     araneum.base.spot_api:
         class: Araneum\Base\Service\Spot\SpotApiSenderService
         arguments: [@guzzle.client, %spot_enable_json_responce%]
+
+    araneum.base.rabbitmq.producer.spot_login:
+        class: Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService
+        arguments:
+            - @old_sound_rabbit_mq.spot_producer
+            - @araneum.base.rabbitmq.msg_convert_helper
+            - %rabbitmq_queue_expiration%
+
+    araneum.base.rabbitmq.consumer.spot_login:
+        class: Araneum\Base\Service\RabbitMQ\SpotCustomerLoginConsumerService
+        arguments:
+            - @araneum.base.spot_api
+            - @araneum.base.rabbitmq.msg_convert_helper
+            - @doctrine.orm.entity_manager
+            - %spot_api_public_url_login%
