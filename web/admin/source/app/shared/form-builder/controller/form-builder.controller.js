@@ -10,7 +10,7 @@
     /**
      *
      * @param $state
-     * @param a
+     * @param $scope
      * @param $http
      * @param $compile
      * @param DTOptionsBuilder options for datatabe
@@ -312,15 +312,12 @@
         }
 
         vm.deleteRow = function() {
-            // DELETE ROW FROM DATATABLE
             vm.datatableItems = [];
             $('#datatable').DataTable().rows('.selectedRow').remove().draw();
         };
 
 
         vm.create = function(data, id) {
-            // DELETE ROW FROM DATATABLE
-            console.log("create");
             var values = [id];
             vm.datatableItems[id] = data;
 
@@ -336,7 +333,6 @@
         };
 
         vm.update = function(data) {
-            // DELETE ROW FROM DATATABLE
             console.log("update");
         };
     }
