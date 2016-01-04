@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Tests\Controller;
+namespace Araneum\Bundle\MainBundle\Tests\Functional\Admin;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Symfony\Bundle\FrameworkBundle\Client;
@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Router;
 /**
  * Class AdminLocaleControllerTest
  *
- * @package Araneum\Bundle\MainBundle\Tests\Controller
+ * @package Araneum\Bundle\MainBundle\Tests\Functional\Admin
  */
 class AdminLocaleControllerTest extends BaseController
 {
@@ -32,12 +32,15 @@ class AdminLocaleControllerTest extends BaseController
     {
         $this->client = self::createAdminAuthorizedClient();
 
-        /** @var Router router */
+        /**
+         * @var Router router
+         */
         $this->router = $this->client->getContainer()->get('router');
     }
 
     /**
      * Test Initialize Action
+     * @runInSeparateProcess
      */
     public function testInitAction()
     {
@@ -49,7 +52,9 @@ class AdminLocaleControllerTest extends BaseController
             ['HTTP_X-Requested-With' => 'XMLHttpRequest']
         );
 
-        /** @var Response $response */
+        /**
+         * @var Response $response
+         */
         $response = $this->client->getResponse();
 
         $this->assertTrue($response->isSuccessful());
@@ -65,6 +70,7 @@ class AdminLocaleControllerTest extends BaseController
 
     /**
      * Test datatable
+     * @runInSeparateProcess
      */
     public function testDatatableAction()
     {
@@ -76,7 +82,9 @@ class AdminLocaleControllerTest extends BaseController
             ['HTTP_X-Requested-With' => 'XMLHttpRequest']
         );
 
-        /** @var Response $response */
+        /**
+         * @var Response $response
+         */
         $response = $this->client->getResponse();
 
         $this->assertTrue($response->isSuccessful());
@@ -89,22 +97,5 @@ class AdminLocaleControllerTest extends BaseController
             ],
             json_decode($response->getContent())
         );
-    }
-
-    /**
-     * Asserting Structures of Objects are Equal
-     *
-     * @param \stdClass $expected
-     * @param \stdClass $actual
-     */
-    private function assertObjectsStructuresEquals(\stdClass $expected, \stdClass $actual)
-    {
-        foreach ($expected as $key => $value) {
-            $this->assertObjectHasAttribute($key, $actual, json_encode($actual));
-
-            if (is_object($value)) {
-                $this->assertObjectsStructuresEquals($value, $actual->{$key});
-            }
-        }
     }
 }

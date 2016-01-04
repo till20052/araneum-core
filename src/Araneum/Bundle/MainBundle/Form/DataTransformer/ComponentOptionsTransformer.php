@@ -15,7 +15,7 @@ class ComponentOptionsTransformer implements DataTransformerInterface
     /**
      * Convert data from db format to form format
      *
-     * @param array|ArrayCollection $value
+     * @param  array|ArrayCollection $value
      * @return void|ArrayCollection
      */
     public function transform($value)
@@ -30,7 +30,7 @@ class ComponentOptionsTransformer implements DataTransformerInterface
     /**
      * Convert data from form format to db format
      *
-     * @param ArrayCollection $value
+     * @param  ArrayCollection $value
      * @return array
      */
     public function reverseTransform($value)

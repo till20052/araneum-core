@@ -18,6 +18,7 @@ class MailApiControllerTest extends BaseController
      * Test post mail api
      *
      * @dataProvider postMailData
+     * @runInSeparateProcess
      *
      * @param array $parameters
      * @param int   $expectedHTTPCode

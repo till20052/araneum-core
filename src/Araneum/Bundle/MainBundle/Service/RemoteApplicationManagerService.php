@@ -97,7 +97,7 @@ class RemoteApplicationManagerService
     /**
      * Get application data from cluster
      *
-     * @param int $clusterId
+     * @param  int $clusterId
      * @return mixed
      */
     public function get($clusterId)
@@ -121,7 +121,7 @@ class RemoteApplicationManagerService
     /**
      * Create application on cluster
      *
-     * @param string $appKey
+     * @param  string $appKey
      * @return bool
      */
     public function create($appKey)
@@ -138,7 +138,7 @@ class RemoteApplicationManagerService
     /**
      * Update application config in cluster
      *
-     * @param string $appKey
+     * @param  string $appKey
      * @return bool
      */
     public function update($appKey)
@@ -155,7 +155,7 @@ class RemoteApplicationManagerService
     /**
      * Remove application from cluster
      *
-     * @param string $appKey
+     * @param  string $appKey
      * @return bool
      */
     public function remove($appKey)
@@ -181,13 +181,13 @@ class RemoteApplicationManagerService
     /**
      * Request
      *
-     * @param string                          $host
-     * @param string                          $uri
-     * @param array|\Guzzle\Common\Collection $header
-     * @param array|string                    $body
-     * @param array                           $params
-     * @param string                          $method
-     * @param Application                     $application
+     * @param  string                          $host
+     * @param  string                          $uri
+     * @param  array|\Guzzle\Common\Collection $header
+     * @param  array|string                    $body
+     * @param  array                           $params
+     * @param  string                          $method
+     * @param  Application                     $application
      * @return \Exception|CurlException|GuzzleResponse
      */
     public function sendRequest($host, $uri, $header, $body, $params, $method, Application $application = null)
@@ -232,9 +232,9 @@ class RemoteApplicationManagerService
     /**
      * Prepare request for insert and update
      *
-     * @param $appKey
-     * @param $method
-     * @param $uri
+     * @param  $appKey
+     * @param  $method
+     * @param  $uri
      * @return \Exception|CurlException|GuzzleResponse
      */
     private function createOrUpdatePreparation($appKey, $method, $uri)

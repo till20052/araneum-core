@@ -1,73 +1,80 @@
-(function (angular) {
-
+(function () {
     'use strict';
 
     angular
         .module('app.users')
-        .service('User', ['$sessionStorage', '$http', '$rootScope', User]);
+        .factory('User', User);
 
-    function User($sessionStorage, $http, $rootScope) {
+    User.$inject = ['$http'];
 
-        return (function () {
+    /**
+     * User Service
+     *
+     * @param $http
+     * @returns {{
+     *  name: string,
+     *  email: string,
+     *  picture: string,
+     *  settings: {},
+     *  authorized: boolean,
+     *  setSettings: setSettings,
+     *  getSettings: getSettings,
+     *  setAsNotAuthorized: setAsNotAuthorized,
+     *  isAuthorized: isAuthorized,
+     *  setData: setData
+     * }}
+     * @constructor
+     */
+    function User($http) {
+        /* jshint eqeqeq: false */
 
-            if (typeof $sessionStorage.user != 'object') {
-                $sessionStorage.user = {
-                    name: '',
-                    email: '',
-                    picture: '/admin/build/img/user/no-image.jpg',
-                    isAuthorized: false
-                };
+        var dataSource = {
+            resource: {
+                method: 'GET',
+                url: '/user/profile/get_authorized_user_data'
+            },
+            pending: false
+        };
+        var service = {
+            name: '',
+            email: '',
+            picture: '/admin/build/img/user/no-image.jpg',
+            settings: {},
+            authorized: false,
+            init: init,
+            setSettings: setSettings,
+            getSettings: getSettings,
+            setAsNotAuthorized: setAsNotAuthorized,
+            isAuthorized: isAuthorized,
+            setData: setData
+        };
+
+        return service;
+
+        function init(callback) {
+            if (dataSource.pending) {
+                return;
             }
-
-            $http
-                .get('/user/profile/get_authorized_user_data')
-                .success(function (response) {
-                    angular.forEach(response, function (value, key) {
-                        if (value == null) {
-                            return;
-                        }
-                        this[key] = value;
-                    }, $sessionStorage.user);
+            dataSource.pending = true;
+            $http(dataSource.resource)
+                .then(function (response) {
+                    dataSource.pending = false;
+                    setData(response.data);
+                    if (typeof callback == 'function') {
+                        callback(service);
+                    }
                 });
-
-            return {
-                set: set,
-                get: get,
-                getUser: getUser,
-                getName: getName,
-                getEmail: getEmail,
-                setSettings: setSettings,
-                getSettings: getSettings,
-                setAsAuthorized: setAsAuthorized,
-                setAsNotAuthorized: setAsNotAuthorized,
-                isAuthorized: isAuthorized,
-                data: data
-            };
-
-        })();
-
-        function set(key, value) {
-            $sessionStorage.user[key] = value;
-            return this;
         }
 
-        function get(key) {
-            return $sessionStorage.user[key] || null;
-        }
-
-        function getName() {
-            return get('name');
-        }
-
-        function getEmail() {
-            return get('email');
+        function getSettings() {
+            return service.settings;
         }
 
         function setSettings(settings, onSuccess, onError) {
             $http
                 .post('/user/profile/settings', settings)
                 .success(function (response) {
-                    set('settings', settings);
+                    service.settings = settings;
                     if (typeof onSuccess == 'function') {
                         onSuccess(response);
                     }
@@ -79,32 +86,23 @@
                 });
         }
 
-        function getSettings() {
-            return get('settings');
-        }
-
-        function setAsAuthorized() {
-            return set('isAuthorized', true);
-        }
-
         function setAsNotAuthorized() {
-            return set('isAuthorized', false);
+            service.authorized = false;
         }
 
         function isAuthorized() {
-            return get('isAuthorized');
+            return service.authorized;
         }
 
-        function data(data) {
-            angular.forEach(data, function (value, key) {
-                set(key, value);
+        function setData(data) {
+            (['name', 'email', 'settings', 'authorized']).forEach(function (field) {
+                if (typeof data[field] == 'undefined') {
+                    return;
+                }
+                service[field] = data[field];
             });
-        }
-
-        function getUser() {
-            return $sessionStorage.user;
         }
 
     }
 
-})(angular);
+})();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Tests\Controller;
+namespace Araneum\Bundle\MainBundle\Tests\Functional\Admin;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Symfony\Bundle\FrameworkBundle\Client;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class DashboardControllerTest
  *
- * @package Araneum\Bundle\MainBundle\Tests\Controller
+ * @package Araneum\Bundle\MainBundle\Tests\Functional\Admin
  */
 class DashboardControllerTest extends BaseController
 {
@@ -27,6 +27,7 @@ class DashboardControllerTest extends BaseController
 
     /**
      * Test getting DataSource of Dashboard
+     * @runInSeparateProcess
      */
     public function testGetDataSourceAction()
     {
@@ -39,7 +40,9 @@ class DashboardControllerTest extends BaseController
                 ['HTTP_X-Requested-With' => 'XMLHttpRequest']
             );
 
-        /** @var Response $response */
+        /**
+         * @var Response $response
+         */
         $response = $this->client->getResponse();
 
         $this->assertTrue($response->isSuccessful(), $response->getContent());
@@ -77,6 +80,12 @@ class DashboardControllerTest extends BaseController
                     'registeredCustomers' => [],
                     'receivedEmails' => [],
                 ],
+                'charts' => [
+                    'leads' => [
+                        'count' => rand(),
+                        'data' => [],
+                    ],
+                ],
             ],
             json_decode($response->getContent())
         );
@@ -87,29 +96,16 @@ class DashboardControllerTest extends BaseController
      */
     protected function setUp()
     {
-        /** @var Client client */
+        /**
+         * @var Client client
+         */
         $this->client = self::createClient();
 
-        /** @var router router */
+        /**
+         * @var router router
+         */
         $this->router = $this->client
             ->getContainer()
             ->get('router');
-    }
-
-    /**
-     * Asserting Structures of Objects are Equal
-     *
-     * @param \stdClass $expected
-     * @param \stdClass $actual
-     */
-    private function assertObjectsStructuresEquals(\stdClass $expected, \stdClass $actual)
-    {
-        foreach ($expected as $key => $value) {
-            $this->assertObjectHasAttribute($key, $actual, json_encode($actual));
-
-            if (is_object($value)) {
-                $this->assertObjectsStructuresEquals($value, $actual->{$key});
-            }
-        }
     }
 }

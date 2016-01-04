@@ -19,14 +19,14 @@ class Round extends FunctionNode
     /**
      * simpleArithmeticExpression
      *
-     * @var mixed
+     * @var    mixed
      * @access public
      */
     public $simpleArithmeticExpression;
     /**
      * roundPrecission
      *
-     * @var mixed
+     * @var    mixed
      * @access public
      */
     public $roundPrecission;
@@ -34,7 +34,7 @@ class Round extends FunctionNode
     /**
      * getSql
      *
-     * @param SqlWalker $sqlWalker
+     * @param  SqlWalker $sqlWalker
      * @access public
      * @return string
      */
@@ -46,7 +46,7 @@ class Round extends FunctionNode
     /**
      * parse
      *
-     * @param Parser $parser
+     * @param  Parser $parser
      * @access public
      * @return void
      */

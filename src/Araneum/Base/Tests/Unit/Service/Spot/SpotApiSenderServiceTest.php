@@ -3,8 +3,6 @@
 namespace Araneum\Base\Tests\Unit\Service\Spot;
 
 use Araneum\Base\Service\Spot\SpotApiSenderService;
-use Araneum\Bundle\MainBundle\Entity\Application;
-use Guzzle\Http\Message\Request;
 
 /**
  * Class SpotApiSenderServiceTest
@@ -17,7 +15,6 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $guzzleMock;
-    protected $application;
     /**
      * @var SpotApiSenderService
      */
@@ -31,31 +28,106 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $responseMock;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $requestMock;
+
+    /**
+     * Test getErrors with normal data
+     */
+    public function testGetErrorsNormal()
+    {
+        $this->responseMock
+            ->expects($this->once())
+            ->method('json')
+            ->will(
+                $this->returnValue(
+                    [
+                        'status' => [
+                            'connection_status' => 'successful',
+                            'operation_status' => 'successful',
+                        ],
+                    ]
+                )
+            );
+
+        $this->assertNull($this->spotApiSenderService->getErrors($this->responseMock));
+    }
+
+    /**
+     * Test getErrors with normal data
+     */
+    public function testGetErrorsBad()
+    {
+        $this->responseMock
+            ->expects($this->once())
+            ->method('json')
+            ->will(
+                $this->returnValue(
+                    [
+                        'status' => [
+                            'connection_status' => 'successful',
+                            'operation_status' => 'fail',
+                            'errors' => 'errors message',
+                        ],
+                    ]
+                )
+            );
+
+        $this->assertEquals(json_encode('errors message'), $this->spotApiSenderService->getErrors($this->responseMock));
+    }
+
+    /**
+     * Test getErrors with Exception
+     *
+     * @expectedException \BadMethodCallException
+     */
+    public function testGetErrorsException()
+    {
+        $this->responseMock
+            ->expects($this->once())
+            ->method('json')
+            ->will($this->returnValue(['not valid response']));
+        $this->spotApiSenderService->getErrors($this->responseMock);
+    }
 
     /**
      *  Test normal work of method
      */
-    public function testSendToPublicNormalData()
+    public function testSendNormalData()
     {
-        $requestData = ['key' => 'value'];
-        $resourcePath = 'path';
-        $this->guzzleMock
-            ->expects($this->once())
+        $this->requestMock->expects($this->once())->method('send');
+        $spotCredential = [
+            'url' => 'http://spotUrl.com',
+            'userName' => 'spotUserName',
+            'password' => 'spotPassword',
+        ];
+        $this->guzzleMock->expects($this->once())
             ->method('setBaseUrl')
-            ->with($this->equalTo('https://test.com'));
-
-        $this->guzzleMock
-            ->expects($this->once())
-            ->method('createRequest')
+            ->will($this->returnValue('spotUrl'));
+        $this->guzzleMock->expects($this->once())
+            ->method('post')
             ->with(
-                $this->equalTo(Request::POST),
-                $this->equalTo($resourcePath),
-                $this->equalTo(null),
-                $this->equalTo($requestData)
+                null,
+                null,
+                $this->equalTo(
+                    array_merge(
+                        $this->requestData,
+                        [
+                            'api_username' => $spotCredential['userName'],
+                            'api_password' => $spotCredential['password'],
+                            'jsonResponse' => 'true',
+                        ]
+                    )
+                )
             )
-            ->will($this->returnValue($this->responseMock));
+            ->will($this->returnValue($this->requestMock));
 
-        $this->spotApiSenderService->sendToPublicUrl(Request::POST, $resourcePath, $requestData, $this->application);
+        $this->spotApiSenderService->send(
+            $this->requestData,
+            $spotCredential
+        );
     }
 
     /**
@@ -63,10 +135,18 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \BadMethodCallException
      */
-    public function testSendToPublicBadData()
+    public function testSendBadDataException()
     {
-        $this->application->setSpotApiPublicUrl('notvalid');
-        $this->spotApiSenderService->sendToPublicUrl(Request::POST, 'path', ['key' => 'value'], $this->application);
+        $spotCredential = [
+            'url' => 'notValid',
+            'userName' => 'spotUserName',
+            'password' => 'spotPassword',
+        ];
+
+        $this->spotApiSenderService->send(
+            $this->requestData,
+            $spotCredential
+        );
     }
 
     /**
@@ -78,10 +158,12 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->responseMock = $this->getMockBuilder('\Guzzle\Http\Message\Response')
-            ->setMethods(['send'])
             ->disableOriginalConstructor()
             ->getMock();
-        $this->application = (new Application())->setSpotApiPublicUrl('https://test.com');
-        $this->spotApiSenderService = new SpotApiSenderService($this->guzzleMock);
+        $this->requestMock = $this->getMockBuilder('\Guzzle\Http\Message\EntityEnclosingRequestInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->spotApiSenderService = new SpotApiSenderService($this->guzzleMock, true);
     }
 }

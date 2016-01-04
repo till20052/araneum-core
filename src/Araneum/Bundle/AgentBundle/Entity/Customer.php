@@ -39,8 +39,8 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="first_name", type="string", length=30, nullable=true)
-     * @Assert\Length(min=2, max=30)
+     * @ORM\Column(name="first_name", type="string", length=45, nullable=true)
+     * @Assert\Length(min=2, max=45)
      * @Assert\Regex(pattern="/^\w[\w-' \d]+$/ui")
      * @Assert\NotBlank()
      */
@@ -49,8 +49,8 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="last_name", type="string", length=30, nullable=true)
-     * @Assert\Length(min=2, max=30)
+     * @ORM\Column(name="last_name", type="string", length=45, nullable=true)
+     * @Assert\Length(min=2, max=45)
      * @Assert\Regex(pattern="/^\w[\w-' \d]+$/ui")
      * @Assert\NotBlank()
      */
@@ -94,8 +94,9 @@ class Customer
     private $currency;
 
     /**
-     * @var string
+     * @var \DateTime
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\Date()
      */
     private $birthday;
 
@@ -121,6 +122,13 @@ class Customer
     private $password;
 
     /**
+     * Not saved in DB
+     *
+     * @var int
+     */
+    private $spotId;
+
+    /**
      * Get id
      *
      * @return integer
@@ -133,7 +141,7 @@ class Customer
     /**
      * Set application
      *
-     * @param Application $application
+     * @param  Application $application
      * @return Customer
      */
     public function setApplication(Application $application)
@@ -156,7 +164,7 @@ class Customer
     /**
      * Set firstName
      *
-     * @param string $firstName
+     * @param  string $firstName
      * @return Customer
      */
     public function setFirstName($firstName)
@@ -179,7 +187,7 @@ class Customer
     /**
      * Set lastName
      *
-     * @param string $lastName
+     * @param  string $lastName
      * @return Customer
      */
     public function setLastName($lastName)
@@ -202,7 +210,7 @@ class Customer
     /**
      * Set country
      *
-     * @param string $country
+     * @param  string $country
      * @return Customer
      */
     public function setCountry($country)
@@ -215,7 +223,7 @@ class Customer
     /**
      * Get country
      *
-     * @return string
+     * @return int
      */
     public function getCountry()
     {
@@ -225,12 +233,12 @@ class Customer
     /**
      * Set email
      *
-     * @param string $email
+     * @param  string $email
      * @return Customer
      */
     public function setEmail($email)
     {
-        $this->email = $email;
+        $this->email = strtolower($email);
 
         return $this;
     }
@@ -242,13 +250,13 @@ class Customer
      */
     public function getEmail()
     {
-        return $this->email;
+        return strtolower($this->email);
     }
 
     /**
      * Set phone
      *
-     * @param string $phone
+     * @param  string $phone
      * @return Customer
      */
     public function setPhone($phone)
@@ -271,7 +279,7 @@ class Customer
     /**
      * Set callback
      *
-     * @param boolean $callback
+     * @param  boolean $callback
      * @return Customer
      */
     public function setCallback($callback)
@@ -304,7 +312,7 @@ class Customer
     /**
      * Set deliveredAt
      *
-     * @param null|\DateTime $deliveredAt
+     * @param  null|\DateTime $deliveredAt
      * @return $this
      */
     public function setDeliveredAt($deliveredAt)
@@ -321,18 +329,18 @@ class Customer
      */
     public function getCurrency()
     {
-        return $this->currency;
+        return strtoupper($this->currency); // for BC
     }
 
     /**
      * Set currency
      *
-     * @param string $currency
+     * @param  string $currency
      * @return $this
      */
     public function setCurrency($currency)
     {
-        $this->currency = $currency;
+        $this->currency = strtoupper($currency);
 
         return $this;
     }
@@ -340,7 +348,7 @@ class Customer
     /**
      * Get birthday
      *
-     * @return string
+     * @return \DateTime
      */
     public function getBirthday()
     {
@@ -350,10 +358,10 @@ class Customer
     /**
      * Set birthday
      *
-     * @param object $birthday
+     * @param \DateTime $birthday
      * @return mixed
      */
-    public function setBirthday($birthday)
+    public function setBirthday(\DateTime $birthday = null)
     {
         $this->birthday = $birthday;
 
@@ -379,6 +387,29 @@ class Customer
     public function setPassword($password)
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get spotId
+     *
+     * @return int
+     */
+    public function getSpotId()
+    {
+        return $this->spotId;
+    }
+
+    /**
+     * Set spotId
+     *
+     * @param int $spotId
+     * @return Customer
+     */
+    public function setSpotId($spotId)
+    {
+        $this->spotId = $spotId;
 
         return $this;
     }

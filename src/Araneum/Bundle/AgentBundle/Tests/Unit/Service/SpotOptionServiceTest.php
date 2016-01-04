@@ -2,9 +2,10 @@
 
 namespace Araneum\Bundle\AgentBundle\Test\Service;
 
+use Araneum\Bundle\AgentBundle\Entity\Customer;
+use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
 use Araneum\Bundle\AgentBundle\Service\SpotOptionService;
-use Araneum\Bundle\MainBundle\Entity\Application;
-use Guzzle\Http\Message\Request;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Class SpotOptionService
@@ -13,125 +14,188 @@ use Guzzle\Http\Message\Request;
  */
 class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
 {
-    protected $spotApiPublicUrlLogin = 'loginUrl';
-    protected $application;
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $responseMock;
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $spotApiSenderServiceMock;
     /**
      * @var SpotOptionService
      */
     protected $spotOptionService;
-
     /**
-     * Test login method with normal data
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    public function testLoginNormal()
+    protected $spotProducerServiceMock;
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+    /**
+     * @var
+     */
+    protected $spotApiSender;
+    /**
+     * Setup
+     */
+    protected function setUp()
     {
-        $customerId = 123;
-        $session = 'd2925a4d5c856a6d09bc10c1f4f4ef51';
+        $this->spotProducerServiceMock = $this
+            ->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $this->spotApiSenderServiceMock
-            ->expects($this->once())
-            ->method('sendToPublicUrl')
-            ->with(
-                $this->equalTo(Request::POST),
-                $this->equalTo($this->spotApiPublicUrlLogin),
-                $this->equalTo(
-                    [
-                        'email' => 'email',
-                        'password' => 'password',
-                    ]
-                ),
-                $this->equalTo($this->application)
-            )
-            ->will($this->returnValue($this->responseMock));
+        $this->entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $this->responseMock
-            ->expects($this->any())
-            ->method('json')
-            ->will(
-                $this->returnValue(
-                    [
-                        'status' => true,
-                        'customerId' => $customerId,
-                    ]
-                )
-            );
+        $this->spotApiSender = $this->getMockBuilder('\Araneum\Base\Service\Spot\SpotApiSenderService')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $this->responseMock
-            ->expects($this->once())
-            ->method('getSetCookie')
-            ->will(
-                $this->returnValue(
-                    'spotsession_1_2142478985='.$session.'; path=/; domain=.spotplatform.ultratrade.com'
-                )
-            );
-
-        $this->assertEquals(
-            [
-                'spotsession' => $session,
-                'customerId' => $customerId,
-            ],
-            $this->spotOptionService->login('email', 'password', $this->application)
+        $this->spotOptionService = new SpotOptionService(
+            $this->spotProducerServiceMock,
+            $this->spotApiSender,
+            $this->entityManager
         );
     }
 
     /**
-     * Test login method with failed response
+     * test customer reset password
      */
-    public function testLoginFail()
+    public function testCustomerResetNormal()
     {
-        $this->spotApiSenderServiceMock
+        $customer = (new Customer())
+            ->setSpotId(123)
+            ->setPassword('password');
+
+        $customerData = [
+            'MODULE' => 'Customer',
+            'COMMAND' => 'edit',
+            'customerId' => $customer->getSpotId(),
+            'password' => $customer->getPassword(),
+        ];
+
+        $this->spotProducerServiceMock
             ->expects($this->once())
-            ->method('sendToPublicUrl')
+            ->method('publish')
             ->with(
-                $this->equalTo(Request::POST),
-                $this->equalTo($this->spotApiPublicUrlLogin),
-                $this->equalTo(
-                    [
-                        'email' => 'email',
-                        'password' => 'password',
-                    ]
-                ),
-                $this->equalTo($this->application)
+                $this->equalTo($customerData),
+                $this->equalTo($customer),
+                $this->equalTo(CustomerLog::ACTION_RESET_PASSWORD)
             )
-            ->will($this->returnValue($this->responseMock));
+            ->will($this->returnValue(true));
 
-        $this->responseMock
-            ->expects($this->any())
-            ->method('json')
-            ->will(
-                $this->returnValue(
-                    [
-                        'status' => false,
-                    ]
-                )
-            );
+        $this->assertTrue($this->spotOptionService->customerResetPassword($customer));
+    }
 
-        $this->assertFalse($this->spotOptionService->login('email', 'password', $this->application));
+
+    /**
+     *  Test customer create
+     */
+    public function testCustomerCreateNormal()
+    {
+        $application = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Application');
+        $customer = (new Customer())
+            ->setFirstName('firstName')
+            ->setLastName('lastName')
+            ->setCurrency('USD')
+            ->setCountry(123)
+            ->setEmail('test@mail.com')
+            ->setPhone('123-3213-142412')
+            ->setPassword('password')
+            ->setApplication($application);
+
+        $customerData = [
+            'MODULE' => 'Customer',
+            'COMMAND' => 'add',
+            'FirstName' => $customer->getFirstName(),
+            'LastName' => $customer->getLastName(),
+            'email' => $customer->getEmail(),
+            'password' => $customer->getPassword(),
+            'Phone' => $customer->getPhone(),
+            'Country' => $customer->getCountry(),
+            'currency' => $customer->getCurrency(),
+        ];
+
+        $this->spotProducerServiceMock
+            ->expects($this->once())
+            ->method('publish')
+            ->with(
+                $this->equalTo($customerData),
+                $this->equalTo($customer),
+                $this->equalTo(CustomerLog::ACTION_CREATE)
+            )
+            ->will($this->returnValue(true));
+
+        $this->assertTrue($this->spotOptionService->customerCreate($customer));
     }
 
     /**
-     * Set Up
+     * Test get countries
      */
-    protected function setUp()
+    public function testGetCountries()
     {
-        $this->spotApiSenderServiceMock = $this->getMockBuilder('\Araneum\Base\Service\Spot\SpotApiSenderService')
+        $appKey = md5(microtime(true));
+        $data = [
+            'MODULE' => 'Country',
+            'COMMAND' => 'view',
+        ];
+        $spotCredentials = [
+            'url' => 'http:/\/\ultratrade.office.dev',
+            'userName' => 'araneum',
+            'password' => 'wU7tc2YKg2',
+        ];
+
+        $application = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Application')
             ->disableOriginalConstructor()
             ->getMock();
+        $application->expects($this->once())
+            ->method('getSpotCredential')
+            ->will($this->returnValue($spotCredentials));
 
-        $this->responseMock = $this->getMockBuilder('\Guzzle\Http\Message\Response')
+        $repository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ApplicationRepository')
             ->disableOriginalConstructor()
+            ->setMethods(['findOneByAppKey'])
             ->getMock();
+        $repository->expects($this->once())
+            ->method('findOneByAppKey')
+            ->with($this->equalTo($appKey))
+            ->will($this->returnValue($application));
 
-        $this->application = new Application();
+        $this->entityManager->expects($this->once())
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumMainBundle:Application'))
+            ->will($this->returnValue($repository));
 
-        $this->spotOptionService = new SpotOptionService($this->spotApiSenderServiceMock, $this->spotApiPublicUrlLogin);
+        $this->spotApiSender->expects($this->once())
+            ->method('get')
+            ->with($this->equalTo($data), $this->equalTo($spotCredentials))
+            ->will($this->returnValue(true));
+
+        $this->assertTrue($this->spotOptionService->getCountries($appKey));
+    }
+
+    /**
+     * Test SpotOptionService.getCountries(...) in case if return NotFoundHttpException
+     *
+     * @expectedException           \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @expectedExceptionCode       \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND
+     * @expectedExceptionMessage    Not Application found for this appKey
+     */
+    public function testGetCountriesEntityNotFoundException()
+    {
+        $appKey = md5(microtime(true));
+
+        $repository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\ApplicationRepository')
+            ->disableOriginalConstructor()
+            ->setMethods(['findOneByAppKey'])
+            ->getMock();
+        $repository->expects($this->once())
+            ->method('findOneByAppKey')
+            ->with($this->equalTo($appKey))
+            ->will($this->returnValue(null));
+
+        $this->entityManager->expects($this->once())
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumMainBundle:Application'))
+            ->will($this->returnValue($repository));
+
+        $this->spotOptionService->getCountries($appKey);
     }
 }

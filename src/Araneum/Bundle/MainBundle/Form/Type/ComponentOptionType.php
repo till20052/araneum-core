@@ -22,14 +22,4 @@ class ComponentOptionType extends AbstractType
             ->add('key', 'text', ['label' => 'key'])
             ->add('value', 'text', ['label' => 'value']);
     }
-
-    /**
-     * Get token name of component options
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'araneum_main_form_component_option';
-    }
 }

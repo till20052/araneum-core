@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\AgentBundle\Service;
 
+use Araneum\Bundle\AgentBundle\AraneumAgentBundle;
 use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
 use Araneum\Bundle\AgentBundle\Form\Type\CustomerType;
 use Araneum\Bundle\MainBundle\Entity\Application;
@@ -11,8 +12,9 @@ use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Base\Exception\InvalidFormException;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactory;
+use Araneum\Bundle\AgentBundle\Event\CustomerEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class CustomerApiHandlerService
@@ -69,42 +71,45 @@ class CustomerApiHandlerService
         $this->spotOptionService = $spotOptionService;
     }
 
-
     /**
      * Get Customer
      *
-     * @param string $appKey     the application appKey
+     * @param string $appKey
      * @param array  $parameters
      * @return array
      */
     public function post($appKey, array $parameters)
     {
-        $application = $this->getAppManager()->findOneOr404(['appKey' => $appKey]);
+        $application = $this->applicationManager->findOneOr404(['appKey' => $appKey]);
 
         $customer = new Customer();
         $customer->setApplication($application);
 
-        return $this->processForm($parameters, $customer);
+        $result = $this->processForm($parameters, $customer);
+
+        $this->createCustomerEvent($customer, AraneumAgentBundle::EVENT_CUSTOMER_NEW);
+
+        return $result;
     }
 
     /**
      * Process Form
      *
-     * @param array    $parameters
-     * @param Customer $customer
+     * @param  array    $parameters
+     * @param  Customer $customer
      * @return Customer $customer
      * @throws InvalidFormException
      */
     public function processForm(array $parameters, $customer)
     {
-        $form = $this->container->get('form.factory')->create(new CustomerType(), $customer);
+        $form = $this->formFactory->create(new CustomerType(), $customer);
         $form->submit($parameters);
 
         if ($form->isValid()) {
-            $this->getEntityManager()->persist($customer);
-            $this->getEntityManager()->flush();
+            $this->entityManager->persist($customer);
+            $this->entityManager->flush();
 
-            return $customer;
+            return ['id' => $customer->getId()];
         } else {
             throw new InvalidFormException($form, 'Invalid submitted data');
         }
@@ -126,36 +131,6 @@ class CustomerApiHandlerService
         $this->spotOptionService->login($customer);
 
         return 0;
-
-        $application = $this->getAppManager()
-            ->findOneOr404(['appKey' => $appKey]);
-
-        $customer = $this->getEntityManager()
-            ->getRepository('AraneumAgentBundle:Customer')
-            ->findOneBy(
-                [
-                    'email' => $email,
-                    'application' => $application,
-                ]
-            );
-        $spotResponse = $this->getSpotOption()->login($email, $password, $application);
-
-        $log = new CustomerLog();
-        $log->setApplication($application);
-        $log->setAction('Login');
-        $log->setCustomer($customer);
-        $log->setSpotResponse($spotResponse);
-
-        if ($spotResponse !== false) {
-            $log->setStatus(CustomerLog::STATUS_OK);
-        } else {
-            $log->setStatus(CustomerLog::STATUS_ERROR);
-        }
-
-        $this->getEntityManager()->persist($log);
-        $this->getEntityManager()->flush();
-
-        return $spotResponse;
     }
 
     /**
@@ -163,95 +138,52 @@ class CustomerApiHandlerService
      *
      * @param string $appKey
      * @param string $email
-     * @param string $currentPassword
-     * @param string $newPassword
+     * @param int    $customerId
+     * @param string $password
      *
      * @throws EntityNotFoundException in case if Application or Customer does not exists
      * @throws \Exception in case if Application does not have Customer
      *
      * @return bool
      */
-    public function resetPassword($appKey, $email, $currentPassword, $newPassword)
+    public function resetPassword($appKey, $email, $customerId, $password)
     {
-        /** @var Application $application */
-        $application = $this->getEntityManager()
-            ->getRepository('AraneumMainBundle:Application')
-            ->findOneByAppKey($appKey);
+        $email = strtolower($email);
+        $customer = $this->validateCustomerAndApplication($appKey, $email);
+        $customer
+            ->setPassword($password)
+            ->setSpotId($customerId);
+        $this->createCustomerEvent($customer, AraneumAgentBundle::EVENT_CUSTOMER_RESET_PASSWORD);
 
-        /** @var Customer $customer */
-        $customer = $this->getEntityManager()
-            ->getRepository('AraneumAgentBundle:Customer')
-            ->findOneBy(
-                [
-                    'email' => $email,
-                    'application' => $application,
-                ]
-            );
+        return 'successful';
+    }
 
-        if (empty($application)
-            || empty($customer)
-        ) {
-            throw new EntityNotFoundException();
-        } elseif (!$application->getCustomers()->contains($customer)) {
-            throw new \Exception('Application does not have this Customer');
+    /**
+     * Create and save customer log
+     *
+     * @param string   $actionName
+     * @param Customer $customer
+     * @param string   $spotResponse
+     * @return CustomerLog
+     */
+    private function createCustomerLog($actionName, Customer $customer, $spotResponse)
+    {
+        $logStatus = CustomerLog::STATUS_ERROR;
+        if ($spotResponse) {
+            $logStatus = CustomerLog::STATUS_OK;
         }
-
-        $spotResponse = $this->getSpotOption()
-            ->resetPassword($email, $currentPassword, $newPassword);
 
         $customerLog = (new CustomerLog())
-            ->setAction('reset_password')
-            ->setApplication($application)
+            ->setAction($actionName)
+            ->setApplication($customer->getApplication())
             ->setCustomer($customer)
             ->setSpotResponse($spotResponse)
-            ->setStatus(CustomerLog::STATUS_OK);
+            ->setStatus($logStatus);
 
-        $this->getEntityManager()->persist($customerLog);
-        $this->getEntityManager()->flush();
+        $this->entityManager->persist($customerLog);
+        $this->entityManager->flush();
 
-        return $customerLog->getStatus();
-    }
-
-    /**
-     * Get entity Manager
-     *
-     * @return EntityManager
-     */
-    private function getEntityManager()
-    {
-        if (is_null($this->entityManager)) {
-            $this->entityManager = $this->container->get('doctrine.orm.entity_manager');
-        }
-
-        return $this->entityManager;
-    }
-
-    /**
-     * Get application Manager
-     *
-     * @return ApplicationManagerService
-     */
-    private function getAppManager()
-    {
-        if (is_null($this->appManager)) {
-            $this->appManager = $this->container->get('araneum.main.application.manager');
-        }
-
-        return $this->appManager;
-    }
-
-    /**
-     * Get spotOption
-     *
-     * @return SpotOptionService
-     */
-    private function getSpotOption()
-    {
-        if (is_null($this->spotOption)) {
-            $this->spotOption = $this->container->get('araneum.agent.spotoption.service');
-        }
-
-        return $this->spotOption;
+        return $customerLog;
     }
 
     /**
@@ -279,5 +211,18 @@ class CustomerApiHandlerService
         }
 
         return $customer;
+    }
+
+    /**
+     * Create and dispatch Customer event
+     *
+     * @param Customer $customer
+     * @param string   $eventName
+     */
+    private function createCustomerEvent(Customer $customer, $eventName)
+    {
+        $event = new CustomerEvent();
+        $event->setCustomer($customer);
+        $this->dispatcher->dispatch($eventName, $event);
     }
 }

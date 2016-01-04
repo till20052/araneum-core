@@ -40,13 +40,12 @@ class CustomerApiController extends FOSRestController
      *   input="Araneum\Bundle\AgentBundle\Form\Type\CustomerType",
      *   tags={"Agent"}
      * )
-     *
+     * @Security("has_role('ROLE_API')")
      * @Rest\Post("/api/customers/insert/{appKey}", defaults={"_format"="json"})
-     *
      * @Rest\View(statusCode=201)
      *
-     * @param string  $appKey
-     * @param Request $request
+     * @param  string  $appKey
+     * @param  Request $request
      * @return mixed
      */
     public function setCustomerAction($appKey, Request $request)
@@ -130,9 +129,8 @@ class CustomerApiController extends FOSRestController
      *     parameter"},
      *      {"name"="email", "dataType"="string", "required"=true, "description"="Searching Customer by this
      *     parameter"},
-     *      {"name"="current_password", "dataType"="string", "required"=true, "description"="Customer current
-     *     password"},
-     *      {"name"="new_password", "dataType"="string", "required"=true, "description"="Customer new password"}
+     *      {"name"="password", "dataType"="string", "required"=true, "description"="Customer new password"},
+     *      {"name"="customer_id", "dataType"="int", "required"=true, "description"="Customer spot id"}
      *  },
      *  statusCodes = {
      *      202 = "Returned when reset customer password was successful",
@@ -144,13 +142,14 @@ class CustomerApiController extends FOSRestController
      * )
      *
      * @Rest\Post("/api/customers/reset_password", defaults={"_format"="json"})
-     * @Rest\QueryParam(name="app_key", allowBlank=false)
-     * @Rest\RequestParam(name="email", allowBlank=false)
-     * @Rest\RequestParam(name="current_password", allowBlank=false)
-     * @Rest\RequestParam(name="new_password", allowBlank=false)
-     * @Rest\View(statusCode=202)
+     * @Rest\QueryParam(name="app_key",            allowBlank=false)
+     * @Rest\RequestParam(name="email",            allowBlank=false)
+     * @Rest\RequestParam(name="customer_id",      allowBlank=false)
+     * @Rest\RequestParam(name="password",         allowBlank=false, requirements=".{6,}")
+     * @Rest\View(statusCode=200)
+     * @Security("has_role('ROLE_API')")
      *
-     * @param ParamFetcher $paramFetcher
+     * @param  ParamFetcher $paramFetcher
      * @return array
      */
     public function resetPasswordAction(ParamFetcher $paramFetcher)
@@ -161,13 +160,13 @@ class CustomerApiController extends FOSRestController
                 ->resetPassword(
                     $paramFetcher->get('app_key'),
                     $paramFetcher->get('email'),
-                    $paramFetcher->get('current_password'),
-                    $paramFetcher->get('new_password')
+                    $paramFetcher->get('customer_id'),
+                    $paramFetcher->get('password')
                 );
 
             return ['status' => $status];
         } catch (\Exception $exception) {
-            return View::create(['error' => $exception->getMessage()], Response::HTTP_NOT_FOUND);
+            return View::create(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }
 }

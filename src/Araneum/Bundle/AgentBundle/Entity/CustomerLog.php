@@ -69,7 +69,7 @@ class CustomerLog
     private $spotResponse;
 
     /**
-     * @var string
+     * @var int
      *
      * @ORM\Column(name="status", type="smallint", nullable=true)
      */
@@ -88,7 +88,7 @@ class CustomerLog
     /**
      * Get Customer status description
      *
-     * @param integer $status
+     * @param  integer $status
      * @return string
      */
     public static function getStatusDescription($status)
@@ -123,7 +123,7 @@ class CustomerLog
     /**
      * Set application
      *
-     * @param Application $application
+     * @param  Application $application
      * @return CustomerLog
      */
     public function setApplication($application)
@@ -146,7 +146,7 @@ class CustomerLog
     /**
      * Set customer
      *
-     * @param Customer $customer
+     * @param  Customer $customer
      * @return CustomerLog
      */
     public function setCustomer($customer)
@@ -169,7 +169,7 @@ class CustomerLog
     /**
      * Set action
      *
-     * @param string $action
+     * @param  string $action
      * @return CustomerLog
      */
     public function setAction($action)
@@ -192,7 +192,7 @@ class CustomerLog
     /**
      * Set spot Option response
      *
-     * @param string $spotResponse
+     * @param  string $spotResponse
      * @return CustomerLog
      */
     public function setSpotResponse($spotResponse)
@@ -209,7 +209,7 @@ class CustomerLog
     /**
      * Get status
      *
-     * @return string
+     * @return int
      */
     public function getStatus()
     {
@@ -219,7 +219,7 @@ class CustomerLog
     /**
      * Set status
      *
-     * @param string $status
+     * @param  int $status
      * @return CustomerLog
      */
     public function setStatus($status)

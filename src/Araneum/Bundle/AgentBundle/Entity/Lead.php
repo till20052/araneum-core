@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\AgentBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
+use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints;
 
@@ -76,6 +77,14 @@ class Lead
     private $appKey;
 
     /**
+     * @var Application
+     *
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Application", inversedBy="leads")
+     * @ORM\JoinColumn(name="application_id", referencedColumnName="id")
+     */
+    private $application;
+
+    /**
      * Get id
      *
      * @return integer
@@ -88,7 +97,7 @@ class Lead
     /**
      * Set firstName
      *
-     * @param string $firstName
+     * @param  string $firstName
      * @return Lead
      */
     public function setFirstName($firstName)
@@ -111,7 +120,7 @@ class Lead
     /**
      * Set lastName
      *
-     * @param string $lastName
+     * @param  string $lastName
      * @return Lead
      */
     public function setLastName($lastName)
@@ -134,7 +143,7 @@ class Lead
     /**
      * Set country
      *
-     * @param integer $country
+     * @param  integer $country
      * @return Lead
      */
     public function setCountry($country)
@@ -157,7 +166,7 @@ class Lead
     /**
      * Set phone
      *
-     * @param string $phone
+     * @param  string $phone
      * @return Lead
      */
     public function setPhone($phone)
@@ -180,12 +189,12 @@ class Lead
     /**
      * Set email
      *
-     * @param string $email
+     * @param  string $email
      * @return Lead
      */
     public function setEmail($email)
     {
-        $this->email = $email;
+        $this->email = strtolower($email);
 
         return $this;
     }
@@ -197,13 +206,13 @@ class Lead
      */
     public function getEmail()
     {
-        return $this->email;
+        return strtolower($this->email);
     }
 
     /**
      * Set appKey
      *
-     * @param string $appKey
+     * @param  string $appKey
      * @return Lead $this
      */
     public function setAppKey($appKey)
@@ -221,5 +230,28 @@ class Lead
     public function getAppKey()
     {
         return $this->appKey;
+    }
+
+    /**
+     * Set application
+     *
+     * @param Application $application
+     * @return Customer
+     */
+    public function setApplication(Application $application)
+    {
+        $this->application = $application;
+
+        return $this;
+    }
+
+    /**
+     * Get application
+     *
+     * @return Application
+     */
+    public function getApplication()
+    {
+        return $this->application;
     }
 }

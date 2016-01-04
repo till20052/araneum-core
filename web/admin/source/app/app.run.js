@@ -1,85 +1,56 @@
 (function () {
-	'use strict';
+    'use strict';
 
-	angular
-		.module('app')
-		.run(appRun);
+    angular
+        .module('app')
+        .run(appRun);
 
-	appRun.$inject = ['$rootScope', '$state', '$stateParams', '$window', 'Colors', 'UserAuth'];
+    appRun.$inject = ['$rootScope', '$state', '$stateParams', '$window', 'Colors'];
 
-	/**
-	 * Run application
-	 *
-	 * @param $rootScope
-	 * @param $state
-	 * @param $stateParams
-	 * @param $window
-	 * @param Colors
-     * @param UserAuth
+    /**
+     * Run application
+     *
+     * @param $rootScope
+     * @param $state
+     * @param $stateParams
+     * @param $window
+     * @param Colors
      */
-	function appRun($rootScope, $state, $stateParams, $window, Colors, UserAuth) {
+    function appRun($rootScope, $state, $stateParams, $window, Colors) {
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
+        $rootScope.$storage = $window.localStorage;
 
-		// Set reference to access them from any scope
-		$rootScope.$state = $state;
-		$rootScope.$stateParams = $stateParams;
-		$rootScope.$storage = $window.localStorage;
+        $rootScope.colorByName = Colors.byName;
 
-		// Uncomment this to disable template cache
-		/*$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-		 if (typeof(toState) !== 'undefined'){
-		 $templateCache.remove(toState.templateUrl);
-		 }
-		 });*/
+        $rootScope.cancel = function ($event) {
+            $event.stopPropagation();
+        };
 
-		// Allows to use branding color with interpolation
-		// {{ colorByName('primary') }}
-		$rootScope.colorByName = Colors.byName;
+        $rootScope.$on('$stateNotFound', function (event, unfoundState) {
+            console.log(unfoundState.to);
+            console.log(unfoundState.toParams);
+            console.log(unfoundState.options);
+        });
 
-		// cancel click event easily
-		$rootScope.cancel = function ($event) {
-			$event.stopPropagation();
-		};
+        $rootScope.$on('$stateChangeSuccess', function () {
+            $window.scrollTo(0, 0);
+            $rootScope.currTitle = $state.current.title;
+        });
 
-		// Hooks Example
-		// -----------------------------------
+        $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+            console.log(error);
+        });
 
-		// Hook: start change state
-		$rootScope.$on('$stateChangeStart', function (event, toState) {
-			UserAuth.onStartChangeState(event, toState);
-		});
+        $rootScope.currTitle = $state.current.title;
+        $rootScope.pageTitle = function () {
+            return document.title = $rootScope.app.name + ' - ' +
+                ($rootScope.currTitle || $rootScope.app.description);
+        };
 
-		// Hook not found
-		$rootScope.$on('$stateNotFound',
-			function (event, unfoundState/*, fromState, fromParams*/) {
-				console.log(unfoundState.to); // "lazy.state"
-				console.log(unfoundState.toParams); // {a:1, b:2}
-				console.log(unfoundState.options); // {inherit:false} + default options
-			});
-		// Hook error
-		$rootScope.$on('$stateChangeError',
-			function (event, toState, toParams, fromState, fromParams, error) {
-				console.log(error);
-			});
-		// Hook success
-		$rootScope.$on('$stateChangeSuccess',
-			function (/*event, toState, toParams, fromState, fromParams*/) {
-				// display new view from top
-				$window.scrollTo(0, 0);
-				// Save the route title
-				$rootScope.currTitle = $state.current.title;
-			});
-
-		// Load a title dynamically
-		$rootScope.currTitle = $state.current.title;
-		$rootScope.pageTitle = function () {
-			var title = $rootScope.app.name + ' - ' + ($rootScope.currTitle || $rootScope.app.description);
-			document.title = title;
-			return title;
-		};
-
-		$rootScope.$on('toggleUserBlock', function (/*event, args*/) {
-			$rootScope.userBlockVisible = !$rootScope.userBlockVisible;
-		});
-	}
+        $rootScope.$on('toggleUserBlock', function () {
+            $rootScope.userBlockVisible = !$rootScope.userBlockVisible;
+        });
+    }
 
 })();

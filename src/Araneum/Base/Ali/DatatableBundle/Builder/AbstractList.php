@@ -15,7 +15,7 @@ abstract class AbstractList
     /**
      * Build the list
      *
-     * @param ListBuilderInterface $builder
+     * @param  ListBuilderInterface $builder
      * @return null
      */
     abstract public function buildList(ListBuilderInterface $builder);
@@ -23,7 +23,7 @@ abstract class AbstractList
     /**
      * Create query builder
      *
-     * @param object $doctrine
+     * @param  object $doctrine
      * @return \Ali\DatatableBundle\Util\Factory\Query\QueryInterface
      */
     abstract public function createQueryBuilder($doctrine);

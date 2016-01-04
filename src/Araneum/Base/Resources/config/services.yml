@@ -39,6 +39,9 @@ services:
         class: Araneum\Base\Service\CommandRunnerService
         arguments: [%kernel.root_dir%]
 
+    araneum.base.rabbitmq.msg_convert_helper:
+        class: Araneum\Base\Service\RabbitMQ\MessageConversionHelper
+
     araneum.base.rabbitmq.producer.spot:
         class: Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService
         arguments:
@@ -52,4 +55,4 @@ services:
 
     araneum.base.spot_api:
         class: Araneum\Base\Service\Spot\SpotApiSenderService
-        arguments: [@guzzle.client]
+        arguments: [@guzzle.client, %spot_enable_json_responce%]

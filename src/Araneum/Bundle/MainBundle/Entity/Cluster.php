@@ -16,7 +16,7 @@ use Araneum\Bundle\AgentBundle\Entity\ClusterLog;
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\ClusterRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields="name")
- * @package Araneum\Bundle\MainBundle\Entity
+ * @package                                                                              Araneum\Bundle\MainBundle\Entity
  */
 class Cluster
 {
@@ -48,9 +48,9 @@ class Cluster
     protected $id;
 
     /**
-     * @ORM\Column(type="string", name="name", unique=true, length=255)
+     * @ORM\Column(type="string", name="name", unique=true, length=35)
      * @Assert\NotBlank()
-     * @Assert\Length(min=2, max=255)
+     * @Assert\Length(min=2, max=35)
      * @Assert\Type(type="string")
      */
     protected $name;
@@ -106,7 +106,7 @@ class Cluster
     /**
      * Get Cluster status description
      *
-     * @param integer $status
+     * @param  integer $status
      * @return string
      */
     public static function getStatusDescription($status)
@@ -141,7 +141,7 @@ class Cluster
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return Cluster
      */
     public function setName($name)
@@ -164,7 +164,7 @@ class Cluster
     /**
      * Set type
      *
-     * @param integer $type
+     * @param  integer $type
      * @return Cluster
      */
     public function setType($type)
@@ -187,7 +187,7 @@ class Cluster
     /**
      * Set enabled
      *
-     * @param boolean $enabled
+     * @param  boolean $enabled
      * @return Cluster
      */
     public function setEnabled($enabled = true)
@@ -210,7 +210,7 @@ class Cluster
     /**
      * Set status
      *
-     * @param integer $status
+     * @param  integer $status
      * @return Cluster
      */
     public function setStatus($status)
@@ -243,7 +243,7 @@ class Cluster
     /**
      * Set applications
      *
-     * @param ArrayCollection $applications
+     * @param  ArrayCollection $applications
      * @return Cluster $this
      */
     public function setApplications(ArrayCollection $applications)
@@ -266,7 +266,7 @@ class Cluster
     /**
      * Add application
      *
-     * @param Application $application
+     * @param  Application $application
      * @return Cluster $this
      */
     public function addApplication(Application $application)
@@ -281,7 +281,7 @@ class Cluster
     /**
      * Remove application
      *
-     * @param Application $application
+     * @param  Application $application
      * @return Cluster $this
      */
     public function removeApplication(Application $application)
@@ -294,7 +294,7 @@ class Cluster
     /**
      * Check is cluster has application
      *
-     * @param Application $application
+     * @param  Application $application
      * @return bool
      */
     public function hasApplication(Application $application)
@@ -305,7 +305,7 @@ class Cluster
     /**
      * Set runners
      *
-     * @param ArrayCollection $runners
+     * @param  ArrayCollection $runners
      * @return Cluster $this
      */
     public function setRunners(ArrayCollection $runners)
@@ -328,7 +328,7 @@ class Cluster
     /**
      * Add runners
      *
-     * @param Runner $runner
+     * @param  Runner $runner
      * @return Cluster $this
      */
     public function addRunner(Runner $runner)
@@ -343,7 +343,7 @@ class Cluster
     /**
      * Remove runner
      *
-     * @param Runner $runner
+     * @param  Runner $runner
      * @return Cluster $this
      */
     public function removeRunner(Runner $runner)
@@ -356,7 +356,7 @@ class Cluster
     /**
      * Check is cluster has runner
      *
-     * @param Runner $runner
+     * @param  Runner $runner
      * @return bool
      */
     public function hasRunner(Runner $runner)
@@ -367,7 +367,7 @@ class Cluster
     /**
      * Set clusterLog
      *
-     * @param ArrayCollection $clusterLogs
+     * @param  ArrayCollection $clusterLogs
      * @return Cluster $this
      */
     public function setClusterLogs(ArrayCollection $clusterLogs)
@@ -390,7 +390,7 @@ class Cluster
     /**
      * Add clusterLog
      *
-     * @param ClusterLog $clusterLogs
+     * @param  ClusterLog $clusterLogs
      * @return Cluster $this
      */
     public function addClusterLogs(ClusterLog $clusterLogs)
@@ -403,7 +403,7 @@ class Cluster
     /**
      * Remove clusterLog
      *
-     * @param ClusterLog $clusterLogs
+     * @param  ClusterLog $clusterLogs
      * @return Cluster $this
      */
     public function removeClusterLogs(ClusterLog $clusterLogs)
@@ -416,7 +416,7 @@ class Cluster
     /**
      * Check is cluster has connectionLogs
      *
-     * @param ClusterLog $clusterLogs
+     * @param  ClusterLog $clusterLogs
      * @return bool
      */
     public function hasClusterLogs(ClusterLog $clusterLogs)

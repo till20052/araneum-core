@@ -28,7 +28,7 @@ class Role
 
     /**
      *
-     * @ORM\Column(type="string", name="name", unique=true, length=255)
+     * @ORM\Column(type="string", name="name", unique=true, length=35)
      * @Assert\NotBlank()
      * @Assert\Type(type="string")
      */
@@ -53,7 +53,7 @@ class Role
     /**
      * Set id
      *
-     * @param integer $id
+     * @param  integer $id
      * @return Role
      */
     public function setId($id)
@@ -66,7 +66,7 @@ class Role
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return Role
      */
     public function setName($name)

@@ -5,28 +5,20 @@
         .module('app')
         .run(settingsRun);
 
-    settingsRun.$inject = ['$rootScope'];
+    settingsRun.$inject = ['$rootScope', 'layout'];
 
     /**
      * Global settings
      *
      * @param $rootScope
+     * @param layout
      */
-    function settingsRun($rootScope) {
+    function settingsRun($rootScope, layout) {
         $rootScope.app = {
             name: 'Manage :: Araneum',
             description: 'Multisite manage tool',
             year: ((new Date()).getFullYear()),
-            layout: {
-                isFixed: true,
-                isCollapsed: false,
-                isBoxed: false,
-                isRTL: false,
-                horizontal: false,
-                isFloat: false,
-                asideHover: false,
-                theme: null
-            },
+            layout: layout,
             useFullLayout: false,
             hiddenFooter: false,
             offsidebarOpen: false,

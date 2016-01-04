@@ -40,41 +40,25 @@ class AdminUserController extends Controller
     }
 
     /**
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/profile/get_authorized_user_data", name="araneum_user_adminUser_getAuthorizedUserData")
-     * @return Response
-     */
-    public function getAuthorizedUserData()
-    {
-        /** @var User $user */
-        $user = $this->getUser();
-
-        return new JsonResponse(
-            [
-                'name' => $user->getFullName(),
-                'email' => $user->getEmail(),
-                'settings' => $user->getSettings(),
-            ],
-            Response::HTTP_OK
-        );
-    }
-
-    /**
      * Edit profile
      *
-     * @Route("/profile/edit", name="araneum_user_adminUser_edit")
+     * @Route("/profile/edit",             name="araneum_user_adminUser_edit")
      * @Security("has_role('ROLE_ADMIN')")
-     * @param Request $request
-     * @return Response
+     * @param                              Request $request
+     * @return                             Response
      */
     public function editAction(Request $request)
     {
         $em = $this->get('doctrine.orm.entity_manager');
-        /** @var User $user */
+        /**
+         * @var User $user
+         */
         $user = $this->getUser();
         $form = $this->createForm(new ProfileType(), $user);
 
-        /** @var FormHandlerService $formHandler */
+        /**
+         * @var FormHandlerService $formHandler
+         */
         $formHandler = $this->get('araneum.base.form.handler');
 
         if ($request->getMethod() === 'POST') {
@@ -107,27 +91,57 @@ class AdminUserController extends Controller
     }
 
     /**
+     * Get Authorized User Data
+     *
+     * @Route(
+     *     "/profile/get_authorized_user_data",
+     *     name="araneum_user_adminUser_getAuthorizedUserData"
+     * )
+     * @Security("has_role('ROLE_ADMIN')")
+     * @return JsonResponse
+     */
+    public function getAuthorizedUserData()
+    {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+
+        return new JsonResponse(
+            [
+                'name' => $user->getFullName(),
+                'email' => $user->getEmail(),
+                'settings' => $user->getSettings(),
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
      * Set user settings
      *
+     * @Route(
+     *     "/profile/settings",
+     *     name="araneum_user_adminUser_setSettings"
+     * )
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/profile/settings", name="araneum_user_adminUser_setSettings")
      * @Method("POST")
      * @param Request $request
      * @return JsonResponse $response
      */
     public function setSettingsAction(Request $request)
     {
-        /** @var EntityManager $entityManager */
+        /**
+         * @var EntityManager $entityManager
+         */
         $entityManager = $this->getDoctrine()->getManager();
 
         try {
-
             $this->getUser()
                 ->setSettings($request->request->all());
 
             $entityManager->flush();
         } catch (\Exception $e) {
-
             return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         }
 
@@ -139,7 +153,7 @@ class AdminUserController extends Controller
      * Locales module initialization
      *
      * @Route("/manage/users/init.json", name="araneum_manage_users_init")
-     * @return JsonResponse
+     * @return                           JsonResponse
      */
     public function initAction()
     {
@@ -166,7 +180,7 @@ class AdminUserController extends Controller
      * Server/client datatable communication
      *
      * @Route("/manage/users/datatable.json", name="araneum_manage_users_grid")
-     * @return JsonResponse
+     * @return                                JsonResponse
      */
     public function datatableAction()
     {

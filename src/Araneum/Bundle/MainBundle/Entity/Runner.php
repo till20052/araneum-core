@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Runner
+ *
  * @ORM\Table(name="araneum_runner")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\MainBundle\Repository\RunnerRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -31,9 +32,9 @@ class Runner
     protected $id;
 
     /**
-     * @ORM\Column(type="string", name="name", unique=true, length=255)
+     * @ORM\Column(type="string", name="name", unique=true, length=35)
      * @Assert\NotBlank()
-     * @Assert\Length(min=2, max=255)
+     * @Assert\Length(min=2, max=35)
      * @Assert\Type(type="string")
      */
     protected $name;
@@ -104,7 +105,7 @@ class Runner
     /**
      * Set id
      *
-     * @param mixed $id
+     * @param  mixed $id
      * @return Runner
      */
     public function setId($id)
@@ -127,7 +128,7 @@ class Runner
     /**
      * Set Name
      *
-     * @param mixed $name
+     * @param  mixed $name
      * @return Runner
      */
     public function setName($name)
@@ -150,7 +151,7 @@ class Runner
     /**
      * Set domain
      *
-     * @param mixed $domain
+     * @param  mixed $domain
      * @return Runner
      */
     public function setDomain($domain)
@@ -173,7 +174,7 @@ class Runner
     /**
      * Set connections
      *
-     * @param mixed $connections
+     * @param  mixed $connections
      * @return Runner
      */
     public function setConnections($connections)
@@ -186,7 +187,7 @@ class Runner
     /**
      * Add connection
      *
-     * @param Connection $connection
+     * @param  Connection $connection
      * @return Cluster
      */
     public function addConnection(Connection $connection)
@@ -219,7 +220,7 @@ class Runner
     /**
      * Set enabled
      *
-     * @param boolean $enabled
+     * @param  boolean $enabled
      * @return Runner
      */
     public function setEnabled($enabled = true)
@@ -232,7 +233,7 @@ class Runner
     /**
      * Set type
      *
-     * @param integer $type
+     * @param  integer $type
      * @return Runner
      */
     public function setType($type)
@@ -255,7 +256,7 @@ class Runner
     /**
      * Set status
      *
-     * @param integer $status
+     * @param  integer $status
      * @return Runner
      */
     public function setStatus($status)
@@ -288,7 +289,7 @@ class Runner
     /**
      * Set cluster
      *
-     * @param Cluster $cluster
+     * @param  Cluster $cluster
      * @return $this
      */
     public function setCluster(Cluster $cluster)
@@ -301,7 +302,7 @@ class Runner
     /**
      * Set connectionLog
      *
-     * @param ArrayCollection $connectionLogs
+     * @param  ArrayCollection $connectionLogs
      * @return Cluster $this
      */
     public function setConnectionLogs(ArrayCollection $connectionLogs)
@@ -324,7 +325,7 @@ class Runner
     /**
      * Add connectionsLog
      *
-     * @param ConnectionLog $connectionLogs
+     * @param  ConnectionLog $connectionLogs
      * @return Cluster $this
      */
     public function addConnectionLogs(ConnectionLog $connectionLogs)
@@ -337,7 +338,7 @@ class Runner
     /**
      * Remove connectionsLog
      *
-     * @param ConnectionLog $connectionLogs
+     * @param  ConnectionLog $connectionLogs
      * @return Cluster $this
      */
     public function removeConnectionLogs(ConnectionLog $connectionLogs)
@@ -350,7 +351,7 @@ class Runner
     /**
      * Check is cluster has connectionLogs
      *
-     * @param ConnectionLog $connectionLogs
+     * @param  ConnectionLog $connectionLogs
      * @return bool
      */
     public function hasConnectionLogs(ConnectionLog $connectionLogs)

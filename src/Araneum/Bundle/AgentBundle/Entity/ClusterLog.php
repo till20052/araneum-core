@@ -67,7 +67,7 @@ class ClusterLog
     /**
      * Set status
      *
-     * @param integer $status
+     * @param  integer $status
      * @return ClusterLog
      */
     public function setStatus($status)
@@ -90,7 +90,7 @@ class ClusterLog
     /**
      * Set cluster
      *
-     * @param Cluster $cluster
+     * @param  Cluster $cluster
      * @return ClusterLog $this
      */
     public function setCluster(Cluster $cluster)
@@ -113,7 +113,7 @@ class ClusterLog
     /**
      * Set problems
      *
-     * @param Collection|ArrayCollection $problems
+     * @param  Collection|ArrayCollection $problems
      * @return ClusterLog $this
      */
     public function setProblems(Collection $problems)
@@ -136,7 +136,7 @@ class ClusterLog
     /**
      * Add problem
      *
-     * @param Problem $problem
+     * @param  Problem $problem
      * @return ClusterLog $this
      */
     public function addProblem(Problem $problem)
@@ -151,7 +151,7 @@ class ClusterLog
     /**
      * Remove problem
      *
-     * @param Problem $problem
+     * @param  Problem $problem
      * @return ClusterLog $this
      */
     public function removeProblem(Problem $problem)
@@ -166,7 +166,7 @@ class ClusterLog
     /**
      * Has problem
      *
-     * @param Problem $problem
+     * @param  Problem $problem
      * @return bool
      */
     public function hasProblem(Problem $problem)

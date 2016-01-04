@@ -11,6 +11,8 @@ parameters:
     site_api:
         user: api
         password: QDurWe68
+    rabbitmq_message_ttl: '20000'
+    spot_enable_json_responce: true
 
 
 framework:

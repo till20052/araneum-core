@@ -67,8 +67,11 @@
                     mode: 'categories'
                 },
                 yaxis: {
+                    min: 0,
+                    max: 100,
                     position: ($scope.app.layout.isRTL ? 'right' : 'left'),
-                    tickColor: '#eee'
+                    tickColor: '#eee',
+                    tickDecimals: 0
                 },
                 shadowSize: 0
             };
