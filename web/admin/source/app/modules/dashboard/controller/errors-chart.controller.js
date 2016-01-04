@@ -9,6 +9,7 @@
     /**
      * Controller of errors chart
      *
+     * @param dashboard
      * @param $rootScope
      * @constructor
      */
