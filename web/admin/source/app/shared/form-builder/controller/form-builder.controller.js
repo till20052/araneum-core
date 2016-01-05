@@ -5,7 +5,7 @@
         .module('app.formBuilder')
         .controller('FormBuilderController', FormBuilderController);
 
-    FormBuilderController.$inject = ['$state', '$scope', '$compile', '$http', 'SweetAlert', 'ngDialog', 'toaster', 'DTOptionsBuilder', 'DTInstances', 'formDataService'];
+    FormBuilderController.$inject = ['$state', '$scope', '$compile', '$http', '$filter', 'SweetAlert', 'ngDialog', 'toaster', 'DTOptionsBuilder', 'DTInstances', 'formDataService'];
 
     /**
      *
@@ -18,7 +18,7 @@
      * @param formDataService factory for store data form server
      * @constructor
      */
-    function FormBuilderController($state, $scope, $compile, $http, ngSweetAlert, ngDialog, toaster, DTOptionsBuilder, DTInstances, formDataService) {
+    function FormBuilderController($state, $scope, $compile, $http, $filter, ngSweetAlert, ngDialog, toaster, DTOptionsBuilder, DTInstances, formDataService) {
         var vm = this;
 
         var formJsonUrl = $state.$current.initialize;
@@ -243,13 +243,13 @@
             }
 
             ngSweetAlert.swal({
-                    title: config.title,
+                    title: $filter('translate')(config.title),
                     //text: $translate('admin.pages.AREYOUSURETEXT'),
                     type: 'warning',
                     showCancelButton: true,
-                    cancelButtonText: config.no.title,
+                    cancelButtonText: $filter('translate')(config.no.title),
                     confirmButtonColor: '#f05050',
-                    confirmButtonText: config.yes.title,
+                    confirmButtonText: $filter('translate')(config.yes.title),
                     closeOnConfirm: true
                 },
                 function(isConfirm) {

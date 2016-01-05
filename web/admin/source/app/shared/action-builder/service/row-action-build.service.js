@@ -5,9 +5,9 @@
         .module('app.action-builder')
         .factory('rowActionBuilderService', rowActionBuilderService);
 
-    rowActionBuilderService.$inject = ['topActionBuilderService'];
+    rowActionBuilderService.$inject = ['$filter', 'topActionBuilderService'];
 
-    function rowActionBuilderService(topActionBuilderService) {
+    function rowActionBuilderService($filter ,topActionBuilderService) {
 
         var factory = {};
         $.extend(factory,topActionBuilderService);
@@ -27,7 +27,7 @@
 
         factory.wrapperTemplate = [
             '<div dropdown="dropdown" class="btn-group">',
-            '<button type="button" dropdown-toggle="" class="btn btn-xs dropdown-toggle btn-default" tooltip="Actions">',
+            '<button type="button" dropdown-toggle="" class="btn btn-xs dropdown-toggle btn-default" tooltip="' + $filter('translate')('admin.general.ACTIONS') + '">',
             '<em class="icon-settings"></em>',
             '</button>',
             '<ul role="menu" class="dropdown-menu dropdown-menu-right">',
