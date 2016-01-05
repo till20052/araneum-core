@@ -11,7 +11,7 @@
         var directive = {
             restrict: 'AE',
             scope: true,
-            controller: ['$scope', 'DTOptionsBuilder', 'formDataService', function ($scope, DTOptionsBuilder, formDataService) {
+            controller: ['$scope' , '$compile', 'DTOptionsBuilder', 'formDataService', function ($scope, $compile, DTOptionsBuilder, formDataService) {
                 var promise = formDataService.getPromise();
 
                 $scope.vm.dt = {
