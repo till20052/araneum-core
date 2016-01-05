@@ -40,9 +40,9 @@ class SpotOptionService
      * SpotOptionService constructor.
      *
      * @param SpotCustomerLoginProducerService $customerLoginProducerService
-     * @param SpotCustomerProducerService $spotProducerService
-     * @param SpotApiSenderService        $spotApiSenderService
-     * @param EntityManager               $entityManager
+     * @param SpotCustomerProducerService      $spotProducerService
+     * @param SpotApiSenderService             $spotApiSenderService
+     * @param EntityManager                    $entityManager
      */
     public function __construct(
         SpotCustomerLoginProducerService $customerLoginProducerService,
@@ -65,7 +65,6 @@ class SpotOptionService
     public function login(Customer $customer)
     {
         return $this->customerLoginProducerService->publish($customer);
-
     }
 
     /**
