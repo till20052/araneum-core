@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -18,6 +19,7 @@ class AdminDefaultController extends Controller
     /**
      * Araneum home page action
      *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/manage/menu.json", name="araneum_admin_main_menu")
      * @return                     JsonResponse
      */
@@ -54,6 +56,7 @@ class AdminDefaultController extends Controller
      *   },
      *   tags={"AdminApi"}
      * )
+     * @Security("has_role('ROLE_ADMIN')")
      * @Rest\Get("/manage/translates.json",         name="araneum_admin_translations")
      * @Rest\Get("%locale%/manage/translates.json", name="araneum_admin_translation_default_locale")
      *

@@ -8,12 +8,11 @@
     'use strict';
 
     angular
-        .module('app')
+        .module('app.dashboard')
         .config(routesConfig);
 
     routesConfig.$inject = ['$stateProvider', 'RouteHelpersProvider'];
     function routesConfig($stateProvider, helper) {
-        $stateProvider
         $stateProvider
             .state('app.dashboard', {
                 url: '/dashboard',

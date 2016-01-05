@@ -42,10 +42,10 @@ class AdminUserController extends Controller
     /**
      * Edit profile
      *
-     * @Route("/profile/edit",             name="araneum_user_adminUser_edit")
      * @Security("has_role('ROLE_ADMIN')")
-     * @param                              Request $request
-     * @return                             Response
+     * @Route("/profile/edit", name="araneum_user_adminUser_edit")
+     * @param Request $request
+     * @return Response
      */
     public function editAction(Request $request)
     {
@@ -93,11 +93,11 @@ class AdminUserController extends Controller
     /**
      * Get Authorized User Data
      *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route(
      *     "/profile/get_authorized_user_data",
      *     name="araneum_user_adminUser_getAuthorizedUserData"
      * )
-     * @Security("has_role('ROLE_ADMIN')")
      * @return JsonResponse
      */
     public function getAuthorizedUserData()
@@ -120,11 +120,11 @@ class AdminUserController extends Controller
     /**
      * Set user settings
      *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route(
      *     "/profile/settings",
      *     name="araneum_user_adminUser_setSettings"
      * )
-     * @Security("has_role('ROLE_ADMIN')")
      * @Method("POST")
      * @param Request $request
      * @return JsonResponse $response
@@ -152,8 +152,9 @@ class AdminUserController extends Controller
     /**
      * Locales module initialization
      *
-     * @Route("/manage/users/init.json", name="araneum_manage_users_init")
-     * @return                           JsonResponse
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/users/init.json", name="araneum_manage_users_init")
+     * @return JsonResponse
      */
     public function initAction()
     {
@@ -179,8 +180,9 @@ class AdminUserController extends Controller
     /**
      * Server/client datatable communication
      *
-     * @Route("/manage/users/datatable.json", name="araneum_manage_users_grid")
-     * @return                                JsonResponse
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/users/datatable.json", name="araneum_manage_users_grid")
+     * @return JsonResponse
      */
     public function datatableAction()
     {

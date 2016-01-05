@@ -8,7 +8,7 @@
     'use strict';
 
     angular
-        .module('app')
+        .module('app.locales')
         .config(routesConfig);
 
     routesConfig.$inject = ['$stateProvider', 'RouteHelpersProvider'];

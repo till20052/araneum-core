@@ -4,9 +4,9 @@ namespace Araneum\Bundle\MainBundle\Controller;
 
 use Araneum\Bundle\MainBundle\Service\StatisticsService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class DashboardController
@@ -18,11 +18,11 @@ class DashboardController extends Controller
     /**
      * Get General Data for Dashboard
      *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route(
      *     "/manage/dashboard/data-source.json",
      *     name="araneum_admin_dashboard_getDataSource"
      * )
-     *
      * @return JsonResponse
      */
     public function getDataSourceAction()
@@ -48,6 +48,6 @@ class DashboardController extends Controller
             ],
         ];
 
-        return new JsonResponse($result, Response::HTTP_OK);
+        return new JsonResponse($result);
     }
 }

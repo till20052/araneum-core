@@ -14,7 +14,6 @@ use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface
  */
 class AuthenticationEntryPoint implements AuthenticationEntryPointInterface
 {
-
     /**
      * Starts the authentication scheme.
      *

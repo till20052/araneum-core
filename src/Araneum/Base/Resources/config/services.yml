@@ -1,6 +1,12 @@
 services:
-    araneum_authentication:
+    araneum.auth.entry_point:
         class: Araneum\Base\Symfony\Security\AuthenticationEntryPoint
+
+    araneum.auth.success.handler:
+        class: Araneum\Base\Symfony\Security\AuthenticationSuccessHandler
+
+    araneum.auth.failure.handler:
+            class: Araneum\Base\Symfony\Security\AuthenticationFailureHandler
 
     araneum_datatable:
         class: Araneum\Base\Ali\DatatableBundle\Util\AraneumDatatable
