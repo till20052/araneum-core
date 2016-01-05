@@ -8,8 +8,7 @@
 
     angular
         .module('app')
-        .provider('RouteHelpers', RouteHelpersProvider)
-        ;
+        .provider('RouteHelpers', RouteHelpersProvider);
 
     RouteHelpersProvider.$inject = ['APP_REQUIRES'];
     function RouteHelpersProvider(APP_REQUIRES) {
