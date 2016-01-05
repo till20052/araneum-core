@@ -238,7 +238,7 @@
                 });
 
                 return;
-            };
+            }
 
             ngSweetAlert.swal({
                     title: config.title,
