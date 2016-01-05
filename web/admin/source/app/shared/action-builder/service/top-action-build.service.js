@@ -162,7 +162,6 @@
             $('em', actionTemplate).addClass(button.display.icon);
             this.scope.$broadcast('addActionConfig', actionConfig);
 
-
             return actionTemplate;
         }
 
