@@ -24,7 +24,6 @@
     "angular-ui-router": "0.2.13",
     "angular": "1.4.8",
     "angular-i18n": "1.4.2",
-    "angular-route": "1.4.2",
     "angular-bootstrap": "0.12.1",
     "angular-cookies": "1.4.2",
     "angular-translate-loader-url": "2.6.0",
