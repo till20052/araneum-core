@@ -19,7 +19,6 @@
 
         DirController.$inject = ['$scope', 'DTOptionsBuilder', 'formDataService'];
 
-
         function DirController ($scope, DTOptionsBuilder, formDataService) {
             var promise = formDataService.getPromise();
 
