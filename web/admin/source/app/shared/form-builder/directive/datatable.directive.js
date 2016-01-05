@@ -11,7 +11,7 @@
         var directive = {
             restrict: 'AE',
             scope: true,
-            controller: ['$scope' , '$compile', 'DTOptionsBuilder', 'formDataService', function ($scope, $compile, DTOptionsBuilder, formDataService) {
+            controller: ['$scope' , '$compile', 'DTOptionsBuilder', 'formDataService', '$translate', 'TranslateDatatablesService', function ($scope, $compile, DTOptionsBuilder, formDataService, $translate, translate) {
                 var promise = formDataService.getPromise();
 
                 $scope.vm.dt = {
@@ -78,6 +78,7 @@
                                 }
                             });
                         })
+                        .withOption('language', translate.translateTable())
                         .withPaginationType('full_numbers'),
                     columns: []
                 };
@@ -90,11 +91,16 @@
                  * @param response
                  */
                 function onInitSuccess(response) {
+                    var massTranslate = [];
                     $scope.vm.dt.options.sAjaxSource = response.grid.source;
-                    angular.forEach(response.grid.columns, function (f) {
-                        this.push(f);
-                    }, $scope.vm.dt.columns);
-                    $scope.vm.dt.initialized = true;
+                    $translate(response.grid.columns).then(function (data) {
+                        for (var key in data) {
+                            var translatedWord = key;
+                            massTranslate.push(translatedWord);
+                        }
+                        $scope.vm.dt.columns = massTranslate;
+                        $scope.vm.dt.initialized = true;
+                    });
                 }
             }],
             templateUrl: RouteHelpers.basepath('widget/datatable.html')

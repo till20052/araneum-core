@@ -58,7 +58,7 @@ class LocaleActions extends AbstractActions
                 ]
             )
             ->add(
-                'enabledDisable',
+                'enabledDisabled',
                 [
                     'resource' => 'araneum_main_admin_locale_enable',
                     'callback' => 'editRow',
@@ -81,6 +81,19 @@ class LocaleActions extends AbstractActions
                         'label' => 'locales.CREATE_NEW',
                     ],
                     'position' => ActionBuilderInterface::POSITION_TOP,
+                ]
+            )
+            ->add(
+                'update',
+                [
+                    'form' => 'araneum_admin_main_locale_get',
+                    'callback' => 'update',
+                    'display' => [
+                        'btnClass' => 'btn-success',
+                        'icon' => 'icon-user-follow',
+                        'label' => 'locales.UPDATE',
+                    ],
+                    'position' => ActionBuilderInterface::POSITION_ROW,
                 ]
             );
     }

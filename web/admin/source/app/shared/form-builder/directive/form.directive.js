@@ -10,7 +10,7 @@
 					var builder = formBuilderFactory.getBuilder(type);
 					var promise = {},
 						dataUrl = $scope.url;
-					
+
 					if (builder === undefined) {
 						return false;
 					}

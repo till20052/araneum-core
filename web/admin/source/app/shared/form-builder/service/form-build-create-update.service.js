@@ -53,16 +53,17 @@
             $('input', template).attr($.extend(el.attrs, {
                 name: el.name_create,
                 ngModel: el.name,
-                placeholder: '{{"' + el.attrs.placeholder + '" | translate}}'
-            })).val(el.value);
+                placeholder: '{{"' + el.attrs.placeholder + '" | translate}}',
+                value: el.value
+            }));
 
             $('label', template).attr({
                 'for': el.value,
                 'translate': el.translateLabel
-            });
-
+            }).text(el.label);
+            
             return template;
-        };
+        }
 
 
         /**
@@ -76,27 +77,32 @@
                 name: el.name_create,
                 ngModel: el.name,
                 placeholder: '{{"' + el.attrs.placeholder + '" | translate}}'
-            })).val(el.value);
+            }));
 
             $('label', template).attr({
                 'for': el.value,
                 'translate': el.translateLabel
-            });
-
+            }).text(el.label);
+            
             $('select', template)
                 .append($('<option></option>')
-                    .attr({
-                        'selected': ''
-                    })
+                    .attr({'selected': 'selected'})
                     .text('{{"' + el.emptyValue + '" | translate}}'));
 
             for (var key in el.choices) {
-                $('select', template).append($('<option />').val(el.choices[key].value).text(el.choices[key].label));
+                var isChecked = false;
+
+                if (el.value === el.choices[key].value) {
+                    isChecked = true;
+                    $('option', template).removeAttr('selected');
+                }
+
+                $('select', template).append($('<option />').attr({'selected': isChecked}).val(el.choices[key].value).text(el.choices[key].label));
             }
             $('label', template).attr('translate', el.translatelabel);
 
             return template;
-        };
+        }
 
 
         function getButtonsForForm(url, id) {
@@ -109,7 +115,7 @@
                 '</button>' +
                 '<button class="btn btn-primary" id="create">' +
                 '<em class="icon-magnifier mr-sm"></em>' +
-                'Create' +
+                '{{ActionName}}' +
                 '</button>' +
                 '</div>' +
                 '</fieldset>' +
@@ -119,6 +125,6 @@
             $(templateButtons).find('#cancel').attr('ng-click', 'closeThisDialog()');
 
             return templateButtons[0].outerHTML;
-        };
+        }
     }
 })();

@@ -153,7 +153,7 @@
                 .addClass(button.display.btnClass)
                 .attr({
                     'data-item': button.callback,
-                    tooltip: button.display.label,
+                    tooltip: '{{"' + button.display.label + '" |' + 'translate }}',
                     'ng-click': 'vm.actionClick($event)',
                     'data-conf': button.id + ',top',
                     'data-target': '#myModal'

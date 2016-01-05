@@ -117,7 +117,7 @@
             }
 
             $('em', actionTemplate).addClass(button.display.icon);
-            $('a', actionTemplate).append(button.display.label);
+            $('a', actionTemplate).append('{{ "' + button.display.label + '" | translate }}');
             $('a', actionTemplate).attr('ng-click', 'vm.actionClick($event,' + this.model  +')');
             $('a', actionTemplate).attr('data-conf', button.id + ',row');
             $(actionTemplate).attr('data-target', '#myModal');
