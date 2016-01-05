@@ -57,8 +57,10 @@ class AdminDefaultController extends Controller
      *   tags={"AdminApi"}
      * )
      * @Security("has_role('ROLE_ADMIN')")
-     * @Rest\Get("/manage/translates.json",         name="araneum_admin_translations")
-     * @Rest\Get("%locale%/manage/translates.json", name="araneum_admin_translation_default_locale")
+     * @Rest\Get(
+     *     "{_locale}/manage/translates.json",
+     *     name="araneum_admin_translation_default_locale"
+     * )
      *
      * @return JsonResponse
      */
