@@ -24,6 +24,7 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
     const TEST_CURRENCY     = 'usd';
     const TEST_PASSWORD     = 'testPassword';
     const TEST_BIRTHDAY     = '1980-12-11';
+    const TEST_SITE_ID      = 2;
     const TEST_2_FIRST_NAME = 'AnotherCustomerFirstName';
     const TEST_2_LAST_NAME  = 'AnotherCustomerLastName';
     const TEST_2_EMAIL      = 'testcustomer2@email.com';
@@ -33,7 +34,7 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
     const TEST_2_CALLBACK   = false;
     const TEST_2_PASSWORD   = 'testPassword2';
     const TEST_2_BIRTHDAY   = '2015-11-10';
-    const TEST_RESET_EMAIL = 'testCustomerReset@test.com';
+    const TEST_RESET_EMAIL  = 'testCustomerReset@test.com';
 
     /**
      * {@inheritDoc}
@@ -56,6 +57,7 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
                     ->setCallback(self::TEST_CALLBACK)
                     ->setBirthday(new \DateTime(self::TEST_BIRTHDAY))
                     ->setDeliveredAt(new \DateTime('2015-10-07'))
+                    ->setSiteId(self::TEST_SITE_ID)
             );
         }
 
@@ -75,6 +77,7 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
                     ->setCallback(self::TEST_2_CALLBACK)
                     ->setBirthday(new \DateTime(self::TEST_2_BIRTHDAY))
                     ->setDeliveredAt(new \DateTime('2015-10-07'))
+                    ->setSiteId(self::TEST_SITE_ID)
             );
         }
 
@@ -93,6 +96,7 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
                     ->setCallback(self::TEST_2_CALLBACK)
                     ->setBirthday(new \DateTime(self::TEST_2_BIRTHDAY))
                     ->setDeliveredAt(new \DateTime('2015-10-07'))
+                    ->setSiteId(self::TEST_SITE_ID)
             );
         }
 

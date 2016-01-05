@@ -129,6 +129,36 @@ class Customer
     private $spotId;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(type="integer", name="site_id")
+     */
+    private $siteId;
+
+    /**
+     * Set siteId
+     *
+     * @param  string $siteId
+     * @return Customer
+     */
+    public function setSiteId($siteId)
+    {
+        $this->siteId = $siteId;
+
+        return $this;
+    }
+
+    /**
+     * Get siteId
+     *
+     * @return integer
+     */
+    public function getSiteId()
+    {
+        return $this->siteId;
+    }
+
+    /**
      * Get id
      *
      * @return integer
