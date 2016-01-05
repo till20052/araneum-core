@@ -141,7 +141,7 @@ class SpotApiSenderService
             throw new \BadMethodCallException('Unsupported response format '.print_r($decodedResponse, true));
         }
 
-        if ($decodedResponse['status'] === false) {
+        if ($decodedResponse['status'] === true) {
             return null;
         }
 

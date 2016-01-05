@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityManager;
 use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
 use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Base\Exception\InvalidFormException;
-use Doctrine\ORM\EntityNotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormFactory;
 use Araneum\Bundle\AgentBundle\Event\CustomerEvent;
@@ -27,10 +27,6 @@ class CustomerApiHandlerService
      * @var EventDispatcherInterface
      */
     private $dispatcher;
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
     /**
      * @var EntityManager
      */
@@ -128,9 +124,8 @@ class CustomerApiHandlerService
         $email = strtolower($email);
         $customer = $this->validateCustomerAndApplication($appKey, $email);
         $customer->setPassword($password);
-        $this->spotOptionService->login($customer);
 
-        return 0;
+        return $this->spotOptionService->login($customer);
     }
 
     /**
@@ -159,40 +154,12 @@ class CustomerApiHandlerService
     }
 
     /**
-     * Create and save customer log
-     *
-     * @param string   $actionName
-     * @param Customer $customer
-     * @param string   $spotResponse
-     * @return CustomerLog
-     */
-    private function createCustomerLog($actionName, Customer $customer, $spotResponse)
-    {
-        $logStatus = CustomerLog::STATUS_ERROR;
-        if ($spotResponse) {
-            $logStatus = CustomerLog::STATUS_OK;
-        }
-
-        $customerLog = (new CustomerLog())
-            ->setAction($actionName)
-            ->setApplication($customer->getApplication())
-            ->setCustomer($customer)
-            ->setSpotResponse($spotResponse)
-            ->setStatus($logStatus);
-
-        $this->entityManager->persist($customerLog);
-        $this->entityManager->flush();
-
-        return $customerLog;
-    }
-
-    /**
      * Validate customer and application, if all is return customer
      *
      * @param $appKey
      * @param $email
      * @return Customer
-     * @throws EntityNotFoundException
+     * @throws NotFoundHttpException
      * @throws \Exception
      */
     private function validateCustomerAndApplication($appKey, $email)
@@ -203,11 +170,11 @@ class CustomerApiHandlerService
         $customer = $this->entityManager->getRepository('AraneumAgentBundle:Customer')->findOneBy(['email' => $email]);
 
         if (empty($customer)) {
-            throw new EntityNotFoundException('Not Customer found for this $email: '.$email);
+            throw new NotFoundHttpException('Not Customer found for this email: '.$email);
         }
 
         if (!$application->getCustomers()->contains($customer)) {
-            throw new \Exception("Application does not have this Customer. customer.id=".$customer->getId());
+            throw new NotFoundHttpException("Application does not have this Customer. customer.id=".$customer->getId());
         }
 
         return $customer;

@@ -4,6 +4,8 @@ namespace Araneum\Base\Service\RabbitMQ;
 
 use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\SerializerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 
 /**
@@ -13,6 +15,10 @@ use OldSound\RabbitMqBundle\RabbitMq\Producer;
  */
 class SpotCustomerLoginProducerService
 {
+    /**
+     * @var SerializerInterface
+     */
+    protected $serializer;
     /**
      * @var Producer
      */
@@ -29,16 +35,22 @@ class SpotCustomerLoginProducerService
     private $queueExpiration;
 
     /**
-     * producerService constructor.
+     * ProducerService constructor.
      *
      * @param Producer                $producer
      * @param MessageConversionHelper $msgConvertHelper
+     * @param SerializerInterface     $serializer
      * @param string                  $queueExpiration
      */
-    public function __construct(Producer $producer, MessageConversionHelper $msgConvertHelper, $queueExpiration)
-    {
+    public function __construct(
+        Producer $producer,
+        MessageConversionHelper $msgConvertHelper,
+        SerializerInterface $serializer,
+        $queueExpiration
+    ) {
         $this->producer = $producer;
         $this->msgConvertHelper = $msgConvertHelper;
+        $this->serializer = $serializer;
         $this->queueExpiration = $queueExpiration;
     }
 
@@ -56,20 +68,13 @@ class SpotCustomerLoginProducerService
         $routingKey = '',
         $additionalProperties = []
     ) {
-        $application = $customer->getApplication();
         $msg = $this->getStdClass();
-        $msg->data = [
-            'email' => $customer->getEmail(),
-            'password' => $customer->getPassword(),
-        ];
-        $msg->spoPublictUrl = $application->getSpotApiPublicUrl();
-        $msg->log = [
-            'action' => CustomerLog::ACTION_LOGIN,
-            'customerId' => $customer->getId(),
-            'applicationId' => $application->getId(),
-        ];
+        $msg->data = $this->serializer->serialize(
+            $customer,
+            'json',
+            SerializationContext::create()->setGroups(['rabbitMQ'])
+        );
 
-        die(var_dump($msg));
         try {
             $this->producer->publish(
                 $this->msgConvertHelper->encodeMsg($msg),

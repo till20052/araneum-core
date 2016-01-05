@@ -60,8 +60,9 @@ services:
     araneum.base.rabbitmq.producer.spot_login:
         class: Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService
         arguments:
-            - @old_sound_rabbit_mq.spot_producer
+            - @old_sound_rabbit_mq.spot_login_producer
             - @araneum.base.rabbitmq.msg_convert_helper
+            - @jms_serializer
             - %rabbitmq_queue_expiration%
 
     araneum.base.rabbitmq.consumer.spot_login:
@@ -70,4 +71,6 @@ services:
             - @araneum.base.spot_api
             - @araneum.base.rabbitmq.msg_convert_helper
             - @doctrine.orm.entity_manager
+            - @jms_serializer
+            - @araneum.main.application.remote_manager
             - %spot_api_public_url_login%

@@ -10,11 +10,9 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\Request;
-use Araneum\Bundle\AgentBundle\Entity\Customer;
-use Araneum\Bundle\AgentBundle\Form\CustomerType;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Request\ParamFetcher;
 
 /**
@@ -103,9 +101,13 @@ class CustomerApiController extends FOSRestController
     {
         $email = $request->get('email');
         $password = $request->get('password');
-        $result = $this->container
-            ->get('araneum.agent.customer.api_handler')
-            ->login($email, $password, $appKey);
+        try {
+            $result = $this->container
+                ->get('araneum.agent.customer.api_handler')
+                ->login($email, $password, $appKey);
+        } catch (NotFoundHttpException $e) {
+            return View::create($e->getMessage(), Response::HTTP_NOT_FOUND);
+        }
 
         if ($result === false) {
             return View::create(["errors" => "Wrong username or password"], Response::HTTP_BAD_REQUEST);
