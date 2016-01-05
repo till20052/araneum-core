@@ -39,7 +39,6 @@
 
         $scope.$on('addActionConfig', addActionConfig);
 
-
         /**
          * Set url to datatable
          * @param url
