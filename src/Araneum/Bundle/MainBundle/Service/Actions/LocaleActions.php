@@ -91,7 +91,7 @@ class LocaleActions extends AbstractActions
                     'display' => [
                         'btnClass' => 'btn-success',
                         'icon' => 'icon-user-follow',
-                        'label' => 'locales.UPDATE',
+                        'label' => 'locales.EDIT_LOCALE',
                     ],
                     'position' => ActionBuilderInterface::POSITION_ROW,
                 ]

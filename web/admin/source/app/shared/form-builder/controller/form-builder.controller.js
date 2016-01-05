@@ -130,15 +130,7 @@
                     className: 'ngdialog-theme-default',
                     controller: ['$scope', function($scope) {
                         var id = '';
-                        $scope.ActionName = '';
-
-                        if (actionConfig.callback === 'create') {
-                            $scope.ActionName = 'Create';
-                        }
-
-                        if (actionConfig.callback === 'update') {
-                            $scope.ActionName = 'Update';
-                        }
+                        $scope.actionName = actionConfig.title;
 
                         if (data !== undefined) {
                             id = data.id;
@@ -157,6 +149,7 @@
                             for (var i = 0; i < len; i++) {
                                 data[formData[i].name] = formData[i].value;
                             }
+
                             data['id'] = id;
 
                             sendDataCreate(url, data, function(result) {

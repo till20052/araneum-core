@@ -13,28 +13,20 @@
 
         formBuildCreateUpdateService.templates = {
             text: '<div class="form-group">' +
-            '<label class="col-lg-2 control-label"></label>' +
-            '<div class="col-lg-10">' +
+            '<label></label>' +
             '<input type="text" class="form-control" />' +
-            '</div>' +
             '</div>',
             email: '<div class="form-group">' +
-            '<label class="col-lg-2 control-label"></label>' +
-            '<div class="col-lg-10">' +
+            '<label></label>' +
             '<input type="email" class="form-control" />' +
-            '</div>' +
             '</div>',
             datetime: '<div class="form-group">' +
-            '<label class="col-lg-2 control-label"></label>' +
-            '<div class="col-lg-10">' +
+            '<label></label>' +
             '<input type="date" class="form-control" />' +
-            '</div>' +
             '</div>',
             choice: '<div class="form-group">' +
-            '<label class="col-lg-2 control-label"></label>' +
-            '<div class="col-lg-10">' +
+            '<label></label>' +
             '<select class="form-control"></select>' +
-            '</div>' +
             '</div>',
             hidden: '<div class="form-group">' +
             '<label></label>' +
@@ -106,20 +98,19 @@
 
 
         function getButtonsForForm(url, id) {
-            var templateButtons = '<div class="col-lg-2">' +
-                '<fieldset>' +
-                '<div class="form-group">' +
-                '<button class="btn btn-default mr-sm" id="cancel">' +
+            var templateButtons = '<div class="form-group">' +
+                '<div class="col-sm-offset-2 col-sm-10">' +
+                '<button class="btn btn-default mr-sm" id="cancel" translate="admin.general.CANCEL">' +
                 '<em class="icon-refresh mr-sm"></em>' +
                 'Cancel' +
                 '</button>' +
                 '<button class="btn btn-primary" id="create">' +
                 '<em class="icon-magnifier mr-sm"></em>' +
-                '{{ActionName}}' +
+                '{{ actionName | translate}}' +
                 '</button>' +
                 '</div>' +
-                '</fieldset>' +
                 '</div>';
+
             templateButtons = $(templateButtons);
             $(templateButtons).find('#create').attr('ng-click', 'send($event, " ' + url + '", closeThisDialog);');
             $(templateButtons).find('#cancel').attr('ng-click', 'closeThisDialog()');

@@ -41,8 +41,10 @@
 						}
 
 						if ( dataUrl !== undefined ) {
+							console.log(1);
 							element
 								.find('form')
+								.css({ padding: '0px 15px 5px 15px' })
 								.append($compile(builder.getButtonsForForm(data.vars.action))($scope));
 						}
 					});

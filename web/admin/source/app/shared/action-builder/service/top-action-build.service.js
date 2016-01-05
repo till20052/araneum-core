@@ -135,6 +135,8 @@
                 actionConfig.config = button.confirm;
             }
 
+            actionConfig.config.title = button.display.label;
+
             if (button.callback) {
                 actionConfig.config.callback = button.callback;
             }
