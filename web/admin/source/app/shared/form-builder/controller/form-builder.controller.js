@@ -321,7 +321,6 @@
             vm.datatableItems[id] = data;
 
             for (var key in data) {
-                console.log(key);
                 values.push(data[key]);
             }
 
