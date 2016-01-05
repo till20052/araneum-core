@@ -130,7 +130,7 @@
                     className: 'ngdialog-theme-default',
                     controller: ['$scope', function($scope) {
                         var id = '';
-                        $scope.actionName = actionConfig.title;
+                        $scope.actionName = actionConfig.actionName;
 
                         if (data !== undefined) {
                             id = data.id;
