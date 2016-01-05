@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6ae30bbc6004b5b5a9d9b885faa77982",
-    "content-hash": "6ab36747e24f369765811ee63fef876f",
+    "hash": "50eab178b760065d495ff6ff8abcff50",
+    "content-hash": "a0a63de4db0f6f99d71f9c893f13c1bf",
     "packages": [
         {
             "name": "ali/datatable",

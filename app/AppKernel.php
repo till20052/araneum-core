@@ -26,7 +26,8 @@ class AppKernel extends Kernel
             new Lexik\Bundle\MaintenanceBundle\LexikMaintenanceBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
             new Snc\RedisBundle\SncRedisBundle(),
-	        new Misd\GuzzleBundle\MisdGuzzleBundle(),
+            new Misd\GuzzleBundle\MisdGuzzleBundle(),
+            new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),
             new Ali\DatatableBundle\AliDatatableBundle(),
             new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
 
