@@ -107,7 +107,6 @@
                 actionData = [],
                 actionConfig = vm.actionConf[actionType][actionId];
 
-            console.log(vm.actionConf, actionType, actionId);
             var type = actionConfig.type;
 
             if (actionType === 'top') {

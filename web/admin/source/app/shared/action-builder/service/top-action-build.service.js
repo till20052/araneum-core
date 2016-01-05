@@ -128,7 +128,7 @@
                 actionConfig = {
                     id: button.id,
                     type: 'top',
-                    config: {},
+                    config: {}
                 };
 
             if (button.confirm !== undefined) {
@@ -137,7 +137,7 @@
 
             if (button.callback) {
                 actionConfig.config.callback = button.callback;
-            };
+            }
 
             if (button.resource) {
                 actionConfig.config.url = button.resource;
