@@ -21,11 +21,11 @@ class UserFixtures extends AbstractFixture implements FixtureInterface
     const TEST_USER_ENABLED         = true;
     const TEST_USER_ROLES           = [User::ROLE_USER];
     const TEST_USER_NAME_DELETE     = 'TestUserNameForDelete';
-    const TEST_USER_EMAIL_FILTER    = 'TestUserEmailForFilter@test.com';
+    const TEST_USER_EMAIL_FILTER    = 'testuseremailforfilter@test.com';
     const TEST_USER_FULLNAME_FILTER = 'TestUserFullnameForFilter';
     const TEST_USER_ENABLED_FILTER  = true;
     const TEST_USER_NAME_UPDATE     = 'TestUserNameForUpdate';
-    const TEST_USER_EMAIL_UPDATE    = 'TestUserEmailForUpdate@test.com';
+    const TEST_USER_EMAIL_UPDATE    = 'testuseremailforupdate@test.com';
     const ADMIN_USER_NAME           = "AdminName";
     const ADMIN_USER_PASSWORD       = 'admin_123';
 
@@ -54,7 +54,7 @@ class UserFixtures extends AbstractFixture implements FixtureInterface
         if (empty($userForDelete)) {
             $userForDelete = new User();
             $userForDelete->setUsername(self::TEST_USER_NAME_DELETE);
-            $userForDelete->setEmail('TestUserNameForDelete@test.com');
+            $userForDelete->setEmail('testusernamefordelete@test.com');
             $userForDelete->setFullName(self::TEST_USER_FULLNAME);
             $userForDelete->setPlainPassword(self::TEST_USER_PASSWORD);
             $userForDelete->setEnabled(self::TEST_USER_ENABLED);

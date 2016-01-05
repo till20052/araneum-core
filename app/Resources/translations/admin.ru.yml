@@ -2,6 +2,7 @@ dashboard :
     WELCOME: "Добро пожаловать в систему управления сайтом"
     DASHBOARD: "Статистика"
     application:
+        DECLENSION: "['сайт','сайта','сайтов']"
         APPLICATION: "Сайт"
         ONLINE: "Доступно"
         PROBLEM: "Проблема"
@@ -95,6 +96,7 @@ general:
     DISABLE: 'Выключить'
     SURE: 'Вы уверены?'
     CONFIRM_DELETE: 'Да, удалите это'
+    CURRENT_URL_NOT_VALID: 'Текущий URL больше недоступен'
 datatables:
     PROCESSING: 'Подождите...'
     SEARCH: 'Поиск:'

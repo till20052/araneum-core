@@ -39,8 +39,8 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="first_name", type="string", length=30, nullable=true)
-     * @Assert\Length(min=2, max=30)
+     * @ORM\Column(name="first_name", type="string", length=45, nullable=true)
+     * @Assert\Length(min=2, max=45)
      * @Assert\Regex(pattern="/^\w[\w-' \d]+$/ui")
      * @Assert\NotBlank()
      */
@@ -49,8 +49,8 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="last_name", type="string", length=30, nullable=true)
-     * @Assert\Length(min=2, max=30)
+     * @ORM\Column(name="last_name", type="string", length=45, nullable=true)
+     * @Assert\Length(min=2, max=45)
      * @Assert\Regex(pattern="/^\w[\w-' \d]+$/ui")
      * @Assert\NotBlank()
      */
@@ -120,6 +120,13 @@ class Customer
      * @var string
      */
     private $password;
+
+    /**
+     * Not saved in DB
+     *
+     * @var int
+     */
+    private $spotId;
 
     /**
      * Get id
@@ -231,7 +238,7 @@ class Customer
      */
     public function setEmail($email)
     {
-        $this->email = $email;
+        $this->email = strtolower($email);
 
         return $this;
     }
@@ -243,7 +250,7 @@ class Customer
      */
     public function getEmail()
     {
-        return $this->email;
+        return strtolower($this->email);
     }
 
     /**
@@ -380,6 +387,29 @@ class Customer
     public function setPassword($password)
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get spotId
+     *
+     * @return int
+     */
+    public function getSpotId()
+    {
+        return $this->spotId;
+    }
+
+    /**
+     * Set spotId
+     *
+     * @param int $spotId
+     * @return Customer
+     */
+    public function setSpotId($spotId)
+    {
+        $this->spotId = $spotId;
 
         return $this;
     }

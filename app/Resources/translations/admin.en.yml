@@ -2,6 +2,7 @@ dashboard :
     WELCOME: "Welcome to Site manager"
     DASHBOARD: "Dashboard"
     application:
+        DECLENSION: "['application','applications']"
         APPLICATION: "application"
         ONLINE: "Online"
         PROBLEM: "Problem"
@@ -95,6 +96,7 @@ general:
     DISABLE: 'Disable'
     SURE: 'Are you sure?'
     CONFIRM_DELETE: 'Yes, delete it'
+    CURRENT_URL_NOT_VALID: 'Current URL is not valid more'
 datatables:
     PROCESSING: 'Processing...'
     SEARCH: 'Search:'

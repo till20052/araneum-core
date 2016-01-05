@@ -43,15 +43,15 @@ services:
         class: Araneum\Base\Service\RabbitMQ\MessageConversionHelper
 
     araneum.base.rabbitmq.producer.spot:
-        class: Araneum\Base\Service\RabbitMQ\SpotProducerService
+        class: Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService
         arguments:
             - @old_sound_rabbit_mq.spot_producer
             - @araneum.base.rabbitmq.msg_convert_helper
             - %rabbitmq_queue_expiration%
 
-    araneum.base.rabbitmq.consumer.spot:
-        class: Araneum\Base\Service\RabbitMQ\SpotConsumerService
-        arguments: [@araneum.base.spot_api, @araneum.base.rabbitmq.msg_convert_helper]
+    araneum.base.rabbitmq.consumer.spot_customer:
+        class: Araneum\Base\Service\RabbitMQ\SpotCustomerConsumerService
+        arguments: [@araneum.base.spot_api, @araneum.base.rabbitmq.msg_convert_helper, @doctrine.orm.entity_manager]
 
     araneum.base.spot_api:
         class: Araneum\Base\Service\Spot\SpotApiSenderService

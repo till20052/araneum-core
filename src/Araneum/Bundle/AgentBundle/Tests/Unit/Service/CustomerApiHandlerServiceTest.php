@@ -2,13 +2,13 @@
 
 namespace Araneum\Bundle\AgentBundle\Tests\Unit\Service;
 
-use Araneum\Base\Tests\Fixtures\Customer\CustomerFixtures;
+use Araneum\Base\Tests\Fixtures\Agent\CustomerFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Araneum\Bundle\AgentBundle\Form\Type\CustomerType;
 use Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService;
-use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
 use Araneum\Bundle\MainBundle\Entity\Application;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class CustomerApiHandlerServiceTest
@@ -35,6 +35,9 @@ class CustomerApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
     protected $spotOptionServiceMock;
     protected $appKey = ApplicationFixtures::TEST_APP_APP_KEY;
     protected $dispatcherMock;
+    /**
+     * @var CustomerApiHandlerService
+     */
     protected $customerApiHandlerService;
 
     /**
@@ -140,7 +143,6 @@ class CustomerApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
             ->method('submit')
             ->with($this->equalTo(self::PARAMETER));
 
-
         $this->assertInstanceOf(
             'Araneum\Bundle\AgentBundle\Entity\Customer',
             $this->customerApiHandlerService->processForm(self::PARAMETER, $this->customer)
@@ -154,7 +156,10 @@ class CustomerApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testLogin()
     {
+        $customer = $this->getMock('Araneum\Bundle\AgentBundle\Entity\Customer');
         $application = new Application();
+        $application->setCustomers(new ArrayCollection([$customer]));
+        $customer->expects($this->once())->method('getApplication')->will($this->returnValue($application));
 
         $this->applicationManagerMock
             ->expects($this->once())
@@ -166,8 +171,6 @@ class CustomerApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
             ->method('login')
             ->with($this->equalTo(CustomerFixtures::TEST_EMAIL), $this->equalTo('password'))
             ->will($this->returnValue(true));
-
-        $customer = $this->getMock('Araneum\Bundle\AgentBundle\Entity\Customer');
 
         $this->repositoryMock->expects($this->once())
             ->method('findOneBy')
@@ -181,7 +184,7 @@ class CustomerApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
 
         $log = new CustomerLog();
         $log->setApplication($application);
-        $log->setAction('Login');
+        $log->setAction(CustomerLog::ACTION_LOGIN);
         $log->setCustomer($customer);
         $log->setSpotResponse(true);
         $log->setStatus(CustomerLog::STATUS_OK);

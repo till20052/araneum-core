@@ -2,6 +2,7 @@
 
 namespace Araneum\Base\Service\Spot;
 
+use Guzzle\Http\Message\Response;
 use Guzzle\Service\ClientInterface;
 
 /**
@@ -27,6 +28,28 @@ class SpotApiSenderService
     {
         $this->guzzle = $guzzle;
         $this->enableJsonResponse = $enableJsonResponse;
+    }
+
+    /**
+     * Get data from spotoption
+     *
+     * @param array $requestData
+     * @param array $spotCredential
+     * @return array
+     */
+    public function get(array $requestData, array $spotCredential)
+    {
+        $response = $this->send($requestData, $spotCredential);
+        $response = $response->json();
+
+        if (isset($response['status']['connection_status']) &&
+            $response['status']['connection_status'] === 'successful' &&
+            $response['status']['operation_status'] === 'successful'
+        ) {
+            return $response['status'][$requestData['MODULE']];
+        } else {
+            return $response['status']['errors']['error'];
+        }
     }
 
     /**
@@ -58,6 +81,31 @@ class SpotApiSenderService
                 $requestData
             )
         )->send();
+    }
+
+    /**
+     * Get errors from Spot response or null if no errors
+     *
+     * @param Response $response
+     * @return string|null
+     */
+    public function getErrors(Response $response)
+    {
+        $decodedResponse = $response->json();
+        if (!array_key_exists('status', $decodedResponse)) {
+            throw new \BadMethodCallException('Unsupported response format');
+        }
+
+        $status = $decodedResponse['status'];
+        if (array_key_exists('connection_status', $status) &&
+            $status['connection_status'] === 'successful' &&
+            array_key_exists('operation_status', $status) &&
+            $status['operation_status'] === 'successful'
+        ) {
+            return null;
+        }
+
+        return json_encode($status['errors']);
     }
 
     /**

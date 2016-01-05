@@ -30,6 +30,7 @@
         /**
          * Shared components
          */
+            'app.layout',
             'app.panels',
             'app.listener',
             'app.lazyload',

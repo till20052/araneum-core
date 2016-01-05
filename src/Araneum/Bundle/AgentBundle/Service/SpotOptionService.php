@@ -2,8 +2,14 @@
 
 namespace Araneum\Bundle\AgentBundle\Service;
 
-use Araneum\Base\Service\RabbitMQ\SpotProducerService;
+use Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService;
 use Araneum\Bundle\AgentBundle\Entity\Customer;
+use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
+use Araneum\Bundle\MainBundle\Entity\Application;
+use Araneum\Base\Service\Spot\SpotApiSenderService;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class SpotOptionService
@@ -13,18 +19,35 @@ use Araneum\Bundle\AgentBundle\Entity\Customer;
 class SpotOptionService
 {
     /**
-     * @var SpotProducerService
+     * @var SpotCustomerProducerService
      */
     protected $spotProducerService;
 
     /**
+     * @var SpotOptionService
+     */
+    protected $spotApiSenderService;
+
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    /**
      * SpotOptionService constructor.
      *
-     * @param SpotProducerService $spotProducerService
+     * @param SpotCustomerProducerService $spotProducerService
+     * @param SpotApiSenderService        $spotApiSenderService
+     * @param EntityManager               $entityManager
      */
-    public function __construct(SpotProducerService $spotProducerService)
-    {
+    public function __construct(
+        SpotCustomerProducerService $spotProducerService,
+        SpotApiSenderService $spotApiSenderService,
+        EntityManager $entityManager
+    ) {
         $this->spotProducerService = $spotProducerService;
+        $this->spotApiSenderService = $spotApiSenderService;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -45,18 +68,19 @@ class SpotOptionService
     /**
      * Reset Customer Password on SpotOption
      *
-     * @param  string $login
-     * @param  string $currentPassword
-     * @param  string $newPassword
+     * @param Customer $customer
      * @return bool
      */
-    public function resetPassword($login, $currentPassword, $newPassword)
+    public function customerResetPassword(Customer $customer)
     {
-        $login = null;
-        $currentPassword = null;
-        $newPassword = null;
+        $customerData = [
+            'MODULE' => 'Customer',
+            'COMMAND' => 'edit',
+            'customerId' => $customer->getSpotId(),
+            'password' => $customer->getPassword(),
+        ];
 
-        return true;
+        return $this->spotProducerService->publish($customerData, $customer, CustomerLog::ACTION_RESET_PASSWORD);
     }
 
     /**
@@ -83,6 +107,33 @@ class SpotOptionService
             $customerData['birthday'] = $customer->getBirthday()->format('Y-m-d');
         }
 
-        return $this->spotProducerService->publish($customerData, $customer->getApplication());
+        return $this->spotProducerService->publish($customerData, $customer, CustomerLog::ACTION_CREATE);
+    }
+
+    /**
+     * Get countries method
+     *
+     * @param string $appKey
+     * @return mixed
+     * @throws NotFoundHttpException in case if can't found by application appKey
+     */
+    public function getCountries($appKey)
+    {
+        /** @var Application $application */
+        $application = $this->entityManager
+            ->getRepository('AraneumMainBundle:Application')
+            ->findOneByAppKey($appKey);
+
+        if (empty($application)) {
+            throw new NotFoundHttpException('Not Application found for this appKey', null, Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->spotApiSenderService->get(
+            [
+                'MODULE' => 'Country',
+                'COMMAND' => 'view',
+            ],
+            $application->getSpotCredential()
+        );
     }
 }

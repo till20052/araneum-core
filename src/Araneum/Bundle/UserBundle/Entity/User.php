@@ -14,6 +14,16 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity(repositoryClass="Araneum\Bundle\UserBundle\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="araneum_users")
+ * @ORM\AttributeOverrides({
+ *  @ORM\AttributeOverride(
+ *      name="username",
+ *      column=@ORM\Column(name="username", type="string", length=35)
+ *  ),
+ *  @ORM\AttributeOverride(
+ *      name="usernameCanonical",
+ *      column=@ORM\Column(name="username_canonical", type="string", length=35, nullable=true)
+ *  )
+ * })
  */
 class User extends BaseUser
 {
@@ -46,17 +56,21 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Araneum\Bundle\UserBundle\Entity\Role", cascade={"detach", "persist"}, inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Araneum\Bundle\UserBundle\Entity\Role", cascade={"detach", "persist"},
+     *                                                                       inversedBy="users")
      * @ORM\JoinTable(name="araneum_user_role")
      */
     protected $roles;
+
     /**
      * @var string
-     * @ORM\Column(type="string", name="full_name", nullable=true)
+     * @ORM\Column(type="string", name="full_name", nullable=true, length=35)
      */
     private $fullName;
+
     /**
      * @var array
      */
@@ -194,7 +208,6 @@ class User extends BaseUser
     {
         return in_array(strtoupper($role), $this->getRoles(), true);
     }
-
 
     /**
      * Get fullName

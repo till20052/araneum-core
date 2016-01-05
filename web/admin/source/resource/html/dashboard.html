@@ -27,9 +27,10 @@
                                 </div>
                             </div>
                         </div>
-                        <small translate="admin.dashboard.application.APPLICATION">application<span
-                                ng-if="statistics.applicationsState.online > 1"><span
-                                ng-if="language.selected=='ru'">s</span></span></small>
+                        <small
+                                words-declension="{{ 'admin.dashboard.application.DECLENSION' | translate }}"
+                                wd-count="statistics.applicationsState.online"
+                        >application</small>
                     </div>
                     <div class="text-uppercase" translate="admin.dashboard.application.ONLINE">Online</div>
                 </div>
@@ -58,9 +59,10 @@
                                 ></div>
                             </div>
                         </div>
-                        <small translate="admin.dashboard.application.APPLICATION">application<span
-                                ng-if="statistics.applicationsState.hasProblems > 1"><span
-                                ng-if="language.selected=='ru'">s</span></span></small>
+                        <small
+                                words-declension="{{ 'admin.dashboard.application.DECLENSION' | translate }}"
+                                wd-count="statistics.applicationsState.hasProblems"
+                        >application</small>
                     </div>
                     <div class="text-uppercase" translate="admin.dashboard.application.PROBLEM">Problem</div>
                 </div>
@@ -89,9 +91,10 @@
                                 ></div>
                             </div>
                         </div>
-                        <small translate="admin.dashboard.application.APPLICATION">application<span
-                                ng-if="statistics.applicationsState.hasErrors > 1"><span
-                                ng-if="language.selected=='ru'">s</span></span></small>
+                        <small
+                                words-declension="{{ 'admin.dashboard.application.DECLENSION' | translate }}"
+                                wd-count="statistics.applicationsState.hasErrors"
+                        >application</small>
                     </div>
                     <div class="text-uppercase" translate="admin.dashboard.application.ERROR">Error</div>
                 </div>
@@ -120,9 +123,10 @@
                                 ></div>
                             </div>
                         </div>
-                        <small translate="admin.dashboard.application.APPLICATION">application<span
-                                ng-if="statistics.applicationsState.disabled > 1"><span ng-if="language.selected=='ru'">s</span></span>
-                        </small>
+                        <small
+                                words-declension="{{ 'admin.dashboard.application.DECLENSION' | translate }}"
+                                wd-count="statistics.applicationsState.disabled"
+                        >application</small>
                     </div>
                     <div class="text-uppercase" translate="admin.dashboard.application.DISABLED">Disabled</div>
                 </div>
