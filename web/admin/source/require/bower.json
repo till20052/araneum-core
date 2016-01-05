@@ -22,18 +22,16 @@
     "angular-loading-bar": "0.7.0",
     "angular-translate": "2.6.0",
     "angular-ui-router": "0.2.13",
-    "angular": "1.4.2",
+    "angular": "1.4.8",
     "angular-i18n": "1.4.2",
-    "angular-route": "1.4.2",
     "angular-bootstrap": "0.12.1",
     "angular-cookies": "1.4.2",
     "angular-translate-loader-url": "2.6.0",
     "angular-translate-loader-static-files": "2.6.0",
     "angular-translate-storage-local": "2.6.0",
     "angular-translate-storage-cookie": "2.6.0",
-    "angular-animate": "~1.4.8",
     "angular-ui-utils": "0.2.2",
-    "angularjs-toaster": "0.4.8",
+    "angularjs-toaster": "0.4.18",
     "flatdoc": "0.9.0",
     "fontawesome": "4.3.0",
     "oclazyload": "0.6.3",
@@ -108,7 +106,7 @@
     "jquery.easy-pie-chart": "~2.1.6",
     "angular-bootstrap-colorpicker": "~3.0.18",
     "jquery-validation": "~1.14.0",
-    "AngularJS-Toaster": "angularjs-toaster#~0.4.181"
+    "angular-animate": "1.4.3"
   },
   "resolutions": {
     "jquery-ui": "1.11.3",
@@ -120,6 +118,6 @@
     "moment": "2.9.0",
     "seiyria-bootstrap-slider": "3.1.0",
     "codemirror": "5.0.0",
-    "angular-route": "1.4.2"
+    "angular-route": "1.4.3"
   }
 }
