@@ -83,15 +83,24 @@
             var tag = $(e.target);
             if (tag.attr('type') == 'checkbox') {
                 if (tag.attr('rel') == 'select-all') {
-                    $('tbody input[type="checkbox"]', $(tag.parents('table').eq(0)))
-                        .prop('checked', tag.prop('checked'))
-                        .addClass('selectedRow');
-                    $scope.vm.checkBoxData = vm.datatableItems;
-                } else if (!tag.prop('checked')) {
-                    $('thead input[type="checkbox"]', $(tag.parents('table').eq(0)))
-                        .prop('checked', false)
-                        .removeClass('selectedRow');
-                    $scope.vm.checkBoxData = []
+                    if (tag.prop('checked')) {
+                        $('tbody input[type="checkbox"]', $(tag.parents('table').eq(0)))
+                            .prop('checked', tag.prop('checked'))
+                            .addClass('selectedRow');
+
+                        $.extend(vm.checkBoxData, vm.datatableItems);
+
+                        return;
+                    }
+
+                    if (!tag.prop('checked')) {
+                        $('thead input[type="checkbox"]', $(tag.parents('table').eq(0)))
+                            .prop('checked', false);
+                        $('tbody input[type="checkbox"]', $(tag.parents('table').eq(0)))
+                            .prop('checked', tag.prop('checked'))
+                            .removeClass('selectedRow');
+                        vm.checkBoxData = []
+                    }
                 }
             }
         }
@@ -119,6 +128,9 @@
             if (actionType === 'row') {
                 actionData.push(data.id);
             }
+
+            console.log(vm.datatableItems);
+            console.log(actionData);
 
             if (type === 'resource') {
                 resource(actionConfig, actionData);
@@ -180,8 +192,16 @@
          * @returns {boolean}
          */
         function clickCheckBox($event, data) {
+
+            if (!data) {
+                return false;
+            }
+
             if (vm.checkBoxData.hasOwnProperty(data.id)) {
+                console.log(vm.datatableItems);
                 delete vm.checkBoxData[data.id];
+                console.log(vm.datatableItems);
+
                 $($event.currentTarget).closest('tr').removeClass('selectedRow');
 
                 return false;
