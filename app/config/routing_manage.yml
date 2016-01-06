@@ -9,7 +9,7 @@ araneum_manage_logout:
         _controller: FOSUserBundle:Security:logout
 
 araneum_user:
-    resource: @AraneumUserBundle/Controller
+    resource: "@AraneumUserBundle/Controller"
     type: annotation
 
 araneum_manage_main:

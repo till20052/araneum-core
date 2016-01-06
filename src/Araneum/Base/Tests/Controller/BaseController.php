@@ -25,37 +25,33 @@ class BaseController extends WebTestCase
     /**
      * Return admin authorized client
      *
-     * @param  string $authLogin
-     * @return \Symfony\Bundle\FrameworkBundle\Client
+     * @param string     $authLogin
+     * @param string|null $firewallName
+     * @return Client
      */
-    protected static function createAdminAuthorizedClient($authLogin = 'admin')
+    protected static function createAdminAuthorizedClient($authLogin = 'admin', $firewallName = null)
     {
         $client = static::createClient();
         $container = $client->getContainer();
 
-        $client->setServerParameters(['HTTP_HOST' => $container->getParameter('session_prefix')]);
-
         $session = $container->get('session');
-        /**
-         * @var $userManager \FOS\UserBundle\Doctrine\UserManager
-         */
+        /** @var $userManager \FOS\UserBundle\Doctrine\UserManager */
         $userManager = $container->get('fos_user.user_manager');
-        /**
-         * @var $loginManager \FOS\UserBundle\Security\LoginManager
-         */
+        /** @var $loginManager \FOS\UserBundle\Security\LoginManager */
         $loginManager = $container->get('fos_user.security.login_manager');
-        $firewallName = $container->getParameter('fos_user.firewall_name');
+        if ($firewallName === null) {
+            $firewallName = $container->getParameter('fos_user.firewall_name');
+        }
 
         $user = $userManager->findUserBy(['username' => $authLogin]);
         $loginManager->loginUser($firewallName, $user);
 
-        $container->get('session')->set(
+        $session->set(
             '_security_'.$firewallName,
-            serialize($container->get('security.context')->getToken())
+            serialize($container->get('security.token_storage')->getToken())
         );
 
-        $container->get('session')->save();
-
+        $session->save();
         $cookie = new Cookie($session->getName(), $session->getId());
         $client->getCookieJar()->set($cookie);
 

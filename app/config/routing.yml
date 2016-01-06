@@ -6,17 +6,17 @@ araneum_root:
         permanent: true
 
 araneum_main:
-    resource: @AraneumMainBundle/Controller
+    resource: "@AraneumMainBundle/Controller"
     type: annotation
     prefix: /
 
 araneum_agent:
-    resource: @AraneumAgentBundle/Controller
+    resource: "@AraneumAgentBundle/Controller"
     type: annotation
     prefix: /agent
 
 araneum_mail:
-    resource: @AraneumMailBundle/Controller
+    resource: "@AraneumMailBundle/Controller"
     type: annotation
     prefix: /mail
 
@@ -25,24 +25,24 @@ araneum_manage:
     prefix: /manage
 
 fos_user_security:
-    resource: @FOSUserBundle/Resources/config/routing/security.xml
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
 fos_user_profile:
-    resource: @FOSUserBundle/Resources/config/routing/profile.xml
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
     prefix: /user/profile
 
 fos_user_resetting:
-    resource: @FOSUserBundle/Resources/config/routing/resetting.xml
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
     prefix: /resetting
 
 fos_user_change_password:
-    resource: @FOSUserBundle/Resources/config/routing/change_password.xml
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
     prefix: /profile
 
 NelmioApiDocBundle:
-    resource: @NelmioApiDocBundle/Resources/config/routing.yml
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix: /api/doc
 
 _knp_rad_assistant:
-    resource: @KnpRadBundle/Resources/config/routing/assistant.xml
+    resource: "@KnpRadBundle/Resources/config/routing/assistant.xml"
     prefix: /_assistant
