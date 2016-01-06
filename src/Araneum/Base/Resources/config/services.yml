@@ -5,9 +5,6 @@ services:
     araneum.auth.success.handler:
         class: Araneum\Base\Symfony\Security\AuthenticationSuccessHandler
 
-    araneum.auth.failure.handler:
-            class: Araneum\Base\Symfony\Security\AuthenticationFailureHandler
-
     araneum_datatable:
         class: Araneum\Base\Ali\DatatableBundle\Util\AraneumDatatable
         arguments: [@service_container, @araneum_datatable.query_bilder]
