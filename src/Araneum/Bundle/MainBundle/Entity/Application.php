@@ -6,9 +6,9 @@ use Araneum\Base\EntityTrait\DateTrait;
 use Araneum\Bundle\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Araneum\Bundle\MainBundle\Entity\Cluster;
 
 /**
  * Application class
@@ -39,6 +39,7 @@ class Application
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
+     * @Groups({"rabbitMQ"})
      */
     protected $id;
 
@@ -63,11 +64,13 @@ class Application
     /**
      * @ORM\Column(type="string")
      * @Assert\Regex("/^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$/", message="domain_not_valid_url")
+     * @Groups({"rabbitMQ"})
      */
     protected $domain;
 
     /**
      * @ORM\Column(type="boolean", name="use_ssl", options={"default"=false})
+     * @Groups({"rabbitMQ"})
      */
     protected $useSsl;
 
@@ -171,6 +174,13 @@ class Application
      * @var string
      */
     protected $spotApiUrl;
+
+    /**
+     * @ORM\Column(type="string", name="spot_api_public_url", length=255, nullable=true)
+     * @Groups({"rabbitMQ"})
+     * @var string
+     */
+    protected $spotApiPublicUrl;
 
     /**
      * Get list of Application statuses
@@ -771,6 +781,29 @@ class Application
     public function setSpotApiUrl($spotApiUrl)
     {
         $this->spotApiUrl = $spotApiUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get SpotApiPublicUrl
+     *
+     * @return string
+     */
+    public function getSpotApiPublicUrl()
+    {
+        return $this->spotApiPublicUrl;
+    }
+
+    /**
+     * Set spotApiPublicUrl
+     *
+     * @param string $spotApiPublicUrl
+     * @return Application
+     */
+    public function setSpotApiPublicUrl($spotApiPublicUrl)
+    {
+        $this->spotApiPublicUrl = $spotApiPublicUrl;
 
         return $this;
     }

@@ -197,6 +197,10 @@ class CustomerLog
      */
     public function setSpotResponse($spotResponse)
     {
+        if (!is_string($spotResponse)) {
+            $spotResponse = json_encode($spotResponse);
+        }
+
         $this->spotResponse = $spotResponse;
 
         return $this;

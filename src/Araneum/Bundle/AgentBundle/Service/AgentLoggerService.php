@@ -84,7 +84,7 @@ class AgentLoggerService
         $log = (new ApplicationLog())
             ->setApplication($application)
             ->setStatus($status)
-            ->setProblems($problems);
+            ->setProblems($problems); //possible use addProblem instead of set
 
         $this->entityManager->persist($log);
         $this->entityManager->flush();

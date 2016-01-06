@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\AgentBundle\Service;
 
+use Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService;
 use Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService;
 use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
@@ -18,6 +19,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class SpotOptionService
 {
+
+    protected $customerLoginProducerService;
     /**
      * @var SpotCustomerProducerService
      */
@@ -36,15 +39,18 @@ class SpotOptionService
     /**
      * SpotOptionService constructor.
      *
-     * @param SpotCustomerProducerService $spotProducerService
-     * @param SpotApiSenderService        $spotApiSenderService
-     * @param EntityManager               $entityManager
+     * @param SpotCustomerLoginProducerService $customerLoginProducerService
+     * @param SpotCustomerProducerService      $spotProducerService
+     * @param SpotApiSenderService             $spotApiSenderService
+     * @param EntityManager                    $entityManager
      */
     public function __construct(
+        SpotCustomerLoginProducerService $customerLoginProducerService,
         SpotCustomerProducerService $spotProducerService,
         SpotApiSenderService $spotApiSenderService,
         EntityManager $entityManager
     ) {
+        $this->customerLoginProducerService = $customerLoginProducerService;
         $this->spotProducerService = $spotProducerService;
         $this->spotApiSenderService = $spotApiSenderService;
         $this->entityManager = $entityManager;
@@ -53,16 +59,12 @@ class SpotOptionService
     /**
      * SpotOption Login
      *
-     * @param  string $login
-     * @param  string $password
-     * @return bool
+     * @param Customer $customer
+     * @return array|bool
      */
-    public function login($login, $password)
+    public function login(Customer $customer)
     {
-        $login = null;
-        $password = null;
-
-        return true;
+        return $this->customerLoginProducerService->publish($customer);
     }
 
     /**
