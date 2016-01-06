@@ -44,5 +44,6 @@ services:
 
     araneum.main.locale.form:
         class: Araneum\Bundle\MainBundle\Form\Type\LocaleType
+        arguments: [@router]
         tags:
             - { name: form.type }

@@ -19,7 +19,7 @@
                 title: 'Users',
                 initialize: '/user/manage/users/init.json',
                 templateUrl: helper.basepath('grid-template.html'),
-                resolve: helper.resolveFor('datatables', 'whirl'),
+                resolve: angular.extend(helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert', 'whirl', 'toaster')),
                 controller: 'UserTableController'
             })
             .state('login', {

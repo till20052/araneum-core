@@ -110,7 +110,7 @@ datatables:
     EMPTY_TABLE: 'В таблице отсутствуют данные'
     paginate:
       FIRST: 'Первая'
-      PREVIUOS: 'Предыдущая'
+      PREVIOUS: 'Предыдущая'
       NEXT: 'Следующая'
       LAST: 'Последняя'
     aria:

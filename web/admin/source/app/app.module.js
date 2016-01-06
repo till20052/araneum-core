@@ -42,6 +42,7 @@
             'app.formBuilder',
             'app.utils',
             'app.charts',
+            'app.action-builder',
 
         /**
          * Modules

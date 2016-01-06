@@ -21,7 +21,7 @@ class LocaleActions extends AbstractActions
     {
         $builder
             ->add(
-                'Delete',
+                'delete',
                 [
                     'resource' => 'araneum_main_admin_locale_delete',
                     'callback' => 'deleteRow',
@@ -58,7 +58,7 @@ class LocaleActions extends AbstractActions
                 ]
             )
             ->add(
-                'enabledDisable',
+                'enabledDisabled',
                 [
                     'resource' => 'araneum_main_admin_locale_enable',
                     'callback' => 'editRow',
@@ -71,9 +71,9 @@ class LocaleActions extends AbstractActions
                 ]
             )
             ->add(
-                'Create',
+                'create',
                 [
-                    'resourse' => 'araneum_main_admin_locale_create',
+                    'form' => 'araneum_admin_main_locale_get',
                     'callback' => 'create',
                     'display' => [
                         'btnClass' => 'btn-success',
@@ -81,6 +81,19 @@ class LocaleActions extends AbstractActions
                         'label' => 'locales.CREATE_NEW',
                     ],
                     'position' => ActionBuilderInterface::POSITION_TOP,
+                ]
+            )
+            ->add(
+                'update',
+                [
+                    'form' => 'araneum_admin_main_locale_get',
+                    'callback' => 'update',
+                    'display' => [
+                        'btnClass' => 'btn-success',
+                        'icon' => 'icon-user-follow',
+                        'label' => 'locales.EDIT_LOCALE',
+                    ],
+                    'position' => ActionBuilderInterface::POSITION_ROW,
                 ]
             );
     }
