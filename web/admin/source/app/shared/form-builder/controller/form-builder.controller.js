@@ -129,9 +129,6 @@
                 actionData.push(data.id);
             }
 
-            console.log(vm.datatableItems);
-            console.log(actionData);
-
             if (type === 'resource') {
                 resource(actionConfig, actionData);
                 return;
@@ -198,9 +195,7 @@
             }
 
             if (vm.checkBoxData.hasOwnProperty(data.id)) {
-                console.log(vm.datatableItems);
                 delete vm.checkBoxData[data.id];
-                console.log(vm.datatableItems);
 
                 $($event.currentTarget).closest('tr').removeClass('selectedRow');
 
