@@ -9,9 +9,9 @@
         .module( 'app.action-builder' )
         .directive( 'actionBuilder', actionBuilder );
 
-    actionBuilder.$inject = ['$compile', 'formDataService', 'creatorActionBuilder', 'RouteHelpers'];
+    actionBuilder.$inject = ['$compile', '$location', 'formDataService', 'creatorActionBuilder', 'RouteHelpers'];
 
-    function actionBuilder( $compile, formDataService, creatorActionBuilder ) {
+    function actionBuilder( $compile, $location, formDataService, creatorActionBuilder ) {
         var directive = {
             restrict: 'E',
             link: link
@@ -32,12 +32,22 @@
             promise.then( getDataForActions );
 
             function getDataForActions ( response ) {
+
                 dataActionCache = dataActionCache ? dataActionCache : response.action;
+
+                if (dataActionCache.urlData === undefined)  {
+                    dataActionCache.urlData =  $location.$$path;
+                }
+                
+                if (dataActionCache.urlData !==  $location.$$path) {
+                    dataActionCache.urlData =  $location.$$path;
+                    dataActionCache = response.action;
+                }
 
                 var actions = dataActionCache,
                     actionsTemplate = '';
 
-                if ( actions[ type ] === undefined ) {
+                if (actions[ type ] === undefined) {
                     return false;
                 }
 

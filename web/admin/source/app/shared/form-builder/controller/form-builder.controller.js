@@ -36,6 +36,7 @@
         vm.clickCheckBox = clickCheckBox;
         vm.resetConfig = {};
         vm.dt = {};
+        $scope.urlData = formJsonUrl;
 
         $scope.$on('addActionConfig', addActionConfig);
 
