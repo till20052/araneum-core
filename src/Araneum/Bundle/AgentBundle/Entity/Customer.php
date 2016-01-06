@@ -130,14 +130,16 @@ class Customer
 
     /**
      * @var integer
-     *
      * @ORM\Column(type="integer", name="site_id")
+     * @Assert\Type(
+     *     type="integer",
+     *     message="The value {{ value }} is not a valid {{ type }}."
+     * )
      */
     private $siteId;
 
     /**
      * Set siteId
-     *
      * @param  string $siteId
      * @return Customer
      */
@@ -150,7 +152,6 @@ class Customer
 
     /**
      * Get siteId
-     *
      * @return integer
      */
     public function getSiteId()
