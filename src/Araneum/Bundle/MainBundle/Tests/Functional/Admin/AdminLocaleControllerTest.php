@@ -87,8 +87,6 @@ class AdminLocaleControllerTest extends BaseController
          */
         $response = $this->client->getResponse();
 
-        var_dump($response);
-
         $this->assertTrue($response->isSuccessful());
         $this->assertObjectsStructuresEquals(
             (object) [

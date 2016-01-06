@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -12,15 +12,15 @@
         ////////////////
 
         function getMenu(onReady, onError) {
-          var menuJson = '/manage/menu.json',
-              menuURL  = menuJson + '?v=' + (new Date().getTime());
-            
-          onError = onError || function() { alert('Failure loading menu'); };
+            var menuJson = '/manage/menu.json',
+                menuURL = menuJson + '?v=' + (new Date().getTime());
 
-          $http
-            .get(menuURL)
-            .success(onReady)
-            .error(onError);
+            onError = onError || function () {};
+
+            $http
+                .get(menuURL)
+                .success(onReady)
+                .error(onError);
         }
     }
 })();
