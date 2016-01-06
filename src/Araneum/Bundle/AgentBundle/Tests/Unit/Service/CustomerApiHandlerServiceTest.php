@@ -159,7 +159,6 @@ class CustomerApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
         $customer = $this->getMock('Araneum\Bundle\AgentBundle\Entity\Customer');
         $application = new Application();
         $application->setCustomers(new ArrayCollection([$customer]));
-        $customer->expects($this->once())->method('getApplication')->will($this->returnValue($application));
 
         $this->applicationManagerMock
             ->expects($this->once())
@@ -169,7 +168,7 @@ class CustomerApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->spotOptionServiceMock->expects($this->once())
             ->method('login')
-            ->with($this->equalTo(CustomerFixtures::TEST_EMAIL), $this->equalTo('password'))
+            ->with($this->equalTo($customer))
             ->will($this->returnValue(true));
 
         $this->repositoryMock->expects($this->once())
@@ -181,17 +180,6 @@ class CustomerApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getRepository')
             ->with($this->equalTo('AraneumAgentBundle:Customer'))
             ->will($this->returnValue($this->repositoryMock));
-
-        $log = new CustomerLog();
-        $log->setApplication($application);
-        $log->setAction(CustomerLog::ACTION_LOGIN);
-        $log->setCustomer($customer);
-        $log->setSpotResponse(true);
-        $log->setStatus(CustomerLog::STATUS_OK);
-
-        $this->entityManagerMock->expects($this->at(1))
-            ->method('persist')
-            ->with($this->equalTo($log));
 
         $this->customerApiHandlerService->login(CustomerFixtures::TEST_EMAIL, 'password', $this->appKey);
     }

@@ -19,6 +19,7 @@ class CustomerApiControllerTest extends BaseController
      */
     protected $customerInsert        = '/agent/api/customers/insert/';
     protected $customerResetPassword = '/agent/api/customers/reset_password';
+    protected $customerLogin         = 'agent/api/customers/login/';
 
     /**
      * Settings up
@@ -100,22 +101,22 @@ class CustomerApiControllerTest extends BaseController
                 ],
                 Response::HTTP_OK,
             ],
-//            'short password' => [
-//                [
-//                    'password' => '1',
-//                    'customer_id' => 123,
-//                    'email' => CustomerFixtures::TEST_2_EMAIL,
-//                ],
-//                Response::HTTP_BAD_REQUEST,
-//            ],
-//            'not linked customer to application' => [
-//                [
-//                    'password' => '123456',
-//                    'customer_id' => 123,
-//                    'email' => CustomerFixtures::TEST_RESET_EMAIL,
-//                ],
-//                Response::HTTP_BAD_REQUEST,
-//            ],
+            'short password' => [
+                [
+                    'password' => '1',
+                    'customer_id' => 123,
+                    'email' => CustomerFixtures::TEST_2_EMAIL,
+                ],
+                Response::HTTP_BAD_REQUEST,
+            ],
+            'not linked customer to application' => [
+                [
+                    'password' => '123456',
+                    'customer_id' => 123,
+                    'email' => CustomerFixtures::TEST_RESET_EMAIL,
+                ],
+                Response::HTTP_BAD_REQUEST,
+            ],
         ];
     }
 
@@ -164,6 +165,65 @@ class CustomerApiControllerTest extends BaseController
                     'password' => '1234567',
                 ],
                 Response::HTTP_CREATED,
+            ],
+        ];
+    }
+
+    /**
+     * Test login
+     *
+     * @param array $requestData
+     * @param int   $expectedCode
+     * @dataProvider loginDataSource
+     */
+    public function testLogin(array $requestData, $expectedCode)
+    {
+        $client = self::createAdminAuthorizedClient('api');
+        $client->request(
+            'POST',
+            $this->customerLogin.ApplicationFixtures::TEST_APP_APP_KEY,
+            $requestData
+        );
+        $response = $client->getResponse();
+
+        $this->assertEquals($expectedCode, $response->getStatusCode(), $response->getContent());
+    }
+
+    /**
+     * Login data provider
+     *
+     * @return array
+     */
+    public function loginDataSource()
+    {
+        return [
+            'normal' => [
+                [
+                    'email' => CustomerFixtures::TEST_2_EMAIL,
+                    'password' => 'mustBeMoreThat6',
+                ],
+                Response::HTTP_OK,
+            ],
+            'not linked customer and application' => [
+                [
+                    'email' => CustomerFixtures::TEST_RESET_EMAIL,
+                    'password' => 'mustBeMoreThat6',
+                ],
+                Response::HTTP_NOT_FOUND,
+            ],
+            'short password' => [
+                [
+                    'email' => CustomerFixtures::TEST_2_EMAIL,
+                    'password' => '1',
+                ],
+                Response::HTTP_BAD_REQUEST,
+            ],
+            'short email' => [
+                [
+                    'email' => '1',
+                    'password' => '123456',
+                ],
+                Response::HTTP_BAD_REQUEST,
             ],
         ];
     }

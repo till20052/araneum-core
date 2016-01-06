@@ -4,9 +4,10 @@ namespace Araneum\Base\Service\Spot;
 
 use Guzzle\Http\Message\Response;
 use Guzzle\Service\ClientInterface;
+use Symfony\Component\Console\Application;
 
 /**
- * Class SpotGuzzleClient
+ * Class SpotApiSenderService
  *
  * @package Araneum\Base\Service\Guzzle
  */
@@ -28,6 +29,26 @@ class SpotApiSenderService
     {
         $this->guzzle = $guzzle;
         $this->enableJsonResponse = $enableJsonResponse;
+    }
+
+    /**
+     * Send request to spot public api url
+     *
+     * @param string $method           HTTP method. Defaults to GET
+     * @param string $spotApiPublicUrl
+     * @param string $path
+     * @param array  $requestData
+     * @return \Guzzle\Http\Message\Response
+     */
+    public function sendToPublicUrl($method, $spotApiPublicUrl, $path, array $requestData)
+    {
+        if (!filter_var($spotApiPublicUrl, FILTER_VALIDATE_URL)) {
+            throw new \BadMethodCallException("Not valid spot public utl: ".$spotApiPublicUrl);
+        }
+
+        $this->guzzle->setBaseUrl($spotApiPublicUrl);
+
+        return $this->guzzle->createRequest($method, $path, null, $requestData)->send();
     }
 
     /**
@@ -93,7 +114,7 @@ class SpotApiSenderService
     {
         $decodedResponse = $response->json();
         if (!array_key_exists('status', $decodedResponse)) {
-            throw new \BadMethodCallException('Unsupported response format');
+            throw new \BadMethodCallException('Unsupported response format '.print_r($decodedResponse, true));
         }
 
         $status = $decodedResponse['status'];
@@ -106,6 +127,41 @@ class SpotApiSenderService
         }
 
         return json_encode($status['errors']);
+    }
+
+    /**
+     *
+     * @param Response $response
+     * @return string|null
+     */
+    public function getErrorsFromPublic(Response $response)
+    {
+        $decodedResponse = $response->json();
+        if (!array_key_exists('status', $decodedResponse)) {
+            throw new \BadMethodCallException('Unsupported response format '.print_r($decodedResponse, true));
+        }
+
+        if ($decodedResponse['status'] === true) {
+            return null;
+        }
+
+        return json_encode($decodedResponse['errors']);
+    }
+
+    /**
+     * Get spotsession from cookies
+     *
+     * @param string $cookie
+     * @return mixed
+     */
+    public function getSpotSessionFromPublic($cookie)
+    {
+        preg_match('/spotsession.{10,15}=(.{32}); /', $cookie, $matches);
+        if (!array_key_exists(1, $matches)) {
+            throw new \BadMethodCallException('Cookie must contains spotsession, cookie: '.$cookie);
+        }
+
+        return $matches[1];
     }
 
     /**
