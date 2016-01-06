@@ -27,7 +27,7 @@
 
         factory.wrapperTemplate = [
             '<div dropdown="dropdown" class="btn-group">',
-            '<button type="button" dropdown-toggle="" class="btn btn-xs dropdown-toggle btn-default" tooltip="' + $filter('translate')('admin.general.ACTIONS') + '">',
+            '<button type="button" id="actionWrapper" dropdown-toggle="" class="btn btn-xs dropdown-toggle btn-default">',
             '<em class="icon-settings"></em>',
             '</button>',
             '<ul role="menu" class="dropdown-menu dropdown-menu-right">',
@@ -81,6 +81,8 @@
             }
             
             $('ul', wrapper ).append(this.actionsTemplate);
+            $('#actionWrapper', wrapper)
+                .attr('tooltip', '{{ "admin.general.ACTIONS" | translate }}');
 
             return this.actionsTemplate = wrapper.get(0).outerHTML;
         }
