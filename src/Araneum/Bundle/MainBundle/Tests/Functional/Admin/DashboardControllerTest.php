@@ -99,7 +99,7 @@ class DashboardControllerTest extends BaseController
         /**
          * @var Client client
          */
-        $this->client = self::createAdminAuthorizedClient('admin', 'manage');
+        $this->client = self::createAdminAuthorizedClient('admin');
 
         /**
          * @var router router

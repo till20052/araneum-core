@@ -24,7 +24,7 @@ class MenuGeneratorTest extends BaseController
     public function testLeftMenu()
     {
 
-        $client = static::createAdminAuthorizedClient('admin', 'manage');
+        $client = static::createAdminAuthorizedClient('admin');
 
         $client->request(
             'GET',
