@@ -2,10 +2,11 @@
 
 namespace Araneum\Bundle\MainBundle\Form\Type;
 
+use Araneum\Bundle\MainBundle\Entity\Locale;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Araneum\Bundle\MainBundle\Entity\Locale;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\Router;
 
 /**
  * Class LocaleType
@@ -14,6 +15,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class LocaleType extends AbstractType
 {
+    protected $router;
+
+    /**
+     * UserAdminType constructor.
+     *
+     * @param Router $router
+     */
+    public function __construct(Router $router)
+    {
+        $this->router = $router;
+    }
+
     /**
      * @inheritdoc
      *
@@ -36,7 +49,8 @@ class LocaleType extends AbstractType
                 [
                     'label' => 'Name',
                     'attr' => [
-                        'placeholder' => 'Enter locale name',
+                        'placeholder' => 'locales.PLACEHOLDER',
+                        'translateLabel' => 'locales.NAME',
                     ],
                 ]
             )
@@ -46,7 +60,8 @@ class LocaleType extends AbstractType
                 [
                     'label' => 'Locale',
                     'attr' => [
-                        'placeholder' => 'Enter locale',
+                        'placeholder' => 'locales.ENTER_LOCALE',
+                        'translateLabel' => 'locales.LOCALE',
                     ],
                 ]
             )
@@ -56,7 +71,10 @@ class LocaleType extends AbstractType
                 [
                     'label' => 'Enabled',
                     'choices' => Locale::$enable,
-                    'empty_value' => 'Choose line',
+                    'empty_value' => 'locales.EMPTY_VALUE',
+                    'attr' => [
+                        'translateLabel' => 'locales.ENABLED',
+                    ],
                 ]
             )
             ->add(
@@ -65,7 +83,10 @@ class LocaleType extends AbstractType
                 [
                     'label' => 'Orientation',
                     'choices' => Locale::$orientations,
-                    'empty_value' => 'Choose line',
+                    'empty_value' => 'locales.EMPTY_VALUE',
+                    'attr' => [
+                        'translateLabel' => 'locales.ORIENTATION',
+                    ],
                 ]
             )
             ->add(
@@ -74,7 +95,8 @@ class LocaleType extends AbstractType
                 [
                     'label' => 'Encoding',
                     'attr' => [
-                        'placeholder' => 'Enter encoding',
+                        'placeholder' => 'locales.ENTER_ENCODING',
+                        'translateLabel' => 'locales.ENCODING',
                     ],
                 ]
             );
@@ -89,6 +111,7 @@ class LocaleType extends AbstractType
     {
         $resolver->setDefaults(
             [
+                'action' => $this->router->generate('araneum_admin_main_locale_post'),
                 'data_class' => 'Araneum\Bundle\MainBundle\Entity\Locale',
                 'csrf_protection' => false,
             ]
