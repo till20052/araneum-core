@@ -23,7 +23,8 @@ class ErrorRepository extends EntityRepository implements \Countable
     public function getReceivedErrorsFromAppsInLast24H()
     {
         return $this->createQueryBuilder('ERR')
-            ->select('ERR.type', 'ERR.sentAt')
+            ->select('APP.name', 'ERR.type', 'ERR.sentAt')
+            ->leftJoin('ERR.application', 'APP')
             ->where('ERR.sentAt BETWEEN :start AND :end')
             ->orderBy('ERR.sentAt', 'ASC')
             ->setParameters(

@@ -268,7 +268,6 @@ class StatisticsService
 
         return [
             'count' => $repository->count(),
-            'types' => Error::$types,
             'data' => $repository->getReceivedErrorsFromAppsInLast24H(),
         ];
     }

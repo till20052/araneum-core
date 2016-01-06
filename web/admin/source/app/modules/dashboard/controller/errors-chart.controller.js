@@ -54,7 +54,6 @@
                 },
                 yaxis: {
                     min: 0,
-                    max: 100,
                     tickDecimals: 0,
                     tickColor: '#eee',
                     position: ($rootScope.app.layout.isRTL ? 'right' : 'left'),
@@ -90,29 +89,24 @@
                  */
                 function (response) {
                     var errors = response.data.charts.errors,
-                        color = {1: 'red', 2: 'orange'},
                         lines = {},
                         data = [];
 
                     vm.count = errors.count;
                     errors.data.forEach(
                         /**
-                         * @param {{sentAt: {date: String}, type: Number}} token
+                         * @param {{sentAt: {date: String}, name: String}} token
                          */
                         function (token) {
-                            if (typeof lines[token.type] == 'undefined') {
-                                lines[token.type] = {
-                                    label: errors.types[token.type],
-                                    color: color[token.type],
-                                    data: getTimeRange(),
-                                    count: 0
+                            if (typeof lines[token.name] == 'undefined') {
+                                lines[token.name] = {
+                                    label: token.name,
+                                    data: getTimeRange()
                                 };
                             }
 
-                            lines[token.type]
+                            lines[token.name]
                                 .data[parseInt(getHours(token.sentAt.date))][1]++;
-
-                            lines[token.type].count++;
                         }
                     );
 
@@ -120,15 +114,10 @@
                         if (!lines.hasOwnProperty(key)) {
                             continue;
                         }
-
-                        lines[key].data.forEach(function (coords) {
-                            coords[1] = coords[1] * 100 / lines[key].count;
-                        });
-
                         data.push(lines[key]);
                     }
 
-                    vm.chart.data = data;
+                    vm.chart.data = dashboard.assignColorsByLabel(data);
                 }
             );
         }
