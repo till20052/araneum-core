@@ -32,7 +32,6 @@
         "snc/redis-bundle": "1.1.x-dev",
         "predis/predis": "1.*",
         "misd/guzzle-bundle": "^1.1",
-        "jms/i18n-routing-bundle": "^1.1",
         "ali/datatable": "v2.0.2",
         "lexik/form-filter-bundle": "~4.0"
     },
