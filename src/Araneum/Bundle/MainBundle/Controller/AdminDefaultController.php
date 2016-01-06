@@ -52,13 +52,21 @@ class AdminDefaultController extends Controller
      *          "name" = "_format",
      *          "dataType" = "json",
      *          "description" = "Output format must be json"
-     *      }
+     *      },
+     *     {
+     *          "name" = "_locale",
+     *          "dataType" = "string",
+     *          "description" = "Content language. Possible values: en|ru"
+     *     }
      *   },
-     *   tags={"AdminApi"}
+     *   tags={"AdminApi"},
      * )
      *
-     * @Rest\Get("/manage/translates.json",         name="araneum_admin_translations")
-     * @Rest\Get("%locale%/manage/translates.json", name="araneum_admin_translation_default_locale")
+     * @Rest\Get(
+     *     "{_locale}/manage/translates.json",
+     *     name="araneum_admin_translation_default_locale"
+     * )
+     *
      * @return JsonResponse
      */
     public function getTranslatesAction()

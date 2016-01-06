@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Repository;
 
+use Araneum\Base\Repository\CountableTrait;
 use Doctrine\ORM\EntityRepository;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
 
@@ -12,6 +13,8 @@ use Araneum\Bundle\MainBundle\Entity\Cluster;
  */
 class ClusterRepository extends EntityRepository implements \Countable
 {
+    use CountableTrait;
+
     /**
      * Get statistic of all clusters average last 24 hours
      *
@@ -102,23 +105,5 @@ class ClusterRepository extends EntityRepository implements \Countable
         $result = $qb->getQuery()->getResult();
 
         return $result;
-    }
-
-    /**
-     * Count elements of an object
-     *
-     * @link   http://php.net/manual/en/countable.count.php
-     * @return int The custom count as an integer.
-     * </p>
-     * <p>
-     * The return value is cast to an integer.
-     * @since  5.1.0
-     */
-    public function count()
-    {
-        return (int) $this->createQueryBuilder('c')
-                         ->select('COUNT(c.id) as cnt')
-                         ->getQuery()
-                         ->getOneOrNullResult()['cnt'];
     }
 }
