@@ -10,7 +10,7 @@ services:
 
     araneum.agent.spotoption.service:
         class: Araneum\Bundle\AgentBundle\Service\SpotOptionService
-        arguments: [@araneum.base.rabbitmq.producer.spot, @araneum.base.spot_api, @doctrine.orm.entity_manager]
+        arguments: [@araneum.base.rabbitmq.producer.spot_customer, @araneum.base.spot_api, @doctrine.orm.entity_manager]
 
     araneum.agent.logger:
         class: Araneum\Bundle\AgentBundle\Service\AgentLoggerService
@@ -18,7 +18,7 @@ services:
 
     araneum.agent.lead.api_handler:
         class: Araneum\Bundle\AgentBundle\Service\LeadApiHandlerService
-        arguments: [@doctrine.orm.entity_manager, @form.factory]
+        arguments: [@doctrine.orm.entity_manager, @form.factory, @event_dispatcher]
 
     araneum.agent.customer.event_subscriber:
         class: Araneum\Bundle\AgentBundle\EventListener\CustomerSubscriber

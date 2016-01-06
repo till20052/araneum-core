@@ -69,6 +69,7 @@ class Lead
      */
     private $email;
 
+    //TODO delete appKey field
     /**
      * @var string
      *

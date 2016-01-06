@@ -125,32 +125,51 @@ old_sound_rabbit_mq:
             keepalive: false
             heartbeat: 0
     producers:
-        spot:
+        spot_customer:
             connection: default
             exchange_options:
-                name: 'quarantee_delivery'
+                name: spot_customer_%session_prefix%
                 type: direct
                 auto_delete: false
                 durable: true
             queue_options:
-                name: sendToSpot_%session_prefix%
-                routing_keys:
-                    - "sendToSpot"
+                name: spot_customer_%session_prefix%
+                arguments:
+                    "message-ttl": ['I', %rabbitmq_message_ttl%]
+                    "dead-letter-exchange": ['S', 'araneum.base.rabbitmq.producer.spot_customer']
+        spot:
+            connection: default
+            exchange_options:
+                name: spot_%session_prefix%
+                type: direct
+                auto_delete: false
+                durable: true
+            queue_options:
+                name: spot_%session_prefix%
                 arguments:
                     "message-ttl": ['I', %rabbitmq_message_ttl%]
                     "dead-letter-exchange": ['S', 'araneum.base.rabbitmq.producer.spot']
-                    "dead-letter-routing-key": ['S', 'sendToSpot']
     consumers:
-        spot:
+        spot_customer:
             connection: default
             exchange_options:
-                name: 'quarantee_delivery'
+                name: spot_customer_%session_prefix%
                 type: direct
                 auto_delete: false
                 durable: true
             queue_options:
-                name: sendToSpot_%session_prefix%
+                name: spot_customer_%session_prefix%
             callback: araneum.base.rabbitmq.consumer.spot_customer
+        spot:
+            connection: default
+            exchange_options:
+                name: spot_%session_prefix%
+                type: direct
+                auto_delete: false
+                durable: true
+            queue_options:
+                name: spot_%session_prefix%
+            callback: araneum.base.rabbitmq.consumer.spot
 
 snc_redis:
     clients:
