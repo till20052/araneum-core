@@ -68,7 +68,7 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=100, unique=true)
+     * @ORM\Column(name="email", type="string", length=100)
      * @Assert\Email()
      * @Assert\Length(max=100)
      * @Assert\NotBlank()

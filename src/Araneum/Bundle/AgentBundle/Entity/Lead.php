@@ -63,7 +63,7 @@ class Lead
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @ORM\Column(name="email", type="string", length=255)
      * @Constraints\Length(min="2", max="255")
      * @Constraints\Email()
      */
