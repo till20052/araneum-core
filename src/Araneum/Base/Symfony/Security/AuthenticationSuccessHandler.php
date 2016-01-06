@@ -20,6 +20,7 @@ class AuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterf
      * is called by authentication listeners inheriting from
      * AbstractAuthenticationListener.
      *
+     * @inheritdoc
      * @param Request        $request
      * @param TokenInterface $token
      * @return JsonResponse
