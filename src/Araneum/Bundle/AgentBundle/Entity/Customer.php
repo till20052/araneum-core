@@ -131,10 +131,7 @@ class Customer
     /**
      * @var integer
      * @ORM\Column(type="integer", name="site_id")
-     * @Assert\Type(
-     *     type="integer",
-     *     message="The value {{ value }} is not a valid {{ type }}."
-     * )
+     * @Assert\Type(type="integer")
      */
     private $siteId;
 
