@@ -24,9 +24,11 @@ class RunnerData extends AbstractFixture implements FixtureInterface, DependentF
         $runner = $manager->getRepository('AraneumMainBundle:Runner')
             ->findOneByName('DefaultUltratradeRunner');
         if (empty($runner)) {
+            $cluster = $manager->getRepository('AraneumMainBundle:Cluster')->findOneByName('DefaultUltratradeCluster');
+
             $runner = new Runner();
             $runner->setName('DefaultUltratradeRunner');
-            $runner->setCluster($this->getReference('cluster'));
+            $runner->setCluster($cluster);
             $runner->setType(1);
             $runner->setEnabled(true);
             $runner->setStatus(1);
@@ -34,6 +36,7 @@ class RunnerData extends AbstractFixture implements FixtureInterface, DependentF
             $manager->persist($runner);
             $manager->flush();
         }
+
         $this->addReference('runner', $runner);
     }
 

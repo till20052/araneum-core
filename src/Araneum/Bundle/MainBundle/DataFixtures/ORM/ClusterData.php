@@ -19,8 +19,8 @@ class ClusterData extends AbstractFixture implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $cluster = $manager->getRepository('AraneumMainBundle:Cluster')
-            ->findOneByName('DefaultUltratradeCluster');
+        $cluster = $manager->getRepository('AraneumMainBundle:Cluster')->findOneByName('DefaultUltratradeCluster');
+
         if (empty($cluster)) {
             $cluster = new Cluster();
             $cluster->setName('DefaultUltratradeCluster');
@@ -30,6 +30,7 @@ class ClusterData extends AbstractFixture implements FixtureInterface
             $manager->persist($cluster);
             $manager->flush();
         }
+
         $this->addReference('cluster', $cluster);
     }
 }
