@@ -26,6 +26,8 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
             ->findOneByName('Ultratrade');
 
         if (empty($app)) {
+            $cluster = $manager->getRepository('AraneumMainBundle:Cluster')->findOneByName('DefaultUltratradeCluster');
+
             $app = new Application();
             $app->setName('Ultratrade');
             $app->setDomain('ultratrade.office.dev');
@@ -33,7 +35,7 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
             $app->setEnabled(true);
             $app->setStatus(Application::STATUS_OK);
             $app->setTemplate('DefaultTemplate');
-            $app->setCluster($this->getReference('cluster'));
+            $app->setCluster($cluster);
             $app->setDb($this->getReference('connectionDb'));
             $app->setLocales(new ArrayCollection([$this->getReference('locale')]));
             $app->setOwner($this->getReference('userAdmin'));
