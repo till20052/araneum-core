@@ -107,7 +107,7 @@ class ClusterApiControllerTest extends BaseController
      */
     private function createRequest($name, $parameters = [])
     {
-        $this->client = self::createAdminAuthorizedClient('api');
+        $this->client = self::createAdminAuthorizedClient('api', 'api');
 
         $this->client->request(
             'GET',

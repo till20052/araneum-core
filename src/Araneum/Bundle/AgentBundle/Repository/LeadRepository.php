@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\AgentBundle\Repository;
 
+use Araneum\Base\Repository\CountableTrait;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
@@ -13,18 +14,7 @@ use Symfony\Component\Routing\Exception\InvalidParameterException;
  */
 class LeadRepository extends EntityRepository implements \Countable
 {
-    /**
-     * Count elements of an object
-     *
-     * @return int The custom count as an integer.
-     */
-    public function count()
-    {
-        return (int) $this->createQueryBuilder('l')
-                         ->select('COUNT(l.id) as cnt')
-                         ->getQuery()
-                         ->getOneOrNullResult()['cnt'];
-    }
+    use CountableTrait;
 
     /**
      * Find list of leads by email and/or phone as optionality
@@ -62,7 +52,7 @@ class LeadRepository extends EntityRepository implements \Countable
      *
      * @return array
      */
-    public function getRegisteredLeadsFromApplicationsAtLast24Hours()
+    public function getRegisteredLeadsFromAppsInLast24H()
     {
         $qb = $this->createQueryBuilder('L');
 

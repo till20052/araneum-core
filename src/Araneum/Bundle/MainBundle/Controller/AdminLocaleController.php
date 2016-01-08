@@ -4,6 +4,7 @@ namespace Araneum\Bundle\MainBundle\Controller;
 use Araneum\Bundle\MainBundle\Entity\Locale;
 use Araneum\Bundle\MainBundle\Service\Actions\LocaleActions;
 use Araneum\Bundle\MainBundle\Service\DataTable\LocaleDataTableList;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,6 +25,7 @@ class AdminLocaleController extends Controller
     /**
      * Get locale by id
      *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route(
      *      "/manage/locales/locale/{id}",
      *      name="araneum_admin_main_locale_get",
@@ -129,6 +131,7 @@ class AdminLocaleController extends Controller
      *  tags={"Agent"}
      * )
      *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route(
      *     "/manage/locales/locale/save",
      *     name="araneum_admin_main_locale_post"
@@ -186,8 +189,8 @@ class AdminLocaleController extends Controller
     /**
      * Enable locales one or many
      *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/manage/locales/locale/enable", name="araneum_main_admin_locale_enable")
-     *
      * @Method("POST")
      * @param          Request $request
      * @return         Response
@@ -202,6 +205,7 @@ class AdminLocaleController extends Controller
      *
      * @param                                                                            Request $request
      * @return                                                                           Response
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/manage/locales/locale/disable",name="araneum_main_admin_locale_disable")
      */
     public function disableAction(Request $request)
@@ -212,6 +216,7 @@ class AdminLocaleController extends Controller
     /**
      * Locales module initialization
      *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/manage/locales/init.json", name="araneum_manage_locales_init")
      * @return                             JsonResponse
      */
@@ -239,6 +244,7 @@ class AdminLocaleController extends Controller
     /**
      * Server/client datatable communication
      *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/manage/locales/datatable.json", name="araneum_manage_locales_grid")
      * @return                                  JsonResponse
      */

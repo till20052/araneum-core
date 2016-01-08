@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Repository;
 
+use Araneum\Base\Repository\CountableTrait;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
@@ -14,6 +15,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class ApplicationRepository extends EntityRepository implements \Countable
 {
+    use CountableTrait;
+
     /**
      * Get statistics of all applications by next conditions:
      *  - online
@@ -88,23 +91,5 @@ class ApplicationRepository extends EntityRepository implements \Countable
         $result = $qb->getQuery()->getResult();
 
         return $result;
-    }
-
-    /**
-     * Count elements of an object
-     *
-     * @link   http://php.net/manual/en/countable.count.php
-     * @return int The custom count as an integer.
-     * </p>
-     * <p>
-     * The return value is cast to an integer.
-     * @since  5.1.0
-     */
-    public function count()
-    {
-        return (int) $this->createQueryBuilder('a')
-                         ->select('COUNT(a.id) as cnt')
-                         ->getQuery()
-                         ->getOneOrNullResult()['cnt'];
     }
 }

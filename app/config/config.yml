@@ -85,7 +85,7 @@ swiftmailer:
 
 fos_user:
     db_driver: orm
-    firewall_name: main
+    firewall_name: manage
     user_class: Araneum\Bundle\UserBundle\Entity\User
 
 accelerator_cache:
