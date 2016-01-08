@@ -12,6 +12,7 @@ services:
         class: Araneum\Bundle\AgentBundle\Service\SpotOptionService
         arguments:
             - @araneum.base.rabbitmq.producer.spot_customer
+            - @araneum.base.rabbitmq.producer.spot_login
             - @araneum.base.rabbitmq.producer.spot
             - @araneum.base.spot_api
             - @doctrine.orm.entity_manager
@@ -30,7 +31,7 @@ services:
         tags:
             - { name: kernel.event_subscriber}
 
-    app.exception_listener:
+    araneum.agent.lead.event_listener:
         class: Araneum\Bundle\AgentBundle\EventListener\LeadListener
         arguments: [@araneum.agent.spotoption.service]
         tags:

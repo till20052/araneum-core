@@ -17,7 +17,7 @@ dashboard :
         RECEIVED_EMAILS_FROM_APPS_24H: "Сообщений принято от сайтов за 24 часа"
         RECEIVED_FROM_APPLICATION: "Принято ото всех приложений"
         REGISTERED_LEADS_FROM_APPS_24H: "Регистация лидов принятых ото всех приложений (24 часа)"
-        ERRORS_RECEIVED_FROM_APPS_24H: "Ошибки, полученные от приложений (24 часа)"
+        RECEIVED_ERRORS_FROM_APPS_IN_LAST_24H: "Ошибки, полученные от приложений за последние 24 часа"
         CUSTOMERS: "Клиентов"
         EMAILS: "сообщений"
         APPLICATIONS: "Сайтов"
@@ -110,7 +110,7 @@ datatables:
     EMPTY_TABLE: 'В таблице отсутствуют данные'
     paginate:
       FIRST: 'Первая'
-      PREVIUOS: 'Предыдущая'
+      PREVIOUS: 'Предыдущая'
       NEXT: 'Следующая'
       LAST: 'Последняя'
     aria:

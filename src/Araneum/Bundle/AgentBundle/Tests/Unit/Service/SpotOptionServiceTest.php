@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\AgentBundle\Test\Service;
+namespace Araneum\Bundle\AgentBundle\Test\Unit\Service;
 
 use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
@@ -20,6 +20,10 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $spotProducerServiceMock;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $customerLoginProducerService;
     /**
      * @var SpotOptionService
      */
@@ -55,12 +59,18 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->customerLoginProducerService = $this
+            ->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService')
+            ->disableOriginalConstructor()
+            ->getMock();
+        
         $this->spotProducerServiceMock = $this->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotProducerService')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->spotOptionService = new SpotOptionService(
             $this->spotCustomerProducerServiceMock,
+            $this->customerLoginProducerService,
             $this->spotProducerServiceMock,
             $this->spotApiSenderMock,
             $this->entityManagerMock

@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Repository;
 
+use Araneum\Base\Repository\CountableTrait;
 use Araneum\Base\Tests\Fixtures\Main\ConnectionFixtures;
 use Araneum\Bundle\MainBundle\Entity\Connection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,6 +16,8 @@ use Doctrine\ORM\Query\Expr;
  */
 class ConnectionRepository extends EntityRepository implements \Countable
 {
+    use CountableTrait;
+
     /**
      * Return query with unused connections for clusters
      *
@@ -124,23 +127,5 @@ class ConnectionRepository extends EntityRepository implements \Countable
             );
 
         return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * Count elements of an object
-     *
-     * @link   http://php.net/manual/en/countable.count.php
-     * @return int The custom count as an integer.
-     * </p>
-     * <p>
-     * The return value is cast to an integer.
-     * @since  5.1.0
-     */
-    public function count()
-    {
-        return (int) $this->createQueryBuilder('conn')
-                         ->select('COUNT(conn.id) as cnt')
-                         ->getQuery()
-                         ->getOneOrNullResult()['cnt'];
     }
 }

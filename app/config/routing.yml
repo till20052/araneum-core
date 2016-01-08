@@ -1,41 +1,28 @@
-manage_all:
-    defaults: {_controller:"AraneumMainBundle:Default:admin"}
-    pattern: /manage/{path}
-    requirements:
-        path: .*
-    condition: "!request.isXmlHttpRequest()"
-
-manage_index:
-    defaults: {_controller:"AraneumMainBundle:Default:admin"}
-    pattern: /manage
-    condition: "!request.isXmlHttpRequest()"
-
 araneum_root:
     path: /
     defaults:
         _controller: FrameworkBundle:Redirect:redirect
-        route: manage_index
+        route: araneum_manage_main
         permanent: true
 
-araneum_user:
-    resource: "@AraneumUserBundle/Controller/"
-    type:     annotation
-    prefix:   /user
+araneum_main:
+    resource: "@AraneumMainBundle/Controller"
+    type: annotation
+    prefix: /
 
 araneum_agent:
     resource: "@AraneumAgentBundle/Controller"
-    type:     annotation
-    prefix:   /agent
-
-araneum_main:
-    resource: "@AraneumMainBundle/Controller/"
-    type:     annotation
-    prefix:   /
+    type: annotation
+    prefix: /agent
 
 araneum_mail:
     resource: "@AraneumMailBundle/Controller"
     type: annotation
     prefix: /mail
+
+araneum_manage:
+    resource: routing_manage.yml
+    prefix: /manage
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
@@ -54,7 +41,7 @@ fos_user_change_password:
 
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
-    prefix:   /api/doc
+    prefix: /api/doc
 
 _knp_rad_assistant:
     resource: "@KnpRadBundle/Resources/config/routing/assistant.xml"

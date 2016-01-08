@@ -23,7 +23,7 @@ class AdminUserControllerTest extends BaseController
      */
     public function testSettingsSet()
     {
-        $client = $this->createAdminAuthorizedClient(UserFixtures::ADMIN_USER_NAME);
+        $client = $this->createAdminAuthorizedClient('admin');
 
         $router = $client
             ->getContainer()

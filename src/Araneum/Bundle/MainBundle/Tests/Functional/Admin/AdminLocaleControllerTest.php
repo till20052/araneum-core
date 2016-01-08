@@ -30,7 +30,7 @@ class AdminLocaleControllerTest extends BaseController
      */
     public function setUp()
     {
-        $this->client = self::createAdminAuthorizedClient();
+        $this->client = self::createAdminAuthorizedClient('admin');
 
         /**
          * @var Router router

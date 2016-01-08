@@ -2,17 +2,13 @@
 
 namespace Araneum\Bundle\MainBundle\Service;
 
-use Araneum\Base\Tests\Fixtures\User\UserFixtures;
+use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\AgentBundle\Entity\Problem;
 use Araneum\Bundle\AgentBundle\Service\AgentLoggerService;
-use Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Guzzle\Http\Exception\BadResponseException;
-use Guzzle\Http\Message\Request;
 use Guzzle\Service\Client;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Guzzle\Http\Exception\CurlException;
 use Guzzle\Http\Message\Response as GuzzleResponse;
 use Symfony\Component\Yaml\Yaml;
@@ -45,6 +41,10 @@ class RemoteApplicationManagerService
             'method' => 'DELETE',
             'uri' => '/api/cluster/application/delete/',
         ],
+        'setSpotUserData' => [
+            'method' => 'POST',
+            'uri' => '/api/user/%d/spotUserData',
+        ],
     ];
 
     /**
@@ -56,39 +56,25 @@ class RemoteApplicationManagerService
      */
     private $client;
     /**
-     * @var $params
+     * @var $guzzleOptions
      */
-    private $params;
-    /**
-     * @var $container
-     */
-    private $container;
-
-    /**
-     * @var
-     */
-    private $apiCred;
+    private $guzzleOptions;
 
     /**
      * Remote application handler constructor
      *
-     * @param Client             $client
-     * @param ContainerInterface $container
+     * @param Client        $client
+     * @param EntityManager $entityManager
+     * @param array         $siteApi
      */
-    public function __construct(Client $client, ContainerInterface $container)
+    public function __construct(Client $client, EntityManager $entityManager, array $siteApi)
     {
-        $this->container = $container;
-        $this->entityManager = $this->container->get('doctrine.orm.entity_manager');
         $this->client = $client;
-
-        $this->apiCred = $this->container->getParameter('site_api');
-        $user = $this->apiCred['user'];
-        $password = $this->apiCred['password'];
-
-        $this->params = [
+        $this->entityManager = $entityManager;
+        $this->guzzleOptions = [
             'auth' => [
-                $user,
-                $password,
+                $siteApi['user'],
+                $siteApi['password'],
             ],
             'connect_timeout' => 1,
         ];
@@ -102,7 +88,6 @@ class RemoteApplicationManagerService
      */
     public function get($clusterId)
     {
-
         $repository = $this->entityManager->getRepository('AraneumMainBundle:Connection');
         $connections = $repository->getHostByClusterId($clusterId);
         $connection = reset($connections);
@@ -112,7 +97,7 @@ class RemoteApplicationManagerService
             self::$requestParams['get']['uri'],
             null,
             null,
-            $this->params,
+            $this->guzzleOptions,
             self::$requestParams['get']['method']
         );
 
@@ -172,7 +157,7 @@ class RemoteApplicationManagerService
             self::$requestParams['remove']['uri'].$appKey,
             null,
             null,
-            $this->params,
+            $this->guzzleOptions,
             self::$requestParams['remove']['method']
         );
 
@@ -189,16 +174,16 @@ class RemoteApplicationManagerService
      * @param  array                           $params
      * @param  string                          $method
      * @param  Application                     $application
-     * @return \Exception|CurlException|GuzzleResponse
+     * @return string
      */
     public function sendRequest($host, $uri, $header, $body, $params, $method, Application $application = null)
     {
         $code = null;
-
         try {
+            $host = substr($host, 0, 4) === "http" ? $host : 'http://'.$host;
             $response = $this
                 ->client
-                ->createRequest($method, 'http://'.$host.$uri, $header, $body, $params)
+                ->createRequest($method, $host.$uri, $header, $body, $params)
                 ->send();
             $code = $response->getStatusCode();
         } catch (BadResponseException $e) {
@@ -206,8 +191,8 @@ class RemoteApplicationManagerService
             $code = $e->getCode();
         } catch (CurlException $e) {
             $response = new GuzzleResponse($e->getCode());
-            $response->setBody($e->getCurlHandle()->getError());
-            $response->setStatus($e->getCurlHandle()->getError());
+            $response->setBody($e->getError());
+            $response->setStatus($e->getError());
             $code = $response->getStatusCode();
         } catch (\Exception $e) {
             $response = new GuzzleResponse($e->getCode());
@@ -216,7 +201,6 @@ class RemoteApplicationManagerService
         }
 
         if (!is_null($application)) {
-
             $application->setStatus($response->isSuccessful() ? 0 : 100);
 
             $problem = new Problem();
@@ -228,6 +212,32 @@ class RemoteApplicationManagerService
         }
 
         return $response->getBody(true);
+    }
+
+    /**
+     * Send spot User data to site by API
+     *
+     * @param Customer $customer
+     * @param array    $spotData
+     * @return string
+     */
+    public function setSpotUserData(Customer $customer, array $spotData)
+    {
+        $schema = 'http'.($customer->getApplication()->isUseSsl() ? 's' : '').'://';
+        $host = $schema.$customer->getApplication()->getDomain();
+        $response = $this->sendRequest(
+            $host,
+            sprintf(self::$requestParams['setSpotUserData']['uri'], $customer->getSiteId()),
+            [],
+            [
+                'spotUserId' => $spotData['customerId'],
+                'spotUserSession' => $spotData['spotsession'],
+            ],
+            $this->guzzleOptions,
+            self::$requestParams['setSpotUserData']['method']
+        );
+
+        return $response;
     }
 
     /**
@@ -294,7 +304,7 @@ class RemoteApplicationManagerService
             $uri,
             null,
             $request,
-            $this->params,
+            $this->guzzleOptions,
             $method,
             $application
         );

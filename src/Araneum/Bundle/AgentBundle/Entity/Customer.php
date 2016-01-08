@@ -4,8 +4,10 @@ namespace Araneum\Bundle\AgentBundle\Entity;
 use Araneum\Base\EntityTrait\DateTrait;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Customer
@@ -25,6 +27,7 @@ class Customer
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"rabbitMQ"})
      */
     private $id;
 
@@ -33,6 +36,7 @@ class Customer
      *
      * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Application", inversedBy="customers")
      * @ORM\JoinColumn(name="application_id", referencedColumnName="id")
+     * @Groups({"rabbitMQ"})
      */
     private $application;
 
@@ -72,6 +76,7 @@ class Customer
      * @Assert\Email()
      * @Assert\Length(max=100)
      * @Assert\NotBlank()
+     * @Groups({"rabbitMQ"})
      */
     private $email;
 
@@ -118,6 +123,8 @@ class Customer
      * Not saved in DB
      *
      * @var string
+     * @Groups({"rabbitMQ"})
+     * @JMS\Type("string")
      */
     private $password;
 
@@ -127,6 +134,14 @@ class Customer
      * @var int
      */
     private $spotId;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", name="site_id", nullable=true)
+     * @Groups({"rabbitMQ"})
+     */
+    private $siteId;
 
     /**
      * Get id
@@ -410,6 +425,29 @@ class Customer
     public function setSpotId($spotId)
     {
         $this->spotId = $spotId;
+
+        return $this;
+    }
+
+    /**
+     * Get siteId
+     *
+     * @return int
+     */
+    public function getSiteId()
+    {
+        return $this->siteId;
+    }
+
+    /**
+     * Set siteId
+     *
+     * @param int $siteId
+     * @return Customer
+     */
+    public function setSiteId($siteId)
+    {
+        $this->siteId = $siteId;
 
         return $this;
     }

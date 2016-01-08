@@ -1,7 +1,7 @@
 (function() {
 	angular
 		.module('app.formBuilder')
-		.factory('formBuilderFactory', ['formBuildFiltersService', function(formBuildFiltersService) {
+		.factory('formBuilderFactory', ['formBuildFiltersService', 'formBuildCreateUpdateService', function(formBuildFiltersService, formBuildCreateUpdateService) {
 			return {
 				builder: undefined,
 
@@ -10,9 +10,13 @@
 				 * @param {string} type type of form
 				 * @returns {*} form builder service
 				 */
-				getBuilder: function(type) {
-					if (type === 'filter') {
+				getBuilder: function( type ) {
+					if ( type === 'filter' ) {
 						this.builder = formBuildFiltersService;
+					}
+
+					if ( type === 'create-update' ) {
+						this.builder = formBuildCreateUpdateService;
 					}
 
 					return this.builder;

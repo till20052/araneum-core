@@ -28,3 +28,5 @@ parameters:
     rabbitmq_user: 'admin'
     rabbitmq_password: '12345'
     rabbitmq_queue_expiration: '3600000000' # Time to live message in queue 1 hour in milliseconds
+    
+    spot_api_public_url_login: '/Login/login/unusedRequiredParameter'

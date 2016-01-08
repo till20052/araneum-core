@@ -56,6 +56,7 @@ class ApplicationFixtures extends AbstractFixture implements FixtureInterface, D
             $app->setComponents(new ArrayCollection([$this->getReference('component')]));
             $app->setOwner($this->getReference('owner'));
             $app->setAppKey(self::TEST_APP_APP_KEY);
+            $app->setSpotApiPublicUrl('https://test.com');
             $manager->persist($app);
             $manager->flush();
         }
