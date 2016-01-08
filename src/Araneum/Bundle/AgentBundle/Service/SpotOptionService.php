@@ -161,6 +161,11 @@ class SpotOptionService
         $leadData = [
             'MODULE' => 'Lead',
             'COMMAND' => 'add',
+            'FirstName' => $lead->getFirstName(),
+            'LastName' => $lead->getLastName(),
+            'Country' => $lead->getCountry(),
+            'Phone' => $lead->getPhone(),
+            'email' => $lead->getEmail(),
         ];
 
         return $this->spotProducerService->publish($leadData, $lead->getApplication()->getSpotCredential());

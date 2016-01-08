@@ -7,6 +7,7 @@ use Araneum\Bundle\AgentBundle\AraneumAgentBundle;
 use Araneum\Bundle\AgentBundle\Entity\Lead;
 use Araneum\Bundle\AgentBundle\Event\LeadEvent;
 use Araneum\Bundle\AgentBundle\Form\Type\LeadType;
+use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactory;
@@ -18,6 +19,10 @@ use Symfony\Component\Form\FormFactory;
  */
 class LeadApiHandlerService
 {
+    /**
+     * @var ApplicationManagerService
+     */
+    protected $applicationManager;
     /**
      * @var EntityManager
      */
@@ -34,17 +39,20 @@ class LeadApiHandlerService
     /**
      * Service constructor
      *
-     * @param EntityManager            $entityManager
-     * @param FormFactory              $formFactory
-     * @param EventDispatcherInterface $dispatcher
+     * @param EntityManager             $entityManager
+     * @param FormFactory               $formFactory
+     * @param ApplicationManagerService $applicationManager
+     * @param EventDispatcherInterface  $dispatcher
      */
     public function __construct(
         EntityManager $entityManager,
         FormFactory $formFactory,
+        ApplicationManagerService $applicationManager,
         EventDispatcherInterface $dispatcher
     ) {
         $this->entityManager = $entityManager;
         $this->formFactory = $formFactory;
+        $this->applicationManager = $applicationManager;
         $this->dispatcher = $dispatcher;
     }
 
@@ -70,6 +78,9 @@ class LeadApiHandlerService
     public function create(array $data)
     {
         $lead = $this->verifyDataByForm($data);
+
+        $application = $this->applicationManager->findOneOr404(['appKey' => $lead->getAppKey()]);
+        $lead->setApplication($application);
 
         $this->entityManager->persist($lead);
         $this->entityManager->flush();

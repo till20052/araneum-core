@@ -4,6 +4,7 @@ namespace Araneum\Bundle\AgentBundle\Tests\Functional\Api;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Araneum\Base\Tests\Fixtures\Agent\LeadFixtures;
+use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -91,7 +92,7 @@ class LeadApiControllerTest extends BaseController
                     'country' => rand(1, 239),
                     'email' => 'testLead'.rand(1, 999).'@test.com',
                     'phone' => '380507894561',
-                    'appKey' => md5(microtime(true)),
+                    'appKey' => ApplicationFixtures::TEST_APP_APP_KEY,
                 ],
                 Response::HTTP_CREATED,
             ],
@@ -102,7 +103,7 @@ class LeadApiControllerTest extends BaseController
                     'country' => rand(1, 239),
                     'email' => 'testLead'.rand(1, 999).'@test.com',
                     'phone' => '380507894561',
-                    'appKey' => md5(microtime(true)),
+                    'appKey' => ApplicationFixtures::TEST_APP_APP_KEY,
                 ],
                 Response::HTTP_CREATED,
             ],
@@ -113,9 +114,20 @@ class LeadApiControllerTest extends BaseController
                     'country' => rand(1, 239),
                     'email' => md5(microtime(true)),
                     'phone' => '380507894561',
-                    'appKey' => md5(microtime(true)),
+                    'appKey' => ApplicationFixtures::TEST_APP_APP_KEY,
                 ],
                 Response::HTTP_BAD_REQUEST,
+            ],
+            'Not exist application' => [
+                [
+                    'firstName' => 'Hugo',
+                    'lastName' => 'Boss',
+                    'country' => rand(1, 239),
+                    'email' => 'testLead'.rand(1, 999).'@test.com',
+                    'phone' => '380507894561',
+                    'appKey' => md5(microtime(true)),
+                ],
+                Response::HTTP_NOT_FOUND,
             ],
             'Not valid phone value' => [
                 [
@@ -124,7 +136,7 @@ class LeadApiControllerTest extends BaseController
                     'country' => rand(1, 239),
                     'email' => 'tony.perotti@test.com',
                     'phone' => md5(microtime(true)),
-                    'appKey' => md5(microtime(true)),
+                    'appKey' => ApplicationFixtures::TEST_APP_APP_KEY,
                 ],
                 Response::HTTP_BAD_REQUEST,
             ],

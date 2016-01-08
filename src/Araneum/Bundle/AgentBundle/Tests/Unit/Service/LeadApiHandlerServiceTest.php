@@ -2,9 +2,12 @@
 
 namespace Araneum\Bundle\AgentBundle\Tests\Unit\Service;
 
+use Araneum\Bundle\AgentBundle\AraneumAgentBundle;
 use Araneum\Bundle\AgentBundle\Entity\Lead;
+use Araneum\Bundle\AgentBundle\Event\LeadEvent;
 use Araneum\Bundle\AgentBundle\Form\Type\LeadType;
 use Araneum\Bundle\AgentBundle\Service\LeadApiHandlerService;
+use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormFactory;
 
@@ -18,13 +21,27 @@ class LeadApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $repository;
-
+    protected $applicationManagerMock;
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $form;
-
+    protected $dispatcherMock;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $formFactoryMock;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $entityManagerMock;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $repository;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $formMock;
     /**
      * @var LeadApiHandlerService
      */
@@ -62,12 +79,54 @@ class LeadApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreate()
     {
-        $this->form->expects($this->once())
+        $application = new Application();
+        $lead = new Lead();
+        $lead->setAppKey('testAppKey');
+        $lead->setApplication($application);
+
+        $this->formMock->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(true));
 
+        $this->formFactoryMock
+            ->expects($this->once())
+            ->method('create')
+            ->with(
+                $this->equalTo(new LeadType()),
+                $this->callback(
+                    function ($lead) {
+                        $lead->setAppKey('testAppKey');
+
+                        return true;
+                    }
+                )
+            )
+            ->will($this->returnValue($this->formMock));
+
+        $this->applicationManagerMock
+            ->expects($this->once())
+            ->method('findOneOr404')
+            ->with($this->equalTo(['appKey' => 'testAppKey']))
+            ->will($this->returnValue($application));
+
+        $this->entityManagerMock
+            ->expects($this->once())
+            ->method('persist')
+            ->with($this->equalTo($lead));
+        $this->entityManagerMock
+            ->expects($this->once())
+            ->method('flush');
+
+        $this->dispatcherMock
+            ->expects($this->once())
+            ->method('dispatch')
+            ->with(
+                $this->equalTo(AraneumAgentBundle::EVENT_LEAD_NEW),
+                $this->equalTo((new LeadEvent($lead)))
+            );
+
         $this->assertEquals(
-            new Lead(),
+            $lead,
             $this->apiHandler->create([])
         );
     }
@@ -79,9 +138,14 @@ class LeadApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateException()
     {
-        $this->form->expects($this->once())
+        $this->formMock->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(false));
+
+        $this->formFactoryMock
+            ->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->formMock));
 
         $this->apiHandler->create([]);
     }
@@ -91,9 +155,20 @@ class LeadApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $this->applicationManagerMock = $this
+            ->getMockBuilder('\Araneum\Bundle\MainBundle\Service\ApplicationManagerService')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->dispatcherMock = $this->getMockBuilder('\Symfony\Component\EventDispatcher\EventDispatcherInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->apiHandler = new LeadApiHandlerService(
             $this->entityManager(),
-            $this->formFactory()
+            $this->formFactory(),
+            $this->applicationManagerMock,
+            $this->dispatcherMock
         );
     }
 
@@ -104,7 +179,7 @@ class LeadApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
      */
     private function entityManager()
     {
-        $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+        $this->entityManagerMock = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -112,19 +187,12 @@ class LeadApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $entityManager->expects($this->any())
+        $this->entityManagerMock->expects($this->any())
             ->method('getRepository')
             ->with($this->equalTo('AraneumAgentBundle:Lead'))
             ->will($this->returnValue($this->repository));
 
-        $entityManager->expects($this->any())
-            ->method('persist')
-            ->with($this->equalTo(new Lead()));
-
-        $entityManager->expects($this->any())
-            ->method('flush');
-
-        return $entityManager;
+        return $this->entityManagerMock;
     }
 
     /**
@@ -134,27 +202,19 @@ class LeadApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
      */
     private function formFactory()
     {
-        $formFactory = $this->getMockBuilder('\Symfony\Component\Form\FormFactory')
+        $this->formFactoryMock = $this->getMockBuilder('\Symfony\Component\Form\FormFactory')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->form = $this->getMockBuilder('\Symfony\Component\Form\Form')
+        $this->formMock = $this->getMockBuilder('\Symfony\Component\Form\Form')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->form->expects($this->any())
+        $this->formMock->expects($this->any())
             ->method('submit')
             ->with($this->equalTo([]))
-            ->will($this->returnValue($this->form));
+            ->will($this->returnValue($this->formMock));
 
-        $formFactory->expects($this->any())
-            ->method('create')
-            ->with(
-                $this->equalTo(new LeadType()),
-                $this->equalTo(new Lead())
-            )
-            ->will($this->returnValue($this->form));
-
-        return $formFactory;
+        return $this->formFactoryMock;
     }
 }

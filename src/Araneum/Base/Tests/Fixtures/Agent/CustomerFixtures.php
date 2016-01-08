@@ -33,7 +33,7 @@ class CustomerFixtures extends AbstractFixture implements FixtureInterface, Depe
     const TEST_2_CALLBACK   = false;
     const TEST_2_PASSWORD   = 'testPassword2';
     const TEST_2_BIRTHDAY   = '2015-11-10';
-    const TEST_RESET_EMAIL = 'testCustomerReset@test.com';
+    const TEST_RESET_EMAIL = 'testcustomerreset@test.com';
 
     /**
      * {@inheritDoc}

@@ -49,6 +49,7 @@ class Lead
      * @var integer
      *
      * @ORM\Column(name="country", type="smallint", length=4)
+     * @Constraints\Regex(pattern="/^\d{0,4}$/")
      */
     private $country;
 
@@ -237,7 +238,7 @@ class Lead
      * Set application
      *
      * @param Application $application
-     * @return Customer
+     * @return Lead
      */
     public function setApplication(Application $application)
     {
