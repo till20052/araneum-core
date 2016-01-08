@@ -31,7 +31,7 @@
         var dataSource = {
             resource: {
                 method: 'GET',
-                url: '/user/profile/get_authorized_user_data'
+                url: '/manage/profile/get_authorized_user_data'
             },
             pending: false
         };

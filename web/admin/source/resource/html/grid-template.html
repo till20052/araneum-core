@@ -1,148 +1,90 @@
 <h3>
-	<em class={{titleClass}}></em>
-	<span translate="{{title}}"></span>
+    <em class={{titleClass}}></em>
+    <span translate="{{title}}"></span>
 </h3>
 
-	<div ng-controller="FormBuilderController as vm">
+<div ng-controller="FormBuilderController as vm">
 
-		<div id="filters.panel" class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">
-					<em class="fa fa-filter mr-sm"></em>
-					<span translate="admin.general.FILTERS">Filters</span>
-				</h3>
-			</div>
-			<div  class="form-horizontal">
-				<div collapse="filters.panel" class="panel-wrapper">
-					<div class="panel-body pb">
-						<div class="row">
-							<div class="col-lg-10">
-								<div class="row">
-									<form-builder data-item="filter"></form-builder>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+    <div id="filters.panel" class="panel panel-default">
+        <div class="panel-heading">
+            <div class="pull-right">
+                <a href="#"
+                   style="
+                        display: inline-block;
+                        color: #c1c2c3;
+                        width: 2em;
+                        text-align: center;"
+                       panel-collapse=""
+                       tooltip="Collapse Panel"
+                       ng-click="filters.panel = !filters.panel"
+                       class="ng-scope">
+                <em ng-show="filters.panel" class="fa fa-plus ng-hide" style=""></em> <em ng-show="!filters.panel"
+                                                                                          class="fa fa-minus"></em> </a>
+                <a
+                        style="
+                        display: inline-block;
+                        color: #c1c2c3;
+                        width: 2em;
+                        text-align: center;"
+                        href="#" id="resetForm" class="ng-scope"
+                        tooltip="Refresh Panel">
+                    <em
+                            ng-click="vm.reset($event, vm.resetConfig.url, vm.resetConfig.idForm)"
+                            class="fa fa-refresh"></em>
+                </a>
+            </div>
+            <h3 class="panel-title">
+                <em class="fa fa-filter mr-sm"></em>
+                <span translate="admin.general.FILTERS">Filters</span>
+            </h3>
+        </div>
+        <div class="form-horizontal">
+            <div collapse="filters.panel" class="panel-wrapper">
+                <div class="panel-body pb">
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <div class="row">
+                                <form-builder data-type="filter"></form-builder>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		<div class="panel panel-default">
+    <div class="panel panel-default">
+        <div class="panel-heading pb0">
 
-			<widget ng-hide="true" id="locales-actions">
-				<div dropdown="dropdown" class="btn-group">
-					<button type="button" ng-disabled="disabled" dropdown-toggle=""
-							class="btn btn-xs dropdown-toggle btn-default" tooltip="{{admin.general.ACTIONS | translate}}">
-						<em class="icon-settings"></em>
-					</button>
-					<ul role="menu" class="dropdown-menu dropdown-menu-right">
-						<li>
-							<a href="#">
-								<em class="icon-note mr-sm"></em>
-								<span translate="admin.general.EDIT">Edit</span>
-							</a>
-						</li>
-						<li class="divider"></li>
-						<li>
-							<a href="#">
-								<em class="icon-lock-open mr-sm"></em>
-								<span translate="admin.general.ENABLE">Enable</span>
-							</a>
-						</li>
-						<li>
-							<a href="#">
-								<em class="icon-lock mr-sm"></em>
-								<span translate="admin.general.DISABLE">Disable</span>
-							</a>
-						</li>
-						<li class="divider"></li>
-						<li>
-							<a href="#">
-								<em class="fa fa-remove mr-sm"></em>
-								<span translate="admin.general.DELETE">Delete</span>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</widget>
+            <div class="row mt-sm mb0">
 
-			<widget ng-hide="true" id="locales-checkbox">
-				<div class="checkbox c-checkbox needsclick m0">
-					<label class="needsclick">
-						<input type="checkbox" value="" class="needsclick"/>
-						<span class="fa fa-check mr0"></span>
-					</label>
-				</div>
-			</widget>
+                <div class="col-xs-6">
+                    <h3 class="panel-title mt">
+                        <em class="icon-layers mr-sm"></em>
+                        Data list
+                    </h3>
+                </div>
 
-			<div class="panel-heading pb0">
-				<div class="row mt-sm mb0">
 
-					<div class="col-xs-6">
-						<h3 class="panel-title mt">
-							<em class="icon-layers mr-sm"></em>
-							<span translate="admin.general.DATA_LIST">Data list</span>
-						</h3>
-					</div>
+                <div class="col-xs-6">
+                    <action-builder data-item="top"></action-builder>
+                </div>
+            </div>
+        </div>
 
-					<div class="col-xs-6">
-						<div class="btn-group pull-right">
-							<button type="button" class="btn btn-sm btn-danger" tooltip="{{'locales.DELETE_LOCALE' | translate}}">
-								<em class="fa fa-remove"></em>
-							</button>
-						</div>
-						<div class="btn-group pull-right mr">
-							<button type="button" class="btn btn-sm btn-default" tooltip="{{'locales.ENABLE_LOCALE' | translate}}">
-								<em class="icon-lock-open"></em>
-							</button>
-							<button type="button" class="btn btn-sm btn-default" tooltip="{{'locales.DISABLE_LOCALE' | translate}}">
-								<em class="icon-lock"></em>
-							</button>
-						</div>
-						<div class="btn-group pull-right mr">
-							<button type="button" class="btn btn-sm btn-success" tooltip="{{'locales.CREATE_NEW' | translate}}">
-								<em class="fa fa-plus"></em>
-							</button>
-						</div>
-					</div>
+        <hr class="mb0 mt-lg">
+        <datatable-dir></datatable-dir>
+    </div>
+</div>
 
-				</div>
-			</div>
+<script type="text/ng-template" id="fromId">
+    <div style="overflow: auto">
+        <h3 class="mt0 mb-lg">
+            <em class={{$parent.titleClass}}></em>
+            {{ actionName | translate}}
+        </h3>
+        <form-builder data-type="create-update" class="form-horizontal"></form-builder>
+    </div>
+</script>
 
-			<hr class="mb0 mt-lg">
-
-			<div ng-show="vm.errors.length > 0" class="p-lg">
-				<div class="mb0 alert alert-danger">
-					<div ng-repeat="error in vm.errors track by $index">{{ $index }}. {{ error }}</div>
-				</div>
-			</div>
-
-			<div ng-class="{'p-xl whirl traditional': !vm.dt.initialized}" class="panel-body">
-
-				<table
-					ng-if="vm.dt.initialized"
-					datatable="locales"
-					dt-options="vm.dt.options"
-					dt-instance="vm.dt.instance"
-					class="table-bordered table-striped hover"
-					cellspacing="0"
-					ng-click="vm.onTableClickEvent($event)">
-					<thead>
-					<tr>
-						<th ng-repeat="column in vm.dt.columns" class="bt0 bl0" translate="{{ column }}"></th>
-						<th data-sortable="false" class="bt0 bl0" width="1"></th>
-						<th data-sortable="false" class="bt0 bl0 p text-center" width="1">
-							<div class="checkbox c-checkbox needsclick m0">
-								<label class="needsclick">
-									<input type="checkbox" value="" class="needsclick" rel="select-all" />
-									<span class="fa fa-check mr0"></span>
-								</label>
-							</div>
-						</th>
-					</tr>
-					</thead>
-				</table>
-
-			</div>
-		</div>
-	</div>
+<toaster-container toaster-options="{'position-class': 'toast-bottom-right'}"></toaster-container>

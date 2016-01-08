@@ -8,7 +8,7 @@
     'use strict';
 
     angular
-        .module('app')
+        .module('app.locales')
         .config(routesConfig);
 
     routesConfig.$inject = ['$stateProvider', 'RouteHelpersProvider'];
@@ -18,9 +18,7 @@
                 url: '/locales',
                 initialize: '/manage/locales/init.json',
                 templateUrl: helper.basepath('grid-template.html'),
-                resolve: helper.resolveFor('datatables', 'whirl'),
-                controller: 'LocalesController'
-            })
+                resolve: angular.extend(helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert', 'whirl', 'toaster'))
+            });
     }
-
 })();

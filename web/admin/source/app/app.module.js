@@ -12,15 +12,12 @@
         /**
          * System components
          */
-            'ngRoute',
             'ngAnimate',
             'ngStorage',
             'ngDialog',
             'ngCookies',
             'pascalprecht.translate',
             'ui.bootstrap',
-            'ui.router',
-            'oc.lazyLoad',
             'cfp.loadingBar',
             'ngSanitize',
             'ngResource',
@@ -30,10 +27,10 @@
         /**
          * Shared components
          */
+            'app.router',
             'app.layout',
             'app.panels',
             'app.listener',
-            'app.lazyload',
             'app.sidebar',
             'app.navsearch',
             'app.preloader',
@@ -42,6 +39,7 @@
             'app.formBuilder',
             'app.utils',
             'app.charts',
+            'app.action-builder',
 
         /**
          * Modules

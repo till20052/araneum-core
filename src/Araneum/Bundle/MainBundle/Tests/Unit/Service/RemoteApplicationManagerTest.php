@@ -2,6 +2,8 @@
 
 namespace Araneum\Bundle\MainBundle\Tests\Unit\Service;
 
+use Araneum\Bundle\AgentBundle\Entity\Customer;
+use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Service\RemoteApplicationManagerService;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,11 +26,14 @@ class RemoteApplicationManagerTest extends \PHPUnit_Framework_TestCase
 
     protected $connectionRepository;
 
-    protected $container;
-
     protected $user;
 
     protected $password;
+
+    /**
+     * @var RemoteApplicationManagerService
+     */
+    protected $remoteApplicationManager;
 
     /**
      * Method that called before tests.
@@ -56,43 +61,33 @@ class RemoteApplicationManagerTest extends \PHPUnit_Framework_TestCase
             ->method('getHost')
             ->will($this->returnValue('127.0.0.1'));
 
-        $this->request = $this->getMockBuilder('\Guzzle\Http\Message\Request')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->response = $this->getMockBuilder('\Guzzle\Http\Message\Response')
             ->setConstructorArgs([Response::HTTP_OK])
             ->getMock();
-
         $this->response->expects($this->any())
             ->method('getStatusCode')
             ->will($this->returnValue(200));
+
+        $this->request = $this->getMockBuilder('\Guzzle\Http\Message\Request')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->request->expects($this->any())
+            ->method('send')
+            ->will($this->returnValue($this->response));
 
         $this->client = $this
             ->getMockBuilder('\Guzzle\Service\Client')
             ->setConstructorArgs([Response::HTTP_OK])
             ->getMock();
 
-        $this->container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\ContainerInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->container->expects($this->any())
-            ->method('get')
-            ->with($this->equalTo('doctrine.orm.entity_manager'))
-            ->will($this->returnValue($this->manager));
-
-        $this->container->expects($this->any())
-            ->method('getParameter')
-            ->with($this->equalTo('site_api'))
-            ->will(
-                $this->returnValue(
-                    [
-                        'user' => $this->user,
-                        'password' => $this->password,
-                    ]
-                )
-            );
+        $this->remoteApplicationManager = new RemoteApplicationManagerService(
+            $this->client,
+            $this->manager,
+            [
+                'user' => $this->user,
+                'password' => $this->password,
+            ]
+        );
     }
 
     /**
@@ -100,8 +95,6 @@ class RemoteApplicationManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGet()
     {
-        $remoteApplicationManager = new RemoteApplicationManagerService($this->client, $this->container);
-
         $this->connectionRepository->expects($this->once())
             ->method('getHostByClusterId')
             ->with($this->equalTo(123))
@@ -111,10 +104,6 @@ class RemoteApplicationManagerTest extends \PHPUnit_Framework_TestCase
             ->method('getRepository')
             ->with($this->equalTo('AraneumMainBundle:Connection'))
             ->will($this->returnValue($this->connectionRepository));
-
-        $this->request->expects($this->any())
-            ->method('send')
-            ->will($this->returnValue($this->response));
 
         $this->client->expects($this->once())
             ->method('createRequest')
@@ -135,7 +124,7 @@ class RemoteApplicationManagerTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($this->request));
 
-        $appConfig = $remoteApplicationManager->get(123);
+        $appConfig = $this->remoteApplicationManager->get(123);
 
         $this->assertEquals(null, $appConfig);
     }
@@ -224,8 +213,6 @@ class RemoteApplicationManagerTest extends \PHPUnit_Framework_TestCase
             ->method('getPassword')
             ->will($this->returnValue('password'));
 
-        $remoteApplicationManager = new RemoteApplicationManagerService($this->client, $this->container);
-
         $params = [
             'auth' => [
                 $this->user,
@@ -251,10 +238,6 @@ class RemoteApplicationManagerTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        $this->request->expects($this->any())
-            ->method('send')
-            ->will($this->returnValue($this->response));
-
         $this->client->expects($this->once())
             ->method('createRequest')
             ->with(
@@ -266,8 +249,50 @@ class RemoteApplicationManagerTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($this->request));
 
-        $appConfig = $remoteApplicationManager->create(123);
+        $appConfig = $this->remoteApplicationManager->create(123);
 
         $this->assertEquals(null, $appConfig);
+    }
+
+    /**
+     * Test setSpotUserData
+     */
+    public function testSetSpotUserData()
+    {
+        $application = (new Application())
+            ->setUseSsl(true)
+            ->setDomain('test.com');
+        $customer = (new Customer())
+            ->setSiteId(1321)
+            ->setApplication($application);
+        $spotData = [
+            'customerId' => 3333,
+            'spotsession' => 'spotsession3333',
+        ];
+        $params = [
+            'auth' => [
+                $this->user,
+                $this->password,
+            ],
+            'connect_timeout' => 1,
+        ];
+
+        $this->client->expects($this->once())
+            ->method('createRequest')
+            ->with(
+                $this->equalTo('POST'),
+                $this->equalTo('https://test.com/api/user/1321/spotUserData'),
+                $this->equalTo([]),
+                $this->equalTo(
+                    [
+                        'spotUserId' => $spotData['customerId'],
+                        'spotUserSession' => $spotData['spotsession'],
+                    ]
+                ),
+                $this->equalTo($params)
+            )
+            ->will($this->returnValue($this->request));
+
+        $this->remoteApplicationManager->setSpotUserData($customer, $spotData);
     }
 }

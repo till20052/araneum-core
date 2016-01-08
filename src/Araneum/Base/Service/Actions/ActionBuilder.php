@@ -67,8 +67,11 @@ class ActionBuilder implements ActionBuilderInterface
     private function getPreparedItem(array $actionDescription)
     {
         unset($actionDescription['position']);
-        if (array_key_exists('resource', $actionDescription)) {
-            $actionDescription['resource'] = $this->router->generate($actionDescription['resource']);
+
+        foreach (['resource', 'form'] as $actionType) {
+            if (array_key_exists($actionType, $actionDescription)) {
+                $actionDescription[$actionType] = $this->router->generate($actionDescription[$actionType]);
+            }
         }
 
         return $actionDescription;

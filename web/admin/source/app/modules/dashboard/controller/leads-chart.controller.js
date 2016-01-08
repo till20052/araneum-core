@@ -92,7 +92,7 @@
          * @param data
          */
         function assignChartData(chart, data) {
-            chart.data = data;
+            chart.data = DashboardService.assignColorsByLabel(data);
         }
 
         $translate('admin.dashboard.widget.LEADS').then(function (value) {

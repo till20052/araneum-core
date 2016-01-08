@@ -8,7 +8,7 @@
     'use strict';
 
     angular
-        .module('app')
+        .module('app.users')
         .config(routesConfig);
 
     routesConfig.$inject = ['$stateProvider', 'RouteHelpersProvider'];
@@ -17,9 +17,9 @@
             .state('app.users', {
                 url: '/users',
                 title: 'Users',
-                initialize: '/user/manage/users/init.json',
+                initialize: '/manage/users/init.json',
                 templateUrl: helper.basepath('grid-template.html'),
-                resolve: helper.resolveFor('datatables', 'whirl'),
+                resolve: angular.extend(helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert', 'whirl', 'toaster')),
                 controller: 'UserTableController'
             })
             .state('login', {

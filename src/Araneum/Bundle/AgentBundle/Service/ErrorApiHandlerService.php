@@ -59,10 +59,10 @@ class ErrorApiHandlerService
     {
         $application = $this->appManager->findOneOr404(['appKey' => $appKey]);
 
-        $customer = new Error();
-        $customer->setApplication($application);
+        $error = new Error();
+        $error->setApplication($application);
 
-        return $this->processForm($parameters, $customer);
+        return $this->processForm($parameters, $error);
     }
 
     /**

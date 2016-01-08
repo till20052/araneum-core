@@ -4,6 +4,7 @@ namespace Araneum\Bundle\MainBundle\Controller;
 use Araneum\Bundle\MainBundle\Entity\Locale;
 use Araneum\Bundle\MainBundle\Service\Actions\LocaleActions;
 use Araneum\Bundle\MainBundle\Service\DataTable\LocaleDataTableList;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,10 +25,12 @@ class AdminLocaleController extends Controller
     /**
      * Get locale by id
      *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route(
      *      "/manage/locales/locale/{id}",
      *      name="araneum_admin_main_locale_get",
-     *      requirements={"id" = "\d+"}
+     *      requirements={"id" = "\d+"},
+     *      defaults={"id" = null}
      * )
      * @Method("GET")
      * @param         int $id
@@ -63,6 +66,44 @@ class AdminLocaleController extends Controller
     }
 
     /**
+     * Delete locales one or many
+     *
+     * @ApiDoc(
+     *  resource = "Locale",
+     *  section = "MainBundle",
+     *  description = "Delete locales",
+     *  requirements={
+     *      {"name"="_format", "dataType"="json", "description"="Output format must be json"}
+     *  },
+     *  parameters={
+     *      {"name"="data", "dataType"="collection", "required"=true, "description"="array[id]"},
+     *  },
+     *  statusCodes = {
+     *      202 = "Returned when reset customer password was successful",
+     *      400 = "Returned when validation failed",
+     *      403 = "Returned when authorization is failed",
+     *      404 = "Returned when Application or Customer not found by defined condition"
+     *  },
+     *  tags={"Agent"}
+     * )
+     *
+     * @Route("/manage/locales/locale/delete", defaults={"_format"="json"}, name="araneum_main_admin_locale_delete")
+     * @param                                  Request $request
+     * @return                                 JsonResponse
+     */
+    public function deleteAction(Request $request)
+    {
+        $idx = $request->request->get('data');
+        $localeRepository = $this->getDoctrine()->getRepository('AraneumMainBundle:Locale');
+
+        if (is_array($idx) && count($idx) > 0) {
+            $localeRepository->delete($idx);
+        }
+
+        return new JsonResponse('Success');
+    }
+
+    /**
      * Save locale
      *
      * @ApiDoc(
@@ -90,7 +131,11 @@ class AdminLocaleController extends Controller
      *  tags={"Agent"}
      * )
      *
-     * @Route("/manage/locales/locale/save", defaults={"_format"="json"})
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route(
+     *     "/manage/locales/locale/save",
+     *     name="araneum_admin_main_locale_post"
+     * )
      * @Method("POST")
      *
      * @param  Request $request
@@ -142,48 +187,10 @@ class AdminLocaleController extends Controller
     }
 
     /**
-     * Delete locales one or many
-     *
-     * @ApiDoc(
-     *  resource = "Locale",
-     *  section = "MainBundle",
-     *  description = "Delete locales",
-     *  requirements={
-     *      {"name"="_format", "dataType"="json", "description"="Output format must be json"}
-     *  },
-     *  parameters={
-     *      {"name"="data", "dataType"="collection", "required"=true, "description"="array[id]"},
-     *  },
-     *  statusCodes = {
-     *      202 = "Returned when reset customer password was successful",
-     *      400 = "Returned when validation failed",
-     *      403 = "Returned when authorization is failed",
-     *      404 = "Returned when Application or Customer not found by defined condition"
-     *  },
-     *  tags={"Agent"}
-     * )
-     *
-     * @Route("/manage/locales/locale/delete", defaults={"_format"="json"}, name="araneum_main_admin_locale_delete")
-     * @param                                  Request $request
-     * @return                                 JsonResponse
-     */
-    public function deleteAction(Request $request)
-    {
-        $idx = $request->request->get('data');
-        $localeRepository = $this->getDoctrine()->getRepository('AraneumMainBundle:Locale');
-
-        if (is_array($idx) && count($idx) > 0) {
-            $localeRepository->delete($idx);
-        }
-
-        return new JsonResponse('Success');
-    }
-
-    /**
      * Enable locales one or many
      *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/manage/locales/locale/enable", name="araneum_main_admin_locale_enable")
-     *
      * @Method("POST")
      * @param          Request $request
      * @return         Response
@@ -198,6 +205,7 @@ class AdminLocaleController extends Controller
      *
      * @param                                                                            Request $request
      * @return                                                                           Response
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/manage/locales/locale/disable",name="araneum_main_admin_locale_disable")
      */
     public function disableAction(Request $request)
@@ -208,6 +216,7 @@ class AdminLocaleController extends Controller
     /**
      * Locales module initialization
      *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/manage/locales/init.json", name="araneum_manage_locales_init")
      * @return                             JsonResponse
      */
@@ -235,6 +244,7 @@ class AdminLocaleController extends Controller
     /**
      * Server/client datatable communication
      *
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/manage/locales/datatable.json", name="araneum_manage_locales_grid")
      * @return                                  JsonResponse
      */

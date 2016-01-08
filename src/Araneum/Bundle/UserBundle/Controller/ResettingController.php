@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\UserBundle\Controller;
 
+use Araneum\Bundle\UserBundle\Entity\User;
 use FOS\UserBundle\Controller\ResettingController as BaseController;
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
@@ -111,12 +112,13 @@ class ResettingController extends BaseController
                     $this->container
                         ->get('router')
                         ->generate(
-                            'manage_all',
-                            ['path' => trim($request->getRequestUri(), '/')]
+                            'araneum_manage',
+                            ['params' => trim($request->getRequestUri(), '/')]
                         )
                 );
             }
 
+            /** @var User $user */
             $user = $this->container->get('fos_user.user_manager')->findUserByConfirmationToken($token);
 
             if (empty($user)) {

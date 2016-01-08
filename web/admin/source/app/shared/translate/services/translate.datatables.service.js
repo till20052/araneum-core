@@ -46,7 +46,7 @@
                     'admin.datatables.ZERO_RECORDS',
                     'admin.datatables.EMPTY_TABLE',
                     'admin.datatables.paginate.FIRST',
-                    'admin.datatables.paginate.PREVIUOS',
+                    'admin.datatables.paginate.PREVIOUS',
                     'admin.datatables.paginate.NEXT',
                     'admin.datatables.paginate.LAST',
                     'admin.datatables.aria.SORTASCENDING',
@@ -62,9 +62,9 @@
                     service.language.infoFiltered = translations['admin.datatables.INFO_FILTERED'];
                     service.language.zeroRecords = translations['admin.datatables.ZERO_RECORDS'];
                     service.language.paginate.first = translations['admin.datatables.paginate.FIRST'];
-                    service.language.paginate.last = translations['admin.datatables.paginate.LAST'];
+                    service.language.paginate.previous = translations['admin.datatables.paginate.PREVIOUS'];
                     service.language.paginate.next = translations['admin.datatables.paginate.NEXT'];
-                    service.language.paginate.previous = translations['admin.datatables.paginate.LAST'];
+                    service.language.paginate.last = translations['admin.datatables.paginate.LAST'];
                     service.language.aria.sortAscending = translations['admin.datatables.aria.SORTASCENDING'];
                     service.language.aria.sortDescending = translations['admin.datatables.aria.SORTDESCENDINT'];
                 });

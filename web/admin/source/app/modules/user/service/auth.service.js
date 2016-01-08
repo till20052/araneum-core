@@ -13,7 +13,6 @@
      * @param $state
      * @returns {{
      *  initLoginForm: initLoginForm,
-     *  onStartChangeState: onStartChangeState,
      *  login: login,
      *  logout: logout
      * }}
@@ -26,28 +25,9 @@
 
         return {
             initLoginForm: initLoginForm,
-            onStartChangeState: onStartChangeState,
             login: login,
             logout: logout
         };
-
-        /**
-         * Change state listener
-         *
-         * @param event
-         * @param toState
-         */
-        function onStartChangeState(event, toState) {
-            if (!User.isAuthorized()) {
-                if ($.inArray(toState.name, ['login', 'resetting', 'reset']) < 0) {
-                    event.preventDefault();
-                    $state.go('login');
-                }
-                targetState = typeof  toState.defaultState != 'undefined'
-                    ? $state.get(toState.defaultState)
-                    : toState;
-            }
-        }
 
         /**
          * Initialize login firm
@@ -56,7 +36,7 @@
          */
         function initLoginForm(callback) {
             $http
-                .get('/login')
+                .get('/manage/login')
                 .success(function (response) {
                     _csrf_token = response;
                     if (typeof callback == 'function') {
@@ -78,7 +58,7 @@
          */
         function login(data) {
             $http
-                .post('/login_check', $.param({
+                .post('/manage/login_check', $.param({
                     _username: data.username,
                     _password: data.password,
                     _csrf_token: _csrf_token
