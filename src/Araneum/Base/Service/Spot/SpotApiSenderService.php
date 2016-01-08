@@ -4,7 +4,10 @@ namespace Araneum\Base\Service\Spot;
 
 use Guzzle\Http\Message\Response;
 use Guzzle\Service\ClientInterface;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Application;
+use Araneum\Bundle\AgentBundle\Entity\SpotLog;
+use Guzzle\Http\Exception\BadResponseException;
 
 /**
  * Class SpotApiSenderService
@@ -25,9 +28,14 @@ class SpotApiSenderService
      * @param ClientInterface $guzzle
      * @param boolean         $enableJsonResponse
      */
-    public function __construct(ClientInterface $guzzle, $enableJsonResponse)
+    public function __construct(
+        ClientInterface $guzzle,
+        EntityManager $em,
+        $enableJsonResponse
+    )
     {
         $this->guzzle = $guzzle;
+        $this->em = $em;
         $this->enableJsonResponse = $enableJsonResponse;
     }
 
@@ -38,41 +46,6 @@ class SpotApiSenderService
      * @param string $spotApiPublicUrl
      * @param string $path
      * @param array  $requestData
-     * @return \Guzzle\Http\Message\Response
-     */
-    public function sendToPublicUrl($method, $spotApiPublicUrl, $path, array $requestData)
-    {
-        if (!filter_var($spotApiPublicUrl, FILTER_VALIDATE_URL)) {
-            throw new \BadMethodCallException("Not valid spot public utl: ".$spotApiPublicUrl);
-        }
-
-        $this->guzzle->setBaseUrl($spotApiPublicUrl);
-
-        return $this->guzzle->createRequest($method, $path, null, $requestData)->send();
-    }
-
-    /**
-     * Get data from spotoption
-     *
-     * @param array $requestData
-     * @param array $spotCredential
-     * @return array
-     */
-    public function get(array $requestData, array $spotCredential)
-    {
-        $response = $this->send($requestData, $spotCredential);
-        $response = $response->json();
-
-        if (isset($response['status']['connection_status']) &&
-            $response['status']['connection_status'] === 'successful' &&
-            $response['status']['operation_status'] === 'successful'
-        ) {
-            return $response['status'][$requestData['MODULE']];
-        } else {
-            return $response['status']['errors']['error'];
-        }
-    }
-
     /**
      * Send request to core
      *
@@ -83,25 +56,38 @@ class SpotApiSenderService
     public function send(array $requestData, array $spotCredential)
     {
         if (!$this->isSpotCredentialValid($spotCredential)) {
-            throw new \BadMethodCallException(
-                "Check spot credential data, some value invalid: ".print_r($spotCredential, true)
-            );
+            $error = "Check spot credential data, some value invalid: ".print_r($spotCredential, true);
+            $this->createSpotLog([$requestData, $error], 400);
+            throw new \BadMethodCallException($error);
         }
 
         $this->guzzle->setBaseUrl($spotCredential['url']);
 
-        return $this->guzzle->post(
-            null,
-            null,
-            array_merge(
-                [
-                    'api_username' => $spotCredential['userName'],
-                    'api_password' => $spotCredential['password'],
-                    'jsonResponse' => $this->enableJsonResponse ? 'true' : 'false',
-                ],
-                $requestData
-            )
-        )->send();
+        try {
+            $response = $this->guzzle->post(
+                null,
+                null,
+                array_merge(
+                    [
+                        'api_username' => $spotCredential['userName'],
+                        'api_password' => $spotCredential['password'],
+                        'jsonResponse' => $this->enableJsonResponse ? 'true' : 'false',
+                    ],
+                    $requestData
+                )
+            )->send();
+            $code = $response->getStatusCode();
+        } catch (BadResponseException $e) {
+            $response = $e->getResponse();
+            $code = $e->getCode();
+        } catch (\Exception $e) {
+            $response = new Response($e->getCode());
+            $response->setBody($e->getMessage());
+            $code = $response->getStatusCode();
+        }
+
+        $this->createSpotLog([$requestData, $response->getBody()], $code);
+        return $response;
     }
 
     /**
@@ -179,5 +165,24 @@ class SpotApiSenderService
             filter_var($spotCredential['url'], FILTER_VALIDATE_URL) &&
             $spotCredential['userName'] !== null &&
             $spotCredential['password'] !== null;
+    }
+
+    /**
+     * Create and save spot log
+     *
+     * @param array  $log
+     * @param int    $status
+     * @throws \Doctrine\ORM\ORMException
+     */
+    private function createSpotLog(array $log, $status)
+    {
+        $spotLog = (new SpotLog())
+            ->setStatus($status)
+            ->setRequest($log['request'])
+            ->setResponse($log['response'])
+        ;
+
+        $this->em->persist($spotLog);
+        $this->em->flush();
     }
 }
