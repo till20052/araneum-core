@@ -91,7 +91,7 @@ class SpotOptionService
             'password' => $customer->getPassword(),
         ];
 
-        return $this->spotProducerService->publish($customerData, $customer, CustomerLog::ACTION_RESET_PASSWORD);
+        return $this->spotCustomerProducerService->publish($customerData, $customer, CustomerLog::ACTION_RESET_PASSWORD);
     }
 
     /**
