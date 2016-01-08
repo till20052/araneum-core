@@ -63,7 +63,7 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
             ->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService')
             ->disableOriginalConstructor()
             ->getMock();
-        
+
         $this->spotProducerServiceMock = $this->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotProducerService')
             ->disableOriginalConstructor()
             ->getMock();
