@@ -136,12 +136,33 @@ class Customer
     private $spotId;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(type="integer", name="site_id", nullable=true)
+     * @var integer
+     * @ORM\Column(type="integer", name="site_id")
+     * @Assert\Type(type="integer")
      * @Groups({"rabbitMQ"})
      */
     private $siteId;
+
+    /**
+     * Set siteId
+     * @param  string $siteId
+     * @return Customer
+     */
+    public function setSiteId($siteId)
+    {
+        $this->siteId = $siteId;
+
+        return $this;
+    }
+
+    /**
+     * Get siteId
+     * @return integer
+     */
+    public function getSiteId()
+    {
+        return $this->siteId;
+    }
 
     /**
      * Get id
@@ -425,29 +446,6 @@ class Customer
     public function setSpotId($spotId)
     {
         $this->spotId = $spotId;
-
-        return $this;
-    }
-
-    /**
-     * Get siteId
-     *
-     * @return int
-     */
-    public function getSiteId()
-    {
-        return $this->siteId;
-    }
-
-    /**
-     * Set siteId
-     *
-     * @param int $siteId
-     * @return Customer
-     */
-    public function setSiteId($siteId)
-    {
-        $this->siteId = $siteId;
 
         return $this;
     }
