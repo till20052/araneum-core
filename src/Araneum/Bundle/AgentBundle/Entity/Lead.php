@@ -5,6 +5,7 @@ namespace Araneum\Bundle\AgentBundle\Entity;
 use Araneum\Base\EntityTrait\DateTrait;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints;
 
 /**
@@ -12,6 +13,7 @@ use Symfony\Component\Validator\Constraints;
  *
  * @ORM\Table(name="araneum_leads")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\AgentBundle\Repository\LeadRepository")
+ * @UniqueEntity({"email", "application"})
  * @ORM\HasLifecycleCallbacks()
  */
 class Lead
@@ -66,7 +68,7 @@ class Lead
      *
      * @ORM\Column(name="email", type="string", length=255)
      * @Constraints\Length(min="2", max="255")
-     * @Constraints\Email()
+     * @Constraints\Regex("/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/")
      */
     private $email;
 

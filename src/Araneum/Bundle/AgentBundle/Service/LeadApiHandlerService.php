@@ -77,10 +77,10 @@ class LeadApiHandlerService
      */
     public function create(array $data)
     {
-        $lead = $this->verifyDataByForm($data);
-
-        $application = $this->applicationManager->findOneOr404(['appKey' => $lead->getAppKey()]);
+        $application = $this->applicationManager->findOneOr404(['appKey' => $data['appKey']]);
+        $lead = new Lead();
         $lead->setApplication($application);
+        $lead = $this->verifyDataByForm($data, $lead);
 
         $this->entityManager->persist($lead);
         $this->entityManager->flush();
@@ -95,13 +95,12 @@ class LeadApiHandlerService
      * Check incoming data
      *
      * @param  array $data
+     * @param Lead   $lead
      * @return Lead
-     *
      * @throws InvalidFormException
      */
-    private function verifyDataByForm(array $data)
+    private function verifyDataByForm(array $data, Lead $lead)
     {
-        $lead = new Lead();
         $form = $this->formFactory
             ->create(new LeadType(), $lead)
             ->submit($data);

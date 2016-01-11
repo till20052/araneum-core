@@ -127,7 +127,7 @@ class LeadApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $lead,
-            $this->apiHandler->create([])
+            $this->apiHandler->create(['appKey' => 'testAppKey'])
         );
     }
 
@@ -138,6 +138,11 @@ class LeadApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateException()
     {
+        $this->applicationManagerMock
+            ->expects($this->once())
+            ->method('findOneOr404')
+            ->will($this->returnValue(new Application()));
+
         $this->formMock->expects($this->once())
             ->method('isValid')
             ->will($this->returnValue(false));
@@ -147,7 +152,7 @@ class LeadApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->formMock));
 
-        $this->apiHandler->create([]);
+        $this->apiHandler->create(['appKey' => 'testAppKey']);
     }
 
     /**
@@ -212,7 +217,6 @@ class LeadApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->formMock->expects($this->any())
             ->method('submit')
-            ->with($this->equalTo([]))
             ->will($this->returnValue($this->formMock));
 
         return $this->formFactoryMock;
