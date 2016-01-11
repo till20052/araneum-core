@@ -58,7 +58,7 @@ services:
 
     araneum.base.spot_api:
         class: Araneum\Base\Service\Spot\SpotApiSenderService
-        arguments: [@guzzle.client, %spot_enable_json_responce%]
+        arguments: [@guzzle.client, @doctrine.orm.entity_manager, %spot_enable_json_responce%]
 
     araneum.base.rabbitmq.producer.spot_login:
         class: Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService

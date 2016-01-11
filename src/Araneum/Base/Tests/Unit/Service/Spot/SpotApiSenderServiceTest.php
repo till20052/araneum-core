@@ -3,6 +3,7 @@
 namespace Araneum\Base\Tests\Unit\Service\Spot;
 
 use Araneum\Base\Service\Spot\SpotApiSenderService;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Class SpotApiSenderServiceTest
@@ -32,6 +33,10 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $requestMock;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $em;
 
     /**
      * Test getErrors with normal data
@@ -163,7 +168,10 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
         $this->requestMock = $this->getMockBuilder('\Guzzle\Http\Message\EntityEnclosingRequestInterface')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->em = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $this->spotApiSenderService = new SpotApiSenderService($this->guzzleMock, true);
+        $this->spotApiSenderService = new SpotApiSenderService($this->guzzleMock, $this->em, true);
     }
 }
