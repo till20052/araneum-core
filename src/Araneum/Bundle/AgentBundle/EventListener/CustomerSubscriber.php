@@ -2,7 +2,7 @@
 
 namespace Araneum\Bundle\AgentBundle\EventListener;
 
-use Araneum\Bundle\AgentBundle\AraneumAgentBundle;
+use Araneum\Bundle\AgentBundle\AgentEvents;
 use Araneum\Bundle\AgentBundle\Event\CustomerEvent;
 use Araneum\Bundle\AgentBundle\Service\SpotOptionService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -34,8 +34,8 @@ class CustomerSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            AraneumAgentBundle::EVENT_CUSTOMER_NEW => 'onCreate',
-            AraneumAgentBundle::EVENT_CUSTOMER_RESET_PASSWORD => 'onResetPassword',
+            AgentEvents::CUSTOMER_NEW => 'onCreate',
+            AgentEvents::CUSTOMER_RESET_PASSWORD => 'onResetPassword',
         ];
     }
 

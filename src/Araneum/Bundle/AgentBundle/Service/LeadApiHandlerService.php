@@ -3,7 +3,7 @@
 namespace Araneum\Bundle\AgentBundle\Service;
 
 use Araneum\Base\Exception\InvalidFormException;
-use Araneum\Bundle\AgentBundle\AraneumAgentBundle;
+use Araneum\Bundle\AgentBundle\AgentEvents;
 use Araneum\Bundle\AgentBundle\Entity\Lead;
 use Araneum\Bundle\AgentBundle\Event\LeadEvent;
 use Araneum\Bundle\AgentBundle\Form\Type\LeadType;
@@ -86,7 +86,7 @@ class LeadApiHandlerService
         $this->entityManager->flush();
 
         $event = new LeadEvent($lead);
-        $this->dispatcher->dispatch(AraneumAgentBundle::EVENT_LEAD_NEW, $event);
+        $this->dispatcher->dispatch(AgentEvents::LEAD_NEW, $event);
 
         return $lead;
     }

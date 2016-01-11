@@ -2,7 +2,7 @@
 
 namespace Araneum\Bundle\AgentBundle\Tests\Unit\Service;
 
-use Araneum\Bundle\AgentBundle\AraneumAgentBundle;
+use Araneum\Bundle\AgentBundle\AgentEvents;
 use Araneum\Bundle\AgentBundle\Entity\Lead;
 use Araneum\Bundle\AgentBundle\Event\LeadEvent;
 use Araneum\Bundle\AgentBundle\Form\Type\LeadType;
@@ -121,7 +121,7 @@ class LeadApiHandlerServiceTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('dispatch')
             ->with(
-                $this->equalTo(AraneumAgentBundle::EVENT_LEAD_NEW),
+                $this->equalTo(AgentEvents::LEAD_NEW),
                 $this->equalTo((new LeadEvent($lead)))
             );
 
