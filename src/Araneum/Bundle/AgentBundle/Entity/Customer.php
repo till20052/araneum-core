@@ -75,6 +75,7 @@ class Customer
      * @ORM\Column(name="email", type="string", length=100)
      * @Assert\Regex("/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/")
      * @Assert\Length(max=100)
+     * @Assert\Email(checkMX = true)
      * @Assert\NotBlank()
      * @Groups({"rabbitMQ"})
      */

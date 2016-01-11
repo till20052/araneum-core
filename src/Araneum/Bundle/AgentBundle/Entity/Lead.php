@@ -68,6 +68,7 @@ class Lead
      *
      * @ORM\Column(name="email", type="string", length=255)
      * @Constraints\Length(min="2", max="255")
+     * @Constraints\Email(checkMX = true)
      * @Constraints\Regex("/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/")
      */
     private $email;
