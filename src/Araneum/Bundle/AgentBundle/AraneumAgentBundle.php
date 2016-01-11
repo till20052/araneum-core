@@ -10,4 +10,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  * @package Araneum\Bundle\AgentBundle
  */
 class AraneumAgentBundle extends Bundle
-{}
+{
+}
