@@ -6,8 +6,7 @@ use Guzzle\Http\Message\Response;
 use Guzzle\Service\ClientInterface;
 use Doctrine\ORM\EntityManager;
 use Araneum\Bundle\AgentBundle\Entity\SpotLog;
-use Guzzle\Http\Exception\BadResponseException;
-use Guzzle\Http\Exception\CurlException;
+use Guzzle\Http\Exception\RequestException;
 
 /**
  * Class SpotApiSenderService
@@ -91,43 +90,33 @@ class SpotApiSenderService
      */
     public function send(array $requestData, array $spotCredential)
     {
-        if (!$this->isSpotCredentialValid($spotCredential)) {
-            $error = "Check spot credential data, some value invalid: ".print_r($spotCredential, true);
-            $this->createSpotLog([$requestData, $error], 400);
-            throw new \BadMethodCallException($error);
-        }
+        try{
+            if (!$this->isSpotCredentialValid($spotCredential)) {
+                throw new \BadMethodCallException(
+                    "Check spot credential data, some value invalid: ".print_r($spotCredential, true)
+                );
+            }
 
-        $this->guzzle->setBaseUrl($spotCredential['url']);
-        $body = array_merge(
-            [
-                'api_username' => $spotCredential['userName'],
-                'api_password' => $spotCredential['password'],
-                'jsonResponse' => $this->enableJsonResponse ? 'true' : 'false',
-            ],
-            $requestData
-        );
-        try {
-            $response = $this->guzzle->post( null, null, $body)->send();
-            if (!empty($response))
-                $code = $response->getStatusCode();
-            else
-                $code = 200;
-        } catch (BadResponseException $e) {
-            $response = $e->getResponse();
-            $code = $e->getCode();
-        } catch (CurlException $e) {
-            $response = new Response($e->getCode());
-            $response->setBody($e->getError());
-            $response->setStatus($e->getError());
-            $code = $response->getStatusCode();
-        } catch (\Exception $e) {
-            $response = new Response($e->getCode());
-            $response->setBody($e->getMessage());
-            $code = $response->getStatusCode();
+            $this->guzzle->setBaseUrl($spotCredential['url']);
+            $body = array_merge(
+                [
+                    'api_username' => $spotCredential['userName'],
+                    'api_password' => $spotCredential['password'],
+                    'jsonResponse' => $this->enableJsonResponse ? 'true' : 'false',
+                ],
+                $requestData
+            );
+            $response = $this->guzzle->post(null, null, $body)->send();
+            if (!is_null($response))
+                $this->createSpotLog([$requestData, $response->getBody(true)], $response->getStatusCode());
+            return $response;
+        } catch(\BadMethodCallException $e){
+            $this->createSpotLog([$requestData, $e->getMessage()], $e->getCode());
+            return $e->getMessage();
+        } catch(RequestException $e){
+            $this->createSpotLog([$requestData, $e->getRequest()->getResponse()->getBody(true)], $e->getRequest()->getResponse()->getStatusCode());
+            return $e;
         }
-//        $body = (!empty($response->getBody()) && isset($response))?$response->getBody():$body;
-        $this->createSpotLog([$requestData, $body], $code);
-        return $response;
     }
 
     /**

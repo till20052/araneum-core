@@ -29,21 +29,21 @@ class SpotLog
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer", nullable=true)
+     * @ORM\Column(name="status", type="integer")
      */
     private $status;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="request", type="text", nullable=true)
+     * @ORM\Column(name="request", type="text")
      */
     private $request;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="response", type="text", nullable=true)
+     * @ORM\Column(name="response", type="text")
      */
     private $response;
 
