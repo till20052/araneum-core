@@ -5,6 +5,7 @@ namespace Araneum\Bundle\AgentBundle\Entity;
 use Araneum\Base\EntityTrait\DateTrait;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints;
 
 /**
@@ -12,6 +13,7 @@ use Symfony\Component\Validator\Constraints;
  *
  * @ORM\Table(name="araneum_leads")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\AgentBundle\Repository\LeadRepository")
+ * @UniqueEntity({"email", "application"})
  * @ORM\HasLifecycleCallbacks()
  */
 class Lead
@@ -49,6 +51,7 @@ class Lead
      * @var integer
      *
      * @ORM\Column(name="country", type="smallint", length=4)
+     * @Constraints\Regex(pattern="/^\d{0,4}$/")
      */
     private $country;
 
@@ -63,12 +66,14 @@ class Lead
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @ORM\Column(name="email", type="string", length=255)
      * @Constraints\Length(min="2", max="255")
-     * @Constraints\Email()
+     * @Constraints\Email(checkMX = true)
+     * @Constraints\Regex("/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/")
      */
     private $email;
 
+    //TODO delete appKey field
     /**
      * @var string
      *
@@ -236,7 +241,7 @@ class Lead
      * Set application
      *
      * @param Application $application
-     * @return Customer
+     * @return Lead
      */
     public function setApplication(Application $application)
     {

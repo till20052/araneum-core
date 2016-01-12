@@ -4,7 +4,9 @@ namespace Araneum\Bundle\AgentBundle\Test\Unit\Service;
 
 use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
+use Araneum\Bundle\AgentBundle\Entity\Lead;
 use Araneum\Bundle\AgentBundle\Service\SpotOptionService;
+use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -17,6 +19,10 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
+    protected $spotProducerServiceMock;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
     protected $customerLoginProducerService;
     /**
      * @var SpotOptionService
@@ -25,30 +31,31 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $spotProducerServiceMock;
+    protected $spotCustomerProducerServiceMock;
     /**
      * @var EntityManager
      */
-    protected $entityManager;
+    protected $entityManagerMock;
     /**
-     * @var
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $spotApiSender;
+    protected $spotApiSenderMock;
+
     /**
      * Setup
      */
     protected function setUp()
     {
-        $this->spotProducerServiceMock = $this
+        $this->spotCustomerProducerServiceMock = $this
             ->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+        $this->entityManagerMock = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->spotApiSender = $this->getMockBuilder('\Araneum\Base\Service\Spot\SpotApiSenderService')
+        $this->spotApiSenderMock = $this->getMockBuilder('\Araneum\Base\Service\Spot\SpotApiSenderService')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -56,11 +63,17 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
             ->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService')
             ->disableOriginalConstructor()
             ->getMock();
+
+        $this->spotProducerServiceMock = $this->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotProducerService')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->spotOptionService = new SpotOptionService(
+            $this->spotCustomerProducerServiceMock,
             $this->customerLoginProducerService,
             $this->spotProducerServiceMock,
-            $this->spotApiSender,
-            $this->entityManager
+            $this->spotApiSenderMock,
+            $this->entityManagerMock
         );
     }
 
@@ -80,7 +93,7 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
             'password' => $customer->getPassword(),
         ];
 
-        $this->spotProducerServiceMock
+        $this->spotCustomerProducerServiceMock
             ->expects($this->once())
             ->method('publish')
             ->with(
@@ -92,7 +105,6 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($this->spotOptionService->customerResetPassword($customer));
     }
-
 
     /**
      *  Test customer create
@@ -122,7 +134,7 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
             'currency' => $customer->getCurrency(),
         ];
 
-        $this->spotProducerServiceMock
+        $this->spotCustomerProducerServiceMock
             ->expects($this->once())
             ->method('publish')
             ->with(
@@ -167,12 +179,12 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($appKey))
             ->will($this->returnValue($application));
 
-        $this->entityManager->expects($this->once())
+        $this->entityManagerMock->expects($this->once())
             ->method('getRepository')
             ->with($this->equalTo('AraneumMainBundle:Application'))
             ->will($this->returnValue($repository));
 
-        $this->spotApiSender->expects($this->once())
+        $this->spotApiSenderMock->expects($this->once())
             ->method('get')
             ->with($this->equalTo($data), $this->equalTo($spotCredentials))
             ->will($this->returnValue(true));
@@ -200,11 +212,57 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($appKey))
             ->will($this->returnValue(null));
 
-        $this->entityManager->expects($this->once())
+        $this->entityManagerMock->expects($this->once())
             ->method('getRepository')
             ->with($this->equalTo('AraneumMainBundle:Application'))
             ->will($this->returnValue($repository));
 
         $this->spotOptionService->getCountries($appKey);
+    }
+
+    /**
+     * Test leadCreate method
+     */
+    public function testLeadCreate()
+    {
+        $application = (new Application())
+            ->setSpotApiUrl('http://test.com')
+            ->setSpotApiUser('user')
+            ->setSpotApiPassword('password');
+
+        $lead = (new Lead())
+            ->setFirstName('firstName')
+            ->setLastName('lastName')
+            ->setCountry(123)
+            ->setEmail('test@mail.com')
+            ->setPhone('123-3213-142412')
+            ->setApplication($application);
+
+        $customerData = [
+            'MODULE' => 'Lead',
+            'COMMAND' => 'add',
+            'FirstName' => $lead->getFirstName(),
+            'LastName' => $lead->getLastName(),
+            'Phone' => $lead->getPhone(),
+            'Country' => $lead->getCountry(),
+            'email' => $lead->getEmail(),
+        ];
+
+        $this->spotProducerServiceMock
+            ->expects($this->once())
+            ->method('publish')
+            ->with(
+                $this->equalTo($customerData),
+                $this->equalTo(
+                    [
+                        'url' => 'http://test.com',
+                        'userName' => 'user',
+                        'password' => 'password',
+                    ]
+                )
+            )
+            ->will($this->returnValue(true));
+
+        $this->assertTrue($this->spotOptionService->leadCreate($lead));
     }
 }

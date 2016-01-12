@@ -15,7 +15,7 @@ use JMS\Serializer\Annotation as JMS;
  * @ORM\Table("araneum_customers")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\AgentBundle\Repository\CustomerRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity(fields="email")
+ * @UniqueEntity({"email", "application"})
  */
 class Customer
 {
@@ -72,9 +72,10 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=100, unique=true)
-     * @Assert\Email()
+     * @ORM\Column(name="email", type="string", length=100)
+     * @Assert\Regex("/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/")
      * @Assert\Length(max=100)
+     * @Assert\Email(checkMX = true)
      * @Assert\NotBlank()
      * @Groups({"rabbitMQ"})
      */
