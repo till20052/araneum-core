@@ -25,15 +25,14 @@ class SpotApiSenderService
      * SpotApiService constructor.
      *
      * @param ClientInterface $guzzle
-     * @param EntityManager $em
+     * @param EntityManager   $em
      * @param boolean         $enableJsonResponse
      */
     public function __construct(
         ClientInterface $guzzle,
         EntityManager $em,
         $enableJsonResponse
-    )
-    {
+    ){
         $this->guzzle = $guzzle;
         $this->em = $em;
         $this->enableJsonResponse = $enableJsonResponse;
@@ -90,11 +89,13 @@ class SpotApiSenderService
      */
     public function send(array $requestData, array $spotCredential)
     {
-        try{
+        $log = array('request' =>$requestData);
+        try {
             if (!$this->isSpotCredentialValid($spotCredential)) {
-                throw new \BadMethodCallException(
-                    "Check spot credential data, some value invalid: ".print_r($spotCredential, true)
-                );
+                $error = "Check spot credential data, some value invalid: ".print_r($spotCredential, true);
+                $log['response'] = $error;
+                $this->createSpotLog($log, 400);
+                throw new \BadMethodCallException($error);
             }
 
             $this->guzzle->setBaseUrl($spotCredential['url']);
@@ -107,14 +108,17 @@ class SpotApiSenderService
                 $requestData
             );
             $response = $this->guzzle->post(null, null, $body)->send();
-            if (!is_null($response))
-                $this->createSpotLog([$requestData, $response->getBody(true)], $response->getStatusCode());
+            if (!empty($response))
+                $log['response'] = $response->getBody(true);
+            else
+                $log['response'] = $body;
+            $this->createSpotLog($log, 200);
+
             return $response;
-        } catch(\BadMethodCallException $e){
-            $this->createSpotLog([$requestData, $e->getMessage()], $e->getCode());
-            return $e->getMessage();
-        } catch(RequestException $e){
-            $this->createSpotLog([$requestData, $e->getRequest()->getResponse()->getBody(true)], $e->getRequest()->getResponse()->getStatusCode());
+        } catch (RequestException $e) {
+            $log['response'] = $e->getRequest()->getResponse()->getBody(true);
+            $this->createSpotLog($log, $e->getRequest()->getResponse()->getStatusCode());
+
             return $e;
         }
     }
@@ -205,6 +209,11 @@ class SpotApiSenderService
      */
     private function createSpotLog(array $log, $status)
     {
+        if (is_array($log['request']))
+            $log['request'] = json_encode($log['request']);
+        if (is_array($log['response']))
+            $log['response'] = json_encode($log['response']);
+
         $spotLog = (new SpotLog())
             ->setStatus($status)
             ->setRequest($log['request'])

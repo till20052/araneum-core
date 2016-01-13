@@ -125,5 +125,4 @@ class SpotLog
 
         return $this;
     }
-
 }
