@@ -32,7 +32,7 @@ class SpotApiSenderService
         ClientInterface $guzzle,
         EntityManager $em,
         $enableJsonResponse
-    ){
+    ) {
         $this->guzzle = $guzzle;
         $this->em = $em;
         $this->enableJsonResponse = $enableJsonResponse;
@@ -89,7 +89,7 @@ class SpotApiSenderService
      */
     public function send(array $requestData, array $spotCredential)
     {
-        $log = array('request' =>$requestData);
+        $log = array('request' => $requestData);
         try {
             if (!$this->isSpotCredentialValid($spotCredential)) {
                 $error = "Check spot credential data, some value invalid: ".print_r($spotCredential, true);
@@ -107,11 +107,11 @@ class SpotApiSenderService
                 ],
                 $requestData
             );
+            $log['response'] = $body;
             $response = $this->guzzle->post(null, null, $body)->send();
-            if (!empty($response))
+            if (!empty($response)){
                 $log['response'] = $response->getBody(true);
-            else
-                $log['response'] = $body;
+            }
             $this->createSpotLog($log, 200);
 
             return $response;
@@ -209,10 +209,12 @@ class SpotApiSenderService
      */
     private function createSpotLog(array $log, $status)
     {
-        if (is_array($log['request']))
+        if (is_array($log['request'])){
             $log['request'] = json_encode($log['request']);
-        if (is_array($log['response']))
+        }
+        if (is_array($log['response'])){
             $log['response'] = json_encode($log['response']);
+        }
 
         $spotLog = (new SpotLog())
             ->setStatus($status)

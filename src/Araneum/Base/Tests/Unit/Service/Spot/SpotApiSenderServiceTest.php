@@ -175,4 +175,3 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
         $this->spotApiSenderService = new SpotApiSenderService($this->guzzleMock, $this->em, true);
     }
 }
-
