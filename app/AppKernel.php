@@ -26,9 +26,10 @@ class AppKernel extends Kernel
             new Lexik\Bundle\MaintenanceBundle\LexikMaintenanceBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
             new Snc\RedisBundle\SncRedisBundle(),
-	        new Misd\GuzzleBundle\MisdGuzzleBundle(),
+            new Misd\GuzzleBundle\MisdGuzzleBundle(),
             new Ali\DatatableBundle\AliDatatableBundle(),
             new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
+            //            new MikSoftware\DaemonBundle\MikSoftwareDaemonBundle(),
 
             new Araneum\Bundle\MainBundle\AraneumMainBundle(),
             new Araneum\Bundle\UserBundle\AraneumUserBundle(),
