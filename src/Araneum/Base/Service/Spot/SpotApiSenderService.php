@@ -109,7 +109,7 @@ class SpotApiSenderService
             );
             $log['response'] = $body;
             $response = $this->guzzle->post(null, null, $body)->send();
-            if (!empty($response)){
+            if (!empty($response)) {
                 $log['response'] = $response->getBody(true);
             }
             $this->createSpotLog($log, 200);
@@ -209,10 +209,10 @@ class SpotApiSenderService
      */
     private function createSpotLog(array $log, $status)
     {
-        if (is_array($log['request'])){
+        if (is_array($log['request'])) {
             $log['request'] = json_encode($log['request']);
         }
-        if (is_array($log['response'])){
+        if (is_array($log['response'])) {
             $log['response'] = json_encode($log['response']);
         }
 
