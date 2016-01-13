@@ -29,7 +29,7 @@ class AppKernel extends Kernel
             new Misd\GuzzleBundle\MisdGuzzleBundle(),
             new Ali\DatatableBundle\AliDatatableBundle(),
             new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
-            //            new MikSoftware\DaemonBundle\MikSoftwareDaemonBundle(),
+            new MikSoftware\DaemonBundle\MikSoftwareDaemonBundle(),
 
             new Araneum\Bundle\MainBundle\AraneumMainBundle(),
             new Araneum\Bundle\UserBundle\AraneumUserBundle(),

@@ -209,11 +209,11 @@ snc_redis:
         prefix: %session_prefix%
         ttl: 1200
 
-#mik_software_daemon:
-#    daemons:
-#        araneum_consumer_core:
-#            appName: core-queue-consumer
-#            appDescription: System Daemon for runuing Core consumers
-#            appUser: %nginx_user%
-#            appGroup: %nginx_group%
-#            logVerbosity: 0
+mik_software_daemon:
+    daemons:
+        araneum_consumer_core:
+            appName: core-queue-consumer
+            appDescription: System Daemon for runuing Core consumers
+            appUser: %nginx_user%
+            appGroup: %nginx_group%
+            logVerbosity: 0
