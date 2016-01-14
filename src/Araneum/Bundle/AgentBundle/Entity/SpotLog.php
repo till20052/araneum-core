@@ -164,4 +164,15 @@ class SpotLog
 
         return $this;
     }
+
+    /**
+     * Return text value of status
+     *
+     * @param  integer $type
+     * @return string
+     */
+    public function getMessageType($type)
+    {
+        return self::$types[$type];
+    }
 }

@@ -141,8 +141,6 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test method with bad spotOption data must throw exception
-     *
-     * @expectedException \BadMethodCallException
      */
     public function testSendBadDataException()
     {
@@ -156,9 +154,7 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
             $this->requestData,
             $spotCredential
         );
-        if ($result instanceof \BadMethodCallException) {
-            throw new BadMethodCallException();
-        }
+        $this->assertInstanceOf("BadMethodCallException",$result, "Test method with bad spotOption data must throw exception");
     }
 
     /**

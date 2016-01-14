@@ -111,30 +111,30 @@ class SpotApiSenderService
             if (!empty($response)) {
                 $log['response'] = $response->getBody(true);
             }
-            $this->createSpotLog($log, 1);
+            $this->createSpotLog($log, SpotLog::TYPE_OK);
 
             return $response;
 
         } catch (\BadMethodCallException $e) {
             $log['response'] = $e->getMessage();
-            $this->createSpotLog($log, 2);
+            $this->createSpotLog($log, SpotLog::TYPE_BAD_METHOD_CALL);
 
             return $e;
         } catch (CurlException $e) {
             $log['response'] = $e->getError();
-            $this->createSpotLog($log, 3);
+            $this->createSpotLog($log, SpotLog::TYPE_CURL);
 
             return $e;
         } catch (RequestException $e) {
             $code = $e->getRequest()->getResponse()->getStatusCode();
             $message = $e->getRequest()->getResponse()->getBody(true);
             $log['response'] = $code.' : '.$message;
-            $this->createSpotLog($log, 4);
+            $this->createSpotLog($log, SpotLog::TYPE_REQUEST);
 
             return $e;
         } catch (\Exception $e) {
             $log['response'] = $e->getCode().' : '.$e->getMessage();
-            $this->createSpotLog($log, 5);
+            $this->createSpotLog($log, SpotLog::TYPE_OTHER_EXCEPTION);
 
             return $e;
         }
