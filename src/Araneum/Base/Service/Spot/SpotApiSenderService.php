@@ -7,6 +7,7 @@ use Guzzle\Service\ClientInterface;
 use Doctrine\ORM\EntityManager;
 use Araneum\Bundle\AgentBundle\Entity\SpotLog;
 use Guzzle\Http\Exception\RequestException;
+use Guzzle\Http\Exception\CurlException;
 
 /**
  * Class SpotApiSenderService
@@ -93,8 +94,6 @@ class SpotApiSenderService
         try {
             if (!$this->isSpotCredentialValid($spotCredential)) {
                 $error = "Check spot credential data, some value invalid: ".print_r($spotCredential, true);
-                $log['response'] = $error;
-                $this->createSpotLog($log, 400);
                 throw new \BadMethodCallException($error);
             }
 
@@ -112,12 +111,30 @@ class SpotApiSenderService
             if (!empty($response)) {
                 $log['response'] = $response->getBody(true);
             }
-            $this->createSpotLog($log, 200);
+            $this->createSpotLog($log, 1);
 
             return $response;
+
+        } catch (\BadMethodCallException $e) {
+            $log['response'] = $e->getMessage();
+            $this->createSpotLog($log, 2);
+
+            return $e;
+        } catch (CurlException $e) {
+            $log['response'] = $e->getError();
+            $this->createSpotLog($log, 3);
+
+            return $e;
         } catch (RequestException $e) {
-            $log['response'] = $e->getRequest()->getResponse()->getBody(true);
-            $this->createSpotLog($log, $e->getRequest()->getResponse()->getStatusCode());
+            $code = $e->getRequest()->getResponse()->getStatusCode();
+            $message = $e->getRequest()->getResponse()->getBody(true);
+            $log['response'] = $code.' : '.$message;
+            $this->createSpotLog($log, 4);
+
+            return $e;
+        } catch (\Exception $e) {
+            $log['response'] = $e->getCode().' : '.$e->getMessage();
+            $this->createSpotLog($log, 5);
 
             return $e;
         }

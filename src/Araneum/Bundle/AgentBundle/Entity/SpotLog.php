@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\AgentBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,6 +18,44 @@ class SpotLog
     use DateTrait;
 
     /**
+     * Exceptions not found
+     */
+    const TYPE_OK = 1;
+
+    /**
+     * Bad Method Call Exception
+     */
+    const TYPE_BAD_METHOD_CALL = 2;
+
+    /**
+     * Curl Exception
+     */
+    const TYPE_CURL = 3;
+
+    /**
+     * Request Exception
+     */
+    const TYPE_REQUEST = 4;
+
+    /**
+     * All other Exceptions
+     */
+    const TYPE_OTHER_EXCEPTION = 4;
+
+    /**
+     * Error types
+     *
+     * @var array
+     */
+    public static $types = [
+        self::TYPE_OK => "Exceptions not found",
+        self::TYPE_BAD_METHOD_CALL => "Bad Method Call Exception",
+        self::TYPE_CURL => "Curl Exception",
+        self::TYPE_REQUEST => "Request Exception",
+        self::TYPE_OTHER_EXCEPTION => "Exception"
+    ];
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -29,21 +68,21 @@ class SpotLog
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="integer")
+     * @ORM\Column(name="status", type="integer", nullable=false, options={"default":1})
      */
     private $status;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="request", type="text")
+     * @ORM\Column(name="request", type="text", nullable=false, options={"default":"Empty request"})
      */
     private $request;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="response", type="text")
+     * @ORM\Column(name="response", type="text", nullable=false, options={"default":"Empty response"})
      */
     private $response;
 

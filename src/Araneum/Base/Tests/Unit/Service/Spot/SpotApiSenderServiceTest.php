@@ -4,6 +4,10 @@ namespace Araneum\Base\Tests\Unit\Service\Spot;
 
 use Araneum\Base\Service\Spot\SpotApiSenderService;
 use Doctrine\ORM\EntityManager;
+use Guzzle\Http\Exception\CurlException;
+use Guzzle\Http\Exception\RequestException;
+use SebastianBergmann\GlobalState\Exception;
+use Symfony\Component\DependencyInjection\Exception\BadMethodCallException;
 
 /**
  * Class SpotApiSenderServiceTest
@@ -148,10 +152,12 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
             'password' => 'spotPassword',
         ];
 
-        $this->spotApiSenderService->send(
+        $result = $this->spotApiSenderService->send(
             $this->requestData,
             $spotCredential
         );
+        if ($result instanceof \BadMethodCallException)
+            throw new BadMethodCallException;
     }
 
     /**
