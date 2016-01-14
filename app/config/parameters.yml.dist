@@ -26,8 +26,8 @@ parameters:
 
     rabbitmq_host: 'localhost'
     rabbitmq_port: 5672
-    rabbitmq_user: 'admin'
-    rabbitmq_password: '12345'
+    rabbitmq_user: 'guest'
+    rabbitmq_password: 'guest'
     rabbitmq_queue_expiration: '3600000000' # Time to live message in queue 1 hour in milliseconds
     
     spot_api_public_url_login: '/Login/login/unusedRequiredParameter'
