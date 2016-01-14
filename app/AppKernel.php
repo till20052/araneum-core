@@ -3,8 +3,16 @@
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
+/**
+ * Class AppKernel
+ */
 class AppKernel extends Kernel
 {
+    /**
+     * Register bundle
+     *
+     * @return array
+     */
     public function registerBundles()
     {
         $bundles = array(
@@ -47,6 +55,11 @@ class AppKernel extends Kernel
         return $bundles;
     }
 
+    /**
+     * Register configuration
+     *
+     * @param \Symfony\Component\Config\Loader\LoaderInterface $loader
+     */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');

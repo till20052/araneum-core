@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: ../../src/Araneum/Base/Resources/config/services.yml }
+    - { resource: daemons.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -208,12 +209,3 @@ snc_redis:
         client: session
         prefix: %session_prefix%
         ttl: 1200
-
-mik_software_daemon:
-    daemons:
-        araneum_consumer_core:
-            appName: core-queue-consumer
-            appDescription: System Daemon for runuing Core consumers
-            appUser: %nginx_user%
-            appGroup: %nginx_group%
-            logVerbosity: 0

@@ -1,0 +1,22 @@
+mik_software_daemon:
+    daemons:
+        araneum_consumer_spot:
+            appName: spot-consumer
+            appDescription: System Daemon for runuing Spot consumer
+            appUser: %nginx_user%
+            appGroup: %nginx_group%
+            logVerbosity: 6
+
+        araneum_consumer_login:
+            appName: login-consumer
+            appDescription: System Daemon for login to Spot consumer
+            appUser: %nginx_user%
+            appGroup: %nginx_group%
+            logVerbosity: 6
+
+        araneum_consumer_customer:
+            appName: customer-consumer
+            appDescription: System Daemon for sending Customers to Spot
+            appUser: %nginx_user%
+            appGroup: %nginx_group%
+            logVerbosity: 6
