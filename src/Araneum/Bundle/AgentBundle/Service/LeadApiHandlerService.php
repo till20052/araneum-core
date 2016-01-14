@@ -3,9 +3,13 @@
 namespace Araneum\Bundle\AgentBundle\Service;
 
 use Araneum\Base\Exception\InvalidFormException;
+use Araneum\Bundle\AgentBundle\AgentEvents;
 use Araneum\Bundle\AgentBundle\Entity\Lead;
+use Araneum\Bundle\AgentBundle\Event\LeadEvent;
 use Araneum\Bundle\AgentBundle\Form\Type\LeadType;
+use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactory;
 
 /**
@@ -16,25 +20,40 @@ use Symfony\Component\Form\FormFactory;
 class LeadApiHandlerService
 {
     /**
+     * @var ApplicationManagerService
+     */
+    protected $applicationManager;
+    /**
      * @var EntityManager
      */
     private $entityManager;
-
     /**
      * @var FormFactory
      */
     private $formFactory;
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $dispatcher;
 
     /**
      * Service constructor
      *
-     * @param EntityManager $entityManager
-     * @param FormFactory   $formFactory
+     * @param EntityManager             $entityManager
+     * @param FormFactory               $formFactory
+     * @param ApplicationManagerService $applicationManager
+     * @param EventDispatcherInterface  $dispatcher
      */
-    public function __construct(EntityManager $entityManager, FormFactory $formFactory)
-    {
+    public function __construct(
+        EntityManager $entityManager,
+        FormFactory $formFactory,
+        ApplicationManagerService $applicationManager,
+        EventDispatcherInterface $dispatcher
+    ) {
         $this->entityManager = $entityManager;
         $this->formFactory = $formFactory;
+        $this->applicationManager = $applicationManager;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -58,10 +77,16 @@ class LeadApiHandlerService
      */
     public function create(array $data)
     {
-        $lead = $this->verifyDataByForm($data);
+        $application = $this->applicationManager->findOneOr404(['appKey' => $data['appKey']]);
+        $lead = new Lead();
+        $lead->setApplication($application);
+        $lead = $this->verifyDataByForm($data, $lead);
 
         $this->entityManager->persist($lead);
         $this->entityManager->flush();
+
+        $event = new LeadEvent($lead);
+        $this->dispatcher->dispatch(AgentEvents::LEAD_NEW, $event);
 
         return $lead;
     }
@@ -70,13 +95,12 @@ class LeadApiHandlerService
      * Check incoming data
      *
      * @param  array $data
+     * @param Lead   $lead
      * @return Lead
-     *
      * @throws InvalidFormException
      */
-    private function verifyDataByForm(array $data)
+    private function verifyDataByForm(array $data, Lead $lead)
     {
-        $lead = new Lead();
         $form = $this->formFactory
             ->create(new LeadType(), $lead)
             ->submit($data);

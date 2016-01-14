@@ -21,7 +21,8 @@ class CustomerType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstName')
+        $builder
+            ->add('firstName')
             ->add('lastName')
             ->add('country')
             ->add('email')
@@ -35,6 +36,7 @@ class CustomerType extends AbstractType
                 ]
             )
             ->add('currency')
+            ->add('siteId')
             ->add(
                 'password',
                 'text',

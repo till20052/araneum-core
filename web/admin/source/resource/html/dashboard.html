@@ -179,7 +179,8 @@
             <div class="col-lg-12">
                 <!-- START widget-->
                 <div class="container-fluid">
-                    <div id="StateAvgAppChartPanel" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+                    <div id="StateAvgAppChartPanel" class="panel panel-default"
+                         ng-class="{'traditional whirl' : onLoading}">
                         <div class="panel-heading">
                             <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
                             <div class="panel-title" translate="admin.dashboard.widget.AVERAGE_APPLICATION_STATUSES">
@@ -216,7 +217,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <!-- START widget-->
-                <div id="ClusterLoadAveragePanel" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+                <div id="ClusterLoadAveragePanel" class="panel panel-default"
+                     ng-class="{'traditional whirl' : onLoading}">
                     <div class="panel-heading">
                         <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
                         <div class="panel-title" translate="admin.dashboard.widget.CLUSTER_LOAD_AVERAGE">
@@ -286,7 +288,8 @@
     <!-- START dashboard main content-->
     <div class="col-lg-6">
         <div ng-controller="RegisteredCustomersController as vm" class="container-fluid">
-            <div id="RegisteredCustomersPanel" class="panel panel-default" ng-class="{'traditional whirl' : vm.onLoading}">
+            <div id="RegisteredCustomersPanel" class="panel panel-default"
+                 ng-class="{'traditional whirl' : vm.onLoading}">
                 <div class="panel-heading">
                     <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
                     <div class="panel-title">
@@ -359,7 +362,8 @@
                         <p class="text-muted">
                             <em class="icon-cloud-upload mr-sm"></em>
                             <span translate="admin.dashboard.widget.RECEIVED_FROM_APPLICATION">Received from all applications</span>
-                            <span class="text-dark">{{ vm.count }} <span translate="admin.dashboard.widget.LEADS">leads</span></span>
+                            <span class="text-dark">{{ vm.count }} <span
+                                    translate="admin.dashboard.widget.LEADS">leads</span></span>
                         </p>
                     </div>
                 </div>
@@ -370,19 +374,15 @@
     </div>
 
     <div class="col-lg-6">
-        <div style="position: relative;">
-            <div
-                    style="position: absolute; background-color: rgba(255,255,255,.75); width: 100%; height: 420px; text-align: center; padding-top: 200px; z-index: 999;">
-                <span translate="admin.dashboard.widget.CHART_IS_NOT_AVAILABLE">This chart is not available</span>
-            </div>
-        </div>
         <div ng-controller="ErrorsChartController as vm">
             <div id="errorsPanel" class="panel panel-default">
                 <div class="panel-heading">
                     <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
                     <div class="panel-title">
                         <em class="icon-layers mr"></em>
-                        <span translate="admin.dashboard.widget.ERRORS_RECEIVED_FROM_APPS_24H">Errors received from applications (24 hours)</span>
+                        <span translate="admin.dashboard.widget.RECEIVED_ERRORS_FROM_APPS_IN_LAST_24H">
+                            Errors which received from all applications in the last 24 hours
+                        </span>
                     </div>
                 </div>
                 <div collapse="errorsPanel" class="panel-wrapper">

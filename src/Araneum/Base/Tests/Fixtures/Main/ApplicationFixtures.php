@@ -41,7 +41,6 @@ class ApplicationFixtures extends AbstractFixture implements FixtureInterface, D
         $app = $manager
             ->getRepository('AraneumMainBundle:Application')
             ->findOneByName(self::TEST_APP_NAME);
-
         if (empty($app)) {
             $app = new Application();
             $app->setName(self::TEST_APP_NAME);

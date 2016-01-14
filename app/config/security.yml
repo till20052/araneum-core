@@ -9,17 +9,25 @@ security:
     providers:
         fos_userbundle:
             id: fos_user.user_provider.username
+
     firewalls:
         manage:
             pattern: ^/manage
             anonymous: ~
-            entry_point: araneum_authentication
+            entry_point: araneum.auth.entry_point
+            form_login:
+                check_path: araneum_manage_login_check
+                success_handler: araneum.auth.success.handler
+            logout:
+                path: araneum_manage_logout
+
         api:
             pattern: ^/.*api
             anonymous: ~
             http_basic:
                 realm: "Araneum.Core API secure"
             stateless: true
+
         main:
             pattern: ^/
             form_login:

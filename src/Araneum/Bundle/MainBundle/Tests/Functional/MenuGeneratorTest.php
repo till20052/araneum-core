@@ -8,17 +8,15 @@
 
 namespace Araneum\Bundle\MainBundle\Tests\Functional;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\DomCrawler\Crawler;
+use Araneum\Base\Tests\Controller\BaseController;
 
 /**
  * Class MenuGeneratorTest
  *
  * @package Araneum\Bundle\MainBundle\Tests\Functional
  */
-class MenuGeneratorTest extends WebTestCase
+class MenuGeneratorTest extends BaseController
 {
-
     /**
      *  Test left menu
      * @runInSeparateProcess
@@ -26,7 +24,7 @@ class MenuGeneratorTest extends WebTestCase
     public function testLeftMenu()
     {
 
-        $client = static::createClient();
+        $client = static::createAdminAuthorizedClient('admin');
 
         $client->request(
             'GET',

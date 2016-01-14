@@ -1,6 +1,9 @@
 services:
-    araneum_authentication:
+    araneum.auth.entry_point:
         class: Araneum\Base\Symfony\Security\AuthenticationEntryPoint
+
+    araneum.auth.success.handler:
+        class: Araneum\Base\Symfony\Security\AuthenticationSuccessHandler
 
     araneum_datatable:
         class: Araneum\Base\Ali\DatatableBundle\Util\AraneumDatatable
@@ -42,10 +45,10 @@ services:
     araneum.base.rabbitmq.msg_convert_helper:
         class: Araneum\Base\Service\RabbitMQ\MessageConversionHelper
 
-    araneum.base.rabbitmq.producer.spot:
+    araneum.base.rabbitmq.producer.spot_customer:
         class: Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService
         arguments:
-            - @old_sound_rabbit_mq.spot_producer
+            - @old_sound_rabbit_mq.spot_customer_producer
             - @araneum.base.rabbitmq.msg_convert_helper
             - %rabbitmq_queue_expiration%
 
@@ -57,6 +60,17 @@ services:
         class: Araneum\Base\Service\Spot\SpotApiSenderService
         arguments: [@guzzle.client, %spot_enable_json_responce%]
 
+    araneum.base.rabbitmq.producer.spot:
+        class: Araneum\Base\Service\RabbitMQ\SpotProducerService
+        arguments:
+            - @old_sound_rabbit_mq.spot_producer
+            - @araneum.base.rabbitmq.msg_convert_helper
+            - %rabbitmq_queue_expiration%
+
+    araneum.base.rabbitmq.consumer.spot:
+        class: Araneum\Base\Service\RabbitMQ\SpotConsumerService
+        arguments: [@araneum.base.spot_api, @araneum.base.rabbitmq.msg_convert_helper]
+        
     araneum.base.rabbitmq.producer.spot_login:
         class: Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService
         arguments:

@@ -8,17 +8,19 @@
     'use strict';
 
     angular
-        .module('app')
+        .module('app.dashboard')
         .config(routesConfig);
 
     routesConfig.$inject = ['$stateProvider', 'RouteHelpersProvider'];
     function routesConfig($stateProvider, helper) {
         $stateProvider
-            .state('app.locales', {
-                url: '/locales',
-                initialize: '/manage/locales/init.json',
-                templateUrl: helper.basepath('grid-template.html'),
-                resolve: angular.extend(helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert', 'whirl', 'toaster'))
+            .state('app.dashboard', {
+                url: '/dashboard',
+                title: 'Main page',
+                templateUrl: helper.basepath('dashboard.html'),
+                resolve: helper.resolveFor('flot-chart', 'flot-chart-plugins', 'chartjs', 'ngDialog'),
+                controller: 'DashboardController'
             });
     }
+
 })();

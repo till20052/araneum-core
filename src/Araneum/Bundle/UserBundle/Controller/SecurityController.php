@@ -27,9 +27,7 @@ class SecurityController extends BaseController
 
         if ($request->isXmlHttpRequest()) {
 
-            /**
-             * @var User $user
-             */
+            /** @var User $user */
             $user = $this->container
                 ->get('security.token_storage')
                 ->getToken()
