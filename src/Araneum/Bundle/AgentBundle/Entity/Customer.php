@@ -15,7 +15,7 @@ use JMS\Serializer\Annotation as JMS;
  * @ORM\Table("araneum_customers")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\AgentBundle\Repository\CustomerRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity(fields="email")
+ * @UniqueEntity({"email", "application"})
  */
 class Customer
 {
@@ -72,9 +72,10 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=100, unique=true)
-     * @Assert\Email()
+     * @ORM\Column(name="email", type="string", length=100)
+     * @Assert\Regex("/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/")
      * @Assert\Length(max=100)
+     * @Assert\Email(checkMX = true)
      * @Assert\NotBlank()
      * @Groups({"rabbitMQ"})
      */
@@ -136,12 +137,33 @@ class Customer
     private $spotId;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(type="integer", name="site_id", nullable=true)
+     * @var integer
+     * @ORM\Column(type="integer", name="site_id")
+     * @Assert\Type(type="integer")
      * @Groups({"rabbitMQ"})
      */
     private $siteId;
+
+    /**
+     * Set siteId
+     * @param  string $siteId
+     * @return Customer
+     */
+    public function setSiteId($siteId)
+    {
+        $this->siteId = $siteId;
+
+        return $this;
+    }
+
+    /**
+     * Get siteId
+     * @return integer
+     */
+    public function getSiteId()
+    {
+        return $this->siteId;
+    }
 
     /**
      * Get id
@@ -425,29 +447,6 @@ class Customer
     public function setSpotId($spotId)
     {
         $this->spotId = $spotId;
-
-        return $this;
-    }
-
-    /**
-     * Get siteId
-     *
-     * @return int
-     */
-    public function getSiteId()
-    {
-        return $this->siteId;
-    }
-
-    /**
-     * Set siteId
-     *
-     * @param int $siteId
-     * @return Customer
-     */
-    public function setSiteId($siteId)
-    {
-        $this->siteId = $siteId;
 
         return $this;
     }

@@ -2,8 +2,7 @@
 
 namespace Araneum\Bundle\AgentBundle\Service;
 
-use Araneum\Bundle\AgentBundle\AraneumAgentBundle;
-use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
+use Araneum\Bundle\AgentBundle\AgentEvents;
 use Araneum\Bundle\AgentBundle\Form\Type\CustomerType;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\EntityManager;
@@ -11,7 +10,6 @@ use Araneum\Bundle\MainBundle\Service\ApplicationManagerService;
 use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Base\Exception\InvalidFormException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormFactory;
 use Araneum\Bundle\AgentBundle\Event\CustomerEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -83,7 +81,7 @@ class CustomerApiHandlerService
 
         $result = $this->processForm($parameters, $customer);
 
-        $this->createCustomerEvent($customer, AraneumAgentBundle::EVENT_CUSTOMER_NEW);
+        $this->createCustomerEvent($customer, AgentEvents::CUSTOMER_NEW);
 
         return $result;
     }
@@ -148,7 +146,7 @@ class CustomerApiHandlerService
         $customer
             ->setPassword($password)
             ->setSpotId($customerId);
-        $this->createCustomerEvent($customer, AraneumAgentBundle::EVENT_CUSTOMER_RESET_PASSWORD);
+        $this->createCustomerEvent($customer, AgentEvents::CUSTOMER_RESET_PASSWORD);
 
         return 'successful';
     }

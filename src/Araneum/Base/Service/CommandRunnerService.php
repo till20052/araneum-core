@@ -31,20 +31,20 @@ class CommandRunnerService
     public function runSymfonyCommandInNewProcess($input)
     {
         $input = $this->rootDir.'/console '.$input;
-        $deploymentCommand = new Process($input);
+        $deploymentCommand = new Process($input, null, null, null, null);
         $deploymentCommand->mustRun();
     }
 
     /**
      * Run Symfony deployment command as separate process.
      *
-     * @param  string $comand
+     * @param  string $command
      * @param  string $path
      * @return string
      */
-    public function runDeployCommandsInSeparateProcess($comand, $path = '')
+    public function runDeployCommandsInSeparateProcess($command, $path = '')
     {
-        $deploymentCommand = new Process($comand, $this->rootDir.$path, null, null, null);
+        $deploymentCommand = new Process($command, $this->rootDir.$path, null, null, null);
         $deploymentCommand->start();
         $message = '';
         $deploymentCommand->wait(

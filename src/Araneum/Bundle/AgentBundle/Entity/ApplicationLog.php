@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\Collection;
 /**
  * ApplicationLog
  *
- * @ORM\Table(name="araneum_application_log")
+ * @ORM\Table(name="araneum_applications_log")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\AgentBundle\Repository\ApplicationLogRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -49,7 +49,7 @@ class ApplicationLog
      *      targetEntity="Araneum\Bundle\AgentBundle\Entity\Problem",
      *      cascade={"persist"}
      * )
-     * @ORM\JoinTable(name="araneum_application_log_problems")
+     * @ORM\JoinTable(name="araneum_applications_log_problems")
      */
     private $problems;
 

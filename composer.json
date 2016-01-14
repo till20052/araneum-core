@@ -33,7 +33,8 @@
         "predis/predis": "1.*",
         "misd/guzzle-bundle": "^1.1",
         "ali/datatable": "v2.0.2",
-        "lexik/form-filter-bundle": "~4.0"
+        "lexik/form-filter-bundle": "~4.0",
+        "miksoftware/daemon-bundle": "^0.9.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

@@ -6,7 +6,6 @@ use Araneum\Base\Tests\Fixtures\Agent\CustomerFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Araneum\Bundle\AgentBundle\Form\Type\CustomerType;
 use Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService;
-use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\Common\Collections\ArrayCollection;
 
