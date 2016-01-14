@@ -52,7 +52,7 @@ class SpotLog
         self::TYPE_BAD_METHOD_CALL => "Bad Method Call Exception",
         self::TYPE_CURL => "Curl Exception",
         self::TYPE_REQUEST => "Request Exception",
-        self::TYPE_OTHER_EXCEPTION => "Exception"
+        self::TYPE_OTHER_EXCEPTION => "Exception",
     ];
 
     /**

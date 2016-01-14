@@ -156,8 +156,9 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
             $this->requestData,
             $spotCredential
         );
-        if ($result instanceof \BadMethodCallException)
-            throw new BadMethodCallException;
+        if ($result instanceof \BadMethodCallException) {
+            throw new BadMethodCallException();
+        }
     }
 
     /**
