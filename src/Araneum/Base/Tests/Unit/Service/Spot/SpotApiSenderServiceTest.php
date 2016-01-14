@@ -154,7 +154,7 @@ class SpotApiSenderServiceTest extends \PHPUnit_Framework_TestCase
             $this->requestData,
             $spotCredential
         );
-        $this->assertInstanceOf("BadMethodCallException",$result, "Test method with bad spotOption data must throw exception");
+        $this->assertInstanceOf("BadMethodCallException", $result, "Test method with bad spotOption data must throw exception");
     }
 
     /**
