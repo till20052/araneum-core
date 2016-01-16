@@ -13,6 +13,13 @@ trait CountableTrait
     {
         $result = $this->createQueryBuilder('REPO')
             ->select('COUNT(REPO.id) as repoCount')
+            ->where('REPO.created_at BETWEEN :start AND :end')
+            ->setParameters(
+                [
+                    'start' => date('Y-m-d H:i:s', time() - 86400),
+                    'end' => date('Y-m-d H:i:s', time()),
+                ]
+            )
             ->getQuery()
             ->getOneOrNullResult();
 
