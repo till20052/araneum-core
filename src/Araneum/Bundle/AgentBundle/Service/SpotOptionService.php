@@ -4,8 +4,10 @@ namespace Araneum\Bundle\AgentBundle\Service;
 
 use Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService;
 use Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService;
+use Araneum\Base\Service\RabbitMQ\SpotProducerService;
 use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
+use Araneum\Bundle\AgentBundle\Entity\Lead;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Base\Service\Spot\SpotApiSenderService;
 use Doctrine\ORM\EntityManager;
@@ -24,7 +26,7 @@ class SpotOptionService
     /**
      * @var SpotCustomerProducerService
      */
-    protected $spotProducerService;
+    protected $spotCustomerProducerService;
 
     /**
      * @var SpotOptionService
@@ -35,22 +37,29 @@ class SpotOptionService
      * @var EntityManager
      */
     protected $entityManager;
+    /**
+     * @var SpotProducerService
+     */
+    protected $spotProducerService;
 
     /**
      * SpotOptionService constructor.
      *
+     * @param SpotCustomerProducerService      $spotCustomerProducerService
      * @param SpotCustomerLoginProducerService $customerLoginProducerService
-     * @param SpotCustomerProducerService      $spotProducerService
+     * @param SpotProducerService              $spotProducerService
      * @param SpotApiSenderService             $spotApiSenderService
      * @param EntityManager                    $entityManager
      */
     public function __construct(
+        SpotCustomerProducerService $spotCustomerProducerService,
         SpotCustomerLoginProducerService $customerLoginProducerService,
-        SpotCustomerProducerService $spotProducerService,
+        SpotProducerService $spotProducerService,
         SpotApiSenderService $spotApiSenderService,
         EntityManager $entityManager
     ) {
         $this->customerLoginProducerService = $customerLoginProducerService;
+        $this->spotCustomerProducerService = $spotCustomerProducerService;
         $this->spotProducerService = $spotProducerService;
         $this->spotApiSenderService = $spotApiSenderService;
         $this->entityManager = $entityManager;
@@ -82,7 +91,7 @@ class SpotOptionService
             'password' => $customer->getPassword(),
         ];
 
-        return $this->spotProducerService->publish($customerData, $customer, CustomerLog::ACTION_RESET_PASSWORD);
+        return $this->spotCustomerProducerService->publish($customerData, $customer, CustomerLog::ACTION_RESET_PASSWORD);
     }
 
     /**
@@ -109,7 +118,7 @@ class SpotOptionService
             $customerData['birthday'] = $customer->getBirthday()->format('Y-m-d');
         }
 
-        return $this->spotProducerService->publish($customerData, $customer, CustomerLog::ACTION_CREATE);
+        return $this->spotCustomerProducerService->publish($customerData, $customer, CustomerLog::ACTION_CREATE);
     }
 
     /**
@@ -137,5 +146,26 @@ class SpotOptionService
             ],
             $application->getSpotCredential()
         );
+    }
+
+    /**
+     * Send Lead creation data to SpotOption with RabbitMQ
+     *
+     * @param Lead $lead
+     * @return bool|string
+     */
+    public function leadCreate(Lead $lead)
+    {
+        $leadData = [
+            'MODULE' => 'Lead',
+            'COMMAND' => 'add',
+            'FirstName' => $lead->getFirstName(),
+            'LastName' => $lead->getLastName(),
+            'Country' => $lead->getCountry(),
+            'Phone' => $lead->getPhone(),
+            'email' => $lead->getEmail(),
+        ];
+
+        return $this->spotProducerService->publish($leadData, $lead->getApplication()->getSpotCredential());
     }
 }

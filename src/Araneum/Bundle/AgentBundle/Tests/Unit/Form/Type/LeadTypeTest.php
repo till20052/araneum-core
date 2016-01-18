@@ -5,7 +5,6 @@ namespace Araneum\Bundle\AgentBundle\Tests\Unit\Form\Type;
 use Araneum\Bundle\AgentBundle\Entity\Lead;
 use Araneum\Bundle\AgentBundle\Form\Type\LeadType;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormFactory;
 
 /**

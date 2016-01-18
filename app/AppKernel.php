@@ -3,8 +3,16 @@
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
+/**
+ * Class AppKernel
+ */
 class AppKernel extends Kernel
 {
+    /**
+     * Register bundle
+     *
+     * @return array
+     */
     public function registerBundles()
     {
         $bundles = array(
@@ -26,9 +34,10 @@ class AppKernel extends Kernel
             new Lexik\Bundle\MaintenanceBundle\LexikMaintenanceBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
             new Snc\RedisBundle\SncRedisBundle(),
-	        new Misd\GuzzleBundle\MisdGuzzleBundle(),
+            new Misd\GuzzleBundle\MisdGuzzleBundle(),
             new Ali\DatatableBundle\AliDatatableBundle(),
             new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
+            new MikSoftware\DaemonBundle\MikSoftwareDaemonBundle(),
 
             new Araneum\Bundle\MainBundle\AraneumMainBundle(),
             new Araneum\Bundle\UserBundle\AraneumUserBundle(),
@@ -46,6 +55,11 @@ class AppKernel extends Kernel
         return $bundles;
     }
 
+    /**
+     * Register configuration
+     *
+     * @param \Symfony\Component\Config\Loader\LoaderInterface $loader
+     */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');

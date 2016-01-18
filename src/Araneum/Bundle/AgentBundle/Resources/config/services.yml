@@ -11,6 +11,7 @@ services:
     araneum.agent.spotoption.service:
         class: Araneum\Bundle\AgentBundle\Service\SpotOptionService
         arguments:
+            - @araneum.base.rabbitmq.producer.spot_customer
             - @araneum.base.rabbitmq.producer.spot_login
             - @araneum.base.rabbitmq.producer.spot
             - @araneum.base.spot_api
@@ -22,13 +23,19 @@ services:
 
     araneum.agent.lead.api_handler:
         class: Araneum\Bundle\AgentBundle\Service\LeadApiHandlerService
-        arguments: [@doctrine.orm.entity_manager, @form.factory]
+        arguments: [@doctrine.orm.entity_manager, @form.factory, @araneum.main.application.manager, @event_dispatcher]
 
     araneum.agent.customer.event_subscriber:
         class: Araneum\Bundle\AgentBundle\EventListener\CustomerSubscriber
         arguments: [@araneum.agent.spotoption.service]
         tags:
             - { name: kernel.event_subscriber}
+
+    araneum.agent.lead.event_listener:
+        class: Araneum\Bundle\AgentBundle\EventListener\LeadListener
+        arguments: [@araneum.agent.spotoption.service]
+        tags:
+            - { name: kernel.event_listener, event: araneum.agent.lead.new, method: onCreate }
             
     araneum.agent.error.api_handler:
         class: Araneum\Bundle\AgentBundle\Service\ErrorApiHandlerService
