@@ -27,7 +27,7 @@ trait CountableTrait
      * Count elements of an object for period
      * By default count elements for last 24h
      *
-     * @param $period string
+     * @param  string $period
      * @return int The custom count as an integer.
      */
     public function countForPeriod($period = '24H')
