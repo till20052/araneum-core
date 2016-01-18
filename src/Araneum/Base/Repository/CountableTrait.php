@@ -13,7 +13,6 @@ trait CountableTrait
     {
         $result = $this->createQueryBuilder('REPO')
             ->select('COUNT(REPO.id) as repoCount')
-            ->where('REPO.created_at BETWEEN :start AND :end')
             ->getQuery()
             ->getOneOrNullResult();
 
