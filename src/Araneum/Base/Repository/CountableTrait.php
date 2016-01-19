@@ -30,7 +30,7 @@ trait CountableTrait
      * @param  string $period
      * @return int The custom count as an integer.
      */
-    public function countForPeriod($period = '24H')
+    public function countByTimeInterval($period = '24H')
     {
         $date = new \DateTime();
         $date->add(\DateInterval::createFromDateString($period));

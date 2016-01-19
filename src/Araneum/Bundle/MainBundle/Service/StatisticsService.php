@@ -221,19 +221,19 @@ class StatisticsService
         return [
             'applications' => $this->entityManager
                 ->getRepository('AraneumMainBundle:Application')
-                ->countForPeriod(),
+                ->countByTimeInterval(),
             'clusters' => $this->entityManager
                 ->getRepository('AraneumMainBundle:Cluster')
-                ->countForPeriod(),
+                ->countByTimeInterval(),
             'admins' => $this->entityManager
                 ->getRepository('AraneumUserBundle:User')
-                ->countForPeriod(),
+                ->countByTimeInterval(),
             'connections' => $this->entityManager
                 ->getRepository('AraneumMainBundle:Connection')
-                ->countForPeriod(),
+                ->countByTimeInterval(),
             'locales' => $this->entityManager
                 ->getRepository('AraneumMainBundle:Locale')
-                ->countForPeriod(),
+                ->countByTimeInterval(),
         ];
     }
 
@@ -248,7 +248,7 @@ class StatisticsService
         $repository = $this->entityManager->getRepository('AraneumAgentBundle:Lead');
 
         return [
-            'count' => $repository->countForPeriod(),
+            'count' => $repository->countByTimeInterval(),
             'data' => $this->getChartStructure(
                 $repository->getRegisteredLeadsFromAppsInLast24H(),
                 'leadsCount'
@@ -267,7 +267,7 @@ class StatisticsService
         $repository = $this->entityManager->getRepository('AraneumAgentBundle:Error');
 
         return [
-            'count' => $repository->countForPeriod(),
+            'count' => $repository->countByTimeInterval(),
             'data' => $repository->getReceivedErrorsFromAppsInLast24H(),
         ];
     }
@@ -285,7 +285,7 @@ class StatisticsService
         $repository = $this->entityManager->getRepository('AraneumAgentBundle:Customer');
 
         return [
-            'count' => $repository->countForPeriod(),
+            'count' => $repository->countByTimeInterval(),
             'data' => $this->getChartStructure($repository->getRegisteredCustomersFromApplications(), 'customers'),
         ];
     }
@@ -303,7 +303,7 @@ class StatisticsService
         $repository = $this->entityManager->getRepository('AraneumMailBundle:Mail');
 
         return [
-            'count' => $repository->countForPeriod(),
+            'count' => $repository->countByTimeInterval(),
             'data' => $this->getChartStructure($repository->getReceivedEmailsFromApplications(), 'emails'),
         ];
     }
