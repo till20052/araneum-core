@@ -31,7 +31,6 @@
                         };
                         if ($.inArray(field.name, ['username', 'fullName', 'email']) >= 0) {
                             vm[field.name] = field.value;
-                            console.log(field.name+ ' '+ field.value)
                         }
                     }, formFields);
                     vm.inLoading = vm.isSubmitDisabled = false;
