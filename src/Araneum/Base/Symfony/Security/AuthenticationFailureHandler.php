@@ -40,6 +40,7 @@ class AuthenticationFailureHandler implements AuthenticationFailureHandlerInterf
      * @param AuthenticationException $exception
      *
      * @return JsonResponse The response to return, never null
+     * @inheritdoc
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
