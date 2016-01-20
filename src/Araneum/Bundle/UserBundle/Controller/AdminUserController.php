@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Araneum\Bundle\UserBundle\Service\DataTable\UserDataTableList;
 use Araneum\Bundle\UserBundle\Service\Actions\UserActions;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\Regex;
 
 /**
  * Class AdminUserController
@@ -23,13 +25,6 @@ use Araneum\Bundle\UserBundle\Service\Actions\UserActions;
  */
 class AdminUserController extends Controller
 {
-    /**
-     *
-     */
-    public function activateUserAction()
-    {
-        // TODO: add you implementation here
-    }
 
     /**
      *
@@ -40,113 +35,150 @@ class AdminUserController extends Controller
     }
 
     /**
-     * Edit profile
-     *
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/profile/edit", name="araneum_user_adminUser_edit")
-     * @param Request $request
-     * @return Response
-     */
-    public function editAction(Request $request)
-    {
-        $em = $this->get('doctrine.orm.entity_manager');
-        /**
-         * @var User $user
-         */
-        $user = $this->getUser();
-        $form = $this->createForm(new ProfileType(), $user);
-
-        /**
-         * @var FormHandlerService $formHandler
-         */
-        $formHandler = $this->get('araneum.base.form.handler');
-
-        if ($request->getMethod() === 'POST') {
-            $form->submit($request);
-
-            if (!$form->isValid()) {
-                return new JsonResponse(
-                    ['errors' => $formHandler->getErrorMessages($form)],
-                    Response::HTTP_BAD_REQUEST
-                );
-            }
-
-            $em->persist($user);
-            $em->flush();
-
-            return new JsonResponse(
-                [
-                    'username' => $user->getUsername(),
-                    'fullName' => $user->getFullName(),
-                    'email' => $user->getEmail(),
-                ],
-                Response::HTTP_ACCEPTED
-            );
-        }
-
-        return new JsonResponse(
-            ['form' => $formHandler->extract($form->createView())],
-            Response::HTTP_OK
-        );
-    }
-
-    /**
-     * Get Authorized User Data
+     * Get locale by id
      *
      * @Security("has_role('ROLE_ADMIN')")
      * @Route(
-     *     "/profile/get_authorized_user_data",
-     *     name="araneum_user_adminUser_getAuthorizedUserData"
+     *      "/users/user/{id}",
+     *      name="araneum_user_admin_user_get",
+     *      requirements={"id" = "\d+"},
+     *      defaults={"id" = null}
      * )
-     * @return JsonResponse
+     * @Method("GET")
+     * @param         int $id
+     * @return        JsonResponse
      */
-    public function getAuthorizedUserData()
+    public function getUserJsonAction($id)
     {
-        /**
-         * @var User $user
-         */
-        $user = $this->getUser();
+        $repository = $this
+            ->getDoctrine()
+            ->getRepository('AraneumUserBundle:User');
 
-        return new JsonResponse(
-            [
-                'name' => $user->getFullName(),
-                'email' => $user->getEmail(),
-                'settings' => $user->getSettings(),
-            ],
-            Response::HTTP_OK
-        );
-    }
-
-    /**
-     * Set user settings
-     *
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Route(
-     *     "/profile/settings",
-     *     name="araneum_user_adminUser_setSettings"
-     * )
-     * @Method("POST")
-     * @param Request $request
-     * @return JsonResponse $response
-     */
-    public function setSettingsAction(Request $request)
-    {
-        /**
-         * @var EntityManager $entityManager
-         */
-        $entityManager = $this->getDoctrine()->getManager();
+        $user = $repository->findOneById($id);
+        if (empty($user)) {
+            $user = new User();
+        };
 
         try {
-            $this->getUser()
-                ->setSettings($request->request->all());
+            return new JsonResponse(
+                $this
+                    ->get('araneum.form_exporter.service')
+                    ->get(
+                        $this->get('araneum_user.user.form'),
+                        $user
+                    ),
+                JsonResponse::HTTP_OK
+            );
+        } catch (\Exception $exception) {
+            return new JsonResponse(
+                $exception->getMessage(),
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+    }
 
-            $entityManager->flush();
-        } catch (\Exception $e) {
-            return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+    /**
+     * Save locale
+     *
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route(
+     *     "/users/user/save",
+     *     name="araneum_user_admin_user_post"
+     * )
+     * @Method("POST")
+     *
+     * @param  Request $request
+     * @return JsonResponse
+     */
+    public function saveUserPostAction(Request $request)
+    {
+        $id = $request->get('id');
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AraneumUserBundle:User');
+
+        try {
+            if (!empty($id)) {
+                $locale = $repository->findOneById($id);
+                $code = JsonResponse::HTTP_ACCEPTED;
+            } else {
+                $locale = new Locale();
+                $code = JsonResponse::HTTP_CREATED;
+            }
+
+            $form = $this->createForm($this->get('araneum.main.locale.form'), $locale);
+            $form->submit($request->request->all());
+
+            if ($form->isValid()) {
+                $em->persist($locale);
+                $em->flush();
+
+                return new JsonResponse(
+                    [
+                        'message' => 'Locale has been saved',
+                        'id' => $locale->getId(),
+                    ],
+                    $code
+                );
+            } else {
+
+                return new JsonResponse(
+                    ['message' => (string) $form->getErrors(true, false)],
+                    JsonResponse::HTTP_BAD_REQUEST
+                );
+            }
+        } catch (\Exception $exception) {
+
+            return new JsonResponse(
+                ['message' => $exception->getMessage()],
+                JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    /**
+     * Enable users one or many
+     *
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/users/user/enable", name="araneum_user_admin_user_enable")
+     * @Method("POST")
+     * @param          Request $request
+     * @return         Response
+     */
+    public function enableAction(Request $request)
+    {
+        return $this->updateUserEnableDisableAction($request, true);
+    }
+
+    /**
+     * Disable users one or many
+     *
+     * @param                                                                            Request $request
+     * @return                                                                           Response
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/users/user/disable", name="araneum_user_admin_user_disable")
+     */
+    public function disableAction(Request $request)
+    {
+        return $this->updateUserEnableDisableAction($request, false);
+    }
+
+    /**
+     * Delete users one or many
+     *
+     * @Route("/users/user/delete", defaults={"_format"="json"}, name="araneum_user_admin_user_delete")
+     * @param                                  Request $request
+     * @return                                 JsonResponse
+     */
+    public function deleteAction(Request $request)
+    {
+        $idx = $request->request->get('data');
+        $localeRepository = $this->getDoctrine()->getRepository('AraneumUserBundle:User');
+
+        if (is_array($idx) && count($idx) > 0) {
+            $localeRepository->delete($idx);
         }
 
-        return (new JsonResponse())
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+        return new JsonResponse('Success');
     }
 
     /**
@@ -190,5 +222,32 @@ class AdminUserController extends Controller
             ->get('araneum_datatable.factory')
             ->create(new UserDataTableList($this->container))
             ->execute();
+    }
+
+    /**
+     * Update user state
+     *
+     * @param  Request $request
+     * @param  bool    $state
+     * @return JsonResponse
+     */
+    private function updateUserEnableDisableAction(Request $request, $state)
+    {
+        $idx = $request->request->get('data');
+
+        $localeRepository = $this->getDoctrine()->getRepository('AraneumUserBundle:User');
+
+        if (!is_array($idx)) {
+            return new JsonResponse('Data must be an array');
+        }
+
+        $errors = $this->get('validator')->validate($idx, new All([new Regex('/^\d+$/')]));
+        if (count($errors) > 0) {
+            return new JsonResponse((string) $errors);
+        }
+
+        $localeRepository->updateEnabled($idx, $state);
+
+        return new JsonResponse('Success');
     }
 }
