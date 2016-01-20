@@ -10,8 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Response;
-use FOS\RestBundle\Request\ParamFetcher;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use FOS\RestBundle\Request\ParamFetcher;
 
 /**
  * Class CustomerApiController
@@ -70,8 +70,8 @@ class CustomerApiController extends FOSRestController
      *      200 = "Returned when successful",
      *      400 = "Returned when validation is failed",
      *      403 = "Returned when authorization is failed",
-     *      404 = "Returned when Application not found"
-     *      500 = "Returned when Server error"
+     *      404 = "Returned when Application not found",
+     *      500 = "Returned when server error"
      *   },
      *   requirements = {
      *      {
