@@ -114,7 +114,7 @@ class CustomerApiController extends FOSRestController
         } catch (HttpException $e) {
             return View::create($e->getMessage(), $e->getStatusCode());
         } catch (\Exception $e) {
-            return View::create($e->getMessage(), Response::HTTP_NOT_FOUND);
+            return View::create($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
