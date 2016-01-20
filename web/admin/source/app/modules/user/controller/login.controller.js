@@ -40,7 +40,7 @@
 
             function onLoginError(event) {
                 vm.inLoading = false;
-                vm.error = event.response.error || 'Incorrect login or password.';
+                vm.error = event.response.error || 'FOSUserBundle.Bad credentials';
                 vm.form.username.$dirty = true;
                 vm.form.password.$dirty = true;
             }
