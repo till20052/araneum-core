@@ -30,10 +30,10 @@ trait CountableTrait
      * @param  string $period
      * @return int The custom count as an integer.
      */
-    public function countByTimeInterval($period = '24H')
+    public function countByTimeInterval($period = 'P1D')
     {
         $date = new \DateTime();
-        $date->add(\DateInterval::createFromDateString($period));
+        $date->sub(new \DateInterval($period));
         $result = $this->createQueryBuilder('REPO')
             ->select('COUNT(REPO.id) as repoCount')
             ->where('REPO.createdAt BETWEEN :start AND :end')
