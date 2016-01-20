@@ -55,6 +55,7 @@ class AdminUserController extends Controller
             ->getRepository('AraneumUserBundle:User');
 
         $user = $repository->findOneById($id);
+
         if (empty($user)) {
             $user = new User();
         };
@@ -98,24 +99,24 @@ class AdminUserController extends Controller
 
         try {
             if (!empty($id)) {
-                $locale = $repository->findOneById($id);
+                $user = $repository->findOneById($id);
                 $code = JsonResponse::HTTP_ACCEPTED;
             } else {
-                $locale = new Locale();
+                $user = new User();
                 $code = JsonResponse::HTTP_CREATED;
             }
 
-            $form = $this->createForm($this->get('araneum.main.locale.form'), $locale);
+            $form = $this->createForm($this->get('araneum_user.user.form'), $user);
             $form->submit($request->request->all());
 
             if ($form->isValid()) {
-                $em->persist($locale);
+                $em->persist($user);
                 $em->flush();
 
                 return new JsonResponse(
                     [
-                        'message' => 'Locale has been saved',
-                        'id' => $locale->getId(),
+                        'message' => 'User has been saved',
+                        'id' => $user->getId(),
                     ],
                     $code
                 );

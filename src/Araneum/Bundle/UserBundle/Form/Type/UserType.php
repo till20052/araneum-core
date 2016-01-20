@@ -44,59 +44,13 @@ class UserType extends AbstractType
                 ]
             )
             ->add(
-                'name',
+                'fullName',
                 'text',
                 [
-                    'label' => 'Name',
+                    'label' => 'Full name',
                     'attr' => [
-                        'placeholder' => 'locales.PLACEHOLDER',
-                        'translateLabel' => 'locales.NAME',
-                    ],
-                ]
-            )
-            ->add(
-                'locale',
-                'text',
-                [
-                    'label' => 'Locale',
-                    'attr' => [
-                        'placeholder' => 'locales.ENTER_LOCALE',
-                        'translateLabel' => 'locales.LOCALE',
-                    ],
-                ]
-            )
-            ->add(
-                'enabled',
-                'choice',
-                [
-                    'label' => 'Enabled',
-                    'choices' => Locale::$enable,
-                    'empty_value' => 'locales.EMPTY_VALUE',
-                    'attr' => [
-                        'translateLabel' => 'locales.ENABLED',
-                    ],
-                ]
-            )
-            ->add(
-                'orientation',
-                'choice',
-                [
-                    'label' => 'Orientation',
-                    'choices' => Locale::$orientations,
-                    'empty_value' => 'locales.EMPTY_VALUE',
-                    'attr' => [
-                        'translateLabel' => 'locales.ORIENTATION',
-                    ],
-                ]
-            )
-            ->add(
-                'encoding',
-                'text',
-                [
-                    'label' => 'Encoding',
-                    'attr' => [
-                        'placeholder' => 'locales.ENTER_ENCODING',
-                        'translateLabel' => 'locales.ENCODING',
+                        'placeholder' => 'users.PLACEHOLDER',
+                        'translateLabel' => 'users.NAME',
                     ],
                 ]
             );
