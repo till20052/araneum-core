@@ -11,7 +11,7 @@
         var directive = {
             restrict: 'AE',
             scope: true,
-            controller: ['$scope' , '$compile', 'DTOptionsBuilder', 'formDataService', '$translate', 'TranslateDatatablesService', function ($scope, $compile, DTOptionsBuilder, formDataService, $translate, translate) {
+            controller: ['$scope', '$compile', 'DTOptionsBuilder', 'formDataService', '$translate', 'TranslateDatatablesService', '$state', function ($scope, $compile, DTOptionsBuilder, formDataService, $translate, translate, $state) {
                 var promise = formDataService.getPromise();
 
                 $scope.vm.dt = {
@@ -75,6 +75,11 @@
                                                 '</div>').clone())($scope)
                                         );
                                     });
+                                },
+                                error: function (response) {
+                                    if (response.status == 401) {
+                                        $state.go('login');
+                                    }
                                 }
                             });
                         })
