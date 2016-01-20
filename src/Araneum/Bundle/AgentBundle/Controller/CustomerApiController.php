@@ -3,18 +3,15 @@
 namespace Araneum\Bundle\AgentBundle\Controller;
 
 use Araneum\Base\Exception\InvalidFormException;
-use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Request\ParamFetcher;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class CustomerApiController
@@ -74,6 +71,7 @@ class CustomerApiController extends FOSRestController
      *      400 = "Returned when validation is failed",
      *      403 = "Returned when authorization is failed",
      *      404 = "Returned when Application not found"
+     *      500 = "Returned when Server error"
      *   },
      *   requirements = {
      *      {
@@ -113,8 +111,8 @@ class CustomerApiController extends FOSRestController
             }
 
             return View::create($result);
-        } catch (BadRequestHttpException $e) {
-            return View::create($e->getMessage(), Response::HTTP_BAD_REQUEST);
+        } catch (HttpException $e) {
+            return View::create($e->getMessage(), $e->getStatusCode());
         } catch (\Exception $e) {
             return View::create($e->getMessage(), Response::HTTP_NOT_FOUND);
         }
