@@ -22,18 +22,18 @@
                 vm.submitDisabled = false;
             });
 
-			function submit() {
-				if(vm.form.$valid){
-					vm.inLoading = true;
-					UserAuth.login({
-						username: vm.username,
-						password: vm.password,
-						remember: vm.remember,
-						onSuccess: onLoginSuccess,
-						onError: onLoginError
-					});
-				}
-			}
+            function submit() {
+                if (vm.form.$valid) {
+                    vm.inLoading = true;
+                    UserAuth.login({
+                        username: vm.username,
+                        password: vm.password,
+                        remember: vm.remember,
+                        onSuccess: onLoginSuccess,
+                        onError: onLoginError
+                    });
+                }
+            }
 
             function onLoginSuccess() {
                 vm.inLoading = false;

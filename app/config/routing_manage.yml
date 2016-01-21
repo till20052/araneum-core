@@ -1,25 +1,3 @@
-araneum_manage_login:
-    pattern: /login
-    condition: "request.isXmlHttpRequest()"
-    defaults:
-        _controller: FOSUserBundle:Security:login
-
-araneum_manage_login_check:
-    pattern: /login_check
-    condition: "request.isXmlHttpRequest()"
-    defaults:
-        _controller: FOSUserBundle:Security:check
-
-araneum_manage_logout:
-    pattern: /logout
-    condition: "request.isXmlHttpRequest()"
-    defaults:
-        _controller: FOSUserBundle:Security:logout
-
-araneum_user:
-    resource: "@AraneumUserBundle/Controller"
-    type: annotation
-
 araneum_manage_main:
     pattern: /{_params}
     condition: "!request.isXmlHttpRequest()"
@@ -28,3 +6,22 @@ araneum_manage_main:
         _params: ~
     requirements:
         _params: .*
+
+araneum_manage_login:
+    pattern: /login
+    defaults:
+        _controller: FOSUserBundle:Security:login
+
+araneum_manage_login_check:
+    pattern: /login_check
+    defaults:
+        _controller: FOSUserBundle:Security:check
+
+araneum_manage_logout:
+    pattern: /logout
+    defaults:
+        _controller: FOSUserBundle:Security:logout
+
+araneum_user:
+    resource: "@AraneumUserBundle/Controller"
+    type: annotation
