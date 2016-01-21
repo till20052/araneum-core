@@ -267,7 +267,7 @@ class StatisticsService
         $repository = $this->entityManager->getRepository('AraneumAgentBundle:Error');
 
         return [
-            'count' => $repository->countByTimeInterval(),
+            'count' => $repository->countErrorsByTimeInterval(),
             'data' => $repository->getReceivedErrorsFromAppsInLast24H(),
         ];
     }
