@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Router;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Araneum\Bundle\UserBundle\Entity\Role;
 use Doctrine\ORM\EntityRepository;
 
@@ -90,6 +91,14 @@ class UserType extends AbstractType
                     ],
                 ]
             )
+//            ->add(
+//                'roles',
+//                CollectionType::class,
+//                [
+//                    'entry_type' => RoleType::class,
+//                    'allow_add'    => true,
+//                ]
+//            )
 //            ->add(
 //                'roles',
 //                'entity',
