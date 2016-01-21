@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Router;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Araneum\Bundle\UserBundle\Entity\Role;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class UserType
@@ -92,34 +93,12 @@ class UserType extends AbstractType
                 ]
             )
 //            ->add(
-//                'roles',
-//                CollectionType::class,
+//                'role',
+//                'choice',
 //                [
-//                    'entry_type' => RoleType::class,
-//                    'allow_add'    => true,
+//                    'label' => 'Role',
+//                    'choices' => User::$roleNames
 //                ]
-//            )
-//            ->add(
-//                'roles',
-//                'entity',
-//                [
-//                    'class' => 'AraneumUserBundle:Role',
-//                    'expanded' => true,
-//                    'multiple' => false,
-//                    'query_builder' => function(EntityRepository $er) {
-//                        return $er->createQueryBuilder('u')
-//                            ->orderBy('u.id', 'ASC');
-//                    }
-//                ]
-////                [
-////                    'label' => 'Roles',
-////                    'type' => new Role(),
-////                    'choices' => User::$roleNames,
-////                    'empty_value' => 'user.DATA_GRID.ROLES',
-////                    'attr' => [
-////                        'translateLabel' => 'user.DATA_GRID.ROLES',
-////                    ],
-////                ]
 //            )
             ->add(
                 'password',

@@ -150,7 +150,7 @@
                         $scope.id = id;
 
                         $scope.send = function($event, url) {
-                            var formData = $('#locale').serializeArray(),
+                            var formData = $('.create-update-form-grid').serializeArray(),
                                 data = {},
                                 len = formData.length;
 

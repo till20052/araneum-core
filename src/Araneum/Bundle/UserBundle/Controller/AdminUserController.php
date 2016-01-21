@@ -96,7 +96,6 @@ class AdminUserController extends Controller
         $id = $request->get('id');
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('AraneumUserBundle:User');
-
         try {
             if (!empty($id)) {
                 $user = $repository->findOneById($id);
@@ -106,8 +105,11 @@ class AdminUserController extends Controller
                 $code = JsonResponse::HTTP_CREATED;
             }
 
+            $request = $request->request->all();
+
             $form = $this->createForm($this->get('araneum_user.user.form'), $user);
-            $form->submit($request->request->all());
+            $form->submit();
+            die(var_dump($request->request->all()));
 
             if ($form->isValid()) {
                 $em->persist($user);
