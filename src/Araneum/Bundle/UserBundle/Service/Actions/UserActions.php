@@ -39,7 +39,7 @@ class UserActions extends AbstractActions
                     'display' => [
                         'btnClass' => 'btn-danger',
                         'icon' => 'icon-user-unfollow',
-                        'label' => 'users.DELETE_USER',
+                        'label' => 'user.DATA_GRID.DELETE_USER',
                     ],
                     'position' => ActionBuilderInterface::POSITION_ALL,
                 ]
@@ -52,7 +52,7 @@ class UserActions extends AbstractActions
                     'display' => [
                         'btnClass' => 'btn btn-sm btn-default',
                         'icon' => 'icon-lock-open',
-                        'label' => 'users.DISABLE_USER',
+                        'label' => 'user.DATA_GRID.DISABLE_USER',
                     ],
                     'position' => ActionBuilderInterface::POSITION_ALL,
                 ]
@@ -65,7 +65,7 @@ class UserActions extends AbstractActions
                     'display' => [
                         'btnClass' => 'btn btn-sm btn-default',
                         'icon' => 'icon-lock-open',
-                        'label' => 'users.ENABLE_USER',
+                        'label' => 'user.DATA_GRID.ENABLE_USER',
                     ],
                     'position' => ActionBuilderInterface::POSITION_ALL,
                 ]
@@ -78,7 +78,7 @@ class UserActions extends AbstractActions
                     'display' => [
                         'btnClass' => 'btn-success',
                         'icon' => 'icon-user-follow',
-                        'label' => 'users.CREATE_NEW',
+                        'label' => 'user.DATA_GRID.CREATE_NEW',
                     ],
                     'position' => ActionBuilderInterface::POSITION_TOP,
                 ]
@@ -91,7 +91,7 @@ class UserActions extends AbstractActions
                     'display' => [
                         'btnClass' => 'btn-success',
                         'icon' => 'icon-user-follow',
-                        'label' => 'users.EDIT_USER',
+                        'label' => 'user.DATA_GRID.EDIT_USER',
                     ],
                     'position' => ActionBuilderInterface::POSITION_ROW,
                 ]

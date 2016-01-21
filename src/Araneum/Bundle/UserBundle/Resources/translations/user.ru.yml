@@ -18,3 +18,24 @@ ENTER_YOUR_NAME_OR_EMAIL: 'Введите свой логин или email'
 ROLE: 'Роль'
 LAST_LOGIN: 'Последний удачный вход'
 REGISTER: 'Зарегистрирован'
+
+DATA_GRID:
+    USERS: "Пользователи"
+    EDIT_USER: "Редактирование пользователя"
+    DELETE_USER: "Удалить пользователя"
+    ENABLE_USER: "Активировать пользователя"
+    DISABLE_USER: "Сделать пользователя неактивным"
+    CREATE_NEW: "Создать пользователя"
+    NAME: "Имя"
+    FULL_NAME: "Полное имя"
+    EMAIL: "Email"
+    PASSWORD: "Пароль"
+    ENABLED: "Активно"
+    ROLES: "Роль"
+    ENCODING: "Кодировка"
+    USER: "Пользователь"
+    ORIENTATION: "Ориентация"
+    PLACEHOLDER: "Введите имя пользователя"
+    EMPTY_VALUE: "Выберите"
+    ENTER_ENCODING: "Введите кодировку"
+    ENTER_USER: "Введите пользователя"
