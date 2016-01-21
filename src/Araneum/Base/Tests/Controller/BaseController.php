@@ -5,6 +5,7 @@ namespace Araneum\Base\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Cookie;
+use Araneum\Base\Service\RabbitMQ\SpotProducerService;
 
 /**
  * Class BaseController
@@ -21,6 +22,11 @@ class BaseController extends WebTestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $guzzleHttpRequestMock;
+
+    /**
+     * @var SpotProducerService
+     */
+    protected $rabbitmqProducerMock;
 
     /**
      * Return admin authorized client
@@ -154,4 +160,19 @@ class BaseController extends WebTestCase
 
         $client->getContainer()->set($serviceName, $this->guzzleClientMock);
     }
+
+    /**
+     * Mock rabbitmqProducer and set to container.
+     *
+     * @param Client $client
+     * @param string $serviceName
+     * @see
+     */
+    private function mockRabbitmqProducer(Client $client, $serviceName)
+    {
+        $this->rabbitmqProducerMock = $this->getMockBuilder('Araneum\Base\Service\RabbitMQ\SpotProducerService')->disableOriginalConstructor()->getMock();
+
+        $client->getContainer()->set($serviceName, $this->rabbitmqProducerMock);
+    }
+
 }
