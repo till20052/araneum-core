@@ -28,6 +28,7 @@
 					UserAuth.login({
 						username: vm.username,
 						password: vm.password,
+						remember: vm.remember,
 						onSuccess: onLoginSuccess,
 						onError: onLoginError
 					});

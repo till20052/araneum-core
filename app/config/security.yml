@@ -16,10 +16,21 @@ security:
             anonymous: ~
             entry_point: araneum.auth.entry_point
             form_login:
+                provider: fos_userbundle
+                csrf_provider: security.csrf.token_manager
+                login_path: araneum_manage_login
                 check_path: araneum_manage_login_check
                 success_handler: araneum.auth.success.handler
+                remember_me: true
+            remember_me:
+                key: "%secret%"
+                lifetime: 31536000
+                domain: ~
+                path: /
+                user_provider: fos_userbundle
             logout:
                 path: araneum_manage_logout
+                target: araneum_manage_login
 
         api:
             pattern: ^/.*api
