@@ -19,6 +19,7 @@ class AdminUserControllerTest extends BaseController
 {
     /**
      * Test for set
+     *
      * @runInSeparateProcess
      */
     public function testSettingsSet()
@@ -35,14 +36,17 @@ class AdminUserControllerTest extends BaseController
             [
                 'Param1' => 'value1',
                 'Param2' => 'value2',
-            ]
+            ],
+            [],
+            ['HTTP_X-Requested-With' => 'XMLHttpRequest']
         );
 
         $response = $client->getResponse();
 
         $this->assertEquals(
             Response::HTTP_ACCEPTED,
-            $response->getStatusCode()
+            $response->getStatusCode(),
+            $response->getContent()
         );
     }
 }

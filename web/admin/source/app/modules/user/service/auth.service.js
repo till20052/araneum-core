@@ -61,6 +61,7 @@
                 .post('/manage/login_check', $.param({
                     _username: data.username,
                     _password: data.password,
+                    _remember_me: data.remember,
                     _csrf_token: _csrf_token
                 }),
                 {
@@ -98,7 +99,7 @@
          */
         function logout(data) {
             $http
-                .get('/logout')
+                .get('/manage/logout')
                 .success(function (response) {
                     var event = createEvent(response);
 
