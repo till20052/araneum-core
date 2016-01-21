@@ -105,11 +105,8 @@ class AdminUserController extends Controller
                 $code = JsonResponse::HTTP_CREATED;
             }
 
-            $request = $request->request->all();
-
             $form = $this->createForm($this->get('araneum_user.user.form'), $user);
-            $form->submit();
-            die(var_dump($request->request->all()));
+            $form->submit($request = $request->request->all());
 
             if ($form->isValid()) {
                 $em->persist($user);

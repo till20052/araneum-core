@@ -32,6 +32,7 @@ class User extends BaseUser
     const ROLE_USER  = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_API   = 'ROLE_API';
+    const ROLE_ANONYMUS   = 'ROLE_ANONYMUS';
 
     /**
      * @var array
@@ -165,6 +166,16 @@ class User extends BaseUser
         return $this;
     }
 
+    public function setRole($role)
+    {
+        $this->addRole($role);
+        return $this;
+    }
+    public function getRole()
+    {
+        return $this->roles[0];
+    }
+
     /**
      * Add user role
      *
@@ -180,6 +191,11 @@ class User extends BaseUser
         }
 
         return $this;
+    }
+
+    public function getRolesCollection()
+    {
+        return $this->roles;
     }
 
     /**
@@ -204,7 +220,7 @@ class User extends BaseUser
      * @param  string $role
      * @return bool
      */
-    public function hasRole($role)
+    public function hasRole($role = null)
     {
         return in_array(strtoupper($role), $this->getRoles(), true);
     }

@@ -92,22 +92,42 @@ class UserType extends AbstractType
                     ],
                 ]
             )
-//            ->add(
-//                'role',
-//                'choice',
-//                [
-//                    'label' => 'Role',
-//                    'choices' => User::$roleNames
-//                ]
-//            )
             ->add(
-                'password',
-                'password',
+                'roles',
+                'entity',
                 [
-                    'label' => 'Full name',
+                    'property_path' => 'role',
+                    'class'         => 'AraneumUserBundle:Role',
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('r')
+                            ->orderBy('r.id');
+                    },
+                    'label'         => 'Roles',
+                    'empty_value'   => 'user.DATA_GRID.SELECT_ROLES',
                     'attr' => [
-                        'placeholder' => 'user.DATA_GRID.PASSWORD',
-                        'translateLabel' => 'user.DATA_GRID.PASSWORD',
+                        'translateLabel' => 'user.DATA_GRID.ROLES',
+                    ],
+                ]
+            )
+            ->add(
+                'plainPassword',
+                'repeated',
+                [
+                    'type'           => 'password',
+                    'required'       => true,
+                    'first_options'  => [
+                        'label' => 'user.DATA_GRID.PASSWORD',
+                        'attr' => [
+                            'placeholder' => 'user.DATA_GRID.PASSWORD_PLACEHOLDER',
+                            'translateLabel' => 'user.DATA_GRID.PASSWORD',
+                        ],
+                    ],
+                    'second_options' => [
+                        'label' => 'user.DATA_GRID.PASSWORD_REPEAT',
+                        'attr' => [
+                            'placeholder' => 'user.DATA_GRID.PASSWORD_PLACEHOLDER',
+                            'translateLabel' => 'user.DATA_GRID.PASSWORD_REPEAT',
+                        ],
                     ],
                 ]
             );
