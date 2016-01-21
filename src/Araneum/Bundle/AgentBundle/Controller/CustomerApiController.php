@@ -3,16 +3,14 @@
 namespace Araneum\Bundle\AgentBundle\Controller;
 
 use Araneum\Base\Exception\InvalidFormException;
-use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use FOS\RestBundle\Request\ParamFetcher;
 
 /**
@@ -70,8 +68,10 @@ class CustomerApiController extends FOSRestController
      *   description = "Logs login customer",
      *   statusCodes = {
      *      200 = "Returned when successful",
+     *      400 = "Returned when validation is failed",
      *      403 = "Returned when authorization is failed",
-     *      404 = "Returned when Application not found"
+     *      404 = "Returned when Application not found",
+     *      500 = "Returned when server error"
      *   },
      *   requirements = {
      *      {
@@ -99,21 +99,26 @@ class CustomerApiController extends FOSRestController
      */
     public function loginAction($appKey, ParamFetcher $request)
     {
-        $email = $request->get('email');
-        $password = $request->get('password');
         try {
+            $email = $request->get('email');
+            $password = $request->get('password');
             $result = $this->container
                 ->get('araneum.agent.customer.api_handler')
                 ->login($email, $password, $appKey);
-        } catch (NotFoundHttpException $e) {
-            return View::create($e->getMessage(), Response::HTTP_NOT_FOUND);
-        }
 
-        if ($result === false) {
-            return View::create(["errors" => "Wrong username or password"], Response::HTTP_BAD_REQUEST);
-        }
+            if ($result === false) {
+                return View::create(["errors" => "Wrong username or password"], Response::HTTP_BAD_REQUEST);
+            }
 
-        return View::create($result);
+            return View::create($result);
+        } catch (HttpException $e) {
+            return View::create($e->getMessage(), $e->getStatusCode());
+        } catch (\Exception $e) {
+            $logger = $this->get('logger');
+            $logger->error($e->getMessage());
+
+            return View::create("Internal Server Error. Please try again later", Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
