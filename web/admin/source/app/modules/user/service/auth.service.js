@@ -86,7 +86,7 @@
                     }
 
                     if (!event.isPropagationStopped()) {
-                        _csrf_token = response._csrf_token;
+                        _csrf_token = response;
                     }
                 });
         }
