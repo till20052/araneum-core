@@ -109,12 +109,13 @@ class CustomerApiController extends FOSRestController
             if ($result === false) {
                 return View::create(["errors" => "Wrong username or password"], Response::HTTP_BAD_REQUEST);
             }
-
             return View::create($result);
         } catch (HttpException $e) {
             return View::create($e->getMessage(), $e->getStatusCode());
         } catch (\Exception $e) {
-            return View::create($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            $logger = $this->get('logger');
+            $logger->error($e->getMessage());
+            return View::create("Internal Server Error. Please try again later", Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
