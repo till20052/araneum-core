@@ -36,4 +36,34 @@ class ErrorRepository extends EntityRepository implements \Countable
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * Count elements of an object for period
+     * By default count errors by field "sentAt" for last 24h
+     *
+     * @param  string $period
+     * @return int Count as an integer.
+     */
+    public function countErrorsByTimeInterval($period = 'P1D')
+    {
+        $date = new \DateTime();
+        $date->sub(new \DateInterval($period));
+        $result = $this->createQueryBuilder('ERR')
+            ->select('COUNT(ERR.id) as repoCount')
+            ->where('ERR.sentAt BETWEEN :start AND :end')
+            ->setParameters(
+                [
+                    'start' => $date->format('Y-m-d H:i:s'),
+                    'end' => date('Y-m-d H:i:s', time()),
+                ]
+            )
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if (is_null($result)) {
+            $result = ['repoCount' => 0];
+        }
+
+        return (int) $result['repoCount'];
+    }
 }

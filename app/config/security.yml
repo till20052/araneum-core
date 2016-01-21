@@ -21,6 +21,7 @@ security:
                 login_path: araneum_manage_login
                 check_path: araneum_manage_login_check
                 success_handler: araneum.auth.success.handler
+                failure_handler: araneum.auth.failure.handler
                 remember_me: true
             remember_me:
                 key: "%secret%"

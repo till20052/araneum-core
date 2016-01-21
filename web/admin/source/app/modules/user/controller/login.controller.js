@@ -1,26 +1,26 @@
 (function (angular) {
 
-	'use strict';
+    'use strict';
 
-	angular
-		.module('app.users')
-		.controller('LoginController', ['$scope', 'UserAuth', LoginController]);
+    angular
+        .module('app.users')
+        .controller('LoginController', ['$scope', 'UserAuth', LoginController]);
 
-	function LoginController($scope, UserAuth) {
+    function LoginController($scope, UserAuth) {
 
-		(function (vm) {
+        (function (vm) {
 
-			vm.inLoading = false;
-			vm.submitDisabled = true;
-			vm.username = '';
-			vm.password = '';
-			vm.remember = false;
-			vm.error = '';
-			vm.submit = submit;
+            vm.inLoading = false;
+            vm.submitDisabled = true;
+            vm.username = '';
+            vm.password = '';
+            vm.remember = false;
+            vm.error = '';
+            vm.submit = submit;
 
-			UserAuth.initLoginForm(function(){
-				vm.submitDisabled = false;
-			});
+            UserAuth.initLoginForm(function () {
+                vm.submitDisabled = false;
+            });
 
 			function submit() {
 				if(vm.form.$valid){
@@ -35,19 +35,19 @@
 				}
 			}
 
-			function onLoginSuccess() {
-				vm.inLoading = false;
-			}
+            function onLoginSuccess() {
+                vm.inLoading = false;
+            }
 
-			function onLoginError(event) {
-				vm.inLoading = false;
-				vm.error = event.response.error || 'Incorrect login or password.';
-				vm.form.username.$dirty = true;
-				vm.form.password.$dirty = true;
-			}
+            function onLoginError(event) {
+                vm.inLoading = false;
+                vm.error = event.response.error || 'FOSUserBundle.Bad credentials';
+                vm.form.username.$dirty = true;
+                vm.form.password.$dirty = true;
+            }
 
-		})($scope);
+        })($scope);
 
-	}
+    }
 
 })(angular);
