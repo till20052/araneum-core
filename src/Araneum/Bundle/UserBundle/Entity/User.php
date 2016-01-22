@@ -86,6 +86,13 @@ class User extends BaseUser
     private $settings;
 
     /**
+     * @var string
+     * @Assert\Length(min="2", max="255")
+     * @Assert\Email()
+     */
+    protected $email;
+
+    /**
      * @inheritdoc
      */
     public function __construct()
@@ -168,13 +175,6 @@ class User extends BaseUser
 
         return $this;
     }
-
-    /**
-     * @var string
-     * @Assert\Length(min="2", max="255")
-     * @Assert\Email()
-     */
-    protected $email;
 
     /**
      * Set user role
