@@ -132,5 +132,4 @@ class AdminProfileController extends Controller
         return (new JsonResponse())
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
-
 }

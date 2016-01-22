@@ -17,5 +17,4 @@ class UserRepository extends EntityRepository implements \Countable
 
 
     use AdminDataGridTrait;
-
 }
