@@ -109,23 +109,12 @@ class UserType extends AbstractType
             )
             ->add(
                 'plainPassword',
-                'repeated',
+                'password',
                 [
-                    'type'           => 'password',
-                    'required'       => true,
-                    'first_options'  => [
-                        'label' => 'user.DATA_GRID.PASSWORD',
-                        'attr' => [
-                            'placeholder' => 'user.DATA_GRID.PASSWORD_PLACEHOLDER',
-                            'translateLabel' => 'user.DATA_GRID.PASSWORD',
-                        ],
-                    ],
-                    'second_options' => [
-                        'label' => 'user.DATA_GRID.PASSWORD_REPEAT',
-                        'attr' => [
-                            'placeholder' => 'user.DATA_GRID.PASSWORD_PLACEHOLDER',
-                            'translateLabel' => 'user.DATA_GRID.PASSWORD_REPEAT',
-                        ],
+                    'label'         => 'Password',
+                    'attr' => [
+                        'placeholder' => 'user.DATA_GRID.PASSWORD_PLACEHOLDER',
+                        'translateLabel' => 'user.DATA_GRID.PASSWORD',
                     ],
                 ]
             );

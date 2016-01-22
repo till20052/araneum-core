@@ -106,7 +106,7 @@ class AdminUserController extends Controller
             }
 
             $form = $this->createForm($this->get('araneum_user.user.form'), $user);
-            $form->submit($request = $request->request->all());
+            $form->submit($request->request->all());
 
             if ($form->isValid()) {
                 $em->persist($user);

@@ -96,29 +96,5 @@ class UserActions extends AbstractActions
                     'position' => ActionBuilderInterface::POSITION_ROW,
                 ]
             );
-//            ->add(
-//            'deleteGroup',
-//            [
-//                'resource' => 'araneum_root', //example!!! plz change in AC-228
-//                'callback' => 'deleteRow',
-//                'confirm' => [
-//                    'title' => 'Are you sure?',
-//                    'yes' => [
-//                        'class' => 'confirm',
-//                        'title' => 'Yes, delete it!',
-//                    ],
-//                    'no' => [
-//                        'class' => 'cancel',
-//                        'title' => 'Cancel',
-//                    ],
-//                ],
-//                'display' => [
-//                    'btnClass' => 'btn-danger',
-//                    'icon' => 'icon-user-unfollow',
-//                    'label' => 'Delete user',
-//                ],
-//                'position' => ActionBuilderInterface::POSITION_ALL,
-//            ]
-//        );
     }
 }
