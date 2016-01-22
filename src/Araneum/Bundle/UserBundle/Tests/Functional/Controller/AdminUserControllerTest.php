@@ -17,4 +17,5 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AdminUserControllerTest extends BaseController
 {
+
 }
