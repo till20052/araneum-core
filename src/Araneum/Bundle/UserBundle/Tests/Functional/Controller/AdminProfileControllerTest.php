@@ -17,4 +17,13 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AdminProfileControllerTest extends BaseController
 {
+    /**
+     * Test for set
+     *
+     * @runInSeparateProcess
+     */
+    public function testSettingsSet()
+    {
+        return true;
+    }
 }

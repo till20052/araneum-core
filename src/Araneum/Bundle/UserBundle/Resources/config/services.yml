@@ -6,10 +6,10 @@ services:
             - { name: 'monolog.logger', channel: 'securirty' }
 
     araneum_user.user.form:
-            class: Araneum\Bundle\UserBundle\Form\Type\UserType
-            arguments: [@router]
-            tags:
-                - { name: form.type }
+        class: Araneum\Bundle\UserBundle\Form\Type\UserType
+        arguments: [@router]
+        tags:
+            - { name: form.type }
 
     araneum_user.user.filter.form:
         class: Araneum\Bundle\UserBundle\Form\Filter\UserFilterType
