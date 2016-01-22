@@ -9,6 +9,10 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\DomCrawler\Link;
 use Symfony\Component\HttpFoundation\Response;
+use Araneum\Bundle\UserBundle\Controller\AdminUserController;
+use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Router;
 
 /**
  * Class AdminUserControllerTest
@@ -18,13 +22,86 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminUserControllerTest extends BaseController
 {
     /**
-     * Test for set
-     *
-     * @runInSeparateProcess
-     * @return bool
+     * @var Client
      */
-    public function testSettingsSet()
+    private $client;
+
+    /**
+     * @var Router
+     */
+    private $router;
+
+    /**
+     * @inheritdoc
+     */
+    public function setUp()
     {
-        return true;
+        $this->client = self::createAdminAuthorizedClient('admin');
+
+        /**
+         * @var Router router
+         */
+        $this->router = $this->client->getContainer()->get('router');
+    }
+
+    /**
+     * Test Initialize Action
+     * @runInSeparateProcess
+     */
+    public function testInitAction()
+    {
+        $this->client->request(
+            Request::METHOD_GET,
+            $this->router->generate('araneum_manage_users_init'),
+            [],
+            [],
+            ['HTTP_X-Requested-With' => 'XMLHttpRequest']
+        );
+
+        /**
+         * @var Response $response
+         */
+        $response = $this->client->getResponse();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertObjectsStructuresEquals(
+            (object) [
+                'grid' => [
+                    'columns' => [],
+                ],
+            ],
+            json_decode($response->getContent())
+        );
+    }
+
+    /**
+     * Test datatable
+     * @runInSeparateProcess
+     */
+    public function testDatatableAction()
+    {
+        $this->client->request(
+            Request::METHOD_GET,
+            $this->router->generate('araneum_manage_users_grid'),
+            [],
+            [],
+            ['HTTP_X-Requested-With' => 'XMLHttpRequest']
+        );
+
+        /**
+         * @var Response $response
+         */
+        $response = $this->client->getResponse();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertObjectsStructuresEquals(
+            (object) [
+                'aaData' => [],
+                'iTotalDisplayRecords' => rand(),
+                'iTotalRecords' => rand(),
+                'sEcho' => rand(),
+            ],
+            json_decode($response->getContent())
+        );
     }
 }

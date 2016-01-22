@@ -21,10 +21,32 @@ class AdminProfileControllerTest extends BaseController
      * Test for set
      *
      * @runInSeparateProcess
-     * @return bool
      */
     public function testSettingsSet()
     {
-        return true;
+        $client = $this->createAdminAuthorizedClient('admin');
+
+        $router = $client
+            ->getContainer()
+            ->get('router');
+
+        $client->request(
+            'POST',
+            $router->generate('araneum_user_adminUser_setSettings'),
+            [
+                'Param1' => 'value1',
+                'Param2' => 'value2',
+            ],
+            [],
+            ['HTTP_X-Requested-With' => 'XMLHttpRequest']
+        );
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(
+            Response::HTTP_ACCEPTED,
+            $response->getStatusCode(),
+            $response->getContent()
+        );
     }
 }
