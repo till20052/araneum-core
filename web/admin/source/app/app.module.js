@@ -40,6 +40,7 @@
             'app.utils',
             'app.charts',
             'app.action-builder',
+            'crud',
 
         /**
          * Modules
