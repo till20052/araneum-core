@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class UserType
+ * Class RoleType
  *
  * @package Araneum\Bundle\UserBundle\Form\Type
  */
