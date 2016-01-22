@@ -52,7 +52,7 @@ class UserType extends AbstractType
                     'label' => 'Full name',
                     'attr' => [
                         'placeholder' => 'user.DATA_GRID.PLACEHOLDER',
-                        'translateLabel' => 'user.DATA_GRID.FULL_NAME',
+                        'translateLabel' => 'user.DATA_GRID.NAME',
                     ],
                 ]
             )
