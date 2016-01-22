@@ -21,6 +21,7 @@ class AdminUserControllerTest extends BaseController
      * Test for set
      *
      * @runInSeparateProcess
+     * @return bool
      */
     public function testSettingsSet()
     {
