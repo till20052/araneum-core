@@ -110,6 +110,8 @@ class BaseController extends WebTestCase
         }
 
         $this->mockGuzzleClientWithRequest($client, 'guzzle.client');
+        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot');
+        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot_login');
 
         return $client;
     }
@@ -174,5 +176,4 @@ class BaseController extends WebTestCase
 
         $client->getContainer()->set($serviceName, $this->rabbitmqProducerMock);
     }
-
 }
