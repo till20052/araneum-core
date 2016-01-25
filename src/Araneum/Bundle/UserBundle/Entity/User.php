@@ -189,7 +189,7 @@ class User extends BaseUser
     }
 
     /**
-     * get user role
+     * Get user role
      *
      * @return Role
      */
