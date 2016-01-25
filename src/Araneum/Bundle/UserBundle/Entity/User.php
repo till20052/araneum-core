@@ -34,7 +34,6 @@ class User extends BaseUser
     const ROLE_USER  = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_API   = 'ROLE_API';
-//    const ROLE_ANONYMUS   = 'ROLE_ANONYMUS';
 
     /**
      * @var array
