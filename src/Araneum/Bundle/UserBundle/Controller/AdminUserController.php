@@ -79,7 +79,7 @@ class AdminUserController extends Controller
     }
 
     /**
-     * Save locale
+     * Save user
      *
      * @Security("has_role('ROLE_ADMIN')")
      * @Route(
@@ -152,8 +152,8 @@ class AdminUserController extends Controller
     /**
      * Disable users one or many
      *
-     * @param                                                                            Request $request
-     * @return                                                                           Response
+     * @param      Request $request
+     * @return     Response
      * @Security("has_role('ROLE_ADMIN')")
      * @Route("/users/user/disable", name="araneum_user_admin_user_disable")
      */
@@ -166,8 +166,8 @@ class AdminUserController extends Controller
      * Delete users one or many
      *
      * @Route("/users/user/delete", defaults={"_format"="json"}, name="araneum_user_admin_user_delete")
-     * @param                                  Request $request
-     * @return                                 JsonResponse
+     * @param      Request $request
+     * @return     JsonResponse
      */
     public function deleteAction(Request $request)
     {

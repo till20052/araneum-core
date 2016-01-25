@@ -196,7 +196,7 @@ class User extends BaseUser
      */
     public function getRole()
     {
-        return $this->roles[0];
+        return array_shift($this->roles);
     }
 
     /**
