@@ -34,7 +34,7 @@ class User extends BaseUser
     const ROLE_USER  = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_API   = 'ROLE_API';
-    const ROLE_ANONYMUS   = 'ROLE_ANONYMUS';
+//    const ROLE_ANONYMUS   = 'ROLE_ANONYMUS';
 
     /**
      * @var array
@@ -196,7 +196,7 @@ class User extends BaseUser
      */
     public function getRole()
     {
-        return array_shift($this->roles);
+        return $this->roles[0];
     }
 
     /**
@@ -248,7 +248,7 @@ class User extends BaseUser
      * @param  string $role
      * @return bool
      */
-    public function hasRole($role = null)
+    public function hasRole($role)
     {
         return in_array(strtoupper($role), $this->getRoles(), true);
     }

@@ -51,8 +51,8 @@ class UserType extends AbstractType
                 [
                     'label' => 'Full name',
                     'attr' => [
-                        'placeholder' => 'user.DATA_GRID.PLACEHOLDER',
-                        'translateLabel' => 'user.DATA_GRID.NAME',
+                        'placeholder' => 'user.data_grid.PLACEHOLDER',
+                        'translateLabel' => 'user.data_grid.NAME',
                     ],
                 ]
             )
@@ -62,8 +62,8 @@ class UserType extends AbstractType
                 [
                     'label' => 'Full name',
                     'attr' => [
-                        'placeholder' => 'user.DATA_GRID.PLACEHOLDER',
-                        'translateLabel' => 'user.DATA_GRID.FULL_NAME',
+                        'placeholder' => 'user.data_grid.PLACEHOLDER',
+                        'translateLabel' => 'user.data_grid.FULL_NAME',
                     ],
                 ]
             )
@@ -73,8 +73,8 @@ class UserType extends AbstractType
                 [
                     'label' => 'Email',
                     'attr' => [
-                        'placeholder' => 'user.DATA_GRID.EMAIL',
-                        'translateLabel' => 'user.DATA_GRID.EMAIL',
+                        'placeholder' => 'user.data_grid.EMAIL',
+                        'translateLabel' => 'user.data_grid.EMAIL',
                     ],
                 ]
             )
@@ -84,9 +84,9 @@ class UserType extends AbstractType
                 [
                     'label' => 'Enabled',
                     'choices' => User::$enable,
-                    'empty_value' => 'user.DATA_GRID.EMPTY_VALUE',
+                    'empty_value' => 'user.data_grid.EMPTY_VALUE',
                     'attr' => [
-                        'translateLabel' => 'user.DATA_GRID.ENABLED',
+                        'translateLabel' => 'user.data_grid.ENABLED',
                     ],
                 ]
             )
@@ -101,9 +101,9 @@ class UserType extends AbstractType
                             ->orderBy('r.id');
                     },
                     'label'         => 'Roles',
-                    'empty_value'   => 'user.DATA_GRID.SELECT_ROLES',
+                    'empty_value'   => 'user.data_grid.SELECT_ROLES',
                     'attr' => [
-                        'translateLabel' => 'user.DATA_GRID.ROLES',
+                        'translateLabel' => 'user.data_grid.ROLES',
                     ],
                 ]
             )
@@ -113,8 +113,8 @@ class UserType extends AbstractType
                 [
                     'label'         => 'Password',
                     'attr' => [
-                        'placeholder' => 'user.DATA_GRID.PASSWORD_PLACEHOLDER',
-                        'translateLabel' => 'user.DATA_GRID.PASSWORD',
+                        'placeholder' => 'user.data_grid.PASSWORD_PLACEHOLDER',
+                        'translateLabel' => 'user.data_grid.PASSWORD',
                     ],
                 ]
             );

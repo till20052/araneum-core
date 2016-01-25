@@ -19,7 +19,7 @@ ROLE: 'Роль'
 LAST_LOGIN: 'Последний удачный вход'
 REGISTER: 'Зарегистрирован'
 
-DATA_GRID:
+data_grid:
     USERS: "Пользователи"
     EDIT_USER: "Изменить данные"
     EDIT: "Сохранить"
