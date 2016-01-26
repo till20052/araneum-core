@@ -53,7 +53,7 @@ class MailRepository extends EntityRepository implements \Countable
             ->setParameter('status', EntityMail::STATUS_NEW)
             ->orderBy('M.id', 'ASC')
             ->setFirstResult(0)
-            ->setMaxResults((int)$limit)
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }
