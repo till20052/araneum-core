@@ -4,6 +4,7 @@ namespace Araneum\Bundle\MailBundle\Repository;
 
 use Araneum\Base\Repository\CountableTrait;
 use Doctrine\ORM\EntityRepository;
+use Araneum\Bundle\MailBundle\Entity\Mail as EntityMail;
 
 /**
  * MailRepository
@@ -38,5 +39,23 @@ class MailRepository extends EntityRepository implements \Countable
             )
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * get All Emails list
+     * @param int $limit
+     * @return array
+     */
+    public function getAllEmails($limit)
+    {
+        $query = $this->createQueryBuilder('M')
+            ->where('M.status = :status')
+            ->setParameter('status', EntityMail::STATUS_NEW)
+            ->orderBy('M.id', 'ASC')
+            ->setFirstResult(0)
+            ->setMaxResults((int)$limit)
+            ->getQuery();
+
+        return $query->getResult();
     }
 }
