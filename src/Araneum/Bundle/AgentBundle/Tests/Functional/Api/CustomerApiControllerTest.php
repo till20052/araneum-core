@@ -53,6 +53,10 @@ class CustomerApiControllerTest extends BaseController
     public function testPostCustomer(array $post, $expectedCode)
     {
         $client = self::createAdminAuthorizedClient('api');
+
+        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot');
+        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot_customer');
+
         $client->request(
             'POST',
             $this->customerInsert.ApplicationFixtures::TEST_APP_APP_KEY,
@@ -75,6 +79,10 @@ class CustomerApiControllerTest extends BaseController
     public function testResetPassword(array $requestData, $expectedCode)
     {
         $client = self::createAdminAuthorizedClient('api');
+
+        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot');
+        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot_customer');
+
         $client->request(
             'POST',
             $this->customerResetPassword.'?app_key='.ApplicationFixtures::TEST_APP_APP_KEY,
@@ -181,6 +189,10 @@ class CustomerApiControllerTest extends BaseController
     public function testLogin(array $requestData, $expectedCode)
     {
         $client = self::createAdminAuthorizedClient('api');
+
+        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot');
+        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot_customer');
+
         $client->request(
             'POST',
             $this->customerLogin.ApplicationFixtures::TEST_APP_APP_KEY,

@@ -112,6 +112,7 @@ class BaseController extends WebTestCase
         $this->mockGuzzleClientWithRequest($client, 'guzzle.client');
         $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot');
         $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot_login');
+        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot_customer');
 
         return $client;
     }
@@ -170,7 +171,7 @@ class BaseController extends WebTestCase
      * @param string $serviceName
      * @see
      */
-    private function mockRabbitmqProducer(Client $client, $serviceName)
+    public function mockRabbitmqProducer(Client $client, $serviceName)
     {
         $this->rabbitmqProducerMock = $this->getMockBuilder('Araneum\Base\Service\RabbitMQ\SpotProducerService')->disableOriginalConstructor()->getMock();
 
