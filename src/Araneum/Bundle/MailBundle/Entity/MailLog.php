@@ -33,9 +33,10 @@ class MailLog
     /**
      * @var Mail
      *
-     * @ORM\Column(name="mail_id", type="integer")
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MailBundle\Entity\Mail", inversedBy="mails")
+     * @ORM\JoinColumn(name="mail_id", referencedColumnName="id")
      */
-    private $mail_id;
+    private $mail;
 
     /**
      * @var integer
@@ -58,24 +59,24 @@ class MailLog
     /**
      * Set mail
      *
-     * @param  integer $mail_id
-     * @return MailLog
+     * @param  Mail $mail
+     * @return Mail
      */
-    public function setMailId($mail_id)
+    public function setMail(Mail $mail)
     {
-        $this->mail_id = $mail_id;
+        $this->mail = $mail;
 
         return $this;
     }
 
     /**
-     * Get mauil
+     * Get mail
      *
-     * @return integer
+     * @return Mail
      */
-    public function getMailId()
+    public function getMail()
     {
-        return $this->mail_id;
+        return $this->mail;
     }
 
     /**
@@ -101,3 +102,4 @@ class MailLog
         return $this->status;
     }
 }
+

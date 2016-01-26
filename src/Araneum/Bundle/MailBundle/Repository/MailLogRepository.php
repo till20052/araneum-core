@@ -3,7 +3,8 @@
 namespace Araneum\Bundle\MailBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Araneum\Bundle\MailBundle\Entity\MailLog as MailLog;
+use Araneum\Bundle\MailBundle\Entity\Mail;
+use Araneum\Bundle\MailBundle\Entity\MailLog;
 
 /**
  * MailLogRepository
@@ -14,21 +15,21 @@ use Araneum\Bundle\MailBundle\Entity\MailLog as MailLog;
 class MailLogRepository extends EntityRepository
 {
     /**
-     * Set Mail log status array( '1' => 'OK', '2' => 'ERROR' )
-     * @param array $params
+     * Set Mail log
+     * @param Mail $mail
+     * @param int $status
      * @throws \Exception
      */
-    public function setMailLog(array $params) {
+    public function setMailLog(Mail $mail, $status)
+    {
         $manager = $this->getEntityManager();
-
         try {
             $eMailLog = new MailLog();
-            $eMailLog->setStatus($params['status']);
-            $eMailLog->setMailId($params['mail_id']);
-
+            $eMailLog->setStatus($status);
+            $eMailLog->setMail($mail);
             $manager->persist($eMailLog);
             $manager->flush();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new \Exception('Dont save in MailLog.');
         }
     }
