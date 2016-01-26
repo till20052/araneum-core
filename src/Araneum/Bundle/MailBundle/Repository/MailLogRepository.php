@@ -17,7 +17,7 @@ class MailLogRepository extends EntityRepository
     /**
      * Set Mail log
      * @param Mail $mail
-     * @param int $status
+     * @param integer $status
      * @throws \Exception
      */
     public function setMailLog(Mail $mail, $status)

@@ -18,8 +18,8 @@ class MailLog
 {
     use DateTrait;
 
-    const SEND_OK = 1;
-    const SEND_ERROR = 2;
+    const SEND_OK       = 1;
+    const SEND_ERROR    = 2;
 
     /**
      * @var integer
@@ -45,11 +45,10 @@ class MailLog
      */
     private $status;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -95,7 +94,7 @@ class MailLog
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
     public function getStatus()
     {

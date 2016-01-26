@@ -66,5 +66,4 @@ class SendMailsCommandTest extends \PHPUnit_Framework_TestCase
         $msg = $this->spool->getMessages()[0];
         $this->assertArrayHasKey('testtargetr@test.test', $msg->getTo());
     }
-
 }

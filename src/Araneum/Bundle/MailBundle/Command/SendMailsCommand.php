@@ -124,11 +124,11 @@ class SendMailsCommand extends ContainerAwareCommand
                         $messangeCount++;
                         $this->setLog($mail, MailLog::SEND_OK);
                     } catch (\Exception $e) {
-                        throw new \Exception("Don't save email status. Error:" . $e->getMessage());
+                        throw new \Exception("Don't save email status. Error:".$e->getMessage());
                     }
                 } else {
                     $this->setLog($mail, MailLog::SEND_ERROR);
-                    $this->showError("Error! Not send messange to " . $mail->getId());
+                    $this->showError("Error! Not send messange to ".$mail->getId());
                 }
             }
             $this->output->writeln("Messange $messangeCount send to mail");
@@ -143,7 +143,8 @@ class SendMailsCommand extends ContainerAwareCommand
      * @param Mail $mail
      * @param int $status
      */
-    private function setLog(Mail $mail, $status = MailLog::SEND_OK) {
+    private function setLog(Mail $mail, $status = MailLog::SEND_OK)
+    {
         $manager = $this->getContainer()
             ->get('doctrine')
             ->getManager();
