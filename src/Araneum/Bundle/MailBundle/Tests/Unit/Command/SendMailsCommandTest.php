@@ -50,7 +50,7 @@ class SendMailsCommandTest extends \PHPUnit_Framework_TestCase
     /**
      * Test send one emails.
      */
-    function testSend()
+    public function testSend()
     {
         $message = \Swift_Message::newInstance();
         $this->assertInstanceOf('Swift_Message', $message);

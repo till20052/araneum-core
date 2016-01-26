@@ -16,28 +16,32 @@ use Doctrine\ORM\Query\Expr;
 use Araneum\Bundle\MailBundle\Entity\Mail;
 use Araneum\Bundle\MailBundle\Entity\MailLog;
 
+/**
+ * Class SendMailsCommand
+ * @package Araneum\Bundle\MailBundle\Command
+ */
 class SendMailsCommand extends ContainerAwareCommand
 {
     /**
      * Set content type
      * @var array
      */
-    static $ContentTypes = [
+    protected static $contentTypes = [
         'html' => 'text/html',
-        'plain' => 'text/plain'
+        'plain' => 'text/plain',
     ];
 
     /**
      * Set charset to sendmailer
      * @type string
      */
-    const Charset = 'UTF-8';
+    const CHARSET = 'UTF-8';
 
     /**
      * Set Default limit send mails
      * @type integer
      */
-    const DefaultLimit = 10;
+    const DEFAULTLIMIT = 10;
 
     /**
      * @var OutputInterface
@@ -67,7 +71,7 @@ class SendMailsCommand extends ContainerAwareCommand
                 '-l',
                 InputOption::VALUE_REQUIRED,
                 'Limit of mails send each time',
-                self::DefaultLimit
+                self::DEFAULTLIMIT
             );
     }
 
@@ -85,7 +89,7 @@ class SendMailsCommand extends ContainerAwareCommand
         $this->output = $output;
         $this->fs = new Filesystem();
         $limit = $input->getOption('limit');
-        $this->sendAllMail($limit ? $limit : self::DefaultLimit);
+        $this->sendAllMail($limit ? $limit : self::DEFAULTLIMIT);
     }
 
     /**
@@ -109,10 +113,10 @@ class SendMailsCommand extends ContainerAwareCommand
                     ->setSubject($mail->getHeadline())
                     ->setFrom($mail->getSender())
                     ->setTo($mail->getTarget())
-                    ->setCharset(self::Charset)
-                    ->setContentType(self::$ContentTypes['plain'])
-                    ->setBody($mail->getHtmlBody(), self::$ContentTypes['html'])
-                    ->addPart($mail->getTextBody(), self::$ContentTypes['plain']);
+                    ->setCharset(self::CHARSET)
+                    ->setContentType(self::$contentTypes['plain'])
+                    ->setBody($mail->getHtmlBody(), self::$contentTypes['html'])
+                    ->addPart($mail->getTextBody(), self::$contentTypes['plain']);
                 if (!empty($mail->getAttachment()) && $this->fs->exists($mail->getAttachment())) {
                     $message->attach(\Swift_Attachment::fromPath($mail->getAttachment()));
                 }

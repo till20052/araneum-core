@@ -101,4 +101,3 @@ class MailLog
         return $this->status;
     }
 }
-

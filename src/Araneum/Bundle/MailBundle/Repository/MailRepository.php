@@ -48,8 +48,8 @@ class MailRepository extends EntityRepository implements \Countable
      */
     public function getAllEmails($limit)
     {
-        $query = $this->createQueryBuilder('M');
-        return $query->where('M.status = :status')
+        return $this->createQueryBuilder('M')
+            ->where('M.status = :status')
             ->setParameter('status', EntityMail::STATUS_NEW)
             ->orderBy('M.id', 'ASC')
             ->setFirstResult(0)
