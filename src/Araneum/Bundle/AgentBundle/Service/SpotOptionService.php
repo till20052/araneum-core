@@ -11,6 +11,7 @@ use Araneum\Bundle\AgentBundle\Entity\Lead;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Base\Service\Spot\SpotApiSenderService;
 use Doctrine\ORM\EntityManager;
+use fixtures\App;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -167,5 +168,22 @@ class SpotOptionService
         ];
 
         return $this->spotProducerService->publish($leadData, $lead->getApplication()->getSpotCredential());
+    }
+
+    /**
+     * Get customers from spot by filter
+     *
+     * @param Application   $application
+     * @param array         $filterOptions
+     * @return \Guzzle\Http\Message\Response
+     */
+    public function getCustomersByFilter($application, $filterOptions)
+    {
+        $data = [
+            'MODULE' => 'Customer',
+            'COMMAND' => 'view',
+            'FILTER' => $filterOptions
+        ];
+        return $this->spotApiSenderService->send($data, $application->getSpotCredential());
     }
 }

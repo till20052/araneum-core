@@ -10,3 +10,7 @@ services:
         arguments: [@doctrine, @service_container]
         tags:
             - { name: form.type, alias: araneum_user_filter }
+
+    araneum.spot.api.customer.service:
+            class: Araneum\Bundle\UserBundle\Service\Spot\SpotApiCustomerService
+            arguments: [@doctrine.orm.entity_manager, @araneum.agent.spotoption.service]

@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Araneum\Bundle\UserBundle\Service\DataTable\UserDataTableList;
 use Araneum\Bundle\UserBundle\Service\Actions\UserActions;
+use Araneum\Bundle\UserBundle\Service\Spot\SpotApiCustomerService;
 
 /**
  * Class AdminUserController
@@ -49,45 +50,51 @@ class AdminUserController extends Controller
      */
     public function editAction(Request $request)
     {
-        $em = $this->get('doctrine.orm.entity_manager');
-        /**
-         * @var User $user
-         */
-        $user = $this->getUser();
-        $form = $this->createForm(new ProfileType(), $user);
-
-        /**
-         * @var FormHandlerService $formHandler
-         */
-        $formHandler = $this->get('araneum.base.form.handler');
-
-        if ($request->getMethod() === 'POST') {
-            $form->submit($request);
-
-            if (!$form->isValid()) {
-                return new JsonResponse(
-                    ['errors' => $formHandler->getErrorMessages($form)],
-                    Response::HTTP_BAD_REQUEST
-                );
-            }
-
-            $em->persist($user);
-            $em->flush();
-
-            return new JsonResponse(
-                [
-                    'username' => $user->getUsername(),
-                    'fullName' => $user->getFullName(),
-                    'email' => $user->getEmail(),
-                ],
-                Response::HTTP_ACCEPTED
-            );
-        }
-
+        $app = $this->getDoctrine()->getRepository('AraneumMainBundle:Application')->findOneById(1);
+        $service = $this->get('araneum.spot.api.customer.service');
         return new JsonResponse(
-            ['form' => $formHandler->extract($form->createView())],
-            Response::HTTP_OK
+            [$service->getAllCustomersByPeriod('1h', $app)],
+            Response::HTTP_BAD_REQUEST
         );
+//        $em = $this->get('doctrine.orm.entity_manager');
+//        /**
+//         * @var User $user
+//         */
+//        $user = $this->getUser();
+//        $form = $this->createForm(new ProfileType(), $user);
+//
+//        /**
+//         * @var FormHandlerService $formHandler
+//         */
+//        $formHandler = $this->get('araneum.base.form.handler');
+//
+//        if ($request->getMethod() === 'POST') {
+//            $form->submit($request);
+//
+//            if (!$form->isValid()) {
+//                return new JsonResponse(
+//                    ['errors' => $formHandler->getErrorMessages($form)],
+//                    Response::HTTP_BAD_REQUEST
+//                );
+//            }
+//
+//            $em->persist($user);
+//            $em->flush();
+//
+//            return new JsonResponse(
+//                [
+//                    'username' => $user->getUsername(),
+//                    'fullName' => $user->getFullName(),
+//                    'email' => $user->getEmail(),
+//                ],
+//                Response::HTTP_ACCEPTED
+//            );
+//        }
+//
+//        return new JsonResponse(
+//            ['form' => $formHandler->extract($form->createView())],
+//            Response::HTTP_OK
+//        );
     }
 
     /**
