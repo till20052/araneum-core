@@ -172,10 +172,10 @@ class AdminUserController extends Controller
     public function deleteAction(Request $request)
     {
         $idx = $request->request->get('data');
-        $localeRepository = $this->getDoctrine()->getRepository('AraneumUserBundle:User');
+        $userRepository = $this->getDoctrine()->getRepository('AraneumUserBundle:User');
 
         if (is_array($idx) && count($idx) > 0) {
-            $localeRepository->delete($idx);
+            $userRepository->delete($idx);
         }
 
         return new JsonResponse('Success');
@@ -235,7 +235,7 @@ class AdminUserController extends Controller
     {
         $idx = $request->request->get('data');
 
-        $localeRepository = $this->getDoctrine()->getRepository('AraneumUserBundle:User');
+        $userRepository = $this->getDoctrine()->getRepository('AraneumUserBundle:User');
 
         if (!is_array($idx)) {
             return new JsonResponse('Data must be an array');
@@ -246,7 +246,7 @@ class AdminUserController extends Controller
             return new JsonResponse((string) $errors);
         }
 
-        $localeRepository->updateEnabled($idx, $state);
+        $userRepository->updateEnabled($idx, $state);
 
         return new JsonResponse('Success');
     }
