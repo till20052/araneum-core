@@ -5,11 +5,13 @@
         .module('crud')
         .controller('CRUDController', CRUDController);
 
-    CRUDController.$inject = ['$scope'];
+    CRUDController.$inject = ['$scope', 'CRUDConfigLoader', '$state'];
 
-    function CRUDController($scope) {
+    function CRUDController($scope, CRUDConfigLoader, $state) {
         $scope.icon = 'icon-globe-alt';
         $scope.title = 'locales.LOCALES';
+
+        CRUDConfigLoader.setUrl($state.$current.initialize);
     }
 
 })();
