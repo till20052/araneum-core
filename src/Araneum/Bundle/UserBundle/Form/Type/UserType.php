@@ -91,15 +91,11 @@ class UserType extends AbstractType
                 ]
             )
             ->add(
-                'roles',
-                'entity',
+                'role',
+                'choice',
                 [
-                    'property_path' => 'role',
-                    'class'         => 'AraneumUserBundle:Role',
-                    'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('r')
-                            ->orderBy('r.id');
-                    },
+                    'choices' => User::$roleNames,
+                    'choices_as_values' => true,
                     'label'         => 'Roles',
                     'empty_value'   => 'user.data_grid.SELECT_ROLES',
                     'attr' => [
