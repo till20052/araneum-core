@@ -39,9 +39,9 @@ class User extends BaseUser
      * @var array
      */
     public static $roleNames = [
-        'ROLE_USER' => self::ROLE_USER ,
+        'ROLE_USER' => self::ROLE_USER,
         'ROLE_ADMIN' => self::ROLE_ADMIN,
-        'ROLE_API' => self::ROLE_API ,
+        'ROLE_API' => self::ROLE_API,
     ];
 
     /**

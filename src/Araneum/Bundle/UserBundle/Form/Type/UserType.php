@@ -107,8 +107,8 @@ class UserType extends AbstractType
                 'plainPassword',
                 'password',
                 [
-                    'label'         => 'Password',
-                    'attr' => [
+                    'label' => 'Password',
+                    'attr'  => [
                         'placeholder' => 'user.data_grid.PASSWORD_PLACEHOLDER',
                         'translateLabel' => 'user.data_grid.PASSWORD',
                     ],
