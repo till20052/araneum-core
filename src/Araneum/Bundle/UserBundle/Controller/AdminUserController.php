@@ -103,8 +103,9 @@ class AdminUserController extends Controller
                 $code = JsonResponse::HTTP_ACCEPTED;
             } else {
                 $user = new User();
-                if (empty($request->get('plainPassword')))
+                if (empty($request->get('plainPassword'))){
                     throw new Exception("Password should not be Blank");
+                }
                 $code = JsonResponse::HTTP_CREATED;
             }
 
@@ -126,9 +127,9 @@ class AdminUserController extends Controller
                 $errorList = $this->get('validator')->validate($user);
                 $msg = "";
                 foreach ($errorList as $err) {
-
                     $msg.= $this->get('translator')->trans($err->getMessage()).". ";
                 }
+
                 return new JsonResponse(
                     ['message' => $msg],
                     JsonResponse::HTTP_BAD_REQUEST
