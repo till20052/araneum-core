@@ -48,11 +48,6 @@ class SendMailsCommandTest extends WebTestCase
     private $commandTester;
 
     /**
-     * @var Filesystem
-     */
-    private $fs;
-
-    /**
      * Test check command to send emails
      */
     public function testSendEmails()
@@ -68,8 +63,7 @@ class SendMailsCommandTest extends WebTestCase
             1,
             preg_match(
                 '/Messange 1 send to mail/',
-                $this->commandTester->getDisplay(),
-                $match
+                $this->commandTester->getDisplay()
             )
         );
     }

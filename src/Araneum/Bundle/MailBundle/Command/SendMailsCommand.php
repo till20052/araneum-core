@@ -147,20 +147,15 @@ class SendMailsCommand extends ContainerAwareCommand
      * @param Mail $mail
      * @param int $status
      * @return boolean
-     * @throws \Exception
      */
     private function setLog(Mail $mail, $status = MailLog::STATUS_OK)
     {
         $manager = $this->getContainer()
             ->get('doctrine')
             ->getManager();
-        try {
-            $manager->getRepository("AraneumMailBundle:MailLog")
+        $manager->getRepository("AraneumMailBundle:MailLog")
                 ->setMailLog($mail, $status);
-            return true;
-        } catch (\Exception $e) {
-            throw new \Exception("Can't save log to MailLog.".$e->getMessage());
-        }
+        return true;
     }
 
     /**
