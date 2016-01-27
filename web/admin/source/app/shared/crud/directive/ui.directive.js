@@ -17,13 +17,19 @@
         };
 
         function link(scope, iElement, iAttrs) {
-            var directive = $('<crud-ui-'+scope.type+' />');
+            scope.$watch(function () {
+                return $(iElement).parent().length > 0;
+            }, function (ready) {
+                if (ready) {
+                    var directive = $('<crud-ui-'+scope.type+' />');
 
-            if(iAttrs.hasOwnProperty('view')){
-                scope.view = iAttrs.view;
-            }
+                    if(iAttrs.hasOwnProperty('view')){
+                        scope.view = iAttrs.view;
+                    }
 
-            iElement.replaceWith($compile(directive)(scope));
+                    iElement.replaceWith($compile(directive)(scope));
+                }
+            });
         }
     }
 

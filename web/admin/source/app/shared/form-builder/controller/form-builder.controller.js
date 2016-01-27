@@ -5,20 +5,21 @@
         .module('app.formBuilder')
         .controller('FormBuilderController', FormBuilderController);
 
-    FormBuilderController.$inject = ['$state', '$scope', '$compile', '$http', '$filter', 'SweetAlert', 'ngDialog', 'toaster', 'DTOptionsBuilder', 'DTInstances', 'formDataService'];
+    FormBuilderController.$inject = ['$state', '$scope', '$http', '$filter', 'SweetAlert', 'ngDialog', 'toaster', 'formDataService'];
 
     /**
      *
      * @param $state
-     * @param a
+     * @param $scope
      * @param $http
-     * @param $compile
-     * @param DTOptionsBuilder options for datatabe
-     * @param DTInstances changing data in datatable
-     * @param formDataService factory for store data form server
+     * @param $filter
+     * @param ngSweetAlert
+     * @param ngDialog
+     * @param toaster
+     * @param formDataService
      * @constructor
      */
-    function FormBuilderController($state, $scope, $compile, $http, $filter, ngSweetAlert, ngDialog, toaster, DTOptionsBuilder, DTInstances, formDataService) {
+    function FormBuilderController($state, $scope, $http, $filter, ngSweetAlert, ngDialog, toaster, formDataService) {
         var vm = this;
 
         var formJsonUrl = $state.$current.initialize;

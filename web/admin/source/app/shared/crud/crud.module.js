@@ -2,8 +2,6 @@
     'use strict';
 
     angular
-        .module('crud', [
-            'ngDialog'
-        ]);
+        .module('crud', []);
 
 })();

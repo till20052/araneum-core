@@ -26,22 +26,22 @@
         };
 
         function link(scope, iElement, iAttrs, controller) {
-            scope.$watch(function(){
+            scope.$watch(function () {
                 return $('table', iElement).length > 0;
-            }, function(ready){
-                if( ! ready){
+            }, function (ready) {
+                if (!ready) {
                     return;
                 }
-                //$('table', iElement).click(function(event){
-                //    controller.onDatatableClick(event, this);
-                //});
+                $('table', iElement).click(function (event) {
+                    controller.onDatatableClick(event, this);
+                });
             });
 
-            scope.$watch(function () {
-                return $('table div.checkbox', iElement).length;
-            }, function (count) {
-                if (count > 0) {
-                    $('table div.checkbox', iElement)
+            var observer = new MutationObserver(function () {
+                var table = $('table', iElement);
+                if (table.length > 0) {
+                    $compile($('>tbody', table))(scope);
+                    $('div.checkbox', table)
                         .addClass('mr0')
                         .parent()
                         .addClass('text-center')
@@ -50,33 +50,43 @@
                 }
             });
 
-            scope.$watch(function () {
-                return $('table>tbody crud-ui', iElement).length;
-            }, function (count) {
-                if (count > 0) {
-                    $compile($('table>tbody', iElement))(scope);
-                }
+            observer.observe(iElement[0], {
+                childList: true,
+                subtree: true
             });
-
-
         }
     }
 
-    DatatableController.$inject = ['CRUDConfigLoader', '$state'];
+    DatatableController.$inject = ['CRUDConfigLoader', 'CRUDDataHandler', '$state'];
 
     /**
      * CRUD Datatable Controller
      *
      * @param CRUDConfigLoader
+     * @param CRUDDataHandler
      * @param $state
      * @constructor
      */
-    function DatatableController(CRUDConfigLoader, $state) {
+    function DatatableController(CRUDConfigLoader, CRUDDataHandler, $state) {
         /* jshint validthis: true */
         var vm = this;
 
         vm.isInitialized = false;
 
+        /**
+         * @type {{
+         *      instance: {
+         *          dataTable: object
+         *      },
+         *      options: {
+         *          processing: boolean,
+         *          serverSide: boolean,
+         *          sPaginationType: string,
+         *          fnServerData: getServerData
+         *      },
+         *      columns: Array
+         * }}
+         */
         vm.datatable = {
             instance: {},
             options: {
@@ -156,8 +166,26 @@
         /**
          * Event handler on click.
          */
-        function onDatatableClick(event, table) {
-            console.log(event.target, table);
+        function onDatatableClick(event) {
+            /* jshint eqeqeq: false */
+            var ui = $(event.target);
+
+            if (['A', 'INPUT'].indexOf(ui.prop('tagName')) === -1) {
+                return;
+            }
+
+            if (
+                ui.prop('tagName') == 'A' &&
+                ui.data('crud-action') !== undefined
+            ) {
+                CRUDDataHandler
+                    .datatable(vm.datatable.instance.dataTable)
+                    .invokeAction(ui.data('crud-action'), ui.parents('tr').eq(0));
+            }
+
+            //CRUDDataHandler.getAction(cond);
+
+            //vm.datatable.instance.dataTable.fnUpdate('<span style="color: red">Changed...</span>', $(event.target).parents('tr').eq(0), 1, false);
         }
     }
 

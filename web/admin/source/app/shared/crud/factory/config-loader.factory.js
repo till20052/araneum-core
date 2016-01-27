@@ -14,8 +14,7 @@
      * @constructor
      */
     function CRUDConfigLoader(CRUDLoader) {
-        var Service = function(){
-
+        var Service = function () {
         };
 
         Service.prototype = new CRUDLoader();
