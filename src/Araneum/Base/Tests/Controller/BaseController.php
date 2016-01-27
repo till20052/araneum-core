@@ -29,6 +29,19 @@ class BaseController extends WebTestCase
     protected $rabbitmqProducerMock;
 
     /**
+     * Mock rabbitmqProducer and set to container.
+     *
+     * @param Client $client
+     * @param string $serviceName
+     */
+    public function mockRabbitmqProducer(Client $client, $serviceName)
+    {
+        $this->rabbitmqProducerMock = $this->getMockBuilder('Araneum\Base\Service\RabbitMQ\SpotProducerService')->disableOriginalConstructor()->getMock();
+
+        $client->getContainer()->set($serviceName, $this->rabbitmqProducerMock);
+    }
+
+    /**
      * Return admin authorized client
      *
      * @param string     $authLogin
@@ -162,18 +175,5 @@ class BaseController extends WebTestCase
             ->getMock();
 
         $client->getContainer()->set($serviceName, $this->guzzleClientMock);
-    }
-
-    /**
-     * Mock rabbitmqProducer and set to container.
-     *
-     * @param Client $client
-     * @param string $serviceName
-     */
-    private function mockRabbitmqProducer(Client $client, $serviceName)
-    {
-        $this->rabbitmqProducerMock = $this->getMockBuilder('Araneum\Base\Service\RabbitMQ\SpotProducerService')->disableOriginalConstructor()->getMock();
-
-        $client->getContainer()->set($serviceName, $this->rabbitmqProducerMock);
     }
 }
