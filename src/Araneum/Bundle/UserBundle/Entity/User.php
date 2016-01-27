@@ -74,6 +74,12 @@ class User extends BaseUser
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     */
+    protected $username;
+
+    /**
+     * @var string
      * @ORM\Column(type="string", name="full_name", nullable=true, length=35)
      * @Assert\NotBlank()
      */
