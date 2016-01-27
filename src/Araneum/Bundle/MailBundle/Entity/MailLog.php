@@ -59,7 +59,7 @@ class MailLog
      * Set mail
      *
      * @param  Mail $mail
-     * @return Mail
+     * @return MailLog
      */
     public function setMail(Mail $mail)
     {

@@ -4,7 +4,7 @@ namespace Araneum\Bundle\MailBundle\Repository;
 
 use Araneum\Base\Repository\CountableTrait;
 use Doctrine\ORM\EntityRepository;
-use Araneum\Bundle\MailBundle\Entity\Mail as EntityMail;
+use Araneum\Bundle\MailBundle\Entity\Mail;
 
 /**
  * MailRepository
@@ -50,7 +50,7 @@ class MailRepository extends EntityRepository implements \Countable
     {
         return $this->createQueryBuilder('M')
             ->where('M.status = :status')
-            ->setParameter('status', EntityMail::STATUS_NEW)
+            ->setParameter('status', Mail::STATUS_NEW)
             ->orderBy('M.id', 'ASC')
             ->setFirstResult(0)
             ->setMaxResults($limit)

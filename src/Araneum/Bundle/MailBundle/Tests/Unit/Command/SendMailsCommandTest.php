@@ -13,11 +13,12 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * Class SendMailsCommandTest
+ * Class SendMailsCommandTest.
+ *
  *
  * @package Araneum\Bundle\MailBundle\Tests\Unit\Command
  */
-class SendMailsCommandTest extends \PHPUnit_Framework_TestCase
+class SendMailsCommandTest extends WebTestCase
 {
     /**
      * @var Swift_Mailer
