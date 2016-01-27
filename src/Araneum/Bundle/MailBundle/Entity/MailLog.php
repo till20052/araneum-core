@@ -18,8 +18,8 @@ class MailLog
 {
     use DateTrait;
 
-    const SEND_OK       = 1;
-    const SEND_ERROR    = 2;
+    const STATUS_OK       = 1;
+    const STATUS_ERROR    = 2;
 
     /**
      * @var integer

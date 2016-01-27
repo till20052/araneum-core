@@ -64,7 +64,7 @@ class SendMailsCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('send:emails')
+            ->setName('araneum:send:emails')
             ->setDescription('Send all mails from queue')
             ->addOption(
                 'limit',
@@ -89,7 +89,7 @@ class SendMailsCommand extends ContainerAwareCommand
         $this->output = $output;
         $this->fs = new Filesystem();
         $limit = $input->getOption('limit');
-        $this->sendAllMail($limit ? $limit : self::DEFAULTLIMIT);
+        $this->sendAllMail($limit);
     }
 
     /**
@@ -126,12 +126,12 @@ class SendMailsCommand extends ContainerAwareCommand
                         $manager->persist($eMail);
                         $manager->flush();
                         $messangeCount++;
-                        $this->setLog($mail, MailLog::SEND_OK);
+                        $this->setLog($mail, MailLog::STATUS_OK);
                     } catch (\Exception $e) {
                         throw new \Exception("Don't save email status. Error:".$e->getMessage());
                     }
                 } else {
-                    $this->setLog($mail, MailLog::SEND_ERROR);
+                    $this->setLog($mail, MailLog::STATUS_ERROR);
                     $this->showError("Error! Not send messange to ".$mail->getId());
                 }
             }
@@ -146,15 +146,21 @@ class SendMailsCommand extends ContainerAwareCommand
      *
      * @param Mail $mail
      * @param int $status
+     * @return boolean
+     * @throws \Exception
      */
-    private function setLog(Mail $mail, $status = MailLog::SEND_OK)
+    private function setLog(Mail $mail, $status = MailLog::STATUS_OK)
     {
         $manager = $this->getContainer()
             ->get('doctrine')
             ->getManager();
-
-        $manager->getRepository("AraneumMailBundle:MailLog")
-            ->setMailLog($mail, $status);
+        try {
+            $manager->getRepository("AraneumMailBundle:MailLog")
+                ->setMailLog($mail, $status);
+            return true;
+        } catch (\Exception $e) {
+            throw new \Exception("Can't save log to MailLog.".$e->getMessage());
+        }
     }
 
     /**

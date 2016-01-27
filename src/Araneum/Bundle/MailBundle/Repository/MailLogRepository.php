@@ -30,7 +30,7 @@ class MailLogRepository extends EntityRepository
             $manager->persist($eMailLog);
             $manager->flush();
         } catch (\Exception $e) {
-            throw new \Exception('Dont save in MailLog.');
+            throw new \Exception('Dont save in MailLog.'.$e->getMessage());
         }
     }
 }
