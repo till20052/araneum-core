@@ -155,6 +155,7 @@ class SendMailsCommand extends ContainerAwareCommand
             ->getManager();
         $manager->getRepository("AraneumMailBundle:MailLog")
                 ->setMailLog($mail, $status);
+
         return true;
     }
 

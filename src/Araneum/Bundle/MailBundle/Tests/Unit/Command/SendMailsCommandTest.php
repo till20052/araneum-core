@@ -86,6 +86,7 @@ class SendMailsCommandTest extends WebTestCase
         $mail->expects($this->any())
             ->method('getTarget')
             ->will($this->returnValue('testtarget@test.com'));
+
         return $mail;
     }
 
@@ -116,6 +117,7 @@ class SendMailsCommandTest extends WebTestCase
             ->method('send')
             ->with($this->anything())
             ->will($this->returnValue($return));
+
         return $mockMailer;
     }
 
@@ -134,6 +136,7 @@ class SendMailsCommandTest extends WebTestCase
             ->method('getAllEmails')
             ->with($limit)
             ->will($this->returnValue($return));
+
         return $mailRepository;
     }
 
@@ -151,6 +154,7 @@ class SendMailsCommandTest extends WebTestCase
             ->method('setMailLog')
             ->with($mail)
             ->will($this->returnValue(true));
+
         return $mailLogRepositoty;
     }
 
@@ -173,6 +177,7 @@ class SendMailsCommandTest extends WebTestCase
         $doctrine->expects($this->any())
             ->method('getManager')
             ->will($this->returnValue($mockManager));
+
         return $doctrine;
     }
 
@@ -198,6 +203,7 @@ class SendMailsCommandTest extends WebTestCase
             ->method('get')
             ->with($this->equalTo('doctrine'))
             ->will($this->returnValue($this->doctrine));
+
         return $container;
     }
 
