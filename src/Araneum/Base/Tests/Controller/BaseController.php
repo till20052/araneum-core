@@ -118,19 +118,6 @@ class BaseController extends WebTestCase
     }
 
     /**
-     * Mock rabbitmqProducer and set to container.
-     *
-     * @param Client $client
-     * @param string $serviceName
-     */
-    protected function mockRabbitmqProducer(Client $client, $serviceName)
-    {
-        $this->rabbitmqProducerMock = $this->getMockBuilder('Araneum\Base\Service\RabbitMQ\SpotProducerService')->disableOriginalConstructor()->getMock();
-
-        $client->getContainer()->set($serviceName, $this->rabbitmqProducerMock);
-    }
-
-    /**
      * Creates a Client by params.
      * If authLogin not empty, client will be create for login user.
      * If firewallName not empty than user will be login by this firewall.
@@ -175,5 +162,18 @@ class BaseController extends WebTestCase
             ->getMock();
 
         $client->getContainer()->set($serviceName, $this->guzzleClientMock);
+    }
+
+    /**
+     * Mock rabbitmqProducer and set to container.
+     *
+     * @param Client $client
+     * @param string $serviceName
+     */
+    private function mockRabbitmqProducer(Client $client, $serviceName)
+    {
+        $this->rabbitmqProducerMock = $this->getMockBuilder('Araneum\Base\Service\RabbitMQ\SpotProducerService')->disableOriginalConstructor()->getMock();
+
+        $client->getContainer()->set($serviceName, $this->rabbitmqProducerMock);
     }
 }
