@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Araneum\Bundle\UserBundle\Service\DataTable\UserDataTableList;
 use Araneum\Bundle\UserBundle\Service\Actions\UserActions;
+use Symfony\Component\Security\Acl\Exception\Exception;
 use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\Regex;
 
@@ -102,6 +103,8 @@ class AdminUserController extends Controller
                 $code = JsonResponse::HTTP_ACCEPTED;
             } else {
                 $user = new User();
+                if (empty($request->get('plainPassword')))
+                    throw new Exception("Password should not be Blank");
                 $code = JsonResponse::HTTP_CREATED;
             }
 
@@ -120,9 +123,14 @@ class AdminUserController extends Controller
                     $code
                 );
             } else {
+                $errorList = $this->get('validator')->validate($user);
+                $msg = "";
+                foreach ($errorList as $err) {
 
+                    $msg.= $this->get('translator')->trans($err->getMessage()).". ";
+                }
                 return new JsonResponse(
-                    ['message' => (string) $form->getErrors(true, false)],
+                    ['message' => $msg],
                     JsonResponse::HTTP_BAD_REQUEST
                 );
             }

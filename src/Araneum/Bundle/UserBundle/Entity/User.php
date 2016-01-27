@@ -9,6 +9,7 @@ use \FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User class
@@ -26,6 +27,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      column=@ORM\Column(name="username_canonical", type="string", length=35, nullable=true)
  *  )
  * })
+ * @UniqueEntity(
+ *     fields="email",
+ *     message="email.already_used"
+ * )
  */
 class User extends BaseUser
 {
