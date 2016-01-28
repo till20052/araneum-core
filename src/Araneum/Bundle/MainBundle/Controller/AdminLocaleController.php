@@ -280,6 +280,11 @@ class AdminLocaleController extends Controller
 
         $localeRepository->updateEnabled($idx, $state);
 
-        return new JsonResponse('Success');
+        return new JsonResponse(
+            [
+                'success' => true,
+                'state' => $state,
+            ]
+        );
     }
 }

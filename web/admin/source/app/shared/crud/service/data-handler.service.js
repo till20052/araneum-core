@@ -39,22 +39,32 @@
         function invokeAction(data, row) {
             return ({
                 create: create,
-                editRow: editRow,
-                deleteRow: deleteRow
+                update: update,
+                deleteRow: remove,
+                editRow: setState
             })[data.callback](data, row);
         }
 
-        function create() {
-
+        function create(data) {
+            ngDialog.open({
+                template: helper.basepath('crud/form.html')
+            });
         }
 
-        function editRow() {
-
+        function update(data) {
+            ngDialog.open({
+                template: helper.basepath('crud/dialog.html'),
+                controller: 'CRUDDialogController',
+                controllerAs: 'vm',
+                data: {
+                    icon: data.display.icon,
+                    title: data.display.label,
+                    form: data.form
+                }
+            });
         }
 
-        function deleteRow(data, row) {
-            dtInstance.fnDeleteRow(row, null, false);
-            return;
+        function remove(data, row) {
             SweetAlert.swal({
                 title: data.confirm.title,
                 type: 'warning',
@@ -68,9 +78,21 @@
                         data: [parseInt($('td:first-child', row).text())]
                     })
                     .success(function(){
-                        //row
+                        dtInstance.fnDeleteRow(row);
                     });
             });
+        }
+
+        function setState(data, row) {
+            $http
+                .post(data.resource, {
+                    data: [parseInt($('td:first-child', row).text())]
+                })
+                .success(function(data){
+                    if(data.hasOwnProperty('success') && data.success === true){
+                        dtInstance.fnUpdate(data.state, row, 3, false);
+                    }
+                });
         }
 
     }

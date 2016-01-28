@@ -183,8 +183,6 @@
                     .invokeAction(ui.data('crud-action'), ui.parents('tr').eq(0));
             }
 
-            //CRUDDataHandler.getAction(cond);
-
             //vm.datatable.instance.dataTable.fnUpdate('<span style="color: red">Changed...</span>', $(event.target).parents('tr').eq(0), 1, false);
         }
     }
