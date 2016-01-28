@@ -92,6 +92,14 @@ class Customer
     private $phone;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="enable_site", type="boolean", nullable=false)
+     * @Assert\NotBlank()
+     */
+    private $enableSite;
+
+    /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      * @Assert\Length(max=10)
@@ -152,6 +160,27 @@ class Customer
     public function setSiteId($siteId)
     {
         $this->siteId = $siteId;
+
+        return $this;
+    }
+
+    /**
+     * Get enableSite
+     * @return boolean
+     */
+    public function getEnableSite()
+    {
+        return $this->enableSite;
+    }
+
+    /**
+     * Set enableSite
+     * @param  boolean $enableSite
+     * @return Customer
+     */
+    public function setEnableSite($enableSite)
+    {
+        $this->enableSite = $enableSite;
 
         return $this;
     }

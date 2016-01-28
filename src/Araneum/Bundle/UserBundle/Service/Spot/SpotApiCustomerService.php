@@ -49,46 +49,22 @@ class SpotApiCustomerService
     /**
      * Get all customers from spot by regTime period
      *
-     * @param Application $app
+     * @param Application $application
      * @param string $period
      * @return string
      */
-    public function getAllCustomersByPeriod($app, $period = 'P1D')
+    public function getAllCustomersByPeriod($application, $period = 'P1D')
     {
         $date = new \DateTime();
         $date->sub(new \DateInterval($period));
-        $this->application = $app;
-        $data = $this->optionService->getCustomersByFilter(
-            $this->application,
+        return  $this->optionService->getCustomersByFilter(
+            $application,
             [
                 'regTime' => [
                     'min'=> $date->format('Y-m-d H:i:s')
                 ]
             ]
         )->getBody(true);
-        $data = json_decode($data, true);
-        $result = $data['status'];
-        $emails = [];
-        $date = [];
-        try {
-            if (isset($result['errors']) && !empty($result['errors'])) {
-                return $result['errors'];
-            }
-            foreach ($result['Customer'] as $customer) {
-                array_push($emails, $customer['email']);
-                array_push($date, $customer['birthday']);
-            }
-            $existingEmails = $this->getExistCustomerEmails($emails);
-            foreach ($result['Customer'] as $customer) {
-                if (in_array($customer['email'], $existingEmails)) {
-                    $this->addSpotCustomer($customer);
-                }
-            }
-            $this->em->flush();
-            return true;
-        } catch (\Exception $e) {
-            return ['error' => $e->getMessage(), $e->getCode()];
-        }
     }
 
     /**
@@ -97,13 +73,14 @@ class SpotApiCustomerService
      * @param array $emails
      * @return array
      */
-    public function getExistCustomerEmails(array $emails)
+    public function getExistCustomerEmails(array $emails, $application)
     {
         $query = $this->em->getRepository('AraneumAgentBundle:Customer')
             ->createQueryBuilder('c')
             ->select("c.email")
-            ->where("c.email IN (:emails)")
+            ->where("c.email IN (:emails) and c.application = :appId")
             ->setParameter('emails', $emails)
+            ->setParameter('appId', $application)
             ->getQuery()
             ->getResult();
         $result = [];
@@ -119,16 +96,17 @@ class SpotApiCustomerService
      * Returns emails, exists in Customer entities
      *
      * @param array $customerFields
+     * @param Application $application
      * @return array
      */
-    public function addSpotCustomer(array $customerFields)
+    public function addSpotCustomer(array $customerFields, $application)
     {
         $customer = new Customer();
         if ($customerFields['birthday'] == '0000-00-00') {
             $customerFields['birthday'] = '1990-01-01';
         }
         $customer
-                ->setApplication($this->application)
+                ->setApplication($application)
                 ->setFirstName($customerFields['FirstName'])
                 ->setLastName($customerFields['LastName'])
                 ->setEmail($customerFields['email'])
@@ -137,9 +115,9 @@ class SpotApiCustomerService
                 ->setBirthday(new \DateTime($customerFields['birthday']))
                 ->setSiteId(2)
                 ->setCallBack(false)
-
-            ->setCountry(1)
-            ->setPassword('123456')
+                ->setEnableSite(false)
+                ->setCountry(1)
+                ->setPassword($customerFields['password'])
         ;
 
         $this->em->persist($customer);
