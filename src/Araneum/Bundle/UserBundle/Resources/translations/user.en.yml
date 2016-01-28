@@ -18,3 +18,29 @@ ENTER_YOUR_NAME_OR_EMAIL: 'Enter your name or email'
 ROLE: 'Role'
 LAST_LOGIN: 'Last login'
 REGISTER: 'Register'
+
+data_grid:
+    USERS: "Users"
+    EDIT_USER: "Edit user"
+    EDIT: "Save"
+    DELETE_USER: "Delete user"
+    ENABLE_USER: "Enable user"
+    DISABLE_USER: "Disable user"
+    CREATE_NEW: "Create new user"
+    NAME: "Name"
+    FULL_NAME: "Full name"
+    EMAIL: "Email"
+    PASSWORD: "Password"
+    PASSWORD_REPEAT: "Repeat password"
+    PASSWORD_PLACEHOLDER: "Type password here"
+    ROLES: "Role"
+    ENABLED: "Enabled"
+    ENCODING: "Encoding"
+    USER: "User"
+    ORIENTATION: "Orientation"
+    PLACEHOLDER: "Enter user name"
+    EMPTY_VALUE: "Choose"
+    ENTER_ENCODING: "Enter encoding"
+    ENTER_USER: "Enter user"
+    ROLES: "User role"
+    SELECT_ROLES: "Select user role"

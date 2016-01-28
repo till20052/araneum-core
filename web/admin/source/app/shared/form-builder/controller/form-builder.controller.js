@@ -151,7 +151,7 @@
                         $scope.id = id;
 
                         $scope.send = function($event, url) {
-                            var formData = $('#locale').serializeArray(),
+                            var formData = $('#data-table-form form').serializeArray(),
                                 data = {},
                                 len = formData.length;
 

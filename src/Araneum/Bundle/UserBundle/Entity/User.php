@@ -3,10 +3,13 @@
 namespace Araneum\Bundle\UserBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use \FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User class
@@ -24,6 +27,10 @@ use Doctrine\Common\Collections\ArrayCollection;
  *      column=@ORM\Column(name="username_canonical", type="string", length=35, nullable=true)
  *  )
  * })
+ * @UniqueEntity(
+ *     fields="email",
+ *     message="email.already_used"
+ * )
  */
 class User extends BaseUser
 {
@@ -37,9 +44,9 @@ class User extends BaseUser
      * @var array
      */
     public static $roleNames = [
-        self::ROLE_USER,
-        self::ROLE_ADMIN,
-        self::ROLE_API,
+        'ROLE_USER' => self::ROLE_USER,
+        'ROLE_ADMIN' => self::ROLE_ADMIN,
+        'ROLE_API' => self::ROLE_API,
     ];
 
     /**
@@ -67,7 +74,14 @@ class User extends BaseUser
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     */
+    protected $username;
+
+    /**
+     * @var string
      * @ORM\Column(type="string", name="full_name", nullable=true, length=35)
+     * @Assert\NotBlank()
      */
     private $fullName;
 
@@ -80,6 +94,13 @@ class User extends BaseUser
      * @ORM\Column(type="json_array", nullable=true)
      */
     private $settings;
+
+    /**
+     * @var string
+     * @Assert\Length(min="2", max="255")
+     * @Assert\Email()
+     */
+    protected $email;
 
     /**
      * @inheritdoc
@@ -166,6 +187,29 @@ class User extends BaseUser
     }
 
     /**
+     * Set user role
+     *
+     * @param  string $role
+     * @return User
+     */
+    public function setRole($role)
+    {
+        $this->setRoles([$role]);
+
+        return $this;
+    }
+
+    /**
+     * Get user role
+     *
+     * @return Role
+     */
+    public function getRole()
+    {
+        return $this->roles->first();
+    }
+
+    /**
      * Add user role
      *
      * @param  string $role
@@ -180,6 +224,16 @@ class User extends BaseUser
         }
 
         return $this;
+    }
+
+    /**
+     * get user roles collection
+     *
+     * @return Collection
+     */
+    public function getRolesCollection()
+    {
+        return $this->roles;
     }
 
     /**

@@ -2,6 +2,8 @@
 namespace Araneum\Bundle\UserBundle\Repository;
 
 use Araneum\Base\Repository\CountableTrait;
+use Araneum\Base\Repository\AdminDataGridTrait;
+
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -13,13 +15,5 @@ class UserRepository extends EntityRepository implements \Countable
 {
     use CountableTrait;
 
-    /**
-     * Return Locale Query Builder without any conditions
-     *
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    public function getQueryBuilder()
-    {
-        return $this->createQueryBuilder('u');
-    }
+    use AdminDataGridTrait;
 }
