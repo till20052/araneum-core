@@ -5,8 +5,6 @@ namespace Araneum\Bundle\AgentBundle\Entity;
 use Araneum\Base\EntityTrait\DateTrait;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
 use Araneum\Bundle\MainBundle\Entity\Runner;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -52,17 +50,6 @@ class RunnerLog
      * @ORM\JoinColumn(name="runner_id", referencedColumnName="id", nullable=false)
      */
     private $runner;
-
-    /**
-     * @var Collection
-     *
-     * @ORM\ManyToMany(
-     *      targetEntity="Araneum\Bundle\AgentBundle\Entity\Problem",
-     *      cascade={"persist"}
-     * )
-     * @ORM\JoinTable(name="araneum_cluster_log_problems")
-     */
-    private $problems;
 
     /**
      * Get id
@@ -141,69 +128,5 @@ class RunnerLog
     public function getCluster()
     {
         return $this->cluster;
-    }
-
-    /**
-     * Set problems
-     *
-     * @param  Collection|ArrayCollection $problems
-     * @return ClusterLog $this
-     */
-    public function setProblems(Collection $problems)
-    {
-        $this->problems = $problems;
-
-        return $this;
-    }
-
-    /**
-     * Get problems
-     *
-     * @return ArrayCollection
-     */
-    public function getProblems()
-    {
-        return $this->problems;
-    }
-
-    /**
-     * Add problem
-     *
-     * @param  Problem $problem
-     * @return ClusterLog $this
-     */
-    public function addProblem(Problem $problem)
-    {
-        if (!$this->hasProblem($problem)) {
-            $this->problems->add($problem);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove problem
-     *
-     * @param  Problem $problem
-     * @return ClusterLog $this
-     */
-    public function removeProblem(Problem $problem)
-    {
-        if ($this->hasProblem($problem)) {
-            $this->problems->remove($problem);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Has problem
-     *
-     * @param  Problem $problem
-     * @return bool
-     */
-    public function hasProblem(Problem $problem)
-    {
-        return $this->problems->contains($problem);
     }
 }
