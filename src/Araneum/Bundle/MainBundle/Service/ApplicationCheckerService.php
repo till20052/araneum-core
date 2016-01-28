@@ -359,9 +359,6 @@ class ApplicationCheckerService
     private function getRunnerState(Runner $runner)
     {
         $status = Runner::STATUS_OK;
-
-        $problems = new ArrayCollection();
-
         try {
             /**
              * @var GuzzleResponse $request
@@ -382,17 +379,30 @@ class ApplicationCheckerService
              * @var Application $application
              */
             foreach ($runner->getCluster()->getApplications() as $application) {
-                $applicationStatus = $application->getStatus();
-                if ($applicationStatus != Application::STATUS_OK) {
-                    $status = Cluster::STATUS_HAS_INCORRECT_APPLICATION;
+                try {
+                    /**
+                     * @var GuzzleResponse $request
+                     */
+                    $response = $this->client
+                        ->get('http'.($application->isUseSsl() ? 's' : '').'://'.$application->getDomain())
+                        ->send();
+
+                    if (!$response->isSuccessful()) {
+                        $status = Application::STATUS_CODE_INCORRECT;
+                    }
+                } catch (RequestException $e) {
+                    $status = Application::STATUS_ERROR;
                 }
+
+                $application->setStatus($status);
+                $this->entityManager->flush();
             }
 
             /**
              * @var Connection $connection
              */
             foreach ($runner->getConnections() as $connection) {
-                $connectionStatus = $connection->getStatus();
+                $connectionStatus = $this->getConnectionState($connection, 5, $response);
                 if ($connectionStatus != Connection::STATUS_OK) {
                     if ($connectionStatus == Connection::STATUS_SLOW) {
                         $status = Cluster::STATUS_HAS_SLOW_CONNECTION;
