@@ -53,7 +53,7 @@ class AdminUserController extends Controller
         $app = $this->getDoctrine()->getRepository('AraneumMainBundle:Application')->findOneById(1);
         $service = $this->get('araneum.spot.api.customer.service');
         return new JsonResponse(
-            [$service->getAllCustomersByPeriod('1h', $app)],
+            [$service->getAllCustomersByPeriod($app, 'P1Y')],
             Response::HTTP_BAD_REQUEST
         );
 //        $em = $this->get('doctrine.orm.entity_manager');
