@@ -132,7 +132,7 @@ class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test to check Runner in the Command
+     * Test to check Runners in the Command
      */
     public function testCheckRunner()
     {
