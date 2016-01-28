@@ -132,6 +132,39 @@ class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test to check Runner in the Command
+     */
+    public function testCheckRunner()
+    {
+        $this->checker->expects($this->once())
+            ->method('checkRunner')
+            ->with($this->equalTo(777))
+            ->will($this->returnValue(Application::STATUS_OK));
+
+        $this->commandTester->execute(
+            [
+                'command' => $this->command->getName(),
+                'target' => 'runner',
+                'id' => 777,
+            ]
+        );
+
+        $this->assertEquals(
+            1,
+            preg_match(
+                '/Runner\n ID: (\d+)\n Status: (\w+)/',
+                $this->commandTester->getDisplay(),
+                $match
+            )
+        );
+
+        $this->assertEquals(
+            Application::getStatusDescription(Application::STATUS_OK),
+            $match[2]
+        );
+    }
+
+    /**
      * Mock DI Container
      *
      * @return Container
