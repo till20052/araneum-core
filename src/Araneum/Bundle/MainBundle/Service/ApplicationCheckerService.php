@@ -6,10 +6,13 @@ use Araneum\Bundle\AgentBundle\Entity\Problem;
 use Araneum\Bundle\AgentBundle\Service\AgentLoggerService;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Araneum\Bundle\MainBundle\Entity\Component;
 use Araneum\Bundle\MainBundle\Entity\Connection;
+use Araneum\Bundle\MainBundle\Entity\Runner;
 use Araneum\Bundle\MainBundle\Repository\ApplicationRepository;
 use Araneum\Bundle\MainBundle\Repository\ClusterRepository;
 use Araneum\Bundle\MainBundle\Repository\ConnectionRepository;
+use Araneum\Bundle\MainBundle\Repository\RunnerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
@@ -61,6 +64,33 @@ class ApplicationCheckerService
     public function setAgentLogger(AgentLoggerService $loggerService)
     {
         $this->loggerService = $loggerService;
+    }
+
+    /**
+     * Check Runner state
+     *
+     * @param  integer $id of Runner
+     * @return integer
+     *
+     * @throws EntityNotFoundException in case if runner does not exists
+     */
+    public function checkRunner($id)
+    {
+        /**
+         * @var RunnerRepository $repository
+         */
+        $repository = $this->entityManager->getRepository('AraneumMainBundle:Runner');
+
+        /**
+         * @var Runner $runner
+         */
+        $runner = $repository->find($id);
+
+        if (empty($runner)) {
+            throw new EntityNotFoundException();
+        }
+
+        return $this->getRunnerState($runner);
     }
 
     /**
@@ -315,6 +345,71 @@ class ApplicationCheckerService
 
         if ($status != Cluster::STATUS_OK) {
             $this->loggerService->logCluster($cluster, $status, $problems);
+        }
+
+        return $status;
+    }
+
+    /**
+     * Get State of Runner
+     *
+     * @param  Runner $runner
+     * @return \stdClass
+     */
+    private function getRunnerState(Runner $runner)
+    {
+        $status = Runner::STATUS_OK;
+
+        $problems = new ArrayCollection();
+
+        try {
+            /**
+             * @var GuzzleResponse $request
+             */
+            $response = $this->client
+                ->get('http'.($runner->isUseSSL() ? 's' : '').'://'.$runner->getDomain())
+                ->send();
+
+            if (!$response->isSuccessful()) {
+                $status = Runner::STATUS_CODE_INCORRECT;
+            }
+        } catch (RequestException $e) {
+            $status = Runner::STATUS_ERROR;
+        }
+
+        if ($status == Runner::STATUS_OK) {
+            /**
+             * @var Application $application
+             */
+            foreach ($runner->getCluster()->getApplications() as $application) {
+                $applicationStatus = $application->getStatus();
+                if ($applicationStatus != Application::STATUS_OK) {
+                    $status = Cluster::STATUS_HAS_INCORRECT_APPLICATION;
+                }
+            }
+
+            /**
+             * @var Connection $connection
+             */
+            foreach ($runner->getConnections() as $connection) {
+                $connectionStatus = $connection->getStatus();
+                if ($connectionStatus != Connection::STATUS_OK) {
+                    if ($connectionStatus == Connection::STATUS_SLOW) {
+                        $status = Cluster::STATUS_HAS_SLOW_CONNECTION;
+                    } elseif ($connectionStatus == Connection::STATUS_HAS_LOSS) {
+                        $status = Cluster::STATUS_HAS_UNSTABLE_CONNECTION;
+                    } elseif ($connectionStatus >= Connection::STATUS_HAS_NO_RESPONSE) {
+                        $status = Cluster::STATUS_OFFLINE;
+                    }
+                }
+            }
+        }
+
+        $runner->setStatus($status);
+        $this->entityManager->flush();
+
+        if ($status != Runner::STATUS_OK) {
+            $this->loggerService->logRunner($runner, $runner->getCluster(), $status);
         }
 
         return $status;
