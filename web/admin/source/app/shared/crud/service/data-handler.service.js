@@ -5,14 +5,14 @@
         .module('crud')
         .factory('CRUDDataHandler', CRUDDataHandler);
 
-    CRUDDataHandler.$inject = ['ngDialog', 'SweetAlert', 'RouteHelpers'];
+    CRUDDataHandler.$inject = ['$http', 'ngDialog', 'SweetAlert', 'RouteHelpers'];
 
     /**
      * Datatable Data Handler
      *
      * @constructor
      */
-    function CRUDDataHandler(ngDialog, SweetAlert, helper) {
+    function CRUDDataHandler($http, ngDialog, SweetAlert, helper) {
         /* jshint validthis: true */
         var dtInstance;
 
@@ -53,7 +53,9 @@
         }
 
         function deleteRow(data, row) {
-           SweetAlert.swal({
+            dtInstance.fnDeleteRow(row, null, false);
+            return;
+            SweetAlert.swal({
                 title: data.confirm.title,
                 type: 'warning',
                 showCancelButton: true,
@@ -61,7 +63,13 @@
                 confirmButtonColor: '#dd6b55',
                 confirmButtonText: data.confirm.yes.title
             }, function () {
-                console.log(arguments);
+                $http
+                    .post(data.resource, {
+                        data: [parseInt($('td:first-child', row).text())]
+                    })
+                    .success(function(){
+                        //row
+                    });
             });
         }
 

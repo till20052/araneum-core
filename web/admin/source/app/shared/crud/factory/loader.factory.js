@@ -87,11 +87,9 @@
 
                 promise.then(
                     function (r) {
-                        clearPromise();
                         triggers.onSuccess(r.data, r.status, r);
                     },
                     function (r) {
-                        clearPromise();
                         triggers.onError(r.data, r.status, r);
                     }
                 );
