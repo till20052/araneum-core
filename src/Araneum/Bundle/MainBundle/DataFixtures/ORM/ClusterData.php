@@ -23,6 +23,10 @@ class ClusterData extends AbstractFixture implements FixtureInterface
         $this->setIxoption($manager);
     }
 
+    /**
+     * Default load fixture Cluster
+     * @param ObjectManager $manager
+     */
     private function setDefault(ObjectManager $manager)
     {
         $cluster = $manager->getRepository('AraneumMainBundle:Cluster')
@@ -39,6 +43,10 @@ class ClusterData extends AbstractFixture implements FixtureInterface
         $this->addReference('cluster', $cluster);
     }
 
+    /**
+     * set Ixoption add cluster fixture
+     * @param ObjectManager $manager
+     */
     private function setIxoption(ObjectManager $manager)
     {
         $cluster = $manager->getRepository('AraneumMainBundle:Cluster')

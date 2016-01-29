@@ -25,6 +25,10 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
         $this->setIxoption($manager);
     }
 
+    /**
+     * Default load Application fixture
+     * @param ObjectManager $manager
+     */
     private function setDefault(ObjectManager $manager)
     {
         $app = $manager
@@ -55,6 +59,10 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
         $this->addReference('application', $app);
     }
 
+    /**
+     * set Ixoption add fixture
+     * @param ObjectManager $manager
+     */
     private function setIxoption(ObjectManager $manager)
     {
         $app = $manager

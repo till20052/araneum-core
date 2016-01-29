@@ -25,6 +25,10 @@ class RunnerData extends AbstractFixture implements FixtureInterface, DependentF
         $this->setIxoption($manager);
     }
 
+    /**
+     * Default fixture Runner
+     * @param ObjectManager $manager
+     */
     private function setDefault(ObjectManager $manager)
     {
         $runner = $manager->getRepository('AraneumMainBundle:Runner')
@@ -43,6 +47,10 @@ class RunnerData extends AbstractFixture implements FixtureInterface, DependentF
         $this->addReference('runner', $runner);
     }
 
+    /**
+     * set add fixture Ixoption
+     * @param ObjectManager $manager
+     */
     private function setIxoption(ObjectManager $manager)
     {
         $runner = $manager->getRepository('AraneumMainBundle:Runner')

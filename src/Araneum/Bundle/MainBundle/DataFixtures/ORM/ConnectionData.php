@@ -24,6 +24,10 @@ class ConnectionData extends AbstractFixture implements FixtureInterface, Depend
         $this->setIxoption($manager);
     }
 
+    /**
+     * Default fixture Connection
+     * @param ObjectManager $manager
+     */
     private function setDefault(ObjectManager $manager)
     {
         $connectionHost = $manager->getRepository('AraneumMainBundle:Connection')
@@ -63,6 +67,10 @@ class ConnectionData extends AbstractFixture implements FixtureInterface, Depend
         $this->addReference('connectionDb', $connectionDb);
     }
 
+    /**
+     * set add fixture Ixoption
+     * @param ObjectManager $manager
+     */
     private function setIxoption(ObjectManager $manager)
     {
         $connectionHost = $manager->getRepository('AraneumMainBundle:Connection')

@@ -25,6 +25,10 @@ class ComponentData extends AbstractFixture implements FixtureInterface
         $this->setIxoption($manager);
     }
 
+    /**
+     * Default fixture Component
+     * @param ObjectManager $manager
+     */
     private function setDefault(ObjectManager $manager)
     {
         $component = $manager->getRepository('AraneumMainBundle:Component')
@@ -46,6 +50,10 @@ class ComponentData extends AbstractFixture implements FixtureInterface
         $this->addReference('component', $component);
     }
 
+    /**
+     * set add fixture Ixoption
+     * @param ObjectManager $manager
+     */
     private function setIxoption(ObjectManager $manager)
     {
         $component = $manager->getRepository('AraneumMainBundle:Component')
