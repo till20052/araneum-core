@@ -10,9 +10,13 @@
     function CRUDFormController($scope) {
         /* jshint validthis: true */
         var vm = this,
-            form = $scope.form;
+            form = $scope.structure;
+
+        console.log(form);
 
         vm.form = {
+            origin: {},
+            data: {},
             submit: submit,
             cancel: cancel
         };

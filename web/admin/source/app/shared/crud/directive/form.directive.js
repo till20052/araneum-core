@@ -7,6 +7,15 @@
 
     CRUDFormDirective.$inject = ['CRUDFormLoader', 'RouteHelpers', '$compile'];
 
+    /**
+     * CRUD From Directive
+     *
+     * @param CRUDFormLoader
+     * @param helper
+     * @param $compile
+     * @returns {object}
+     * @constructor
+     */
     function CRUDFormDirective(CRUDFormLoader, helper, $compile) {
         return {
             link: link,
@@ -22,24 +31,32 @@
 
         function link(scope, iElement, iAttr, controller) {
             var structure = scope.structure;
+
             if (structure instanceof Object) {
                 if (structure.hasOwnProperty('source')) {
                     CRUDFormLoader
                         .setUrl(structure.source)
                         .load({
                             onSuccess: function (structure) {
-                                buildForm(controller, iElement, structure)(scope);
+                                createForm(controller, iElement, structure)(scope);
                                 CRUDFormLoader.clearPromise();
                             }
                         });
                 }
-                else {
-                    buildForm(controller, iElement, structure)(scope);
-                }
             }
+
+            scope.$watch(function () {
+                return scope.structure instanceof Object;
+            }, function (isReady) {
+                if (isReady) {
+                    createForm(controller, iElement, scope.structure)(scope);
+                }
+            });
         }
 
         /**
+         * Create form
+         *
          * @param {object} controller
          * @param {object} placement html element
          * @param {{
@@ -47,13 +64,8 @@
          *      vars: object
          * }} structure
          */
-        function buildForm(controller, placement, structure) {
+        function createForm(controller, placement, structure) {
             /* jshint -W106 */
-            controller.form = angular.extend(controller.form, {
-                origin: {},
-                data: {}
-            });
-
             if (
                 structure.hasOwnProperty('vars') &&
                 structure.vars instanceof Object
@@ -71,7 +83,7 @@
                     if (structure.children.hasOwnProperty(key)) {
                         controller.form.origin[key] = structure.children[key].vars;
                         controller.form.data[key] = structure.vars.value[key];
-                        $('*[id="' + key + '"]', build(
+                        $('*[id="' + key + '"]', createUiControlSection(
                             $('>form', placement),
                             structure.children[key].vars.block_prefixes[1],
                             structure.children[key].vars
@@ -83,7 +95,7 @@
                 }
             }
 
-            build($('>form', placement), 'submit', {
+            createUiControlSection($('>form', placement), 'submit', {
                 submit: {
                     label: 'admin.general.SAVE',
                     onClick: controller.form.submit
@@ -100,15 +112,16 @@
         }
 
         /**
+         * create user interface control section
          *
          * @param form
          * @param element
          * @param config
          * @returns {*}
          */
-        function build(form, element, config) {
+        function createUiControlSection(form, element, config) {
             /* jshint -W106, -W014, eqeqeq: false, validthis: true */
-            var uiRow = ({
+            var section = ({
                 hidden: inputHidden,
                 checkbox: inputCheckbox,
                 text: inputText,
@@ -138,19 +151,28 @@
             ));
 
             if (element == 'hidden') {
-                return form.prepend(uiRow);
+                return form.prepend(section);
             }
 
-            uiRow = $('<div class="form-group" />')
-                .append(uiRow);
+            section = $('<div class="form-group" />')
+                .append(section);
 
             if (element == 'submit') {
-                uiRow.addClass('mb0');
+                section.addClass('mb0');
             }
 
-            return form.append(uiRow);
+            // @todo need a condition for render different form layout
+            //section = $('<div class="col-lg-6" />').append(section);
+
+            return form.append(section);
         }
 
+        /**
+         * Create input element with type eq hidden
+         *
+         * @param config
+         * @returns {jQuery}
+         */
         function inputHidden(config) {
             return $('<input />').attr({
                 id: config.uid,

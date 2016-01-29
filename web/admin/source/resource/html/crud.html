@@ -1,3 +1,4 @@
+
 <h3>
     <em class="{{icon}} mr"></em>
     <span translate="{{title}}"></span>
@@ -47,11 +48,33 @@
                 </div>
             </div>
         </div>
-        <hr class="mt mb0" />
+        <hr class="mt mb0"/>
     </div>
     <div class="panel-body">
-        <crud-datatable />
+        <crud-datatable/>
     </div>
 </div>
+
+<script type="text/ng-template" id="crud/datatable.html">
+    <div>
+        <table
+                class="table-bordered table-striped hover"
+                cellspacing="0"
+                ng-if="vm.isInitialized"
+                datatable="crud-datatable"
+                dt-instance="vm.datatable.instance"
+                dt-options="vm.datatable.options">
+            <thead>
+            <tr>
+                <th ng-repeat="column in vm.datatable.columns" class="bt0 bl0" translate="{{ column }}"></th>
+                <th data-sortable="false" class="bt0 bl0" width="1"></th>
+                <th data-sortable="false" class="bt0 bl0 p text-center" width="1">
+                    <crud-ui type="checkbox"/>
+                </th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</script>
 
 <toaster-container toaster-options="{'position-class': 'toast-bottom-right'}"></toaster-container>

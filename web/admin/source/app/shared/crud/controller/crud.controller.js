@@ -13,8 +13,10 @@
 
         CRUDConfigLoader
             .setUrl($state.$current.initialize)
-            .load(function(response){
-                $scope.filter = response.filter;
+            .load({
+                onSuccess: function (response) {
+                    $scope.filter = response.filter;
+                }
             });
     }
 
