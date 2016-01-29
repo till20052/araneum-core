@@ -105,6 +105,7 @@ class SpotApiCustomerService
         if ($customerFields['birthday'] == '0000-00-00') {
             $customerFields['birthday'] = '1990-01-01';
         }
+        $country = $this->em->getRepository('AraneumAgentBundle:Country')->findOneByTitle($customerFields['Country']);
         $customer
                 ->setApplication($application)
                 ->setFirstName($customerFields['FirstName'])
@@ -116,7 +117,7 @@ class SpotApiCustomerService
                 ->setSiteId(2)
                 ->setCallBack(false)
                 ->setEnableSite(false)
-                ->setCountry(1)
+                ->setCountry($country->getId())
                 ->setPassword($customerFields['password'])
         ;
 
