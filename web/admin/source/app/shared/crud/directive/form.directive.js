@@ -16,7 +16,7 @@
             replace: true,
             templateUrl: helper.basepath('crud/form.html'),
             scope: {
-                config: '=crudForm'
+                CRUDForm: '=crudForm'
             }
         };
 
@@ -31,31 +31,34 @@
                     function (form) {
                     /* jshint -W106 */
 
+                    controller.form = angular.extend(controller.form, {
+                        origin: {},
+                        data: {}
+                    });
+
                     if (
                         form.hasOwnProperty('vars') &&
                         form.vars instanceof Object
                     ) {
-                        $('>form', iElement)
-                            .attr({
-                                name: 'controller.form.validation'
-                            });
-                        controller.form = {
+                        $('>form', iElement).attr('name', 'controller.form.validation');
+                        controller.form = angular.extend(controller.form, {
                             name: form.vars.name,
                             method: form.vars.method,
-                            action: form.vars.action,
-                            data: {}
-                        };
+                            action: form.vars.action
+                        });
                     }
 
                     if (form.hasOwnProperty('children')) {
                         for (var key in form.children) {
                             if (form.children.hasOwnProperty(key)) {
-                                $('*[name="' + form.children[key].vars.full_name + '"]', build(
+                                controller.form.origin[key] = form.children[key].vars;
+                                controller.form.data[key] = form.vars.value[key];
+                                $('*[id="' + key + '"]', build(
                                     $('>form', iElement),
                                     form.children[key].vars.block_prefixes[1],
-                                    form.children[key].vars,
-                                    form.vars.value
+                                    form.children[key].vars
                                 )).attr({
+                                    name: form.children[key].vars.full_name,
                                     'ng-model': 'controller.form.data.' + key
                                 });
                             }
@@ -65,11 +68,11 @@
                     build($('>form', iElement), 'submit', {
                         submit: {
                             label: 'admin.general.SAVE',
-                            onClick: scope.controller.submit
+                            onClick: controller.form.submit
                         },
                         cancel: {
                             label: 'admin.general.CANCEL',
-                            onClick: scope.controller.cancel
+                            onClick: controller.form.cancel
                         }
                     });
 
@@ -78,7 +81,7 @@
             });
         }
 
-        function build(form, element, config, data) {
+        function build(form, element, config) {
             /* jshint -W106, -W014, eqeqeq: false, validthis: true */
             var uiRow = ({
                 hidden: inputHidden,
@@ -87,49 +90,16 @@
                 choice: select,
                 submit: submit
             })[element](angular.extend(
-                (function (ext) {
-                    ['full_name:name', 'label']
-                        .forEach(function (key) {
-                            var map = (function (str) {
-                                var s = String(str).split(':');
-                                return {
-                                    a: s[0],
-                                    b: s[1] || s[0]
-                                };
-                            })(key);
-                            if (!config.hasOwnProperty(map.a))
-                                return;
-                            ext[map.b] = config[map.a];
-                        });
-                    return ext;
-                })({}),
-                (function (ext) {
-                    if (
-                        data instanceof Object &&
-                        data.hasOwnProperty(config.name)
-                    ) {
-                        ext.value = data[config.name];
-                    }
-                    return ext;
-                })({}),
+                {
+                    uid: config.name,
+                    label: config.label
+                },
                 (function (ext) {
                     if (config.attr instanceof Object) {
                         ['translateLabel', 'placeholder'].forEach(function (key) {
                             if (!config.attr.hasOwnProperty(key))
                                 return;
                             ext[key] = config.attr[key];
-                        });
-                    }
-                    return ext;
-                })({}),
-                (function (ext) {
-                    if (config.hasOwnProperty('choices')) {
-                        ext.empty = config.empty_value;
-                        ext.options = $.map(config.choices, function (option) {
-                            return {
-                                value: option.data,
-                                text: option.label
-                            };
                         });
                     }
                     return ext;
@@ -157,10 +127,10 @@
         }
 
         function inputHidden(config) {
-            return $('<input type="hidden" />')
-                .attr({
-                    name: config.name
-                });
+            return $('<input />').attr({
+                id: config.uid,
+                type: 'hidden'
+            });
         }
 
         function inputCheckbox(config) {
@@ -169,11 +139,10 @@
                     $('<label />')
                         .html('{{ "' + config.label + '" | translate }}')
                         .prepend(
-                            $('<input />')
-                                .attr({
-                                    type: 'checkbox',
-                                    checked: config.value
-                                }),
+                            $('<input />').attr({
+                                id: config.uid,
+                                type: 'checkbox'
+                            }),
                             $('<span class="fa fa-check" />')
                         )
                 )
@@ -187,11 +156,10 @@
                 $('<div class="col-lg-9" />').append(
                     $('<input class="form-control" />')
                         .attr({
+                            id: config.uid,
                             type: 'text',
-                            name: config.name,
                             placeholder: '{{ "' + config.placeholder + '" | translate }}'
                         })
-                        .val(config.value)
                 )
             ];
         }
@@ -203,20 +171,10 @@
                 $('<div class="col-lg-9" />').append(
                     $('<select class="form-control" />')
                         .attr({
-                            name: config.name,
-                            placeholder: '{{ "' + config.placeholder + '" | translate }}'
+                            id: config.uid,
+                            placeholder: '{{ "' + config.placeholder + '" | translate }}',
+                            'ng-options': 'choice.data as choice.label for choice in controller.form.origin.' + config.uid + '.choices'
                         })
-                        .append(
-                            $('<option />')
-                                .html('{{ "' + config.empty + '" | translate }}')
-                        )
-                        .append(
-                            $.map(config.options, function (option) {
-                                return $('<option value="' + option.value + '" />')
-                                    .html('{{ "' + option.text + '" | translate }}');
-                            })
-                        )
-                        .val(config.value)
                 )
             ];
         }

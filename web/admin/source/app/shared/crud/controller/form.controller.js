@@ -5,15 +5,17 @@
         .module('crud')
         .controller('CRUDFormController', CRUDFormController);
 
-    CRUDFormController.$inject = ['$scope', 'CRUDFormLoader'];
+    CRUDFormController.$inject = ['$scope', 'CRUDFormLoader', 'toaster'];
 
-    function CRUDFormController($scope, CRUDFormLoader) {
+    function CRUDFormController($scope, CRUDFormLoader, toaster) {
         /* jshint validthis: true */
         var vm = this,
-            config = $scope.config;
+            CRUDForm = $scope.CRUDForm;
 
-        vm.submit = submit;
-        vm.cancel = cancel;
+        vm.form = {
+            submit: submit,
+            cancel: cancel
+        };
 
         activate();
 
@@ -23,9 +25,9 @@
          * @private
          */
         function activate() {
-            if (config instanceof Object) {
+            if (CRUDForm instanceof Object) {
                 CRUDFormLoader
-                    .setUrl(config.source)
+                    .setUrl(CRUDForm.source)
                     .load({
                         onSuccess: function () {
                             CRUDFormLoader.clearPromise();
@@ -36,19 +38,18 @@
 
         function submit() {
             // @todo необхідно зробити валідацію форми
-            console.log($scope, vm);
-            //config.onsubmit(config, {
-            //    onSuccess: function(r){
-            //        console.log(r);
-            //    }
-            //});
+            CRUDForm.submit(vm.form, {
+                onSuccess: function () {
+                    cancel();
+                }
+            });
         }
 
         function cancel() {
-            if(
+            if (
                 $scope.$parent.hasOwnProperty('ngDialog') &&
                 $scope.$parent.ngDialog instanceof Object
-            ){
+            ) {
                 $scope.$parent.ngDialog.close();
             }
         }
