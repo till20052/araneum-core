@@ -7,6 +7,15 @@
 
     CRUDFormDirective.$inject = ['CRUDFormLoader', 'RouteHelpers', '$compile'];
 
+    /**
+     * CRUD From Directive
+     *
+     * @param CRUDFormLoader
+     * @param helper
+     * @param $compile
+     * @returns {object}
+     * @constructor
+     */
     function CRUDFormDirective(CRUDFormLoader, helper, $compile) {
         return {
             link: link,
@@ -16,120 +25,119 @@
             replace: true,
             templateUrl: helper.basepath('crud/form.html'),
             scope: {
-                config: '=crudForm'
+                structure: '=crudForm'
             }
         };
 
         function link(scope, iElement, iAttr, controller) {
-            CRUDFormLoader.load({
-                onSuccess: /**
-                 * @param {{
-                 *      children: object
-                 *      vars: object
-                 * }} form
-                 */
-                    function (form) {
-                    /* jshint -W106 */
+            var structure = scope.structure;
 
-                    if (
-                        form.hasOwnProperty('vars') &&
-                        form.vars instanceof Object
-                    ) {
-                        $('>form', iElement)
-                            .attr({
-                                name: 'controller.form.validation'
-                            });
-                        controller.form = {
-                            name: form.vars.name,
-                            method: form.vars.method,
-                            action: form.vars.action,
-                            data: {}
-                        };
-                    }
-
-                    if (form.hasOwnProperty('children')) {
-                        for (var key in form.children) {
-                            if (form.children.hasOwnProperty(key)) {
-                                $('*[name="' + form.children[key].vars.full_name + '"]', build(
-                                    $('>form', iElement),
-                                    form.children[key].vars.block_prefixes[1],
-                                    form.children[key].vars,
-                                    form.vars.value
-                                )).attr({
-                                    'ng-model': 'controller.form.data.' + key
-                                });
+            if (structure instanceof Object) {
+                if (structure.hasOwnProperty('source')) {
+                    CRUDFormLoader
+                        .setUrl(structure.source)
+                        .load({
+                            onSuccess: function (structure) {
+                                createForm(controller, iElement, structure)(scope);
+                                CRUDFormLoader.clearPromise();
                             }
-                        }
-                    }
+                        });
+                }
+            }
 
-                    build($('>form', iElement), 'submit', {
-                        submit: {
-                            label: 'admin.general.SAVE',
-                            onClick: scope.controller.submit
-                        },
-                        cancel: {
-                            label: 'admin.general.CANCEL',
-                            onClick: scope.controller.cancel
-                        }
-                    });
-
-                    $compile($('>form', iElement))(scope);
+            scope.$watch(function () {
+                return scope.structure instanceof Object;
+            }, function (isReady) {
+                if (isReady) {
+                    createForm(controller, iElement, scope.structure)(scope);
                 }
             });
         }
 
-        function build(form, element, config, data) {
+        /**
+         * Create form
+         *
+         * @param {object} controller
+         * @param {object} placement html element
+         * @param {{
+         *      children: object
+         *      vars: object
+         * }} structure
+         */
+        function createForm(controller, placement, structure) {
+            /* jshint -W106 */
+            if (
+                structure.hasOwnProperty('vars') &&
+                structure.vars instanceof Object
+            ) {
+                $('>form', placement).attr('name', 'controller.form.validation');
+                controller.form = angular.extend(controller.form, {
+                    name: structure.vars.name,
+                    method: structure.vars.method,
+                    action: structure.vars.action
+                });
+            }
+
+            if (structure.hasOwnProperty('children')) {
+                for (var key in structure.children) {
+                    if (structure.children.hasOwnProperty(key)) {
+                        controller.form.origin[key] = structure.children[key].vars;
+                        controller.form.data[key] = structure.vars.value[key];
+                        $('*[id="' + key + '"]', createUiControlSection(
+                            $('>form', placement),
+                            structure.children[key].vars.block_prefixes[1],
+                            structure.children[key].vars
+                        )).attr({
+                            name: structure.children[key].vars.full_name,
+                            'ng-model': 'controller.form.data.' + key
+                        });
+                    }
+                }
+            }
+
+            createUiControlSection($('>form', placement), 'submit', {
+                submit: {
+                    label: 'admin.general.SAVE',
+                    onClick: controller.form.submit
+                },
+                cancel: {
+                    label: 'admin.general.CANCEL',
+                    onClick: controller.form.cancel
+                }
+            });
+
+            return function (scope) {
+                $compile($('>form', placement))(scope);
+            };
+        }
+
+        /**
+         * create user interface control section
+         *
+         * @param form
+         * @param element
+         * @param config
+         * @returns {*}
+         */
+        function createUiControlSection(form, element, config) {
             /* jshint -W106, -W014, eqeqeq: false, validthis: true */
-            var uiRow = ({
+            var section = ({
                 hidden: inputHidden,
                 checkbox: inputCheckbox,
                 text: inputText,
                 choice: select,
                 submit: submit
             })[element](angular.extend(
-                (function (ext) {
-                    ['full_name:name', 'label']
-                        .forEach(function (key) {
-                            var map = (function (str) {
-                                var s = String(str).split(':');
-                                return {
-                                    a: s[0],
-                                    b: s[1] || s[0]
-                                };
-                            })(key);
-                            if (!config.hasOwnProperty(map.a))
-                                return;
-                            ext[map.b] = config[map.a];
-                        });
-                    return ext;
-                })({}),
-                (function (ext) {
-                    if (
-                        data instanceof Object &&
-                        data.hasOwnProperty(config.name)
-                    ) {
-                        ext.value = data[config.name];
-                    }
-                    return ext;
-                })({}),
+                {
+                    uid: config.name,
+                    label: config.label
+                },
                 (function (ext) {
                     if (config.attr instanceof Object) {
                         ['translateLabel', 'placeholder'].forEach(function (key) {
                             if (!config.attr.hasOwnProperty(key))
                                 return;
                             ext[key] = config.attr[key];
-                        });
-                    }
-                    return ext;
-                })({}),
-                (function (ext) {
-                    if (config.hasOwnProperty('choices')) {
-                        ext.empty = config.empty_value;
-                        ext.options = $.map(config.choices, function (option) {
-                            return {
-                                value: option.data,
-                                text: option.label
-                            };
                         });
                     }
                     return ext;
@@ -143,24 +151,33 @@
             ));
 
             if (element == 'hidden') {
-                return form.prepend(uiRow);
+                return form.prepend(section);
             }
 
-            uiRow = $('<div class="form-group" />')
-                .append(uiRow);
+            section = $('<div class="form-group" />')
+                .append(section);
 
             if (element == 'submit') {
-                uiRow.addClass('mb0');
+                section.addClass('mb0');
             }
 
-            return form.append(uiRow);
+            // @todo need a condition for render different form layout
+            //section = $('<div class="col-lg-6" />').append(section);
+
+            return form.append(section);
         }
 
+        /**
+         * Create input element with type eq hidden
+         *
+         * @param config
+         * @returns {jQuery}
+         */
         function inputHidden(config) {
-            return $('<input type="hidden" />')
-                .attr({
-                    name: config.name
-                });
+            return $('<input />').attr({
+                id: config.uid,
+                type: 'hidden'
+            });
         }
 
         function inputCheckbox(config) {
@@ -169,11 +186,10 @@
                     $('<label />')
                         .html('{{ "' + config.label + '" | translate }}')
                         .prepend(
-                            $('<input />')
-                                .attr({
-                                    type: 'checkbox',
-                                    checked: config.value
-                                }),
+                            $('<input />').attr({
+                                id: config.uid,
+                                type: 'checkbox'
+                            }),
                             $('<span class="fa fa-check" />')
                         )
                 )
@@ -187,11 +203,10 @@
                 $('<div class="col-lg-9" />').append(
                     $('<input class="form-control" />')
                         .attr({
+                            id: config.uid,
                             type: 'text',
-                            name: config.name,
                             placeholder: '{{ "' + config.placeholder + '" | translate }}'
                         })
-                        .val(config.value)
                 )
             ];
         }
@@ -203,20 +218,10 @@
                 $('<div class="col-lg-9" />').append(
                     $('<select class="form-control" />')
                         .attr({
-                            name: config.name,
-                            placeholder: '{{ "' + config.placeholder + '" | translate }}'
+                            id: config.uid,
+                            placeholder: '{{ "' + config.placeholder + '" | translate }}',
+                            'ng-options': 'choice.data as choice.label for choice in controller.form.origin.' + config.uid + '.choices'
                         })
-                        .append(
-                            $('<option />')
-                                .html('{{ "' + config.empty + '" | translate }}')
-                        )
-                        .append(
-                            $.map(config.options, function (option) {
-                                return $('<option value="' + option.value + '" />')
-                                    .html('{{ "' + option.text + '" | translate }}');
-                            })
-                        )
-                        .val(config.value)
                 )
             ];
         }

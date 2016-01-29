@@ -20,7 +20,7 @@
                 controller: 'CRUDController',
                 controllerAs: 'crud',
                 templateUrl: helper.basepath('crud.html'),
-                resolve: helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert', 'whirl', 'toaster')
+                resolve: helper.resolveFor('ngDialog', 'datatables', 'oitozero.ngSweetAlert', 'whirl')
             });
     }
 })();

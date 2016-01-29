@@ -5,14 +5,14 @@
         .module('crud')
         .factory('CRUDDataHandler', CRUDDataHandler);
 
-    CRUDDataHandler.$inject = ['$http', 'ngDialog', 'SweetAlert', 'RouteHelpers', '$filter'];
+    CRUDDataHandler.$inject = ['$http', 'ngDialog', 'SweetAlert', 'toaster', 'RouteHelpers', '$filter'];
 
     /**
      * Datatable Data Handler
      *
      * @constructor
      */
-    function CRUDDataHandler($http, ngDialog, SweetAlert, helper, $filter) {
+    function CRUDDataHandler($http, ngDialog, SweetAlert, toaster, helper, $filter) {
         /* jshint validthis: true */
         var dtInstance;
         var translate = $filter('translate');
@@ -20,7 +20,6 @@
         return {
             datatable: datatable,
             invokeAction: invokeAction
-            // @todo необхідні методи для конфігурації таблиці, визначення полів id та state (enable/disable)
         };
 
         /**
@@ -54,14 +53,14 @@
                     title: data.display.label,
                     form: {
                         source: data.source,
-                        onsubmit: save
+                        submit: submit
                     }
                 }
             });
         }
 
         /**
-         * Send form data to server
+         * Submit form to server
          *
          * @param {object} form
          * @param {{
@@ -70,34 +69,38 @@
          * }} triggers
          * @private
          */
-        function save(form, triggers) {
+        function submit(form, triggers) {
+            /* jshint eqeqeq: false */
             $http({
                 method: form.method,
                 url: form.action,
-                data: {},
+                data: $.param(form.data),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             }).then(
                 function (r) {
-                    console.log('success', r);
+                    dtInstance.fnDraw();
+                    toaster.pop('success', 'Success', r.data.message);
+                    if(
+                        triggers instanceof Object &&
+                        typeof triggers.onSuccess == 'function'
+                    ){
+                        // @todo необхідно зробити без перезагрузки datatable
+                        //dtInstance.fnUpdate(null, $('>tbody>tr', dtInstance));
+                        triggers.onSuccess(r);
+                    }
                 },
                 function (r) {
-                    console.log('error', r);
+                    toaster.pop('error', 'Error', r.data.message);
+                    if(
+                        triggers instanceof Object &&
+                        typeof triggers.onError == 'function'
+                    ){
+                        triggers.onError(r);
+                    }
                 }
             );
-
-            //$http
-            //    .post(data.resource, {
-            //        data: [parseInt($('td:first-child', row).text())]
-            //    })
-            //    .success(function () {
-            //        dtInstance.fnDeleteRow(row);
-            //        // @todo необхідно додати повідомлення про успішне збереження форми
-            //    })
-            //    .error(function () {
-            //        // @todo необхідно додати повідомлення про успішне збереження форми
-            //    });
         }
 
         function invokeAction(data, row) {
@@ -125,7 +128,6 @@
             );
         }
 
-        // @todo треба зробити видалення багатьох записів одночасно
         function remove(data, row) {
             SweetAlert.swal({
                 title: translate(data.confirm.title),
@@ -142,16 +144,13 @@
                         })
                         .success(function () {
                             dtInstance.fnDeleteRow(row);
-                            // @todo нужно добавить сообщение об успешном удалении
                         })
                         .error(function () {
-                            // @todo нужно добавить сообщение об провальном удалении
                         });
                 }
             });
         }
 
-        // @todo треба зробити зміну стану для багатьох записів одночасно
         function setState(data, row) {
             $http
                 .post(data.resource, {
@@ -160,11 +159,9 @@
                 .success(function (data) {
                     if (data.hasOwnProperty('success') && data.success === true) {
                         dtInstance.fnUpdate(data.state, row, 3, false);
-                        // @todo нужно добавить сообщение об успешном изменении состояния
                     }
                 })
                 .error(function () {
-                    // @todo нужно добавить сообщение об провальном изменении состояния
                 });
         }
 
