@@ -140,7 +140,6 @@ class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
             ->method('checkRunner')
             ->with($this->equalTo(777))
             ->will($this->returnValue(Application::STATUS_OK));
-
         $this->commandTester->execute(
             [
                 'command' => $this->command->getName(),
