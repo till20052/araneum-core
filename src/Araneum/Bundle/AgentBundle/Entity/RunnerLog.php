@@ -36,8 +36,7 @@ class RunnerLog
     /**
      * @var Cluster
      *
-     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Cluster", inversedBy="clusterLogs",
-     *     cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Cluster", inversedBy="clusterLogs")
      * @ORM\JoinColumn(name="cluster_id", referencedColumnName="id", nullable=false)
      */
     private $cluster;
@@ -45,8 +44,7 @@ class RunnerLog
     /**
      * @var Runner
      *
-     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Runner", inversedBy="runnerLogs",
-     *     cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Runner", inversedBy="runnerLogs")
      * @ORM\JoinColumn(name="runner_id", referencedColumnName="id", nullable=false)
      */
     private $runner;
