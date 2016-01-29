@@ -26,6 +26,7 @@
         function buildActions(view) {
             return ({
                 menu: buildMenuActions
+                // @todo необхідно створити builder для toolbar
             })[view]();
         }
 
@@ -62,10 +63,6 @@
                             });
                         }
                     }
-
-                    //$('>ul', dropdown).append($.map(groups, function(){
-                    //    return
-                    //}));
                 }
             });
 

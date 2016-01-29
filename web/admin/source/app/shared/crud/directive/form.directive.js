@@ -11,68 +11,134 @@
         return {
             link: link,
             controller: 'CRUDFormController',
-            controllerAs: 'vm',
+            controllerAs: 'controller',
             restrict: 'A',
             replace: true,
             templateUrl: helper.basepath('crud/form.html'),
             scope: {
-                source: '=crudForm'
+                config: '=crudForm'
             }
         };
 
-        function link(scope, iElement) {
+        function link(scope, iElement, iAttr, controller) {
             CRUDFormLoader.load({
-                onSuccess: function (form) {
+                onSuccess: /**
+                 * @param {{
+                 *      children: object
+                 *      vars: object
+                 * }} form
+                 */
+                    function (form) {
                     /* jshint -W106 */
+
+                    if (
+                        form.hasOwnProperty('vars') &&
+                        form.vars instanceof Object
+                    ) {
+                        $('>form', iElement)
+                            .attr({
+                                name: 'controller.form.validation'
+                            });
+                        controller.form = {
+                            name: form.vars.name,
+                            method: form.vars.method,
+                            action: form.vars.action,
+                            data: {}
+                        };
+                    }
+
                     if (form.hasOwnProperty('children')) {
                         for (var key in form.children) {
-                            if (!form.children.hasOwnProperty(key))
-                                return;
-                            append(
-                                $('>form', iElement),
-                                form.children[key].vars.block_prefixes[1],
-                                form.children[key].vars
-                            );
+                            if (form.children.hasOwnProperty(key)) {
+                                $('*[name="' + form.children[key].vars.full_name + '"]', build(
+                                    $('>form', iElement),
+                                    form.children[key].vars.block_prefixes[1],
+                                    form.children[key].vars,
+                                    form.vars.value
+                                )).attr({
+                                    'ng-model': 'controller.form.data.' + key
+                                });
+                            }
                         }
                     }
+
+                    build($('>form', iElement), 'submit', {
+                        submit: {
+                            label: 'admin.general.SAVE',
+                            onClick: scope.controller.submit
+                        },
+                        cancel: {
+                            label: 'admin.general.CANCEL',
+                            onClick: scope.controller.cancel
+                        }
+                    });
 
                     $compile($('>form', iElement))(scope);
                 }
             });
         }
 
-        function append(form, element, config) {
+        function build(form, element, config, data) {
             /* jshint -W106, -W014, eqeqeq: false, validthis: true */
             var uiRow = ({
                 hidden: inputHidden,
                 checkbox: inputCheckbox,
                 text: inputText,
-                choice: select
+                choice: select,
+                submit: submit
             })[element](angular.extend(
-                {
-                    name: config.full_name,
-                    value: config.value,
-                    label: config.attr.translateLabel
-                },
-                (function (o) {
-                    if (config.attr.hasOwnProperty('placeholder'))
-                        return {
-                            placeholder: config.attr.placeholder
-                        };
-                    return o;
-                })({}),
-                (function (o) {
-                    if (config.hasOwnProperty('choices'))
-                        return {
-                            empty: config.empty_value,
-                            options: $.map(config.choices, function (option) {
+                (function (ext) {
+                    ['full_name:name', 'label']
+                        .forEach(function (key) {
+                            var map = (function (str) {
+                                var s = String(str).split(':');
                                 return {
-                                    value: option.data,
-                                    text: option.label
+                                    a: s[0],
+                                    b: s[1] || s[0]
                                 };
-                            })
-                        };
-                    return o;
+                            })(key);
+                            if (!config.hasOwnProperty(map.a))
+                                return;
+                            ext[map.b] = config[map.a];
+                        });
+                    return ext;
+                })({}),
+                (function (ext) {
+                    if (
+                        data instanceof Object &&
+                        data.hasOwnProperty(config.name)
+                    ) {
+                        ext.value = data[config.name];
+                    }
+                    return ext;
+                })({}),
+                (function (ext) {
+                    if (config.attr instanceof Object) {
+                        ['translateLabel', 'placeholder'].forEach(function (key) {
+                            if (!config.attr.hasOwnProperty(key))
+                                return;
+                            ext[key] = config.attr[key];
+                        });
+                    }
+                    return ext;
+                })({}),
+                (function (ext) {
+                    if (config.hasOwnProperty('choices')) {
+                        ext.empty = config.empty_value;
+                        ext.options = $.map(config.choices, function (option) {
+                            return {
+                                value: option.data,
+                                text: option.label
+                            };
+                        });
+                    }
+                    return ext;
+                })({}),
+                (function (ext) {
+                    if (element == 'submit') {
+                        ext = config;
+                    }
+                    return ext;
                 })({})
             ));
 
@@ -80,16 +146,21 @@
                 return form.prepend(uiRow);
             }
 
-            console.log(uiRow);
-
             uiRow = $('<div class="form-group" />')
                 .append(uiRow);
 
-            form.append(uiRow);
+            if (element == 'submit') {
+                uiRow.addClass('mb0');
+            }
+
+            return form.append(uiRow);
         }
 
         function inputHidden(config) {
-            return $('<input type="hidden" name="' + config.name + '" />');
+            return $('<input type="hidden" />')
+                .attr({
+                    name: config.name
+                });
         }
 
         function inputCheckbox(config) {
@@ -101,7 +172,7 @@
                             $('<input />')
                                 .attr({
                                     type: 'checkbox',
-                                    checked: false
+                                    checked: config.value
                                 }),
                             $('<span class="fa fa-check" />')
                         )
@@ -120,6 +191,7 @@
                             name: config.name,
                             placeholder: '{{ "' + config.placeholder + '" | translate }}'
                         })
+                        .val(config.value)
                 )
             ];
         }
@@ -144,8 +216,39 @@
                                     .html('{{ "' + option.text + '" | translate }}');
                             })
                         )
+                        .val(config.value)
                 )
             ];
+        }
+
+        function submit(config) {
+            return $('<div class="col-lg-offset-3 col-lg-9" />').append(
+                $('<button class="btn btn-primary mr" />')
+                    .data('onButtonClick', config.submit.onClick)
+                    .click(clickEventHandler)
+                    .html('{{ "' + config.submit.label + '" | translate }}')
+                    .prepend(
+                        $('<em class="icon-check mr" />')
+                    ),
+                $('<button class="btn btn-default" />')
+                    .data('onButtonClick', config.cancel.onClick)
+                    .click(clickEventHandler)
+                    .html('{{ "' + config.cancel.label + '" | translate }}')
+                    .prepend(
+                        $('<em class="icon-ban mr" />')
+                    )
+            );
+
+            function clickEventHandler() {
+                /* jshint validthis: true, eqeqeq: false */
+                if (
+                    $(this).data('onButtonClick') !== undefined &&
+                    typeof $(this).data('onButtonClick') == 'function'
+                ) {
+                    $(this).data('onButtonClick')();
+                }
+            }
+
         }
     }
 

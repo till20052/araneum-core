@@ -1,12 +1,12 @@
 <div>
 
     <h3 class="mt0 mb-lg">
-        <em class="{{ vm.icon }} mr"></em><!--
-        --><span>{{ vm.title | translate }}</span>
+        <em class="{{ icon }} mr"></em><!--
+        --><span>{{ title | translate }}</span>
     </h3>
 
     <div ng-repeat="error in errors track by $index" class="alert alert-danger text-center">{{ error }}</div>
 
-    <div crud-form="vm.form"></div>
+    <form crud-form="form"></form>
 
 </div>
