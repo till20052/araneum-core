@@ -20,6 +20,12 @@ class ConnectionData extends AbstractFixture implements FixtureInterface, Depend
      */
     public function load(ObjectManager $manager)
     {
+        $this->setDefault($manager);
+        $this->setIxoption($manager);
+    }
+
+    private function setDefault(ObjectManager $manager)
+    {
         $connectionHost = $manager->getRepository('AraneumMainBundle:Connection')
             ->findOneByName('Ultatrade_Host');
         if (empty($connectionHost)) {
@@ -55,6 +61,45 @@ class ConnectionData extends AbstractFixture implements FixtureInterface, Depend
 
         $this->addReference('connectionHost', $connectionHost);
         $this->addReference('connectionDb', $connectionDb);
+    }
+
+    private function setIxoption(ObjectManager $manager)
+    {
+        $connectionHost = $manager->getRepository('AraneumMainBundle:Connection')
+            ->findOneByName('ixoption_host');
+        if (empty($connectionHost)) {
+            $connectionHost = new Connection();
+            $connectionHost->setType(2);
+            $connectionHost->setName('ixoption_host');
+            $connectionHost->setHost('192.168.70.221');
+            $connectionHost->setPort(80);
+            $connectionHost->setEnabled(true);
+            $connectionHost->setUserName('user');
+            $connectionHost->setPassword('123');
+            $connectionHost->setRunner($this->getReference('runnerIxoption'));
+            $manager->persist($connectionHost);
+            $manager->flush();
+        }
+
+        $connectionDb = $manager
+            ->getRepository('AraneumMainBundle:Connection')
+            ->findOneByName('ixoption_db');
+        if (empty($connectionDb)) {
+            $connectionDb = new Connection();
+            $connectionDb->setType(1);
+            $connectionDb->setName('ixoption_db');
+            $connectionDb->setHost('localhost');
+            $connectionDb->setPort(5432);
+            $connectionDb->setEnabled(true);
+            $connectionDb->setUserName('bamboo');
+            $connectionDb->setPassword('hu8jmn3');
+            $connectionDb->setRunner($this->getReference('runnerIxoption'));
+            $manager->persist($connectionDb);
+            $manager->flush();
+        }
+
+        $this->addReference('connHostIxoption', $connectionHost);
+        $this->addReference('connDBIxoption', $connectionDb);
     }
 
     /**
