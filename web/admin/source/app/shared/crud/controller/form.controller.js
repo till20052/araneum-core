@@ -5,12 +5,12 @@
         .module('crud')
         .controller('CRUDFormController', CRUDFormController);
 
-    CRUDFormController.$inject = ['$scope', 'CRUDFormLoader', 'toaster'];
+    CRUDFormController.$inject = ['$scope'];
 
-    function CRUDFormController($scope, CRUDFormLoader, toaster) {
+    function CRUDFormController($scope) {
         /* jshint validthis: true */
         var vm = this,
-            CRUDForm = $scope.CRUDForm;
+            form = $scope.form;
 
         vm.form = {
             submit: submit,
@@ -25,20 +25,11 @@
          * @private
          */
         function activate() {
-            if (CRUDForm instanceof Object) {
-                CRUDFormLoader
-                    .setUrl(CRUDForm.source)
-                    .load({
-                        onSuccess: function () {
-                            CRUDFormLoader.clearPromise();
-                        }
-                    });
-            }
+
         }
 
         function submit() {
-            // @todo необхідно зробити валідацію форми
-            CRUDForm.submit(vm.form, {
+            form.submit(vm.form, {
                 onSuccess: function () {
                     cancel();
                 }

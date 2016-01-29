@@ -16,71 +16,96 @@
             replace: true,
             templateUrl: helper.basepath('crud/form.html'),
             scope: {
-                CRUDForm: '=crudForm'
+                structure: '=crudForm'
             }
         };
 
         function link(scope, iElement, iAttr, controller) {
-            CRUDFormLoader.load({
-                onSuccess: /**
-                 * @param {{
-                 *      children: object
-                 *      vars: object
-                 * }} form
-                 */
-                    function (form) {
-                    /* jshint -W106 */
-
-                    controller.form = angular.extend(controller.form, {
-                        origin: {},
-                        data: {}
-                    });
-
-                    if (
-                        form.hasOwnProperty('vars') &&
-                        form.vars instanceof Object
-                    ) {
-                        $('>form', iElement).attr('name', 'controller.form.validation');
-                        controller.form = angular.extend(controller.form, {
-                            name: form.vars.name,
-                            method: form.vars.method,
-                            action: form.vars.action
-                        });
-                    }
-
-                    if (form.hasOwnProperty('children')) {
-                        for (var key in form.children) {
-                            if (form.children.hasOwnProperty(key)) {
-                                controller.form.origin[key] = form.children[key].vars;
-                                controller.form.data[key] = form.vars.value[key];
-                                $('*[id="' + key + '"]', build(
-                                    $('>form', iElement),
-                                    form.children[key].vars.block_prefixes[1],
-                                    form.children[key].vars
-                                )).attr({
-                                    name: form.children[key].vars.full_name,
-                                    'ng-model': 'controller.form.data.' + key
-                                });
+            var structure = scope.structure;
+            if (structure instanceof Object) {
+                if (structure.hasOwnProperty('source')) {
+                    CRUDFormLoader
+                        .setUrl(structure.source)
+                        .load({
+                            onSuccess: function (structure) {
+                                buildForm(controller, iElement, structure)(scope);
+                                CRUDFormLoader.clearPromise();
                             }
-                        }
-                    }
-
-                    build($('>form', iElement), 'submit', {
-                        submit: {
-                            label: 'admin.general.SAVE',
-                            onClick: controller.form.submit
-                        },
-                        cancel: {
-                            label: 'admin.general.CANCEL',
-                            onClick: controller.form.cancel
-                        }
-                    });
-
-                    $compile($('>form', iElement))(scope);
+                        });
                 }
-            });
+                else {
+                    buildForm(controller, iElement, structure)(scope);
+                }
+            }
         }
 
+        /**
+         * @param {object} controller
+         * @param {object} placement html element
+         * @param {{
+         *      children: object
+         *      vars: object
+         * }} structure
+         */
+        function buildForm(controller, placement, structure) {
+            /* jshint -W106 */
+            controller.form = angular.extend(controller.form, {
+                origin: {},
+                data: {}
+            });
+
+            if (
+                structure.hasOwnProperty('vars') &&
+                structure.vars instanceof Object
+            ) {
+                $('>form', placement).attr('name', 'controller.form.validation');
+                controller.form = angular.extend(controller.form, {
+                    name: structure.vars.name,
+                    method: structure.vars.method,
+                    action: structure.vars.action
+                });
+            }
+
+            if (structure.hasOwnProperty('children')) {
+                for (var key in structure.children) {
+                    if (structure.children.hasOwnProperty(key)) {
+                        controller.form.origin[key] = structure.children[key].vars;
+                        controller.form.data[key] = structure.vars.value[key];
+                        $('*[id="' + key + '"]', build(
+                            $('>form', placement),
+                            structure.children[key].vars.block_prefixes[1],
+                            structure.children[key].vars
+                        )).attr({
+                            name: structure.children[key].vars.full_name,
+                            'ng-model': 'controller.form.data.' + key
+                        });
+                    }
+                }
+            }
+
+            build($('>form', placement), 'submit', {
+                submit: {
+                    label: 'admin.general.SAVE',
+                    onClick: controller.form.submit
+                },
+                cancel: {
+                    label: 'admin.general.CANCEL',
+                    onClick: controller.form.cancel
+                }
+            });
+
+            return function (scope) {
+                $compile($('>form', placement))(scope);
+            };
+        }
+
+        /**
+         *
+         * @param form
+         * @param element
+         * @param config
+         * @returns {*}
+         */
         function build(form, element, config) {
             /* jshint -W106, -W014, eqeqeq: false, validthis: true */
             var uiRow = ({

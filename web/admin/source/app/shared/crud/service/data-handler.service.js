@@ -20,7 +20,6 @@
         return {
             datatable: datatable,
             invokeAction: invokeAction
-            // @todo необхідні методи для конфігурації таблиці, визначення полів id та state (enable/disable)
         };
 
         /**
@@ -129,7 +128,6 @@
             );
         }
 
-        // @todo треба зробити видалення багатьох записів одночасно
         function remove(data, row) {
             SweetAlert.swal({
                 title: translate(data.confirm.title),
@@ -146,16 +144,13 @@
                         })
                         .success(function () {
                             dtInstance.fnDeleteRow(row);
-                            // @todo нужно добавить сообщение об успешном удалении
                         })
                         .error(function () {
-                            // @todo нужно добавить сообщение об провальном удалении
                         });
                 }
             });
         }
 
-        // @todo треба зробити зміну стану для багатьох записів одночасно
         function setState(data, row) {
             $http
                 .post(data.resource, {
@@ -164,11 +159,9 @@
                 .success(function (data) {
                     if (data.hasOwnProperty('success') && data.success === true) {
                         dtInstance.fnUpdate(data.state, row, 3, false);
-                        // @todo нужно добавить сообщение об успешном изменении состояния
                     }
                 })
                 .error(function () {
-                    // @todo нужно добавить сообщение об провальном изменении состояния
                 });
         }
 

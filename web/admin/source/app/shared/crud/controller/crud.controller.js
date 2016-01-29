@@ -11,7 +11,10 @@
         $scope.icon = 'icon-globe-alt';
         $scope.title = 'locales.LOCALES';
 
-        CRUDConfigLoader.setUrl($state.$current.initialize);
+        $scope.filter =
+
+        CRUDConfigLoader
+            .setUrl($state.$current.initialize);
     }
 
 })();

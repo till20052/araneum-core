@@ -26,7 +26,6 @@
         function buildActions(view) {
             return ({
                 menu: buildMenuActions
-                // @todo необхідно створити builder для toolbar
             })[view]();
         }
 
