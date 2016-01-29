@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Araneum\Bundle\UserBundle\Service\DataTable\UserDataTableList;
 use Araneum\Bundle\UserBundle\Service\Actions\UserActions;
-use Araneum\Bundle\UserBundle\Service\Spot\SpotApiCustomerService;
 
 /**
  * Class AdminUserController
