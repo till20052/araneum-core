@@ -388,10 +388,10 @@ class ApplicationCheckerService
                         ->send();
 
                     if (!$response->isSuccessful()) {
-                        $status = Application::STATUS_CODE_INCORRECT;
+                        $status = Runner::STATUS_APP_CODE_INCORRECT;
                     }
                 } catch (RequestException $e) {
-                    $status = Application::STATUS_ERROR;
+                    $status = Runner::STATUS_APP_ERROR;
                 }
 
                 $application->setStatus($status);
@@ -405,11 +405,11 @@ class ApplicationCheckerService
                 $connectionStatus = $this->getConnectionState($connection, 5, $response);
                 if ($connectionStatus != Connection::STATUS_OK) {
                     if ($connectionStatus == Connection::STATUS_SLOW) {
-                        $status = Cluster::STATUS_HAS_SLOW_CONNECTION;
+                        $status = Runner::STATUS_HAS_SLOW_CONNECTION;
                     } elseif ($connectionStatus == Connection::STATUS_HAS_LOSS) {
-                        $status = Cluster::STATUS_HAS_UNSTABLE_CONNECTION;
+                        $status = Runner::STATUS_HAS_UNSTABLE_CONNECTION;
                     } elseif ($connectionStatus >= Connection::STATUS_HAS_NO_RESPONSE) {
-                        $status = Cluster::STATUS_OFFLINE;
+                        $status = Runner::STATUS_OFFLINE;
                     }
                 }
             }

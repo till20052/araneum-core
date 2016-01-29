@@ -29,14 +29,24 @@ class Runner
 {
     use DateTrait;
 
-    const STATUS_OK             = 0;
-    const STATUS_CODE_INCORRECT = 1;
-    const STATUS_ERROR          = -1;
+    const STATUS_OK                        = 0;
+    const STATUS_CODE_INCORRECT            = 1;
+    const STATUS_ERROR                     = 2;
+    const STATUS_APP_CODE_INCORRECT        = 10;
+    const STATUS_APP_ERROR                 = 15;
+    const STATUS_HAS_SLOW_CONNECTION       = 20;
+    const STATUS_HAS_UNSTABLE_CONNECTION   = 25;
+    const STATUS_OFFLINE                   = 30;
 
     private static $statuses = [
         self::STATUS_OK => 'ok',
         self::STATUS_CODE_INCORRECT => 'status_code_incorrect',
         self::STATUS_ERROR => 'error',
+        self::STATUS_APP_CODE_INCORRECT => 'application_status_code_incorrect',
+        self::STATUS_APP_ERROR => 'error_application',
+        self::STATUS_HAS_SLOW_CONNECTION => 'has_slow_connection',
+        self::STATUS_HAS_UNSTABLE_CONNECTION => 'has_unstable_connection',
+        self::STATUS_OFFLINE => 'offline',
     ];
 
     /**
