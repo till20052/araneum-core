@@ -1,20 +1,20 @@
 <?php
 
-namespace Araneum\Bundle\UserBundle\Entity\Translation;
+namespace Araneum\Bundle\AgentBundle\Entity\Translation;
 
 use Gedmo\Translatable\Entity\MappedSuperclass\AbstractPersonalTranslation;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="araneum_user_country_translations", indexes={
- *      @ORM\Index(name="araneum_user_country_translation_idx", columns={"locale", "object_id", "field"})
+ * @ORM\Table(name="araneum_customer_country_translations", indexes={
+ *      @ORM\Index(name="araneum_customer_country_translation_idx", columns={"locale", "object_id", "field"})
  * })
  * @ORM\Entity(repositoryClass="Gedmo\Translatable\Entity\Repository\TranslationRepository")
  */
 class CountryTranslation extends AbstractPersonalTranslation
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\UserBundle\Entity\Country", inversedBy="translations")
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\AgentBundle\Entity\Country", inversedBy="translations")
      * @ORM\JoinColumn(name="object_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $object;

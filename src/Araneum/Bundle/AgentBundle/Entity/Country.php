@@ -13,11 +13,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * Class Country
  *
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="araneum_user_countries")
- * @ORM\Entity(repositoryClass="Araneum\Bundle\UserBundle\Repository\CountryRepository")
+ * @ORM\Table(name="araneum_customer_countries")
+ * @ORM\Entity(repositoryClass="Araneum\Bundle\AgentBundle\Repository\CountryRepository")
  * @UniqueEntity(fields="name")
- * @Gedmo\TranslationEntity(class="Araneum\Bundle\UserBundle\Entity\Translation\CountryTranslation")
- * @package Araneum\Bundle\UserBundle\Entity
+ * @Gedmo\TranslationEntity(class="Araneum\Bundle\AgentBundle\Entity\Translation\CountryTranslation")
+ * @package Araneum\Bundle\AgentBundle\Entity
  */
 class Country
 {
@@ -60,7 +60,7 @@ class Country
 
     /**
      * @ORM\OneToMany(
-     *   targetEntity="Araneum\Bundle\UserBundle\Entity\Translation\CountryTranslation",
+     *   targetEntity="Araneum\Bundle\AgentBundle\Entity\Translation\CountryTranslation",
      *   mappedBy="object",
      *   cascade={"persist", "remove"}
      * )
