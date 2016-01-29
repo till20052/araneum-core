@@ -26,6 +26,16 @@ class RunnerData extends AbstractFixture implements FixtureInterface, DependentF
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getDependencies()
+    {
+        return [
+            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ClusterData',
+        ];
+    }
+
+    /**
      * Default fixture Runner
      * @param ObjectManager $manager
      */
@@ -67,15 +77,5 @@ class RunnerData extends AbstractFixture implements FixtureInterface, DependentF
             $manager->flush();
         }
         $this->addReference('runnerIxoption', $runner);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDependencies()
-    {
-        return [
-            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ClusterData',
-        ];
     }
 }

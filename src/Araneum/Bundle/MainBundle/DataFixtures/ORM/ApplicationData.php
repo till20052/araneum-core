@@ -26,6 +26,20 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getDependencies()
+    {
+        return [
+            'Araneum\Bundle\MainBundle\DataFixtures\ORM\LocaleData',
+            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ConnectionData',
+            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ClusterData',
+            'Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData',
+            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ComponentData',
+        ];
+    }
+
+    /**
      * Default load Application fixture
      * @param ObjectManager $manager
      */
@@ -91,19 +105,5 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
             $manager->flush();
         }
         $this->addReference('appIxoption', $app);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDependencies()
-    {
-        return [
-            'Araneum\Bundle\MainBundle\DataFixtures\ORM\LocaleData',
-            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ConnectionData',
-            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ClusterData',
-            'Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData',
-            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ComponentData',
-        ];
     }
 }

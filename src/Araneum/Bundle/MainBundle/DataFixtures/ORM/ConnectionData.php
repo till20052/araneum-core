@@ -25,6 +25,16 @@ class ConnectionData extends AbstractFixture implements FixtureInterface, Depend
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getDependencies()
+    {
+        return [
+            'Araneum\Bundle\MainBundle\DataFixtures\ORM\RunnerData',
+        ];
+    }
+
+    /**
      * Default fixture Connection
      * @param ObjectManager $manager
      */
@@ -108,15 +118,5 @@ class ConnectionData extends AbstractFixture implements FixtureInterface, Depend
 
         $this->addReference('connHostIxoption', $connectionHost);
         $this->addReference('connDBIxoption', $connectionDb);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDependencies()
-    {
-        return [
-            'Araneum\Bundle\MainBundle\DataFixtures\ORM\RunnerData',
-        ];
     }
 }
