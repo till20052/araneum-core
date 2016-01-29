@@ -36,7 +36,7 @@ class RunnerData extends AbstractFixture implements FixtureInterface, DependentF
         if (empty($runner)) {
             $runner = new Runner();
             $runner->setName('DefaultUltratradeRunner');
-            $runner->setCluster($this->getReference('clusteIxoptionr'));
+            $runner->setCluster($this->getReference('cluster'));
             $runner->setType(1);
             $runner->setEnabled(true);
             $runner->setStatus(1);
