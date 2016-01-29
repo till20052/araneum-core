@@ -2,10 +2,10 @@
 
 namespace Araneum\Bundle\AgentBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Araneum\Base\EntityTrait\DateTrait;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
 use Araneum\Bundle\MainBundle\Entity\Runner;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * RunnerLog
