@@ -64,6 +64,9 @@ class LeadApiControllerTest extends BaseController
     public function testFindAction($filters, $expectedStatusCode, $expectedFindResultsCount)
     {
         $this->client = self::createAdminAuthorizedClient('api');
+
+        $this->mockRabbitmqProducer($this->client, 'araneum.base.rabbitmq.producer.spot');
+
         $this->client->request('GET', '/agent/api/lead/find', ['filters' => $filters]);
 
         $response = $this->client->getResponse();
@@ -157,6 +160,9 @@ class LeadApiControllerTest extends BaseController
         $this->tempEmail = $data['email'];
 
         $this->client = self::createAdminAuthorizedClient('api');
+
+        $this->mockRabbitmqProducer($this->client, 'araneum.base.rabbitmq.producer.spot');
+
         $this->client->request(
             'POST',
             '/agent/api/lead/create',
