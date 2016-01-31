@@ -42,7 +42,7 @@ class ApplicationApiSenderService
     /**
      * Send request to api url
      *
-     * @param string $method           HTTP method. Defaults to GET
+     * @param string $method           HTTP method. GET
      * @param string $apiUrl
      * @param string $path
      * @param array  $requestData
@@ -51,7 +51,7 @@ class ApplicationApiSenderService
     public function sendToUrl($method, $apiUrl, $path, array $requestData)
     {
         if (!filter_var($apiUrl, FILTER_VALIDATE_URL)) {
-            throw new \BadMethodCallException("Not valid spot public utl: ".$apiUrl);
+            throw new \BadMethodCallException("Not valid public url: ".$apiUrl);
         }
 
         $this->guzzle->setBaseUrl($apiUrl);

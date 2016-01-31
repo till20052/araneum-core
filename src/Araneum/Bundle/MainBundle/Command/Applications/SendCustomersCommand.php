@@ -39,7 +39,7 @@ class SendCustomersCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $senderService = $this->getContainer()->get();
+        $senderService = $this->getContainer()->get('araneum.main.application.api_handler');
         $this->em = $this->getContainer()->get('doctrine')->getManager();
         $output->writeln('All is done perfectly!!!');
     }

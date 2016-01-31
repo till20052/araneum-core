@@ -22,7 +22,7 @@ class ApiCustomerConsumerService implements ConsumerInterface
     /**
      * @var ApplicationApiSenderService
      */
-    private $spotApiSenderService;
+    private $applicationApiSenderService;
     /**
      * @var
      */
@@ -31,16 +31,16 @@ class ApiCustomerConsumerService implements ConsumerInterface
     /**
      * Consumer constructor.
      *
-     * @param ApplicationApiSenderService    $spotApiSenderService
+     * @param ApplicationApiSenderService    $applicationApiSenderService
      * @param MessageConversionHelper $msgConvertHelper
      * @param EntityManager           $em
      */
     public function __construct(
-        ApplicationApiSenderService $spotApiSenderService,
+        ApplicationApiSenderService $applicationApiSenderService,
         MessageConversionHelper $msgConvertHelper,
         EntityManager $em
     ) {
-        $this->spotApiSenderService = $spotApiSenderService;
+        $this->applicationApiSenderService = $applicationApiSenderService;
         $this->msgConvertHelper = $msgConvertHelper;
         $this->em = $em;
     }
@@ -54,6 +54,6 @@ class ApiCustomerConsumerService implements ConsumerInterface
     public function execute(AMQPMessage $message)
     {
         $data = $this->msgConvertHelper->decodeMsg($message->body);
-        $spotResponse = $this->spotApiSenderService->send((array) $data->data, (array) $data->spotCredential);
+        $spotResponse = $this->applicationApiSenderService->send((array) $data->data, (string) $data->url);
     }
 }
