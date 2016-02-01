@@ -3,10 +3,10 @@
 namespace Araneum\Bundle\MainBundle\DataFixtures\ORM;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
