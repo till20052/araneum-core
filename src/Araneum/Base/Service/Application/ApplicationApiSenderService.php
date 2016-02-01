@@ -75,7 +75,7 @@ class ApplicationApiSenderService
     }
 
     /**
-     * Send request to core
+     * Send request to application
      *
      * @param array $requestData
      * @param string $url

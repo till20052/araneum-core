@@ -45,7 +45,6 @@ class ApiCustomerProducerService
      * Return true
      *
      * @param array    $msgBody
-     * @param string   $logAction
      * @param string   $url
      * @param string   $routingKey           queue name
      * @return string|true
@@ -53,7 +52,6 @@ class ApiCustomerProducerService
     public function publish(
         $msgBody,
         $url,
-        $logAction,
         $routingKey = 'sendToApi'
     ) {
         $msg = $this->getStdClass();

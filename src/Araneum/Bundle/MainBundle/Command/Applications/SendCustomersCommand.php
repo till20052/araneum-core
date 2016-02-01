@@ -39,8 +39,24 @@ class SendCustomersCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $senderService = $this->getContainer()->get('araneum.main.application.api_handler');
-        $this->em = $this->getContainer()->get('doctrine')->getManager();
-        $output->writeln('All is done perfectly!!!');
+        $optionService = $this->getContainer()->get('araneum.api.application.option.service');
+        $em = $this->getContainer()->get('doctrine')->getManager();
+        $applications = $em->getRepository('AraneumMainBundle:Application')->findAll();
+        foreach ($applications as $application) {
+            $customers = $em->getRepository("AraneumAgentBundle:Customer")->findBy(
+                ['enableSite'=>false, 'application'=> $application]
+            );
+            $output->writeln(count($customers));
+
+            //TODO Настроить на стороне application и в зависимости от этого изменить url
+            $answer = $optionService->sendCustomersToApplication(
+                $customers,
+                $application,
+                '/api/customers/new'
+            );
+
+            $output->writeln($answer);
+        }
+        $output->writeln('Finishing Command');
     }
 }
