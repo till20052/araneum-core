@@ -21,26 +21,6 @@ class RunnerData extends AbstractFixture implements FixtureInterface, DependentF
      */
     public function load(ObjectManager $manager)
     {
-        $this->setDefault($manager);
-        $this->setIxoption($manager);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDependencies()
-    {
-        return [
-            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ClusterData',
-        ];
-    }
-
-    /**
-     * Default fixture Runner
-     * @param ObjectManager $manager
-     */
-    private function setDefault(ObjectManager $manager)
-    {
         $runner = $manager->getRepository('AraneumMainBundle:Runner')
             ->findOneByName('DefaultUltratradeRunner');
         if (empty($runner)) {
@@ -58,24 +38,12 @@ class RunnerData extends AbstractFixture implements FixtureInterface, DependentF
     }
 
     /**
-     * set add fixture Ixoption
-     * @param ObjectManager $manager
+     * {@inheritDoc}
      */
-    private function setIxoption(ObjectManager $manager)
+    public function getDependencies()
     {
-        $runner = $manager->getRepository('AraneumMainBundle:Runner')
-            ->findOneByName('DefaultIxoptionRunner');
-        if (empty($runner)) {
-            $runner = new Runner();
-            $runner->setName('DefaultIxoptionRunner');
-            $runner->setCluster($this->getReference('clusterIxoption'));
-            $runner->setType(1);
-            $runner->setEnabled(true);
-            $runner->setStatus(1);
-            $runner->setDomain('ixoption.com');
-            $manager->persist($runner);
-            $manager->flush();
-        }
-        $this->addReference('runnerIxoption', $runner);
+        return [
+            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ClusterData',
+        ];
     }
 }

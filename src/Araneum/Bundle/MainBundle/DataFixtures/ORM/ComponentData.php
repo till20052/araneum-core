@@ -21,16 +21,6 @@ class ComponentData extends AbstractFixture implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $this->setDefault($manager);
-        $this->setIxoption($manager);
-    }
-
-    /**
-     * Default fixture Component
-     * @param ObjectManager $manager
-     */
-    private function setDefault(ObjectManager $manager)
-    {
         $component = $manager->getRepository('AraneumMainBundle:Component')
             ->findOneByName('DefaultUltratradeComponent');
         if (empty($component)) {
@@ -48,30 +38,5 @@ class ComponentData extends AbstractFixture implements FixtureInterface
             $manager->flush();
         }
         $this->addReference('component', $component);
-    }
-
-    /**
-     * set add fixture Ixoption
-     * @param ObjectManager $manager
-     */
-    private function setIxoption(ObjectManager $manager)
-    {
-        $component = $manager->getRepository('AraneumMainBundle:Component')
-            ->findOneByName('DefaultIxoptionComponent');
-        if (empty($component)) {
-            $component = new Component();
-            $component->setName('DefaultIxoptionComponent');
-            $component->setDescription('description');
-            $component->setEnabled(true);
-            $component->setDefault(true);
-            $component->setOptions(
-                [
-                    'option1' => 'param1',
-                ]
-            );
-            $manager->persist($component);
-            $manager->flush();
-        }
-        $this->addReference('componentIxoption', $component);
     }
 }

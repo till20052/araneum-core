@@ -91,13 +91,12 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
             $app->setEnabled(true);
             $app->setStatus(Application::STATUS_OK);
             $app->setTemplate('DefaultTemplate');
-            $app->setCluster($this->getReference('clusterIxoption'));
-            $app->setDb($this->getReference('connDBIxoption'));
+            $app->setCluster($this->getReference('cluster'));
+            $app->setDb($this->getReference('connectionDb'));
             $app->setLocales(new ArrayCollection([$this->getReference('locale')]));
             $app->setOwner($this->getReference('userAdmin'));
-            $app->setComponents(new ArrayCollection([$this->getReference('componentIxoption')]));
             $app->setSpotApiPublicUrl('https://spotplatform.ixoption.com');
-            $app->setAppKey('f2481f3c3d2d7e9d9669e1ec3a3e01d30785270c563b60a417de93.70304637');
+            $app->setAppKey('cb678b70df4d0e2ad5b7eb8688a7df186cc49cf056af25ff047a91.81106394');
             $app->setSpotApiUrl('http://api-spotplatform.ixoption.com/Api');
             $app->setSpotApiUser('araneum');
             $app->setSpotApiPassword('wU7tc2YKg2');

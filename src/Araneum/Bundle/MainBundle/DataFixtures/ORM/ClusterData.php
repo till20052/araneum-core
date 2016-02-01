@@ -19,16 +19,6 @@ class ClusterData extends AbstractFixture implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $this->setDefault($manager);
-        $this->setIxoption($manager);
-    }
-
-    /**
-     * Default load fixture Cluster
-     * @param ObjectManager $manager
-     */
-    private function setDefault(ObjectManager $manager)
-    {
         $cluster = $manager->getRepository('AraneumMainBundle:Cluster')
             ->findOneByName('DefaultUltratradeCluster');
         if (empty($cluster)) {
@@ -41,25 +31,5 @@ class ClusterData extends AbstractFixture implements FixtureInterface
             $manager->flush();
         }
         $this->addReference('cluster', $cluster);
-    }
-
-    /**
-     * set Ixoption add cluster fixture
-     * @param ObjectManager $manager
-     */
-    private function setIxoption(ObjectManager $manager)
-    {
-        $cluster = $manager->getRepository('AraneumMainBundle:Cluster')
-            ->findOneByName('DefaultIxoptionCluster');
-        if (empty($cluster)) {
-            $cluster = new Cluster();
-            $cluster->setName('DefaultIxoptionCluster');
-            $cluster->setType(1);
-            $cluster->setEnabled(true);
-            $cluster->setStatus(1);
-            $manager->persist($cluster);
-            $manager->flush();
-        }
-        $this->addReference('clusterIxoption', $cluster);
     }
 }
