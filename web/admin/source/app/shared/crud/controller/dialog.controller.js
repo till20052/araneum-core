@@ -11,6 +11,7 @@
         /* jshint validthis: true */
         var vm = this;
 
+        $scope.isLoaded = false;
         $scope.icon = 'fa fa-file-o';
         $scope.title = 'Editor';
         $scope.form = {};

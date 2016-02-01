@@ -12,8 +12,6 @@
         var vm = this,
             form = $scope.structure;
 
-        console.log(form);
-
         vm.form = {
             origin: {},
             data: {},

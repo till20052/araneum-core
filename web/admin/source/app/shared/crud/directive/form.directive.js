@@ -5,7 +5,7 @@
         .module('crud')
         .directive('crudForm', CRUDFormDirective);
 
-    CRUDFormDirective.$inject = ['CRUDFormLoader', 'RouteHelpers', '$compile'];
+    CRUDFormDirective.$inject = ['CRUDFormLoader', '$compile'];
 
     /**
      * CRUD From Directive
@@ -16,20 +16,51 @@
      * @returns {object}
      * @constructor
      */
-    function CRUDFormDirective(CRUDFormLoader, helper, $compile) {
+    function CRUDFormDirective(CRUDFormLoader, $compile) {
+        var children = {
+            hidden: inputHidden,
+            checkbox: inputCheckbox,
+            text: inputText,
+            choice: select,
+            submit: submit
+        };
+
         return {
             link: link,
+            restrict: 'E',
             controller: 'CRUDFormController',
             controllerAs: 'controller',
-            restrict: 'A',
-            replace: true,
-            templateUrl: helper.basepath('crud/form.html'),
+            templateUrl: 'crud/form.html',
             scope: {
-                structure: '=crudForm'
+                data: '=',
+                source: '=',
+                options: '='
             }
         };
 
-        function link(scope, iElement, iAttr, controller) {
+        function link(scope, element) {
+            if(scope.data instanceof Object){
+                element.replaceWith($compile(createForm(scope.data))(scope));
+            }
+            else if(scope.source !== undefined){
+                //CRUDFormLoader
+                //    .setUrl(structure.source)
+                //    .load({
+                //        onSuccess: function (structure) {
+                //
+                //            CRUDFormLoader.clearPromise();
+                //        }
+                //    });
+            }
+            else {
+                scope.$watch('data', function(data){
+                    if(data !== undefined){
+                        link(scope, element);
+                    }
+                });
+            }
+
+            /*
             var structure = scope.structure;
 
             if (structure instanceof Object) {
@@ -52,20 +83,33 @@
                     createForm(controller, iElement, scope.structure)(scope);
                 }
             });
+            */
         }
 
         /**
          * Create form
-         *
-         * @param {object} controller
-         * @param {object} placement html element
-         * @param {{
-         *      children: object
-         *      vars: object
-         * }} structure
          */
-        function createForm(controller, placement, structure) {
-            /* jshint -W106 */
+        function createForm(data) {
+            var form = $('<form />');
+
+            for(var id in data.children){
+                var type = data.children[id].vars.block_prefixes[1],
+                    child = createChild(type, data.children[id].vars);
+
+                form.append(child);
+            }
+
+            form.append(createChild('submit', {
+                submit: {
+                    label: 'admin.general.SAVE'
+                },
+                cancel: {
+                    label: 'admin.general.CANCEL'
+                }
+            }));
+
+            return form;
+            /*
             if (
                 structure.hasOwnProperty('vars') &&
                 structure.vars instanceof Object
@@ -109,25 +153,55 @@
             return function (scope) {
                 $compile($('>form', placement))(scope);
             };
+            */
         }
 
         /**
-         * create user interface control section
-         *
-         * @param form
-         * @param element
-         * @param config
-         * @returns {*}
+         * Create form child
          */
-        function createUiControlSection(form, element, config) {
+        function createChild(type, data) {
             /* jshint -W106, -W014, eqeqeq: false, validthis: true */
-            var section = ({
-                hidden: inputHidden,
-                checkbox: inputCheckbox,
-                text: inputText,
-                choice: select,
-                submit: submit
-            })[element](angular.extend(
+            if (!children.hasOwnProperty(type)) {
+                return console.error('[ERROR]: Try to create form child by type: ' + type + ', but this child doesn\'t defined');
+            }
+
+            var child = children[type](angular.extend(
+                {
+                    id: data.name,
+                    label: data.label
+                },
+                (function (ext) {
+                    if (data.attr instanceof Object) {
+                        ['translateLabel', 'placeholder'].forEach(function (key) {
+                            if (!data.attr.hasOwnProperty(key))
+                                return;
+                            ext[key] = data.attr[key];
+                        });
+                    }
+                    return ext;
+                })({}),
+                (function (ext) {
+                    if (type == 'submit') {
+                        ext = data;
+                    }
+                    return ext;
+                })({})
+            ));
+
+            if(type == 'hidden'){
+                return child;
+            }
+
+            var group = $('<div class="form-group" />').append(child);
+
+            if(type == 'submit'){
+                group.addClass('mb0');
+            }
+
+            return group;
+
+            /*
+            var section = ()[element](angular.extend(
                 {
                     uid: config.name,
                     label: config.label
@@ -165,6 +239,7 @@
             //section = $('<div class="col-lg-6" />').append(section);
 
             return form.append(section);
+            */
         }
 
         /**
