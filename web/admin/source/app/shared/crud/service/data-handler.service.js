@@ -38,28 +38,6 @@
         }
 
         /**
-         * Open new ngDialod with editable form
-         *
-         * @param data
-         * @private
-         */
-        function openWindow(data) {
-            ngDialog.open({
-                template: helper.basepath('crud/dialog.html'),
-                controller: 'CRUDDialogController',
-                controllerAs: 'ngDialog',
-                data: {
-                    icon: data.display.icon,
-                    title: data.display.label,
-                    form: {
-                        source: data.source,
-                        submit: submit
-                    }
-                }
-            });
-        }
-
-        /**
          * Submit form to server
          *
          * @param {object} form

@@ -97,6 +97,7 @@ general:
     SURE: 'Вы уверены?'
     CONFIRM_DELETE: 'Да, удалите это'
     CURRENT_URL_NOT_VALID: 'Текущий URL больше недоступен'
+    LOADING: 'Загрузка...'
 datatables:
     PROCESSING: 'Подождите...'
     SEARCH: 'Поиск:'
