@@ -24,7 +24,6 @@
             restrict: 'E',
             controller: 'CRUDFormController',
             controllerAs: 'controller',
-            templateUrl: 'crud/form.html',
             scope: {
                 data: '=',
                 source: '=',
@@ -33,10 +32,16 @@
         };
 
         function link(scope, element) {
-            if(scope.data instanceof Object){
-                element.replaceWith($compile(createForm(scope.data))(scope));
+            if (scope.data instanceof Object) {
+                if (scope.options === undefined) {
+                    scope.options = {};
+                }
+
+                element.replaceWith(
+                    $compile(createForm(scope.data, scope.options))(scope)
+                );
             }
-            else if(scope.source !== undefined){
+            else if (scope.source !== undefined) {
                 //CRUDFormLoader
                 //    .setUrl(structure.source)
                 //    .load({
@@ -47,8 +52,8 @@
                 //    });
             }
             else {
-                scope.$watch('data', function(data){
-                    if(data !== undefined){
+                scope.$watch('data', function (data) {
+                    if (data !== undefined) {
                         link(scope, element);
                     }
                 });
@@ -58,17 +63,17 @@
         /**
          * Create form
          */
-        function createForm(data) {
+        function createForm(data, options) {
             var form = $('<form />').attr({
                 name: data.vars.name,
                 novalidate: ''
             });
 
-            for(var id in data.children){
+            for (var id in data.children) {
                 var type = data.children[id].vars.block_prefixes[1],
-                    child = createChild(type, data.children[id].vars);
+                    child = createChild(type, data.children[id].vars, options);
 
-                $(child).attr({
+                $('input, select', child).attr({
                     'ng-model': 'controller.form.data.' + id
                 });
 
@@ -82,7 +87,7 @@
                 cancel: {
                     label: 'admin.general.CANCEL'
                 }
-            }));
+            }, options));
 
             return form;
         }
@@ -90,7 +95,7 @@
         /**
          * Create form child
          */
-        function createChild(type, data) {
+        function createChild(type, data, options) {
             /* jshint eqeqeq: false */
             if (!children.hasOwnProperty(type)) {
                 return console.error('[ERROR]: Try to create form child by type: ' + type + ', but this child doesn\'t defined');
@@ -119,14 +124,23 @@
                 })({})
             ));
 
-            if(type == 'hidden'){
+            if (type == 'hidden') {
                 return child;
             }
 
             var group = $('<div class="form-group" />').append(child);
 
-            if(type == 'submit'){
+            if (type == 'submit') {
                 group.addClass('mb0');
+            }
+
+            if (
+                options.hasOwnProperty('layout') &&
+                options.layout instanceof Object
+            ) {
+                if (options.layout.hasOwnProperty('class')) {
+                    $(group).addClass(options.layout.class);
+                }
             }
 
             return group;
