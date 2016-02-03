@@ -92,7 +92,7 @@ class SpotCustomerConsumerService implements ConsumerInterface
     }
 
     /**
-     * Create and save customer log
+     * Update customer $deliveredAt
      *
      * @param array   $log
      * @throws \Doctrine\ORM\ORMException
