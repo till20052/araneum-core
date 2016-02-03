@@ -20,3 +20,27 @@ mik_software_daemon:
             appUser: %nginx_user%
             appGroup: %nginx_group%
             logVerbosity: 6
+
+        araneum_check_applications:
+            appName: check_applications
+            appDescription: System Daemon check all Apllications
+            appUser: %nginx_user%
+            appGroup: %nginx_group%
+
+        araneum_check_connections:
+            appName: check_connections
+            appDescription: System Daemon check all Connections
+            appUser: %nginx_user%
+            appGroup: %nginx_group%
+
+        araneum_check_runners:
+            appName: check_runners
+            appDescription: System Daemon check all Runners
+            appUser: %nginx_user%
+            appGroup: %nginx_group%
+
+        araneum_check_clusters:
+            appName: check_clusters
+            appDescription: System Daemon check all Clusters
+            appUser: %nginx_user%
+            appGroup: %nginx_group%
