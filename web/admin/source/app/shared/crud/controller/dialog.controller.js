@@ -14,17 +14,22 @@
         $scope.isLoaded = false;
         $scope.icon = 'fa fa-file-o';
         $scope.title = 'Editor';
+
         $scope.form = {
             source: '',
             events: {
-                wasCreated: onFormCreated,
-                onSubmit: close
+                onSubmit: close,
+                wasCreated: function () {
+                    $scope.isLoaded = true;
+                }
             },
-            buttons: {
-                cancel: {
-                    icon: 'icon-ban',
-                    label: 'admin.general.CANCEL',
-                    click: close
+            options: {
+                controls: {
+                    cancel: {
+                        icon: 'icon-ban',
+                        label: 'admin.general.CANCEL',
+                        click: close
+                    }
                 }
             }
         };
@@ -41,9 +46,9 @@
                         $scope.ngDialogData.hasOwnProperty(key) &&
                         $scope.ngDialogData[key].length !== 0
                     ) {
-                        $scope[key] = key != 'form' ?
-                            $scope.ngDialogData[key] :
-                            angular.extend($scope[key], $scope.ngDialogData[key]);
+                        $scope[key] = key == 'form' ?
+                            angular.extend($scope[key], $scope.ngDialogData[key]) :
+                            $scope.ngDialogData[key];
                     }
                 });
         }
@@ -53,10 +58,6 @@
          */
         function close() {
             $scope.closeThisDialog();
-        }
-
-        function onFormCreated(){
-            $scope.isLoaded = true;
         }
     }
 

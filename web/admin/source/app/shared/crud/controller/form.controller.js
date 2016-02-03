@@ -17,30 +17,57 @@
 
         vm.form = {
             data: {},
-            children: {}
+            children: {},
+            // @todo need to move this object to separated service
+            dispatcher: (function () {
+                var events = {
+                    click: click,
+                    submit: submit
+                };
+
+                return {
+                    dispatch: dispatch
+                };
+
+                function dispatch(event, object) {
+                    if(!events.hasOwnProperty(event))
+                        event = 'click';
+                    return events[event](object);
+                }
+
+                function click() {
+                    console.log('click', arguments);
+                }
+
+                function submit() {
+                    console.log('submit', arguments);
+                }
+            })()
         };
 
-        vm.submit = submit;
-        vm.click = click;
+        vm.linkKeys = linkKeys;
 
         activate();
 
         /**
          * Activation
+         *
          * @private
          */
         function activate() {
 
         }
 
-        function submit() {
-
+        /**
+         * Link keys
+         *
+         * @param {Array} tokens
+         * @returns {{from: String, to: String}}
+         */
+        function linkKeys(tokens) {
+            /* jshint eqeqeq: false */
+            return {from: tokens[0], to: typeof tokens[1] != 'undefined' ? tokens[1] : tokens[0]};
         }
-
-        function click(event) {
-            console.log(event);
-        }
-
     }
 
 })();

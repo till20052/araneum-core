@@ -11,11 +11,24 @@
         $scope.icon = 'icon-globe-alt';
         $scope.title = 'locales.LOCALES';
 
+        $scope.form = {
+            filter: {
+                options: {
+                    layout: 'cols',
+                    controls: {
+                        refresh: {
+                            label: 'admin.general.RESET'
+                        }
+                    }
+                }
+            }
+        };
+
         CRUDConfigLoader
             .setUrl($state.$current.initialize)
             .load({
                 onSuccess: function (response) {
-                    $scope.filter = response.filter;
+                    $scope.form.filter.data = response.filter;
                 }
             });
     }

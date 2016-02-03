@@ -12,7 +12,7 @@
     </div>
     <div class="panel-body">
 
-        <crud-form data="filter" options="{ layout: 'columns' }"></crud-form>
+        <crud-form data="form.filter.data" options="form.filter.options"></crud-form>
 
     </div>
 </div>
@@ -82,7 +82,7 @@
 
         <div ng-repeat="error in errors track by $index" class="alert alert-danger text-center">{{ error }}</div>
 
-        <crud-form source="form.source" events="form.events" options="{ buttons:  }"></crud-form>
+        <crud-form source="form.source" events="form.events" options="form.options"></crud-form>
 
     </div>
 

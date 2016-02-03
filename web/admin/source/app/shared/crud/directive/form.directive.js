@@ -11,13 +11,48 @@
      * CRUD From Directive
      */
     function CRUDFormDirective(CRUDFormLoader, $compile) {
-        var children = {
-            hidden: inputHidden,
-            checkbox: inputCheckbox,
-            text: inputText,
-            choice: select,
-            submit: submit
-        };
+        /* jshint -W106, eqeqeq: false */
+        var controller = {},
+        // @todo need to move this object to separated service, which will be called bootstrap-helper
+            bootstrap = {
+                col: (function (self) {
+                    ['left', 'right', 'offsetLeft', 'offsetRight']
+                        .forEach(function (getter) {
+                            self = Object.defineProperty(self, getter, {
+                                get: function () {
+                                    return (function (parts) {
+                                        var tokens = [
+                                            'col',
+                                            self.type,
+                                            self.width[
+                                                (typeof parts[1] != 'undefined' ?
+                                                    parts[1].toLowerCase() :
+                                                    parts[0])
+                                                ]
+                                        ];
+                                        if (parts[0] == 'offset')
+                                            tokens.splice(2, 0, parts[0]);
+                                        return tokens.join('-');
+                                    })(getter.split(/(?=[A-Z0-9])/));
+                                }
+                            });
+                        });
+                    return self;
+                })({
+                    type: 'lg',
+                    width: {
+                        left: 3,
+                        right: 9
+                    }
+                })
+            },
+            children = {
+                hidden: inputHidden,
+                checkbox: inputCheckbox,
+                text: inputText,
+                choice: select,
+                controls: controls
+            };
 
         return {
             link: link,
@@ -34,6 +69,9 @@
 
         function link(scope, element) {
             if (scope.data instanceof Object) {
+                if (scope.hasOwnProperty('controller'))
+                    controller = scope.controller;
+
                 ['options', 'events'].forEach(function (key) {
                     if (!(scope[key] instanceof Object)) {
                         scope[key] = {};
@@ -41,7 +79,7 @@
                 });
 
                 element.replaceWith(
-                    $compile(createForm(scope.data, scope.options, scope.controller.form))(scope)
+                    $compile(createForm(scope.data, scope.options))(scope)
                 );
 
                 if (typeof scope.events.wasCreated === 'function') {
@@ -70,44 +108,71 @@
 
         /**
          * Create form
+         *
+         * @param {{
+         *      children: Object.<String, Object>,
+         *      vars: Object
+         * }} data
+         * @param {Object} options
+         * @returns {jQuery}
          */
-        function createForm(data, options, formModel) {
+        function createForm(data, options) {
             var form = $('<form class="form-horizontal" />').attr({
                 name: 'controller.form.' + data.vars.name,
                 novalidate: ''
             });
 
-            for (var id in data.children) {
-                var type = data.children[id].vars.block_prefixes[1],
-                    child = createChild(type, data.children[id].vars, options);
-
-                // @todo need to set data to model
-                //model.data[id] =
-                formModel.children[id] = data.children[id].vars;
-
-                $('input, select', child).attr({
-                    'ng-model': 'controller.form.data.' + id
-                });
-
-                form.append(
-                    $('<div class="form-group" />')
-                        .addClass(type == 'submit' ? 'mb0' : '')
-                        .addClass(
-                            options.layout !== undefined && options.layout == 'columns' ?
-                                'col-sm-6' : ''
-                        )
-                        .append(child)
-                );
-            }
-
-            form.append(createChild('submit', {
-                submit: {
-                    label: 'admin.general.SAVE'
-                },
-                cancel: {
-                    label: 'admin.general.CANCEL'
+            data.children = angular.extend(data.children, {
+                controls: {
+                    submit: {
+                        class: 'btn-primary',
+                        icon: 'icon-check',
+                        label: 'admin.general.SAVE',
+                        click: 'submit'
+                    },
+                    cancel: {
+                        icon: 'icon-close',
+                        label: 'admin.general.CANCEL',
+                        click: 'cancel'
+                    }
                 }
-            }, options));
+            });
+
+            for (var id in data.children) {
+                if (!data.children.hasOwnProperty(id))
+                    continue;
+
+                /**
+                 * @typedef {{
+                 *      block_prefixes: Array<String>
+                 * }}
+                 */
+                var config = data.children[id].hasOwnProperty('vars') ?
+                        data.children[id].vars :
+                        data.children[id],
+                    type = config.hasOwnProperty('block_prefixes') ?
+                        config.block_prefixes[1] :
+                        id,
+                    child = createChild(type, config);
+
+                if (type == 'hidden') {
+                    form.prepend(child);
+                    continue;
+                }
+
+                var formGroup = $('<div class="form-group" />').append(child);
+
+                if (type == 'submit')
+                    formGroup.addClass('mb0');
+
+                if (
+                    options.hasOwnProperty('layout') &&
+                    options.layout == 'cols'
+                )
+                    formGroup.addClass('col-sm-6');
+
+                form.append(formGroup);
+            }
 
             return form;
         }
@@ -116,33 +181,61 @@
          * Create form child
          */
         function createChild(type, data) {
-            /* jshint eqeqeq: false */
             if (!children.hasOwnProperty(type)) {
                 return console.error('[ERROR]: Try to create form child by type: ' + type + ', but this child doesn\'t defined');
             }
 
-            return children[type](angular.extend(
-                {
-                    id: data.name,
-                    label: data.label
-                },
-                (function (ext) {
-                    if (data.attr instanceof Object) {
-                        ['translateLabel', 'placeholder'].forEach(function (key) {
-                            if (!data.attr.hasOwnProperty(key))
-                                return;
-                            ext[key] = data.attr[key];
-                        });
-                    }
-                    return ext;
-                })({}),
-                (function (ext) {
-                    if (type == 'submit') {
-                        ext = data;
-                    }
-                    return ext;
-                })({})
-            ));
+            var child = $('<div />').addClass('row m0')
+                .append(children[type]((function (data) {
+                    return angular.forEach(
+                        (data = (function (data) {
+                            return angular.extend(
+                                (function (ext) {
+                                    ['name:id', 'label', 'placeholder'].forEach(function (key) {
+                                        var linkedKeys = controller.linkKeys(key.split(':'));
+                                        if (!data.hasOwnProperty(linkedKeys.from))
+                                            return;
+                                        ext[linkedKeys.to] = data[linkedKeys.from];
+                                    });
+                                    return ext;
+                                })({}),
+                                (function (ext) {
+                                    if (data.attr instanceof Object) {
+                                        ['translateLabel:label', 'placeholder'].forEach(function (key) {
+                                            var linkedKeys = controller.linkKeys(key.split(':'));
+                                            if (!data.attr.hasOwnProperty(linkedKeys.from))
+                                                return;
+                                            ext[linkedKeys.to] = data.attr[linkedKeys.from];
+                                        });
+                                    }
+                                    return ext;
+                                })({}),
+                                (function (ext) {
+                                    if (type == 'controls') {
+                                        ext = data;
+                                    }
+                                    return ext;
+                                })({})
+                            );
+                        })(data)),
+                        function (value, key) {
+                            if (['label', 'placeholder'].indexOf(key) !== -1)
+                                this[key] = '{{ "' + value + '" | translate }}';
+                        },
+                        data
+                    );
+                })(data)));
+
+            controller.form.children[data.name] = data;
+
+            $('input, select', child).attr(angular.extend({
+                name: data.full_name,
+                'ng-model': 'controller.form.data.' + data.name
+            }));
+
+            return type == 'hidden' ?
+                $('>input', child) :
+                child;
         }
 
         /**
@@ -161,16 +254,19 @@
          * @returns {jQuery}
          */
         function inputCheckbox(data) {
-            return $('<div class="col-lg-offset-3 col-lg-9" />').append(
-                $('<div class="checkbox c-checkbox" />').append(
-                    $('<label />')
-                        .html('{{ "' + data.label + '" | translate }}')
-                        .prepend(
-                            $('<input type="hidden" />'),
-                            $('<span class="fa fa-check" />')
+            return $('<div />')
+                .addClass([bootstrap.col.offsetLeft, bootstrap.col.right].join(' '))
+                .append(
+                    $('<div class="checkbox c-checkbox" />')
+                        .append(
+                            $('<label />')
+                                .html(data.label)
+                                .prepend(
+                                    $('<input type="hidden" />'),
+                                    $('<span class="fa fa-check" />')
+                                )
                         )
-                )
-            );
+                );
         }
 
         /**
@@ -180,15 +276,18 @@
          */
         function inputText(data) {
             return [
-                $('<label class="col-lg-3 control-label" />')
-                    .html('{{ "' + data.label + '" | translate }}'),
-                $('<div class="col-lg-9" />').append(
-                    $('<input class="form-control" />')
-                        .attr({
-                            type: 'text',
-                            placeholder: '{{ "' + data.placeholder + '" | translate }}'
-                        })
-                )
+                $('<label class="control-label" />')
+                    .addClass(bootstrap.col.left)
+                    .html(data.label),
+                $('<div />')
+                    .addClass(bootstrap.col.right)
+                    .append(
+                        $('<input class="form-control" />')
+                            .attr({
+                                type: 'text',
+                                placeholder: data.placeholder
+                            })
+                    )
             ];
         }
 
@@ -199,15 +298,18 @@
          */
         function select(data) {
             return [
-                $('<label class="col-lg-3 control-label" />')
-                    .html('{{ "' + data.label + '" | translate }}'),
-                $('<div class="col-lg-9" />').append(
-                    $('<select class="form-control" />')
-                        .attr({
-                            placeholder: '{{ "' + data.placeholder + '" | translate }}',
-                            'ng-options': 'choice.data as choice.label for choice in controller.form.children.' + data.id + '.choices'
-                        })
-                )
+                $('<label class="control-label" />')
+                    .addClass(bootstrap.col.left)
+                    .html(data.label),
+                $('<div />')
+                    .addClass(bootstrap.col.right)
+                    .append(
+                        $('<select class="form-control" />')
+                            .attr({
+                                placeholder: data.placeholder,
+                                'ng-options': 'option.data as option.label for option in controller.form.children.' + data.id + '.choices'
+                            })
+                    )
             ];
         }
 
@@ -216,17 +318,30 @@
          * @param {object} data
          * @returns {jQuery}
          */
-        function submit(data) {
-            return $('<div class="col-lg-offset-3 col-lg-9" />').append(
-                $('<button class="btn btn-primary mr" />')
-                    .attr('ng-click', 'controller.submit($event)')
-                    .html('{{ "' + data.submit.label + '" | translate }}')
-                    .prepend($('<em class="icon-check mr" />')),
-                $('<button class="btn btn-default" />')
-                    .attr('ng-click', 'controller.click($event)')
-                    .html('{{ "' + data.cancel.label + '" | translate }}')
-                    .prepend($('<em class="icon-ban mr" />'))
-            );
+        function controls(data) {
+            var buttons = [],
+                keys = Object.keys(data);
+            return $('<div />')
+                .addClass([bootstrap.col.offsetLeft, bootstrap.col.right].join(' '))
+                .append(
+                    angular.forEach(data, function (data, key) {
+                        var button = $('<button class="btn btn-default" />')
+                            .attr('ng-click', 'controller.form.dispatcher.dispatch(\''+data.click+'\', $event)')
+                            .html('{{ "' + data.label + '" | translate }}');
+
+                        if (data.hasOwnProperty('class'))
+                            button.removeClass('btn-default')
+                                .addClass(data.class);
+
+                        if (keys.indexOf(key) + 1 < keys.length)
+                            button.addClass('mr');
+
+                        if (data.hasOwnProperty('icon'))
+                            button.prepend($('<em class="mr" />').addClass(data.icon));
+
+                        this.push(button);
+                    }, buttons) && buttons
+                );
         }
     }
 
