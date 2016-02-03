@@ -29,10 +29,7 @@
                 template: 'crud/dialog.html',
                 controller: 'CRUDDialogController',
                 controllerAs: 'ngDialog',
-                data: {
-                    icon: data.icon,
-                    title: data.title
-                }
+                data: data
             });
         }
 
@@ -57,13 +54,16 @@
         function create(options) {
             openWindow({
                 icon: options.display.icon,
-                title: options.display.label
+                title: options.display.label,
+                form: {
+                    source: options.form
+                }
             });
         }
 
         // update
         function update() {
-
+            console.log(123);
         }
 
         // set state

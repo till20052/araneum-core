@@ -5,25 +5,28 @@
         .module('crud')
         .controller('CRUDFormController', CRUDFormController);
 
-    CRUDFormController.$inject = ['$scope'];
+    CRUDFormController.$inject = [];
 
-    function CRUDFormController($scope) {
+    /**
+     * CRUD Form Controller
+     * @constructor
+     */
+    function CRUDFormController() {
         /* jshint validthis: true */
-        var vm = this,
-            form = $scope.structure;
+        var vm = this;
 
         vm.form = {
-            origin: {},
             data: {},
-            submit: submit,
-            cancel: cancel
+            children: {}
         };
+
+        vm.submit = submit;
+        vm.click = click;
 
         activate();
 
         /**
          * Activation
-         *
          * @private
          */
         function activate() {
@@ -31,20 +34,11 @@
         }
 
         function submit() {
-            form.submit(vm.form, {
-                onSuccess: function () {
-                    cancel();
-                }
-            });
+
         }
 
-        function cancel() {
-            if (
-                $scope.$parent.hasOwnProperty('ngDialog') &&
-                $scope.$parent.ngDialog instanceof Object
-            ) {
-                $scope.$parent.ngDialog.close();
-            }
+        function click(event) {
+            console.log(event);
         }
 
     }

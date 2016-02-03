@@ -8,15 +8,26 @@
     CRUDDialogController.$inject = ['$scope'];
 
     function CRUDDialogController($scope) {
-        /* jshint validthis: true */
+        /* jshint -W004, validthis: true */
         var vm = this;
 
         $scope.isLoaded = false;
         $scope.icon = 'fa fa-file-o';
         $scope.title = 'Editor';
-        $scope.form = {};
-
-        vm.close = onClose;
+        $scope.form = {
+            source: '',
+            events: {
+                wasCreated: onFormCreated,
+                onSubmit: close
+            },
+            buttons: {
+                cancel: {
+                    icon: 'icon-ban',
+                    label: 'admin.general.CANCEL',
+                    click: close
+                }
+            }
+        };
 
         activate();
 
@@ -30,7 +41,9 @@
                         $scope.ngDialogData.hasOwnProperty(key) &&
                         $scope.ngDialogData[key].length !== 0
                     ) {
-                        $scope[key] = $scope.ngDialogData[key];
+                        $scope[key] = key != 'form' ?
+                            $scope.ngDialogData[key] :
+                            angular.extend($scope[key], $scope.ngDialogData[key]);
                     }
                 });
         }
@@ -38,8 +51,12 @@
         /**
          * Event of ngDialog Closing
          */
-        function onClose() {
+        function close() {
             $scope.closeThisDialog();
+        }
+
+        function onFormCreated(){
+            $scope.isLoaded = true;
         }
     }
 
