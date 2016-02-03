@@ -101,7 +101,7 @@ class SpotCustomerConsumerService implements ConsumerInterface
     {
         if ($log['action'] == CustomerLog::ACTION_CREATE) {
             $customer = $this->em->getRepository("AraneumAgentBundle:Customer")->findOneById($log['customerId']);
-            $customer->setDeliveredAt(new DateTime());
+            $customer->setDeliveredAt(new \DateTime());
             $this->em->persist($customer);
             $this->em->flush();
         }
