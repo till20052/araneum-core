@@ -56,6 +56,9 @@ class CheckConnectionsCommand extends DaemonizedCommand
                 $this
             );
         }
-        $this->getDaemon()->iterate((int)$this->getInput()->getOption('time'));
+
+        $time = (int)$this->getInput()->getOption('time');
+        $this->getDaemon()
+            ->iterate($time);
     }
 }
