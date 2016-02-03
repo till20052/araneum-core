@@ -35,7 +35,7 @@ class CheckConnectionsCommand extends DaemonizedCommand
      */
     protected function daemonLogic()
     {
-        $this->getContainer()->get( 'logger' )->info( "Daemon check:connections is running!" );
+        $this->getContainer()->get('logger')->info("Daemon check:connections is running!");
         $commandRunner = $this->getContainer()->get('araneum.command_runner.service');
         if (empty($this->getInput()->getOption('id'))) {
             $connections = $this->getContainer()
@@ -46,16 +46,16 @@ class CheckConnectionsCommand extends DaemonizedCommand
 
             foreach ($connections as $connection) {
                 $commandRunner->runSymfonyCommandInNewProcess(
-                    'checker:check connection ' . $connection->getId(),
+                    'checker:check connection '.$connection->getId(),
                     $this
                 );
             }
         } else {
             $commandRunner->runSymfonyCommandInNewProcess(
-                'checker:check connection ' . $this->getInput()->getOption('id'),
+                'checker:check connection '.$this->getInput()->getOption('id'),
                 $this
             );
         }
-        $this->getDaemon()->iterate( (int)$this->getInput()->getOption('time') );
+        $this->getDaemon()->iterate((int)$this->getInput()->getOption('time'));
     }
 }

@@ -35,7 +35,7 @@ class CheckClustersCommand extends DaemonizedCommand
      */
     protected function daemonLogic()
     {
-        $this->getContainer()->get( 'logger' )->info( "Daemon check:clusters is running!" );
+        $this->getContainer()->get('logger')->info("Daemon check:clusters is running!");
         $commandRunner = $this->getContainer()->get('araneum.command_runner.service');
         if (empty($this->getInput()->getOption('id'))) {
             $clusters = $this->getContainer()
@@ -46,16 +46,16 @@ class CheckClustersCommand extends DaemonizedCommand
 
             foreach ($clusters as $cluster) {
                 $commandRunner->runSymfonyCommandInNewProcess(
-                    'checker:check cluster ' . $cluster->getId(),
+                    'checker:check cluster '.$cluster->getId(),
                     $this
                 );
             }
         } else {
             $commandRunner->runSymfonyCommandInNewProcess(
-                'checker:check cluster ' . $this->getInput()->getOption('id'),
+                'checker:check cluster '.$this->getInput()->getOption('id'),
                 $this
             );
         }
-        $this->getDaemon()->iterate( (int)$this->getInput()->getOption('time') );
+        $this->getDaemon()->iterate((int)$this->getInput()->getOption('time'));
     }
 }

@@ -35,7 +35,7 @@ class CheckRunnersCommand extends DaemonizedCommand
      */
     protected function daemonLogic()
     {
-        $this->getContainer()->get( 'logger' )->info( "Daemon check:runners is running!" );
+        $this->getContainer()->get('logger')->info("Daemon check:runners is running!");
         $commandRunner = $this->getContainer()->get('araneum.command_runner.service');
         if (empty($this->getInput()->getOption('id'))) {
             $runners = $this->getContainer()
@@ -46,16 +46,16 @@ class CheckRunnersCommand extends DaemonizedCommand
 
             foreach ($runners as $runner) {
                 $commandRunner->runSymfonyCommandInNewProcess(
-                    'checker:check runner ' . $runner->getId(),
+                    'checker:check runner '.$runner->getId(),
                     $this
                 );
             }
         } else {
             $commandRunner->runSymfonyCommandInNewProcess(
-                'checker:check runner ' . $this->getInput()->getOption('id'),
+                'checker:check runner '.$this->getInput()->getOption('id'),
                 $this
             );
         }
-        $this->getDaemon()->iterate( (int)$this->getInput()->getOption('time') );
+        $this->getDaemon()->iterate((int)$this->getInput()->getOption('time'));
     }
 }

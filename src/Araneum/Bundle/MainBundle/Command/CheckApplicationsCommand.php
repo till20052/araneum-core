@@ -35,7 +35,7 @@ class CheckApplicationsCommand extends DaemonizedCommand
      */
     protected function daemonLogic()
     {
-        $this->getContainer()->get( 'logger' )->info( "Daemon check:application is running!" );
+        $this->getContainer()->get('logger')->info("Daemon check:application is running!");
         $commandRunner = $this->getContainer()->get('araneum.command_runner.service');
         if (empty($this->getInput()->getOption('id'))) {
             $applications = $this->getContainer()
@@ -46,16 +46,16 @@ class CheckApplicationsCommand extends DaemonizedCommand
 
             foreach ($applications as $app) {
                 $commandRunner->runSymfonyCommandInNewProcess(
-                    'checker:check application ' . $app->getId(),
+                    'checker:check application '.$app->getId(),
                     $this
                 );
             }
         } else {
             $commandRunner->runSymfonyCommandInNewProcess(
-                'checker:check application ' . $this->getInput()->getOption('id'),
+                'checker:check application '.$this->getInput()->getOption('id'),
                 $this
             );
         }
-        $this->getDaemon()->iterate( (int)$this->getInput()->getOption('time') );
+        $this->getDaemon()->iterate((int)$this->getInput()->getOption('time'));
     }
 }
