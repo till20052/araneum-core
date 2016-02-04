@@ -221,19 +221,19 @@ class StatisticsService
         return [
             'applications' => $this->entityManager
                 ->getRepository('AraneumMainBundle:Application')
-                ->countByTimeInterval(),
+                ->count(),
             'clusters' => $this->entityManager
                 ->getRepository('AraneumMainBundle:Cluster')
-                ->countByTimeInterval(),
+                ->count(),
             'admins' => $this->entityManager
                 ->getRepository('AraneumUserBundle:User')
-                ->countByTimeInterval(),
+                ->count(),
             'connections' => $this->entityManager
                 ->getRepository('AraneumMainBundle:Connection')
-                ->countByTimeInterval(),
+                ->count(),
             'locales' => $this->entityManager
                 ->getRepository('AraneumMainBundle:Locale')
-                ->countByTimeInterval(),
+                ->count(),
         ];
     }
 
