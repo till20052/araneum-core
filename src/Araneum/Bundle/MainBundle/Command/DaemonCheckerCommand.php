@@ -68,6 +68,10 @@ class DaemonCheckerCommand extends DaemonizedCommand
             ->iterate($this->convertInterval($daemonInterval));
     }
 
+    /**
+     * @param $intr
+     * @return int
+     */
     protected function convertInterval($intr)
     {
         $seconds = 0;
