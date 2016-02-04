@@ -20,7 +20,7 @@ class DaemonCheckerCommand extends DaemonizedCommand
         'connection'    => 'AraneumMainBundle:Connection',
         'cluster'       => 'AraneumMainBundle:Cluster',
         'application'   => 'AraneumMainBundle:Application',
-        'runner'        => 'AraneumMainBundle:Runner'
+        'runner'        => 'AraneumMainBundle:Runner',
     ];
 
     /**
@@ -52,14 +52,15 @@ class DaemonCheckerCommand extends DaemonizedCommand
             throw new InvalidFormException('Interval daemon should not be less than zero.');
         }
 
-        foreach (self::$COMMANDS as $command=>$repository) {
+        foreach (self::$COMMANDS as $command => $repository) {
             if ($items = $em->getRepository($repository)->findAll()) {
                 foreach ($items as $item) {
                      $msg = $commandRunner->runSymfonyCommandInNewProcess(
                         'checker:check '.$command.' '.$item->getId(),
                         $this
                     );
-                    $this->getOutput()->write($msg);
+
+                    $this->getOutput()->writeln($msg);
                 }
             }
         }
