@@ -8,8 +8,8 @@
     CRUDController.$inject = ['$scope', 'CRUDConfigLoader', '$state'];
 
     function CRUDController($scope, CRUDConfigLoader, $state) {
-        $scope.icon = 'icon-globe-alt';
-        $scope.title = 'locales.LOCALES';
+        $scope.icon = $state.$current.crud.icon;
+        $scope.title = $state.$current.crud.title;
 
         $scope.form = {
             filter: {

@@ -16,11 +16,15 @@
         $stateProvider
             .state('app.users', {
                 url: '/users',
-                title: 'Users',
                 initialize: '/manage/users/init.json',
-                templateUrl: helper.basepath('grid-template.html'),
-                resolve: angular.extend(helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert', 'whirl', 'toaster')),
-                controller: 'UserTableController'
+                controller: 'CRUDController',
+                controllerAs: 'crud',
+                crud: {
+                    icon: 'icon-people',
+                    title: 'admin.users.TITLE'
+                },
+                templateUrl: helper.basepath('crud.html'),
+                resolve: helper.resolveFor('ngDialog', 'datatables', 'oitozero.ngSweetAlert', 'whirl')
             })
             .state('login', {
                 url: '/login',

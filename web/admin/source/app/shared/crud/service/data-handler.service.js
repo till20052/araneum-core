@@ -64,8 +64,6 @@
                         triggers instanceof Object &&
                         typeof triggers.onSuccess == 'function'
                     ){
-                        // @todo необхідно зробити без перезагрузки datatable
-                        //dtInstance.fnUpdate(null, $('>tbody>tr', dtInstance));
                         triggers.onSuccess(r);
                     }
                 },

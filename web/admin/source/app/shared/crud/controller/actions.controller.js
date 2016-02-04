@@ -10,10 +10,7 @@
     function CRUDActionsController($scope, ngDialog) {
         var vm = this,
             actions = {
-                create: create,
-                update: update,
-                deleteRow: remove,
-                editRow: setState
+                create: create
             };
 
         vm.click = click;
