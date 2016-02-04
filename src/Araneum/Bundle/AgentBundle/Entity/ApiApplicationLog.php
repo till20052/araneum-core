@@ -110,7 +110,7 @@ class ApiApplicationLog
      * Set status
      *
      * @param  int $status
-     * @return SpotLog
+     * @return ApiApplicationLog
      */
     public function setStatus($status)
     {
@@ -133,7 +133,7 @@ class ApiApplicationLog
      * Set request
      *
      * @param  string $request
-     * @return SpotLog
+     * @return ApiApplicationLog
      */
     public function setRequest($request)
     {
@@ -156,7 +156,7 @@ class ApiApplicationLog
      * Set response
      *
      * @param  string $response
-     * @return SpotLog
+     * @return ApiApplicationLog
      */
     public function setResponse($response)
     {

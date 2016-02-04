@@ -9,9 +9,10 @@ use Symfony\Component\Security\Acl\Exception\Exception;
 /**
  * Class GetNewCustomersFromSpot
  * php app/console araneum:spot:customers stop
+ *
  * @package Araneum\Bundle\MainBundle\Command\Spot
  */
-class GetNewCustomersFromSpotCommand extends DaemonizedCommand
+class CustomersSpotCommand extends DaemonizedCommand
 {
 
     const DEFAULT_PERIOD = 'P1Y';
@@ -78,7 +79,7 @@ class GetNewCustomersFromSpotCommand extends DaemonizedCommand
 
                 $existingEmails = $spotCustomerService->getExistCustomerEmails($emails, $application);
 
-                if (!empty($existingEmails)){
+                if (!empty($existingEmails)) {
                     foreach ($result['Customer'] as $customer) {
                         if (in_array($customer['email'], $existingEmails)) {
                             $spotCustomerService->addSpotCustomer($customer, $application);

@@ -34,7 +34,7 @@ class SendCustomersCommand extends ContainerAwareCommand
      *
      * @param InputInterface $input
      * @param OutputInterface $output
-     *
+     * @inheritdoc
      * @return null;
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -44,7 +44,7 @@ class SendCustomersCommand extends ContainerAwareCommand
         $applications = $em->getRepository('AraneumMainBundle:Application')->findAll();
         foreach ($applications as $application) {
             $customers = $em->getRepository("AraneumAgentBundle:Customer")->findBy(
-                ['enableSite'=>false, 'application'=> $application]
+                ['enableSite' => false, 'application' => $application]
             );
             $output->writeln(count($customers));
 

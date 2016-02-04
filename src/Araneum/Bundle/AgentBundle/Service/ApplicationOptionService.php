@@ -33,9 +33,9 @@ class ApplicationOptionService
     /**
      * ApplicationOptionService constructor.
      *
-     * @param ApiCustomerProducerService     $apiCustomerProducerService
-     * @param ApplicationApiSenderService    $applicationApiSenderService
-     * @param EntityManager                  $entityManager
+     * @param ApiCustomerProducerService  $apiCustomerProducerService
+     * @param ApplicationApiSenderService $applicationApiSenderService
+     * @param EntityManager               $entityManager
      */
     public function __construct(
         ApiCustomerProducerService     $apiCustomerProducerService,
@@ -50,9 +50,9 @@ class ApplicationOptionService
     /**
      * Send customers to application by url
      *
-     * @param array         $customers
-     * @param Application   $application
-     * @param string   $url
+     * @param  array       $customers
+     * @param  Application $application
+     * @param  string      $url
      * @return \Guzzle\Http\Message\Response
      */
     public function sendCustomersToApplication($customers, $application, $url)
@@ -69,7 +69,7 @@ class ApplicationOptionService
     /**
      * Return customer data
      *
-     * @param Customer  $customer
+     * @param  Customer $customer
      * @return array
      */
     private function getCustomerData($customer)
@@ -84,7 +84,7 @@ class ApplicationOptionService
             'currency' => $customer->getCurrency(),
             'deliveredAt' => $customer->getDeliveredAt(),
             'createdAt' => $customer->getCreatedAt(),
-            'updatedAt' => $customer->getUpdatedAt()
+            'updatedAt' => $customer->getUpdatedAt(),
         ];
     }
 }

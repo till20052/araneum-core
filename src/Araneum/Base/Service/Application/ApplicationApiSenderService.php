@@ -42,10 +42,10 @@ class ApplicationApiSenderService
     /**
      * Send request to api url
      *
-     * @param string $method           HTTP method. GET
-     * @param string $apiUrl
-     * @param string $path
-     * @param array  $requestData
+     * @param  string $method      HTTP method. GET
+     * @param  string $apiUrl
+     * @param  string $path
+     * @param  array  $requestData
      * @return \Guzzle\Http\Message\Response
      */
     public function sendToUrl($method, $apiUrl, $path, array $requestData)
@@ -62,8 +62,8 @@ class ApplicationApiSenderService
     /**
      * Get data from application
      *
-     * @param array $requestData
-     * @param string $url
+     * @param  array  $requestData
+     * @param  string $url
      * @return array
      */
     public function get(array $requestData, $url)
@@ -77,8 +77,8 @@ class ApplicationApiSenderService
     /**
      * Send request to application
      *
-     * @param array $requestData
-     * @param string $url
+     * @param  array  $requestData
+     * @param  string $url
      * @return \Guzzle\Http\Message\Response
      */
     public function send(array $requestData, $url)
@@ -125,8 +125,8 @@ class ApplicationApiSenderService
     /**
      * Create and save applications api log
      *
-     * @param array  $log
-     * @param int    $status
+     * @param  array $log
+     * @param  int   $status
      * @throws \Doctrine\ORM\ORMException
      */
     private function createApiLog(array $log, $status)
@@ -141,8 +141,7 @@ class ApplicationApiSenderService
         $apiLog = (new ApiApplicationLog())
             ->setStatus($status)
             ->setRequest($log['request'])
-            ->setResponse($log['response'])
-        ;
+            ->setResponse($log['response']);
 
         $this->em->persist($apiLog);
         $this->em->flush();

@@ -44,9 +44,9 @@ class ApiCustomerProducerService
      * Send msg to queue.
      * Return true
      *
-     * @param array    $msgBody
-     * @param string   $url
-     * @param string   $routingKey           queue name
+     * @param  array  $msgBody
+     * @param  string $url
+     * @param  string $routingKey queue name
      * @return string|true
      */
     public function publish(
@@ -62,7 +62,7 @@ class ApiCustomerProducerService
             $this->producer->publish(
                 $this->msgConvertHelper->encodeMsg($msg),
                 $routingKey,
-                array_merge(['url'=> $url], ['expiration' => $this->queueExpiration])
+                array_merge(['url' => $url], ['expiration' => $this->queueExpiration])
             );
 
             return true;

@@ -31,9 +31,9 @@ class ApiCustomerConsumerService implements ConsumerInterface
     /**
      * Consumer constructor.
      *
-     * @param ApplicationApiSenderService    $applicationApiSenderService
-     * @param MessageConversionHelper $msgConvertHelper
-     * @param EntityManager           $em
+     * @param ApplicationApiSenderService $applicationApiSenderService
+     * @param MessageConversionHelper     $msgConvertHelper
+     * @param EntityManager               $em
      */
     public function __construct(
         ApplicationApiSenderService $applicationApiSenderService,
@@ -48,7 +48,7 @@ class ApiCustomerConsumerService implements ConsumerInterface
     /**
      * Receive message
      *
-     * @param AMQPMessage $message
+     * @param  AMQPMessage $message
      * @return string
      */
     public function execute(AMQPMessage $message)
