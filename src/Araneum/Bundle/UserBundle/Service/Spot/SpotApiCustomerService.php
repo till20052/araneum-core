@@ -6,7 +6,6 @@ use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Doctrine\ORM\EntityManager;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\AgentBundle\Service\SpotOptionService;
-use Faker\Provider\DateTime;
 
 /**
  * Class SpotApiCustomerService
@@ -44,7 +43,6 @@ class SpotApiCustomerService
         $this->em = $em;
         $this->optionService = $optionService;
     }
-
 
     /**
      * Get all customers from spot by regTime period
@@ -93,7 +91,6 @@ class SpotApiCustomerService
         return array_diff($emails, $result);
     }
 
-
     /**
      * Returns emails, exists in Customer entities
      *
@@ -124,5 +121,4 @@ class SpotApiCustomerService
 
         $this->em->persist($customer);
     }
-
 }

@@ -5,9 +5,9 @@ namespace Araneum\Base\Service\Application;
 use Guzzle\Http\Message\Response;
 use Guzzle\Service\ClientInterface;
 use Doctrine\ORM\EntityManager;
-use Araneum\Bundle\AgentBundle\Entity\ApiApplicationLog;
 use Guzzle\Http\Exception\RequestException;
 use Guzzle\Http\Exception\CurlException;
+use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
 
 /**
  * Class ApplicationApiSenderService
@@ -78,12 +78,14 @@ class ApplicationApiSenderService
      * Send request to application
      *
      * @param  array  $requestData
-     * @param  string $url
+     * @param  array  $application
      * @return \Guzzle\Http\Message\Response
      */
-    public function send(array $requestData, $url)
+    public function send(array $requestData, $application)
     {
         $log = array('request' => $requestData);
+        $log['applicationId'] = $application['id'];
+        $url = $application['url'];
         try {
 
             $this->guzzle->setBaseUrl($url);
@@ -93,43 +95,43 @@ class ApplicationApiSenderService
             if (!empty($response)) {
                 $log['response'] = $response->getBody(true);
             }
-            $this->createApiLog($log, ApiApplicationLog::TYPE_OK);
+            $this->createCustomerLog($log, CustomerLog::STATUS_OK);
 
             return $response;
 
         } catch (\BadMethodCallException $e) {
             $log['response'] = $e->getMessage();
-            $this->createApiLog($log, ApiApplicationLog::TYPE_BAD_METHOD_CALL);
+            $this->createCustomerLog($log, CustomerLog::STATUS_ERROR);
 
             return $e;
         } catch (CurlException $e) {
             $log['response'] = $e->getError();
-            $this->createApiLog($log, ApiApplicationLog::TYPE_CURL);
+            $this->createCustomerLog($log, CustomerLog::STATUS_ERROR);
 
             return $e;
         } catch (RequestException $e) {
             $code = $e->getRequest()->getResponse()->getStatusCode();
             $message = $e->getRequest()->getResponse()->getBody(true);
             $log['response'] = $code.' : '.$message;
-            $this->createApiLog($log, ApiApplicationLog::TYPE_REQUEST);
+            $this->createCustomerLog($log, CustomerLog::STATUS_ERROR);
 
             return $e;
         } catch (\Exception $e) {
             $log['response'] = $e->getCode().' : '.$e->getMessage();
-            $this->createApiLog($log, ApiApplicationLog::TYPE_OTHER_EXCEPTION);
+            $this->createCustomerLog($log, CustomerLog::STATUS_ERROR);
 
             return $e;
         }
     }
 
     /**
-     * Create and save applications api log
+     * Create and save customer log
      *
-     * @param  array $log
-     * @param  int   $status
+     * @param array  $log
+     * @param int    $status
      * @throws \Doctrine\ORM\ORMException
      */
-    private function createApiLog(array $log, $status)
+    private function createCustomerLog(array $log, $status)
     {
         if (is_array($log['request'])) {
             $log['request'] = json_encode($log['request']);
@@ -138,12 +140,14 @@ class ApplicationApiSenderService
             $log['response'] = json_encode($log['response']);
         }
 
-        $apiLog = (new ApiApplicationLog())
-            ->setStatus($status)
-            ->setRequest($log['request'])
-            ->setResponse($log['response']);
+        $customerLog = (new CustomerLog())
+            ->setAction($log['action'])
+            ->setApplication($this->em->getReference('AraneumMainBundle:Application', $log['applicationId']))
+            ->setCustomer($this->em->getReference('AraneumAgentBundle:Customer', $log['id']))
+            ->setResponse($log['response'])
+            ->setStatus($status);
 
-        $this->em->persist($apiLog);
+        $this->em->persist($customerLog);
         $this->em->flush();
     }
 }

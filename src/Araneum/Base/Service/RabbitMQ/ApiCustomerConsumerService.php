@@ -7,6 +7,8 @@ use Doctrine\ORM\EntityManager;
 use Guzzle\Service;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
+use Guzzle\Http\Exception\RequestException;
+use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
 
 /**
  * Class ApiCustomerProducerService
@@ -54,6 +56,7 @@ class ApiCustomerConsumerService implements ConsumerInterface
     public function execute(AMQPMessage $message)
     {
         $data = $this->msgConvertHelper->decodeMsg($message->body);
-        $this->applicationApiSenderService->send((array) $data->data, (string) $data->url);
+        $application = ['url' => $data->url, 'id' => $data->id];
+        $this->applicationApiSenderService->send((array) $data->data, (array) $application);
     }
 }

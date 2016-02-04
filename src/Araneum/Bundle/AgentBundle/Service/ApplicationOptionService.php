@@ -7,6 +7,8 @@ use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Base\Service\RabbitMQ\ApiCustomerProducerService;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Security\Acl\Exception\Exception;
+
 /**
  * Class ApplicationOptionService
  *
@@ -57,14 +59,23 @@ class ApplicationOptionService
      */
     public function sendCustomersToApplication($customers, $application, $url)
     {
-        $data = [];
-        foreach ($customers as $customer) {
-            $data[] = $this->getCustomerData($customer);
+        try {
+            $data = [];
+            foreach ($customers as $customer) {
+                $data[] = $this->getCustomerData($customer);
+                $application = [
+                    'id' => $application->getId(),
+                    'url' => $application->getDomain().$url,
+                ];
+                $this->apiCustomerProducerService->publish($data, $application);
+            }
+
+            return true;
+        } catch (Exception $e) {
+
+            return $e->getMessage();
         }
-
-        return $this->apiCustomerProducerService->publish($data, $application->getDomain().$url);
     }
-
 
     /**
      * Return customer data
@@ -78,13 +89,12 @@ class ApplicationOptionService
             'firstName' => $customer->getFirstName(),
             'lastName' => $customer->getLastName(),
             'country' => $customer->getCountry(),
-            'birthday' => $customer->getBirthday(),
+            'birthDate' => $customer->getBirthday(),
             'email' => $customer->getEmail(),
             'phone' => $customer->getPhone(),
+            'password' => $customer->getPassword(),
             'currency' => $customer->getCurrency(),
-            'deliveredAt' => $customer->getDeliveredAt(),
-            'createdAt' => $customer->getCreatedAt(),
-            'updatedAt' => $customer->getUpdatedAt(),
+            'id' => $customer->getId()
         ];
     }
 }

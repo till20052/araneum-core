@@ -48,11 +48,10 @@ class SendCustomersCommand extends ContainerAwareCommand
             );
             $output->writeln(count($customers));
 
-            //TODO Настроить на стороне application и в зависимости от этого изменить url
             $answer = $optionService->sendCustomersToApplication(
                 $customers,
                 $application,
-                '/api/customers/new'
+                '/api/user/createUser'
             );
 
             $output->writeln($answer);

@@ -4,6 +4,7 @@ namespace Araneum\Bundle\AgentBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
 use Araneum\Bundle\AgentBundle\Entity\Translation\CountryTranslation;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -73,7 +74,7 @@ class Country
     public function __construct()
     {
         $this->enabled = true;
-        $this->translations = [];
+        $this->translations = new ArrayCollection();
     }
 
     /**

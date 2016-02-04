@@ -132,8 +132,8 @@ class SpotOptionService
     public function getCountries($appKey)
     {
         /**
- * @var Application $application 
-*/
+         * @var Application $application
+         */
         $application = $this->entityManager
             ->getRepository('AraneumMainBundle:Application')
             ->findOneByAppKey($appKey);
@@ -186,7 +186,6 @@ class SpotOptionService
             'COMMAND' => 'view',
             'FILTER' => $filterOptions,
         ];
-
         return $this->spotApiSenderService->send($data, $application->getSpotCredential());
     }
 }

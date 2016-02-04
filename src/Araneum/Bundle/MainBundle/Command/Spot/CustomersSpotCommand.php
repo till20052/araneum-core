@@ -35,7 +35,6 @@ class CustomersSpotCommand extends DaemonizedCommand
                 self::DEFAULT_PERIOD
             )
             ->setHelp('Usage <infoaraneumDB>php app/console <name> <period>application_id</period> <period>time</period> start|stop|restart</infoaraneumDB>');
-
     }
 
     /**
@@ -49,7 +48,7 @@ class CustomersSpotCommand extends DaemonizedCommand
         $period = $this->input->getOption('period');
         $this->em = $this->getContainer()->get('doctrine')->getManager();
         $applications = $this->getContainer()->get('doctrine')->getRepository('AraneumMainBundle:Application')->findAll();
-        foreach($applications as $application){
+        foreach ($applications as $application) {
             try {
                 $credential = $application->getSpotCredential();
 
