@@ -3,10 +3,16 @@
 namespace Araneum\Bundle\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Predis\Command\ConnectionEcho;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Araneum\Base\EntityTrait\DateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Araneum\Bundle\AgentBundle\Entity\ConnectionLog;
+
+use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Araneum\Bundle\MainBundle\Entity\Application;
+use Araneum\Bundle\MainBundle\Entity\Connection;
+
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -22,6 +28,26 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Runner
 {
     use DateTrait;
+
+    const STATUS_OK                        = 0;
+    const STATUS_CODE_INCORRECT            = 1;
+    const STATUS_ERROR                     = 2;
+    const STATUS_APP_CODE_INCORRECT        = 10;
+    const STATUS_APP_ERROR                 = 15;
+    const STATUS_HAS_SLOW_CONNECTION       = 20;
+    const STATUS_HAS_UNSTABLE_CONNECTION   = 25;
+    const STATUS_OFFLINE                   = 30;
+
+    private static $statuses = [
+        self::STATUS_OK => 'ok',
+        self::STATUS_CODE_INCORRECT => 'status_code_incorrect',
+        self::STATUS_ERROR => 'error',
+        self::STATUS_APP_CODE_INCORRECT => 'application_status_code_incorrect',
+        self::STATUS_APP_ERROR => 'error_application',
+        self::STATUS_HAS_SLOW_CONNECTION => 'has_slow_connection',
+        self::STATUS_HAS_UNSTABLE_CONNECTION => 'has_unstable_connection',
+        self::STATUS_OFFLINE => 'offline',
+    ];
 
     /**
      * @ORM\Id
@@ -82,6 +108,12 @@ class Runner
      *                cascade={"persist", "remove"})
      */
     protected $connectionLogs;
+
+    /**
+     * @ORM\Column(type="boolean", name="use_ssl")
+     * @Assert\Type(type="boolean")
+     */
+    protected $useSSL;
 
     /**
      * Runner constructor.
@@ -277,6 +309,21 @@ class Runner
     }
 
     /**
+     * Get Runner status description
+     *
+     * @param  integer $status
+     * @return string
+     */
+    public static function getStatusDescription($status)
+    {
+        if (!isset(self::$statuses[$status])) {
+            return '[undefined]';
+        }
+
+        return self::$statuses[$status];
+    }
+
+    /**
      * Get cluster
      *
      * @return Cluster
@@ -357,5 +404,28 @@ class Runner
     public function hasConnectionLogs(ConnectionLog $connectionLogs)
     {
         return $this->connectionLogs->contains($connectionLogs);
+    }
+
+    /**
+     * Get useSSL
+     *
+     * @return boolean
+     */
+    public function isUseSSL()
+    {
+        return (bool) $this->useSSL;
+    }
+
+    /**
+     * Set useSSL
+     *
+     * @param  boolean $useSSL
+     * @return Runner
+     */
+    public function setUseSSL($useSSL = true)
+    {
+        $this->useSSL = (bool) $useSSL;
+
+        return $this;
     }
 }
