@@ -60,21 +60,6 @@
                 }
             });
         }
-
-        // update
-        function update() {
-            console.log(123);
-        }
-
-        // set state
-        function setState() {
-
-        }
-
-        // delete
-        function remove() {
-
-        }
     }
 
 })();
