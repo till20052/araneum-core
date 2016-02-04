@@ -9,6 +9,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+
 /**
  * Class DaemonCheckerCommand
  *
@@ -48,23 +50,42 @@ class DaemonCheckerCommand extends DaemonizedCommand
             ->get('doctrine')
             ->getManager();
 
-        if (empty($daemonInterval) || $daemonInterval < 0) {
+        if (empty($daemonInterval)) {
             throw new InvalidFormException('Interval daemon should not be less than zero.');
         }
 
         foreach (self::$COMMANDS as $command => $repository) {
             if ($items = $em->getRepository($repository)->findAll()) {
                 foreach ($items as $item) {
-                     $msg = $commandRunner->runSymfonyCommandInNewProcess(
+                     $commandRunner->runSymfonyCommandInNewProcess(
                         'checker:check '.$command.' '.$item->getId(),
                         $this
                     );
-
-                    $this->getOutput()->writeln($msg);
                 }
             }
         }
         $this->getDaemon()
-            ->iterate($daemonInterval*60);
+            ->iterate($this->convertInterval($daemonInterval));
+    }
+
+    protected function convertInterval($intr)
+    {
+        $seconds = 0;
+        $interval = new \DateInterval('PT'.strtoupper($intr));
+        switch ($interval) {
+            case ($interval->h !== 0) :
+                $seconds = $interval->h*3600;
+                break;
+            case ($interval->i !== 0) :
+                $seconds = $interval->i*60;
+                break;
+            case ($interval->s !== 0) :
+                $seconds = $interval->s;
+                break;
+            default :
+                if ((int) $intr > 0) $seconds = $intr;
+                break;
+        }
+        return $seconds;
     }
 }
