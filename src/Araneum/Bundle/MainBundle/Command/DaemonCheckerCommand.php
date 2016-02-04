@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class DaemonCheckerCommand extends DaemonizedCommand
 {
-    static $COMMANDS = [
+    protected static $COMMANDS = [
         'connection'    => 'AraneumMainBundle:Connection',
         'cluster'       => 'AraneumMainBundle:Cluster',
         'application'   => 'AraneumMainBundle:Application',
@@ -48,21 +48,21 @@ class DaemonCheckerCommand extends DaemonizedCommand
             ->get('doctrine')
             ->getManager();
 
-        if(empty($daemonInterval) || $daemonInterval < 0)
+        if (empty($daemonInterval) || $daemonInterval < 0) {
             throw new InvalidFormException('Interval daemon should not be less than zero.');
+        }
 
         foreach (self::$COMMANDS as $command=>$repository) {
             if ($items = $em->getRepository($repository)->findAll()) {
                 foreach ($items as $item) {
                      $msg = $commandRunner->runSymfonyCommandInNewProcess(
-                        'checker:check ' . $command . ' ' . $item->getId(),
+                        'checker:check '.$command.' '.$item->getId(),
                         $this
                     );
                     $this->getOutput()->write($msg);
                 }
             }
         }
-
         $this->getDaemon()
             ->iterate($daemonInterval*60);
     }
