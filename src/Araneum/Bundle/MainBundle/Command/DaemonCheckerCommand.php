@@ -41,7 +41,7 @@ class DaemonCheckerCommand extends DaemonizedCommand
      */
     protected function daemonLogic()
     {
-        $this->getContainer()->get('logger')->info("Daemon check:application is running!");
+        $this->getContainer()->get('logger')->info("Daemon araneum:daemon:checker is running!");
         $daemonInterval = $this->getContainer()->getParameter('araneum_daemon_checker_iterate');
         $commandRunner = $this->getContainer()->get('araneum.command_runner.service');
         $em = $this->getContainer()
