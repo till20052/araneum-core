@@ -64,6 +64,7 @@ class DaemonCheckerCommand extends DaemonizedCommand
                 }
             }
         }
+
         $this->getDaemon()
             ->iterate($this->convertInterval($daemonInterval));
     }
