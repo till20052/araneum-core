@@ -2,12 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Command;
 
-use Araneum\Base\Exception\InvalidFormException;
 use MikSoftware\DaemonBundle\Commnad\DaemonizedCommand;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 /**
