@@ -29,4 +29,4 @@ mik_software_daemon:
             logVerbosity: 6
 
 parameters:
-    araneum_daemon_checker_iterate: 10M
+    araneum_daemon_checker_iterate: 10 minutes

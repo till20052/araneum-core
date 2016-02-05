@@ -47,9 +47,9 @@ class DaemonCheckerCommand extends DaemonizedCommand
         $em = $this->getContainer()
             ->get('doctrine')
             ->getManager();
-
-        if (empty($daemonInterval)) {
-            throw new InvalidFormException('Interval daemon should not be less than zero.');
+        $daemonInterval = strtotime($daemonInterval) - time();
+        if (empty($daemonInterval) || $daemonInterval < 0) {
+            throw new InvalidFormException('Interval daemon incorrect format (use: year, month, week, day, hours, minutes, seconds).');
         }
 
         foreach (self::$COMMANDS as $command => $repository) {
@@ -61,36 +61,6 @@ class DaemonCheckerCommand extends DaemonizedCommand
         }
 
         $this->getDaemon()
-            ->iterate($this->convertInterval($daemonInterval));
-    }
-
-    /**
-     * @param $intr
-     * @return int
-     */
-    protected function convertInterval($intr)
-    {
-        $seconds = 0;
-        $interval = new \DateInterval('PT'.strtoupper($intr));
-
-        switch ($interval) {
-            case ($interval->h !== 0):
-                $seconds = $interval->h*3600;
-                break;
-            case ($interval->i !== 0):
-                $seconds = $interval->i*60;
-                break;
-            case ($interval->s !== 0):
-                $seconds = $interval->s;
-                break;
-            default:
-                $intr = (int) $intr;
-                if ($intr) {
-                    $seconds = $intr;
-                }
-                break;
-        }
-
-        return $seconds;
+            ->iterate($daemonInterval);
     }
 }
