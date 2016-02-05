@@ -48,7 +48,6 @@ class SpotCustomerProducerService
      * @param array    $msgBody
      * @param Customer $customer
      * @param string   $logAction
-     * @param string   $routingKey           queue name
      * @param array    $additionalProperties
      * @return string|true
      */
@@ -56,7 +55,6 @@ class SpotCustomerProducerService
         $msgBody,
         Customer $customer,
         $logAction,
-        $routingKey = 'sendToSpot',
         $additionalProperties = []
     ) {
         $application = $customer->getApplication();
