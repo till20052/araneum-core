@@ -22,16 +22,13 @@ class LoadCountryData extends AbstractFixture
      */
     public function load(ObjectManager $manager)
     {
+        $application = $manager->getRepository('AraneumMainBundle:Application')->findOneById(1);
         $data = $this->container->get('araneum.base.spot_api')->get(
             [
                 'MODULE' => 'Country',
                 'COMMAND' => 'view',
             ],
-            [
-                'url' => 'http://api-spotplatform.ultratrade.com/Api',
-                'userName' => 'araneum',
-                'password' => 'wU7tc2YKg2',
-            ]
+            $application->getSpotCredential()
         );
         if (!empty($data)) {
             foreach ($data as $countries) {
