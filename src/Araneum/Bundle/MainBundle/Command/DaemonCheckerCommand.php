@@ -55,10 +55,7 @@ class DaemonCheckerCommand extends DaemonizedCommand
         foreach (self::$COMMANDS as $command => $repository) {
             if ($items = $em->getRepository($repository)->findAll()) {
                 foreach ($items as $item) {
-                     $commandRunner->runSymfonyCommandInNewProcess(
-                        'checker:check '.$command.' '.$item->getId(),
-                        $this
-                    );
+                     $commandRunner->runSymfonyCommandInNewProcess("checker:check {$command} {$item->getId()}", $this);
                 }
             }
         }
@@ -76,17 +73,19 @@ class DaemonCheckerCommand extends DaemonizedCommand
         $seconds = 0;
         $interval = new \DateInterval('PT'.strtoupper($intr));
         switch ($interval) {
-            case ($interval->h !== 0) :
+            case ($interval->h !== 0):
                 $seconds = $interval->h*3600;
                 break;
-            case ($interval->i !== 0) :
+            case ($interval->i !== 0):
                 $seconds = $interval->i*60;
                 break;
-            case ($interval->s !== 0) :
+            case ($interval->s !== 0):
                 $seconds = $interval->s;
                 break;
-            default :
-                if ((int) $intr > 0) $seconds = $intr;
+            default:
+                $intr = (int) $intr;
+                if ($intr > 0)
+                    $seconds = $intr;
                 break;
         }
         return $seconds;
