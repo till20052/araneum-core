@@ -72,7 +72,7 @@ class SpotCustomerProducerService
         try {
             $this->producer->publish(
                 $this->msgConvertHelper->encodeMsg($msg),
-                $routingKey,
+                '',
                 array_merge($additionalProperties, ['expiration' => $this->queueExpiration])
             );
 
