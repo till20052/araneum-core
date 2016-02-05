@@ -46,7 +46,7 @@ class ApiCustomerProducerService
      *
      * @param  array  $msgBody
      * @param  array  $application
-     * @param  string $routingKey queue name
+     * @param  string $routingKey  queue name
      * @return string|true
      */
     public function publish(

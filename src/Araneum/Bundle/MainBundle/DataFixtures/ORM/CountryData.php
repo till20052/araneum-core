@@ -14,6 +14,9 @@ use RuntimeException;
  */
 class LoadCountryData extends AbstractFixture
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getDependencies()
     {
         return [
@@ -32,7 +35,7 @@ class LoadCountryData extends AbstractFixture
         $application = $manager
             ->getRepository('AraneumMainBundle:Application')
             ->findOneByName('Ultratrade');
-        if (!empty($app)) {
+        if (!empty($application)) {
             $data = $this->container->get('araneum.base.spot_api')->get(
                 [
                     'MODULE' => 'Country',

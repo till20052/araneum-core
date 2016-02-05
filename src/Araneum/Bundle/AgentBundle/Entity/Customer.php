@@ -177,7 +177,7 @@ class Customer
     /**
      * Set existOnSite
      *
-     * @param $existOnSite
+     * @param boolean $existOnSite
      * @return Customer
      */
     public function setExistOnSite($existOnSite)

@@ -186,6 +186,7 @@ class SpotOptionService
             'COMMAND' => 'view',
             'FILTER' => $filterOptions,
         ];
+
         return $this->spotApiSenderService->send($data, $application->getSpotCredential());
     }
 }

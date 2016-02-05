@@ -77,8 +77,8 @@ class ApplicationApiSenderService
     /**
      * Send request to application
      *
-     * @param  array  $requestData
-     * @param  array  $application
+     * @param  array $requestData
+     * @param  array $application
      * @return \Guzzle\Http\Message\Response
      */
     public function send(array $requestData, $application)

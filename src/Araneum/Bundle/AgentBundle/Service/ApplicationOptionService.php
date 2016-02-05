@@ -94,7 +94,7 @@ class ApplicationOptionService
             'phone' => $customer->getPhone(),
             'password' => $customer->getPassword(),
             'currency' => $customer->getCurrency(),
-            'id' => $customer->getId()
+            'spotUserId' => $customer->getSpotId(),
         ];
     }
 }

@@ -25,9 +25,6 @@ class SpotApiCustomerService
      */
     protected $optionService;
 
-    /**
-     * @var EntityManager
-     */
     protected $em;
 
     /**
