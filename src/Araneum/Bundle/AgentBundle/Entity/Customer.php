@@ -94,10 +94,10 @@ class Customer
     /**
      * @var boolean
      *
-     * @ORM\Column(name="enable_site", type="boolean", nullable=false)
+     * @ORM\Column(name="exist_on_site", type="boolean", nullable=true)
      * @Assert\NotBlank()
      */
-    private $enableSite;
+    private $existOnSite;
 
     /**
      * @var string
@@ -165,22 +165,24 @@ class Customer
     }
 
     /**
-     * Get enableSite
+     * Is existOnSite
+     *
      * @return boolean
      */
-    public function getEnableSite()
+    public function isExistOnSite()
     {
-        return $this->enableSite;
+        return $this->existOnSite;
     }
 
     /**
-     * Set enableSite
-     * @param  boolean $enableSite
+     * Set existOnSite
+     *
+     * @param $existOnSite
      * @return Customer
      */
-    public function setEnableSite($enableSite)
+    public function setExistOnSite($existOnSite)
     {
-        $this->enableSite = $enableSite;
+        $this->existOnSite = $existOnSite;
 
         return $this;
     }
