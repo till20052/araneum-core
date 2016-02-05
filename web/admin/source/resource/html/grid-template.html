@@ -15,7 +15,7 @@
                         width: 2em;
                         text-align: center;"
                        panel-collapse=""
-                       tooltip="Collapse Panel"
+                       tooltip="{{'admin.dashboard.widget.COLLAPSE' | translate}}"
                        ng-click="filters.panel = !filters.panel"
                        class="ng-scope">
                 <em ng-show="filters.panel" class="fa fa-plus ng-hide" style=""></em> <em ng-show="!filters.panel"
@@ -27,7 +27,7 @@
                         width: 2em;
                         text-align: center;"
                         href="#" id="resetForm" class="ng-scope"
-                        tooltip="Refresh Panel">
+                        tooltip="{{'admin.dashboard.widget.REFRESH' | translate}}">
                     <em
                             ng-click="vm.reset($event, vm.resetConfig.url, vm.resetConfig.idForm)"
                             class="fa fa-refresh"></em>

@@ -8,7 +8,7 @@
     TranslateDatatablesService.$inject = ['$rootScope', '$translate'];
 
     function TranslateDatatablesService($rootScope, $translate) {
-
+        var vm = this;
         var service = {
             language: {
                 "decimal": "",
@@ -35,6 +35,7 @@
                 }
             },
             translateTable: function () {
+
                 $translate([
                     'admin.datatables.PROCESSING',
                     'admin.datatables.SEARCH',
@@ -73,7 +74,7 @@
             }
         };
 
-        $rootScope.$on('language', function () {
+        $rootScope.$on('$translateChangeSuccess', function () {
             service.translateTable();
         });
 
