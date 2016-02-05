@@ -164,12 +164,12 @@ old_sound_rabbit_mq:
         application_customer:
             connection: default
             exchange_options:
-                name: spot_login_%session_prefix%
+                name: application_customer_%session_prefix%
                 type: direct
                 auto_delete: false
                 durable: true
             queue_options:
-                name: spot_login_%session_prefix%
+                name: application_customer_%session_prefix%
                 arguments:
                     "message-ttl": ['I', %rabbitmq_message_ttl%]
                     "dead-letter-exchange": ['S', 'araneum.base.rabbitmq.producer.application_customer']
@@ -207,12 +207,12 @@ old_sound_rabbit_mq:
         application_customer:
              connection: default
              exchange_options:
-                 name: spot_login_%session_prefix%
+                 name: application_customer_%session_prefix%
                  type: direct
                  auto_delete: false
                  durable: true
              queue_options:
-                 name: spot_login_%session_prefix%
+                 name: application_customer_%session_prefix%
              callback: araneum.base.rabbitmq.consumer.application_customer
 
 snc_redis:
