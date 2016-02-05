@@ -72,6 +72,7 @@ class DaemonCheckerCommand extends DaemonizedCommand
     {
         $seconds = 0;
         $interval = new \DateInterval('PT'.strtoupper($intr));
+
         switch ($interval) {
             case ($interval->h !== 0):
                 $seconds = $interval->h*3600;
