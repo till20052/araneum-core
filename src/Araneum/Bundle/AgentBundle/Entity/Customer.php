@@ -95,7 +95,6 @@ class Customer
      * @var boolean
      *
      * @ORM\Column(name="exist_on_site", type="boolean", nullable=true)
-     * @Assert\NotBlank()
      */
     private $existOnSite;
 
