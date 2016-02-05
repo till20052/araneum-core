@@ -1,3 +1,6 @@
+parameters:
+    araneum_daemon_checker_iterate: 10 minutes
+
 mik_software_daemon:
     daemons:
         araneum_consumer_spot:
@@ -27,6 +30,3 @@ mik_software_daemon:
             appUser: %nginx_user%
             appGroup: %nginx_group%
             logVerbosity: 6
-
-parameters:
-    araneum_daemon_checker_iterate: 10 minutes
