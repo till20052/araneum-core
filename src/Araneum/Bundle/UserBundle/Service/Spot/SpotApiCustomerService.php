@@ -25,8 +25,6 @@ class SpotApiCustomerService
      */
     protected $optionService;
 
-    protected $em;
-
     /**
      * SpotApiCustomerService constructor.
      *

@@ -44,12 +44,14 @@ class ApiCustomerProducerService
      * Send msg to queue.
      * Return true
      *
+     * @param  int    $customerId
      * @param  array  $msgBody
      * @param  array  $application
      * @param  string $routingKey  queue name
      * @return string|true
      */
     public function publish(
+        $customerId,
         $msgBody,
         $application,
         $routingKey = 'sendToApi'
@@ -58,6 +60,7 @@ class ApiCustomerProducerService
         $msg->data = $msgBody;
         $msg->url = $application['url'];
         $msg->appId = $application['id'];
+        $msg->customerId = $customerId;
         try {
             $this->producer->publish(
                 $this->msgConvertHelper->encodeMsg($msg),

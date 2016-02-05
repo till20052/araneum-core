@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Guzzle\Http\Exception\RequestException;
 use Guzzle\Http\Exception\CurlException;
 use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
+use Symfony\Component\Security\Acl\Exception\Exception;
 
 /**
  * Class ApplicationApiSenderService
@@ -78,14 +79,14 @@ class ApplicationApiSenderService
      * Send request to application
      *
      * @param  array $requestData
-     * @param  array $application
+     * @param  array $helper
      * @return \Guzzle\Http\Message\Response
      */
-    public function send(array $requestData, $application)
+    public function send(array $requestData, $helper)
     {
         $log = array('request' => $requestData);
-        $log['applicationId'] = $application['id'];
-        $url = $application['url'];
+        $log['applicationId'] = $helper['applicationId'];
+        $url = $helper['url'];
         try {
 
             $this->guzzle->setBaseUrl($url);
@@ -96,6 +97,9 @@ class ApplicationApiSenderService
                 $log['response'] = $response->getBody(true);
             }
             $this->createCustomerLog($log, CustomerLog::STATUS_OK);
+            if (!empty($helper['customerId'])) {
+                $this->updateCustomerStatus($helper['customerId']);
+            }
 
             return $response;
 
@@ -149,5 +153,24 @@ class ApplicationApiSenderService
 
         $this->em->persist($customerLog);
         $this->em->flush();
+    }
+
+    /**
+     * Create and save customer log
+     *
+     * @param int     $id
+     * @param boolean $status
+     * @throws \Doctrine\ORM\ORMException
+     */
+    private function updateCustomerStatus($id, $status = true)
+    {
+        $customer = $this->em->getRepository('AraneumAgentBundle:Customer')->findOneById($id);
+        if (!empty($customer)) {
+            $customer->setExistOnSite($status);
+            $this->em->persist($customer);
+            $this->em->flush();
+        } else {
+            throw new Exception('Customer with id '.$id.' not found');
+        }
     }
 }

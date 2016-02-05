@@ -62,12 +62,13 @@ class ApplicationOptionService
         try {
             $data = [];
             foreach ($customers as $customer) {
+                $id = $customer->getId();
                 $data[] = $this->getCustomerData($customer);
                 $application = [
                     'id' => $application->getId(),
                     'url' => $application->getDomain().$url,
                 ];
-                $this->apiCustomerProducerService->publish($data, $application);
+                $this->apiCustomerProducerService->publish($id, $data, $application);
             }
 
             return true;
