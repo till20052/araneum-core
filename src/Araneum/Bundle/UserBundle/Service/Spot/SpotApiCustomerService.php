@@ -26,9 +26,14 @@ class SpotApiCustomerService
     protected $optionService;
 
     /**
+     * @var EntityManager
+     */
+    protected $em;
+
+    /**
      * SpotApiCustomerService constructor.
      *
-     * @param EntityManager     $em,
+     * @param EntityManager     $em
      * @param SpotOptionService $optionService
      */
     public function __construct(
