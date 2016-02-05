@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\AgentBundle\Entity\Translation;
+namespace Araneum\Bundle\AgentBundle\Entity;
 
 use Gedmo\Translatable\Entity\MappedSuperclass\AbstractPersonalTranslation;
 use Doctrine\ORM\Mapping as ORM;

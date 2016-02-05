@@ -44,7 +44,9 @@ class CustomersSpotCommand extends DaemonizedCommand
      */
     protected function daemonLogic()
     {
-        $daemonInterval = $this->getContainer()->getParameter('spot_customer_daemon_timeout');
+        $daemonInterval = $this->getContainer()
+            ->getParameter('spot_customer_daemon_timeout');
+
         $period = $this->input->getOption('period');
         $this->em = $this->getContainer()->get('doctrine')->getManager();
         $applications = $this->getContainer()->get('doctrine')->getRepository('AraneumMainBundle:Application')->findAll();

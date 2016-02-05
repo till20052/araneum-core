@@ -17,7 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="araneum_customer_countries")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\AgentBundle\Repository\CountryRepository")
  * @UniqueEntity(fields="name")
- * @Gedmo\TranslationEntity(class="Araneum\Bundle\AgentBundle\Entity\Translation\CountryTranslation")
+ * @Gedmo\TranslationEntity(class="Araneum\Bundle\AgentBundle\Entity\CountryTranslation")
  * @package Araneum\Bundle\AgentBundle\Entity
  */
 class Country
@@ -61,7 +61,7 @@ class Country
 
     /**
      * @ORM\OneToMany(
-     *   targetEntity="Araneum\Bundle\AgentBundle\Entity\Translation\CountryTranslation",
+     *   targetEntity="Araneum\Bundle\AgentBundle\Entity\CountryTranslation",
      *   mappedBy="object",
      *   cascade={"persist", "remove"}
      * )
