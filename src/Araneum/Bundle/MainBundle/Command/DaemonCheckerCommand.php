@@ -85,10 +85,12 @@ class DaemonCheckerCommand extends DaemonizedCommand
                 break;
             default:
                 $intr = (int) $intr;
-                if ($intr > 0)
+                if ($intr) {
                     $seconds = $intr;
+                }
                 break;
         }
+
         return $seconds;
     }
 }
