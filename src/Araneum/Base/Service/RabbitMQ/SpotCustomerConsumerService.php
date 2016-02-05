@@ -9,7 +9,6 @@ use Guzzle\Http\Exception\RequestException;
 use Guzzle\Service;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Class SpotCustomerConsumerService
