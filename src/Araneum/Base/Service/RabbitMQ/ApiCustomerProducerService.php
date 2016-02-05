@@ -47,14 +47,16 @@ class ApiCustomerProducerService
      * @param  int    $customerId
      * @param  array  $msgBody
      * @param  array  $application
-     * @param  string $routingKey  queue name
+     * @param  string $routingKey           queue name
+     * @param  array  $additionalProperties
      * @return string|true
      */
     public function publish(
         $customerId,
         $msgBody,
         $application,
-        $routingKey = 'sendToApi'
+        $routingKey = '',
+        $additionalProperties = []
     ) {
         $msg = $this->getStdClass();
         $msg->data = $msgBody;
@@ -65,7 +67,7 @@ class ApiCustomerProducerService
             $this->producer->publish(
                 $this->msgConvertHelper->encodeMsg($msg),
                 $routingKey,
-                array_merge(['url' => $application['url']], ['expiration' => $this->queueExpiration])
+                array_merge($additionalProperties, ['expiration' => $this->queueExpiration])
             );
 
             return true;
