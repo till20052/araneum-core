@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 /**
  * Class DaemonCheckerCommand
@@ -49,7 +50,7 @@ class DaemonCheckerCommand extends DaemonizedCommand
             ->getManager();
         $daemonInterval = strtotime($daemonInterval) - time();
         if (empty($daemonInterval) || $daemonInterval < 0) {
-            throw new InvalidFormException('Interval daemon incorrect format (use: year, month, week, day, hours, minutes, seconds).');
+            throw new InvalidParameterException('Interval daemon incorrect format (use: year, month, week, day, hours, minutes, seconds).');
         }
 
         foreach (self::$COMMANDS as $command => $repository) {
