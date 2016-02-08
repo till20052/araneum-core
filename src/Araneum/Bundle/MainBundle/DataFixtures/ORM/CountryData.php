@@ -45,7 +45,7 @@ class LoadCountryData extends AbstractFixture implements DependentFixtureInterfa
      */
     public function load(ObjectManager $manager)
     {
-        $application = $this->getReference('application');
+        $application = $manager->getRepository('AraneumMainBundle:Application')->findOneByName('Ultratrade');
         if (!empty($application)) {
             $data = $this->container->get('araneum.base.spot_api')->get(
                 [
