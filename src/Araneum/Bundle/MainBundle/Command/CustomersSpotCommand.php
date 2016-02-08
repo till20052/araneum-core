@@ -23,7 +23,7 @@ class CustomersSpotCommand extends DaemonizedCommand
      * Configures command.
      */
     protected function configureDaemonCommand()
-    {   
+    {
         $this
             ->setName('araneum:spot:customers')
             ->setDescription('get Customers.')

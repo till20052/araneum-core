@@ -26,10 +26,10 @@ class ApplicationApiSenderService extends AbstractApiSender
         $url = $helper['url'];
         $id = $helper['customerId'];
         $this->guzzle->setBaseUrl($url);
-        $log['response'] = $requestData;
         $response = $this->guzzle->post(null, null, $requestData)->send();
         $array = $response->getBody();
-        $this->updateCustomerSiteId($id,$array['id']);
+        $this->updateCustomerSiteId($id, $array['id']);
+
         return $response;
     }
 

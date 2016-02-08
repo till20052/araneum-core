@@ -71,23 +71,6 @@ class SpotApiSenderService extends AbstractApiSender
     }
 
     /**
-     * Validate spot credential
-     *
-     * @param array $spotCredential
-     * @return bool
-     */
-    private function isSpotCredentialValid($spotCredential)
-    {
-        return
-            array_key_exists('url', $spotCredential) &&
-            array_key_exists('userName', $spotCredential) &&
-            array_key_exists('password', $spotCredential) &&
-            filter_var($spotCredential['url'], FILTER_VALIDATE_URL) &&
-            $spotCredential['userName'] !== null &&
-            $spotCredential['password'] !== null;
-    }
-
-    /**
      * @param array $requestData
      * @param array $spotCredential
      * @return bool
@@ -108,7 +91,24 @@ class SpotApiSenderService extends AbstractApiSender
             ],
             $requestData
         );
-        $log['response'] = $body;
+
         return $this->guzzle->post(null, null, $body)->send();
+    }
+
+    /**
+     * Validate spot credential
+     *
+     * @param array $spotCredential
+     * @return bool
+     */
+    private function isSpotCredentialValid($spotCredential)
+    {
+        return
+            array_key_exists('url', $spotCredential) &&
+            array_key_exists('userName', $spotCredential) &&
+            array_key_exists('password', $spotCredential) &&
+            filter_var($spotCredential['url'], FILTER_VALIDATE_URL) &&
+            $spotCredential['userName'] !== null &&
+            $spotCredential['password'] !== null;
     }
 }

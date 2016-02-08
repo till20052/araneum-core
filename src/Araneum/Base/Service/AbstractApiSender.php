@@ -9,6 +9,11 @@ use Guzzle\Http\Exception\RequestException;
 use Guzzle\Http\Exception\CurlException;
 use Araneum\Bundle\AgentBundle\Entity\SenderLog;
 
+/**
+ * Abstract class AbstractApiSender
+ *
+ * @package Araneum\Base\Service
+ */
 abstract class AbstractApiSender
 {
     /**
@@ -41,11 +46,10 @@ abstract class AbstractApiSender
      * @param array $credential
      * @return \Guzzle\Http\Message\Response
      */
-
     public function send(array $data, array $credential)
     {
         $log = array('request' => $data);
-        try{
+        try {
             $response = $this->prepareToSend($data, $credential);
             if (!empty($response)) {
                 $log['response'] = $response->getBody(true);
@@ -124,6 +128,13 @@ abstract class AbstractApiSender
     }
 
     /**
+     * @param array $data
+     * @param array $credential
+     * @return Response $response
+     */
+    abstract public function prepareToSend($data, $credential);
+
+    /**
      * Create and save spot log
      *
      * @param array  $log
@@ -148,11 +159,4 @@ abstract class AbstractApiSender
         $this->em->persist($entityLog);
         $this->em->flush();
     }
-
-    /**
-     * @param array     $data
-     * @param array     $credential
-     * @return Response $response
-     */
-    abstract public function prepareToSend($data, $credential);
 }
