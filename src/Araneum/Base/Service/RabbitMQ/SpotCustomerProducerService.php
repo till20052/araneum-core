@@ -56,7 +56,7 @@ class SpotCustomerProducerService
         $msgBody,
         Customer $customer,
         $logAction,
-        $routingKey = 'sendToSpot',
+        $routingKey = '',
         $additionalProperties = []
     ) {
         $application = $customer->getApplication();
