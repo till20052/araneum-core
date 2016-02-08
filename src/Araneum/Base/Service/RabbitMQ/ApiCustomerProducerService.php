@@ -55,7 +55,7 @@ class ApiCustomerProducerService
         $additionalProperties = []
     ) {
         $msg = $this->getStdClass();
-        $msg->data = $msgBody['data'];
+        $msg->data = $msgBody['customerData'];
         $msg->url = $msgBody['url'];
         $msg->customerId = $msgBody['customerId'];
         try {

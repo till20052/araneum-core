@@ -59,7 +59,7 @@ class ApplicationService
     public function createCustomer($customer, $application)
     {
         $data = [
-            'customer' => $this->getCustomerData($customer),
+            'customerData' => $this->getCustomerData($customer),
             'url' => $application->getDomain().'/api/user/createUser',
             'customerId' => $customer->getId(),
         ];
