@@ -3,11 +3,8 @@
 namespace Araneum\Bundle\AgentBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
-use Araneum\Bundle\AgentBundle\Entity\CountryTranslation;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -37,7 +34,6 @@ class Country
     protected $name;
 
     /**
-     * @Gedmo\Translatable
      * @ORM\Column(type="string", name="title", length=100)
      * @Assert\Length(min=3, max=100)
      */
