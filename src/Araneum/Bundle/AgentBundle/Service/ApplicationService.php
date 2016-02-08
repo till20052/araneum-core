@@ -14,7 +14,7 @@ use Symfony\Component\Security\Acl\Exception\Exception;
  *
  * @package Araneum\Bundle\AgentBundle\Service
  */
-class ApplicationOptionService
+class ApplicationService
 {
 
     /**
@@ -52,30 +52,18 @@ class ApplicationOptionService
     /**
      * Send customers to application by url
      *
-     * @param  array       $customers
+     * @param  Customer    $customer
      * @param  Application $application
-     * @param  string      $url
      * @return \Guzzle\Http\Message\Response
      */
-    public function sendCustomersToApplication($customers, $application, $url)
+    public function createCustomer($customer, $application)
     {
-        try {
-            $data = [];
-            foreach ($customers as $customer) {
-                $id = $customer->getId();
-                $data[] = $this->getCustomerData($customer);
-                $application = [
-                    'id' => $application->getId(),
-                    'url' => $application->getDomain().$url,
-                ];
-                $this->apiCustomerProducerService->publish($id, $data, $application);
-            }
-
-            return true;
-        } catch (Exception $e) {
-
-            return $e->getMessage();
-        }
+        $data = [
+            'customer' => $this->getCustomerData($customer),
+            'url' => $application->getDomain().'/api/user/createUser',
+            'customerId' => $customer->getId(),
+        ];
+        $this->apiCustomerProducerService->publish($data);
     }
 
     /**

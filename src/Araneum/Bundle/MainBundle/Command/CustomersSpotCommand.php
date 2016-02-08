@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Command\Spot;
+namespace Araneum\Bundle\MainBundle\Command;
 
 use MikSoftware\DaemonBundle\Commnad\DaemonizedCommand;
 use Symfony\Component\Console\Input\InputOption;
@@ -23,7 +23,7 @@ class CustomersSpotCommand extends DaemonizedCommand
      * Configures command.
      */
     protected function configureDaemonCommand()
-    {
+    {   
         $this
             ->setName('araneum:spot:customers')
             ->setDescription('get Customers.')

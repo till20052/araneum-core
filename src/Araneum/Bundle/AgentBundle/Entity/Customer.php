@@ -92,13 +92,6 @@ class Customer
     private $phone;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="exist_on_site", type="boolean", nullable=true)
-     */
-    private $existOnSite;
-
-    /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      * @Assert\Length(max=10)
@@ -145,7 +138,7 @@ class Customer
 
     /**
      * @var integer
-     * @ORM\Column(type="integer", name="site_id")
+     * @ORM\Column(type="integer", name="site_id", nullable=true)
      * @Assert\Type(type="integer")
      * @Groups({"rabbitMQ"})
      */
@@ -159,29 +152,6 @@ class Customer
     public function setSiteId($siteId)
     {
         $this->siteId = $siteId;
-
-        return $this;
-    }
-
-    /**
-     * Is existOnSite
-     *
-     * @return boolean
-     */
-    public function isExistOnSite()
-    {
-        return $this->existOnSite;
-    }
-
-    /**
-     * Set existOnSite
-     *
-     * @param boolean $existOnSite
-     * @return Customer
-     */
-    public function setExistOnSite($existOnSite)
-    {
-        $this->existOnSite = $existOnSite;
 
         return $this;
     }

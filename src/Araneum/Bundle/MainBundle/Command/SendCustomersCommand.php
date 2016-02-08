@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Command\Applications;
+namespace Araneum\Bundle\MainBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -39,7 +39,7 @@ class SendCustomersCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $optionService = $this->getContainer()->get('araneum.api.application.option.service');
+        $optionService = $this->getContainer()->get('araneum.api.application.service');
         $em = $this->getContainer()->get('doctrine')->getManager();
         $applications = $em->getRepository('AraneumMainBundle:Application')->findAll();
         foreach ($applications as $application) {
@@ -47,14 +47,12 @@ class SendCustomersCommand extends ContainerAwareCommand
                 ['existOnSite' => false, 'application' => $application]
             );
             $output->writeln(count($customers));
-
-            $answer = $optionService->sendCustomersToApplication(
-                $customers,
-                $application,
-                '/api/user/createUser'
-            );
-
-            $output->writeln($answer);
+            foreach ($customers as $customer) {
+                $optionService->createCustomer(
+                    $customer,
+                    $application
+                );
+            }
         }
         $output->writeln('Finishing Command');
     }

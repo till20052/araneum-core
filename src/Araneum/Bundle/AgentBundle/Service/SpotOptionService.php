@@ -11,7 +11,6 @@ use Araneum\Bundle\AgentBundle\Entity\Lead;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Base\Service\Spot\SpotApiSenderService;
 use Doctrine\ORM\EntityManager;
-use fixtures\App;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
