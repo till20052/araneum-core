@@ -5,15 +5,20 @@
         .module('crud')
         .controller('CRUDActionsController', CRUDActionsController);
 
-    CRUDActionsController.$inject = ['$scope', 'ngDialog'];
+    CRUDActionsController.$inject = ['ngDialog'];
 
-    function CRUDActionsController($scope, ngDialog) {
+    function CRUDActionsController(ngDialog) {
         var vm = this,
             actions = {
                 create: create
             };
 
         vm.click = click;
+        vm.defineAction = defineAction;
+
+        function defineAction(event) {
+            console.log(event.target);
+        }
 
         /**
          * Open new ngDialod with editable form
@@ -56,6 +61,18 @@
                     source: options.form
                 }
             });
+        }
+
+        function update() {
+
+        }
+
+        function setState() {
+
+        }
+
+        function remove() {
+
         }
     }
 

@@ -5,60 +5,28 @@
         .module('crud')
         .controller('CRUDDataTableController', CRUDDataTableController);
 
-    CRUDDataTableController.$inject = ['CRUDConfigLoader', 'CRUDDataHandler', '$state'];
+    CRUDDataTableController.$inject = ['$scope', '$state', '$compile', 'CRUDSupervisor'];
 
     /**
      * CRUD DataTable Controller
      *
      * @constructor
      */
-    function CRUDDataTableController(CRUDConfigLoader, CRUDDataHandler, $state) {
+    function CRUDDataTableController($scope, $state, $compile, supervisor) {
         /* jshint validthis: true */
-        var vm = this;
+        var dt = this,
+            controls = [
+                '<crud-dropdown />',
+                '<crud-checkbox />'
+            ];
 
-        vm.isInitialized = false;
-
-        /**
-         * @type {{
-         *      instance: {
-         *          dataTable: object
-         *      },
-         *      options: {
-         *          processing: boolean,
-         *          serverSide: boolean,
-         *          sPaginationType: string,
-         *          fnServerData: getServerData
-         *      },
-         *      columns: Array
-         * }}
-         */
-        vm.datatable = {
-            instance: {},
-            options: {
-                processing: true,
-                serverSide: true,
-                sPaginationType: 'full_numbers',
-                fnServerData: getServerData
-            },
-            columns: []
+        dt.instance = {};
+        dt.options = {
+            processing: true,
+            serverSide: true,
+            sPaginationType: 'full_numbers',
+            fnServerData: getServerData
         };
-
-        vm.onDatatableClick = onDatatableClick;
-
-        activate();
-
-        /**
-         * Activation
-         */
-        function activate() {
-            CRUDConfigLoader.load({
-                onSuccess: function (data) {
-                    vm.isInitialized = true;
-                    vm.datatable.columns = data.grid.columns;
-                    vm.datatable.options.sAjaxSource = data.grid.source;
-                }
-            });
-        }
 
         /**
          * Get data for datatable from server
@@ -75,7 +43,9 @@
                 url: source,
                 data: data,
                 success: function (r) {
-                    onGetServerDataSuccess(r, callback);
+                    callback(prepareData(r));
+                    compileControls($('>tbody>tr>td>*', dt.instance.dataTable).toArray());
+                    supervisor.setDataTable(dt.instance);
                 },
                 error: function (r) {
                     if (r.status === 401) {
@@ -85,50 +55,19 @@
             });
         }
 
-        /**
-         * Response transformer. Invokes in case if data,
-         * which getting from server, received successfully
-         *
-         * @param {{
-         *  aaData: Array,
-         *  iTotalDisplayRecords: Number,
-         *  iTotalRecords: Number
-         * }} response
-         * @param {Function} callback
-         */
-        function onGetServerDataSuccess(response, callback) {
-            response.aaData.forEach(function (row, i) {
-                this[i] = row
-                    .splice(0, row.length - 1)
-                    .concat([
-                        '<crud-ui type="actions" view="menu" />',
-                        '<crud-ui type="checkbox" />'
-                    ]);
-            }, response.aaData);
-            callback(response);
+        function prepareData(data) {
+            return angular.extend(data, {
+                aaData: $.map(data.aaData, function (cols) {
+                    return [cols.splice(0, cols.length - 1).concat(controls)];
+                })
+            });
         }
 
-        /**
-         * Event handler on click.
-         */
-        function onDatatableClick(event) {
-            /* jshint eqeqeq: false */
-            var ui = $(event.target);
-
-            if (['A', 'INPUT'].indexOf(ui.prop('tagName')) === -1) {
-                return;
-            }
-
-            if (
-                ui.prop('tagName') == 'A' &&
-                ui.data('crud-action') !== undefined
-            ) {
-                CRUDDataHandler
-                    .datatable(vm.datatable.instance.dataTable)
-                    .invokeAction(ui.data('crud-action'), ui.parents('tr').eq(0));
-            }
-
-            //vm.datatable.instance.dataTable.fnUpdate('<span style="color: red">Changed...</span>', $(event.target).parents('tr').eq(0), 1, false);
+        function compileControls(controls) {
+            controls.forEach(function (control) {
+                if ($(control).prop('tagName').toString().match(/^crud\-.*$/ig))
+                    $compile(control)($scope);
+            });
         }
     }
 

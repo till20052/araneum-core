@@ -1,19 +1,17 @@
 <h3>
-    <em class="{{icon}} mr"></em>
-    <span translate="{{title}}"></span>
+    <em class="{{ icon }} mr"></em>
+    <span translate="{{ title }}"></span>
 </h3>
 
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">
             <em class="fa fa-filter mr-sm"></em>
-            <span translate="admin.general.FILTERS">Filters</span>
+            {{ 'admin.general.FILTERS' | translate }}
         </h3>
     </div>
     <div class="panel-body">
-
         <crud-form data="form.filter.data" options="form.filter.options"></crud-form>
-
     </div>
 </div>
 
@@ -27,43 +25,17 @@
                 </h3>
             </div>
             <div class="col-xs-6">
-
                 <crud-toolbar options="{ pull: 'right' }" ></crud-toolbar>
-
             </div>
         </div>
         <hr class="mt mb0"/>
     </div>
     <div class="panel-body">
-
         <crud-datatable></crud-datatable>
-
     </div>
 </div>
 
 <toaster-container toaster-options="{'position-class': 'toast-bottom-right'}"></toaster-container>
-
-<script type="text/ng-template" id="crud/datatable.html">
-    <div>
-        <table
-                class="table-bordered table-striped hover"
-                cellspacing="0"
-                ng-if="vm.isInitialized"
-                datatable="crud-datatable"
-                dt-instance="vm.datatable.instance"
-                dt-options="vm.datatable.options">
-            <thead>
-            <tr>
-                <th ng-repeat="column in vm.datatable.columns" class="bt0 bl0" translate="{{ column }}"></th>
-                <th data-sortable="false" class="bt0 bl0" width="1"></th>
-                <th data-sortable="false" class="bt0 bl0 p text-center" width="1">
-                    <crud-ui type="checkbox"></crud-ui>
-                </th>
-            </tr>
-            </thead>
-        </table>
-    </div>
-</script>
 
 <script type="text/ng-template" id="crud/dialog.html">
 

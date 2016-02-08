@@ -1,0 +1,72 @@
+(function () {
+    'use strict';
+
+    angular
+        .module('crud')
+        .directive('crudDropdown', CRUDDropdownDirective);
+
+    CRUDDropdownDirective.$inject = ['$compile', 'CRUDConfigLoader'];
+
+    function CRUDDropdownDirective($compile, CRUDConfigLoader) {
+        return {
+            link: link,
+            restrict: 'E'
+        };
+
+        function link(scope, element) {
+            CRUDConfigLoader.load({
+                onSuccess: function (data) {
+                    element.replaceWith($compile(createDropdown(data.action.row))(scope));
+                }
+            });
+        }
+
+        function createDropdown(list) {
+            return $('<div class="btn-group" />')
+                .attr('uib-dropdown', '')
+                .append(
+                    $('<button class="btn btn-xs btn-default dropdown-toggle" />')
+                        .attr({
+                            type: 'button',
+                            'uib-dropdown-toggle': ''
+                        })
+                        .append($('<em class="icon-settings" />'))
+                        .click(function (e) {
+                            $(this).blur();
+                            e.stopPropagation();
+                        }),
+                    createDropdownMenu(list)
+                );
+        }
+
+        function createDropdownMenu(list) {
+            var groups = Object.keys(list);
+            return $('<ul class="dropdown-menu-right" />')
+                .attr({
+                    role: 'menu',
+                    'uib-dropdown-menu': ''
+                })
+                .append($.map(list, function (list, groupKey) {
+                    var container = [];
+
+                    if (groups.indexOf(groupKey) !== 0)
+                        container.push($('<li class="divider" />'));
+
+                    list.forEach(function (item) {
+                        container.push($('<li role="menuitem" />')
+                            .append(
+                                $('<a href="javascript:void(0);" />')
+                                    .data('crud', item)
+                                    .html('{{ "' + item.display.label + '" | translate }}')
+                                    .prepend(
+                                        $('<em class="mr" />').addClass(item.display.icon)
+                                    )
+                            ));
+                    });
+
+                    return container;
+                }));
+        }
+    }
+
+})();
