@@ -32,19 +32,6 @@ class StatisticsService
      */
     private $hours;
 
-    const COLORS = [
-        '#5d9cec',
-        '#27c24c',
-        '#23b7e5',
-        '#ff902b',
-        '#f05050',
-        '#37bc9b',
-        '#f532e5',
-        '#7266ba',
-        '#fad732',
-        '#dde6e9',
-    ];
-
     /**
      * StatisticsService constructor.
      *
@@ -164,19 +151,16 @@ class StatisticsService
 
         $success = [
             'label' => 'Success',
-            'color' => '#27c24c',
             'data' => [],
         ];
 
         $problem = [
             'label' => 'Problem',
-            'color' => '#ff902b',
             'data' => [],
         ];
 
         $offline = [
             'label' => 'Offline',
-            'color' => '#f05050',
             'data' => [],
         ];
 
@@ -256,6 +240,23 @@ class StatisticsService
         ];
     }
 
+
+    /**
+     * Get received Errors from all Applications in last 24 hours
+     *
+     * @return array
+     */
+    public function get()
+    {
+        /** @var ErrorRepository $repository */
+        $repository = $this->entityManager->getRepository('AraneumAgentBundle:Error');
+
+        return [
+            'count' => $repository->countErrorsByTimeInterval(),
+            'data' => $repository->getReceivedErrorsFromAppsInLast24H(),
+        ];
+    }
+
     /**
      * Get received Errors from all Applications in last 24 hours
      *
@@ -323,7 +324,6 @@ class StatisticsService
             if (!isset($data[$item['name']])) {
                 $data[$item['name']] = [
                     'label' => $item['name'],
-                    'color' => $this->getColor(),
                     'data' => $this->hours,
                 ];
             }
@@ -373,7 +373,9 @@ class StatisticsService
     /**
      * Get errors by Application by hour
      *
-     * @param  array $pack
+     * @param  array  $pack
+     * @param  string $status
+     * @param  string $period
      * @return array
      */
     private function getStatusesByPeriod(array $pack, $status, $period = 'hours')
@@ -425,22 +427,6 @@ class StatisticsService
         }
 
         return $times;
-    }
-
-    /**
-     * Get color
-     *
-     * @return mixed
-     */
-    private function getColor()
-    {
-        static $index = -1;
-
-        if ($index + 1 >= count($this::COLORS)) {
-            $index = -1;
-        }
-
-        return $this::COLORS[++$index];
     }
 
     /**
