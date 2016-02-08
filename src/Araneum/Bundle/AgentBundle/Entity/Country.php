@@ -17,7 +17,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="araneum_agent_countries")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\AgentBundle\Repository\CountryRepository")
  * @UniqueEntity(fields="name")
- * @Gedmo\TranslationEntity(class="Araneum\Bundle\AgentBundle\Entity\CountryTranslation")
  * @package Araneum\Bundle\AgentBundle\Entity
  */
 class Country
@@ -60,21 +59,11 @@ class Country
     protected $spotId;
 
     /**
-     * @ORM\OneToMany(
-     *   targetEntity="Araneum\Bundle\AgentBundle\Entity\CountryTranslation",
-     *   mappedBy="object",
-     *   cascade={"persist", "remove"}
-     * )
-     */
-    protected $translations;
-
-    /**
      * Country constructor.
      */
     public function __construct()
     {
         $this->enabled = true;
-        $this->translations = new ArrayCollection();
     }
 
     /**
@@ -200,27 +189,6 @@ class Country
         $this->spotId = $spotId;
 
         return $this;
-    }
-
-    /**
-     * Get countries translation
-     *
-     * @return mixed
-     */
-    public function getTranslations()
-    {
-        return $this->translations;
-    }
-
-    /**
-     * Set translation for country
-     *
-     * @param CountryTranslation $translation
-     */
-    public function addTranslation(CountryTranslation $translation)
-    {
-        $this->translations[] = $translation;
-        $translation->setObject($this);
     }
 
     /**

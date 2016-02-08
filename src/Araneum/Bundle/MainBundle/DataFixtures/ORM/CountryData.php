@@ -3,8 +3,11 @@
 namespace Araneum\Bundle\MainBundle\DataFixtures\ORM;
 
 use Araneum\Bundle\AgentBundle\Entity\Country;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Knp\RadBundle\DataFixtures\AbstractFixture;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use RuntimeException;
 
 /**
@@ -12,8 +15,18 @@ use RuntimeException;
  *
  * @package Araneum\Bundle\UserBundle\DataFixtures\ORM
  */
-class LoadCountryData extends AbstractFixture
+class LoadCountryData extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
+    private $container;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -32,9 +45,7 @@ class LoadCountryData extends AbstractFixture
      */
     public function load(ObjectManager $manager)
     {
-        $application = $manager
-            ->getRepository('AraneumMainBundle:Application')
-            ->findOneByName('Ultratrade');
+        $application = $this->getReference('application');
         if (!empty($application)) {
             $data = $this->container->get('araneum.base.spot_api')->get(
                 [
