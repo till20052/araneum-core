@@ -5,6 +5,7 @@ namespace Araneum\Bundle\AgentBundle\Service;
 use Araneum\Bundle\AgentBundle\Entity\ApplicationLog;
 use Araneum\Bundle\AgentBundle\Entity\ClusterLog;
 use Araneum\Bundle\AgentBundle\Entity\ConnectionLog;
+use Araneum\Bundle\AgentBundle\Entity\RunnerLog;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
 use Araneum\Bundle\MainBundle\Entity\Runner;
@@ -85,6 +86,24 @@ class AgentLoggerService
             ->setApplication($application)
             ->setStatus($status)
             ->setProblems($problems); //possible use addProblem instead of set
+
+        $this->entityManager->persist($log);
+        $this->entityManager->flush();
+    }
+
+    /**
+     * Log Runner
+     *
+     * @param Runner  $runner
+     * @param Cluster $cluster
+     * @param integer $status
+     */
+    public function logRunner(Runner $runner, Cluster $cluster, $status)
+    {
+        $log = (new RunnerLog())
+            ->setRunner($runner)
+            ->setCluster($cluster)
+            ->setStatus($status);
 
         $this->entityManager->persist($log);
         $this->entityManager->flush();

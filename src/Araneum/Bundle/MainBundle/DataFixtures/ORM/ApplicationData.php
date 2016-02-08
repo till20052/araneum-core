@@ -3,10 +3,10 @@
 namespace Araneum\Bundle\MainBundle\DataFixtures\ORM;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\FixtureInterface;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
@@ -20,6 +20,30 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
+    {
+        $this->setDefault($manager);
+        $this->setIxoption($manager);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDependencies()
+    {
+        return [
+            'Araneum\Bundle\MainBundle\DataFixtures\ORM\LocaleData',
+            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ConnectionData',
+            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ClusterData',
+            'Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData',
+            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ComponentData',
+        ];
+    }
+
+    /**
+     * Default load Application fixture
+     * @param ObjectManager $manager
+     */
+    private function setDefault(ObjectManager $manager)
     {
         $app = $manager
             ->getRepository('AraneumMainBundle:Application')
@@ -50,16 +74,35 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
     }
 
     /**
-     * {@inheritDoc}
+     * set Ixoption add fixture
+     * @param ObjectManager $manager
      */
-    public function getDependencies()
+    private function setIxoption(ObjectManager $manager)
     {
-        return [
-            'Araneum\Bundle\MainBundle\DataFixtures\ORM\LocaleData',
-            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ConnectionData',
-            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ClusterData',
-            'Araneum\Bundle\UserBundle\DataFixtures\ORM\UserData',
-            'Araneum\Bundle\MainBundle\DataFixtures\ORM\ComponentData',
-        ];
+        $app = $manager
+            ->getRepository('AraneumMainBundle:Application')
+            ->findOneByName('ixoption');
+
+        if (empty($app)) {
+            $app = new Application();
+            $app->setName('ixoption');
+            $app->setDomain('ixoption.office.dev');
+            $app->setPublic(true);
+            $app->setEnabled(true);
+            $app->setStatus(Application::STATUS_OK);
+            $app->setTemplate('DefaultTemplate');
+            $app->setCluster($this->getReference('cluster'));
+            $app->setDb($this->getReference('connectionDb'));
+            $app->setLocales(new ArrayCollection([$this->getReference('locale')]));
+            $app->setOwner($this->getReference('userAdmin'));
+            $app->setSpotApiPublicUrl('https://spotplatform.ixoption.com');
+            $app->setAppKey('cb678b70df4d0e2ad5b7eb8688a7df186cc49cf056af25ff047a91.81106394');
+            $app->setSpotApiUrl('http://api-spotplatform.ixoption.com/Api');
+            $app->setSpotApiUser('araneum');
+            $app->setSpotApiPassword('wU7tc2YKg2');
+            $manager->persist($app);
+            $manager->flush();
+        }
+        $this->addReference('appIxoption', $app);
     }
 }

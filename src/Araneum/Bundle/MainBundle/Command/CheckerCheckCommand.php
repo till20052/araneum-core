@@ -5,6 +5,7 @@ namespace Araneum\Bundle\MainBundle\Command;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
 use Araneum\Bundle\MainBundle\Entity\Connection;
+use Araneum\Bundle\MainBundle\Entity\Runner;
 use Araneum\Bundle\MainBundle\Service\ApplicationCheckerService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\FormatterHelper;
@@ -70,6 +71,7 @@ class CheckerCheckCommand extends ContainerAwareCommand
             'connection',
             'cluster',
             'application',
+            'runner',
         ];
 
         $target = strtolower($input->getArgument('target'));
@@ -109,6 +111,8 @@ class CheckerCheckCommand extends ContainerAwareCommand
             $this->checkCluster($targetId);
         } elseif ($target == 'application') {
             $this->checkApplication($targetId);
+        } elseif ($target == 'runner') {
+            $this->checkRunner($targetId);
         }
     }
 
@@ -147,6 +151,24 @@ class CheckerCheckCommand extends ContainerAwareCommand
     private function showInfo($message)
     {
         $this->output->writeln($this->getFormatBlock($message, 'info'));
+    }
+
+    /**
+     * Check Runner status state
+     *
+     * @param $id
+     */
+    private function checkRunner($id)
+    {
+        $status = $this->checker->checkRunner($id);
+
+        $this->showInfo(
+            sprintf(
+                "Runner\n ID: %d\n Status: %s",
+                $id,
+                Runner::getStatusDescription($status)
+            )
+        );
     }
 
     /**
