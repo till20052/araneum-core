@@ -15,7 +15,7 @@ use RuntimeException;
  *
  * @package Araneum\Bundle\UserBundle\DataFixtures\ORM
  */
-class LoadCountryData extends AbstractFixture
+class LoadCountryData extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
     private $container;
 
