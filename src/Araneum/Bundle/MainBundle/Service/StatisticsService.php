@@ -196,6 +196,68 @@ class StatisticsService
     }
 
     /**
+     * Prepare result for cluster Up time
+     * @param array $data
+     * @param array $statuses
+     * @return array
+     */
+    public function prepareResultForUpTime($data, $statuses)
+    {
+        $result = [];
+        foreach ($data as $value) {
+            foreach ($statuses as $status) {
+                array_push($result[$status],  $value[$status]);
+            }
+        }
+        return $result;
+
+        $success = [
+            'label' => 'Success',
+            'data' => [],
+        ];
+
+        $problem = [
+            'label' => 'Problem',
+            'data' => [],
+        ];
+
+        $offline = [
+            'label' => 'Offline',
+            'data' => [],
+        ];
+
+        foreach ($clusterUpTime as $array) {
+            array_push(
+                $problem['data'],
+                [
+                    $array['name'],
+                    $array['problem'],
+                ]
+            );
+            array_push(
+                $offline['data'],
+                [
+                    $array['name'],
+                    $array['offline'],
+                ]
+            );
+            array_push(
+                $success['data'],
+                [
+                    $array['name'],
+                    $array['success'],
+                ]
+            );
+        }
+
+        return [
+            $success,
+            $problem,
+            $offline,
+        ];
+    }
+
+    /**
      * Get Summary statistics
      *
      * @return array
@@ -246,15 +308,9 @@ class StatisticsService
      *
      * @return array
      */
-    public function get()
+    public function getResultsForRunnersUpTime()
     {
-        /** @var ErrorRepository $repository */
-        $repository = $this->entityManager->getRepository('AraneumAgentBundle:Error');
-
-        return [
-            'count' => $repository->countErrorsByTimeInterval(),
-            'data' => $repository->getReceivedErrorsFromAppsInLast24H(),
-        ];
+       return $this->getRunnerRepository()->getRunnersUpTime();
     }
 
     /**
