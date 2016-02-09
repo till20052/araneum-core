@@ -58,6 +58,6 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
                 });
             }
         }
-            $this->output->writeln('All daemons successfully checked and sated up');
+        $this->output->writeln('All daemons successfully checked and sated up');
     }
 }
