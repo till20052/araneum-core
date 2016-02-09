@@ -26,11 +26,11 @@ abstract class AbstractBaseDaemon extends DaemonizedCommand
     protected function status()
     {
         if ($this->getDaemon()->isRunning()) {
-            $this->getOutput()->writeln('Daemon '.$this->getName().' right now is running');
+            $this->getOutput()->write('Daemon is setting up');
 
             return true;
         }
-        $this->getOutput()->writeln('Daemon '.$this->getName().' doesn\'t work');
+        $this->getOutput()->write('Daemon doesn\'t work');
 
         return false;
     }

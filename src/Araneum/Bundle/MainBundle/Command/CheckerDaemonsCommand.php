@@ -3,9 +3,6 @@
 namespace Araneum\Bundle\MainBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Helper\FormatterHelper;
-use Symfony\Component\Console\Helper\ProcessHelper;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
@@ -48,24 +45,18 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
         foreach (array_keys($configDaemonsArray) as $name) {
             array_push($daemonsArray, preg_replace('/_/', ':', $name));
         }
-
         $startDaemons = '';
         foreach ($daemonsArray as $index => $daemon) {
             if (!in_array($daemon, self::BROKEN_DAEMONS)) {
                 $process = new Process('app/console '.$daemon.' status');
-                if (!$process->isRunning()) {
-                    $process->run(function ($err, $data) use (&$startDaemons, &$daemon, &$index) {
-                        if (Process::ERR === $err) {
-                            $this->output->writeln('Cannot get daemon status: '.$daemon);
-                        } elseif ($data != 'true') {
-                            if ($index != 0) {
-                                $startDaemons .= ' && app/console '.$daemon.' start';
-                            } else {
-                                $startDaemons .= 'app/console '.$daemon.' start';
-                            }
-                        }
-                    });
-                }
+                $process->run(function ($err, $data) use (&$startDaemons, &$daemon, &$index) {
+                    if (Process::ERR === $err) {
+                        $this->output->writeln('Cannot get daemon status: '.$daemon);
+                    } elseif ($data != 'Daemon is setting up') {
+                        (new Process('app/console '.$daemon.' start'))->run();
+                        $this->output->writeln($daemon.' was broken, but starts to work now');
+                    }
+                });
             }
         }
 
@@ -73,13 +64,13 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
             $allDaemonsProcess = new Process($startDaemons);
             $allDaemonsProcess->run(function ($err) {
                 if (Process::ERR === $err) {
-                    die('Cannot start daemons');
+                    $this->output->writeln('Cannot start daemons');
                 } else {
-                    die('Some daemons were broken out, but successfully restarted');
+                    $this->output->writeln('Some daemons were broken out, but successfully restarted');
                 }
             });
         } else {
-            die('All daemons successfully checked and sated up');
+            $this->output->writeln('All daemons successfully checked and sated up');
         }
     }
 }
