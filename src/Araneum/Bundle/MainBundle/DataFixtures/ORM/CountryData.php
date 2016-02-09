@@ -47,17 +47,15 @@ class LoadCountryData extends AbstractFixture implements DependentFixtureInterfa
     {
         $application = $this->getReference('application');
         if (!empty($application)) {
-            $data = $this->container->get('araneum.base.spot_api')->send(
+            $data = $this->container->get('araneum.base.spot_api')->get(
                 [
                     'MODULE' => 'Country',
                     'COMMAND' => 'view',
                 ],
                 $application->getSpotCredential()
-            )->getBody(true);
-            $data = json_decode($data, true);
+            );
             if (!empty($data)) {
-                $countries = $data['status']['Country'];
-                foreach ($countries as $countryData) {
+                foreach ($data as $countryData) {
                     $country = $manager->getRepository('AraneumAgentBundle:Country')->findOneBy(
                         ['name' => $countryData['iso']]
                     );
