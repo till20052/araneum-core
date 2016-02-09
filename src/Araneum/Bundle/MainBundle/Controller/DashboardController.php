@@ -35,8 +35,8 @@ class DashboardController extends Controller
         $result = [
             'statistics' => [
                 'applicationsState' => $service->getApplicationsStatistics(),
-                'daylyApplications' => $service->prepareResulForDaylyApplications(),
-                'daylyAverageStatuses' => $service->prepareResultForDaylyAverageStatuses(),
+                'daylyApplications' => $service->prepareResulForDailyApplications(),
+                'daylyAverageStatuses' => $service->prepareResultForDailyAverageStatuses(),
                 'clusterLoadAverage' => $service->prepareResultForClusterAverage(),
                 'clusterUpTime' => $service->prepareResultForClusterUpTime(),
                 'summary' => $service->getSummary(),

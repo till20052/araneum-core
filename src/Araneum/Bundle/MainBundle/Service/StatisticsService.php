@@ -11,7 +11,6 @@ use Araneum\Bundle\MainBundle\Repository\ApplicationRepository;
 use Araneum\Bundle\AgentBundle\Repository\ApplicationLogRepository;
 use Araneum\Bundle\MainBundle\Repository\ClusterRepository;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\Expr;
 use Araneum\Bundle\UserBundle\Entity\User;
 
@@ -40,7 +39,7 @@ class StatisticsService
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->hours = $this->createTimeRange(date('Y-m-d H:s', time() - 86400), date('Y-m-d H:s', time()), '1 hour');
+        $this->hours = $this->createTimeRange(date('Y-m-d H:s', time() - 86400), date('Y-m-d H:s', time()));
     }
 
     /**
@@ -67,19 +66,19 @@ class StatisticsService
      *
      * @return array
      */
-    public function getApplicationsStatusesDayly()
+    public function getApplicationsStatusesDaily()
     {
-        return $this->getApplicationRepository()->getApplicationStatusesDayly();
+        return $this->getApplicationRepository()->getApplicationStatusesDaily();
     }
 
     /**
-     * Get average statuses dayly
+     * Get average statuses Daily
      *
      * @return array
      */
-    public function getAverageApplicationStatusesDayly()
+    public function getAverageApplicationStatusesDaily()
     {
-        return $this->getApplicationLogRepository()->getAverageApplicationStatusesDayly();
+        return $this->getApplicationLogRepository()->getAverageApplicationStatusesDaily();
     }
 
     /**
@@ -95,38 +94,38 @@ class StatisticsService
     }
 
     /**
-     * Prepare data for dayly application statuses chart
+     * Prepare data for Daily application statuses chart
      *
      * @return array
      */
-    public function prepareResulForDaylyApplications()
+    public function prepareResulForDailyApplications()
     {
-        $statusesDayly = $this->getApplicationsStatusesDayly();
+        $statusesDaily = $this->getApplicationsStatusesDaily();
 
         return
             [
-                'applications' => $this->getResultByColumnName($statusesDayly, 'name'),
-                'errors' => $this->getResultByColumnName($statusesDayly, 'errors'),
-                'problems' => $this->getResultByColumnName($statusesDayly, 'problems'),
-                'success' => $this->getResultByColumnName($statusesDayly, 'success'),
-                'disabled' => $this->getResultByColumnName($statusesDayly, 'disabled'),
+                'applications' => $this->getResultByColumnName($statusesDaily, 'name'),
+                'errors' => $this->getResultByColumnName($statusesDaily, 'errors'),
+                'problems' => $this->getResultByColumnName($statusesDaily, 'problems'),
+                'success' => $this->getResultByColumnName($statusesDaily, 'success'),
+                'disabled' => $this->getResultByColumnName($statusesDaily, 'disabled'),
             ];
     }
 
     /**
-     * Prepare data for dayly application average chart
+     * Prepare data for Daily application average chart
      *
      * @return array
      */
-    public function prepareResultForDaylyAverageStatuses()
+    public function prepareResultForDailyAverageStatuses()
     {
-        $statusesDaylyAverage = $this->getAverageApplicationStatusesDayly();
+        $statusesDailyAverage = $this->getAverageApplicationStatusesDaily();
 
         return [
-            'success' => $this->getStatusesByPeriod($statusesDaylyAverage, 'success'),
-            'problems' => $this->getStatusesByPeriod($statusesDaylyAverage, 'problems'),
-            'errors' => $this->getStatusesByPeriod($statusesDaylyAverage, 'errors'),
-            'disabled' => $this->getStatusesByPeriod($statusesDaylyAverage, 'disabled'),
+            'success' => $this->getStatusesByPeriod($statusesDailyAverage, 'success'),
+            'problems' => $this->getStatusesByPeriod($statusesDailyAverage, 'problems'),
+            'errors' => $this->getStatusesByPeriod($statusesDailyAverage, 'errors'),
+            'disabled' => $this->getStatusesByPeriod($statusesDailyAverage, 'disabled'),
         ];
     }
 
