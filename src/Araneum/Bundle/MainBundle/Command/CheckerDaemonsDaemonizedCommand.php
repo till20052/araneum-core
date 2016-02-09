@@ -2,21 +2,14 @@
 
 namespace Araneum\Bundle\MainBundle\Command;
 
-use Araneum\Base\Command\BaseDaemon;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Helper\FormatterHelper;
-use Symfony\Component\Console\Helper\ProcessHelper;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
+use Araneum\Base\Command\AbstractBaseDaemon;
 
 /**
  * Class CheckerDaemonsCommand
  *
  * @package Araneum\Bundle\MainBundle\Command
  */
-class CheckerDaemonsDaemonizedCommand extends BaseDaemon
+class CheckerDaemonsDaemonizedCommand extends AbstractBaseDaemon
 {
     /**
      * Configures command.
@@ -25,7 +18,7 @@ class CheckerDaemonsDaemonizedCommand extends BaseDaemon
     {
         $this
             ->setName('daemon:check:daemons')
-            ->setDescription('Used for demonize. Queue for send Customer to Spot.')
+            ->setDescription('Daemonized command, using to check working all daemons in project.')
             ->setHelp('Usage <info>php app/console <name> start|stop|restart|status</info>');
     }
 

@@ -20,6 +20,7 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
     const BROKEN_DAEMONS = [
         'daemon:check:daemons',
     ];
+
     /**
      * Configure Command
      */
@@ -41,29 +42,33 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->output = $output;
         $configDaemonsArray = $this->getContainer()->getParameter('mik_software_daemon.daemons');
         $daemonsArray = array();
-        foreach ($configDaemonsArray as $name => $params) {
+        foreach (array_keys($configDaemonsArray) as $name) {
             array_push($daemonsArray, preg_replace('/_/', ':', $name));
         }
+
         $startDaemons = '';
-        foreach ($daemonsArray as $i => $daemon) {
+        foreach ($daemonsArray as $index => $daemon) {
             if (!in_array($daemon, self::BROKEN_DAEMONS)) {
                 $process = new Process('app/console '.$daemon.' status');
                 if (!$process->isRunning()) {
-                    $process->run(function ($err, $data) use (&$startDaemons, &$daemon, &$i) {
+                    $process->run(function ($err, $data) use (&$startDaemons, &$daemon, &$index) {
                         if (Process::ERR === $err) {
-                            die('Cannot get daemon status: '.$daemon);
+                            $this->output->writeln('Cannot get daemon status: '.$daemon);
                         } elseif ($data != 'true') {
-                            if ($i != 0) {
-                                $startDaemons .= ' && ';
+                            if ($index != 0) {
+                                $startDaemons .= ' && app/console '.$daemon.' start';
+                            } else {
+                                $startDaemons .= 'app/console '.$daemon.' start';
                             }
-                            $startDaemons .= 'app/console '.$daemon.' start';
                         }
                     });
                 }
             }
         }
+
         if (!empty($startDaemons)) {
             $allDaemonsProcess = new Process($startDaemons);
             $allDaemonsProcess->run(function ($err) {

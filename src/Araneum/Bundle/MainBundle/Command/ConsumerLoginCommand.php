@@ -2,14 +2,14 @@
 
 namespace Araneum\Bundle\MainBundle\Command;
 
-use Araneum\Base\Command\BaseDaemon;
+use Araneum\Base\Command\AbstractBaseDaemon;
 
 /**
  * Class DeploymentCommand
  *
  * @package Araneum\Bundle\MainBundle\Command
  */
-class ConsumerLoginCommand extends BaseDaemon
+class ConsumerLoginCommand extends AbstractBaseDaemon
 {
     /**
      * Configures command.

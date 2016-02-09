@@ -2,15 +2,14 @@
 
 namespace Araneum\Bundle\MainBundle\Command;
 
-use Araneum\Base\Command\BaseDaemon;
-use Symfony\Component\Routing\Exception\InvalidParameterException;
+use Araneum\Base\Command\AbstractBaseDaemon;
 
 /**
  * Class DaemonCheckerCommand
  *
  * @package Araneum\Bundle\MainBundle\Command
  */
-class DaemonCheckerCommand extends BaseDaemon
+class DaemonCheckerCommand extends AbstractBaseDaemon
 {
     protected static $COMMANDS = [
         'connection'    => 'AraneumMainBundle:Connection',

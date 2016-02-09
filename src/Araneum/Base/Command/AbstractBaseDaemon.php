@@ -7,7 +7,7 @@ use Symfony\Component\Routing\Exception\InvalidParameterException;
 /**
  * Demonized Symfony Base command using in project
  */
-Abstract class BaseDaemon extends DaemonizedCommand
+abstract class AbstractBaseDaemon extends DaemonizedCommand
 {
     const BASE_METHODS = ['status'];
 
@@ -26,11 +26,11 @@ Abstract class BaseDaemon extends DaemonizedCommand
     protected function status()
     {
         if ($this->getDaemon()->isRunning()) {
-            $this->getOutput()->writeln('true');
+            $this->getOutput()->writeln('Daemon '.$this->getName().' right now is running');
 
             return true;
         }
-        $this->getOutput()->writeln('false');
+        $this->getOutput()->writeln('Daemon '.$this->getName().' doesn\'t work');
 
         return false;
     }
