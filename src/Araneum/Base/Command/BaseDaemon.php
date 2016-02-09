@@ -4,7 +4,10 @@ namespace Araneum\Base\Command;
 use MikSoftware\DaemonBundle\Commnad\DaemonizedCommand;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
-abstract class BaseDaemon extends DaemonizedCommand
+/**
+ * Demonized Symfony Base command using in project
+ */
+Abstract class BaseDaemon extends DaemonizedCommand
 {
     const BASE_METHODS = ['status'];
 
@@ -27,8 +30,8 @@ abstract class BaseDaemon extends DaemonizedCommand
 
             return true;
         }
-
         $this->getOutput()->writeln('false');
+
         return false;
     }
 

@@ -33,6 +33,7 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
     /**
      * Execute command
      *
+     * @inheritdoc
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
@@ -41,20 +42,20 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $configDaemonsArray = $this->getContainer()->getParameter('mik_software_daemon.daemons');
-        $daemonsArray = [];
-        foreach ($configDaemonsArray as $name=>$params) {
+        $daemonsArray = array();
+        foreach ($configDaemonsArray as $name => $params) {
             array_push($daemonsArray, preg_replace('/_/', ':', $name));
         }
         $startDaemons = '';
-        foreach ($daemonsArray as $i=>$daemon) {
+        foreach ($daemonsArray as $i => $daemon) {
             if (!in_array($daemon, self::BROKEN_DAEMONS)) {
                 $process = new Process('app/console '.$daemon.' status');
                 if (!$process->isRunning()) {
-                    $process->run(function($err, $data) use (&$startDaemons, &$daemon, &$i){
+                    $process->run(function ($err, $data) use (&$startDaemons, &$daemon, &$i) {
                         if (Process::ERR === $err) {
                             die('Cannot get daemon status: '.$daemon);
-                        } elseif ($data != 'true'){
-                            if ($i != 0){
+                        } elseif ($data != 'true') {
+                            if ($i != 0) {
                                 $startDaemons .= ' && ';
                             }
                             $startDaemons .= 'app/console '.$daemon.' start';
@@ -65,7 +66,7 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
         }
         if (!empty($startDaemons)) {
             $allDaemonsProcess = new Process($startDaemons);
-            $allDaemonsProcess->run(function($err, $data){
+            $allDaemonsProcess->run(function ($err) {
                 if (Process::ERR === $err) {
                     die('Cannot start daemons');
                 } else {
