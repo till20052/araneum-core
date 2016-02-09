@@ -21,7 +21,7 @@
     function Auth($http, User, $state) {
 
         var _csrf_token;
-        var targetState = {name: 'app.users'};
+        var targetState = {name: 'app.dashboard'};
 
         return {
             initLoginForm: initLoginForm,
