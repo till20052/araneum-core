@@ -45,32 +45,19 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
         foreach (array_keys($configDaemonsArray) as $name) {
             array_push($daemonsArray, preg_replace('/_/', ':', $name));
         }
-        $startDaemons = '';
         foreach ($daemonsArray as $daemon) {
             if (!in_array($daemon, self::BROKEN_DAEMONS)) {
                 $process = new Process('app/console '.$daemon.' status');
-                $process->run(function ($err, $data) use (&$startDaemons, &$daemon) {
+                $process->run(function ($err, $data) use (&$daemon) {
                     if (Process::ERR === $err) {
                         $this->output->writeln('Cannot get daemon status: '.$daemon);
-                    } elseif ($data != 'Daemon is setting up') {
+                    } elseif ($data == 'Daemon doesn\'t work') {
                         (new Process('app/console '.$daemon.' start'))->run();
                         $this->output->writeln($daemon.' was broken, but starts to work now');
                     }
                 });
             }
         }
-
-        if (!empty($startDaemons)) {
-            $allDaemonsProcess = new Process($startDaemons);
-            $allDaemonsProcess->run(function ($err) {
-                if (Process::ERR === $err) {
-                    $this->output->writeln('Cannot start daemons');
-                } else {
-                    $this->output->writeln('Some daemons were broken out, but successfully restarted');
-                }
-            });
-        } else {
             $this->output->writeln('All daemons successfully checked and sated up');
-        }
     }
 }
