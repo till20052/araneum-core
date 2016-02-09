@@ -52,7 +52,11 @@ class LoadCountryData extends AbstractFixture implements DependentFixtureInterfa
                     'MODULE' => 'Country',
                     'COMMAND' => 'view',
                 ],
-                $application->getSpotCredential()
+                [
+                    'url' => 'http://api-spotplatform.ultratrade.com/Api',
+                    'userName' => 'araneum',
+                    'password' => 'wU7tc2YKg2',
+                ]
             );
             if (!empty($data)) {
                 foreach ($data as $countries) {
