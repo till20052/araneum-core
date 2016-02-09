@@ -10,6 +10,7 @@ use Araneum\Bundle\MailBundle\Repository\MailRepository;
 use Araneum\Bundle\MainBundle\Repository\ApplicationRepository;
 use Araneum\Bundle\AgentBundle\Repository\ApplicationLogRepository;
 use Araneum\Bundle\MainBundle\Repository\ClusterRepository;
+use Araneum\Bundle\MainBundle\Repository\RunnerRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr;
 use Araneum\Bundle\UserBundle\Entity\User;
@@ -446,6 +447,16 @@ class StatisticsService
     private function getClusterRepository()
     {
         return $this->entityManager->getRepository('AraneumMainBundle:Cluster');
+    }
+
+    /**
+     * Get Runner repository
+     *
+     * @return RunnerRepository
+     */
+    private function getRunnerRepository()
+    {
+        return $this->entityManager->getRepository('AraneumMainBundle:Runner');
     }
 
     /**
