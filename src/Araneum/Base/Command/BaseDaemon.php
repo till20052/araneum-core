@@ -2,6 +2,7 @@
 namespace Araneum\Base\Command;
 
 use MikSoftware\DaemonBundle\Commnad\DaemonizedCommand;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 abstract class BaseDaemon extends DaemonizedCommand
 {
@@ -16,6 +17,9 @@ abstract class BaseDaemon extends DaemonizedCommand
         $this->addMethods(self::BASE_METHODS);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function status()
     {
         if ($this->getDaemon()->isRunning()) {
@@ -26,5 +30,24 @@ abstract class BaseDaemon extends DaemonizedCommand
 
         $this->getOutput()->writeln('false');
         return false;
+    }
+
+    /**
+     * Making time interval using in daemon, or throwing Exception
+     * @return mixed
+     */
+    protected function manageTimeIterate()
+    {
+        $intervals = $this->getContainer()
+            ->getParameter('daemons_iterate');
+        $timeInterval = $intervals[preg_replace('/:/', '_', $this->getName())];
+        if (isset($timeInterval) && !empty($timeInterval)) {
+            $time = strtotime($timeInterval) - time();
+            if (empty($time) || $time < 0) {
+                throw new InvalidParameterException('Interval daemon incorrect format (use: year, month, week, day, hours, minutes, seconds).');
+            }
+            $this->getDaemon()
+                ->iterate($time);
+        }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Command;
 
-use MikSoftware\DaemonBundle\Commnad\DaemonizedCommand;
+use Araneum\Base\Command\BaseDaemon;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 /**
@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Exception\InvalidParameterException;
  *
  * @package Araneum\Bundle\MainBundle\Command
  */
-class DaemonCheckerCommand extends DaemonizedCommand
+class DaemonCheckerCommand extends BaseDaemon
 {
     protected static $COMMANDS = [
         'connection'    => 'AraneumMainBundle:Connection',
@@ -38,16 +38,11 @@ class DaemonCheckerCommand extends DaemonizedCommand
     protected function daemonLogic()
     {
         $this->getContainer()->get('logger')->info("Daemon araneum:daemon:checker is running!");
-        $daemonInterval = $this->getContainer()->getParameter('araneum_daemon_checker_iterate');
+
         $commandRunner = $this->getContainer()->get('araneum.command_runner.service');
         $em = $this->getContainer()
             ->get('doctrine')
             ->getManager();
-        $daemonInterval = strtotime($daemonInterval) - time();
-        if (empty($daemonInterval) || $daemonInterval < 0) {
-            throw new InvalidParameterException('Interval daemon incorrect format (use: year, month, week, day, hours, minutes, seconds).');
-        }
-
         foreach (self::$COMMANDS as $command => $repository) {
             if ($items = $em->getRepository($repository)->findAll()) {
                 foreach ($items as $item) {
@@ -56,7 +51,6 @@ class DaemonCheckerCommand extends DaemonizedCommand
             }
         }
 
-        $this->getDaemon()
-            ->iterate($daemonInterval);
+        $this->manageTimeIterate();
     }
 }

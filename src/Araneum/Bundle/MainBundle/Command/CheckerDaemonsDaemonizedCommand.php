@@ -36,11 +36,8 @@ class CheckerDaemonsDaemonizedCommand extends BaseDaemon
      */
     protected function daemonLogic()
     {
-        $interval = $this->getContainer()->getParameter('daemon_check_daemons_interval');
         $commandRunner = $this->getContainer()->get('araneum.command_runner.service');
-        $commandRunner->runSymfonyCommandInNewProcess(
-            'check:daemons',
-            $this
-        );
+        $commandRunner->runSymfonyCommandInNewProcess('check:daemons');
+        $this->manageTimeIterate();
     }
 }

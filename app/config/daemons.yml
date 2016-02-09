@@ -1,6 +1,7 @@
 parameters:
-    daemon_check_daemons_interval: 10
-    araneum_daemon_checker_iterate: 10 minutes
+    daemons_iterate:
+        daemon_check_daemons: 10 seconds
+        araneum_daemon_checker: 10 minutes
 
 mik_software_daemon:
     daemons:

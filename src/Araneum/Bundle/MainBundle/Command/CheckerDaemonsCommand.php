@@ -17,6 +17,9 @@ use Symfony\Component\Process\Process;
  */
 class CheckerDaemonsCommand extends ContainerAwareCommand
 {
+    const BROKEN_DAEMONS = [
+        'daemon:check:daemons',
+    ];
     /**
      * Configure Command
      */
@@ -44,18 +47,20 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
         }
         $startDaemons = '';
         foreach ($daemonsArray as $i=>$daemon) {
-            $process = new Process('app/console '.$daemon.' status');
-            if (!$process->isRunning()) {
-                $process->run(function($err, $data) use (&$startDaemons, &$daemon, &$i){
-                    if (Process::ERR === $err) {
-                        die('Cannot get daemon status: '.$daemon);
-                    } elseif ($data != 'true'){
-                        if ($i != 0){
-                            $startDaemons .= ' && ';
+            if (!in_array($daemon, self::BROKEN_DAEMONS)) {
+                $process = new Process('app/console '.$daemon.' status');
+                if (!$process->isRunning()) {
+                    $process->run(function($err, $data) use (&$startDaemons, &$daemon, &$i){
+                        if (Process::ERR === $err) {
+                            die('Cannot get daemon status: '.$daemon);
+                        } elseif ($data != 'true'){
+                            if ($i != 0){
+                                $startDaemons .= ' && ';
+                            }
+                            $startDaemons .= 'app/console '.$daemon.' start';
                         }
-                        $startDaemons .= 'app/console '.$daemon.' start';
-                    }
-                });
+                    });
+                }
             }
         }
         if (!empty($startDaemons)) {
@@ -63,10 +68,12 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
             $allDaemonsProcess->run(function($err, $data){
                 if (Process::ERR === $err) {
                     die('Cannot start daemons');
+                } else {
+                    die('Some daemons were broken out, but successfully restarted');
                 }
             });
         } else {
-            die('All daemons successfully checked and seted up');
+            die('All daemons successfully checked and sated up');
         }
     }
 }
