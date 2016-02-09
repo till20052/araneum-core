@@ -52,25 +52,12 @@ class LoadCountryData extends AbstractFixture implements DependentFixtureInterfa
                     'MODULE' => 'Country',
                     'COMMAND' => 'view',
                 ],
-                [
-                    'url' => 'http://api-spotplatform.ultratrade.com/Api',
-                    'userName' => 'araneum',
-                    'password' => 'wU7tc2YKg2',
-                ]
+                $application->getSpotCredential()
             );
+            $i=0;
             if (!empty($data)) {
                 foreach ($data as $countries) {
-                    $country = $manager->getRepository('AraneumAgentBundle:Country')->findOneBy(
-                        ['name' => $countries['iso']]
-                    );
-                    if (empty($country)) {
-                        $country = new Country();
-                        $country->setName($countries['iso']);
-                        $country->setTitle($countries['name']);
-                        $country->setPhoneCode(!empty($countries['prefix']) ? $countries['prefix'] : null);
-                        $country->setSpotId($countries['id']);
-                        $manager->persist($country);
-                    }
+                    $i++;
                 }
             } else {
                 throw new RuntimeException('Failed to parse countries');
