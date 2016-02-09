@@ -24,7 +24,6 @@ class CheckerDaemonsDaemonizedCommand extends AbstractBaseDaemon
 
     /**
      * Execute command
-     *
      * @inheritdoc
      */
     protected function daemonLogic()
