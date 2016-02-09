@@ -63,6 +63,8 @@
                     if (typeof callback == 'function') {
                         callback(service);
                     }
+                }, function () {
+                    dataSource.pending = false;
                 });
         }
 
