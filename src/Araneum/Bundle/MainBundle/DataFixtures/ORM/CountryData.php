@@ -45,24 +45,5 @@ class LoadCountryData extends AbstractFixture implements DependentFixtureInterfa
      */
     public function load(ObjectManager $manager)
     {
-        $application = $this->getReference('application');
-        if (!empty($application)) {
-            $data = $this->container->get('araneum.base.spot_api')->get(
-                [
-                    'MODULE' => 'Country',
-                    'COMMAND' => 'view',
-                ],
-                $application->getSpotCredential()
-            );
-            $i=0;
-            if (!empty($data)) {
-                foreach ($data as $countries) {
-                    $i++;
-                }
-            } else {
-                throw new RuntimeException('Failed to parse countries');
-            }
-            $manager->flush();
-        }
     }
 }
