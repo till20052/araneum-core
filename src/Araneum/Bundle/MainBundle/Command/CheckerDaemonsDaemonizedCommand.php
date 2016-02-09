@@ -3,13 +3,20 @@
 namespace Araneum\Bundle\MainBundle\Command;
 
 use Araneum\Base\Command\BaseDaemon;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Helper\FormatterHelper;
+use Symfony\Component\Console\Helper\ProcessHelper;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 /**
- * Class DeploymentCommand
+ * Class CheckerDaemonsCommand
  *
  * @package Araneum\Bundle\MainBundle\Command
  */
-class ConsumerCustomerCommand extends BaseDaemon
+class CheckerDaemonsDaemonizedCommand extends BaseDaemon
 {
     /**
      * Configures command.
@@ -17,7 +24,7 @@ class ConsumerCustomerCommand extends BaseDaemon
     protected function configureDaemonCommand()
     {
         $this
-            ->setName('araneum:consumer:customer')
+            ->setName('daemon:check:daemons')
             ->setDescription('Used for demonize. Queue for send Customer to Spot.')
             ->setHelp('Usage <info>php app/console <name> start|stop|restart|status</info>');
     }
@@ -29,9 +36,10 @@ class ConsumerCustomerCommand extends BaseDaemon
      */
     protected function daemonLogic()
     {
+        $interval = $this->getContainer()->getParameter('daemon_check_daemons_interval');
         $commandRunner = $this->getContainer()->get('araneum.command_runner.service');
         $commandRunner->runSymfonyCommandInNewProcess(
-            'rabbitmq:consumer spot_customer --no-debug',
+            'check:daemons',
             $this
         );
     }

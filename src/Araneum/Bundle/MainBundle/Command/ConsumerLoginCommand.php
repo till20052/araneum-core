@@ -2,14 +2,14 @@
 
 namespace Araneum\Bundle\MainBundle\Command;
 
-use MikSoftware\DaemonBundle\Commnad\DaemonizedCommand;
+use Araneum\Base\Command\BaseDaemon;
 
 /**
  * Class DeploymentCommand
  *
  * @package Araneum\Bundle\MainBundle\Command
  */
-class ConsumerLoginCommand extends DaemonizedCommand
+class ConsumerLoginCommand extends BaseDaemon
 {
     /**
      * Configures command.
@@ -19,7 +19,7 @@ class ConsumerLoginCommand extends DaemonizedCommand
         $this
             ->setName('araneum:consumer:login')
             ->setDescription('Used for demonize. Queue for Spot login.')
-            ->setHelp('Usage <info>php app/console <name> start|stop|restart</info>');
+            ->setHelp('Usage <info>php app/console <name> start|stop|restart|status</info>');
     }
 
     /**

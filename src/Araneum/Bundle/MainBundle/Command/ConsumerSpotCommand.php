@@ -2,14 +2,14 @@
 
 namespace Araneum\Bundle\MainBundle\Command;
 
-use MikSoftware\DaemonBundle\Commnad\DaemonizedCommand;
+use Araneum\Base\Command\BaseDaemon;
 
 /**
  * Class DeploymentCommand
  *
  * @package Araneum\Bundle\MainBundle\Command
  */
-class ConsumerSpotCommand extends DaemonizedCommand
+class ConsumerSpotCommand extends BaseDaemon
 {
     /**
      * Configures command.
@@ -19,7 +19,7 @@ class ConsumerSpotCommand extends DaemonizedCommand
         $this
             ->setName('araneum:consumer:spot')
             ->setDescription('Used for demonize. Queue for Spot.')
-            ->setHelp('Usage <info>php app/console <name> start|stop|restart</info>');
+            ->setHelp('Usage <info>php app/console <name> start|stop|restart|status</info>');
     }
 
     /**

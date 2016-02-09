@@ -17,18 +17,13 @@ use Symfony\Component\Process\Process;
  */
 class CheckerDaemonsCommand extends ContainerAwareCommand
 {
-
-    const DAEMONS_ARRAY = [
-        ''
-    ];
-
     /**
      * Configure Command
      */
     protected function configure()
     {
         $this
-            ->setName('daemons:check')
+            ->setName('check:daemons')
             ->setDescription('Check cluster or application state status.');
     }
 
@@ -42,7 +37,11 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $daemonsArray = self::DAEMONS_ARRAY;
+        $configDaemonsArray = $this->getContainer()->getParameter('mik_software_daemon.daemons');
+        $daemonsArray = [];
+        foreach ($configDaemonsArray as $name=>$params) {
+            array_push($daemonsArray, preg_replace('/_/', ':', $name));
+        }
         $startDaemons = '';
         foreach ($daemonsArray as $i=>$daemon) {
             $process = new Process('app/console '.$daemon.' status');
