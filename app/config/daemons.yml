@@ -1,6 +1,5 @@
 parameters:
     daemons_iterate:
-        daemon_check_daemons: 10 seconds
         araneum_daemon_checker: 10 minutes
 
 mik_software_daemon:
@@ -29,13 +28,6 @@ mik_software_daemon:
         araneum_daemon_checker:
             appName: araneum_daemon_checker
             appDescription: System Daemon checker check.
-            appUser: %nginx_user%
-            appGroup: %nginx_group%
-            logVerbosity: 6
-
-        daemon_check_daemons:
-            appName: daemons-check
-            appDescription: System Daemon for checking processing of all daemons
             appUser: %nginx_user%
             appGroup: %nginx_group%
             logVerbosity: 6

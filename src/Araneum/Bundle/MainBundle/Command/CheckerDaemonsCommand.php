@@ -14,9 +14,7 @@ use Symfony\Component\Process\Process;
  */
 class CheckerDaemonsCommand extends ContainerAwareCommand
 {
-    const BROKEN_DAEMONS = [
-        'daemon:check:daemons',
-    ];
+    const BROKEN_DAEMONS = [];
 
     /**
      * Configure Command
