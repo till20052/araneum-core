@@ -121,6 +121,7 @@ class StatisticsService
     public function prepareResultForDailyAverageStatuses()
     {
         $statusesDailyAverage = $this->getAverageApplicationStatusesDaily();
+
         return [
             'success' => $this->getStatusesByPeriod($statusesDailyAverage, 'success'),
             'problems' => $this->getStatusesByPeriod($statusesDailyAverage, 'problems'),
@@ -147,6 +148,7 @@ class StatisticsService
     public function getResultForClusterUpTime()
     {
         $upTime = $this->getClusterRepository()->getClusterUpTime();
+
         return $this->prepareResultForUpTime($upTime, ['success', 'problem', 'offline']);
     }
 
@@ -204,6 +206,7 @@ class StatisticsService
     public function getResultsForRunnersUpTime()
     {
         $upTime = $this->entityManager->getRepository('AraneumMainBundle:Runner')->getRunnersUpTime();
+
         return $this->prepareResultForUpTime($upTime, ['success', 'appProblem', 'problem', 'offline']);
     }
 
@@ -384,20 +387,21 @@ class StatisticsService
         foreach ($statuses as $status) {
             $chartArray[$status] = [
                 'label' => $status,
-                'data' => []
+                'data' => [],
             ];
         }
         foreach ($dataArray as $array) {
             foreach ($statuses as $status) {
                 array_push($chartArray[$status]['data'], [
                     $array['name'],
-                    $array[$status]
+                    $array[$status],
                 ]);
             }
         }
         foreach ($chartArray as $array) {
             array_push($result, $array);
         }
+
         return $result;
     }
 

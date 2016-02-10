@@ -30,7 +30,10 @@ class RunnerRepository extends EntityRepository
             ->addSelect('ROUND(SUM(CAST(CASE WHEN r.status IN (:app_code_incorrect, :app_error) THEN 1 ELSE 0 END AS NUMERIC))/count(rl.id), 2)*100 AS appProblem')
             ->addSelect('ROUND(SUM(CAST(CASE WHEN r.status IN (:code_incorrect, :error, :slow_connection, :unstable_connection) THEN 1 ELSE 0 END AS NUMERIC))/count(rl.id), 2)*100 AS problem')
             ->addSelect('ROUND(SUM(CAST(CASE WHEN r.status = :offline THEN 1 ELSE 0 END AS NUMERIC))/count(rl.id), 2)*100 AS offline')
-            ->leftJoin( 'AraneumAgentBundle:RunnerLog', 'rl', 'WITH',
+            ->leftJoin(
+                'AraneumAgentBundle:RunnerLog',
+                'rl',
+                'WITH',
                 $qb->expr()->andX(
                     $qb->expr()->eq('rl.runner', 'r'),
                     $qb->expr()->between('rl.createdAt', ':start', ':end')
