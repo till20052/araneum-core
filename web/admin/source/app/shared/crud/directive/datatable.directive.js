@@ -35,24 +35,6 @@
                     }))(scope));
                 }
             });
-
-            /*var observer = new MutationObserver(function () {
-             var table = $('table', element);
-             if (table.length > 0) {
-             $compile($('>tbody', table))(scope);
-             $('div.checkbox', table)
-             .addClass('mr0')
-             .parent()
-             .addClass('text-center')
-             .find('span.fa-check')
-             .addClass('mr0');
-             }
-             });
-
-             observer.observe(element[0], {
-             childList: true,
-             subtree: true
-             });*/
         }
 
         function createTable(data) {
