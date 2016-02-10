@@ -121,7 +121,6 @@ class StatisticsService
     public function prepareResultForDailyAverageStatuses()
     {
         $statusesDailyAverage = $this->getAverageApplicationStatusesDaily();
-
         return [
             'success' => $this->getStatusesByPeriod($statusesDailyAverage, 'success'),
             'problems' => $this->getStatusesByPeriod($statusesDailyAverage, 'problems'),
@@ -135,7 +134,7 @@ class StatisticsService
      *
      * @return array
      */
-    public function prepareResultForClusterAverage()
+    public function getResultForClusterAverage()
     {
         return $this->getChartStructure($this->getClusterLoadAverage(), 'apt');
     }
@@ -145,116 +144,10 @@ class StatisticsService
      *
      * @return array
      */
-    public function prepareResultForClusterUpTime()
+    public function getResultForClusterUpTime()
     {
-        $clusterUpTime = $this->getClusterUpTime();
-
-        $success = [
-            'label' => 'Success',
-            'data' => [],
-        ];
-
-        $problem = [
-            'label' => 'Problem',
-            'data' => [],
-        ];
-
-        $offline = [
-            'label' => 'Offline',
-            'data' => [],
-        ];
-
-        foreach ($clusterUpTime as $array) {
-            array_push(
-                $problem['data'],
-                [
-                    $array['name'],
-                    $array['problem'],
-                ]
-            );
-            array_push(
-                $offline['data'],
-                [
-                    $array['name'],
-                    $array['offline'],
-                ]
-            );
-            array_push(
-                $success['data'],
-                [
-                    $array['name'],
-                    $array['success'],
-                ]
-            );
-        }
-
-        return [
-            $success,
-            $problem,
-            $offline,
-        ];
-    }
-
-    /**
-     * Prepare result for cluster Up time
-     * @param array $data
-     * @param array $statuses
-     * @return array
-     */
-    public function prepareResultForUpTime($data, $statuses)
-    {
-        $result = [];
-        foreach ($data as $value) {
-            foreach ($statuses as $status) {
-                array_push($result[$status],  $value[$status]);
-            }
-        }
-        return $result;
-
-        $success = [
-            'label' => 'Success',
-            'data' => [],
-        ];
-
-        $problem = [
-            'label' => 'Problem',
-            'data' => [],
-        ];
-
-        $offline = [
-            'label' => 'Offline',
-            'data' => [],
-        ];
-
-        foreach ($clusterUpTime as $array) {
-            array_push(
-                $problem['data'],
-                [
-                    $array['name'],
-                    $array['problem'],
-                ]
-            );
-            array_push(
-                $offline['data'],
-                [
-                    $array['name'],
-                    $array['offline'],
-                ]
-            );
-            array_push(
-                $success['data'],
-                [
-                    $array['name'],
-                    $array['success'],
-                ]
-            );
-        }
-
-        return [
-            $success,
-            $problem,
-            $offline,
-        ];
+        $upTime = $this->getClusterRepository()->getClusterUpTime();
+        return $this->prepareResultForUpTime($upTime, ['success', 'problem', 'offline']);
     }
 
     /**
@@ -310,7 +203,8 @@ class StatisticsService
      */
     public function getResultsForRunnersUpTime()
     {
-       return $this->getRunnerRepository()->getRunnersUpTime();
+        $upTime = $this->entityManager->getRepository('AraneumMainBundle:Runner')->getRunnersUpTime();
+        return $this->prepareResultForUpTime($upTime, ['success', 'appProblem', 'problem', 'offline']);
     }
 
     /**
@@ -419,14 +313,6 @@ class StatisticsService
     }
 
     /**
-     * Get data from repository
-     */
-    private function getClusterUpTime()
-    {
-        return $this->getClusterRepository()->getClusterUpTime();
-    }
-
-    /**
      * Get errors by Application by hour
      *
      * @param  array  $pack
@@ -486,6 +372,36 @@ class StatisticsService
     }
 
     /**
+     * Prepare result for cluster Up time
+     * @param array $dataArray
+     * @param array $statuses
+     * @return array
+     */
+    private function prepareResultForUpTime($dataArray, $statuses)
+    {
+        $chartArray = [];
+        $result = [];
+        foreach ($statuses as $status) {
+            $chartArray[$status] = [
+                'label' => $status,
+                'data' => []
+            ];
+        }
+        foreach ($dataArray as $array) {
+            foreach ($statuses as $status) {
+                array_push($chartArray[$status]['data'], [
+                    $array['name'],
+                    $array[$status]
+                ]);
+            }
+        }
+        foreach ($chartArray as $array) {
+            array_push($result, $array);
+        }
+        return $result;
+    }
+
+    /**
      * Get application log repository
      *
      * @return ApplicationLogRepository
@@ -503,16 +419,6 @@ class StatisticsService
     private function getClusterRepository()
     {
         return $this->entityManager->getRepository('AraneumMainBundle:Cluster');
-    }
-
-    /**
-     * Get Runner repository
-     *
-     * @return RunnerRepository
-     */
-    private function getRunnerRepository()
-    {
-        return $this->entityManager->getRepository('AraneumMainBundle:Runner');
     }
 
     /**

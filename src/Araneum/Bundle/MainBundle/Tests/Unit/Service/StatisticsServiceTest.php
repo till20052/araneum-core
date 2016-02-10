@@ -191,7 +191,7 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
 
         $service = new StatisticsService($entityManagerLog);
 
-        $clusterAverage = $service->prepareResultForClusterAverage();
+        $clusterAverage = $service->getResultForClusterAverage();
 
         $this->assertEquals(array_keys($array), array_keys($clusterAverage));
     }
@@ -245,7 +245,7 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
 
         $service = new StatisticsService($entityManager);
 
-        $clusterUpTime = $service->prepareResultForClusterUpTime();
+        $clusterUpTime = $service->getResultsForRunnersUpTime();
 
         $this->assertEquals(array_keys($array), array_keys($clusterUpTime));
     }
