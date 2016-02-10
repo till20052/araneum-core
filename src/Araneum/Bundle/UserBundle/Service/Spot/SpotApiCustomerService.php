@@ -6,6 +6,7 @@ use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Doctrine\ORM\EntityManager;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\AgentBundle\Service\SpotOptionService;
+use Symfony\Component\Security\Acl\Exception\Exception;
 
 /**
  * Class SpotApiCustomerService
@@ -101,6 +102,11 @@ class SpotApiCustomerService
     public function addSpotCustomer(array $customerFields, $application)
     {
         $customer = new Customer();
+        try {
+            $birthday = new \DateTime($customerFields['birthday']);
+        } catch (Exception $e) {
+            $birthday = null;
+        }
         $country = $this->em->getRepository('AraneumAgentBundle:Country')->findOneByTitle($customerFields['Country']);
         $customer
             ->setApplication($application)
@@ -109,11 +115,12 @@ class SpotApiCustomerService
             ->setEmail($customerFields['email'])
             ->setPhone($customerFields['phone'])
             ->setCurrency($customerFields['currency'])
-            ->setBirthday(new \DateTime($customerFields['birthday']))
+            ->setBirthday(null)
             ->setCallBack(false)
             ->setCountry($country->getId())
             ->setPassword($customerFields['password']);
 
         $this->em->persist($customer);
+        $this->em->flush();
     }
 }

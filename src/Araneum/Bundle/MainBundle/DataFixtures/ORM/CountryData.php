@@ -66,9 +66,9 @@ class LoadCountryData extends AbstractFixture implements DependentFixtureInterfa
                         $country->setPhoneCode(!empty($countryData['prefix']) ? $countryData['prefix'] : null);
                         $country->setSpotId($countryData['id']);
                         $manager->persist($country);
-                        $manager->flush();
                     }
                 }
+                $manager->flush();
             } else {
                 throw new RuntimeException('Failed to parse countries');
             }

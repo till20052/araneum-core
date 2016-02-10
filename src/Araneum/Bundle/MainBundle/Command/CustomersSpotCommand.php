@@ -16,9 +16,7 @@ class CustomersSpotCommand extends DaemonizedCommand
 {
 
     const DEFAULT_PERIOD = 'P1Y';
-    const APPLICATION_ID = 1;
 
-    private $em;
     /**
      * Configures command.
      */
@@ -48,8 +46,8 @@ class CustomersSpotCommand extends DaemonizedCommand
             ->getParameter('spot_customer_daemon_timeout');
 
         $period = $this->input->getOption('period');
-        $this->em = $this->getContainer()->get('doctrine')->getManager();
-        $applications = $this->getContainer()->get('doctrine')->getRepository('AraneumMainBundle:Application')->findAll();
+        $this->getContainer()->get('doctrine')->resetManager();
+        $applications =  $this->getContainer()->get('doctrine')->getRepository('AraneumMainBundle:Application')->findAll();
         foreach ($applications as $application) {
             try {
                 $credential = $application->getSpotCredential();
@@ -79,7 +77,6 @@ class CustomersSpotCommand extends DaemonizedCommand
                 }
 
                 $existingEmails = $spotCustomerService->getExistCustomerEmails($emails, $application);
-
                 if (!empty($existingEmails)) {
                     foreach ($result['Customer'] as $customer) {
                         if (in_array($customer['email'], $existingEmails)) {
@@ -95,7 +92,6 @@ class CustomersSpotCommand extends DaemonizedCommand
                 $this->output->writeln($e->getMessage());
             }
         }
-        $this->em->flush();
         $this->getDaemon()->iterate($daemonInterval);
     }
 }
