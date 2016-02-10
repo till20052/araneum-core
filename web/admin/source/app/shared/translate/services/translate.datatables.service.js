@@ -73,7 +73,7 @@
             }
         };
 
-        $rootScope.$on('language', function () {
+        $rootScope.$on('$translateChangeSuccess', function () {
             service.translateTable();
         });
 
