@@ -14,7 +14,6 @@ use Symfony\Component\Validator\Constraints\All;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-
 /**
  * Class AdminApplicationController
  *
@@ -185,10 +184,11 @@ class AdminApplicationController extends Controller
         }
 
         $error = [];
-        foreach($idx as $id) {
+        foreach ($idx as $id) {
             $status = $serviceApplicationCheck->checkApplication($id);
-            if ($status != Application::STATUS_OK)
+            if ($status != Application::STATUS_OK) {
                 $error[$id] = Application::getStatusDescription($status);
+            }
         }
 
         return (count($error) > 0) ? new JsonResponse($error) : new JsonResponse('Success');
