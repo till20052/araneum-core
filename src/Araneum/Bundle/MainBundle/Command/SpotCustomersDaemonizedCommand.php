@@ -24,8 +24,8 @@ class SpotCustomersDaemonizedCommand extends DaemonizedCommand
             ->setName('araneum:spot:customers')
             ->setDescription('get Customers.')
             ->addOption(
-                'application',
-                '-a',
+                'project',
+                '-pr',
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                 'Application|Applications domain to work with',
                 []
@@ -50,7 +50,7 @@ class SpotCustomersDaemonizedCommand extends DaemonizedCommand
         $daemonInterval = $this->getContainer()
             ->getParameter('spot_customer_daemon_timeout');
         $periodOption = $this->input->getOption('period');
-        $applicationOption = $this->input->getOption('application');
+        $applicationOption = $this->input->getOption('project');
         $commandRunner = $this->getContainer()->get('araneum.command_runner.service');
         try {
             $appString = implode(' ', $applicationOption);

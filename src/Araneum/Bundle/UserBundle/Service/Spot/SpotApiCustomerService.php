@@ -96,11 +96,6 @@ class SpotApiCustomerService
     public function addSpotCustomer(array $customerFields, $application)
     {
         $customer = new Customer();
-        if ($customerFields['birthday'] == '0000-00-00') {
-            $birthday = null;
-        } else {
-            $birthday = new \DateTime($customerFields['birthday']);
-        }
         $country = $this->em->getRepository('AraneumAgentBundle:Country')->findOneByTitle($customerFields['Country']);
         $customer
             ->setApplication($application)
@@ -109,11 +104,12 @@ class SpotApiCustomerService
             ->setEmail($customerFields['email'])
             ->setPhone($customerFields['phone'])
             ->setCurrency($customerFields['currency'])
-            ->setBirthday($birthday)
             ->setCallBack(false)
             ->setCountry($country->getId())
             ->setPassword($customerFields['password']);
-
+        if ($customerFields['birthday'] != '0000-00-00') {
+            $customer->setBirthday(new \DateTime($customerFields['birthday']));
+        }
         $this->em->persist($customer);
         $this->em->flush();
     }

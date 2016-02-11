@@ -31,7 +31,7 @@ class SpotCustomersCommand extends ContainerAwareCommand
                 'P1Y'
             )
             ->addArgument(
-                'application',
+                'project',
                 InputArgument::IS_ARRAY,
                 'Array of application names',
                 []
@@ -51,7 +51,7 @@ class SpotCustomersCommand extends ContainerAwareCommand
     {
         $log = $this->getContainer()->get('logger');
         $periodOption = $input->getArgument('period');
-        $applicationOption = $input->getArgument('application');
+        $applicationOption = $input->getArgument('project');
         if (empty($applicationOption)) {
             $applications =  $this->getContainer()->get('doctrine')->getRepository('AraneumMainBundle:Application')->findAll();
         } else {

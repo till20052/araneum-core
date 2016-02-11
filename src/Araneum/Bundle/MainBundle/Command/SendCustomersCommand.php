@@ -24,7 +24,7 @@ class SendCustomersCommand extends ContainerAwareCommand
             ->setName('apps:send:customers')
             ->setDescription('Send all new customers to apps by api url')
             ->addArgument(
-                'app',
+                'project',
                 InputArgument::IS_ARRAY,
                 'Array of application names',
                 []
@@ -43,7 +43,7 @@ class SendCustomersCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $optionService = $this->getContainer()->get('araneum.api.application.service');
-        $applicationOption = $input->getArgument('app');
+        $applicationOption = $input->getArgument('project');
         $em = $this->getContainer()->get('doctrine')->getManager();
         if (empty($applicationOption)) {
             $applications =  $this->getContainer()->get('doctrine')->getRepository('AraneumMainBundle:Application')->findAll();
