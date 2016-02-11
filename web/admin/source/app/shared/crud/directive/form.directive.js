@@ -5,12 +5,12 @@
         .module('crud')
         .directive('crudForm', CRUDFormDirective);
 
-    CRUDFormDirective.$inject = ['CRUDFormLoader', '$compile'];
+    CRUDFormDirective.$inject = ['$compile', 'supervisor'];
 
     /**
      * CRUD From Directive
      */
-    function CRUDFormDirective(CRUDFormLoader, $compile) {
+    function CRUDFormDirective($compile, supervisor) {
         /* jshint -W106, eqeqeq: false */
         var controller = {},
         // @todo need to move this object to separated service, which will be called bootstrap-helper
@@ -87,12 +87,11 @@
                 }
             }
             else if (scope.source !== undefined) {
-                CRUDFormLoader
-                    .setUrl(scope.source)
-                    .load({
+                supervisor.loader.form
+                    .load(scope.source)
+                    .onLoaded({
                         onSuccess: function (data) {
                             link(angular.extend(scope, {data: data}), element);
-                            CRUDFormLoader.clearPromise();
                         }
                     });
             }

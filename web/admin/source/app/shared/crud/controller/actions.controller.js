@@ -13,7 +13,6 @@
                 create: create
             };
 
-        vm.click = click;
         vm.defineAction = defineAction;
 
         function defineAction(event) {

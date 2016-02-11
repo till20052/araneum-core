@@ -5,9 +5,9 @@
         .module('crud')
         .controller('CRUDController', CRUDController);
 
-    CRUDController.$inject = ['$scope', 'CRUDConfigLoader', '$state'];
+    CRUDController.$inject = ['$scope', '$state', 'supervisor'];
 
-    function CRUDController($scope, CRUDConfigLoader, $state) {
+    function CRUDController($scope, $state, supervisor) {
         $scope.icon = $state.$current.crud.icon;
         $scope.title = $state.$current.crud.title;
 
@@ -24,9 +24,9 @@
             }
         };
 
-        CRUDConfigLoader
-            .setUrl($state.$current.initialize)
-            .load({
+        supervisor.loader.config
+            .load($state.$current.initialize)
+            .onLoaded({
                 onSuccess: function (response) {
                     $scope.form.filter.data = response.filter;
                 }

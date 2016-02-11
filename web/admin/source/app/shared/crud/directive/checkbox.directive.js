@@ -5,67 +5,79 @@
         .module('crud')
         .directive('crudCheckbox', CRUDCheckboxDirective);
 
-    CRUDCheckboxDirective.$inject = ['CRUDSupervisor', '$compile'];
+    CRUDCheckboxDirective.$inject = ['$compile', 'supervisor'];
 
-    function CRUDCheckboxDirective(supervisor, $compile) {
+    /**
+     * CRUD CheckBox Directive
+     *
+     * @param $compile
+     * @returns {{
+     *      link: link,
+     *      restrict: string
+     * }}
+     * @constructor
+     */
+    function CRUDCheckboxDirective($compile, supervisor) {
         return {
             link: link,
             restrict: 'E'
         };
 
+        /**
+         * Directive link
+         *
+         * @param scope
+         * @param element
+         */
         function link(scope, element) {
-            var inputCheckbox = $('<input type="checkbox" />').change(selectRow),
-                checkbox = $('<div class="checkbox c-checkbox" />')
+            var inputCheckbox = $('<input type="checkbox" />').change(check),
+                checkbox = $('<div class="checkbox c-checkbox mr0" />')
                     .append(
                         $('<label />')
                             .append(inputCheckbox)
-                            .append($('<span class="fa fa-check" />'))
+                            .append($('<span class="fa fa-check mr0" />'))
                     );
+            $(element)
+                .parent()
+                .addClass('text-center');
             element.replaceWith($compile(checkbox)(scope));
         }
 
         /**
-         *
-         * @param event
+         * Event of checkbox state changing
          */
-        function selectRow(event) {
-            var checkbox = $(event.target),
+        function check() {
+            /* jshint validthis: true */
+            var t = {},
+                checkbox = $(this),
                 selector = 'input[type="checkbox"]',
                 checked = checkbox.prop('checked'),
-                t = {};
+                toolBar = supervisor.toolBar(
+                    angular
+                        .element(this)
+                        .scope()
+                        .toolBarId
+                );
 
             ['head', 'body'].forEach(function (key) {
                 t[key] = $(checkbox).parents('t' + key).eq(0);
             });
 
-            if ($(t.head).parent('table[datatable]').length !== 0) {
+            if ($(t.head).length !== 0) {
                 $(t.head).next()
                     .find(selector)
                     .prop('checked', checked)
                     .change();
             } else {
-                supervisor.dataTable.selectRow($(checkbox).parents('tr').eq(0).index(), checked);
-                defineCheckboxState($(selector, $(t.body).prev()), $(selector, t.body).toArray());
-            }
-        }
-
-        /**
-         * Define state of checkbox, which in table head placement
-         *
-         * @param {jQuery} checkbox
-         * @param {Array<jQuery>} checkboxes
-         */
-        function defineCheckboxState(checkbox, checkboxes) {
-            var checked = true;
-            try {
-                checkboxes.forEach(function (checkbox) {
-                    if (!$(checkbox).prop('checked'))
-                        throw false;
-                });
-            } catch (state) {
-                checked = state;
-            } finally {
-                $(checkbox).prop('checked', checked);
+                $(checkbox)
+                    .parents('tr')
+                    .selectRow(checked);
+                $(selector, $(t.body).prev())
+                    .prop('checked', $(selector, t.body)
+                        .toArray()
+                        .every(function (checkbox) {
+                            return !!$(checkbox).prop('checked');
+                        }));
             }
         }
     }

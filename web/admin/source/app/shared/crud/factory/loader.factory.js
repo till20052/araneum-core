@@ -19,80 +19,52 @@
             /* jshint validthis: true,
              eqeqeq: false */
 
-            /** @typedef {String} */
-            var url;
-
             /** @typedef {Object} */
             var promise;
 
             return {
-                setUrl: setUrl,
-                getUrl: getUrl,
                 load: load,
+                onLoaded: onLoaded,
                 clearPromise: clearPromise
             };
 
             /**
-             * Set url value
+             * Load data by url
              *
-             * @param {String} value
+             * @param {String} url
              * @return {Object}
              */
-            function setUrl(value) {
-                url = value;
-
+            function load(url) {
+                promise = $http({
+                    url: url,
+                    method: 'GET'
+                });
                 return this;
             }
 
             /**
-             * Get url value
-             *
-             * @return {String}
-             */
-            function getUrl() {
-                return url;
-            }
-
-            /**
-             * Load data by url
+             * Event of data loading
              *
              * @param {{
-             *  onSuccess: <Function>
-             *  onError: <Function>
-             * }} customTriggers
-             * @return {Object}
+             *      onSuccess: <Function>,
+             *      onError: <Function>
+             * }} triggers
+             * @returns {Object}
              */
-            function load(customTriggers) {
-                var triggers = {
-                    onSuccess: function () {
-                    },
-                    onError: function () {
-                    }
-                };
-
-                if (customTriggers instanceof Object) {
-                    Object.keys(triggers).forEach(function (key) {
-                        if (customTriggers.hasOwnProperty(key)) {
-                            triggers[key] = customTriggers[key];
-                        }
-                    });
+            function onLoaded(triggers) {
+                if (
+                    triggers instanceof Object &&
+                    promise !== undefined
+                ) {
+                    promise.then.apply(promise, ['onSuccess', 'onError']
+                        .map(function (key) {
+                            return triggers.hasOwnProperty(key) ?
+                                function (r) {
+                                    triggers[key](r.data, r.status, r);
+                                } : undefined;
+                        })
+                    );
                 }
-
-                if (typeof promise == 'undefined') {
-                    promise = $http({
-                        url: getUrl(),
-                        method: 'GET'
-                    });
-                }
-
-                promise.then(
-                    function (r) {
-                        triggers.onSuccess(r.data, r.status, r);
-                    },
-                    function (r) {
-                        triggers.onError(r.data, r.status, r);
-                    }
-                );
 
                 return this;
             }

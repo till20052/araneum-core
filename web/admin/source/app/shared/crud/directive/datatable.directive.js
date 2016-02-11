@@ -5,36 +5,47 @@
         .module('crud')
         .directive('crudDatatable', CRUDDataTableDirective);
 
-    CRUDDataTableDirective.$inject = ['CRUDConfigLoader', '$compile'];
+    CRUDDataTableDirective.$inject = ['$compile', 'supervisor'];
 
     /**
      * CRUD DataTable Directive
      *
-     * @param CRUDConfigLoader
      * @param $compile
+     * @param supervisor
      * @returns {Object}
      * @constructor
      */
-    function CRUDDataTableDirective(CRUDConfigLoader, $compile) {
+    function CRUDDataTableDirective($compile, supervisor) {
         var controller;
+
+        $.fn = angular.extend($.fn, {
+            getSelectedRows: getSelectedRows,
+            selectRow: selectRow
+        });
 
         return {
             link: link,
             restrict: 'E',
             controller: 'CRUDDataTableController',
-            controllerAs: 'controller'
+            controllerAs: 'controller',
+            scope: {
+                toolBarId: '@toolbar'
+            }
         };
 
         function link(scope, element) {
             controller = scope.controller;
-            CRUDConfigLoader.load({
-                onSuccess: function (data) {
-                    controller.options.sAjaxSource = data.grid.source;
-                    element.replaceWith($compile(createTable({
-                        columns: data.grid.columns
-                    }))(scope));
-                }
-            });
+            supervisor.loader.config
+                .onLoaded({
+                    onSuccess: function (data) {
+                        controller.options.sAjaxSource = data.grid.source;
+                        element.replaceWith($compile(
+                            createTable({
+                                columns: data.grid.columns
+                            })
+                        )(scope));
+                    }
+                });
         }
 
         function createTable(data) {
@@ -67,6 +78,32 @@
                         .append($('<crud-checkbox />'))
                 )
             );
+        }
+
+        /**
+         * Get selected rows
+         *
+         * @returns {Array<JQuery|jQuery>}
+         */
+        function getSelectedRows() {
+            if (['TABLE', 'TBODY'].indexOf(this.prop('tagName')) < 0)
+                return [];
+            return $('> tr, > tbody > tr', this)
+                .filter(function () {
+                    return $(this).data('selected') === true;
+                })
+                .toArray();
+        }
+
+        /**
+         * Set row state selection
+         *
+         * @param state
+         */
+        function selectRow(state) {
+            if (this.prop('tagName') != 'TR')
+                return;
+            this.data('selected', !!state);
         }
     }
 

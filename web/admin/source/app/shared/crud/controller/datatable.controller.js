@@ -5,7 +5,7 @@
         .module('crud')
         .controller('CRUDDataTableController', CRUDDataTableController);
 
-    CRUDDataTableController.$inject = ['$scope', '$state', '$compile', 'CRUDSupervisor'];
+    CRUDDataTableController.$inject = ['$scope', '$state', '$compile', 'supervisor'];
 
     /**
      * CRUD DataTable Controller
@@ -13,7 +13,7 @@
      * @constructor
      */
     function CRUDDataTableController($scope, $state, $compile, supervisor) {
-        /* jshint validthis: true */
+        /* jshint validthis: true, eqeqeq: false */
         var dt = this,
             controls = [
                 '<crud-dropdown />',
@@ -42,31 +42,27 @@
                 type: 'POST',
                 url: source,
                 data: data,
-                success: function (r) {
-                    callback(prepareData(r));
-                    compileControls($('>tbody>tr>td>*', dt.instance.dataTable).toArray());
-                    supervisor.setDataTable(dt.instance);
+                success: function (data) {
+                    callback(angular.extend(data, {
+                        aaData: $.map(data.aaData, function (cols) {
+                            return [cols.splice(0, cols.length - 1).concat(controls)];
+                        })
+                    }));
+                    $compile($('> tbody > tr', dt.instance.dataTable)
+                        .data({
+                            selected: false
+                        })
+                        .find('> td > *')
+                        .filter(function () {
+                            return /^crud\-.*$/ig.test($(this).prop('tagName'));
+                        })
+                    )($scope);
                 },
                 error: function (r) {
                     if (r.status === 401) {
                         $state.go('login');
                     }
                 }
-            });
-        }
-
-        function prepareData(data) {
-            return angular.extend(data, {
-                aaData: $.map(data.aaData, function (cols) {
-                    return [cols.splice(0, cols.length - 1).concat(controls)];
-                })
-            });
-        }
-
-        function compileControls(controls) {
-            controls.forEach(function (control) {
-                if ($(control).prop('tagName').toString().match(/^crud\-.*$/ig))
-                    $compile(control)($scope);
             });
         }
     }

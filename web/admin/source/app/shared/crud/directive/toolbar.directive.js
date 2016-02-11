@@ -5,10 +5,24 @@
         .module('crud')
         .directive('crudToolbar', CRUDToolbarDirective);
 
-    CRUDToolbarDirective.$inject = ['CRUDConfigLoader', 'CRUDSupervisor', '$compile'];
+    CRUDToolbarDirective.$inject = ['$compile', 'supervisor'];
 
-    function CRUDToolbarDirective(configLoader, supervisor, $compile) {
+    function CRUDToolbarDirective($compile, supervisor) {
         var controller;
+
+        $.fn = angular.extend($.fn, {
+            setAvailable: function () {
+                $('button', this)
+                    .filter(function () {
+                        return ['setState', 'remove'].indexOf($(this).data('action')) !== -1;
+                    })
+                    .prop('disabled', !$(selector, t.body)
+                        .toArray()
+                        .some(function (checkbox) {
+                            return !!$(checkbox).prop('checked');
+                        }));
+            }
+        });
 
         return {
             link: link,
@@ -16,76 +30,77 @@
             controller: 'CRUDActionsController',
             controllerAs: 'controller',
             scope: {
-                options: '='
+                id: '@'
             }
         };
 
         function link(scope, element) {
             controller = scope.controller;
-
-            configLoader.load({
-                onSuccess: function (data) {
-                    element.replaceWith($compile(createToolbar(data.action.top, scope.options))(scope));
-                }
-            });
-        }
-
-        function createToolbar(data, options) {
-            var toolbar = $('<div />'),
-                keys = Object.keys(data);
-
-            for (var key in data) {
-                if (!data.hasOwnProperty(key))
-                    continue;
-
-                var group = createGroup({
-                    buttons: data[key]
-                });
-
-                if (keys.indexOf(key) > 0) {
-                    group.addClass('mr');
-                }
-
-                if (options instanceof Object) {
-                    if (
-                        options.hasOwnProperty('pull') &&
-                        ['left', 'right'].indexOf(options.pull) !== -1
-                    ) {
-                        group.addClass('pull-' + options.pull);
+            supervisor.loader.config
+                .onLoaded({
+                    onSuccess: function (data) {
+                        element.replaceWith($compile(
+                            supervisor.toolBar(scope.id, createToolBar(data.action.top))
+                        )(scope));
                     }
-                }
-
-                toolbar.append(group);
-            }
-
-            supervisor.setToolBar(toolbar);
-
-            return toolbar;
-        }
-
-        function createGroup(data) {
-            var group = $('<div class="btn-group" />');
-
-            if (
-                data.hasOwnProperty('buttons') &&
-                data.buttons instanceof Array
-            ) {
-                data.buttons.forEach(function (data) {
-                    group.append(createButton(data));
                 });
-            }
-
-            return group;
         }
 
-        function createButton(data) {
+        /**
+         * Create toolBar
+         *
+         * @param {Object} options
+         * @returns {JQuery|jQuery}
+         */
+        function createToolBar(options) {
+            return $('<div />')
+                .append(
+                    Object
+                        .keys(options)
+                        .map(function (key) {
+                            return createGroup(options[key]);
+                        })
+                )
+                .find('>*:not(:first-child)')
+                .addClass('mr')
+                .parent();
+        }
+
+        /**
+         * Create group of toolBar buttons
+         *
+         * @param {Array} buttons
+         * @returns {JQuery|jQuery}
+         */
+        function createGroup(buttons) {
+            return $('<div class="btn-group pull-right" />')
+                .append(
+                    buttons.map(function (buttonData) {
+                        return createButton(buttonData);
+                    })
+                );
+        }
+
+        /**
+         * Create toolBar button
+         *
+         * @param {Object} options
+         * @returns {JQuery|jQuery}
+         */
+        function createButton(options) {
             return $('<button class="btn btn-sm" />')
-                .addClass(data.display.btnClass)
-                .data('crud', normalizeData(data))
-                .attr('uib-tooltip', '{{ "' + data.display.label + '" | translate }}')
+                .addClass(options.display.btnClass)
+                .data({
+                    action: ({
+                        create: 'create',
+                        editRow: 'setState',
+                        deleteRow: 'remove'
+                    })[options.callback]
+                })
+                .attr('uib-tooltip', '{{ "' + options.display.label + '" | translate }}')
                 .click(controller.defineAction)
                 .append(
-                    $('<em />').addClass(data.display.icon)
+                    $('<em />').addClass(options.display.icon)
                 );
         }
 

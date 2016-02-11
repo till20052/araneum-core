@@ -1,9 +1,3 @@
-/**=========================================================
- * Module: routes.config.js
- * App routes and resources configuration
- =========================================================*/
-
-
 (function () {
     'use strict';
 
@@ -17,8 +11,6 @@
             .state('app.locales', {
                 url: '/locales',
                 initialize: '/manage/locales/init.json',
-                controller: 'CRUDController',
-                controllerAs: 'crud',
                 crud: {
                     icon: 'icon-globe-alt',
                     title: 'admin.locales.TITLE'
@@ -27,4 +19,5 @@
                 resolve: helper.resolveFor('ngDialog', 'datatables', 'oitozero.ngSweetAlert', 'whirl')
             });
     }
+
 })();
