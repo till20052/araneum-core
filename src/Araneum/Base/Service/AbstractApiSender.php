@@ -84,50 +84,6 @@ abstract class AbstractApiSender
     }
 
     /**
-     * Get errors from response or null if no errors
-     *
-     * @param Response $response
-     * @return string|null
-     */
-    public function getErrors(Response $response)
-    {
-        $decodedResponse = $response->json();
-        if (!array_key_exists('status', $decodedResponse)) {
-            throw new \BadMethodCallException('Unsupported response format '.print_r($decodedResponse, true));
-        }
-
-        $status = $decodedResponse['status'];
-        if (array_key_exists('connection_status', $status) &&
-            $status['connection_status'] === 'successful' &&
-            array_key_exists('operation_status', $status) &&
-            $status['operation_status'] === 'successful'
-        ) {
-            return null;
-        }
-
-        return json_encode($status['errors']);
-    }
-
-    /**
-     *
-     * @param Response $response
-     * @return string|null
-     */
-    public function getErrorsFromPublic(Response $response)
-    {
-        $decodedResponse = $response->json();
-        if (!array_key_exists('status', $decodedResponse)) {
-            throw new \BadMethodCallException('Unsupported response format '.print_r($decodedResponse, true));
-        }
-
-        if ($decodedResponse['status'] === true) {
-            return null;
-        }
-
-        return json_encode($decodedResponse['errors']);
-    }
-
-    /**
      * @param array $data
      * @param array $credential
      * @return Response $response

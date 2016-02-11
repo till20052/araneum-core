@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\AgentBundle\Repository;
 
 use Araneum\Base\Repository\CountableTrait;
+use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -38,5 +39,24 @@ class CustomerRepository extends EntityRepository implements \Countable
             )
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * Get Registered Customers
+     *
+     * @param array       $emails
+     * @param Application $application
+     * @return array
+     */
+    public function getCustomerEmailsFromApplication($emails, $application)
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        return $qb->select("c.email")
+        ->where("c.email IN (:emails) and c.application = :appId")
+        ->setParameter('emails', $emails)
+        ->setParameter('appId', $application)
+        ->getQuery()
+        ->getResult();
     }
 }

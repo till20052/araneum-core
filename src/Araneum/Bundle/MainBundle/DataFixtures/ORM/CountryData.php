@@ -61,10 +61,10 @@ class LoadCountryData extends AbstractFixture implements DependentFixtureInterfa
                     );
                     if (empty($country)) {
                         $country = new Country();
+                        $country->setId($countryData['id']);
                         $country->setName($countryData['iso']);
                         $country->setTitle($countryData['name']);
                         $country->setPhoneCode(!empty($countryData['prefix']) ? $countryData['prefix'] : null);
-                        $country->setSpotId($countryData['id']);
                         $manager->persist($country);
                     }
                 }

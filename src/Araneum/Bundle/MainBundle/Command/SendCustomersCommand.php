@@ -3,12 +3,8 @@
 namespace Araneum\Bundle\MainBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -26,7 +22,14 @@ class SendCustomersCommand extends ContainerAwareCommand
     {
         $this
             ->setName('apps:send:customers')
-            ->setDescription('Send all new customers to apps by api url');
+            ->setDescription('Send all new customers to apps by api url')
+            ->addArgument(
+                'app',
+                InputArgument::IS_ARRAY,
+                'Array of application names',
+                []
+            )
+        ;
     }
 
     /**
@@ -40,8 +43,13 @@ class SendCustomersCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $optionService = $this->getContainer()->get('araneum.api.application.service');
+        $applicationOption = $input->getArgument('app');
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $applications = $em->getRepository('AraneumMainBundle:Application')->findAll();
+        if (empty($applicationOption)) {
+            $applications =  $this->getContainer()->get('doctrine')->getRepository('AraneumMainBundle:Application')->findAll();
+        } else {
+            $applications =  $this->getContainer()->get('doctrine')->getRepository('AraneumMainBundle:Application')->findByName($applicationOption);
+        }
         foreach ($applications as $application) {
             $customers = $em->getRepository("AraneumAgentBundle:Customer")->findBy(
                 ['existOnSite' => false, 'application' => $application]

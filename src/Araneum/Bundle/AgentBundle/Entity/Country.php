@@ -23,7 +23,6 @@ class Country
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
@@ -50,11 +49,6 @@ class Country
     protected $enabled;
 
     /**
-     * @ORM\Column(type="integer", name="spot_id", length=3, nullable=true)
-     */
-    protected $spotId;
-
-    /**
      * Country constructor.
      */
     public function __construct()
@@ -70,6 +64,19 @@ class Country
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set id
+     *
+     * @param integer $id
+     * @return Country
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -162,29 +169,6 @@ class Country
     public function isEnabled()
     {
         return $this->enabled;
-    }
-
-    /**
-     * Get spotId for country
-     *
-     * @return integer
-     */
-    public function getSpotId()
-    {
-        return $this->spotId;
-    }
-
-    /**
-     * Set spotId for country
-     *
-     * @param integer $spotId
-     * @return Country
-     */
-    public function setSpotId($spotId)
-    {
-        $this->spotId = $spotId;
-
-        return $this;
     }
 
     /**

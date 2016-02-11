@@ -77,13 +77,7 @@ class SpotApiCustomerService
     public function getExistCustomerEmails(array $emails, $application)
     {
         $query = $this->em->getRepository('AraneumAgentBundle:Customer')
-            ->createQueryBuilder('c')
-            ->select("c.email")
-            ->where("c.email IN (:emails) and c.application = :appId")
-            ->setParameter('emails', $emails)
-            ->setParameter('appId', $application)
-            ->getQuery()
-            ->getResult();
+            ->getCustomerEmailsFromApplication($emails, $application);
         $result = [];
         foreach ($query as $existEmail) {
             $result[] = $existEmail['email'];
