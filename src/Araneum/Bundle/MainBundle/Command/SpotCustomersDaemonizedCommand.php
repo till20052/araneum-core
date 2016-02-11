@@ -60,7 +60,7 @@ class SpotCustomersDaemonizedCommand extends DaemonizedCommand
             if (empty($appString)) {
                 $appString = 'All applications';
             }
-            $this->output->writeln('All customer data synchronised in applications: '.$appString. ' By period: '.$periodOption);
+            $this->output->writeln('All customer data synchronised in applications: '.$appString.' By period: '.$periodOption);
         } catch (Exception $e) {
             $this->log($e->getMessage());
             $this->output->writeln($e->getMessage());
