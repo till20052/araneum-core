@@ -62,7 +62,7 @@ class ApplicationActions extends AbstractActions
             ->add(
                 'create',
                 [
-                    'form' => 'araneum_admin_main_application_get',
+                    'form' => 'araneum_applications_admin_applicarion_post',
                     'callback' => 'create',
                     'display' => [
                         'btnClass' => 'btn-success',
@@ -75,7 +75,7 @@ class ApplicationActions extends AbstractActions
             ->add(
                 'update',
                 [
-                    'form' => 'araneum_admin_main_application_get',
+                    'form' => 'araneum_applications_admin_applicarion_post',
                     'callback' => 'update',
                     'display' => [
                         'btnClass' => 'btn-success',
