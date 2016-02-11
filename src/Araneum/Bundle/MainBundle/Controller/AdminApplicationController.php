@@ -23,12 +23,44 @@ class AdminApplicationController extends Controller
 {
 
     /**
-     * Save applications
+     * Save application
+     *
+     * @ApiDoc(
+     *  resource = "Application",
+     *  section = "MainBundle",
+     *  description = "Save application",
+     *  requirements={
+     *      {"name"="_format", "dataType"="json", "description"="Output format must be json"}
+     *  },
+     *  parameters={
+     *      {"name"="id", "dataType"="int", "required"=true, "description"="Id"},
+     *      {"name"="cluster", "dataType"="int", "required"=true, "description"="Cluster"},
+     *      {"name"="name", "dataType"="string", "required"=true, "description"="Name"},
+     *      {"name"="domain", "dataType"="string", "required"=true, "description"="Domain"},
+     *      {"name"="aliases", "dataType"="string", "required"=true, "description"="Aliases"},
+     *      {"name"="useSsl", "dataType"="boolean", "required"=true, "description"="useSsl"},
+     *      {"name"="type", "dataType"="int", "required"=true, "description"="Type"},
+     *      {"name"="locales", "dataType"="string", "required"=true, "description"="Locales"},
+     *      {"name"="enabled", "dataType"="boolean", "required"=true, "description"="Enabled or disabled parameter"},
+     *      {"name"="template", "dataType"="string", "required"=true, "description"="Template"},
+     *      {"name"="spotApiUser", "dataType"="string", "required"=true, "description"="spotApiUser"},
+     *      {"name"="spotApiPassword", "dataType"="string", "required"=true, "description"="spotApiPassword"},
+     *      {"name"="spotApiUrl", "dataType"="string", "required"=true, "description"="spotApiUrl"},
+     *      {"name"="spotApiPublicUrl", "dataType"="string", "required"=true, "description"="spotApiPublicUrl"}
+     *  },
+     *  statusCodes = {
+     *      202 = "Returned when reset customer password was successful",
+     *      400 = "Returned when validation failed",
+     *      403 = "Returned when authorization is failed",
+     *      404 = "Returned when Cluster not found by defined condition"
+     *  },
+     *  tags={"Agent"}
+     * )
      *
      * @Security("has_role('ROLE_ADMIN')")
      * @Route(
-     *     "/applications/application/save",
-     *     name="araneum_applications_admin_applicarion_post"
+     *     "/manage/applications/application/save",
+     *     name="araneum_admin_main_application_post"
      * )
      * @Method("POST")
      *
@@ -172,8 +204,9 @@ class AdminApplicationController extends Controller
     private function updateApplicationEnableDisableAction(Request $request, $state)
     {
         $idx = $request->request->get('data');
-
-        $applicationRepository = $this->getDoctrine()->getRepository('AraneumMainBundle:Application');
+        $applicationRepository = $this->container
+            ->get('doctrine')->getManager()
+            ->getRepository('Araneum\Bundle\MainBundle\Repository\ApplicationRepository');
 
         if (!is_array($idx)) {
             return new JsonResponse('Data must be an array');
@@ -185,7 +218,6 @@ class AdminApplicationController extends Controller
         }
 
         $applicationRepository->updateEnabled($idx, $state);
-
         return new JsonResponse('Success');
     }
 }
