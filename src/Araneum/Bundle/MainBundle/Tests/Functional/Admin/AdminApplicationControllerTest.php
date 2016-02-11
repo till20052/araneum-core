@@ -106,6 +106,49 @@ class AdminApplicationControllerTest extends BaseController
     }
 
     /**
+     * Test Enable Action
+     */
+    public function testEnableAction()
+    {
+        $this->repositoryApplication->expects($this->once())
+            ->method('updateEnabled')
+            ->with([1], true)
+            ->will($this->returnValue(true));
+        $this->getDoctrine($this->repositoryApplication);
+
+        $this->controller->setContainer($this->getContainer());
+        $resultJson = $this->controller->enableAction($this->request);
+        $this->assertEquals('Success', json_decode($resultJson->getContent()));
+    }
+
+    /**
+     * Test Disable Action
+     */
+    public function testDisabledAction()
+    {
+        $this->repositoryApplication->expects($this->once())
+            ->method('updateEnabled')
+            ->with([1], false)
+            ->will($this->returnValue(true));
+        $this->getDoctrine($this->repositoryApplication);
+
+        $this->controller->setContainer($this->getContainer());
+        $resultJson = $this->controller->disableAction($this->request);
+        $this->assertEquals('Success', json_decode($resultJson->getContent()));
+    }
+
+    /**
+     * Test Check Status Action
+     */
+    public function testCheckStatusAction()
+    {
+        $this->getMockApplicationCheckerService();
+        $this->controller->setContainer($this->getContainer());
+        $resultJson = $this->controller->checkStatusAction($this->request);
+        $this->assertEquals('Success', json_decode($resultJson->getContent()));
+    }
+
+    /**
      * Mock Repository ApplicationCheckerService
      */
     private function getMockApplicationCheckerService()
@@ -162,48 +205,5 @@ class AdminApplicationControllerTest extends BaseController
             ->will($this->returnValue($this->validator));
 
         return $this->container;
-    }
-
-    /**
-     * Test Enable Action
-     */
-    public function testEnableAction()
-    {
-        $this->repositoryApplication->expects($this->once())
-            ->method('updateEnabled')
-            ->with([1], true)
-            ->will($this->returnValue(true));
-        $this->getDoctrine($this->repositoryApplication);
-
-        $this->controller->setContainer($this->getContainer());
-        $resultJson = $this->controller->enableAction($this->request);
-        $this->assertEquals('Success', json_decode($resultJson->getContent()));
-    }
-
-    /**
-     * Test Disable Action
-     */
-    public function testDisabledAction()
-    {
-        $this->repositoryApplication->expects($this->once())
-            ->method('updateEnabled')
-            ->with([1], false)
-            ->will($this->returnValue(true));
-        $this->getDoctrine($this->repositoryApplication);
-
-        $this->controller->setContainer($this->getContainer());
-        $resultJson = $this->controller->disableAction($this->request);
-        $this->assertEquals('Success', json_decode($resultJson->getContent()));
-    }
-
-    /**
-     * Test Check Status Action
-     */
-    public function testCheckStatusAction()
-    {
-        $this->getMockApplicationCheckerService();
-        $this->controller->setContainer($this->getContainer());
-        $resultJson = $this->controller->checkStatusAction($this->request);
-        $this->assertEquals('Success', json_decode($resultJson->getContent()));
     }
 }
