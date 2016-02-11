@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\MainBundle\Repository;
 
 use Araneum\Base\Repository\CountableTrait;
+use Araneum\Base\Repository\AdminDataGridTrait;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
@@ -17,6 +18,7 @@ class ApplicationRepository extends EntityRepository implements \Countable
 {
     use CountableTrait;
 
+    use AdminDataGridTrait;
     /**
      * Get statistics of all applications by next conditions:
      *  - online
