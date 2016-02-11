@@ -2,58 +2,56 @@
 
 namespace Araneum\Bundle\MainBundle\Command;
 
-use MikSoftware\DaemonBundle\Commnad\DaemonizedCommand;
-use Symfony\Component\Console\Input\InputOption;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Security\Acl\Exception\Exception;
 
 /**
- * Class GetNewCustomersFromSpot
- * php app/console araneum:spot:customers stop
+ * Class SendCustomersCommand
  *
- * @package Araneum\Bundle\MainBundle\Command\Spot
+ * @package Araneum\Bundle\MainBundle\Command
  */
-class CustomersSpotCommand extends DaemonizedCommand
+class SpotCustomersCommand extends ContainerAwareCommand
 {
 
-    const DEFAULT_PERIOD = 'P1Y';
-
     /**
-     * Configures command.
+     * Configure command
      */
-    protected function configureDaemonCommand()
+    protected function configure()
     {
         $this
-            ->setName('araneum:spot:customers')
-            ->setDescription('get Customers.')
-            ->addOption(
+            ->setName('spot:get:customers')
+            ->setDescription('Send all new customers to apps by api url')
+            ->addArgument(
+                'period',
+                InputArgument::OPTIONAL,
+                'Period to get data from Spot',
+                'P1Y'
+            )
+            ->addArgument(
                 'application',
-                '-a',
-                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                'Application|Applications domain to work with',
+                InputArgument::IS_ARRAY,
+                'Array of application names',
                 []
             )
-            ->addOption(
-                'period',
-                '-p',
-                InputOption::VALUE_REQUIRED,
-                'Period of customers registration',
-                self::DEFAULT_PERIOD
-            )
-            ->setHelp('Usage <infoaraneumDB>php app/console <name> <period>application_id</period> <period>time</period> start|stop|restart</infoaraneumDB>');
+        ;
     }
 
     /**
      * Execute command
      *
+     * @param InputInterface $input
+     * @param OutputInterface $output
      * @inheritdoc
+     * @return null;
      */
-    protected function daemonLogic()
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $daemonInterval = $this->getContainer()
-            ->getParameter('spot_customer_daemon_timeout');
-
-        $periodOption = $this->input->getOption('period');
-        $applicationOption = $this->input->getOption('application');
+        $log = $this->getContainer()->get('logger');
+        $periodOption = $input->getArgument('period');
+        $applicationOption = $input->getArgument('application');
         if (empty($applicationOption)) {
             $applications =  $this->getContainer()->get('doctrine')->getRepository('AraneumMainBundle:Application')->findAll();
         } else {
@@ -95,14 +93,14 @@ class CustomersSpotCommand extends DaemonizedCommand
                         }
                     }
                 } else {
-                    throw new Exception('All users are actual in application '.$application->getName());
+                    $output->writeln('All users are actual in application '.$application->getName());
                 }
 
             } catch (\Exception $e) {
-                $this->log($e->getMessage());
-                $this->output->writeln($e->getMessage());
+                $log->addError($e->getMessage());
+                $output->writeln($e->getMessage());
             }
         }
-        $this->getDaemon()->iterate($daemonInterval);
+        $output->writeln('Finishing Command');
     }
 }
