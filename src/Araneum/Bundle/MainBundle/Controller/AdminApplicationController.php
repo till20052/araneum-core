@@ -218,6 +218,7 @@ class AdminApplicationController extends Controller
         }
 
         $applicationRepository->updateEnabled($idx, $state);
+
         return new JsonResponse('Success');
     }
 }
