@@ -6,9 +6,7 @@
         .service('TranslateDatatablesService', TranslateDatatablesService);
 
     TranslateDatatablesService.$inject = ['$rootScope', '$translate'];
-
     function TranslateDatatablesService($rootScope, $translate) {
-
         var service = {
             language: {
                 "decimal": "",
