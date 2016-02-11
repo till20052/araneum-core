@@ -14,13 +14,12 @@
                         color: #c1c2c3;
                         width: 2em;
                         text-align: center;"
-                       panel-collapse=""
-                       uib-tooltip="{{'admin.dashboard.widget.COLLAPSE' | translate}}"
-                       ng-click="filters.panel = !filters.panel"
-                       class="ng-scope">
-                    <em ng-show="!filters.panel" class="fa fa-plus" style=""></em>
-                    <em ng-show="filters.panel" class="fa fa-minus ng-hide"></em>
-                </a>
+                   panel-collapse=""
+                   uib-tooltip="{{'admin.dashboard.widget.COLLAPSE' | translate}}"
+                   ng-click="filters.panel = !filters.panel"
+                   class="ng-scope">
+                    <em ng-show="filters.panel" class="fa fa-plus ng-hide" style=""></em> <em ng-show="!filters.panel"
+                                                                                              class="fa fa-minus"></em> </a>
                 <a
                         style="
                         display: inline-block;
@@ -40,7 +39,7 @@
             </h3>
         </div>
         <div class="form-horizontal">
-            <div collapse="!filters.panel" class="panel-wrapper">
+            <div collapse="filters.panel" class="panel-wrapper">
                 <div class="panel-body pb">
                     <div class="row">
                         <div class="col-lg-10">
