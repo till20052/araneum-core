@@ -3,39 +3,64 @@
 
     angular
         .module('crud')
-        .service('CRUDSupervisor', CRUDSupervisor);
+        .service('supervisor', supervisor);
 
-    CRUDSupervisor.$inject = [];
+    supervisor.$inject = ['CRUDLoader'];
 
     /**
+     * CRUD Supervisor
      *
-     * @constructor
+     * @param CRUDLoader
+     * @returns {{
+     *      loader: {
+     *          config: CRUDLoader,
+     *          form: CRUDLoader
+     *      },
+     *      toolBar: <Function>
+     * }}
      */
-    function CRUDSupervisor() {
+    function supervisor(CRUDLoader) {
         /* jshint validthis: true */
-        return {
-            toolBar: undefined,
-            setToolBar: setToolBar,
+        var register = {};
 
-            dataTable: undefined,
-            setDataTable: setDataTable
+        return {
+            loader: {
+                config: new CRUDLoader(),
+                form: new CRUDLoader()
+            },
+            toolBar: toolBar
         };
+
+        function toolBar(id, container) {
+            if (!register.hasOwnProperty('toolBar'))
+                register.toolBar = {};
+
+            if (container !== undefined)
+                register.toolBar[id] = container;
+
+            return register.toolBar.hasOwnProperty(id) ?
+                register.toolBar[id] :
+                $('div#' + id);
+        }
+
+        /**
+         *
+         */
+        function fnDataTable(data) {
+
+        }
 
         function setDataTable(dataTable) {
             this.dataTable = new DataTable(dataTable, this);
-            if(this.toolBar instanceof Object)
-                this.toolBar.refresh();
-        }
-
-        function setToolBar(toolBar) {
-            this.toolBar = new ToolBar(toolBar, this);
+            //if(this.toolBar instanceof Object)
+            //    this.toolBar.refresh();
         }
     }
 
     function DataTable(dataTable, supervisor) {
         /* jshint validthis: true, eqeqeq: false */
         var dt = dataTable,
-            rows = (function(rows){
+            rows = (function (rows) {
                 return $.map(rows, function (row) {
                     return {
                         element: row,
@@ -65,30 +90,5 @@
         }
     }
 
-    function ToolBar(toolBar, supervisor) {
-        var buttons = [];
-
-        $('button', toolBar).each(function () {
-            buttons.push(this);
-        });
-
-        return {
-            refresh: refresh
-        };
-
-        function refresh() {
-            buttons.forEach(function (button) {
-                $(button).prop(
-                    'disabled',
-                    !$(button).data('crud')
-                        .available
-                        .apply(angular.extend({
-                            button: $(button),
-                            supervisor: supervisor
-                        }, $(button).data('crud')))
-                );
-            });
-        }
-    }
 
 })();

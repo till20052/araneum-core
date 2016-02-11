@@ -17,8 +17,6 @@
             .state('app.users', {
                 url: '/users',
                 initialize: '/manage/users/init.json',
-                controller: 'CRUDController',
-                controllerAs: 'crud',
                 crud: {
                     icon: 'icon-people',
                     title: 'admin.users.TITLE'

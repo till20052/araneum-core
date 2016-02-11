@@ -6,9 +6,7 @@
         .service('TranslateDatatablesService', TranslateDatatablesService);
 
     TranslateDatatablesService.$inject = ['$rootScope', '$translate'];
-
     function TranslateDatatablesService($rootScope, $translate) {
-
         var service = {
             language: {
                 "decimal": "",
@@ -73,7 +71,7 @@
             }
         };
 
-        $rootScope.$on('language', function () {
+        $rootScope.$on('$translateChangeSuccess', function () {
             service.translateTable();
         });
 

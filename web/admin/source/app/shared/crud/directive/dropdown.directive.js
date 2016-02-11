@@ -5,20 +5,35 @@
         .module('crud')
         .directive('crudDropdown', CRUDDropdownDirective);
 
-    CRUDDropdownDirective.$inject = ['$compile', 'CRUDConfigLoader'];
+    CRUDDropdownDirective.$inject = ['$compile', 'supervisor'];
 
-    function CRUDDropdownDirective($compile, CRUDConfigLoader) {
+    /**
+     * CRUD DropDown Directive
+     *
+     * @param $compile
+     * @param supervisor
+     * @returns {{
+     *      link: link,
+     *      restrict: string
+     * }}
+     * @constructor
+     */
+    function CRUDDropdownDirective($compile, supervisor) {
         return {
             link: link,
             restrict: 'E'
         };
 
         function link(scope, element) {
-            CRUDConfigLoader.load({
-                onSuccess: function (data) {
-                    element.replaceWith($compile(createDropdown(data.action.row))(scope));
-                }
-            });
+            supervisor.loader.config
+                .onLoaded({
+                    onSuccess: function (data) {
+                        $(element)
+                            .parent()
+                            .addClass('text-center');
+                        element.replaceWith($compile(createDropdown(data.action.row))(scope));
+                    }
+                });
         }
 
         function createDropdown(list) {

@@ -13,11 +13,11 @@
                 create: create
             };
 
-        vm.click = click;
         vm.defineAction = defineAction;
 
         function defineAction(event) {
-            console.log(event.target);
+            var config = $(event.currentTarget).data('config');
+            invokeAction(config.callback, config);
         }
 
         /**
@@ -33,12 +33,6 @@
                 controllerAs: 'ngDialog',
                 data: data
             });
-        }
-
-        function click($event) {
-            var config = $($event.currentTarget).data('config');
-
-            invokeAction(config.callback, config);
         }
 
         function invokeAction(name, options) {
@@ -61,18 +55,6 @@
                     source: options.form
                 }
             });
-        }
-
-        function update() {
-
-        }
-
-        function setState() {
-
-        }
-
-        function remove() {
-
         }
     }
 

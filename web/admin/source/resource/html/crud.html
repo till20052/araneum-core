@@ -1,61 +1,63 @@
-<h3>
-    <em class="{{ icon }} mr"></em>
-    <span translate="{{ title }}"></span>
-</h3>
+<div ng-controller="CRUDController">
+    <h3>
+        <em class="{{ icon }} mr"></em>
+        <span translate="{{ title }}"></span>
+    </h3>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">
-            <em class="fa fa-filter mr-sm"></em>
-            {{ 'admin.general.FILTERS' | translate }}
-        </h3>
-    </div>
-    <div class="panel-body">
-        <crud-form data="form.filter.data" options="form.filter.options"></crud-form>
-    </div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading pb0">
-        <div class="row">
-            <div class="col-xs-6">
-                <h3 class="panel-title mt">
-                    <em class="icon-layers mr-sm"></em>
-                    <span translate="">Data list</span>
-                </h3>
-            </div>
-            <div class="col-xs-6">
-                <crud-toolbar options="{ pull: 'right' }" ></crud-toolbar>
-            </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <em class="fa fa-filter mr-sm"></em>
+                {{ 'admin.general.FILTERS' | translate }}
+            </h3>
         </div>
-        <hr class="mt mb0"/>
-    </div>
-    <div class="panel-body">
-        <crud-datatable></crud-datatable>
-    </div>
-</div>
-
-<toaster-container toaster-options="{'position-class': 'toast-bottom-right'}"></toaster-container>
-
-<script type="text/ng-template" id="crud/dialog.html">
-
-    <div class="whirl traditional" ng-hide="isLoaded">
-        <div>
-            <div>{{ 'admin.general.LOADING' | translate }}</div>
+        <div class="panel-body">
+            <crud-form data="form.filter.data" options="form.filter.options"></crud-form>
         </div>
     </div>
 
-    <div ng-show="isLoaded">
+    <div class="panel panel-default">
+        <div class="panel-heading pb0">
+            <div class="row">
+                <div class="col-xs-6">
+                    <h3 class="panel-title mt">
+                        <em class="icon-layers mr-sm"></em>
+                        <span translate="">Data list</span>
+                    </h3>
+                </div>
+                <div class="col-xs-6">
+                    <crud-toolbar id="main"></crud-toolbar>
+                </div>
+            </div>
+            <hr class="mt mb0"/>
+        </div>
+        <div class="panel-body">
+            <crud-datatable toolbar="main"></crud-datatable>
+        </div>
+    </div>
 
-        <h3 class="mt0 mb-lg">
-            <em class="{{ icon }} mr"></em><!--
+    <toaster-container toaster-options="{'position-class': 'toast-bottom-right'}"></toaster-container>
+
+    <script type="text/ng-template" id="crud/dialog.html">
+
+        <div class="whirl traditional" ng-hide="isLoaded">
+            <div>
+                <div>{{ 'admin.general.LOADING' | translate }}</div>
+            </div>
+        </div>
+
+        <div ng-show="isLoaded">
+
+            <h3 class="mt0 mb-lg">
+                <em class="{{ icon }} mr"></em><!--
         --><span>{{ title | translate }}</span>
-        </h3>
+            </h3>
 
-        <div ng-repeat="error in errors track by $index" class="alert alert-danger text-center">{{ error }}</div>
+            <div ng-repeat="error in errors track by $index" class="alert alert-danger text-center">{{ error }}</div>
 
-        <crud-form source="form.source" events="form.events" options="form.options"></crud-form>
+            <crud-form source="form.source" events="form.events" options="form.options"></crud-form>
 
-    </div>
+        </div>
 
-</script>
+    </script>
+</div>

@@ -47,17 +47,6 @@
 
         vm.linkKeys = linkKeys;
 
-        activate();
-
-        /**
-         * Activation
-         *
-         * @private
-         */
-        function activate() {
-
-        }
-
         /**
          * Link keys
          *
