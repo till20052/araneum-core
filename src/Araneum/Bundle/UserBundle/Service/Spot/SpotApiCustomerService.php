@@ -56,8 +56,7 @@ class SpotApiCustomerService
     {
         $date = new \DateTime();
         $date->sub(new \DateInterval($period));
-
-        return  $this->optionService->getCustomersByFilter(
+        $values = $this->optionService->getCustomersByFilter(
             $application,
             [
                 'regTime' => [
@@ -65,6 +64,8 @@ class SpotApiCustomerService
                 ],
             ]
         )->getBody(true);
+
+        return json_decode($values, true);
     }
 
     /**
