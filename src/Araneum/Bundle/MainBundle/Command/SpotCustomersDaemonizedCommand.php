@@ -21,18 +21,18 @@ class SpotCustomersDaemonizedCommand extends DaemonizedCommand
     protected function configureDaemonCommand()
     {
         $this
-            ->setName('araneum:spot:customers')
-            ->setDescription('get Customers.')
+            ->setName('araneum:daemon:get-customers')
+            ->setDescription('Daemonized araneum:spot:get-customers command')
             ->addOption(
                 'project',
-                '-pr',
+                '-p',
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                 'Application|Applications domain to work with',
                 []
             )
             ->addOption(
                 'period',
-                '-p',
+                '-t',
                 InputOption::VALUE_REQUIRED,
                 'Period of customers registration',
                 'P1Y'
@@ -51,11 +51,12 @@ class SpotCustomersDaemonizedCommand extends DaemonizedCommand
             ->getParameter('spot_customer_daemon_timeout');
         $periodOption = $this->input->getOption('period');
         $applicationOption = $this->input->getOption('project');
+
         $commandRunner = $this->getContainer()->get('araneum.command_runner.service');
         try {
             $appString = implode(' ', $applicationOption);
             $commandRunner->runSymfonyCommandInNewProcess(
-                'spot:get:customers '.$periodOption.' '.$appString
+                'araneum:spot:get-customers '.$periodOption.' '.$appString
             );
             if (empty($appString)) {
                 $appString = 'All applications';

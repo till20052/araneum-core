@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Security\Acl\Exception\Exception;
 
 /**
- * Class SendCustomersCommand
+ * Class SpotCustomersCommand
  *
  * @package Araneum\Bundle\MainBundle\Command
  */
@@ -22,7 +22,7 @@ class SpotCustomersCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('spot:get:customers')
+            ->setName('araneum:spot:get-customers')
             ->setDescription('Send all new customers to apps by api url')
             ->addArgument(
                 'period',
