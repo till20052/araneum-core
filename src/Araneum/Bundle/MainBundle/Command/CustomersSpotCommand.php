@@ -55,58 +55,52 @@ class CustomersSpotCommand extends DaemonizedCommand
         $periodOption = $this->input->getOption('period');
         $applicationOption = $this->input->getOption('application');
         if (empty($applicationOption)) {
-            $this->output->writeln('Getting customers for all Applications');
             $applications =  $this->getContainer()->get('doctrine')->getRepository('AraneumMainBundle:Application')->findAll();
         } else {
             $applications =  $this->getContainer()->get('doctrine')->getRepository('AraneumMainBundle:Application')->findByName($applicationOption);
         }
         $this->getContainer()->get('doctrine')->resetManager();
-        if (empty($applications)) {
-            throw new Exception('Doesn\'t found any applications with this names: '.implode(",", $applicationOption));
-        } else {
-            foreach ($applications as $application) {
-                try {
-                    $credential = $application->getSpotCredential();
+        foreach ($applications as $application) {
+            try {
+                $credential = $application->getSpotCredential();
 
-                    foreach ($credential as $value) {
-                        if (empty($value)) {
-                            throw new Exception('Cannot get Spot credential of application '.$application->getName());
-                        }
+                foreach ($credential as $value) {
+                    if (empty($value)) {
+                        throw new Exception('Cannot get Spot credential of application '.$application->getName());
                     }
-                    $spotCustomerService = $this->getContainer()->get('araneum.spot.api.customer.service');
-                    $data = $spotCustomerService->getAllCustomersByPeriod($application, $periodOption);
-
-                    if (empty($data)) {
-                        throw new Exception('Empty data from Spot in application '.$application->getName());
-                    }
-
-                    $data = json_decode($data, true);
-                    $result = $data['status'];
-                    $emails = [];
-
-                    if (isset($result['errors']) && !empty($result['errors'])) {
-                        throw new Exception('Errors while getting data from Spot: '.$result['errors']);
-                    }
-
-                    foreach ($result['Customer'] as $customer) {
-                        array_push($emails, $customer['email']);
-                    }
-
-                    $existingEmails = $spotCustomerService->getExistCustomerEmails($emails, $application);
-                    if (!empty($existingEmails)) {
-                        foreach ($result['Customer'] as $customer) {
-                            if (in_array($customer['email'], $existingEmails)) {
-                                $spotCustomerService->addSpotCustomer($customer, $application);
-                            }
-                        }
-                    } else {
-                        throw new Exception('All users are actual in application '.$application->getName());
-                    }
-
-                } catch (\Exception $e) {
-                    $this->log($e->getMessage());
-                    $this->output->writeln($e->getMessage());
                 }
+                $spotCustomerService = $this->getContainer()->get('araneum.spot.api.customer.service');
+                $data = $spotCustomerService->getAllCustomersByPeriod($application, $periodOption);
+
+                if (empty($data)) {
+                    throw new Exception('Empty data from Spot in application '.$application->getName());
+                }
+
+                $data = json_decode($data, true);
+                $result = $data['status'];
+                $emails = [];
+
+                if (isset($result['errors']) && !empty($result['errors'])) {
+                    throw new Exception('Errors while getting data from Spot. Application : '.$application->getName());
+                }
+
+                foreach ($result['Customer'] as $customer) {
+                    array_push($emails, $customer['email']);
+                }
+                $existingEmails = $spotCustomerService->getExistCustomerEmails($emails, $application);
+                if (!empty($existingEmails)) {
+                    foreach ($result['Customer'] as $customer) {
+                        if (in_array($customer['email'], $existingEmails)) {
+                            $spotCustomerService->addSpotCustomer($customer, $application);
+                        }
+                    }
+                } else {
+                    throw new Exception('All users are actual in application '.$application->getName());
+                }
+
+            } catch (\Exception $e) {
+                $this->log($e->getMessage());
+                $this->output->writeln($e->getMessage());
             }
         }
         $this->getDaemon()->iterate($daemonInterval);

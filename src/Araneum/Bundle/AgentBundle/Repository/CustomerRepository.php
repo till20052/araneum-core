@@ -55,7 +55,7 @@ class CustomerRepository extends EntityRepository implements \Countable
         return $qb->select("c.email")
         ->where("c.email IN (:emails) and c.application = :appId")
         ->setParameter('emails', $emails)
-        ->setParameter('appId', $application)
+        ->setParameter('appId', $application->getId())
         ->getQuery()
         ->getResult();
     }
