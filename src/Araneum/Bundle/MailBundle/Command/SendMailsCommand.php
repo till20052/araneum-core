@@ -106,7 +106,6 @@ class SendMailsCommand extends ContainerAwareCommand
             ->getManager();
         $repository = $manager->getRepository("AraneumMailBundle:Mail");
         $mails = $repository->getAllEmails($limit);
-
         if (is_array($mails) && count($mails)) {
             foreach ($mails as $mail) {
                 $message = \Swift_Message::newInstance()
@@ -120,7 +119,7 @@ class SendMailsCommand extends ContainerAwareCommand
                 if (!empty($mail->getAttachment()) && $this->fs->exists($mail->getAttachment())) {
                     $message->attach(\Swift_Attachment::fromPath($mail->getAttachment()));
                 }
-                if ($this->getContainer()->get('mailer')->send($message)) {
+                if ($msg = $this->getContainer()->get('mailer')->send($message)) {
                     try {
                         $eMail = $mail->setStatus(Mail::STATUS_SENT);
                         $manager->persist($eMail);
@@ -132,7 +131,7 @@ class SendMailsCommand extends ContainerAwareCommand
                     }
                 } else {
                     $this->setLog($mail, MailLog::STATUS_ERROR);
-                    $this->showError("Error! Not send messange to ".$mail->getId());
+                    $this->showError("Error! Not send messange to ".$mail->getId().':'.$msg);
                 }
             }
             $this->output->writeln("Messange $messangeCount send to mail");
