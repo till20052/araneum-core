@@ -74,7 +74,6 @@ class SpotCustomersCommand extends ContainerAwareCommand
                     throw new Exception('Empty data from Spot in application '.$application->getName());
                 }
 
-                $data = json_decode($data, true);
                 $result = $data['status'];
                 $emails = [];
 
