@@ -52,8 +52,8 @@ class ApplicationService
     /**
      * Send customers to application by url
      *
-     * @param  Customer    $customer
-     * @param  Application $application
+     * @param  Customer $customer
+     * @param  string   $url
      * @return \Guzzle\Http\Message\Response
      */
     public function createCustomer($customer, $url)
