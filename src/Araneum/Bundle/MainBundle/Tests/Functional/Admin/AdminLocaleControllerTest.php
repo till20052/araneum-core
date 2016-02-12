@@ -18,7 +18,7 @@ class AdminLocaleControllerTest extends BaseAdminController
     {
         parent::setUp();
 
-        $this->initActionUrl = 'araneum_manage_applications_init';
-        $this->gridActionUrl = 'araneum_manage_applications_grid';
+        $this->initActionUrl = 'araneum_manage_locales_init';
+        $this->gridActionUrl = 'araneum_manage_locales_grid';
     }
 }
