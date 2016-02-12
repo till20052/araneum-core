@@ -28,7 +28,8 @@
                 config: new CRUDLoader(),
                 form: new CRUDLoader()
             },
-            toolBar: toolBar
+            toolBar: toolBar,
+            dataTable: dataTable
         };
 
         function toolBar(id, container) {
@@ -43,50 +44,16 @@
                 $('div#' + id);
         }
 
-        /**
-         *
-         */
-        function fnDataTable(data) {
+        function dataTable(id, container) {
+            if (!register.hasOwnProperty('dataTable'))
+                register.dataTable = {};
 
-        }
+            if (container !== undefined)
+                register.dataTable[id] = container;
 
-        function setDataTable(dataTable) {
-            this.dataTable = new DataTable(dataTable, this);
-            //if(this.toolBar instanceof Object)
-            //    this.toolBar.refresh();
-        }
-    }
-
-    function DataTable(dataTable, supervisor) {
-        /* jshint validthis: true, eqeqeq: false */
-        var dt = dataTable,
-            rows = (function (rows) {
-                return $.map(rows, function (row) {
-                    return {
-                        element: row,
-                        selected: false
-                    };
-                });
-            })($('>tbody>tr', dt.dataTable).toArray());
-
-        return {
-            selectRow: selectRow,
-            selected: selected
-        };
-
-        function selectRow(index, state) {
-            if (typeof rows[index] == 'undefined')
-                return;
-            rows[index].selected = !!state;
-            supervisor.toolBar.refresh();
-        }
-
-        function selected() {
-            return $.map(rows, function (row) {
-                if (!row.selected)
-                    return null;
-                return row;
-            });
+            return register.dataTable.hasOwnProperty(id) ?
+                register.dataTable[id] :
+                $('div#' + id);
         }
     }
 

@@ -48,6 +48,12 @@
                 });
         }
 
+        /**
+         * Create table
+         *
+         * @param data
+         * @returns {JQuery|jQuery}
+         */
         function createTable(data) {
             return $('<table class="table-bordered table-striped hover" />')
                 .attr({
@@ -58,6 +64,12 @@
                 .append(createTableHead(data.columns));
         }
 
+        /**
+         * Create head of table
+         *
+         * @param columns
+         * @returns {JQuery|jQuery}
+         */
         function createTableHead(columns) {
             return $('<thead />').append(
                 $('<tr />').append(
@@ -86,6 +98,7 @@
          * @returns {Array<JQuery|jQuery>}
          */
         function getSelectedRows() {
+            /* jshint validthis: true */
             if (['TABLE', 'TBODY'].indexOf(this.prop('tagName')) < 0)
                 return [];
             return $('> tr, > tbody > tr', this)
@@ -101,6 +114,7 @@
          * @param state
          */
         function selectRow(state) {
+            /* jshint validthis: true, eqeqeq: true */
             if (this.prop('tagName') != 'TR')
                 return;
             this.data('selected', !!state);
