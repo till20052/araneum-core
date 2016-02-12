@@ -26,9 +26,12 @@ class ApplicationApiSenderService extends AbstractApiSender
         $url = $helper['url'];
         $id = $helper['customerId'];
         $this->guzzle->setBaseUrl($url);
-        $response = $this->guzzle->post(null, null, $requestData)->send();
-        $array = $response->getBody();
-        $this->updateCustomerSiteId($id, $array['id']);
+        $response = $this->guzzle->post(null, null, $requestData)->send()->getBody();
+        if (isset($response['id'])) {
+            $this->updateCustomerSiteId($id, $response['id']);
+        } else {
+            throw new Exception('Cannot get valid answer from Application');
+        }
 
         return $response;
     }
