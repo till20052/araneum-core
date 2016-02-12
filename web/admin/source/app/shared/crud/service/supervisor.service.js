@@ -1,4 +1,5 @@
 (function () {
+    /* jshint validthis: true */
     'use strict';
 
     angular
@@ -20,23 +21,49 @@
      * }}
      */
     function supervisor(CRUDLoader) {
-        /* jshint validthis: true */
-        var register = {};
+        var register = {},
+            _register = new Register();
 
         return {
+            $: new Register(),
             loader: {
                 config: new CRUDLoader(),
                 form: new CRUDLoader()
             },
-            toolBar: toolBar
+            _loader: loader,
+            toolBar: toolBar,
+            dataTable: dataTable
         };
 
-        function toolBar(id, container) {
+        function loader(id) {
+            if(_register.get('loader') === undefined)
+                _register.set('loader', new Register());
+
+
+            _register
+                .get('loader')
+                .set(id, new CRUDLoader());
+
+            console.log(this.$.get('loader') === undefined);
+
+            this.$.set('loader', new Register());
+
+            console.log(this.$.get('loader'));
+        }
+
+        /**
+         * Set|Get jQuery toolBar element in|from register
+         *
+         * @param {Number|String} id
+         * @param {jQuery} element
+         * @returns {jQuery}
+         */
+        function toolBar(id, element) {
             if (!register.hasOwnProperty('toolBar'))
                 register.toolBar = {};
 
-            if (container !== undefined)
-                register.toolBar[id] = container;
+            if (element !== undefined)
+                register.toolBar[id] = element;
 
             return register.toolBar.hasOwnProperty(id) ?
                 register.toolBar[id] :
@@ -44,49 +71,64 @@
         }
 
         /**
+         * Set|Get jQuery dataTable element in|from register
          *
+         * @param {Number|String} id
+         * @param {jQuery} element
+         * @returns {jQuery}
          */
-        function fnDataTable(data) {
+        function dataTable(id, element) {
+            if (!register.hasOwnProperty('dataTable'))
+                register.dataTable = {};
 
-        }
+            if (element !== undefined)
+                register.dataTable[id] = element;
 
-        function setDataTable(dataTable) {
-            this.dataTable = new DataTable(dataTable, this);
-            //if(this.toolBar instanceof Object)
-            //    this.toolBar.refresh();
+            return register.dataTable.hasOwnProperty(id) ?
+                register.dataTable[id] :
+                $('div#' + id);
         }
     }
 
-    function DataTable(dataTable, supervisor) {
-        /* jshint validthis: true, eqeqeq: false */
-        var dt = dataTable,
-            rows = (function (rows) {
-                return $.map(rows, function (row) {
-                    return {
-                        element: row,
-                        selected: false
-                    };
-                });
-            })($('>tbody>tr', dt.dataTable).toArray());
+    /**
+     * CRUD Supervisor Register
+     *
+     * @returns {{
+     *      set: set,
+     *      get: get
+     * }}
+     * @constructor
+     */
+    function Register() {
+        var $ = {},
+            srv = {
+                set: set,
+                get: get
+            };
 
-        return {
-            selectRow: selectRow,
-            selected: selected
-        };
+        return srv;
 
-        function selectRow(index, state) {
-            if (typeof rows[index] == 'undefined')
-                return;
-            rows[index].selected = !!state;
-            supervisor.toolBar.refresh();
+        /**
+         * Set value in to container of register
+         *
+         * @param {Number|String} id
+         * @param {*} value
+         * @returns {srv}
+         */
+        function set(id, value) {
+            $[id] = value;
+
+            return this;
         }
 
-        function selected() {
-            return $.map(rows, function (row) {
-                if (!row.selected)
-                    return null;
-                return row;
-            });
+        /**
+         * Get value from container of register
+         *
+         * @param {Number|String} id
+         * @returns {*}
+         */
+        function get(id) {
+            return $[id];
         }
     }
 

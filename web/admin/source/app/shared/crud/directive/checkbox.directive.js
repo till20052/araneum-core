@@ -78,6 +78,13 @@
                         .every(function (checkbox) {
                             return !!$(checkbox).prop('checked');
                         }));
+                toolBar.setAvailable(
+                    !$(selector, t.body)
+                        .toArray()
+                        .some(function (checkbox) {
+                            return !!$(checkbox).prop('checked');
+                        })
+                );
             }
         }
     }
