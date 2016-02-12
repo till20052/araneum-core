@@ -5,11 +5,11 @@ namespace Araneum\Bundle\MainBundle\Tests\Functional\Admin;
 use Araneum\Base\Tests\Controller\BaseAdminController;
 
 /**
- * Class AdminLocaleControllerTest
+ * Class AdminApplicationControllerTest
  *
  * @package Araneum\Bundle\MainBundle\Tests\Functional\Admin
  */
-class AdminLocaleControllerTest extends BaseAdminController
+class AdminApplicationControllerTest extends BaseAdminController
 {
     public function setUp()
     {
