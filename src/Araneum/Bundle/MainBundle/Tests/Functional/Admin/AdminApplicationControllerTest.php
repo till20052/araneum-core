@@ -11,6 +11,9 @@ use Araneum\Base\Tests\Controller\BaseAdminController;
  */
 class AdminApplicationControllerTest extends BaseAdminController
 {
+    /**
+     * @inheritdoc
+     */
     public function setUp()
     {
         parent::setUp();
