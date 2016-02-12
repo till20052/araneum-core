@@ -33,7 +33,7 @@ class ApplicationFilterType extends AbstractType
     }
 
     /**
-     * Build user form
+     * Build application form
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
