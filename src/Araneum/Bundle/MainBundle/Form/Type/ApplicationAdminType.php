@@ -115,11 +115,14 @@ class ApplicationAdminType extends AbstractType
                     ],
                 ]
             )
-            ->add('locales', 'entity', array(
+            ->add(
+                'locales',
+                'entity',
+                [
                     'class' => 'Araneum\Bundle\MainBundle\Entity\Locale',
                     'property' => 'name',
                     'multiple'  => true,
-                )
+                ]
             )
             ->add(
                 'enabled',
