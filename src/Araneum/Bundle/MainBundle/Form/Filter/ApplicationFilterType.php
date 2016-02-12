@@ -43,12 +43,12 @@ class ApplicationFilterType extends AbstractType
                 'cluster',
                 'filter_entity',
                 [
-                    'label' => 'Cluster app',
+                    'label' => 'Cluster',
                     'class' => 'Araneum\Bundle\MainBundle\Entity\Cluster',
                     'multiple' => false,
                     'empty_value' => 'admin.general.SELECT',
                     'attr' => [
-                        'translateLabel' => 'Cluster app',
+                        'translateLabel' => 'Cluster',
                     ],
                     'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
                         $query = $filterQuery->getQueryBuilder();
@@ -64,10 +64,10 @@ class ApplicationFilterType extends AbstractType
                 'name',
                 'filter_text',
                 [
-                    'label' => 'Name app',
+                    'label' => 'Name',
                     'attr' => [
                         'placeholder' => 'name placeholder',
-                        'translateLabel' => 'Name app',
+                        'translateLabel' => 'Name',
                     ],
                 ]
             )
@@ -75,10 +75,10 @@ class ApplicationFilterType extends AbstractType
                 'domain',
                 'filter_text',
                 [
-                    'label' => 'Domain app',
+                    'label' => 'Domain',
                     'attr' => [
                         'placeholder' => 'Domain placeholder',
-                        'translateLabel' => 'Domain app',
+                        'translateLabel' => 'Domain',
                     ],
                 ]
             )
@@ -86,10 +86,10 @@ class ApplicationFilterType extends AbstractType
                 'type',
                 'filter_text',
                 [
-                    'label' => 'Type app',
+                    'label' => 'Type',
                     'attr' => [
                         'placeholder' => 'Type placeholder',
-                        'translateLabel' => 'Type app',
+                        'translateLabel' => 'Type',
                     ],
                 ]
             )
@@ -97,7 +97,7 @@ class ApplicationFilterType extends AbstractType
                 'status',
                 'filter_choice',
                 [
-                    'label' => 'Status app',
+                    'label' => 'Status',
                     'choices' => Application::getStatuses(),
                     'empty_value' => 'locales.EMPTY_VALUE',
                     'attr' => [
