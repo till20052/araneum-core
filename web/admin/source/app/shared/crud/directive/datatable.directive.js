@@ -39,11 +39,9 @@
                 .onLoaded({
                     onSuccess: function (data) {
                         controller.options.sAjaxSource = data.grid.source;
-                        element.replaceWith($compile(
-                            createTable({
-                                columns: data.grid.columns
-                            })
-                        )(scope));
+                        element.replaceWith($compile(createTable({
+                            columns: data.grid.columns
+                        }))(scope));
                     }
                 });
         }
@@ -114,7 +112,7 @@
          * @param state
          */
         function selectRow(state) {
-            /* jshint validthis: true, eqeqeq: true */
+            /* jshint validthis: true, eqeqeq: false */
             if (this.prop('tagName') != 'TR')
                 return;
             this.data('selected', !!state);

@@ -11,16 +11,12 @@
         var controller;
 
         $.fn = angular.extend($.fn, {
-            setAvailable: function () {
+            setAvailable: function (state) {
                 $('button', this)
                     .filter(function () {
                         return ['setState', 'remove'].indexOf($(this).data('action')) !== -1;
                     })
-                    .prop('disabled', !$(selector, t.body)
-                        .toArray()
-                        .some(function (checkbox) {
-                            return !!$(checkbox).prop('checked');
-                        }));
+                    .prop('disabled', state);
             }
         });
 
@@ -42,6 +38,7 @@
                         element.replaceWith($compile(
                             supervisor.toolBar(scope.id, createToolBar(data.action.top))
                         )(scope));
+                        console.log(supervisor._loader('config'));
                     }
                 });
         }
