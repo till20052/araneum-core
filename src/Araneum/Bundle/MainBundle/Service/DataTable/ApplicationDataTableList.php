@@ -55,27 +55,27 @@ class ApplicationDataTableList extends AbstractList
                 'cluster.name',
                 [
                     'search_type' => 'like',
-                    'label' => 'Cluster',
+                    'label' => 'applications.CLUSTER',
                 ]
             )
             ->add(
                 'name',
                 [
                     'search_type' => 'like',
-                    'label' => 'Name',
+                    'label' => 'applications.NAME',
                 ]
             )
             ->add(
                 'domain',
                 [
                     'search_type' => 'like',
-                    'label' => 'Domain',
+                    'label' => 'applications.DOMAIN',
                 ]
             )
             ->add(
                 'type',
                 [
-                    'label' => 'Type',
+                    'label' => 'applications.TYPE',
                 ]
             )
             ->add(
@@ -84,7 +84,7 @@ class ApplicationDataTableList extends AbstractList
                     'render' => function ($value) {
                         return Application::getStatusDescription($value);
                     },
-                    'label' => 'Status',
+                    'label' => 'applications.STATUS',
                 ]
             )
             ->add(
@@ -94,7 +94,7 @@ class ApplicationDataTableList extends AbstractList
                     'render' => function ($value) {
                         return $value instanceof \DateTime ? $value->format('Y-m-d') : '';
                     },
-                    'label' => 'Created at',
+                    'label' => 'applications.CREATED_AT',
                 ]
             )
         ;

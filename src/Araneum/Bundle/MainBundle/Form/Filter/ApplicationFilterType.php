@@ -48,7 +48,7 @@ class ApplicationFilterType extends AbstractType
                     'multiple' => false,
                     'empty_value' => 'admin.general.SELECT',
                     'attr' => [
-                        'translateLabel' => 'Cluster',
+                        'translateLabel' => 'applications.CLUSTER',
                     ],
                     'apply_filter' => function (QueryInterface $filterQuery, $field, $values) {
                         $query = $filterQuery->getQueryBuilder();
@@ -66,8 +66,8 @@ class ApplicationFilterType extends AbstractType
                 [
                     'label' => 'Name',
                     'attr' => [
-                        'placeholder' => 'name placeholder',
-                        'translateLabel' => 'Name',
+                        'placeholder' => 'applications.placeholder.NAME',
+                        'translateLabel' => 'applications.NAME',
                     ],
                 ]
             )
@@ -77,8 +77,8 @@ class ApplicationFilterType extends AbstractType
                 [
                     'label' => 'Domain',
                     'attr' => [
-                        'placeholder' => 'Domain placeholder',
-                        'translateLabel' => 'Domain',
+                        'placeholder' => 'applications.placeholder.DOMAIN',
+                        'translateLabel' => 'applications.DOMAIN',
                     ],
                 ]
             )
@@ -88,8 +88,8 @@ class ApplicationFilterType extends AbstractType
                 [
                     'label' => 'Type',
                     'attr' => [
-                        'placeholder' => 'Type placeholder',
-                        'translateLabel' => 'Type',
+                        'placeholder' => 'applications.placeholder.TYPE',
+                        'translateLabel' => 'applications.TYPE',
                     ],
                 ]
             )
@@ -99,9 +99,9 @@ class ApplicationFilterType extends AbstractType
                 [
                     'label' => 'Status',
                     'choices' => Application::getStatuses(),
-                    'empty_value' => 'locales.EMPTY_VALUE',
+                    'empty_value' => 'admin.general.SELECT',
                     'attr' => [
-                        'translateLabel' => 'Status app',
+                        'translateLabel' => 'applications.STATUS',
                     ],
                 ]
             )
