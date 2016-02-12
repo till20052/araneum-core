@@ -52,7 +52,7 @@ class ApplicationDataTableList extends AbstractList
         $builder
             ->add('id')
             ->add(
-                'cluster',
+                'cluster.name',
                 [
                     'search_type' => 'like',
                     'label' => 'Cluster',

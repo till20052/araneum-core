@@ -44,7 +44,7 @@ class Application
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Cluster", cascade={"detach", "persist"})
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Cluster", cascade={"detach", "persist"})
      * @ORM\JoinColumn(name="cluster_id", referencedColumnName="id")
      */
     protected $cluster;
