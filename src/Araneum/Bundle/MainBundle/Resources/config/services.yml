@@ -47,3 +47,9 @@ services:
         arguments: [@router]
         tags:
             - { name: form.type }
+
+    araneum.main.application.form:
+            class: Araneum\Bundle\MainBundle\Form\Type\ApplicationAdminType
+            arguments: [@router]
+            tags:
+                - { name: form.type }

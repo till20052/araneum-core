@@ -35,6 +35,11 @@ class Application
         self::STATUS_DISABLED => 'disabled',
     ];
 
+    public static $enable = [
+        true => 'Enabled',
+        false => 'Disabled',
+    ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
