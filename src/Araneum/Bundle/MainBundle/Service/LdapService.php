@@ -7,14 +7,15 @@ use Araneum\Bundle\MainBundle\Service\Ldap\LdapConnection;
  * Class LdapService
  * @package Araneum\Bundle\MainBundle\Service
  */
-class LdapService extends LdapConnection{
+class LdapService extends LdapConnection
+{
 
     public $size            = null;
     protected $search       = null;
     protected $entry        = null;
     protected $entries      = array();
 
-    public static $LDAP_FIELDS = [
+    const LDAP_FIELDS = [
         'uid',
         'uidNumber',
         'gidNumber',
@@ -35,7 +36,8 @@ class LdapService extends LdapConnection{
      * @param string $query
      * @param string $filter
      */
-    public function setSearch($dn, $query, $filter = '*') {
+    public function setSearch($dn, $query, $filter = '*')
+    {
 
         if (!is_array($filter)) {
             $filter = array($filter);
@@ -47,7 +49,7 @@ class LdapService extends LdapConnection{
 
     public function getLdapFields()
     {
-        return self::$LDAP_FIELDS;
+        return self::LDAP_FIELDS;
     }
 
     /**
@@ -58,8 +60,8 @@ class LdapService extends LdapConnection{
     public function findAll()
     {
         $infos = ldap_get_entries($this->connection, $this->search);
-
         if (0 === $infos['count']) {
+
             return;
         }
 
@@ -77,8 +79,6 @@ class LdapService extends LdapConnection{
     public function escape($subject, $ignore = '', $flags = 0)
     {
         $value = ldap_escape($subject, $ignore, $flags);
-
-        // Per RFC 4514, leading/trailing spaces should be encoded in DNs, as well as carriage returns.
         if ((int) $flags & LDAP_ESCAPE_DN) {
             if (!empty($value) && $value[0] === ' ') {
                 $value = '\\20'.substr($value, 1);
@@ -97,7 +97,8 @@ class LdapService extends LdapConnection{
      *
      * @return  int
      */
-    public function numEntries() {
+    public function numEntries()
+    {
         return $this->size;
     }
 
@@ -105,7 +106,8 @@ class LdapService extends LdapConnection{
      * @return bool
      * @throws \Exception
      */
-    public function getFirstEntry() {
+    public function getFirstEntry()
+    {
         $this->entry= array(ldap_first_entry($this->connection, $this->search));
         if (false === $this->entry[0]) {
             if (!($e= ldap_errno($this->connection))) return false;
@@ -113,6 +115,7 @@ class LdapService extends LdapConnection{
         }
 
         $this->entry[1]= 1;
+
         return $this->entry[0];
     }
 
@@ -121,7 +124,8 @@ class LdapService extends LdapConnection{
      * @return bool
      * @throws \Exception
      */
-    public function getEntry($offset) {
+    public function getEntry($offset)
+    {
         if (!$this->entries) {
             $this->entries= ldap_get_entries($this->connection, $this->search);
             if (!is_array($this->entries)) {
@@ -129,7 +133,10 @@ class LdapService extends LdapConnection{
             }
         }
 
-        if (!isset($this->entries[$offset])) return false;
+        if (!isset($this->entries[$offset])) {
+            return false;
+        }
+
         return $this->entries[$offset];
     }
 
@@ -137,25 +144,32 @@ class LdapService extends LdapConnection{
      * @return bool
      * @throws \Exception
      */
-    public function getNextEntry() {
+    public function getNextEntry()
+    {
         if (null === $this->entry) {
+
             return $this->getFirstEntry();
         }
         if ($this->entry[1] >= $this->size) {
+
             return false;
         }
         $this->entry[0]= ldap_next_entry($this->connection, $this->entry[0]);
         if (false === $this->entry[0]) {
-            if (!($e= ldap_errno($this->connection))) return false;
+            if (!($e= ldap_errno($this->connection))) {
+
+                return false;
+            }
             throw new \Exception('Could not fetch next result entry.', $e);
         }
 
         $this->entry[1]++;
+
         return $this->entry[0];
     }
 
     /**
-     * @param $entry
+     * @param object $entry
      * @return array
      */
     public function getAttributes($entry)
@@ -168,7 +182,8 @@ class LdapService extends LdapConnection{
      *
      * @return  bool success
      */
-    public function close() {
+    public function close()
+    {
         return ldap_free_result($this->connection);
     }
 }

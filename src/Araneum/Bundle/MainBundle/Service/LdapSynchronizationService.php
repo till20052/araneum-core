@@ -60,7 +60,7 @@ class LdapSynchronizationService
     {
 
         $this->ldapService->bind($this->params['base_dn'], $this->params['search_password']);
-        $this->ldapService->setSearch($this->params['search_dn'],$this->params['filter'],"*");
+        $this->ldapService->setSearch($this->params['search_dn'], $this->params['filter'], "*");
         $entry = $this->ldapService->getFirstEntry();
 
         $result = [
@@ -99,7 +99,7 @@ class LdapSynchronizationService
             return;
         }
 
-        $status=null;
+        $status = null;
         $repositoryUser = $this->entityManager->getRepository('AraneumUserBundle:User');
         $userByEmail = $repositoryUser->findOneByEmail($ldapInfo['mail']);
 
@@ -114,8 +114,8 @@ class LdapSynchronizationService
             $user->setEnabled(false);
             $user->setPlainPassword((isset($this->params['user_password']))?$this->params['user_password']:null);
             $this->entityManager->persist($user);
-            $this->setUserLdapLog($user, $status=UserLdapLog::STATUS_NEW);
-        } else if (!empty($userByEmail->getId()) && !$repositoryUser->isHashLdapUser($ldapInfo)) {
+            $this->setUserLdapLog($user, $status = UserLdapLog::STATUS_NEW);
+        } elseif (!empty($userByEmail->getId()) && !$repositoryUser->isHashLdapUser($ldapInfo)) {
             $user = new User($userByEmail->getId());
             $user->setFullName($ldapInfo['displayName']);
             $user->setEmail($ldapInfo['mail']);
@@ -123,7 +123,7 @@ class LdapSynchronizationService
             $user->setUsername($ldapInfo['uid']);
             $user->setUsernameCanonical($ldapInfo['uid']);
             $this->entityManager->persist($user);
-            $this->setUserLdapLog($user, $status=UserLdapLog::STATUS_UPDATE);
+            $this->setUserLdapLog($user, $status = UserLdapLog::STATUS_UPDATE);
         }
 
         try {
@@ -137,10 +137,10 @@ class LdapSynchronizationService
 
     /**
      * User LDAP log
-     * @param $user
-     * @param $status
+     * @param User    $user
+     * @param integer $status
      */
-    public function setUserLdapLog($user, $status)
+    public function setUserLdapLog(User $user, $status = UserLdapLog::STATUS_NEW)
     {
         $userLdapLog = new UserLdapLog();
         $userLdapLog->setUser($user);

@@ -44,11 +44,10 @@ class LdapCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
-        $serviceLdap = $this->getContainer()
-            ->get('api.ldap.synchronization');
-        $completed = $serviceLdap->runSynchronization();
+        $completed = $this->getContainer()
+            ->get('api.ldap.synchronization')
+            ->runSynchronization();
         $this->output->writeln("User: Save({$completed['sitem']})/Update({$completed['uitem']}).");
         $this->output->writeln('Success');
     }
-
 }
