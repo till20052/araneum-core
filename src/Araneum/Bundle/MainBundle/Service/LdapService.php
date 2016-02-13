@@ -112,10 +112,9 @@ class LdapService extends LdapConnection
     public function getFirstEntry()
     {
         $lfe = ldap_first_entry($this->connection, $this->search);
-        $this->entry= [$lfe];
+        $this->entry = [$lfe];
         if (false === $this->entry[0]) {
-            $e = ldap_errno($this->connection);
-            if (!$e) {
+            if (!($e = ldap_errno($this->connection))) {
 
                 return false;
             }
@@ -123,20 +122,20 @@ class LdapService extends LdapConnection
             throw new \Exception('Could not fetch first result entry.', $e);
         }
 
-        $this->entry[1]= 1;
+        $this->entry[1] = 1;
 
         return $this->entry[0];
     }
 
     /**
-     * @param $offset
+     * @param integer $offset
      * @return bool
      * @throws \Exception
      */
     public function getEntry($offset)
     {
         if (!$this->entries) {
-            $this->entries= ldap_get_entries($this->connection, $this->search);
+            $this->entries = ldap_get_entries($this->connection, $this->search);
             if (!is_array($this->entries)) {
                 throw new \Exception('Could not read result entries.', ldap_errno($this->connection));
             }
@@ -163,9 +162,9 @@ class LdapService extends LdapConnection
 
             return false;
         }
-        $this->entry[0]= ldap_next_entry($this->connection, $this->entry[0]);
+        $this->entry[0] = ldap_next_entry($this->connection, $this->entry[0]);
         if (false === $this->entry[0]) {
-            if (!($e= ldap_errno($this->connection))) {
+            if (!($e = ldap_errno($this->connection))) {
 
                 return false;
             }
