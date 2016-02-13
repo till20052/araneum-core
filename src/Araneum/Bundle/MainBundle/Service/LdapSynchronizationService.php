@@ -88,6 +88,20 @@ class LdapSynchronizationService
     }
 
     /**
+     * User LDAP log
+     * @param User    $user
+     * @param integer $status
+     */
+    public function setUserLdapLog(User $user, $status = UserLdapLog::STATUS_NEW)
+    {
+        $userLdapLog = new UserLdapLog();
+        $userLdapLog->setUser($user);
+        $userLdapLog->setStatus($status);
+        $this->entityManager->persist($userLdapLog);
+        $this->entityManager->flush();
+    }
+
+    /**
      * Created User and create user ldap log
      * @param array $ldapInfo
      * @return bool|void
@@ -115,7 +129,7 @@ class LdapSynchronizationService
             $user->setPlainPassword((isset($this->params['user_password']))?$this->params['user_password']:null);
             $this->entityManager->persist($user);
             $this->setUserLdapLog($user, $status = UserLdapLog::STATUS_NEW);
-        } elseif (!empty($userByEmail->getId()) && !$repositoryUser->isHashLdapUser($ldapInfo)) {
+        } elseif (!empty($userByEmail->getId()) && !$repositoryUser->isLdapUser($ldapInfo)) {
             $user = new User($userByEmail->getId());
             $user->setFullName($ldapInfo['displayName']);
             $user->setEmail($ldapInfo['mail']);
@@ -133,19 +147,5 @@ class LdapSynchronizationService
         }
 
         return $status;
-    }
-
-    /**
-     * User LDAP log
-     * @param User    $user
-     * @param integer $status
-     */
-    public function setUserLdapLog(User $user, $status = UserLdapLog::STATUS_NEW)
-    {
-        $userLdapLog = new UserLdapLog();
-        $userLdapLog->setUser($user);
-        $userLdapLog->setStatus($status);
-        $this->entityManager->persist($userLdapLog);
-        $this->entityManager->flush();
     }
 }

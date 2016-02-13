@@ -16,15 +16,18 @@ class LdapConnection
     private $useSasl;
     private $optReferrals;
 
-    public function __construct(
-        $host = null,
-        $port = 389,
-        $version = 3,
-        $useSsl = false,
-        $useStartTls = false,
-        $useSasl = false,
-        $optReferrals = false
-    )
+    /**
+     * LdapConnection constructor.
+     * @param null $host
+     * @param int $port
+     * @param int $version
+     * @param bool $useSsl
+     * @param bool $useStartTls
+     * @param bool $useSasl
+     * @param bool $optReferrals
+     * @throws \Exception
+     */
+    public function __construct($host = null, $port = 389, $version = 3, $useSsl = false, $useStartTls = false, $useSasl = false, $optReferrals = false)
     {
         if (!extension_loaded('ldap')) {
             throw new \Exception('The ldap module is needed.');
@@ -61,8 +64,8 @@ class LdapConnection
 
     /**
      * Access to ldap connection.
-     * @param $dn
-     * @param $password
+     * @param string $dn
+     * @param string $password
      * @throws \Exception
      */
     public function bind($dn = null, $password = null)

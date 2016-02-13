@@ -47,6 +47,9 @@ class LdapService extends LdapConnection
         $this->size = ldap_count_entries($this->connection, $this->search);
     }
 
+    /**
+     * @return array
+     */
     public function getLdapFields()
     {
         return self::LDAP_FIELDS;
@@ -71,9 +74,9 @@ class LdapService extends LdapConnection
     /**
      * Escape to results
      *
-     * @param $subject
+     * @param string $subject
      * @param string $ignore
-     * @param int $flags
+     * @param int    $flags
      * @return mixed|string
      */
     public function escape($subject, $ignore = '', $flags = 0)
@@ -160,9 +163,9 @@ class LdapService extends LdapConnection
 
                 return false;
             }
+
             throw new \Exception('Could not fetch next result entry.', $e);
         }
-
         $this->entry[1]++;
 
         return $this->entry[0];
