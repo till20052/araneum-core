@@ -19,8 +19,8 @@ class LdapConnection
     /**
      * LdapConnection constructor.
      * @param null $host
-     * @param int $port
-     * @param int $version
+     * @param int  $port
+     * @param int  $version
      * @param bool $useSsl
      * @param bool $useStartTls
      * @param bool $useSasl

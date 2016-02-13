@@ -111,9 +111,15 @@ class LdapService extends LdapConnection
      */
     public function getFirstEntry()
     {
-        $this->entry= array(ldap_first_entry($this->connection, $this->search));
+        $lfe = ldap_first_entry($this->connection, $this->search);
+        $this->entry= [$lfe];
         if (false === $this->entry[0]) {
-            if (!($e= ldap_errno($this->connection))) return false;
+            $e = ldap_errno($this->connection);
+            if (!$e) {
+
+                return false;
+            }
+
             throw new \Exception('Could not fetch first result entry.', $e);
         }
 

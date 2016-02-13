@@ -36,8 +36,10 @@ class LdapCommand extends ContainerAwareCommand
     /**
      * Execute command
      *
+     * @inheritdoc
      * @param OutputInterface $output
      * @param InputInterface $input
+     *
      * @return void
      */
     protected function execute(InputInterface $input, OutputInterface $output)

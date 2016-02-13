@@ -21,7 +21,8 @@ class UserRepository extends EntityRepository implements \Countable
      * @param array $ldapInfo
      * @return \Doctrine\ORM\QueryBuilder
      */
-    public function isLdapUser(array $ldapInfo) {
+    public function isLdapUser(array $ldapInfo)
+    {
 
         return $this->createQueryBuilder('REPO')
             ->select('u.full_name,u.email,u.username')
