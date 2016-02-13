@@ -12,6 +12,7 @@ services:
     api.ldap:
         class: Araneum\Bundle\MainBundle\Service\LdapService
         arguments: ["nova.office.dev"]
+
     api.ldap.synchronization:
         class: Araneum\Bundle\MainBundle\Service\LdapSynchronizationService
         arguments: [@doctrine.orm.entity_manager, @api.ldap, @service_container]
