@@ -37,10 +37,10 @@ class LdapCommand extends ContainerAwareCommand
      * Execute command
      *
      * @param OutputInterface $output
-     *
+     * @param InputInterface $input
      * @return void
      */
-    protected function execute(OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
         $completed = $this->getContainer()
