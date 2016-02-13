@@ -1,0 +1,20 @@
+NAME: Name
+DOMAIN: Domain
+ENTER_DOMAIN: Incorected domain name
+ENABLED: Enabled
+PLACEHOLDER: Entre application name
+ALIASES: Aliases
+ENTER_ALIASES: Enter aliases
+EMPTY_VALUE: Choose
+ENTER_TYPE: Enter type
+TYPE: Type
+ENTER_TEMPLATE: Enter template
+TEMPLATE: Template
+ENTER_SPOT_API_USER: Enter spot API user
+SPOT_API_USER: Spot API user
+ENTER_SPOT_API_PASSWORD: Enter spot API Password
+SPOT_API_PASSWORD: Spot API Password
+ENTER_SPOT_API_URL: Enter spot API URL
+SPOT_API_URL: Spot API URL
+ENTER_SPOT_API_PUBLIC_URL: Enter spot API public url
+SPOT_API_PUBLIC_URL: Spot API public url
