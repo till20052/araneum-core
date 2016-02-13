@@ -37,6 +37,7 @@
         "miksoftware/daemon-bundle": "^0.9.3"
     },
     "require-dev": {
+        "phpunit/phpunit": "3.*",
         "sensio/generator-bundle": "~2.3"
     },
     "scripts": {

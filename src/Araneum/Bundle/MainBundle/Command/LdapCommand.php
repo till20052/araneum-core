@@ -18,11 +18,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class LdapCommand extends ContainerAwareCommand
 {
-    const STATUS = [
-        '1' => 'Save',
-        '2' => 'Update',
-    ];
-
     /**
      * @var OutputInterface
      */
