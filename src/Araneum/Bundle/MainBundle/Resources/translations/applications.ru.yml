@@ -4,7 +4,6 @@ TYPE: Тип
 STATUS: Статус
 CLUSTER: Кластер
 CREATED_AT: Дата создания
-
 placeholder:
     DOMAIN: Введите домен
     NAME: Введите имя
