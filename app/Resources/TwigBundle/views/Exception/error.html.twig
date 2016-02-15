@@ -37,19 +37,17 @@
                     </span>
             </div>
             <ul class="list-inline text-center text-sm mb-xl">
-                <li>
+                <li>Go to App</li>
                 <li class="text-muted">|</li>
-                <li>
+                <li>Login</li>
                 <li class="text-muted">|</li>
-                <li>
+                <li>Register</li>
             </ul>
             <div class="p-lg text-center">
                 <span>©</span>
-                <span class="ng-binding" ng-bind="app.year"></span>
+                <span class="ng-binding">{{ "now"|date("Y") }}</span>
                 <span>-</span>
-                <span class="ng-binding" ng-bind="app.name"></span>
-                <br>
-                <span class="ng-binding" ng-bind="app.description"></span>
+                <span class="ng-binding">Araneum</span>
             </div>
         </div>
     </div>
