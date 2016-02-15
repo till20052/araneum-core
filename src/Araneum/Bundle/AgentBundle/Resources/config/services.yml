@@ -47,4 +47,5 @@ services:
             - "@araneum.base.rabbitmq.producer.application_customer"
             - "@araneum.base.application_api"
             - "@doctrine.orm.entity_manager"
-            - ["%application_api_url_create_user%"]
+            -
+              'create_user': "%application_api_url_create_user%"
