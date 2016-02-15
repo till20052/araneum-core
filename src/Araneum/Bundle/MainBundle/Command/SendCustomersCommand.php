@@ -46,7 +46,6 @@ class SendCustomersCommand extends ContainerAwareCommand
         $optionService = $this->getContainer()->get('araneum.api.application.service');
         $applicationOption = $input->getArgument('project');
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $url = $this->getContainer()->getParameter('application_url_create_customer');
         if (empty($applicationOption)) {
             $applications =  $this->getContainer()->get('doctrine')->getRepository('AraneumMainBundle:Application')->findAll();
         } else {
@@ -60,7 +59,7 @@ class SendCustomersCommand extends ContainerAwareCommand
             foreach ($customers as $customer) {
                 $optionService->createCustomer(
                     $customer,
-                    $application->getDomain()
+                    $application
                 );
             }
         }

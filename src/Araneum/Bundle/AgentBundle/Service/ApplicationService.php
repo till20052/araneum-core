@@ -56,15 +56,15 @@ class ApplicationService
     /**
      * Send customers to application by url
      *
-     * @param  Customer $customer
-     * @param  string   $domain
+     * @param  Customer      $customer
+     * @param  Application   $application
      * @return \Guzzle\Http\Message\Response
      */
-    public function createCustomer($customer, $domain)
+    public function createCustomer($customer, $application)
     {
         $data = [
             'customerData' => $this->getCustomerData($customer),
-            'url' => $domain.$this->urls['create_user'],
+            'url' => $application->getDomain().$this->urls['create_user'],
             'customerId' => $customer->getId(),
         ];
         $this->apiCustomerProducerService->publish($data);
