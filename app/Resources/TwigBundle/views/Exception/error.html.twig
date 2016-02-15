@@ -21,9 +21,6 @@
 
 <body data-ng-class="{ 'layout-fixed' : app.layout.isFixed, 'aside-collapsed' : app.layout.isCollapsed, 'layout-boxed' : app.layout.isBoxed, 'layout-fs': app.useFullLayout, 'hidden-footer': app.hiddenFooter, 'layout-h': app.layout.horizontal, 'aside-float': app.layout.isFloat, 'offsidebar-open': app.offsidebarOpen, 'aside-toggled': app.asideToggled}">
 <div data-preloader></div>
-<div data-ui-view="" data-autoscroll="false" class="wrapper"></div>
-<script src="{{ asset('admin/build/js/base.js') }}"></script>
-<script src="{{ asset('admin/build/js/build.js') }}"></script>
 <div class="wrapper ng-scope" data-autoscroll="false" data-ui-view="" style="">
     <div class="ng-zoomBackDown ng-fluid ng-scope" autoscroll="false" ui-view="" style="">
         <div class="abs-center wd-xl ng-scope">
@@ -57,6 +54,8 @@
         </div>
     </div>
 </div>
+<script src="{{ asset('admin/build/js/base.js') }}"></script>
+<script src="{{ asset('admin/build/js/build.js') }}"></script>
 </body>
 
 </html>
