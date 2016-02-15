@@ -70,9 +70,6 @@ class SpotApiCustomerServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->application = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Application');
-        $this->guzzleMock = $this->getMockBuilder('\Guzzle\Service\ClientInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->responseMock = $this->getMockBuilder('\Guzzle\Http\Message\Response')
             ->disableOriginalConstructor()
             ->getMock();
