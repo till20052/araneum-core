@@ -21,35 +21,44 @@
 
 <body data-ng-class="{ 'layout-fixed' : app.layout.isFixed, 'aside-collapsed' : app.layout.isCollapsed, 'layout-boxed' : app.layout.isBoxed, 'layout-fs': app.useFullLayout, 'hidden-footer': app.hiddenFooter, 'layout-h': app.layout.horizontal, 'aside-float': app.layout.isFloat, 'offsidebar-open': app.offsidebarOpen, 'aside-toggled': app.asideToggled}">
 <div data-preloader></div>
-<div class="wrapper ng-scope" data-autoscroll="false" data-ui-view="" style="">
-    <div class="ng-zoomBackDown ng-fluid ng-scope" autoscroll="false" ui-view="" style="">
-        <div class="text-center mb-xl">
-            <div class="text-lg mb-lg">{{ status_code }}</div>
-            <p class="lead m0">{{ status_text }}</p>
-        </div>
-        <div class="input-group mb-xl">
-            <input class="form-control" type="text" placeholder="Try with a search">
-                <span class="input-group-btn">
-                <button class="btn btn-default" type="button">
-                    <em class="fa fa-search"></em>
-                </button>
-                </span>
-        </div>
-        <ul class="list-inline text-center text-sm mb-xl">
-            <li>Go to App</li>
-            <li class="text-muted">|</li>
-            <li>Login</li>
-            <li class="text-muted">|</li>
-            <li>Register</li>
-        </ul>
-        <div class="p-lg text-center">
-            <span>©</span>
-            <span class="ng-binding">{{ "now"|date("Y") }}</span>
-            <span>-</span>
-            <span class="ng-binding">Araneum</span>
+    <div class="wrapper ng-scope" data-autoscroll="false" data-ui-view="" style="">
+        <div class="ng-zoomBackDown ng-fluid ng-scope" autoscroll="false" ui-view="">
+            <div class="abs-center wd-xl ng-scope">
+                <div class="text-center mb-xl">
+                    <div class="text-lg mb-lg">404</div>
+                    <p class="lead m0">We couldn't find this page.</p>
+                    <p>The page you are looking for does not exists.</p>
+                </div>
+                <div class="input-group mb-xl">
+                    <input class="form-control" type="text" placeholder="Try with a search">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">
+                            <em class="fa fa-search"></em>
+                        </button>
+                    </span>
+                </div>
+                <ul class="list-inline text-center text-sm mb-xl">
+                    <li>
+                        <a class="text-muted" ui-sref="app.dashboard" href="{{ path('araneum_manage_main' }}">Go to App</a>
+                    </li>
+                    <li class="text-muted">|</li>
+                    <li>
+                        <a class="text-muted" ui-sref="page.login" href="{{ path('araneum_manage_login' }}">Login</a>
+                    </li>
+                    <li class="text-muted">|</li>
+                    <li>
+                        <a class="text-muted" ui-sref="page.register" href="{{ path('araneum_manage_login' }}">Register</a>
+                    </li>
+                </ul>
+                <div class="p-lg text-center">
+                    <span>©</span>
+                    <span class="ng-binding" ng-bind="app.year">{{ "now"|date("Y") }}</span>
+                    <span>-</span>
+                    <span class="ng-binding" ng-bind="app.name">Araneum</span>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 <script src="{{ asset('admin/build/js/base.js') }}"></script>
 <script src="{{ asset('admin/build/js/build.js') }}"></script>
 </body>
