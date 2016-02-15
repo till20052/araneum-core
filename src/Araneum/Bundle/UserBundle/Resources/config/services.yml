@@ -19,4 +19,4 @@ services:
 
     araneum.spot.api.customer.service:
             class: Araneum\Bundle\UserBundle\Service\Spot\SpotApiCustomerService
-            arguments: [@doctrine.orm.entity_manager, @araneum.agent.spotoption.service]
+            arguments: ["@doctrine.orm.entity_manager", "@araneum.agent.spotoption.service"]

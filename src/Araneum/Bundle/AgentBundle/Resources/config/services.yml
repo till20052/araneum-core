@@ -44,7 +44,7 @@ services:
     araneum.api.application.service:
         class: Araneum\Bundle\AgentBundle\Service\ApplicationService
         arguments:
-            - @araneum.base.rabbitmq.producer.application_customer
-            - @araneum.base.application_api
-            - @doctrine.orm.entity_manager
-            - [%application_url%]
+            - "@araneum.base.rabbitmq.producer.application_customer"
+            - "@araneum.base.application_api"
+            - "@doctrine.orm.entity_manager"
+            - ["%application_url%"]
