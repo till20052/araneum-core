@@ -76,9 +76,6 @@ class SpotApiCustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->responseMock = $this->getMockBuilder('\Guzzle\Http\Message\Response')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->requestMock = $this->getMockBuilder('\Guzzle\Http\Message\EntityEnclosingRequestInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->em = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
