@@ -39,7 +39,8 @@ class ApplicationApiSenderServiceTest extends \PHPUnit_Framework_TestCase
     protected $em;
 
     /**
-     *  Test normal work of method
+     * Test normal work of method
+     * @inheritdoc
      */
     public function testSendNormalEmptyData()
     {
@@ -78,7 +79,8 @@ class ApplicationApiSenderServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *  Test normal work of method
+     * Test normal work of method
+     * @inheritdoc
      */
     public function testSendNormalData()
     {
