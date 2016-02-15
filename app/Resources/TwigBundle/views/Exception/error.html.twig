@@ -21,13 +21,13 @@
 
 <body data-ng-class="{ 'layout-fixed' : app.layout.isFixed, 'aside-collapsed' : app.layout.isCollapsed, 'layout-boxed' : app.layout.isBoxed, 'layout-fs': app.useFullLayout, 'hidden-footer': app.hiddenFooter, 'layout-h': app.layout.horizontal, 'aside-float': app.layout.isFloat, 'offsidebar-open': app.offsidebarOpen, 'aside-toggled': app.asideToggled}">
 <div data-preloader></div>
+<div class="wrapper ng-scope" data-autoscroll="false" data-ui-view="" style="">
     <div class="wrapper ng-scope" data-autoscroll="false" data-ui-view="" style="">
         <div class="ng-zoomBackDown ng-fluid ng-scope" autoscroll="false" ui-view="">
             <div class="abs-center wd-xl ng-scope">
                 <div class="text-center mb-xl">
-                    <div class="text-lg mb-lg">404</div>
-                    <p class="lead m0">We couldn't find this page.</p>
-                    <p>The page you are looking for does not exists.</p>
+                    <div class="text-lg mb-lg">{{ status_code }}</div>
+                    <p class="lead m0">{{ status_text }}</p>
                 </div>
                 <div class="input-group mb-xl">
                     <input class="form-control" type="text" placeholder="Try with a search">
