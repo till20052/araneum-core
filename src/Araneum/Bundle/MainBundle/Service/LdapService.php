@@ -39,7 +39,7 @@ class LdapService extends LdapConnection
      */
     public function __construct(ContainerInterface $container)
     {
-        $ldap = $this->container->getParams('ldap');
+        $ldap = $container->getParameter('ldap');
         if (!isset($ldap['ldap_host'])) {
             throw new \Exception('Need enter ldap host.');
         }
