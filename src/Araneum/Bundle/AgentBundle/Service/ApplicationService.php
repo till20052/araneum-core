@@ -31,6 +31,7 @@ class ApplicationService
      * @var EntityManager
      */
     protected $entityManager;
+    protected $urls;
 
     /**
      * ApplicationOptionService constructor.
@@ -38,29 +39,32 @@ class ApplicationService
      * @param ApiCustomerProducerService  $apiCustomerProducerService
      * @param ApplicationApiSenderService $applicationApiSenderService
      * @param EntityManager               $entityManager
+     * @param array                       $urls
      */
     public function __construct(
         ApiCustomerProducerService     $apiCustomerProducerService,
         ApplicationApiSenderService $applicationApiSenderService,
-        EntityManager $entityManager
+        EntityManager $entityManager,
+        $urls
     ) {
         $this->apiCustomerProducerService = $apiCustomerProducerService;
         $this->applicationApiSenderService = $applicationApiSenderService;
         $this->entityManager = $entityManager;
+        $this->urls = $urls;
     }
 
     /**
      * Send customers to application by url
      *
      * @param  Customer $customer
-     * @param  string   $url
+     * @param  string   $domain
      * @return \Guzzle\Http\Message\Response
      */
-    public function createCustomer($customer, $url)
+    public function createCustomer($customer, $domain)
     {
         $data = [
             'customerData' => $this->getCustomerData($customer),
-            'url' => $url,
+            'url' => $domain.$this->urls['create_user'],
             'customerId' => $customer->getId(),
         ];
         $this->apiCustomerProducerService->publish($data);

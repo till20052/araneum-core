@@ -60,7 +60,7 @@ class SendCustomersCommand extends ContainerAwareCommand
             foreach ($customers as $customer) {
                 $optionService->createCustomer(
                     $customer,
-                    $application->getDomain().$url
+                    $application->getDomain()
                 );
             }
         }
