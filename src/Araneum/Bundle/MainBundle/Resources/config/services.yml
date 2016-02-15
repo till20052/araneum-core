@@ -50,6 +50,6 @@ services:
 
     araneum_main.application.filter.form:
         class: Araneum\Bundle\MainBundle\Form\Filter\ApplicationFilterType
-        arguments: [@doctrine, @service_container]
+        arguments: ["@doctrine", "@service_container"]
         tags:
             - { name: form.type, alias: araneum_locale_filter }
