@@ -214,6 +214,7 @@ class SendMailsCommandTest extends WebTestCase
     {
         $app = new Application();
         $app->add(new SendMailsCommand());
+
         $this->getMockFs();
         $this->mailer = $this->getMockMailer(true);
         $entityMail = $this->getMockEntityMail();
