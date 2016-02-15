@@ -71,8 +71,8 @@ class LdapSynchronizationService
             $argument = $this->ldapService->getAttributes($entry);
             $arrItem = [];
             foreach ($this->ldapService->getLdapFields() as $field) {
-                if (isset($argument[$field][0])) {
-                    $arrItem[$field] = $argument[$field][0];
+                if ($first = array_shift($argument[$field])) {
+                    $arrItem[$field] = $first;
                 }
             }
             if (count($arrItem) > 0 && $status = $this->createUser($arrItem)) {

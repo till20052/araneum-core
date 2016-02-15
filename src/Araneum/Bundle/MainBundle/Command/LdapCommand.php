@@ -30,7 +30,7 @@ class LdapCommand extends ContainerAwareCommand
     {
         $this
             ->setName('araneum:ldap:users')
-            ->setDescription('Load all users in LDAP.');
+            ->setDescription('Load all users from LDAP server.');
     }
 
     /**

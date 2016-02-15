@@ -27,7 +27,7 @@ class LdapConnection
      * @param bool $optReferrals
      * @throws \Exception
      */
-    public function __construct($host = null, $port = 389, $version = 3, $useSsl = false, $useStartTls = false, $useSasl = false, $optReferrals = false)
+    public function __construct($host, $port, $version, $useSsl, $useStartTls, $useSasl, $optReferrals)
     {
         if (!extension_loaded('ldap')) {
             throw new \Exception('The ldap module is needed.');

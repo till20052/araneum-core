@@ -1,6 +1,7 @@
 <?php
 namespace Araneum\Bundle\MainBundle\Service;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Araneum\Bundle\MainBundle\Service\Ldap\LdapConnection;
 
 /**
@@ -31,14 +32,37 @@ class LdapService extends LdapConnection
     ];
 
     /**
-     * Set Search settings
+     * LdapService constructor.
+     *
+     * @param ContainerInterface $container
+     * @throws \Exception
+     */
+    public function __construct(ContainerInterface $container)
+    {
+        $ldap = $this->container->getParams('ldap');
+        if (!isset($ldap['ldap_host'])) {
+            throw new \Exception('Need enter ldap host.');
+        }
+
+        parent::__construct(
+            $ldap['ldap_host'],
+            (!isset($ldap['ldap_port']))?$ldap['ldap_port']:389,
+            (!isset($ldap['ldap_version']))?$ldap['ldap_version']:3,
+            (!isset($ldap['ldap_useSsl']))?$ldap['ldap_useSsl']:false,
+            (!isset($ldap['ldap_useStartTls']))?$ldap['ldap_useStartTls']:false,
+            (!isset($ldap['ldap_useSasl']))?$ldap['ldap_useSasl']:false,
+            (!isset($ldap['ldap_optReferrals']))?$ldap['ldap_optReferrals']:false);
+    }
+
+    /**
+     * Set Search settings.
+     *
      * @param string $dn
      * @param string $query
      * @param string $filter
      */
     public function setSearch($dn, $query, $filter = '*')
     {
-
         if (!is_array($filter)) {
             $filter = array($filter);
         }
@@ -48,6 +72,8 @@ class LdapService extends LdapConnection
     }
 
     /**
+     * Return fields user from LDAP search result.
+     *
      * @return array
      */
     public function getLdapFields()
@@ -56,7 +82,7 @@ class LdapService extends LdapConnection
     }
 
     /**
-     * Return All results
+     * Return All results.
      *
      * @return array|void
      */
@@ -65,7 +91,7 @@ class LdapService extends LdapConnection
         $infos = ldap_get_entries($this->connection, $this->search);
         if (0 === $infos['count']) {
 
-            return;
+            return null;
         }
 
         return $infos;
@@ -83,7 +109,7 @@ class LdapService extends LdapConnection
     {
         $value = ldap_escape($subject, $ignore, $flags);
         if ((int) $flags & LDAP_ESCAPE_DN) {
-            if (!empty($value) && $value[0] === ' ') {
+            if (!empty($value) && array_shift($value) === ' ') {
                 $value = '\\20'.substr($value, 1);
             }
             if (!empty($value) && $value[strlen($value) - 1] === ' ') {
@@ -106,14 +132,15 @@ class LdapService extends LdapConnection
     }
 
     /**
+     * Return first element LDAP user.
+     *
      * @return bool
      * @throws \Exception
      */
     public function getFirstEntry()
     {
-        $lfe = ldap_first_entry($this->connection, $this->search);
-        $this->entry = [$lfe];
-        if (false === $this->entry[0]) {
+        $this->entry = [ldap_first_entry($this->connection, $this->search)];
+        if (false === ($first = array_shift($this->entry))) {
             if (!($e = ldap_errno($this->connection))) {
 
                 return false;
@@ -123,11 +150,12 @@ class LdapService extends LdapConnection
         }
 
         $this->entry[1] = 1;
-
-        return $this->entry[0];
+        return $first;
     }
 
     /**
+     * Return current element from LDAP results.
+     *
      * @param integer $offset
      * @return bool
      * @throws \Exception
@@ -149,6 +177,8 @@ class LdapService extends LdapConnection
     }
 
     /**
+     * Return next element from LDAP results.
+     *
      * @return bool
      * @throws \Exception
      */
@@ -162,7 +192,7 @@ class LdapService extends LdapConnection
 
             return false;
         }
-        $this->entry[0] = ldap_next_entry($this->connection, $this->entry[0]);
+        $this->entry[0] = ldap_next_entry($this->connection, array_shift($this->entry));
         if (false === $this->entry[0]) {
             if (!($e = ldap_errno($this->connection))) {
 
@@ -177,6 +207,8 @@ class LdapService extends LdapConnection
     }
 
     /**
+     * Return all LDAP results and converting from object to array
+     *
      * @param object $entry
      * @return array
      */
