@@ -49,6 +49,11 @@ class ApplicationApiSenderServiceTest extends \PHPUnit_Framework_TestCase
             'customerId' => '1',
         ];
 
+        $this->requestMock->expects($this->once())
+            ->method('send')
+            ->will($this->returnValue($this->responseMock));
+
+
         $this->guzzleMock->expects($this->once())
             ->method('setBaseUrl')
             ->will($this->returnValue('apiUrl'));
@@ -61,10 +66,6 @@ class ApplicationApiSenderServiceTest extends \PHPUnit_Framework_TestCase
                 $this->requestData
             )
             ->will($this->returnValue($this->requestMock));
-
-        $this->requestMock->expects($this->once())
-            ->method('send')
-            ->will($this->returnValue($this->responseMock));
 
         $this->responseMock->expects($this->once())
             ->method('getBody')
@@ -84,12 +85,12 @@ class ApplicationApiSenderServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSendNormalData()
     {
-        $customer = $this->getMock('\Araneum\Bundle\AgentBundle\Entity\Customer');
-
         $helper = [
             'url' => 'http://apiUrl.com',
             'customerId' => '1',
         ];
+
+        $customer = $this->getMock('\Araneum\Bundle\AgentBundle\Entity\Customer');
 
         $this->guzzleMock->expects($this->once())
             ->method('setBaseUrl')
@@ -108,10 +109,6 @@ class ApplicationApiSenderServiceTest extends \PHPUnit_Framework_TestCase
             ->method('send')
             ->will($this->returnValue($this->responseMock));
 
-        $this->responseMock->expects($this->any())
-            ->method('getBody')
-            ->will($this->returnValue(['id' => 10]));
-
         $repository = $this->getMockBuilder('\Araneum\Bundle\AgentBundle\Repository\CustomerRepository')
             ->disableOriginalConstructor()
             ->getMock();
@@ -120,6 +117,10 @@ class ApplicationApiSenderServiceTest extends \PHPUnit_Framework_TestCase
             ->method('find')
             ->with($this->equalTo(1))
             ->will($this->returnValue($customer));
+
+        $this->responseMock->expects($this->any())
+            ->method('getBody')
+            ->will($this->returnValue(['id' => 10]));
 
         $this->em->expects($this->any())
             ->method('getRepository')
