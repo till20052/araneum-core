@@ -50,7 +50,7 @@ class SpotApiCustomerServiceTest extends \PHPUnit_Framework_TestCase
             [
                 'email' => 'customer3@mail.ru',
                 'name' => 'Name3',
-            ]
+            ],
         ];
         $this->spotOptionServiceMock->expects($this->once())
             ->method('getCustomersByFilter')
