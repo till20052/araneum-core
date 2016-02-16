@@ -25,7 +25,8 @@
         };
 
         function link(scope, element) {
-            supervisor.loader.config
+            supervisor
+                .loader('config')
                 .onLoaded({
                     onSuccess: function (data) {
                         $(element)

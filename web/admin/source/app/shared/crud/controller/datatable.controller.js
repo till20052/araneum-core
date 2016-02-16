@@ -58,10 +58,10 @@
                         })
                     )($scope);
                 },
-                error: function (r) {
-                    if (r.status === 401) {
-                        $state.go('login');
-                    }
+                error: function (response) {
+                    if (response.status !== 401)
+                        return;
+                    $state.go('login');
                 }
             });
         }

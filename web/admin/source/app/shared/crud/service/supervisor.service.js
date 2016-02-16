@@ -4,89 +4,53 @@
 
     angular
         .module('crud')
-        .service('supervisor', supervisor);
+        .service('supervisor', Supervisor);
 
-    supervisor.$inject = ['CRUDLoader'];
+    Supervisor.$inject = ['CRUDLoader'];
 
     /**
-     * CRUD Supervisor
      *
      * @param CRUDLoader
      * @returns {{
-     *      loader: {
-     *          config: CRUDLoader,
-     *          form: CRUDLoader
-     *      },
-     *      toolBar: <Function>
+     *      loader: loader,
+     *      eventsFactory: EventsFactory,
+     *      dispatcher: Dispatcher
      * }}
+     * @constructor
      */
-    function supervisor(CRUDLoader) {
-        var register = {},
-            _register = new Register();
+    function Supervisor(CRUDLoader) {
+        var register = new Register();
 
         return {
-            $: new Register(),
-            loader: {
-                config: new CRUDLoader(),
-                form: new CRUDLoader()
-            },
-            _loader: loader,
-            toolBar: toolBar,
-            dataTable: dataTable
+            loader: loader,
+            eventsFactory: new EventsFactory(),
+            dispatcher: new Dispatcher()
         };
 
+        /**
+         * Set|Get sub-register in|from register
+         *
+         * @param id
+         * @returns {*}
+         */
+        function subRegister(id) {
+            if (register.get(id) === undefined)
+                register.set(id, new Register());
+
+            return register.get(id);
+        }
+
+        /**
+         * Set|Get loader by id
+         *
+         * @param {String} id
+         * @returns {CRUDLoader}
+         */
         function loader(id) {
-            if(_register.get('loader') === undefined)
-                _register.set('loader', new Register());
+            if (subRegister('loader').get(id) === undefined)
+                subRegister('loader').set(id, new CRUDLoader());
 
-
-            _register
-                .get('loader')
-                .set(id, new CRUDLoader());
-
-            console.log(this.$.get('loader') === undefined);
-
-            this.$.set('loader', new Register());
-
-            console.log(this.$.get('loader'));
-        }
-
-        /**
-         * Set|Get jQuery toolBar element in|from register
-         *
-         * @param {Number|String} id
-         * @param {jQuery} element
-         * @returns {jQuery}
-         */
-        function toolBar(id, element) {
-            if (!register.hasOwnProperty('toolBar'))
-                register.toolBar = {};
-
-            if (element !== undefined)
-                register.toolBar[id] = element;
-
-            return register.toolBar.hasOwnProperty(id) ?
-                register.toolBar[id] :
-                $('div#' + id);
-        }
-
-        /**
-         * Set|Get jQuery dataTable element in|from register
-         *
-         * @param {Number|String} id
-         * @param {jQuery} element
-         * @returns {jQuery}
-         */
-        function dataTable(id, element) {
-            if (!register.hasOwnProperty('dataTable'))
-                register.dataTable = {};
-
-            if (element !== undefined)
-                register.dataTable[id] = element;
-
-            return register.dataTable.hasOwnProperty(id) ?
-                register.dataTable[id] :
-                $('div#' + id);
+            return subRegister('loader').get(id);
         }
     }
 
@@ -109,16 +73,18 @@
         return srv;
 
         /**
-         * Set value in to container of register
+         * Set value into container of register
          *
-         * @param {Number|String} id
-         * @param {*} value
-         * @returns {srv}
+         * @param id
+         * @param value
+         * @returns {{
+         *      set: set,
+         *      get: get
+         * }}
          */
         function set(id, value) {
             $[id] = value;
-
-            return this;
+            return srv;
         }
 
         /**
@@ -132,5 +98,67 @@
         }
     }
 
+    /**
+     *
+     * @returns {{
+     *      createEvent: createEvent
+     * }}
+     * @constructor
+     */
+    function EventsFactory() {
+        var mapping = {
+            create: 'create',
+            update: 'update',
+            editRow: 'setState',
+            deleteRow: 'remove'
+        };
+
+        return {
+            createEvent: createEvent
+        };
+
+        /**
+         * Create an Event
+         *
+         * @param data
+         */
+        function createEvent(data) {
+            if (!mapping.hasOwnProperty(data.callback))
+                throw console.error('[ERROR]: Event "' + data.callback + '" doesn\'t defined');
+
+            return {
+                event: mapping[data.callback]
+            };
+        }
+    }
+
+    /**
+     *
+     * @constructor
+     */
+    function EventListener() {
+
+        return {};
+
+    }
+
+    /**
+     *
+     * @returns {{
+     *      dispatch: dispatch
+     * }}
+     * @constructor
+     */
+    function Dispatcher() {
+
+        return {
+            dispatch: dispatch
+        };
+
+        function dispatch(event) {
+            console.log(event);
+        }
+
+    }
 
 })();

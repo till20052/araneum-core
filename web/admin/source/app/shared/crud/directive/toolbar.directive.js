@@ -32,13 +32,11 @@
 
         function link(scope, element) {
             controller = scope.controller;
-            supervisor.loader.config
+            supervisor
+                .loader('config')
                 .onLoaded({
                     onSuccess: function (data) {
-                        element.replaceWith($compile(
-                            supervisor.toolBar(scope.id, createToolBar(data.action.top))
-                        )(scope));
-                        console.log(supervisor._loader('config'));
+                        element.replaceWith($compile(createToolBar(data.action.top))(scope));
                     }
                 });
         }
@@ -47,7 +45,7 @@
          * Create toolBar
          *
          * @param {Object} options
-         * @returns {JQuery|jQuery}
+         * @returns {jQuery}
          */
         function createToolBar(options) {
             return $('<div />')
@@ -67,7 +65,7 @@
          * Create group of toolBar buttons
          *
          * @param {Array} buttons
-         * @returns {JQuery|jQuery}
+         * @returns {jQuery}
          */
         function createGroup(buttons) {
             return $('<div class="btn-group pull-right" />')
@@ -82,20 +80,23 @@
          * Create toolBar button
          *
          * @param {Object} options
-         * @returns {JQuery|jQuery}
+         * @returns {jQuery}
          */
         function createButton(options) {
             return $('<button class="btn btn-sm" />')
                 .addClass(options.display.btnClass)
-                .data({
-                    action: ({
-                        create: 'create',
-                        editRow: 'setState',
-                        deleteRow: 'remove'
-                    })[options.callback]
-                })
+                .data(
+                    supervisor
+                        .eventsFactory
+                        .createEvent(options)
+                )
                 .attr('uib-tooltip', '{{ "' + options.display.label + '" | translate }}')
-                .click(controller.defineAction)
+                .click(function () {
+                    supervisor
+                        .dispatcher
+                        .dispatch
+                        .call(this, $(this).data());
+                })
                 .append(
                     $('<em />').addClass(options.display.icon)
                 );

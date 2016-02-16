@@ -7,7 +7,17 @@
 
     CRUDController.$inject = ['$scope', '$state', 'supervisor'];
 
+    /**
+     *
+     * @param $scope
+     * @param $state
+     * @param supervisor
+     * @constructor
+     */
     function CRUDController($scope, $state, supervisor) {
+        /* jshint validthis: true */
+        var vm = this;
+
         $scope.icon = $state.$current.crud.icon;
         $scope.title = $state.$current.crud.title;
 
@@ -24,7 +34,8 @@
             }
         };
 
-        supervisor.loader.config
+        supervisor
+            .loader('config')
             .load($state.$current.initialize)
             .onLoaded({
                 onSuccess: function (response) {
