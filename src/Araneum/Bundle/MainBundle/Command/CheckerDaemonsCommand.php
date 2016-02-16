@@ -51,7 +51,7 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
                         $this->output->writeln('Cannot get daemon status: '.$daemon);
                     } elseif ($data == 'Daemon doesn\'t work') {
                         (new Process('app/console '.$daemon.' start'))->run();
-                        $this->output->writeln($daemon.' was broken, but starts to work now');
+                        $this->output->writeln($daemon.' was broken, but tries to start working now');
                     }
                 });
             }
