@@ -35,7 +35,8 @@
 
         function link(scope, element) {
             controller = scope.controller;
-            supervisor.loader.config
+            supervisor
+                .loader('config')
                 .onLoaded({
                     onSuccess: function (data) {
                         controller.options.sAjaxSource = data.grid.source;

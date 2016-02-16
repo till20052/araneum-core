@@ -30,17 +30,17 @@
          * @param element
          */
         function link(scope, element) {
-            var inputCheckbox = $('<input type="checkbox" />').change(check),
-                checkbox = $('<div class="checkbox c-checkbox mr0" />')
-                    .append(
-                        $('<label />')
-                            .append(inputCheckbox)
-                            .append($('<span class="fa fa-check mr0" />'))
-                    );
-            $(element)
-                .parent()
-                .addClass('text-center');
-            element.replaceWith($compile(checkbox)(scope));
+            var tr = $(element).parent(),
+                input = $('<input type="checkbox" />').change(check),
+                div = $('<div class="checkbox c-checkbox mr0" />').append(
+                    $('<label />')
+                        .append(input)
+                        .append($('<span class="fa fa-check mr0" />'))
+                );
+
+            tr.addClass('text-center')
+                .empty()
+                .append($compile(div)(scope));
         }
 
         /**
@@ -51,13 +51,7 @@
             var t = {},
                 checkbox = $(this),
                 selector = 'input[type="checkbox"]',
-                checked = checkbox.prop('checked'),
-                toolBar = supervisor.toolBar(
-                    angular
-                        .element(this)
-                        .scope()
-                        .toolBarId
-                );
+                checked = checkbox.prop('checked');
 
             ['head', 'body'].forEach(function (key) {
                 t[key] = $(checkbox).parents('t' + key).eq(0);
@@ -69,22 +63,22 @@
                     .prop('checked', checked)
                     .change();
             } else {
-                $(checkbox)
-                    .parents('tr')
-                    .selectRow(checked);
+                //$(checkbox)
+                //    .parents('tr')
+                //    .selectRow(checked);
                 $(selector, $(t.body).prev())
                     .prop('checked', $(selector, t.body)
                         .toArray()
                         .every(function (checkbox) {
                             return !!$(checkbox).prop('checked');
                         }));
-                toolBar.setAvailable(
-                    !$(selector, t.body)
-                        .toArray()
-                        .some(function (checkbox) {
-                            return !!$(checkbox).prop('checked');
-                        })
-                );
+                //toolBar.setAvailable(
+                //    !$(selector, t.body)
+                //        .toArray()
+                //        .some(function (checkbox) {
+                //            return !!$(checkbox).prop('checked');
+                //        })
+                //);
             }
         }
     }

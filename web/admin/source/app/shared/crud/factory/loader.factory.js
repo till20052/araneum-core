@@ -32,7 +32,11 @@
              * Load data by url
              *
              * @param {String} url
-             * @return {Object}
+             * @return {{
+             *     load: Function,
+             *     onLoaded: Function,
+             *     clearPromise: Function
+             * }}
              */
             function load(url) {
                 promise = $http({
