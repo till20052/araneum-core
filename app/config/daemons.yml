@@ -9,6 +9,7 @@ mik_software_daemon:
             appDescription: System Daemon for runuing Spot consumer
             appUser: %nginx_user%
             appGroup: %nginx_group%
+            appPidDir: %kernel.root_dir%/daemons
             logVerbosity: 6
 
         araneum_consumer_login:
@@ -16,6 +17,7 @@ mik_software_daemon:
             appDescription: System Daemon for login to Spot consumer
             appUser: %nginx_user%
             appGroup: %nginx_group%
+            appPidDir: %kernel.root_dir%/daemons
             logVerbosity: 6
 
         araneum_consumer_customer:
@@ -23,6 +25,7 @@ mik_software_daemon:
             appDescription: System Daemon for sending Customers to Spot
             appUser: %nginx_user%
             appGroup: %nginx_group%
+            appPidDir: %kernel.root_dir%/daemons
             logVerbosity: 6
 
         araneum_daemon_checker:
@@ -30,4 +33,5 @@ mik_software_daemon:
             appDescription: System Daemon checker check.
             appUser: %nginx_user%
             appGroup: %nginx_group%
+            appPidDir: %kernel.root_dir%/daemons
             logVerbosity: 6
