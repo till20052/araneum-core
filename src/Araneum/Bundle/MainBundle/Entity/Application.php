@@ -38,10 +38,10 @@ class Application
     ];
 
     private static $statusesIcons = [
-        self::STATUS_OK => '<em class="icon-check fa-3x"></em>',
-        self::STATUS_CODE_INCORRECT => '<em class="fa fa-warning fa-3x"></em>',
-        self::STATUS_ERROR => '<em class="icon-ban fa-3x"></em>',
-        self::STATUS_DISABLED => '<em class="icon-lock fa-3x"></em>',
+        self::STATUS_OK => '<em class="icon-check fa-2x"></em>',
+        self::STATUS_CODE_INCORRECT => '<em class="fa fa-warning fa-2x"></em>',
+        self::STATUS_ERROR => '<em class="icon-ban fa-2x"></em>',
+        self::STATUS_DISABLED => '<em class="icon-lock fa-2x"></em>',
     ];
 
     public static $types = [
