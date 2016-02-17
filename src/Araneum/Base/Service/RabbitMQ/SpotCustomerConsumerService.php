@@ -4,12 +4,13 @@ namespace Araneum\Base\Service\RabbitMQ;
 
 use Araneum\Base\Service\Spot\SpotApiSenderService;
 use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
+use Araneum\Bundle\AgentBundle\Service\SpotOptionService;
 use Doctrine\ORM\EntityManager;
 use Guzzle\Http\Exception\RequestException;
 use Guzzle\Service;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Araneum\Bundle\AgentBundle\Entity\Customer;
 
 /**
  * Class SpotCustomerConsumerService
@@ -18,35 +19,42 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
  */
 class SpotCustomerConsumerService implements ConsumerInterface
 {
-    use ContainerAwareTrait;
     /**
      * @var EntityManager
      */
     protected $em;
     /**
+     * @var SpotOptionService
+     */
+    protected $spotOptionService;
+    /**
      * @var SpotApiSenderService
      */
     private $spotApiSenderService;
     /**
-     * @var
+     * @var MessageConversionHelper
      */
     private $msgConvertHelper;
 
     /**
      * Consumer constructor.
      *
-     * @param SpotApiSenderService    $spotApiSenderService
+     * @param SpotApiSenderService $spotApiSenderService
      * @param MessageConversionHelper $msgConvertHelper
-     * @param EntityManager           $em
+     * @param EntityManager $em
+     * @param SpotOptionService $spotOptionService
      */
     public function __construct(
         SpotApiSenderService $spotApiSenderService,
         MessageConversionHelper $msgConvertHelper,
-        EntityManager $em
-    ) {
+        EntityManager $em,
+        SpotOptionService $spotOptionService
+    )
+    {
         $this->spotApiSenderService = $spotApiSenderService;
         $this->msgConvertHelper = $msgConvertHelper;
         $this->em = $em;
+        $this->spotOptionService = $spotOptionService;
     }
 
     /**
@@ -58,14 +66,14 @@ class SpotCustomerConsumerService implements ConsumerInterface
     public function execute(AMQPMessage $message)
     {
         $data = $this->msgConvertHelper->decodeMsg($message->body);
-        $log = (array) $data->log;
+        $log = (array)$data->log;
         try {
-            $spotResponse = $this->spotApiSenderService->send((array) $data->data, (array) $data->spotCredential);
+            $spotResponse = $this->spotApiSenderService->send((array)$data->data, (array)$data->spotCredential);
             if ($this->spotApiSenderService->getErrors($spotResponse) !== null) {
                 throw new RequestException($this->spotApiSenderService->getErrors($spotResponse));
             }
             $this->updateCustomer($log);
-            $this->loginCustomerInSpot($log);
+            $this->loginCustomerInSpot($data->data->password, $log);
             $this->createCustomerLog($log, $spotResponse->getBody(true), CustomerLog::STATUS_OK);
         } catch (RequestException $e) {
             $this->createCustomerLog($log, $e->getMessage(), CustomerLog::STATUS_ERROR);
@@ -75,9 +83,9 @@ class SpotCustomerConsumerService implements ConsumerInterface
     /**
      * Create and save customer log
      *
-     * @param array   $log
-     * @param string  $logMessage
-     * @param int     $status
+     * @param array $log
+     * @param string $logMessage
+     * @param int $status
      * @throws \Doctrine\ORM\ORMException
      */
     private function createCustomerLog(array $log, $logMessage, $status)
@@ -96,7 +104,7 @@ class SpotCustomerConsumerService implements ConsumerInterface
     /**
      * Update customer $deliveredAt
      *
-     * @param array   $log
+     * @param array $log
      * @throws \Doctrine\ORM\ORMException
      */
     private function updateCustomer(array $log)
@@ -112,14 +120,15 @@ class SpotCustomerConsumerService implements ConsumerInterface
     /**
      * Login customer in spot on create
      *
-     * @param array   $log
+     * @param string $password
+     * @param array $log
      */
-    private function loginCustomerInSpot(array $log)
+    private function loginCustomerInSpot($password, array $log)
     {
         if ($log['action'] == CustomerLog::ACTION_CREATE) {
-            $spotService = $this->container->get('araneum.agent.spotoption.service');
             $customer = $this->em->getRepository("AraneumAgentBundle:Customer")->findOneById($log['customerId']);
-            $spotService->login($customer);
+            $customer->setPassword($password);
+            $this->spotOptionService->login($customer);
         }
     }
 }
