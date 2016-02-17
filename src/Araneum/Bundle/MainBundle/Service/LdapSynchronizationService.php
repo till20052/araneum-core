@@ -2,6 +2,7 @@
 namespace Araneum\Bundle\MainBundle\Service;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use FOS\UserBundle\Model\UserManager;
 use Araneum\Bundle\MainBundle\Service\LdapService;
 use Araneum\Bundle\UserBundle\Entity\User;
 use Araneum\Bundle\UserBundle\Entity\UserLdapLog;
@@ -38,11 +39,16 @@ class LdapSynchronizationService extends LdapManager
     private $ldapParameter;
 
     /**
+     * @var EncoderFactoryInterface
+     */
+    private $encoderFactory;
+
+    /**
      * LdapSynchronizationService constructor.
      * @param ContainerInterface $container
      * @param EncoderFactoryInterface $encoderFactory
      * @param LdapDriverInterface $driver
-     * @param $userManager
+     * @param object $userManager
      * @param array $params
      */
     public function __construct(
@@ -54,6 +60,7 @@ class LdapSynchronizationService extends LdapManager
     {
         parent::__construct($driver, $userManager, $params);
         $this->container = $container;
+        $this->encoderFactory = $encoderFactory;
         $this->entityManager = $this->container->get('doctrine')->getEntityManager();
         $this->ldapParameter = $this->container->getParameter('ldap');
         $this->repositoryUser = $this->entityManager->getRepository('AraneumUserBundle:User');

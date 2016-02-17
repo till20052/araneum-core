@@ -391,7 +391,7 @@ class User extends BaseUser implements LdapUserInterface
     }
 
     /**
-     * @param \DateTime lastChangeLdapPass
+     * @param \DateTime $lastChangeLdapPass
      *
      * @return User
      */
@@ -409,7 +409,6 @@ class User extends BaseUser implements LdapUserInterface
     {
         $this->dn = $dn;
     }
-#
 
     /**
      * {@inheritDoc}

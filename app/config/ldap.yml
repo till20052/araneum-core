@@ -34,8 +34,8 @@ parameters:
 services:
     api.ldap.ldap_manager:
         class: Araneum\Bundle\MainBundle\Service\Ldap\LdapUseManager
-        arguments: [@service_container, @security.encoder_factory, @fr3d_ldap.ldap_driver, @fr3d_ldap.user_manager, %fr3d_ldap.ldap_manager.parameters%]
+        arguments: ["@service_container", "@security.encoder_factory", "@fr3d_ldap.ldap_driver", "@fr3d_ldap.user_manager", %fr3d_ldap.ldap_manager.parameters%]
 
     api.ldap.synchronization:
         class: Araneum\Bundle\MainBundle\Service\LdapSynchronizationService
-        arguments: [@service_container, @security.encoder_factory, @fr3d_ldap.ldap_driver, @fr3d_ldap.user_manager, %fr3d_ldap.ldap_manager.parameters%]
+        arguments: ["@service_container", "@security.encoder_factory", "@fr3d_ldap.ldap_driver", "@fr3d_ldap.user_manager", %fr3d_ldap.ldap_manager.parameters%]

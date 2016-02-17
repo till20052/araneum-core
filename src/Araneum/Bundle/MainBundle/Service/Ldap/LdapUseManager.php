@@ -16,7 +16,14 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
  */
 class LdapUseManager extends LdapManager
 {
+    /**
+     * @var ContainerInterface
+     */
     private $container;
+
+    /**
+     * @var EncoderFactoryInterface
+     */
     private $encoderFactory;
 
     /**
