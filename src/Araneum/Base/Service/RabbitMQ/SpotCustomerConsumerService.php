@@ -9,6 +9,7 @@ use Guzzle\Http\Exception\RequestException;
 use Guzzle\Service;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
  * Class SpotCustomerConsumerService
@@ -17,6 +18,7 @@ use PhpAmqpLib\Message\AMQPMessage;
  */
 class SpotCustomerConsumerService implements ConsumerInterface
 {
+    use ContainerAwareTrait;
     /**
      * @var EntityManager
      */
@@ -63,6 +65,7 @@ class SpotCustomerConsumerService implements ConsumerInterface
                 throw new RequestException($this->spotApiSenderService->getErrors($spotResponse));
             }
             $this->updateCustomer($log);
+            $this->loginCustomerInSpot($log);
             $this->createCustomerLog($log, $spotResponse->getBody(true), CustomerLog::STATUS_OK);
         } catch (RequestException $e) {
             $this->createCustomerLog($log, $e->getMessage(), CustomerLog::STATUS_ERROR);
@@ -98,11 +101,27 @@ class SpotCustomerConsumerService implements ConsumerInterface
      */
     private function updateCustomer(array $log)
     {
-        if ($log['action'] == CustomerLog::ACTION_CREATE) {
+        if ($log['action'] == CustomerLog::ACTION_CREATE)
+        {
             $customer = $this->em->getRepository("AraneumAgentBundle:Customer")->findOneById($log['customerId']);
             $customer->setDeliveredAt(new \DateTime());
             $this->em->persist($customer);
             $this->em->flush();
+        }
+    }
+
+    /**
+     * Login customer in spot on create
+     *
+     * @param array   $log
+     */
+    private function loginCustomerInSpot(array $log)
+    {
+        if ($log['action'] == CustomerLog::ACTION_CREATE)
+        {
+            $spotService = $this->container->get('araneum.agent.spotoption.service');
+            $customer = $this->em->getRepository("AraneumAgentBundle:Customer")->findOneById($log['customerId']);
+            $spotService->login($customer);
         }
     }
 }
