@@ -29,22 +29,38 @@ class LdapUseManager extends LdapManager
     /**
      * LdapUseManager constructor.
      *
-     * @param ContainerInterface $container
+     * @param ContainerInterface      $container
      * @param EncoderFactoryInterface $encoderFactory
-     * @param LdapDriverInterface $driver
-     * @param $userManager
-     * @param array $params
+     * @param LdapDriverInterface     $driver
+     * @param object                  $userManager
+     * @param array                   $params
      */
     public function __construct(
         ContainerInterface $container,
         EncoderFactoryInterface $encoderFactory,
         LdapDriverInterface $driver,
         $userManager,
-        array $params)
-    {
+        array $params
+    ) {
         parent::__construct($driver, $userManager, $params);
         $this->container = $container;
         $this->encoderFactory = $encoderFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function bind(UserInterface $user, $password)
+    {
+        $bind = parent::bind($user, $password);
+        if ($bind) {
+            $encoder = $this->container->get('security.password_encoder');
+            $encoded = $encoder->encodePassword($user, $password);
+
+            $user->setPassword($encoded);
+        }
+
+        return $bind;
     }
 
     /**
@@ -91,21 +107,4 @@ class LdapUseManager extends LdapManager
             $user->setDn($entry['dn']);
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function bind(UserInterface $user, $password)
-    {
-        $bind = parent::bind($user, $password);
-        if ($bind) {
-            $encoder = $this->container->get('security.password_encoder');
-            $encoded = $encoder->encodePassword($user, $password);
-
-            $user->setPassword($encoded);
-        }
-
-        return $bind;
-    }
-
 }

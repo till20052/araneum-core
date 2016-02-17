@@ -45,19 +45,20 @@ class LdapSynchronizationService extends LdapManager
 
     /**
      * LdapSynchronizationService constructor.
-     * @param ContainerInterface $container
+     *
+     * @param ContainerInterface      $container
      * @param EncoderFactoryInterface $encoderFactory
-     * @param LdapDriverInterface $driver
-     * @param object $userManager
-     * @param array $params
+     * @param LdapDriverInterface     $driver
+     * @param object                  $userManager
+     * @param array                   $params
      */
     public function __construct(
         ContainerInterface $container,
         EncoderFactoryInterface $encoderFactory,
         LdapDriverInterface $driver,
         $userManager,
-        array $params)
-    {
+        array $params
+    ) {
         parent::__construct($driver, $userManager, $params);
         $this->container = $container;
         $this->encoderFactory = $encoderFactory;
@@ -66,9 +67,15 @@ class LdapSynchronizationService extends LdapManager
         $this->repositoryUser = $this->entityManager->getRepository('AraneumUserBundle:User');
     }
 
+    /**
+     * Add new query for LDAP filters
+     * @param array $filters
+     * @return $this
+     */
     public function setFilterQuery(array $filters)
     {
         $this->params['filter'] = $this->buildFilter($filters);
+
         return $this;
     }
 
@@ -80,6 +87,7 @@ class LdapSynchronizationService extends LdapManager
     public function setLdapParameter(array $params)
     {
         $this->ldapParameter = $params;
+
         return $this;
     }
 
@@ -126,6 +134,7 @@ class LdapSynchronizationService extends LdapManager
         foreach ($data as $key => $item) {
             $res[$key] = (is_array($item)) ? array_shift($item) : $item;
         }
+
         return $res;
     }
 
@@ -153,6 +162,7 @@ class LdapSynchronizationService extends LdapManager
     private function createUser(array $ldapInfo)
     {
         if (!isset($ldapInfo['mail'])) {
+
             return;
         }
 
