@@ -67,6 +67,12 @@
             }
         };
 
+        /**
+         * Directive link
+         *
+         * @param scope
+         * @param element
+         */
         function link(scope, element) {
             if (scope.data instanceof Object) {
                 if (scope.hasOwnProperty('controller'))
@@ -179,6 +185,10 @@
 
         /**
          * Create form child
+         *
+         * @param type
+         * @param data
+         * @returns {*}
          */
         function createChild(type, data) {
             if (!children.hasOwnProperty(type)) {
@@ -271,6 +281,7 @@
         }
 
         /**
+         * Create input text
          *
          * @param {Object} data
          * @returns {Array<jQuery>}
@@ -293,6 +304,7 @@
         }
 
         /**
+         * Create select
          *
          * @param data
          * @returns {*[]}
@@ -315,6 +327,7 @@
         }
 
         /**
+         * Create controls
          *
          * @param {object} data
          * @returns {jQuery}

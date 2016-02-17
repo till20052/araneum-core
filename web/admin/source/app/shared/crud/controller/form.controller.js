@@ -9,6 +9,7 @@
 
     /**
      * CRUD Form Controller
+     *
      * @constructor
      */
     function CRUDFormController() {
@@ -29,18 +30,17 @@
                     dispatch: dispatch
                 };
 
+                /**
+                 * Dispatch Event
+                 *
+                 * @param event
+                 * @param object
+                 * @returns {*}
+                 */
                 function dispatch(event, object) {
                     if(!events.hasOwnProperty(event))
                         event = 'click';
                     return events[event](object);
-                }
-
-                function click() {
-                    console.log('click', arguments);
-                }
-
-                function submit() {
-                    console.log('submit', arguments);
                 }
             })()
         };

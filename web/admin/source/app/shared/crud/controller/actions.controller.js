@@ -15,6 +15,11 @@
 
         vm.defineAction = defineAction;
 
+        /**
+         * Define Action
+         *
+         * @param event
+         */
         function defineAction(event) {
             var config = $(event.currentTarget).data('config');
             invokeAction(config.callback, config);

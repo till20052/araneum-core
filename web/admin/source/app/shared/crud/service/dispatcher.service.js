@@ -8,6 +8,7 @@
     Dispatcher.$inject = ['ActionListener'];
 
     /**
+     * CRUD Dispatcher
      *
      * @constructor
      */
@@ -17,7 +18,7 @@
         };
 
         /**
-         *
+         * Dispatch event
          */
         function dispatch(event) {
             ActionListener[event.name](event());

@@ -33,6 +33,12 @@
             }
         };
 
+        /**
+         * Directive link
+         *
+         * @param scope
+         * @param element
+         */
         function link(scope, element) {
             controller = scope.controller;
             supervisor

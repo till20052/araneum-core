@@ -24,6 +24,12 @@
             restrict: 'E'
         };
 
+        /**
+         * Directive link
+         *
+         * @param scope
+         * @param element
+         */
         function link(scope, element) {
             supervisor
                 .loader('config')
@@ -37,6 +43,12 @@
                 });
         }
 
+        /**
+         * Create DropDown
+         *
+         * @param list
+         * @returns {*|jQuery}
+         */
         function createDropdown(list) {
             return $('<div class="btn-group" />')
                 .attr('uib-dropdown', '')
@@ -51,6 +63,12 @@
                 );
         }
 
+        /**
+         * Create DropDownMenu
+         *
+         * @param list
+         * @returns {*|jQuery}
+         */
         function createDropdownMenu(list) {
             var groups = Object.keys(list);
             return $('<ul class="dropdown-menu-right" />')

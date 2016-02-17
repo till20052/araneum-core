@@ -10,15 +10,15 @@
     function CRUDToolbarDirective($compile, supervisor) {
         var controller;
 
-        //$.fn = angular.extend($.fn, {
-        //    setAvailable: function (state) {
-        //        $('button', this)
-        //            .filter(function () {
-        //                return ['setState', 'remove'].indexOf($(this).data('action')) !== -1;
-        //            })
-        //            .prop('disabled', state);
-        //    }
-        //});
+        $.fn = angular.extend($.fn, {
+            setAvailable: function (state) {
+                $('button', this)
+                    .filter(function () {
+                        return ['setState', 'remove'].indexOf($(this).data('action')) !== -1;
+                    })
+                    .prop('disabled', state);
+            }
+        });
 
         return {
             link: link,
@@ -30,6 +30,12 @@
             }
         };
 
+        /**
+         * Directive link
+         *
+         * @param scope
+         * @param element
+         */
         function link(scope, element) {
             controller = scope.controller;
             supervisor
@@ -90,51 +96,6 @@
                 .append(
                     $('<em />').addClass(options.display.icon)
                 );
-        }
-
-        function normalizeData(data) {
-            return angular.extend({
-                action: ({
-                    create: 'create',
-                    editRow: 'setState',
-                    deleteRow: 'remove'
-                })[data.callback],
-                available: function () {
-                    return !!(
-                        ['setState', 'remove'].indexOf(this.action) === -1 ||
-                        this.supervisor.dataTable.selected().length > 0
-                    );
-                }
-            }, (function (ext) {
-                if (data.hasOwnProperty('resource'))
-                    ext.url = data.resource;
-                return ext;
-            })({}), (function (ext) {
-                if (data.hasOwnProperty('form'))
-                    ext.form = {
-                        url: data.form
-                    };
-                return ext;
-            })({}), (function (ext) {
-                if (
-                    data.hasOwnProperty('confirm') &&
-                    data.confirm instanceof Object
-                ) {
-                    var c = data.confirm;
-                    ext.confirm = {
-                        title: c.title,
-                        buttons: {
-                            yes: {
-                                title: c.yes.title
-                            },
-                            no: {
-                                title: c.no.title
-                            }
-                        }
-                    };
-                }
-                return ext;
-            })({}));
         }
     }
 

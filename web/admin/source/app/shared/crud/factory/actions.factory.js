@@ -15,6 +15,8 @@
     }
 
     /**
+     * Directive link
+     *
      * @constructor
      */
     function Action(options) {
@@ -51,13 +53,6 @@
         }
 
         /**
-         *
-         */
-        function submit() {
-
-        }
-
-        /**
          * Set State
          */
         function setState() {
@@ -67,9 +62,7 @@
         /**
          * Remove
          */
-        function remove() {
-
-        }
+        function remove() {}
     }
 
 })();

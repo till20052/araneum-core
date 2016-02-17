@@ -63,22 +63,12 @@
                     .prop('checked', checked)
                     .change();
             } else {
-                //$(checkbox)
-                //    .parents('tr')
-                //    .selectRow(checked);
                 $(selector, $(t.body).prev())
                     .prop('checked', $(selector, t.body)
                         .toArray()
                         .every(function (checkbox) {
                             return !!$(checkbox).prop('checked');
                         }));
-                //toolBar.setAvailable(
-                //    !$(selector, t.body)
-                //        .toArray()
-                //        .some(function (checkbox) {
-                //            return !!$(checkbox).prop('checked');
-                //        })
-                //);
             }
         }
     }
