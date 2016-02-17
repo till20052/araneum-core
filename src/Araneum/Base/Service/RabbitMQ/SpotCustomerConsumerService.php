@@ -39,10 +39,10 @@ class SpotCustomerConsumerService implements ConsumerInterface
     /**
      * Consumer constructor.
      *
-     * @param SpotApiSenderService $spotApiSenderService
+     * @param SpotApiSenderService    $spotApiSenderService
      * @param MessageConversionHelper $msgConvertHelper
-     * @param EntityManager $em
-     * @param SpotOptionService $spotOptionService
+     * @param EntityManager           $em
+     * @param SpotOptionService       $spotOptionService
      */
     public function __construct(
         SpotApiSenderService $spotApiSenderService,
