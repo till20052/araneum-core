@@ -87,7 +87,8 @@
                 }
             }
             else if (scope.source !== undefined) {
-                supervisor.loader.form
+                supervisor
+                    .loader('form')
                     .load(scope.source)
                     .onLoaded({
                         onSuccess: function (data) {
@@ -161,7 +162,7 @@
 
                 var formGroup = $('<div class="form-group" />').append(child);
 
-                if (type == 'submit')
+                if (type == 'controls')
                     formGroup.addClass('mb0');
 
                 if (
@@ -256,7 +257,8 @@
             return $('<div />')
                 .addClass([bootstrap.col.offsetLeft, bootstrap.col.right].join(' '))
                 .append(
-                    $('<div class="checkbox c-checkbox" />')
+                    $('<div class="checkbox c-checkbox pt0" />')
+                        .css('minHeight', '0')
                         .append(
                             $('<label />')
                                 .html(data.label)
@@ -324,8 +326,9 @@
                 .addClass([bootstrap.col.offsetLeft, bootstrap.col.right].join(' '))
                 .append(
                     angular.forEach(data, function (data, key) {
+                        console.log(data);
                         var button = $('<button class="btn btn-default" />')
-                            .attr('ng-click', 'controller.form.dispatcher.dispatch(\''+data.click+'\', $event)')
+                            .click(data.click)
                             .html('{{ "' + data.label + '" | translate }}');
 
                         if (data.hasOwnProperty('class'))

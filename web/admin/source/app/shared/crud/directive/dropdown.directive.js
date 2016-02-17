@@ -46,11 +46,7 @@
                             type: 'button',
                             'uib-dropdown-toggle': ''
                         })
-                        .append($('<em class="icon-settings" />'))
-                        .click(function (e) {
-                            $(this).blur();
-                            e.stopPropagation();
-                        }),
+                        .append($('<em class="icon-settings" />')),
                     createDropdownMenu(list)
                 );
         }
@@ -68,14 +64,14 @@
                     if (groups.indexOf(groupKey) !== 0)
                         container.push($('<li class="divider" />'));
 
-                    list.forEach(function (item) {
+                    list.forEach(function (options) {
                         container.push($('<li role="menuitem" />')
                             .append(
                                 $('<a href="javascript:void(0);" />')
-                                    .data('crud', item)
-                                    .html('{{ "' + item.display.label + '" | translate }}')
+                                    .data({})
+                                    .html('{{ "' + options.display.label + '" | translate }}')
                                     .prepend(
-                                        $('<em class="mr" />').addClass(item.display.icon)
+                                        $('<em class="mr" />').addClass(options.display.icon)
                                     )
                             ));
                     });
