@@ -8,6 +8,7 @@
     ActionListener.$inject = ['ngDialog'];
 
     /**
+     * CRUD Action Listener
      *
      * @constructor
      */
@@ -27,36 +28,15 @@
         }
 
         /**
-         *
+         * Create form
          */
         function create(event) {
             openWindow({
                 title: 'test',
                 form: {
-                    source: event,
-                    controls: {
-                        submit: {
-                            click: function(){
-                                console.log('test');
-                            }
-                        }
-                    }
+                    source: event
                 }
             });
-        }
-
-        /**
-         *
-         */
-        function update() {
-
-        }
-
-        /**
-         *
-         */
-        function setState() {
-
         }
     }
 

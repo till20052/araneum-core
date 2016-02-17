@@ -40,6 +40,13 @@
             });
         }
 
+        /**
+         * Invoke action
+         *
+         * @param name
+         * @param options
+         * @returns {*}
+         */
         function invokeAction(name, options) {
             if (!actions.hasOwnProperty(name)) {
                 return console.error('[ERROR]: Try to invoke action: ' + name + ', but this action doesn\'t defined');
@@ -49,6 +56,7 @@
         }
 
         /**
+         * Create form
          *
          * @param options
          */
