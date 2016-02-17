@@ -3,7 +3,6 @@
 namespace Araneum\Bundle\AgentBundle\Tests\Functional\Api;
 
 use Araneum\Base\Tests\Controller\BaseController;
-use Araneum\Base\Tests\Fixtures\Agent\LeadFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +24,7 @@ class SpotApiAdapterControllerTest extends BaseController
      *
      * @return array
      */
-    public function findActionDataProvider()
+    public function actionDataProvider()
     {
         return [
             'Normal' => [
@@ -37,20 +36,31 @@ class SpotApiAdapterControllerTest extends BaseController
                 Response::HTTP_OK,
                 1,
             ],
-            'Find 2 Leads' => [
+            'NormalWithRequest' => [
                 [
-                    'phone' => substr(LeadFixtures::LEAD_FST_PHONE, 0, 6),
+                    'appKey' => ApplicationFixtures::TEST_APP_APP_KEY,
+                    'MODULE' => 'Country',
+                    'COMMAND' => 'view',
+                    'requestData' => 'requestData',
                 ],
                 Response::HTTP_OK,
+                1,
+            ],
+            'BadData' => [
+                [
+                    'appKey' => ApplicationFixtures::TEST_APP_APP_KEY,
+                    'MODULE' => 'Country',
+                ],
+                Response::HTTP_NOT_FOUND,
                 1,
             ],
         ];
     }
 
     /**
-     * Test findAction in LeadApiController
+     * Test requestAction in SpotAdapterApiController
      *
-     * @dataProvider findActionDataProvider
+     * @dataProvider actionDataProvider
      * @runInSeparateProcess
      *
      * @param array $filters
@@ -63,7 +73,7 @@ class SpotApiAdapterControllerTest extends BaseController
 
         $this->mockRabbitmqProducer($this->client, 'araneum.base.rabbitmq.producer.spot');
 
-        $this->client->request('GET', '/agent/api/lead/find', ['filters' => $filters]);
+        $this->client->request('POST', '/agent/api/spot/request ', ['filters' => $filters]);
 
         $response = $this->client->getResponse();
 
