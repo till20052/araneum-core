@@ -101,8 +101,7 @@ class SpotCustomerConsumerService implements ConsumerInterface
      */
     private function updateCustomer(array $log)
     {
-        if ($log['action'] == CustomerLog::ACTION_CREATE)
-        {
+        if ($log['action'] == CustomerLog::ACTION_CREATE) {
             $customer = $this->em->getRepository("AraneumAgentBundle:Customer")->findOneById($log['customerId']);
             $customer->setDeliveredAt(new \DateTime());
             $this->em->persist($customer);
@@ -117,8 +116,7 @@ class SpotCustomerConsumerService implements ConsumerInterface
      */
     private function loginCustomerInSpot(array $log)
     {
-        if ($log['action'] == CustomerLog::ACTION_CREATE)
-        {
+        if ($log['action'] == CustomerLog::ACTION_CREATE) {
             $spotService = $this->container->get('araneum.agent.spotoption.service');
             $customer = $this->em->getRepository("AraneumAgentBundle:Customer")->findOneById($log['customerId']);
             $spotService->login($customer);
