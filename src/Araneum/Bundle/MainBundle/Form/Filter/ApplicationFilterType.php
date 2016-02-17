@@ -84,9 +84,11 @@ class ApplicationFilterType extends AbstractType
             )
             ->add(
                 'type',
-                'filter_text',
+                'filter_choice',
                 [
                     'label' => 'Type',
+                    'choices' => Application::$types,
+                    'empty_value' => 'admin.general.SELECT',
                     'attr' => [
                         'placeholder' => 'applications.placeholder.TYPE',
                         'translateLabel' => 'applications.TYPE',

@@ -44,7 +44,7 @@ class Application
         self::STATUS_DISABLED => '<em class="icon-lock fa-3x"></em>',
     ];
 
-    private static $types = [
+    public static $types = [
         self::TYPE_BINNARY => 'Binnary',
     ];
 
@@ -851,17 +851,7 @@ class Application
     }
 
     /**
-     * Generate unique key for Application
-     *
-     * @return string
-     */
-    private function generateUniqueKey()
-    {
-        return uniqid(sha1(time()), true);
-    }
-
-    /**
-     * Get list of Application statuses
+     * Get list of Application types
      *
      * @return array
      */
@@ -871,7 +861,7 @@ class Application
     }
 
     /**
-     * Get Application status description
+     * Get Application type description
      *
      * @param  int $type
      * @return string
@@ -883,5 +873,15 @@ class Application
         }
 
         return self::$types[$type];
+    }
+
+    /**
+     * Generate unique key for Application
+     *
+     * @return string
+     */
+    private function generateUniqueKey()
+    {
+        return uniqid(sha1(time()), true);
     }
 }
