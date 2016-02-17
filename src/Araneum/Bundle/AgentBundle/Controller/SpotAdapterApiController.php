@@ -27,7 +27,10 @@ class SpotAdapterApiController extends FOSRestController
      *   description = "Sends request to spot",
      *   filters = {
      *      {"name"="appKey", "dataType"="string" },
-     *      {"name"="data", "dataType"="string"},
+     *      {"name"="MODULE", "dataType"="string"},
+     *      {"name"="COMMAND", "dataType"="string"},
+     *      {"name"="requestData", "dataType"="string"},
+     *      {"name"="guaranteeDelivery", "dataType"="boolean"},
      *   },
      *   output = "JSON",
      *   statusCodes = {

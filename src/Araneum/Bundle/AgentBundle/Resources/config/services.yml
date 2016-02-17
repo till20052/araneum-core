@@ -43,4 +43,4 @@ services:
 
     araneum.agent.spot.adapter:
         class: Araneum\Bundle\AgentBundle\Service\SpotAdapterService
-        arguments: [@doctrine.orm.entity_manager, @araneum.base.spot_api]
+        arguments: [@doctrine.orm.entity_manager, @araneum.base.spot_api, @araneum.base.rabbitmq.producer.spot]
