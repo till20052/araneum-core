@@ -28,6 +28,8 @@ class Application
     const STATUS_ERROR          = 100;
     const STATUS_DISABLED       = 999;
 
+    const TYPE_BINNARY = 1;
+
     private static $statuses = [
         self::STATUS_OK => 'ok',
         self::STATUS_CODE_INCORRECT => 'status_code_incorrect',
@@ -40,6 +42,10 @@ class Application
         self::STATUS_CODE_INCORRECT => '<em class="fa fa-warning fa-3x"></em>',
         self::STATUS_ERROR => '<em class="icon-ban fa-3x"></em>',
         self::STATUS_DISABLED => '<em class="icon-lock fa-3x"></em>',
+    ];
+
+    private static $types = [
+        self::TYPE_BINNARY => 'Binnary',
     ];
 
     /**
@@ -57,9 +63,9 @@ class Application
     protected $cluster;
 
     /**
-     * @ORM\Column(type="smallint", nullable=true)
+     * @ORM\Column(type="smallint", options={"default"=1}, nullable=true)
      */
-    protected $type;
+    protected $type = Application::TYPE_BINNARY;
 
     /**
      * @ORM\Column(type="string", length=35)
@@ -852,5 +858,30 @@ class Application
     private function generateUniqueKey()
     {
         return uniqid(sha1(time()), true);
+    }
+
+    /**
+     * Get list of Application statuses
+     *
+     * @return array
+     */
+    public static function getTypes()
+    {
+        return self::$types;
+    }
+
+    /**
+     * Get Application status description
+     *
+     * @param  int $type
+     * @return string
+     */
+    public static function getTypeDescription($type)
+    {
+        if (!isset(self::$types[$type])) {
+            return '[undefined]';
+        }
+
+        return self::$types[$type];
     }
 }

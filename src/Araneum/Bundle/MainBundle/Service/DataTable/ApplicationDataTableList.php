@@ -75,6 +75,9 @@ class ApplicationDataTableList extends AbstractList
             ->add(
                 'type',
                 [
+                    'render' => function ($value) {
+                        return Application::getTypeDescription($value);
+                    },
                     'label' => 'applications.TYPE',
                 ]
             )
