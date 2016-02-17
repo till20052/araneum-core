@@ -24,6 +24,12 @@
             restrict: 'E'
         };
 
+        /**
+         * Directive link
+         *
+         * @param scope
+         * @param element
+         */
         function link(scope, element) {
             supervisor
                 .loader('config')
@@ -37,6 +43,12 @@
                 });
         }
 
+        /**
+         * Create DropDown
+         *
+         * @param list
+         * @returns {*|jQuery}
+         */
         function createDropdown(list) {
             return $('<div class="btn-group" />')
                 .attr('uib-dropdown', '')
@@ -46,15 +58,17 @@
                             type: 'button',
                             'uib-dropdown-toggle': ''
                         })
-                        .append($('<em class="icon-settings" />'))
-                        .click(function (e) {
-                            $(this).blur();
-                            e.stopPropagation();
-                        }),
+                        .append($('<em class="icon-settings" />')),
                     createDropdownMenu(list)
                 );
         }
 
+        /**
+         * Create DropDownMenu
+         *
+         * @param list
+         * @returns {*|jQuery}
+         */
         function createDropdownMenu(list) {
             var groups = Object.keys(list);
             return $('<ul class="dropdown-menu-right" />')
@@ -68,14 +82,14 @@
                     if (groups.indexOf(groupKey) !== 0)
                         container.push($('<li class="divider" />'));
 
-                    list.forEach(function (item) {
+                    list.forEach(function (options) {
                         container.push($('<li role="menuitem" />')
                             .append(
                                 $('<a href="javascript:void(0);" />')
-                                    .data('crud', item)
-                                    .html('{{ "' + item.display.label + '" | translate }}')
+                                    .data({})
+                                    .html('{{ "' + options.display.label + '" | translate }}')
                                     .prepend(
-                                        $('<em class="mr" />').addClass(item.display.icon)
+                                        $('<em class="mr" />').addClass(options.display.icon)
                                     )
                             ));
                     });

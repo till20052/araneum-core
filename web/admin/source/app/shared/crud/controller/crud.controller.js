@@ -8,6 +8,7 @@
     CRUDController.$inject = ['$scope', '$state', 'supervisor'];
 
     /**
+     * CRUD Controller
      *
      * @param $scope
      * @param $state

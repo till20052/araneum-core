@@ -30,6 +30,12 @@
             }
         };
 
+        /**
+         * Directive link
+         *
+         * @param scope
+         * @param element
+         */
         function link(scope, element) {
             controller = scope.controller;
             supervisor
@@ -70,8 +76,9 @@
         function createGroup(buttons) {
             return $('<div class="btn-group pull-right" />')
                 .append(
-                    buttons.map(function (buttonData) {
-                        return createButton(buttonData);
+                    buttons.map(function (options) {
+                        return createButton(options)
+                            .setAction(options);
                     })
                 );
         }
@@ -85,66 +92,10 @@
         function createButton(options) {
             return $('<button class="btn btn-sm" />')
                 .addClass(options.display.btnClass)
-                .data(
-                    supervisor
-                        .eventsFactory
-                        .createEvent(options)
-                )
                 .attr('uib-tooltip', '{{ "' + options.display.label + '" | translate }}')
-                .click(function () {
-                    supervisor
-                        .dispatcher
-                        .dispatch
-                        .call(this, $(this).data());
-                })
                 .append(
                     $('<em />').addClass(options.display.icon)
                 );
-        }
-
-        function normalizeData(data) {
-            return angular.extend({
-                action: ({
-                    create: 'create',
-                    editRow: 'setState',
-                    deleteRow: 'remove'
-                })[data.callback],
-                available: function () {
-                    return !!(
-                        ['setState', 'remove'].indexOf(this.action) === -1 ||
-                        this.supervisor.dataTable.selected().length > 0
-                    );
-                }
-            }, (function (ext) {
-                if (data.hasOwnProperty('resource'))
-                    ext.url = data.resource;
-                return ext;
-            })({}), (function (ext) {
-                if (data.hasOwnProperty('form'))
-                    ext.form = {
-                        url: data.form
-                    };
-                return ext;
-            })({}), (function (ext) {
-                if (
-                    data.hasOwnProperty('confirm') &&
-                    data.confirm instanceof Object
-                ) {
-                    var c = data.confirm;
-                    ext.confirm = {
-                        title: c.title,
-                        buttons: {
-                            yes: {
-                                title: c.yes.title
-                            },
-                            no: {
-                                title: c.no.title
-                            }
-                        }
-                    };
-                }
-                return ext;
-            })({}));
         }
     }
 

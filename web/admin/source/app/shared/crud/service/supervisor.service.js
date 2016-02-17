@@ -12,9 +12,7 @@
      *
      * @param CRUDLoader
      * @returns {{
-     *      loader: loader,
-     *      eventsFactory: EventsFactory,
-     *      dispatcher: Dispatcher
+     *      loader: loader
      * }}
      * @constructor
      */
@@ -22,9 +20,7 @@
         var register = new Register();
 
         return {
-            loader: loader,
-            eventsFactory: new EventsFactory(),
-            dispatcher: new Dispatcher()
+            loader: loader
         };
 
         /**
@@ -96,69 +92,6 @@
         function get(id) {
             return $[id];
         }
-    }
-
-    /**
-     *
-     * @returns {{
-     *      createEvent: createEvent
-     * }}
-     * @constructor
-     */
-    function EventsFactory() {
-        var mapping = {
-            create: 'create',
-            update: 'update',
-            editRow: 'setState',
-            deleteRow: 'remove'
-        };
-
-        return {
-            createEvent: createEvent
-        };
-
-        /**
-         * Create an Event
-         *
-         * @param data
-         */
-        function createEvent(data) {
-            if (!mapping.hasOwnProperty(data.callback))
-                throw console.error('[ERROR]: Event "' + data.callback + '" doesn\'t defined');
-
-            return {
-                event: mapping[data.callback]
-            };
-        }
-    }
-
-    /**
-     *
-     * @constructor
-     */
-    function EventListener() {
-
-        return {};
-
-    }
-
-    /**
-     *
-     * @returns {{
-     *      dispatch: dispatch
-     * }}
-     * @constructor
-     */
-    function Dispatcher() {
-
-        return {
-            dispatch: dispatch
-        };
-
-        function dispatch(event) {
-            console.log(event);
-        }
-
     }
 
 })();
