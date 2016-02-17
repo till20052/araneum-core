@@ -18,6 +18,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class LdapCommand extends ContainerAwareCommand
 {
+    const DEFAULT_ROLE = 'ROLE_ADMIN';
+
     /**
      * @var OutputInterface
      */
@@ -30,7 +32,17 @@ class LdapCommand extends ContainerAwareCommand
     {
         $this
             ->setName('araneum:ldap:users')
-            ->setDescription('Load all users from LDAP server.');
+            ->setDescription('Load all users from LDAP server.')
+            ->addOption(
+                'group',
+                'g',
+                InputOption::VALUE_OPTIONAL
+            )
+            ->addOption(
+                'role',
+                'r',
+                InputOption::VALUE_OPTIONAL
+            );
     }
 
     /**
@@ -45,9 +57,17 @@ class LdapCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
-        $completed = $this->getContainer()
-            ->get('api.ldap.synchronization')
-            ->runSynchronization();
+
+        $filterGroup = ($input->getOption('group'))?$input->getOption('group'):false;
+        $addRole = ($input->getOption('role'))?$input->getOption('role'):self::DEFAULT_ROLE;
+
+        $apiLdap = $this->getContainer()
+            ->get('api.ldap.synchronization');
+        $apiLdap->setLdapParameter(['default_user_roles' => $addRole]);
+        if ($filterGroup) {
+            $apiLdap->setFilterQuery(['cn' => $filterGroup]);
+        }
+        $completed = $apiLdap->runSynchronization();
         $this->output->writeln("User: Save({$completed['sitem']})/Update({$completed['uitem']}).");
         $this->output->writeln('Success');
     }

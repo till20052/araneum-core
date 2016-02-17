@@ -1,19 +1,41 @@
+fr3d_ldap:
+    driver:
+        host:                nova.office.dev
+#       port:                389
+        username:            uid=araneum,cn=sysaccounts,cn=etc,dc=office,dc=dev
+        password:            LK8SoeTbffxFLDu5nOpY
+        bindRequiresDn:      true   # Optional
+#       baseDn:              ou=users, dc=host, dc=foo
+        accountFilterFormat: (&(uid=%s))
+#       optReferrals:        false
+#       useSsl:              true
+#       useStartTls:         true
+#       accountCanonicalForm: 3
+#       accountDomainName: HOST
+#       accountDomainNameShort: HOST
+    user:
+        baseDn: cn=accounts,dc=office,dc=dev
+        filter: (&(objectclass=Person))
+#        usernameAttribute: uid # Optional
+        attributes:
+           - { ldap_attr: uid,  user_method: setUsername }
+           - { ldap_attr: displayname,   user_method: setFullName }
+           - { ldap_attr: mail,   user_method: setEmail }
+           - { ldap_attr: mail,   user_method: setEmailCanonical }
+           - { ldap_attr: krblastpwdchange,   user_method: setLastChangeLdapPass }
+    service:
+        #user_manager: api.ldap.user_manager
+        ldap_manager: api.ldap.ldap_manager # fr3d_ldap.ldap_manager.default
+
 parameters:
     ldap:
-        service: app.ldap
-        ldap_host: "nova.office.dev"
-        base_dn: uid=araneum,cn=sysaccounts,cn=etc,dc=office,dc=dev
-        search_dn: cn=users,cn=accounts,dc=office,dc=dev
-        search_password: LK8SoeTbffxFLDu5nOpY
-        filter: (objectclass=*)
-        user_role: ROLE_ADMIN
-        user_password: 12345
+        default_user_roles: ROLE_ADMIN
 
 services:
-    api.ldap:
-        class: Araneum\Bundle\MainBundle\Service\LdapService
-        arguments: ["@service_container"]
+    api.ldap.ldap_manager:
+        class: Araneum\Bundle\MainBundle\Service\Ldap\LdapUseManager
+        arguments: [@service_container, @security.encoder_factory, @fr3d_ldap.ldap_driver, @fr3d_ldap.user_manager, %fr3d_ldap.ldap_manager.parameters%]
 
     api.ldap.synchronization:
         class: Araneum\Bundle\MainBundle\Service\LdapSynchronizationService
-        arguments: ["@doctrine.orm.entity_manager", "@api.ldap", "@service_container"]
+        arguments: [@service_container, @security.encoder_factory, @fr3d_ldap.ldap_driver, @fr3d_ldap.user_manager, %fr3d_ldap.ldap_manager.parameters%]

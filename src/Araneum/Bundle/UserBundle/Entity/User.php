@@ -1,5 +1,4 @@
 <?php
-
 namespace Araneum\Bundle\UserBundle\Entity;
 
 use Araneum\Base\EntityTrait\DateTrait;
@@ -10,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use FR3D\LdapBundle\Model\LdapUserInterface;
 
 /**
  * User class
@@ -32,7 +32,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     message="email.already_used"
  * )
  */
-class User extends BaseUser
+class User extends BaseUser implements LdapUserInterface
 {
     use DateTrait;
 
@@ -101,6 +101,31 @@ class User extends BaseUser
      * @Assert\Email()
      */
     protected $email;
+
+    /**
+     * @ORM\Column(type="boolean", name="use_ldap", options={"default":false})
+     * @Assert\Type(type="boolean")
+     */
+    protected $useLdap;
+
+    /**
+     * @ORM\Column(type="boolean", name="del_ldap", options={"default":false})
+     * @Assert\Type(type="boolean")
+     */
+    protected $delLdap;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", name="last_change_ldap_pass", nullable=true)
+     */
+    protected $lastChangeLdapPass;
+
+    /**
+
+     * Ldap Object Distinguished Name
+     * @var string $dn
+     */
+    private $dn;
 
     /**
      * @inheritdoc
@@ -307,6 +332,91 @@ class User extends BaseUser
         $this->settings = $settings;
 
         return $this;
+    }
+
+    /**
+     * Get useSSL
+     *
+     * @return boolean
+     */
+    public function getUseLdap()
+    {
+        return (bool) $this->useLdap;
+    }
+
+    /**
+     * Set useLdap
+     *
+     * @param  boolean $useLdap
+     * @return User
+     */
+    public function setUseLdap($useLdap = false)
+    {
+        $this->useLdap = (bool) $useLdap;
+
+        return $this;
+    }
+
+    /**
+     * Get delLdap
+     *
+     * @return boolean
+     */
+    public function getDelLdap()
+    {
+        return (bool) $this->delLdap;
+    }
+
+    /**
+     * Set delLdap
+     *
+     * @param  boolean $delLdap
+     * @return User
+     */
+    public function setDelLdap($delLdap = false)
+    {
+        $this->delLdap = (bool) $delLdap;
+
+        return $this;
+    }
+
+    /**
+     * Get lastChangeLdapPass
+     *
+     * @return \DateTime
+     */
+    public function getLastChangeLdapPass()
+    {
+        return $this->lastChangeLdapPass;
+    }
+
+    /**
+     * @param \DateTime lastChangeLdapPass
+     *
+     * @return User
+     */
+    public function setLastChangeLdapPass($lastChangeLdapPass)
+    {
+        $this->lastChangeLdapPass = new \DateTime($lastChangeLdapPass);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setDn($dn)
+    {
+        $this->dn = $dn;
+    }
+#
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDn()
+    {
+        return $this->dn;
     }
 
     /**

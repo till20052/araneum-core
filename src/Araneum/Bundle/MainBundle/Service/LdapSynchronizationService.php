@@ -5,50 +5,75 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Araneum\Bundle\MainBundle\Service\LdapService;
 use Araneum\Bundle\UserBundle\Entity\User;
 use Araneum\Bundle\UserBundle\Entity\UserLdapLog;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityNotFoundException;
-use Guzzle\Http\Exception\RequestException;
-use Guzzle\Http\Message\Response as GuzzleResponse;
-use Guzzle\Service\Client;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use FR3D\LdapBundle\Driver\LdapDriverInterface;
+use FR3D\LdapBundle\Ldap\LdapManager;
 
 /**
  * Class LdapSynchronizationService
  *
  * @package Araneum\Bundle\MainBundle\Service
  */
-class LdapSynchronizationService
+class LdapSynchronizationService extends LdapManager
 {
     /**
-     * @var EntityManager
+     * @var \Araneum\Bundle\UserBundle\Repository\UserRepository
+     */
+    private $repositoryUser;
+
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * @var \Doctrine\Common\Persistence\ObjectManager|\Doctrine\ORM\EntityManager|object
      */
     private $entityManager;
 
     /**
-     * @var LdapService
-     */
-    private $ldapService;
-
-    /**
      * @var mixed
      */
-    private $params;
+    private $ldapParameter;
 
     /**
-     * Constructor
-     *
-     * @param EntityManager      $entityManager
-     * @param LdapService        $ldapService
+     * LdapSynchronizationService constructor.
      * @param ContainerInterface $container
+     * @param EncoderFactoryInterface $encoderFactory
+     * @param LdapDriverInterface $driver
+     * @param $userManager
+     * @param array $params
      */
-    public function __construct(EntityManager $entityManager, LdapService $ldapService, ContainerInterface $container)
+    public function __construct(
+        ContainerInterface $container,
+        EncoderFactoryInterface $encoderFactory,
+        LdapDriverInterface $driver,
+        $userManager,
+        array $params)
     {
-        $this->entityManager = $entityManager;
-        $this->ldapService = $ldapService;
-        $this->params = $container->getParameter('ldap');
+        parent::__construct($driver, $userManager, $params);
+        $this->container = $container;
+        $this->entityManager = $this->container->get('doctrine')->getEntityManager();
+        $this->ldapParameter = $this->container->getParameter('ldap');
+        $this->repositoryUser = $this->entityManager->getRepository('AraneumUserBundle:User');
+    }
+
+    public function setFilterQuery(array $filters)
+    {
+        $this->params['filter'] = $this->buildFilter($filters);
+        return $this;
+    }
+
+    /**
+     * Change params API.LDAP
+     * @param array $params
+     * @return $this
+     */
+    public function setLdapParameter(array $params)
+    {
+        $this->ldapParameter = $params;
+        return $this;
     }
 
     /**
@@ -58,33 +83,43 @@ class LdapSynchronizationService
      */
     public function runSynchronization()
     {
-
-        $this->ldapService->bind($this->params['base_dn'], $this->params['search_password']);
-        $this->ldapService->setSearch($this->params['search_dn'], $this->params['filter'], "*");
-        $entry = $this->ldapService->getFirstEntry();
-
         $result = [
             'sitem' => 0,
             'uitem' => 0,
         ];
-        while ($entry) {
-            $argument = $this->ldapService->getAttributes($entry);
-            $arrItem = [];
-            foreach ($this->ldapService->getLdapFields() as $field) {
-                if ($first = array_shift($argument[$field])) {
-                    $arrItem[$field] = $first;
+        $this->repositoryUser->setAllLdapUsersStatusOld();
+        $entries = $this->driver->search($this->params['baseDn'], $this->params['filter'], $this->ldapAttributes);
+        if (is_array($entries)) {
+            foreach ($entries as $entry) {
+                if (is_array($entry) && $status = $this->createUser($this->generateDataParam($entry))) {
+                    switch ($status) {
+                        case UserLdapLog::STATUS_NEW:
+                            $result['sitem'] += 1;
+                            break;
+                        case UserLdapLog::STATUS_UPDATE:
+                            $result['uitem'] += 1;
+                            break;
+                    }
                 }
             }
-            if (count($arrItem) > 0 && $status = $this->createUser($arrItem)) {
-                $result['sitem'] += ($status == UserLdapLog::STATUS_NEW)?1:0;
-                $result['uitem'] += ($status == UserLdapLog::STATUS_UPDATE)?1:0;
-            }
-
-            $entry = $this->ldapService->getNextEntry();
         }
-        $this->ldapService->disconnect();
+        $this->repositoryUser->clearOldLdapUsers();
 
         return $result;
+    }
+
+    /**
+     * Parce results from LDAP service
+     * @param array $data
+     * @return array
+     */
+    public function generateDataParam(array $data)
+    {
+        $res = [];
+        foreach ($data as $key => $item) {
+            $res[$key] = (is_array($item)) ? array_shift($item) : $item;
+        }
+        return $res;
     }
 
     /**
@@ -101,6 +136,7 @@ class LdapSynchronizationService
         $this->entityManager->flush();
     }
 
+
     /**
      * Created User and create user ldap log
      * @param array $ldapInfo
@@ -114,30 +150,48 @@ class LdapSynchronizationService
         }
 
         $status = null;
-        $repositoryUser = $this->entityManager->getRepository('AraneumUserBundle:User');
-        $userByEmail = $repositoryUser->findOneByEmail($ldapInfo['mail']);
+        $userByEmail = $this->repositoryUser->findOneByEmail($ldapInfo['mail']);
 
         if (empty($userByEmail)) {
             $user = new User();
-            $user->setFullName($ldapInfo['displayName']);
+            $user->setFullName($ldapInfo['displayname']);
             $user->setEmail($ldapInfo['mail']);
             $user->setEmailCanonical($ldapInfo['mail']);
             $user->setUsername($ldapInfo['uid']);
             $user->setUsernameCanonical($ldapInfo['uid']);
-            $user->setRoles((is_array($this->params['user_role'])?$this->params['user_role']:[$this->params['user_role']]));
-            $user->setEnabled(false);
-            $user->setPlainPassword((isset($this->params['user_password']))?$this->params['user_password']:null);
+            if (is_string($this->ldapParameter['default_user_roles'])) {
+                $user->setRole($this->ldapParameter['default_user_roles']);
+            } elseif (is_array($this->ldapParameter['default_user_roles'])) {
+                $user->setRoles($this->ldapParameter['default_user_roles']);
+            }
+            $user->setPassword('');
+            if (isset($ldapInfo['krblastpwdchange'])) {
+                $user->setLastChangeLdapPass($ldapInfo['krblastpwdchange']);
+            }
+            $user->setEnabled(true);
+            $user->setUseLdap(true);
+            $user->setDelLdap(false);
             $this->entityManager->persist($user);
             $this->setUserLdapLog($user, $status = UserLdapLog::STATUS_NEW);
-        } elseif (!empty($userByEmail->getId()) && !$repositoryUser->isLdapUser($ldapInfo)) {
-            $user = new User($userByEmail->getId());
-            $user->setFullName($ldapInfo['displayName']);
-            $user->setEmail($ldapInfo['mail']);
-            $user->setEmailCanonical($ldapInfo['mail']);
-            $user->setUsername($ldapInfo['uid']);
-            $user->setUsernameCanonical($ldapInfo['uid']);
-            $this->entityManager->persist($user);
-            $this->setUserLdapLog($user, $status = UserLdapLog::STATUS_UPDATE);
+        } elseif (!empty($userByEmail->getId())) {
+            if (!$this->repositoryUser->isLdapUser($ldapInfo)) {
+                $userByEmail->setFullName($ldapInfo['displayname']);
+                $userByEmail->setEmail($ldapInfo['mail']);
+                $userByEmail->setEmailCanonical($ldapInfo['mail']);
+                $userByEmail->setUsername($ldapInfo['uid']);
+                $userByEmail->setUsernameCanonical($ldapInfo['uid']);
+                $this->setUserLdapLog($userByEmail, $status = UserLdapLog::STATUS_UPDATE);
+            }
+
+            if (isset($ldapInfo['krblastpwdchange'])
+                && $userByEmail->getPassword() != null
+                && $userByEmail->getLastChangeLdapPass() != null
+                && $userByEmail->getLastChangeLdapPass() != new \DateTime($ldapInfo['krblastpwdchange'])) {
+                $userByEmail->setPassword('');
+            }
+
+            $userByEmail->setDelLdap(false);
+            $this->entityManager->persist($userByEmail);
         }
 
         try {

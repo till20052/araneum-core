@@ -1,5 +1,5 @@
 <?php
-namespace Araneum\Bundle\MainBundle\Tests\Functional\Api;
+namespace Araneum\Bundle\MainBundle\Tests\Controller;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Araneum\Bundle\MainBundle\Controller\LdapApiController;
@@ -7,9 +7,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Client;
 
 /**
- * ClassLdapApiControllerTest
+ * LdapApiControllerTest
  *
- * @package Araneum\Bundle\MainBundle\Tests\Functional\Api
+ * @package Araneum\Bundle\MainBundle\Tests\Unit\Service;
  */
 class LdapApiControllerTest extends BaseController
 {

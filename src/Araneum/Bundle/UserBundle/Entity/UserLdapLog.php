@@ -38,7 +38,7 @@ class UserLdapLog
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\UserBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $user;
