@@ -35,6 +35,13 @@ class Application
         self::STATUS_DISABLED => 'disabled',
     ];
 
+    private static $statusesIcons = [
+        self::STATUS_OK => '<em class="icon-check fa-3x"></em>',
+        self::STATUS_CODE_INCORRECT => '<em class="fa fa-warning fa-3x"></em>',
+        self::STATUS_ERROR => '<em class="icon-ban fa-3x"></em>',
+        self::STATUS_DISABLED => '<em class="icon-lock fa-3x"></em>',
+    ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -205,6 +212,21 @@ class Application
         }
 
         return self::$statuses[$status];
+    }
+
+    /**
+     * Get Application status icons
+     *
+     * @param  int $status
+     * @return string
+     */
+    public static function getStatusIcons($status)
+    {
+        if (!isset(self::$statusesIcons[$status])) {
+            return '[undefined]';
+        }
+
+        return self::$statusesIcons[$status];
     }
 
     /**

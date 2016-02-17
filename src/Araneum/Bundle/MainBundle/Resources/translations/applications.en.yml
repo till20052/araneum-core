@@ -3,7 +3,7 @@ NAME: Name
 TYPE: Type
 STATUS: Status
 CLUSTER: Cluster
-CREATED_AT: Date created
+CREATED_AT: Created At
 placeholder:
     DOMAIN: Enter domain
     NAME: Enter name
