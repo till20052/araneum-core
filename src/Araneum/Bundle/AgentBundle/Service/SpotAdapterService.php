@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\AgentBundle\Service;
 
+use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Base\Service\Spot\SpotApiSenderService;
 use Doctrine\ORM\EntityManager;
@@ -74,7 +75,7 @@ class SpotAdapterService
                     'COMMAND' => $postData['COMMAND'],
                     'MODULE' => $postData['MODULE'],
                 ],
-                json_decode($postData['requestData'])
+                json_decode($postData['requestData'], true)
             );
         }
         $application = $this->em->getRepository('AraneumMainBundle:Application')->findOneByAppKey($appKey);
@@ -82,7 +83,6 @@ class SpotAdapterService
             throw new Exception('Application with key '.$appKey.' doesn\'n exist');
         }
         $spotCredential = $application->getSpotCredential();
-        $response = true;
         if (!$rabbitDelivery) {
             $response = $this->spotApiSenderService->send($data, $spotCredential);
             if ($this->spotApiSenderService->getErrors($response) !== null) {
@@ -90,11 +90,8 @@ class SpotAdapterService
             }
 
             return $response->getBody(true);
-        } else {
-            $this->spotProducerService->publish($data, $spotCredential);
         }
-
-        return $response;
+        return $this->spotProducerService->publish($data, $spotCredential);
     }
 
     /**
