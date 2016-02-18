@@ -52,17 +52,17 @@ services:
     araneum.base.rabbitmq.producer.spot_customer:
         class: Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService
         arguments:
-            - '@old_sound_rabbit_mq.spot_customer_producer'
-            - '@araneum.base.rabbitmq.msg_convert_helper'
-            - '%rabbitmq_queue_expiration%'
+            - "@old_sound_rabbit_mq.spot_customer_producer"
+            - "@araneum.base.rabbitmq.msg_convert_helper"
+            - "%rabbitmq_queue_expiration%"
 
     araneum.base.rabbitmq.consumer.spot_customer:
         class: Araneum\Base\Service\RabbitMQ\SpotCustomerConsumerService
         arguments:
-            - '@araneum.base.spot_api'
-            - '@araneum.base.rabbitmq.msg_convert_helper'
-            - '@doctrine.orm.entity_manager'
-            - '@araneum.agent.spotoption.service'
+            - "@araneum.base.spot_api"
+            - "@araneum.base.rabbitmq.msg_convert_helper"
+            - "@doctrine.orm.entity_manager"
+            - "@araneum.agent.spotoption.service"
 
     araneum.base.spot_api:
         class: Araneum\Base\Service\Spot\SpotApiSenderService
