@@ -28,8 +28,8 @@ class LdapSynchronizationServiceTest extends WebTestCase
             'dn' => 'uid=test,cn=users,cn=accounts,dc=office,dc=dev',
             'krblastpwdchange' => ['20151022114844Z'],
             'mail' => ['test@test.dev'],
-            'uid' => ['test']
-        ]
+            'uid' => ['test'],
+        ],
     ];
     protected static $ldapParams = [
         'baseDn' => 'cn=accounts,dc=office,dc=dev',
@@ -40,7 +40,7 @@ class LdapSynchronizationServiceTest extends WebTestCase
             ['ldap_attr' => 'mail', 'user_method' => 'setEmail'],
             ['ldap_attr' => 'mail', 'user_method' => 'setEmailCanonical'],
             ['ldap_attr' => 'krblastpwdchange', 'user_method' => 'setLastChangeLdapPass'],
-        ]
+        ],
     ];
 
     /**
@@ -73,6 +73,9 @@ class LdapSynchronizationServiceTest extends WebTestCase
      */
     private $encoderFactory;
 
+    /**
+     * test RunSynchronization LDAP SYNC.
+     */
     public function testRunSynchronization() {
         $this->getMockEntityUser();
         $userRepository = $this->getMockUserRepository();
@@ -88,9 +91,9 @@ class LdapSynchronizationServiceTest extends WebTestCase
         );
 
         $result = $this->service->runSynchronization();
-        $this->assertInternalType('array',$result);
-        $this->assertEquals(2,count($result));
-        $this->assertEquals(['sitem' => 1, 'uitem' => 0],$result);
+        $this->assertInternalType('array', $result);
+        $this->assertEquals(2, count($result));
+        $this->assertEquals(['sitem' => 1, 'uitem' => 0], $result);
     }
 
     /**
@@ -106,7 +109,6 @@ class LdapSynchronizationServiceTest extends WebTestCase
 
     /**
      * Mock EntityUser
-     * @return EntityUser
      */
     private function getMockEntityUser()
     {
