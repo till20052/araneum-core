@@ -53,15 +53,15 @@ class SpotAdapterServiceTest extends \PHPUnit_Framework_TestCase
             'appKey' => ApplicationFixtures::TEST_APP_APP_KEY,
             'MODULE' => 'Not Empty',
             'COMMAND' => 'Not Empty',
-            'requestData' => '{"1":"foo","2":"bar","3":"baz","4":"blong"}'
+            'requestData' => '{"1":"foo","2":"bar","3":"baz","4":"blong"}',
         ],
         'normal_post_data_fully_rabbit' => [
             'appKey' => ApplicationFixtures::TEST_APP_APP_KEY,
             'MODULE' => 'Not Empty',
             'COMMAND' => 'Not Empty',
             'requestData' => '{"1":"foo","2":"bar","3":"baz","4":"blong"}',
-            'guaranteeDelivery' => true
-        ]
+            'guaranteeDelivery' => true,
+        ],
     ];
 
     const SPOT_CREDENTIAL_TEST = [
@@ -108,18 +108,16 @@ class SpotAdapterServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->spotAdapterService = new SpotAdapterService(
             $this->entityManagerMock,
-            $this->spotApiSenderServiceMock ,
+            $this->spotApiSenderServiceMock,
             $this->spotProducerServiceMock
         );
     }
 
     /**
-     * Test SpotAdapterService Bad data with Bad Request
+     * Mock Services
      */
-    public function testNormalDataNotFully()
+    protected function mockServices()
     {
-        $data = self::POST_DATA['normal_post_data_not_fully'];
-
         $this->application->expects($this->once())
             ->method('getSpotCredential')
             ->will($this->returnValue(self::SPOT_CREDENTIAL_TEST));
@@ -135,6 +133,16 @@ class SpotAdapterServiceTest extends \PHPUnit_Framework_TestCase
         $this->responseMock->expects($this->once())
             ->method('getBody')
             ->will($this->returnValue('Response'));
+    }
+
+    /**
+     * Test SpotAdapterService Bad data with Bad Request
+     */
+    public function testNormalDataNotFully()
+    {
+        $data = self::POST_DATA['normal_post_data_not_fully'];
+
+        $this->mockServices();
 
         $this->spotAdapterService->sendRequestToSpot($data);
     }
@@ -146,21 +154,7 @@ class SpotAdapterServiceTest extends \PHPUnit_Framework_TestCase
     {
         $data = self::POST_DATA['normal_post_data_fully'];
 
-        $this->application->expects($this->once())
-            ->method('getSpotCredential')
-            ->will($this->returnValue(self::SPOT_CREDENTIAL_TEST));
-
-        $this->applicationManagerMock->expects($this->once())
-            ->method('findOneByAppKey')
-            ->will($this->returnValue($this->application));
-
-        $this->spotApiSenderServiceMock->expects($this->once())
-            ->method('send')
-            ->will($this->returnValue($this->responseMock));
-
-        $this->responseMock->expects($this->once())
-            ->method('getBody')
-            ->will($this->returnValue('Response'));
+        $this->mockServices();
 
         $this->spotAdapterService->sendRequestToSpot($data);
     }

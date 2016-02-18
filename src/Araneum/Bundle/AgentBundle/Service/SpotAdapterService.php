@@ -91,6 +91,7 @@ class SpotAdapterService
 
             return $response->getBody(true);
         }
+
         return $this->spotProducerService->publish($data, $spotCredential);
     }
 
