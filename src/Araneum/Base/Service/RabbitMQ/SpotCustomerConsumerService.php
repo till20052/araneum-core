@@ -65,9 +65,9 @@ class SpotCustomerConsumerService implements ConsumerInterface
     public function execute(AMQPMessage $message)
     {
         $data = $this->msgConvertHelper->decodeMsg($message->body);
-        $log = (array)$data->log;
+        $log = (array) $data->log;
         try {
-            $spotResponse = $this->spotApiSenderService->send((array)$data->data, (array)$data->spotCredential);
+            $spotResponse = $this->spotApiSenderService->send((array) $data->data, (array) $data->spotCredential);
             if ($this->spotApiSenderService->getErrors($spotResponse) !== null) {
                 throw new RequestException($this->spotApiSenderService->getErrors($spotResponse));
             }
