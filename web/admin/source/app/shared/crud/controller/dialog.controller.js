@@ -11,26 +11,35 @@
         /* jshint -W004, validthis: true */
         var vm = this;
 
-        $scope.isLoaded = false;
+        $scope.isLoaded = true;
         $scope.icon = 'fa fa-file-o';
-        $scope.title = 'Editor';
+        $scope.title = 'Dialog';
 
         $scope.form = {
-            source: '',
-            events: {
-                onSubmit: close,
-                wasCreated: function () {
-                    $scope.isLoaded = true;
+            source: '#',
+            behavior: {
+                construct: function () {
+
+                }
+            },
+            buttons: {
+                submit: {
+                    icon: 'icon-ban',
+                    label: 'admin.general.CANCEL',
+                    behavior: function () {
+
+                    }
+                },
+                cancel: {
+                    icon: 'icon-ban',
+                    label: 'admin.general.CANCEL',
+                    behavior: function () {
+
+                    }
                 }
             },
             options: {
-                controls: {
-                    cancel: {
-                        icon: 'icon-ban',
-                        label: 'admin.general.CANCEL',
-                        click: close
-                    }
-                }
+                style: 'columns'
             }
         };
 

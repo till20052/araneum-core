@@ -34,8 +34,7 @@
             create: create,
             update: update,
             setState: setState,
-            remove: remove,
-            submit: submit
+            remove: remove
         })[map[options.callback]];
 
         /**

@@ -24,13 +24,25 @@
 
         $scope.form = {
             filter: {
-                options: {
-                    layout: 'cols',
-                    controls: {
-                        refresh: {
-                            label: 'admin.general.RESET'
+                children: [],
+                actions: {
+                    search: {
+                        icon: 'fa fa-search',
+                        title: 'admin.general.SEARCH',
+                        behavior: function () {
+                            console.log('behavior on: filter.search', this);
+                        }
+                    },
+                    refresh: {
+                        icon: 'fa fa-refresh',
+                        title: 'admin.general.RESET',
+                        behavior: function () {
+                            console.log('behavior on: filter.RESET', this);
                         }
                     }
+                },
+                options: {
+                    style: 'cols'
                 }
             }
         };
@@ -40,7 +52,19 @@
             .load($state.$current.initialize)
             .onLoaded({
                 onSuccess: function (response) {
-                    $scope.form.filter.data = response.filter;
+                    if (!response.filter.hasOwnProperty('children') || !(response.filter.children instanceof Object))
+                        return; // @todo need to create error handler
+                    var children = response.filter.children;
+                    $scope.form.filter.children = Object
+                        .keys(children)
+                        .map(function (key) {
+                            /* jshint -W106 */
+                            /** @type {{ block_prefixes: Array<String> }} */
+                            var child = children[key].vars;
+                            return angular.extend(child, {
+                                type: child.block_prefixes[1]
+                            });
+                        });
                 }
             });
     }

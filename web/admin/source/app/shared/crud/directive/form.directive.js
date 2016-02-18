@@ -12,7 +12,7 @@
      */
     function CRUDFormDirective($compile, supervisor) {
         /* jshint -W106, eqeqeq: false */
-        var controller = {},
+        var controller,
         // @todo need to move this object to separated service, which will be called bootstrap-helper
             bootstrap = {
                 col: (function (self) {
@@ -60,10 +60,7 @@
             controller: 'CRUDFormController',
             controllerAs: 'controller',
             scope: {
-                source: '=',
-                data: '=',
-                options: '=',
-                events: '='
+                struct: '='
             }
         };
 
@@ -74,6 +71,29 @@
          * @param element
          */
         function link(scope, element) {
+            var struct = scope.struct;
+            controller = scope.controller;
+
+            if (!(struct instanceof Object))
+                return; // @todo need to create error handler
+
+            if (
+                struct.hasOwnProperty('children') &&
+                struct.children.constructor === Array &&
+                struct.children.length > 0
+            ) {
+                return element.replaceWith($compile(createForm(struct))(scope));
+            }
+
+            var stopWatching = scope.$watch('struct', function (struct, prevValue) {
+                if (struct === undefined || struct === prevValue)
+                    return;
+                link(scope, element);
+                stopWatching();
+            }, true);
+        }
+
+        function CAP() {
             if (scope.data instanceof Object) {
                 if (scope.hasOwnProperty('controller'))
                     controller = scope.controller;
@@ -88,9 +108,9 @@
                     $compile(createForm(scope.data, scope.options))(scope)
                 );
 
-                if (typeof scope.events.wasCreated === 'function') {
-                    scope.events.wasCreated();
-                }
+                //if (typeof scope.events.wasCreated === 'function') {
+                //    scope.events.wasCreated();
+                //}
             }
             else if (scope.source !== undefined) {
                 supervisor
@@ -103,46 +123,45 @@
                     });
             }
             else {
-                var stopWatching = scope.$watch('data', function (data) {
-                    if (data !== undefined) {
-                        link(scope, element);
-                        stopWatching();
-                    }
-                });
+
             }
         }
 
         /**
          * Create form
          *
-         * @param {{
-         *      children: Object.<String, Object>,
-         *      vars: Object
-         * }} data
-         * @param {Object} options
+         * @param {Object} struct
          * @returns {jQuery}
          */
-        function createForm(data, options) {
+        function createForm(struct) {
             var form = $('<form class="form-horizontal" />').attr({
-                name: 'controller.form.' + data.vars.name,
+                name: '',
                 novalidate: ''
             });
 
-            data.children = angular.extend(data.children, {
-                controls: {
-                    submit: {
-                        class: 'btn-primary',
-                        icon: 'icon-check',
-                        label: 'admin.general.SAVE',
-                        click: 'submit'
-                    },
-                    cancel: {
-                        icon: 'icon-close',
-                        label: 'admin.general.CANCEL',
-                        click: 'cancel'
-                    }
-                }
-            });
+            form.append(
+                struct.children.map(function (struct) {
+                    return createChild(struct.type, struct);
+                })
+            );
+
+            return form;
+
+            //{
+            //    controls: {
+            //        submit: {
+            //        class: 'btn-primary',
+            //                icon: 'icon-check',
+            //                label: 'admin.general.SAVE',
+            //                click: 'submit'
+            //        },
+            //        cancel: {
+            //            icon: 'icon-close',
+            //                label: 'admin.general.CANCEL',
+            //                click: 'cancel'
+            //        }
+            //    }
+            //}
 
             for (var id in data.children) {
                 if (!data.children.hasOwnProperty(id))
@@ -167,9 +186,6 @@
                 }
 
                 var formGroup = $('<div class="form-group" />').append(child);
-
-                if (type == 'controls')
-                    formGroup.addClass('mb0');
 
                 if (
                     options.hasOwnProperty('layout') &&
@@ -310,6 +326,7 @@
          * @returns {*[]}
          */
         function select(data) {
+            console.log(data);
             return [
                 $('<label class="control-label" />')
                     .addClass(bootstrap.col.left)

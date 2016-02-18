@@ -18,31 +18,7 @@
 
         vm.form = {
             data: {},
-            children: {},
-            // @todo need to move this object to separated service
-            dispatcher: (function () {
-                var events = {
-                    click: click,
-                    submit: submit
-                };
-
-                return {
-                    dispatch: dispatch
-                };
-
-                /**
-                 * Dispatch Event
-                 *
-                 * @param event
-                 * @param object
-                 * @returns {*}
-                 */
-                function dispatch(event, object) {
-                    if(!events.hasOwnProperty(event))
-                        event = 'click';
-                    return events[event](object);
-                }
-            })()
+            children: {}
         };
 
         vm.linkKeys = linkKeys;

@@ -14,8 +14,7 @@
      */
     function ActionListener(ngDialog) {
         return {
-            create: create,
-            setState: setState
+            create: create
         };
 
         function openWindow(data) {
@@ -34,7 +33,12 @@
             openWindow({
                 title: 'test',
                 form: {
-                    source: event
+                    source: event,
+                    behavior: {
+                        submit: function () {
+                            console.log('behavior.submit', this);
+                        }
+                    }
                 }
             });
         }
