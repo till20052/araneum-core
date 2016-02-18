@@ -57,7 +57,6 @@ class SpotCustomersCommand extends ContainerAwareCommand
         } else {
             $applications =  $this->getContainer()->get('doctrine')->getRepository('AraneumMainBundle:Application')->findByName($applicationOption);
         }
-        $this->getContainer()->get('doctrine')->resetManager();
         foreach ($applications as $application) {
             try {
                 $credential = $application->getSpotCredential();
