@@ -40,3 +40,12 @@ services:
     araneum.agent.error.api_handler:
         class: Araneum\Bundle\AgentBundle\Service\ErrorApiHandlerService
         arguments: [@doctrine.orm.entity_manager, @form.factory, @araneum.main.application.manager]
+
+    araneum.api.application.service:
+        class: Araneum\Bundle\AgentBundle\Service\ApplicationService
+        arguments:
+            - "@araneum.base.rabbitmq.producer.application_customer"
+            - "@araneum.base.application_api"
+            - "@doctrine.orm.entity_manager"
+            -
+              'create_user': "%application_api_url_create_user%"
