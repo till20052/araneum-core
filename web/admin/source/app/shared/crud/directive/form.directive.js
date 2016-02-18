@@ -50,8 +50,7 @@
                 hidden: inputHidden,
                 checkbox: inputCheckbox,
                 text: inputText,
-                choice: select,
-                controls: controls
+                choice: select
             };
 
         return {
@@ -82,7 +81,21 @@
                 struct.children.constructor === Array &&
                 struct.children.length > 0
             ) {
-                return element.replaceWith($compile(createForm(struct))(scope));
+                var form = createForm(struct);
+
+                if (
+                    struct.hasOwnProperty('options') &&
+                    struct.options instanceof Object
+                ) {
+                    var options = struct.options;
+
+                    if (options.hasOwnProperty('style')) {
+                        if (options.style == 'cols')
+                            $('> div.form-group', form).addClass('col-sm-6');
+                    }
+                }
+
+                return element.replaceWith($compile(form)(scope));
             }
 
             var stopWatching = scope.$watch('struct', function (struct, prevValue) {
@@ -141,27 +154,12 @@
 
             form.append(
                 struct.children.map(function (struct) {
-                    return createChild(struct.type, struct);
+                    return $('<div class="form-group" />')
+                        .append(createChild(struct));
                 })
             );
 
             return form;
-
-            //{
-            //    controls: {
-            //        submit: {
-            //        class: 'btn-primary',
-            //                icon: 'icon-check',
-            //                label: 'admin.general.SAVE',
-            //                click: 'submit'
-            //        },
-            //        cancel: {
-            //            icon: 'icon-close',
-            //                label: 'admin.general.CANCEL',
-            //                click: 'cancel'
-            //        }
-            //    }
-            //}
 
             for (var id in data.children) {
                 if (!data.children.hasOwnProperty(id))
@@ -202,16 +200,17 @@
         /**
          * Create form child
          *
-         * @param type
-         * @param data
+         * @param {Object} struct
          * @returns {*}
          */
-        function createChild(type, data) {
-            if (!children.hasOwnProperty(type)) {
-                return console.error('[ERROR]: Try to create form child by type: ' + type + ', but this child doesn\'t defined');
-            }
+        function createChild(struct) {
+            var type = struct.type;
 
-            var child = $('<div />').addClass('row m0')
+            if (!children.hasOwnProperty(type))
+                return console.error('[ERROR]: Try to create form child by type: ' + type + ', but this child doesn\'t defined');
+
+            var child = $('<div />')
+                .addClass('row m0')
                 .append(children[type]((function (data) {
                     return angular.forEach(
                         (data = (function (data) {
@@ -250,13 +249,13 @@
                         },
                         data
                     );
-                })(data)));
+                })(struct)));
 
-            controller.form.children[data.name] = data;
+            controller.form.children[struct.name] = struct;
 
             $('input, select', child).attr(angular.extend({
-                name: data.full_name,
-                'ng-model': 'controller.form.data.' + data.name
+                name: struct.full_name,
+                'ng-model': 'controller.form.data.' + struct.name
             }));
 
             return type == 'hidden' ?
@@ -326,7 +325,6 @@
          * @returns {*[]}
          */
         function select(data) {
-            console.log(data);
             return [
                 $('<label class="control-label" />')
                     .addClass(bootstrap.col.left)
@@ -344,12 +342,12 @@
         }
 
         /**
-         * Create controls
+         * Create actions
          *
          * @param {object} data
          * @returns {jQuery}
          */
-        function controls(data) {
+        function actions(data) {
             var buttons = [],
                 keys = Object.keys(data);
             return $('<div />')
