@@ -26,7 +26,6 @@ class LdapApiController extends Controller
      *   statusCodes = {
      *      200 = "Returned when successful",
      *      403 = "Returned when authorization is failed",
-     *      404 = "Returned when 'api.ldap.synchronization' not found"
      *   },
      *   requirements = {
      *      {
@@ -41,7 +40,7 @@ class LdapApiController extends Controller
      * @Rest\Get(
      *      "/api/ldap/users/",
      *      name="araneum_main_api_ldap_users",
-     *      defaults={"_format"="json", "_locale"="en"}
+     *      defaults={"_format"="json"}
      * )
      * @Rest\View()
      *
