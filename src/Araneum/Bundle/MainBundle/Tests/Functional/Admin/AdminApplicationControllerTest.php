@@ -22,41 +22,6 @@ use Araneum\Base\Tests\Controller\BaseAdminController;
 class AdminApplicationControllerTest extends BaseAdminController
 {
     /**
-     * @var Client
-     */
-    private $client;
-
-    /**
-     * @var Router
-     */
-    private $router;
-
-    /**
-     * @var ValidatorInterface
-     */
-    private $validator;
-
-    /**
-     * @var Request
-     */
-    private $request;
-
-    /**
-     * @var AdminApplicationController
-     */
-    private $controller;
-
-    /**
-     * @var ApplicationRepository
-     */
-    private $repositoryApplication;
-
-    /**
-     * @var Container
-     */
-    private $container;
-
-    /**
      * @inheritdoc
      */
     public function setUp()
