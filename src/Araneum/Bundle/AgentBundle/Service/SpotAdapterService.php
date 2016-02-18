@@ -106,7 +106,7 @@ class SpotAdapterService
         if (isset($data['requestData']) && !empty($data['requestData'])) {
             $errors['requestData'] = 'requestData should be required and valid to send spot request';
         }
-        if (!empty ($errors)) {
+        if (!empty($errors)) {
             throw new RequestException(json_encode($errors));
         }
         if (!isset($data['guaranteeDelivery'])) {

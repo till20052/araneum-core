@@ -56,7 +56,7 @@ class SpotAdapterApiController extends FOSRestController
                 ->sendRequestToSpot($postParameters);
 
             return View::create($form, 201);
-        }  catch (RequestException $e) {
+        } catch (RequestException $e) {
 
             return View::create($e->getMessage(), 403);
         } catch (Exception $e) {
@@ -64,5 +64,4 @@ class SpotAdapterApiController extends FOSRestController
             return View::create($e->getMessage(), 404);
         }
     }
-
 }
