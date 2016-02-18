@@ -44,16 +44,6 @@ class SpotAdapterServiceTest extends \PHPUnit_Framework_TestCase
     const APP_KEY = ApplicationFixtures::TEST_APP_APP_KEY;
 
     const POST_DATA = [
-        'bad_post_data_not_fully' => [
-            'MODULE' => 'Not Empty',
-            'COMMAND' => 'Not Empty',
-        ],
-        'bad_post_data_fully' => [
-            'appKey' => ApplicationFixtures::TEST_APP_APP_KEY,
-            'MODULE' => 'Not Empty',
-            'COMMAND' => 'Not Empty',
-            'requestData' => 'Not Valid'
-        ],
         'normal_post_data_not_fully' => [
             'appKey' => ApplicationFixtures::TEST_APP_APP_KEY,
             'MODULE' => 'Not Empty',
@@ -122,26 +112,6 @@ class SpotAdapterServiceTest extends \PHPUnit_Framework_TestCase
             $this->spotProducerServiceMock
         );
     }
-
-//    /**
-//     * Test should return an exception
-//     *
-//     * @expectedException \Exception
-//     */
-//    public function testSomeBadRequest()
-//    {
-//        die(var_dump($this->spotAdapterService->sendRequestToSpot(self::POST_DATA['bad_post_data_fully'])));
-//    }
-//
-//    /**
-//     * Test should return an exception
-//     *
-//     * @expectedException \Exception
-//     */
-//    public function testBadRequest()
-//    {
-//        $this->spotAdapterService->sendRequestToSpot(self::POST_DATA['bad_post_data_fully']);
-//    }
 
     /**
      * Test SpotAdapterService Bad data with Bad Request
