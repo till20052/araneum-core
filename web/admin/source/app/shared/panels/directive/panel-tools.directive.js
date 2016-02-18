@@ -8,6 +8,7 @@
     paneltool.$inject = ['$compile', '$timeout'];
 
     /**
+     * PanelTool Directive
      *
      * @param $compile
      * @param $timeout
