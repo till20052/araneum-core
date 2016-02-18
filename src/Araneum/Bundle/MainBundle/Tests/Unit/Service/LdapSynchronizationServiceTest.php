@@ -76,7 +76,8 @@ class LdapSynchronizationServiceTest extends WebTestCase
     /**
      * test RunSynchronization LDAP SYNC.
      */
-    public function testRunSynchronization() {
+    public function testRunSynchronization()
+    {
         $this->getMockEntityUser();
         $userRepository = $this->getMockUserRepository();
         $this->doctrine = $this->getMockDoctrine(array($userRepository));
@@ -113,7 +114,7 @@ class LdapSynchronizationServiceTest extends WebTestCase
     private function getMockEntityUser()
     {
         $this->getMockBuilder('Araneum\Bundle\UserBundle\Entity\User')
-            ->setConstructorArgs( array( 'User') )
+            ->setConstructorArgs(array('User'))
             ->getMock();
     }
 
