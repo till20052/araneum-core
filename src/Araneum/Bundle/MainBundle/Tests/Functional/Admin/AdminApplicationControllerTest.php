@@ -5,11 +5,11 @@ namespace Araneum\Bundle\MainBundle\Tests\Functional\Admin;
 use Araneum\Base\Tests\Controller\BaseAdminController;
 
 /**
- * Class AdminLocaleControllerTest
+ * Class AdminApplicationControllerTest
  *
  * @package Araneum\Bundle\MainBundle\Tests\Functional\Admin
  */
-class AdminLocaleControllerTest extends BaseAdminController
+class AdminApplicationControllerTest extends BaseAdminController
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class AdminLocaleControllerTest extends BaseAdminController
     {
         parent::setUp();
 
-        $this->initActionUrl = 'araneum_manage_locales_init';
-        $this->gridActionUrl = 'araneum_manage_locales_grid';
+        $this->initActionUrl = 'araneum_manage_applications_init';
+        $this->gridActionUrl = 'araneum_manage_applications_grid';
     }
 }
