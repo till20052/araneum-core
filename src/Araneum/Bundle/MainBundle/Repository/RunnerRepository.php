@@ -20,7 +20,7 @@ class RunnerRepository extends EntityRepository
      *
      * @return array
      */
-    public function getRunnerLoadAverage()
+    public function getRunnersLoadAverage()
     {
         $qb = $this->createQueryBuilder('r');
 

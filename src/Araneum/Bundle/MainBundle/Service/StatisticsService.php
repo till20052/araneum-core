@@ -218,7 +218,7 @@ class StatisticsService
     public function getResultsForRunnersAverage()
     {
         return $this->getChartStructure(
-            $this->getRunnerRepository()->getRunnerLoadAverage(),
+            $this->getRunnerRepository()->getRunnersLoadAverage(),
             'apt'
         );
     }

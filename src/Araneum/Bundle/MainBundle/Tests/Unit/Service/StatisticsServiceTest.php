@@ -197,7 +197,7 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for
+     * Test for Cluster Up Time
      */
     public function testPrepareResultForClusterUpTime()
     {
@@ -245,9 +245,106 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
 
         $service = new StatisticsService($entityManager);
 
-        $clusterUpTime = $service->getResultsForRunnersUpTime();
+        $clusterUpTime = $service->getResultForClusterUpTime();
 
         $this->assertEquals(array_keys($array), array_keys($clusterUpTime));
+    }
+
+    /**
+     * Test prepare result for runner average
+     */
+    public function testPrepareResultForRunnerAverage()
+    {
+
+        $array = [
+            [
+                'name' => 'name',
+                'hours' => '10',
+                'apt' => '1',
+            ],
+        ];
+
+        $runnerRepository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\RunnerRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $runnerRepository->expects($this->once())
+            ->method('getRunnersLoadAverage')
+            ->will($this->returnValue($array));
+
+        $entityManagerLog = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $entityManagerLog->expects($this->once())
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumMainBundle:Runner'))
+            ->will($this->returnValue($runnerRepository));
+
+        $service = new StatisticsService($entityManagerLog);
+
+        $clusterAverage = $service->getResultsForRunnersAverage();
+
+        $this->assertEquals(array_keys($array), array_keys($clusterAverage));
+    }
+
+    /**
+     * Test for Runner Up Time
+     */
+    public function testPrepareResultForRunnerUpTime()
+    {
+
+        $array = [
+            [
+                'label' => '',
+                'data' => [],
+            ],
+            [
+                'label' => '',
+                'data' => [],
+            ],
+            [
+                'label' => '',
+                'data' => [],
+            ],
+            [
+                'label' => '',
+                'data' => [],
+            ],
+        ];
+
+        $arrayForRunner = [
+            [
+                'name' => '',
+                'success' => '',
+                'appProblem' => '',
+                'problem' => '',
+                'offline' => '',
+            ],
+        ];
+
+        $runnerRepository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\RunnerRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $runnerRepository->expects($this->once())
+            ->method('getRunnersUpTime')
+            ->will($this->returnValue($arrayForRunner));
+
+        $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $entityManager->expects($this->once())
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumMainBundle:Runner'))
+            ->will($this->returnValue($runnerRepository));
+
+        $service = new StatisticsService($entityManager);
+
+        $runnerUpTime = $service->getResultsForRunnersUpTime();
+
+        $this->assertEquals(array_keys($array), array_keys($runnerUpTime));
     }
 
     /**
