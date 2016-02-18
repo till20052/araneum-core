@@ -57,7 +57,6 @@ class CustomerSubscriber implements EventSubscriberInterface
      */
     public function onLogin(CustomerEvent $event)
     {
-        die(var_dump('working!'));
         $this->spotOptionService->login($event->getCustomer());
     }
 
