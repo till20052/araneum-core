@@ -85,7 +85,7 @@ class ApplicationDataTableList extends AbstractList
                 'status',
                 [
                     'render' => function ($value) {
-                        return $value;
+                        return Application::getStatusIcons($value);
                     },
                     'label' => 'applications.STATUS',
                 ]
