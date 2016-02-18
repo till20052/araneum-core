@@ -199,15 +199,28 @@ class StatisticsService
 
 
     /**
-     * Get received Errors from all Applications in last 24 hours
+     * Get UpTime from all Runners in last 24 hours
      *
      * @return array
      */
     public function getResultsForRunnersUpTime()
     {
-        $upTime = $this->entityManager->getRepository('AraneumMainBundle:Runner')->getRunnersUpTime();
+        $upTime = $this->getRunnerRepository()->getRunnersUpTime();
 
         return $this->prepareResultForUpTime($upTime, ['success', 'appProblem', 'problem', 'offline']);
+    }
+
+    /**
+     * Get Average for all Runners in last 24 hours
+     *
+     * @return array
+     */
+    public function getResultsForRunnersAverage()
+    {
+        return $this->getChartStructure(
+            $this->getRunnerRepository()->getRunnerLoadAverage(),
+            'apt'
+        );
     }
 
     /**
@@ -433,5 +446,15 @@ class StatisticsService
     private function getApplicationRepository()
     {
         return $this->entityManager->getRepository('AraneumMainBundle:Application');
+    }
+
+    /**
+     * Get runner repositoty
+     *
+     * @return RunnerRepository
+     */
+    private function getRunnerRepository()
+    {
+        return $this->entityManager->getRepository('AraneumMainBundle:Runner');
     }
 }

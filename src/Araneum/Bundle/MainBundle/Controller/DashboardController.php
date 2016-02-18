@@ -46,7 +46,10 @@ class DashboardController extends Controller
             'charts' => [
                 'leads' => $service->getRegisteredLeadsFromAppsInLast24H(),
                 'errors' => $service->getReceivedErrorsFromAppsInLast24H(),
-                'runners' => $service->getResultsForRunnersUpTime(),
+                'runners' => [
+                    'avgload' => $service->getResultsForRunnersAverage(),
+                    'uptime' => $service->getResultsForRunnersUpTime(),
+                ],
             ],
         ];
 
