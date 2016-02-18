@@ -15,11 +15,12 @@
                         width: 2em;
                         text-align: center;"
                        panel-collapse=""
-                       tooltip="Collapse Panel"
+                       uib-tooltip="{{'admin.dashboard.widget.COLLAPSE' | translate}}"
                        ng-click="filters.panel = !filters.panel"
                        class="ng-scope">
-                <em ng-show="filters.panel" class="fa fa-plus ng-hide" style=""></em> <em ng-show="!filters.panel"
-                                                                                          class="fa fa-minus"></em> </a>
+                    <em ng-show="!filters.panel" class="fa fa-plus" style=""></em>
+                    <em ng-show="filters.panel" class="fa fa-minus ng-hide"></em>
+                </a>
                 <a
                         style="
                         display: inline-block;
@@ -27,7 +28,7 @@
                         width: 2em;
                         text-align: center;"
                         href="#" id="resetForm" class="ng-scope"
-                        tooltip="Refresh Panel">
+                        uib-tooltip="{{'admin.dashboard.widget.REFRESH' | translate}}">
                     <em
                             ng-click="vm.reset($event, vm.resetConfig.url, vm.resetConfig.idForm)"
                             class="fa fa-refresh"></em>
@@ -39,7 +40,7 @@
             </h3>
         </div>
         <div class="form-horizontal">
-            <div collapse="filters.panel" class="panel-wrapper">
+            <div collapse="!filters.panel" class="panel-wrapper">
                 <div class="panel-body pb">
                     <div class="row">
                         <div class="col-lg-10">
