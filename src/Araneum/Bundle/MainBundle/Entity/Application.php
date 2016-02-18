@@ -221,7 +221,7 @@ class Application
     }
 
     /**
-     * Get Application status icons
+     * Get Application status icons fot view
      *
      * @param  int $status
      * @return string
