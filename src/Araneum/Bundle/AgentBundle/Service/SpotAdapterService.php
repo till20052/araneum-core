@@ -58,26 +58,38 @@ class SpotAdapterService
     public function sendRequestToSpot($postData)
     {
         $this->validateInputData($postData);
+        if (!isset($postData['guaranteeDelivery'])) {
+            $rabbitDelivery = false;
+        } else {
+            $rabbitDelivery = $postData['guaranteeDelivery'];
+        }
         $appKey = $postData['appKey'];
-        $data = array_merge(
-            [
+        $data = [
                 'COMMAND' => $postData['COMMAND'],
                 'MODULE' => $postData['MODULE'],
-            ],
-            json_decode($postData['requestData'])
-        );
-
+            ];
+        if (!empty($postData['requestData']) && isset($postData['requestData'])) {
+            $data = array_merge(
+                [
+                    'COMMAND' => $postData['COMMAND'],
+                    'MODULE' => $postData['MODULE'],
+                ],
+                json_decode($postData['requestData'])
+            );
+        }
         $application = $this->em->getRepository('AraneumMainBundle:Application')->findOneByAppKey($appKey);
         if (!$application) {
             throw new Exception('Application with key '.$appKey.' doesn\'n exist');
         }
         $spotCredential = $application->getSpotCredential();
         $response = true;
-        if (!$postData['guaranteeDelivery']) {
+        if (!$rabbitDelivery) {
             $response = $this->spotApiSenderService->send($data, $spotCredential);
             if ($this->spotApiSenderService->getErrors($response) !== null) {
                 throw new RequestException($this->spotApiSenderService->getErrors($response));
             }
+
+            return $response->getBody(true);
         } else {
             $this->spotProducerService->publish($data, $spotCredential);
         }
@@ -94,7 +106,7 @@ class SpotAdapterService
     protected function validateInputData($data)
     {
         $errors = [];
-        if (!isset($data['requestData']) || empty($data['requestData'])) {
+        if (!isset($data['appKey']) || empty($data['appKey'])) {
             $errors['appKey'] = 'appKey should exist and should be valid as parameter of request';
         }
         if (!isset($data['COMMAND']) || empty($data['COMMAND'])) {
@@ -103,14 +115,8 @@ class SpotAdapterService
         if (!isset($data['MODULE']) || empty($data['MODULE'])) {
             $errors['MODULE'] = 'MODULE should be required and valid to send spot request';
         }
-        if (isset($data['requestData']) && !empty($data['requestData'])) {
-            $errors['requestData'] = 'requestData should be required and valid to send spot request';
-        }
         if (!empty($errors)) {
             throw new RequestException(json_encode($errors));
-        }
-        if (!isset($data['guaranteeDelivery'])) {
-            $data['guaranteeDelivery'] = false;
         }
     }
 }

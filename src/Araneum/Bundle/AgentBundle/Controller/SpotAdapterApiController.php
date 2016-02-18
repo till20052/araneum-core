@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\View\View;
 use Guzzle\Http\Exception\RequestException;
 use Symfony\Component\Security\Acl\Exception\Exception;
+use Symfony\Component\Debug\Exception\ContextErrorException;
 
 /**
  * Class SpotAdapterApiController
@@ -59,6 +60,9 @@ class SpotAdapterApiController extends FOSRestController
         } catch (RequestException $e) {
 
             return View::create($e->getMessage(), 403);
+        } catch (ContextErrorException $e) {
+
+            return View::create('Request data is not valid. Please, use JSON format', 403);
         } catch (Exception $e) {
 
             return View::create($e->getMessage(), 404);
