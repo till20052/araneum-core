@@ -31,3 +31,9 @@ parameters:
     rabbitmq_queue_expiration: '3600000000' # Time to live message in queue 1 hour in milliseconds
     
     spot_api_public_url_login: '/Login/login/unusedRequiredParameter'
+
+    ldap_driver_host: nova.office.dev
+    ldap_driver_username: uid=araneum,cn=sysaccounts,cn=etc,dc=office,dc=dev
+    ldap_driver_password: LK8SoeTbffxFLDu5nOpY
+
+    ldap_user_baseDn: cn=accounts,dc=office,dc=dev
