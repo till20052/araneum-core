@@ -1,10 +1,3 @@
-/**=========================================================
- * Module panel-tools.js
- * Directive tools to control panels.
- * Allows collapse, refresh and dismiss (remove)
- * Saves panel state in browser storage
- =========================================================*/
-
 (function () {
     'use strict';
 
@@ -13,13 +6,27 @@
         .directive('paneltool', paneltool);
 
     paneltool.$inject = ['$compile', '$timeout'];
+
+    /**
+     *
+     * @param $compile
+     * @param $timeout
+     * @returns {Object}
+     */
     function paneltool($compile, $timeout) {
-        var directive = {
+        return {
             link: link,
             restrict: 'E',
             scope: false
         };
-        return directive;
+
+        /**
+         * Directive link
+         *
+         * @param scope
+         * @param element
+         * @param attrs
+         */
         function link(scope, element, attrs) {
             var templates = {
                 /* jshint multistr: true */

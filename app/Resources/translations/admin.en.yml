@@ -8,6 +8,12 @@ dashboard :
         PROBLEM: "Problem"
         ERROR: "Error"
         DISABLED: "Disabled"
+    chart:
+        runner:
+            avgload:
+                HEAD: "Average Load of each Runners by last 24 hours"
+            uptime:
+                HEAD: "Runner uptime by last 24 hours"
     widget:
         APPLICATION_STATUSES: "Statuses for last 24 hour by applications"
         AVERAGE_APPLICATION_STATUSES: "Average application statuses by last 24 hours"
