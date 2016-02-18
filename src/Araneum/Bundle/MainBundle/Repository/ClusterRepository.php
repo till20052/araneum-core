@@ -14,6 +14,7 @@ use Araneum\Bundle\MainBundle\Entity\Cluster;
 class ClusterRepository extends EntityRepository implements \Countable
 {
     use CountableTrait;
+    use AdminDataGridTrait;
 
     /**
      * Get statistic of all clusters average last 24 hours
