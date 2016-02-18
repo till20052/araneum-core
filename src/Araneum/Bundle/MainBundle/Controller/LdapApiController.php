@@ -26,6 +26,7 @@ class LdapApiController extends Controller
      *   statusCodes = {
      *      200 = "Returned when successful",
      *      403 = "Returned when authorization is failed",
+     *      404 = "Returned when Application not found"
      *   },
      *   requirements = {
      *      {
@@ -42,6 +43,7 @@ class LdapApiController extends Controller
      *      name="araneum_main_api_ldap_users",
      *      defaults={"_format"="json"}
      * )
+     * @Security("has_role('ROLE_API')")
      * @Rest\View()
      *
      * @return array

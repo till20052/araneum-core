@@ -62,7 +62,7 @@ class LdapSynchronizationService extends LdapManager
         parent::__construct($driver, $userManager, $params);
         $this->container = $container;
         $this->encoderFactory = $encoderFactory;
-        $this->entityManager = $this->container->get('doctrine')->getEntityManager();
+        $this->entityManager = $this->container->get('doctrine')->getManager();
         $this->ldapParameter = $this->container->getParameter('ldap');
         $this->repositoryUser = $this->entityManager->getRepository('AraneumUserBundle:User');
     }

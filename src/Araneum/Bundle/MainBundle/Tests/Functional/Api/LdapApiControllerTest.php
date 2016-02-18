@@ -14,9 +14,9 @@ use Symfony\Bundle\FrameworkBundle\Client;
 class LdapApiControllerTest extends BaseController
 {
     /**
-     * @var LdapApiController
+     * @var Client
      */
-    private $ldap;
+    private $client;
 
     /**
      * Test Ldap Synchronization Controller
@@ -25,38 +25,23 @@ class LdapApiControllerTest extends BaseController
      */
     public function testLdapSynchronization()
     {
-        $status = $this->ldap->getLdapSynchronizationAction();
-        $this->assertEquals(
-            '"Success"',
-            $status->getContent()
+        $this->client->request(
+            'GET',
+            '/api/ldap/users/'
         );
-    }
+        $response = $this->client->getResponse();
+        $content = $response->getContent();
+        $this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
 
-    /**
-     * Mock DI Container
-     *
-     * @return Container
-     */
-    private function getContainer()
-    {
-        $container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\Container')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->assertEquals(
+            Response::HTTP_OK,
+            $response->getStatusCode(),
+            $content
+        );
 
-        $this->ldapSync = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Service\LdapSynchronizationService')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->ldapSync->expects($this->any())
-            ->method('runSynchronization')
-            ->will($this->returnValue(true));
-
-        $container->expects($this->any())
-            ->method('get')
-            ->with($this->equalTo('api.ldap.synchronization'))
-            ->will($this->returnValue($this->ldapSync));
-
-        return $container;
+        $decoded = json_decode($content, true);
+        $this->assertInternalType('array',$decoded);
+        $this->assertEquals(2, count($decoded));
     }
 
     /**
@@ -64,7 +49,6 @@ class LdapApiControllerTest extends BaseController
      */
     protected function setUp()
     {
-        $this->ldap = new LdapApiController();
-        $this->ldap->setContainer($this->getContainer());
+        $this->client = self::createAdminAuthorizedClient('api');
     }
 }
