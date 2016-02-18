@@ -29,11 +29,16 @@ class SpotCustomerConsumerServiceTest extends \PHPUnit_Framework_TestCase
         'key' => 'value',
         'key2' => 'value',
         'key3' => 'value',
+        'password' => 'testpassword',
     ];
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $spotApiSenderServiceMock;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $spotOptionServiceMock;
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -143,6 +148,10 @@ class SpotCustomerConsumerServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->emMock = $this->getMockBuilder('\Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
+        $this->spotOptionServiceMock = $this
+            ->getMockBuilder('\Araneum\Bundle\AgentBundle\Service\SpotOptionService')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->msg = self::getMessageObject();
         $this->encodeMsg = serialize(json_encode($this->msg));
@@ -157,7 +166,8 @@ class SpotCustomerConsumerServiceTest extends \PHPUnit_Framework_TestCase
         $this->spotCustomerConsumerService = new SpotCustomerConsumerService(
             $this->spotApiSenderServiceMock,
             $this->msgConvertHelperMock,
-            $this->emMock
+            $this->emMock,
+            $this->spotOptionServiceMock
         );
     }
 
@@ -169,9 +179,9 @@ class SpotCustomerConsumerServiceTest extends \PHPUnit_Framework_TestCase
     private static function getMessageObject()
     {
         $msg = new \stdClass();
-        $msg->spotCredential = self::$spotCredential;
-        $msg->log = self::$log;
-        $msg->data = self::$data;
+        $msg->spotCredential = (object) self::$spotCredential;
+        $msg->log = (object) self::$log;
+        $msg->data = (object) self::$data;
 
         return $msg;
     }
