@@ -1,4 +1,6 @@
 NAME: Name
+EDIT_APPLICATION: Edit application
+CREATE_NEW: Create new application
 DOMAIN: Domain
 ENTER_DOMAIN: Incorected domain name
 ENABLED: Enabled
@@ -19,6 +21,9 @@ SPOT_API_URL: Spot API URL
 ENTER_SPOT_API_PUBLIC_URL: Enter spot API public url
 SPOT_API_PUBLIC_URL: Spot API public url
 STATUS: Status
+CHECK_STATUS: Status
+DISABLE_APPLICATION: Disabled
+ENABLE_APPLICATION: Enabled
 CLUSTER: Cluster
 CREATED_AT: Created At
 placeholder:

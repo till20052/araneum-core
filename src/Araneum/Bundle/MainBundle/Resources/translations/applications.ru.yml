@@ -1,5 +1,7 @@
 NAME: Имя
 DOMAIN: Домен
+EDIT_APPLICATION: Редактирование приложения
+CREATE_NEW: Создать приложение
 STATUS: Статус
 CLUSTER: Кластер
 CREATED_AT: Дата создания
@@ -21,6 +23,9 @@ ENTER_SPOT_API_URL: Введите spot API URL
 SPOT_API_URL: Spot API URL
 ENTER_SPOT_API_PUBLIC_URL: Введите spot API публичный url
 SPOT_API_PUBLIC_URL: Spot API публичный url
+CHECK_STATUS: Статус
+DISABLE_APPLICATION: Не активной
+ENABLE_APPLICATION: Активно
 placeholder:
     DOMAIN: Введите домен
     NAME: Введите имя

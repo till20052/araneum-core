@@ -25,6 +25,49 @@ use Doctrine\Common\Collections\ArrayCollection;
 class AdminApplicationController extends Controller
 {
     /**
+     * Get application by id
+     *
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route(
+     *      "/manage/applications/application/save/{id}",
+     *      name="araneum_admin_main_application_get",
+     *      requirements={"id" = "\d+"},
+     *      defaults={"id" = null}
+     * )
+     * @Method("GET")
+     * @param         int $id
+     * @return        JsonResponse
+     */
+    public function getApplicationJsonAction($id)
+    {
+        $repository = $this
+            ->getDoctrine()
+            ->getRepository('AraneumMainBundle:Application');
+
+        $locale = $repository->findOneById($id);
+        if (empty($locale)) {
+            $locale = new Application();
+        };
+
+        try {
+            return new JsonResponse(
+                $this
+                    ->get('araneum.form_exporter.service')
+                    ->get(
+                        $this->get('araneum.main.application.form'),
+                        $locale
+                    ),
+                JsonResponse::HTTP_OK
+            );
+        } catch (\Exception $exception) {
+            return new JsonResponse(
+                $exception->getMessage(),
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+    }
+
+    /**
      * Applications module initialization
      *
      * @Security("has_role('ROLE_ADMIN')")
@@ -150,7 +193,7 @@ class AdminApplicationController extends Controller
      * @Security("has_role('ROLE_ADMIN')")
      * @Route(
      *     "/manage/applications/application/status",
-     *     name="araneum_applications_admin_application_status"
+     *     name="araneum_applications_admin_application_check_status"
      * )
      * @Method("POST")
      * @param  Request $request
@@ -167,7 +210,7 @@ class AdminApplicationController extends Controller
      * @Security("has_role('ROLE_ADMIN')")
      * @Route(
      *     "/manage/applications/application/enable",
-     *     name="araneum_main_admin_application_enable"
+     *     name="araneum_applications_admin_application_enable"
      * )
      * @Method("POST")
      * @param  Request $request
@@ -184,7 +227,7 @@ class AdminApplicationController extends Controller
      * @Security("has_role('ROLE_ADMIN')")
      * @Route(
      *     "/manage/applications/application/disable",
-     *     name="araneum_main_admin_application_disable"
+     *     name="araneum_applications_admin_application_disable"
      * )
      * @param  Request $request
      * @return Response
@@ -238,7 +281,7 @@ class AdminApplicationController extends Controller
         $idx = $request->request->get('data');
         $applicationRepository = $this->container
             ->get('doctrine')->getManager()
-            ->getRepository('Araneum\Bundle\MainBundle\Repository\ApplicationRepository');
+            ->getRepository('AraneumMainBundle:Application');
 
         if (!is_array($idx)) {
             return new JsonResponse('Data must be an array');
