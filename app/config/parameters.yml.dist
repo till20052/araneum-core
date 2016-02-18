@@ -21,6 +21,8 @@ parameters:
     domain: http://core.mc.araneum.dev
     session_prefix: core.mc.araneum.dev
 
+    application_api_url_create_user: /api/user/createUser
+
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
