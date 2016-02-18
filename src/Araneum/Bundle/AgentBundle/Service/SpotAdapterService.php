@@ -64,12 +64,13 @@ class SpotAdapterService
         } else {
             $rabbitDelivery = $postData['guaranteeDelivery'];
         }
+
         $appKey = $postData['appKey'];
         $data = [
                 'COMMAND' => $postData['COMMAND'],
                 'MODULE' => $postData['MODULE'],
             ];
-        if (!empty($postData['requestData']) && isset($postData['requestData'])) {
+        if (!empty($postData['requestData'])) {
             $data = array_merge(
                 [
                     'COMMAND' => $postData['COMMAND'],
@@ -104,13 +105,13 @@ class SpotAdapterService
     protected function validateInputData($data)
     {
         $errors = [];
-        if (!isset($data['appKey']) || empty($data['appKey'])) {
+        if (empty($data['appKey'])) {
             $errors['appKey'] = 'appKey should exist and should be valid as parameter of request';
         }
-        if (!isset($data['COMMAND']) || empty($data['COMMAND'])) {
+        if (empty($data['COMMAND'])) {
             $errors['COMMAND'] = 'COMMAND should be required and valid to send spot request';
         }
-        if (!isset($data['MODULE']) || empty($data['MODULE'])) {
+        if (empty($data['MODULE'])) {
             $errors['MODULE'] = 'MODULE should be required and valid to send spot request';
         }
         if (!empty($errors)) {

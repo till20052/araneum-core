@@ -71,6 +71,52 @@ class SpotAdapterServiceTest extends \PHPUnit_Framework_TestCase
     ];
 
     /**
+     * Test SpotAdapterService Bad data with Bad Request
+     */
+    public function testNormalDataNotFully()
+    {
+        $data = self::POST_DATA['normal_post_data_not_fully'];
+
+        $this->mockServices();
+
+        $this->spotAdapterService->sendRequestToSpot($data);
+    }
+
+    /**
+     * Test SpotAdapterService Normal data without Rabbit
+     */
+    public function testNormalDataFully()
+    {
+        $data = self::POST_DATA['normal_post_data_fully'];
+
+        $this->mockServices();
+
+        $this->spotAdapterService->sendRequestToSpot($data);
+    }
+
+    /**
+     * Test SpotAdapterService Normal data and Rabbit response
+     */
+    public function testNormalDataFullyRabbit()
+    {
+        $data = self::POST_DATA['normal_post_data_fully_rabbit'];
+
+        $this->application->expects($this->once())
+            ->method('getSpotCredential')
+            ->will($this->returnValue(self::SPOT_CREDENTIAL_TEST));
+
+        $this->applicationManagerMock->expects($this->once())
+            ->method('findOneByAppKey')
+            ->will($this->returnValue($this->application));
+
+        $this->spotProducerServiceMock->expects($this->once())
+            ->method('publish')
+            ->will($this->returnValue(true));
+
+        $this->spotAdapterService->sendRequestToSpot($data);
+    }
+
+    /**
      * Setup
      */
     protected function setUp()
@@ -133,51 +179,5 @@ class SpotAdapterServiceTest extends \PHPUnit_Framework_TestCase
         $this->responseMock->expects($this->once())
             ->method('getBody')
             ->will($this->returnValue('Response'));
-    }
-
-    /**
-     * Test SpotAdapterService Bad data with Bad Request
-     */
-    public function testNormalDataNotFully()
-    {
-        $data = self::POST_DATA['normal_post_data_not_fully'];
-
-        $this->mockServices();
-
-        $this->spotAdapterService->sendRequestToSpot($data);
-    }
-
-    /**
-     * Test SpotAdapterService Normal data without Rabbit
-     */
-    public function testNormalDataFully()
-    {
-        $data = self::POST_DATA['normal_post_data_fully'];
-
-        $this->mockServices();
-
-        $this->spotAdapterService->sendRequestToSpot($data);
-    }
-
-    /**
-     * Test SpotAdapterService Normal data and Rabbit response
-     */
-    public function testNormalDataFullyRabbit()
-    {
-        $data = self::POST_DATA['normal_post_data_fully_rabbit'];
-
-        $this->application->expects($this->once())
-            ->method('getSpotCredential')
-            ->will($this->returnValue(self::SPOT_CREDENTIAL_TEST));
-
-        $this->applicationManagerMock->expects($this->once())
-            ->method('findOneByAppKey')
-            ->will($this->returnValue($this->application));
-
-        $this->spotProducerServiceMock->expects($this->once())
-            ->method('publish')
-            ->will($this->returnValue(true));
-
-        $this->spotAdapterService->sendRequestToSpot($data);
     }
 }

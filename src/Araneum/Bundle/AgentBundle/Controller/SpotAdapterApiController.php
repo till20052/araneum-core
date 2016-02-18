@@ -42,7 +42,7 @@ class SpotAdapterApiController extends FOSRestController
      *   tags={"Adapter"}
      * )
      * @Security("has_role('ROLE_API')")
-     * @Rest\Post("/api/spot/request", defaults={"_format"="json"})
+     * @Rest\Post("/api/spot/request", defaults={"_format"="json"}, name="araneum_agent_spot_request")
      * @Rest\View(statusCode=201)
      *
      * @param  Request $request
