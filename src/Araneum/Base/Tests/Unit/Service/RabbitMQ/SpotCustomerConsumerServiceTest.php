@@ -38,7 +38,7 @@ class SpotCustomerConsumerServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $spotOptionServiceMock;
+    protected $dispatcherMock;
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -148,8 +148,8 @@ class SpotCustomerConsumerServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->emMock = $this->getMockBuilder('\Doctrine\ORM\EntityManager')->disableOriginalConstructor()->getMock();
-        $this->spotOptionServiceMock = $this
-            ->getMockBuilder('\Araneum\Bundle\AgentBundle\Service\SpotOptionService')
+        $this->dispatcherMock = $this
+            ->getMockBuilder('\Symfony\Component\EventDispatcher\EventDispatcherInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -167,7 +167,7 @@ class SpotCustomerConsumerServiceTest extends \PHPUnit_Framework_TestCase
             $this->spotApiSenderServiceMock,
             $this->msgConvertHelperMock,
             $this->emMock,
-            $this->spotOptionServiceMock
+            $this->dispatcherMock
         );
     }
 
