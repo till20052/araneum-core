@@ -35,6 +35,7 @@ class CustomerSubscriber implements EventSubscriberInterface
     {
         return [
             AgentEvents::CUSTOMER_NEW => 'onCreate',
+            AgentEvents::CUSTOMER_LOGIN => 'onLogin',
             AgentEvents::CUSTOMER_RESET_PASSWORD => 'onResetPassword',
         ];
     }
@@ -47,6 +48,17 @@ class CustomerSubscriber implements EventSubscriberInterface
     public function onCreate(CustomerEvent $event)
     {
         $this->spotOptionService->customerCreate($event->getCustomer());
+    }
+
+    /**
+     * Login Customer in spot by api with rabbitMQ
+     *
+     * @param CustomerEvent $event
+     */
+    public function onLogin(CustomerEvent $event)
+    {
+        die(var_dump('working!'));
+        $this->spotOptionService->login($event->getCustomer());
     }
 
     /**

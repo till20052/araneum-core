@@ -62,7 +62,7 @@ services:
             - "@araneum.base.spot_api"
             - "@araneum.base.rabbitmq.msg_convert_helper"
             - "@doctrine.orm.entity_manager"
-            - "@araneum.agent.spotoption.service"
+            - "@event_dispatcher"
 
     araneum.base.spot_api:
         class: Araneum\Base\Service\Spot\SpotApiSenderService
