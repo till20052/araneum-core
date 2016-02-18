@@ -18,3 +18,12 @@ ENTER_SPOT_API_URL: Enter spot API URL
 SPOT_API_URL: Spot API URL
 ENTER_SPOT_API_PUBLIC_URL: Enter spot API public url
 SPOT_API_PUBLIC_URL: Spot API public url
+STATUS: Status
+CLUSTER: Cluster
+CREATED_AT: Created At
+placeholder:
+    DOMAIN: Enter domain
+    NAME: Enter name
+    TYPE: Enter type
+    STATUS: Select status
+    CLUSTER: Select cluster

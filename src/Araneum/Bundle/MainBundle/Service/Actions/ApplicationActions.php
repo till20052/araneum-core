@@ -13,7 +13,7 @@ use Araneum\Base\Service\Actions\ActionBuilderInterface;
 class ApplicationActions extends AbstractActions
 {
     /**
-     * Build locale actions
+     * Build application actions
      *
      * @param ActionBuilderInterface $builder
      */

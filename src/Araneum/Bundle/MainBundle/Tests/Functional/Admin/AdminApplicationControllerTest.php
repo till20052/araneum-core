@@ -12,13 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\All;
+use Araneum\Base\Tests\Controller\BaseAdminController;
 
 /**
  * Class AdminApplicationControllerTest
  *
  * @package Araneum\Bundle\MainBundle\Tests\Functional\Admin
  */
-class AdminApplicationControllerTest extends BaseController
+class AdminApplicationControllerTest extends BaseAdminController
 {
     /**
      * @var Client
@@ -60,6 +61,11 @@ class AdminApplicationControllerTest extends BaseController
      */
     public function setUp()
     {
+        parent::setUp();
+
+        $this->initActionUrl = 'araneum_manage_applications_init';
+        $this->gridActionUrl = 'araneum_manage_applications_grid';
+
         /**
          * @var AdminApplicationController
          */

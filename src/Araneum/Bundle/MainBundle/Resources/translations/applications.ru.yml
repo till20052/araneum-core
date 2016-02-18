@@ -1,5 +1,8 @@
 NAME: Имя
-DOMAIN: Доменное имя
+DOMAIN: Домен
+STATUS: Статус
+CLUSTER: Кластер
+CREATED_AT: Дата создания
 ENTER_DOMAIN: Не правильно ввели доменное имя
 ENABLED: Активно
 PLACEHOLDER: Введите имя приложения
@@ -18,3 +21,9 @@ ENTER_SPOT_API_URL: Введите spot API URL
 SPOT_API_URL: Spot API URL
 ENTER_SPOT_API_PUBLIC_URL: Введите spot API публичный url
 SPOT_API_PUBLIC_URL: Spot API публичный url
+placeholder:
+    DOMAIN: Введите домен
+    NAME: Введите имя
+    TYPE: Введите тип
+    STATUS: Выберите статус
+    CLUSTER: Выберите кластер

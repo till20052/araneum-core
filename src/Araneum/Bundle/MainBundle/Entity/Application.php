@@ -28,6 +28,8 @@ class Application
     const STATUS_ERROR          = 100;
     const STATUS_DISABLED       = 999;
 
+    const TYPE_BINNARY = 1;
+
     private static $statuses = [
         self::STATUS_OK => 'ok',
         self::STATUS_CODE_INCORRECT => 'status_code_incorrect',
@@ -40,6 +42,17 @@ class Application
         false => 'Disabled',
     ];
 
+    public static $statusesIcons = [
+        self::STATUS_OK => '<em class="icon-check fa-2x"></em>',
+        self::STATUS_CODE_INCORRECT => '<em class="fa fa-warning fa-2x"></em>',
+        self::STATUS_ERROR => '<em class="icon-ban fa-2x"></em>',
+        self::STATUS_DISABLED => '<em class="icon-lock fa-2x"></em>',
+    ];
+
+    public static $types = [
+        self::TYPE_BINNARY => 'Binnary',
+    ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -49,15 +62,15 @@ class Application
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Cluster", cascade={"detach", "persist"})
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Cluster", cascade={"detach", "persist"})
      * @ORM\JoinColumn(name="cluster_id", referencedColumnName="id")
      */
     protected $cluster;
 
     /**
-     * @ORM\Column(type="smallint", nullable=true)
+     * @ORM\Column(type="smallint", options={"default"=1}, nullable=true)
      */
-    protected $type;
+    protected $type = Application::TYPE_BINNARY;
 
     /**
      * @ORM\Column(type="string", length=35)
@@ -210,6 +223,21 @@ class Application
         }
 
         return self::$statuses[$status];
+    }
+
+    /**
+     * Get Application status icons fot view
+     *
+     * @param  int $status
+     * @return string
+     */
+    public static function getStatusIcons($status)
+    {
+        if (!isset(self::$statusesIcons[$status])) {
+            return '[undefined]';
+        }
+
+        return self::$statusesIcons[$status];
     }
 
     /**
@@ -825,6 +853,31 @@ class Application
             'userName' => $this->getSpotApiUser(),
             'password' => $this->getSpotApiPassword(),
         ];
+    }
+
+    /**
+     * Get list of Application types
+     *
+     * @return array
+     */
+    public static function getTypes()
+    {
+        return self::$types;
+    }
+
+    /**
+     * Get Application type description
+     *
+     * @param  int $type
+     * @return string
+     */
+    public static function getTypeDescription($type)
+    {
+        if (!isset(self::$types[$type])) {
+            return '[undefined]';
+        }
+
+        return self::$types[$type];
     }
 
     /**
