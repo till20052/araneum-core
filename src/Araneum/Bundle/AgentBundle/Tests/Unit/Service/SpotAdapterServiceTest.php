@@ -44,24 +44,16 @@ class SpotAdapterServiceTest extends \PHPUnit_Framework_TestCase
     const APP_KEY = ApplicationFixtures::TEST_APP_APP_KEY;
 
     const POST_DATA = [
-        'normal_post_data_not_fully' => [
-            'appKey' => ApplicationFixtures::TEST_APP_APP_KEY,
             'MODULE' => 'Not Empty',
             'COMMAND' => 'Not Empty',
-        ],
-        'normal_post_data_fully' => [
-            'appKey' => ApplicationFixtures::TEST_APP_APP_KEY,
-            'MODULE' => 'Not Empty',
-            'COMMAND' => 'Not Empty',
-            'requestData' => '{"1":"foo","2":"bar","3":"baz","4":"blong"}',
-        ],
-        'normal_post_data_fully_rabbit' => [
-            'appKey' => ApplicationFixtures::TEST_APP_APP_KEY,
-            'MODULE' => 'Not Empty',
-            'COMMAND' => 'Not Empty',
-            'requestData' => '{"1":"foo","2":"bar","3":"baz","4":"blong"}',
-            'guaranteeDelivery' => true,
-        ],
+            'DATA' => '{"1":"foo","2":"bar","3":"baz","4":"blong"}',
+    ];
+
+    const POST_RABBIT_DATA = [
+        'guaranteeDelivery' => true,
+        'MODULE' => 'Not Empty',
+        'COMMAND' => 'Not Empty',
+        'DATA' => '{"1":"foo","2":"bar","3":"baz","4":"blong"}',
     ];
 
     const SPOT_CREDENTIAL_TEST = [
@@ -71,36 +63,34 @@ class SpotAdapterServiceTest extends \PHPUnit_Framework_TestCase
     ];
 
     /**
-     * Test SpotAdapterService Bad data with Bad Request
-     */
-    public function testNormalDataNotFully()
-    {
-        $data = self::POST_DATA['normal_post_data_not_fully'];
-
-        $this->mockServices();
-
-        $this->spotAdapterService->sendRequestToSpot($data);
-    }
-
-    /**
      * Test SpotAdapterService Normal data without Rabbit
      */
-    public function testNormalDataFully()
+    public function testSendData()
     {
-        $data = self::POST_DATA['normal_post_data_fully'];
+        $this->application->expects($this->once())
+            ->method('getSpotCredential')
+            ->will($this->returnValue(self::SPOT_CREDENTIAL_TEST));
 
-        $this->mockServices();
+        $this->applicationManagerMock->expects($this->once())
+            ->method('findOneByAppKey')
+            ->will($this->returnValue($this->application));
 
-        $this->spotAdapterService->sendRequestToSpot($data);
+        $this->spotApiSenderServiceMock->expects($this->once())
+            ->method('send')
+            ->will($this->returnValue($this->responseMock));
+
+        $this->responseMock->expects($this->once())
+            ->method('getBody')
+            ->will($this->returnValue('Response'));
+
+        $this->spotAdapterService->sendRequestToSpot(self::APP_KEY, self::POST_DATA);
     }
 
     /**
      * Test SpotAdapterService Normal data and Rabbit response
      */
-    public function testNormalDataFullyRabbit()
+    public function testSendDataByRabbitRabbit()
     {
-        $data = self::POST_DATA['normal_post_data_fully_rabbit'];
-
         $this->application->expects($this->once())
             ->method('getSpotCredential')
             ->will($this->returnValue(self::SPOT_CREDENTIAL_TEST));
@@ -113,7 +103,7 @@ class SpotAdapterServiceTest extends \PHPUnit_Framework_TestCase
             ->method('publish')
             ->will($this->returnValue(true));
 
-        $this->spotAdapterService->sendRequestToSpot($data);
+        $this->assertTrue($this->spotAdapterService->sendRequestToSpot(self::APP_KEY, self::POST_RABBIT_DATA));
     }
 
     /**
@@ -157,27 +147,5 @@ class SpotAdapterServiceTest extends \PHPUnit_Framework_TestCase
             $this->spotApiSenderServiceMock,
             $this->spotProducerServiceMock
         );
-    }
-
-    /**
-     * Mock Services
-     */
-    protected function mockServices()
-    {
-        $this->application->expects($this->once())
-            ->method('getSpotCredential')
-            ->will($this->returnValue(self::SPOT_CREDENTIAL_TEST));
-
-        $this->applicationManagerMock->expects($this->once())
-            ->method('findOneByAppKey')
-            ->will($this->returnValue($this->application));
-
-        $this->spotApiSenderServiceMock->expects($this->once())
-            ->method('send')
-            ->will($this->returnValue($this->responseMock));
-
-        $this->responseMock->expects($this->once())
-            ->method('getBody')
-            ->will($this->returnValue('Response'));
     }
 }

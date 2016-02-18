@@ -26,35 +26,32 @@ class SpotAdapterApiController extends FOSRestController
      *   resource = "Request",
      *   section = "SpotAdapter",
      *   description = "Sends request to spot",
-     *   filters = {
-     *      {"name"="appKey", "dataType"="string" },
-     *      {"name"="MODULE", "dataType"="string"},
-     *      {"name"="COMMAND", "dataType"="string"},
-     *      {"name"="requestData", "dataType"="string"},
-     *      {"name"="guaranteeDelivery", "dataType"="boolean"},
-     *   },
      *   output = "JSON",
      *   statusCodes = {
      *      201 = "Returned when request is successful",
      *      403 = "Returned when request is failed",
      *      404 = "Returned when Application not found"
      *   },
+     *   parameters={
+     *      {"name"="guaranteeDelivery", "dataType"="boolean", "required"=false, "description"="Set if want to get data as rabbitmq service"},
+     *   },
      *   tags={"Adapter"}
      * )
      * @Security("has_role('ROLE_API')")
-     * @Rest\Post("/api/spot/request", defaults={"_format"="json"}, name="araneum_agent_spot_request")
+     * @Rest\Post("/api/spot/request/{appKey}", defaults={"_format"="json"}, name="araneum_agent_spot_request")
      * @Rest\View(statusCode=201)
      *
+     * @param  string  $appKey
      * @param  Request $request
      * @return mixed
      */
-    public function spotRequestAction(Request $request)
+    public function spotRequestAction($appKey, Request $request)
     {
         $postParameters = $request->request->all();
         try {
             $form = $this->container
                 ->get('araneum.agent.spot.adapter')
-                ->sendRequestToSpot($postParameters);
+                ->sendRequestToSpot($appKey, $postParameters);
 
             return View::create($form, 201);
         } catch (RequestException $e) {
