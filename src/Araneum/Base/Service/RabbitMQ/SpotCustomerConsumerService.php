@@ -49,8 +49,7 @@ class SpotCustomerConsumerService implements ConsumerInterface
         MessageConversionHelper $msgConvertHelper,
         EntityManager $em,
         SpotOptionService $spotOptionService
-    )
-    {
+    ) {
         $this->spotApiSenderService = $spotApiSenderService;
         $this->msgConvertHelper = $msgConvertHelper;
         $this->em = $em;
@@ -83,9 +82,9 @@ class SpotCustomerConsumerService implements ConsumerInterface
     /**
      * Create and save customer log
      *
-     * @param array $log
+     * @param array  $log
      * @param string $logMessage
-     * @param int $status
+     * @param int    $status
      * @throws \Doctrine\ORM\ORMException
      */
     private function createCustomerLog(array $log, $logMessage, $status)
@@ -121,13 +120,14 @@ class SpotCustomerConsumerService implements ConsumerInterface
      * Login customer in spot on create
      *
      * @param string $password
-     * @param array $log
+     * @param array  $log
      */
     private function loginCustomerInSpot($password, array $log)
     {
         if ($log['action'] == CustomerLog::ACTION_CREATE) {
             $customer = $this->em->getRepository("AraneumAgentBundle:Customer")->findOneById($log['customerId']);
             $customer->setPassword($password);
+
             $this->spotOptionService->login($customer);
         }
     }
