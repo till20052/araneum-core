@@ -17,6 +17,11 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
     const BROKEN_DAEMONS = [];
 
     /**
+     * @var OutputInterface
+     */
+    protected $output;
+
+    /**
      * Configure Command
      */
     protected function configure()
@@ -37,25 +42,32 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $daemonsArray = [];
+        $daemonsToStart = [];
         $this->output = $output;
         $configDaemonsArray = $this->getContainer()->getParameter('mik_software_daemon.daemons');
-        $daemonsArray = array();
+
         foreach (array_keys($configDaemonsArray) as $name) {
             array_push($daemonsArray, preg_replace('/_/', ':', $name));
         }
+
         foreach ($daemonsArray as $daemon) {
             if (!in_array($daemon, self::BROKEN_DAEMONS)) {
                 $process = new Process('app/console '.$daemon.' status');
-                $process->run(function ($err, $data) use (&$daemon) {
+                $process->run(function ($err, $data) use (&$daemon, &$daemonsToStart) {
                     if (Process::ERR === $err) {
                         $this->output->writeln('Cannot get daemon status: '.$daemon);
                     } elseif ($data == 'Daemon doesn\'t work') {
-                        (new Process('app/console '.$daemon.' start'))->run();
-                        $this->output->writeln($daemon.' was broken, but tries to start working now');
+                        array_push($daemonsToStart, $daemon) ;
+                        $this->output->writeln($daemon.' was broken. Restarting');
                     }
                 });
             }
         }
+
+        $command = 'app/console '.implode(' start && app/console ', $daemonsToStart).' start';
+        (new Process($command))->run();
+
         $this->output->writeln('All daemons successfully checked and sated up');
     }
 }

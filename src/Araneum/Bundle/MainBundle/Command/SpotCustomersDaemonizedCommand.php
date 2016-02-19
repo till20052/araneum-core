@@ -2,7 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Command;
 
-use MikSoftware\DaemonBundle\Commnad\DaemonizedCommand;
+use Araneum\Base\Command\AbstractBaseDaemon;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Security\Acl\Exception\Exception;
 
@@ -12,7 +12,7 @@ use Symfony\Component\Security\Acl\Exception\Exception;
  *
  * @package Araneum\Bundle\MainBundle\Command\Spot
  */
-class SpotCustomersDaemonizedCommand extends DaemonizedCommand
+class SpotCustomersDaemonizedCommand extends AbstractBaseDaemon
 {
 
     /**
@@ -47,8 +47,6 @@ class SpotCustomersDaemonizedCommand extends DaemonizedCommand
      */
     protected function daemonLogic()
     {
-        $daemonInterval = $this->getContainer()
-            ->getParameter('spot_customer_daemon_timeout');
         $periodOption = $this->input->getOption('period');
         $applicationOption = $this->input->getOption('project');
 
@@ -66,6 +64,6 @@ class SpotCustomersDaemonizedCommand extends DaemonizedCommand
             $this->log($e->getMessage());
             $this->output->writeln($e->getMessage());
         }
-        $this->getDaemon()->iterate($daemonInterval);
+        $this->manageTimeIterate();
     }
 }
