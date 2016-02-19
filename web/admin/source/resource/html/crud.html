@@ -1,4 +1,4 @@
-<div ng-controller="CRUDController">
+<div ng-controller="CRUDController as vm">
     <h3>
         <em class="{{ icon }} mr"></em>
         <span translate="{{ title }}"></span>
@@ -12,7 +12,7 @@
             </h3>
         </div>
         <div class="panel-body">
-            <crud-form struct="form.filter"></crud-form>
+            <form manifest="vm.filter"></form>
         </div>
     </div>
 
