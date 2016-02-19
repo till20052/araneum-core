@@ -49,6 +49,6 @@ class LdapApiControllerTest extends BaseController
      */
     protected function setUp()
     {
-        $this->client = self::createAdminAuthorizedClient('api');
+        $this->client = self::createAdminAuthorizedClient('admin');
     }
 }
