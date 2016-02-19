@@ -39,7 +39,6 @@ class DeploymentCommand extends ContainerAwareCommand
             'cache:accelerator:clear' => [],
             'cache:clear' => [
                 '--no-debug' => true,
-                '--no-warmup' => true,
             ],
             'doctrine:schema:update' => [
                 '--force' => true,

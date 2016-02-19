@@ -46,7 +46,8 @@
          */
             'app.users',
             'app.locales',
-            'app.dashboard'
+            'app.dashboard',
+            'app.applications',
         ]);
 })();
 

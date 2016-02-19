@@ -125,7 +125,7 @@ class SpotCustomerLoginConsumerService implements ConsumerInterface
             ->setAction(CustomerLog::ACTION_LOGIN)
             ->setApplication($this->em->getReference('AraneumMainBundle:Application', $customer->getApplication()->getId()))
             ->setCustomer($this->em->getReference('AraneumAgentBundle:Customer', $customer->getId()))
-            ->setSpotResponse($logMessage)
+            ->setResponse($logMessage)
             ->setStatus($status);
 
         $this->em->persist($customerLog);

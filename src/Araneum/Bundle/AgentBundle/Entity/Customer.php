@@ -138,7 +138,7 @@ class Customer
 
     /**
      * @var integer
-     * @ORM\Column(type="integer", name="site_id")
+     * @ORM\Column(type="integer", name="site_id", nullable=true)
      * @Assert\Type(type="integer")
      * @Groups({"rabbitMQ"})
      */
