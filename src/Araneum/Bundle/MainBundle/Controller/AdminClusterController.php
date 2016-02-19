@@ -202,8 +202,8 @@ class AdminClusterController extends Controller
     /**
      * Disable clusters one or many
      *
-     * @param                                                                            Request $request
-     * @return                                                                           Response
+     * @param Request $request
+     * @return Response
      * @Security("has_role('ROLE_ADMIN')")
      * @Route("/manage/clusters/cluster/disable",name="araneum_main_admin_cluster_disable")
      */
@@ -245,7 +245,7 @@ class AdminClusterController extends Controller
      *
      * @Security("has_role('ROLE_ADMIN')")
      * @Route("/manage/clusters/datatable.json", name="araneum_manage_clusters_grid")
-     * @return                                  JsonResponse
+     * @return JsonResponse
      */
     public function datatableAction()
     {
@@ -258,15 +258,15 @@ class AdminClusterController extends Controller
     /**
      * Check cluster status
      *
-     * @param Request $request                                                                      Request $request
-     * @return JsonResponse                                                                       Response
+     * @param Request $request
+     * @return JsonResponse
      * @Security("has_role('ROLE_ADMIN')")
      * @Route("/manage/clusters/cluster/status",name="araneum_main_admin_cluster_status")
      */
     public function checkClusterStatusAction(Request $request)
     {
         $id = $request->request->get('data');
-        if (is_array($id) && isset($id[0])){
+        if (is_array($id)) {
             $id = isset($id[0]) ? $id[0] : '';
         }
 
@@ -306,5 +306,4 @@ class AdminClusterController extends Controller
 
         return new JsonResponse('Success');
     }
-
 }
