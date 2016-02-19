@@ -1,0 +1,12 @@
+DOMAIN: Domain
+NAME: Name
+TYPE: Type
+STATUS: Status
+CLUSTER: Cluster
+CREATED_AT: Created At
+placeholder:
+    DOMAIN: Enter domain
+    NAME: Enter name
+    TYPE: Enter type
+    STATUS: Select status
+    CLUSTER: Select cluster

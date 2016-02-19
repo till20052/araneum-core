@@ -196,7 +196,7 @@ class SpotCustomerConsumerServiceTest extends \PHPUnit_Framework_TestCase
             ->setAction(self::$log['action'])
             ->setApplication($application)
             ->setCustomer(new Customer())
-            ->setSpotResponse($spotResponse)
+            ->setResponse($spotResponse)
             ->setStatus($status);
 
         $this->emMock->expects($this->once())->method('persist')->with(

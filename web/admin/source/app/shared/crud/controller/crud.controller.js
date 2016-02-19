@@ -5,7 +5,7 @@
         .module('crud')
         .controller('CRUDController', CRUDController);
 
-    CRUDController.$inject = ['$scope', '$state', 'supervisor'];
+    CRUDController.$inject = ['$scope', '$state', 'supervisor', 'FormTransformer'];
 
     /**
      * CRUD Controller
@@ -15,7 +15,7 @@
      * @param supervisor
      * @constructor
      */
-    function CRUDController($scope, $state, supervisor) {
+    function CRUDController($scope, $state, supervisor, FormTransformer) {
         /* jshint validthis: true */
         var vm = this;
 
@@ -40,31 +40,23 @@
                             console.log('behavior on: filter.RESET', this);
                         }
                     }
-                },
-                options: {
-                    style: 'cols'
                 }
             }
         };
 
+        vm.filter = {
+            transformer: new FormTransformer('symfony-form-transformer'),
+            view: {
+                layout: 'grid'
+            }
+        };
+
         supervisor
-            .loader('config')
-            .load($state.$current.initialize)
+            .loader('form')
+            .load('/manage/locales/locale/1')
             .onLoaded({
                 onSuccess: function (response) {
-                    if (!response.filter.hasOwnProperty('children') || !(response.filter.children instanceof Object))
-                        return; // @todo need to create error handler
-                    var children = response.filter.children;
-                    $scope.form.filter.children = Object
-                        .keys(children)
-                        .map(function (key) {
-                            /* jshint -W106 */
-                            /** @type {{ block_prefixes: Array<String> }} */
-                            var child = children[key].vars;
-                            return angular.extend(child, {
-                                type: child.block_prefixes[1]
-                            });
-                        });
+                    vm.filter.transform(response);
                 }
             });
     }

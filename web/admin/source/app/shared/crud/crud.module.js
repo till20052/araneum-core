@@ -2,6 +2,8 @@
     'use strict';
 
     angular
-        .module('crud', []);
+        .module('crud', [
+            'crud.form'
+        ]);
 
 })();
