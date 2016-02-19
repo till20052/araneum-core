@@ -32,11 +32,16 @@ class LdapApiControllerTest extends BaseController
         $response = $this->client->getResponse();
         $content = $response->getContent();
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
+
         $this->assertEquals(
             Response::HTTP_OK,
             $response->getStatusCode(),
             $content
         );
+
+        $decoded = json_decode($content, true);
+        $this->assertInternalType('array',$decoded);
+        $this->assertEquals(2, count($decoded));
     }
 
     /**
