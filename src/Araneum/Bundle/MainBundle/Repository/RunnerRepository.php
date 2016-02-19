@@ -16,15 +16,16 @@ class RunnerRepository extends EntityRepository
     use CountableTrait;
 
     /**
-     * Get statistic of all runners Average Ping Time for last 24h
+     * Get statistic of runners Average Ping Time for last 24h
      *
+     * @param int $maxResults
      * @return array
      */
-    public function getRunnersLoadAverage()
+    public function getRunnersLoadAverage($maxResults = 4)
     {
         $qb = $this->createQueryBuilder('r');
 
-        $qb
+        return $qb
             ->select('r.name')
             ->addSelect('DATE_PART(hour, l.createdAt) AS hours')
             ->addSelect('SUM(l.averagePingTime)/count(l.averagePingTime) *100 AS apt')
@@ -45,15 +46,14 @@ class RunnerRepository extends EntityRepository
                     'start' => date('Y-m-d H:i:s', time() - 86400),
                     'end' => date('Y-m-d H:i:s', time()),
                 ]
-            )->setMaxResults(4);
-
-        $result = $qb->getQuery()->getResult();
-
-        return $result;
+            )
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
     }
 
     /**
-     * Get statistic of all runners Up Time for last 24h
+     * Get statistic of runners Up Time for last 24h
      * @param int $maxResults
      * @return array
      */
@@ -61,7 +61,7 @@ class RunnerRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('r');
 
-        $qb
+        return $qb
             ->select('r.name')
             ->addSelect('ROUND(SUM(CAST(CASE WHEN r.status = :success THEN 1 ELSE 0 END AS NUMERIC))/count(r.id), 2)*100 AS success')
             ->addSelect('ROUND(SUM(CAST(CASE WHEN r.status IN (:app_code_incorrect, :app_error) THEN 1 ELSE 0 END AS NUMERIC))/count(r.id), 2)*100 AS appProblem')
@@ -91,10 +91,8 @@ class RunnerRepository extends EntityRepository
                     'end' => date('Y-m-d H:i:s', time()),
                 ]
             )
-            ->setMaxResults($maxResults);
-
-        $result = $qb->getQuery()->getResult();
-
-        return $result;
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
     }
 }
