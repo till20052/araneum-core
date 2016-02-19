@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
 /**
  * Class CheckerDaemonsCommand
@@ -42,32 +43,34 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $daemonsArray = [];
-        $daemonsToStart = [];
-        $this->output = $output;
-        $configDaemonsArray = $this->getContainer()->getParameter('mik_software_daemon.daemons');
+        try {
+            $daemonsArray = [];
+            $daemonsToStart = [];
+            $this->output = $output;
+            $configDaemonsArray = $this->getContainer()->getParameter('mik_software_daemon.daemons');
 
-        foreach (array_keys($configDaemonsArray) as $name) {
-            array_push($daemonsArray, preg_replace('/_/', ':', $name));
-        }
-
-        foreach ($daemonsArray as $daemon) {
-            if (!in_array($daemon, self::BROKEN_DAEMONS)) {
-                $process = new Process('app/console '.$daemon.' status');
-                $process->run(function ($err, $data) use (&$daemon, &$daemonsToStart) {
-                    if (Process::ERR === $err) {
-                        $this->output->writeln('Cannot get daemon status: '.$daemon);
-                    } elseif ($data == 'Daemon doesn\'t work') {
-                        array_push($daemonsToStart, $daemon) ;
-                        $this->output->writeln($daemon.' was broken. Restarting');
-                    }
-                });
+            foreach (array_keys($configDaemonsArray) as $name) {
+                array_push($daemonsArray, preg_replace('/_/', ':', $name));
             }
+
+            foreach ($daemonsArray as $daemon) {
+                if (!in_array($daemon, self::BROKEN_DAEMONS)) {
+                    $process = new Process('app/console '.$daemon.' status');
+                    $process->run(function ($err, $data) use (&$daemon, &$daemonsToStart) {
+                        if (Process::ERR === $err) {
+                            $this->output->writeln('Cannot get daemon status: '.$daemon);
+                        } elseif ($data == 'Daemon doesn\'t work') {
+                            array_push($daemonsToStart, $daemon) ;
+                            $this->output->writeln($daemon.' was broken');
+                        }
+                    });
+                }
+            }
+            $this->output->writeln('Restarting broken daemons');
+            $command = 'app/console '.implode(' start && app/console ', $daemonsToStart).' start';
+            (new Process($command))->run();
+        } catch (ProcessTimedOutException $e) {
+            $this->output->writeln('All daemons successfully checked and sated up');
         }
-
-        $command = 'app/console '.implode(' start && app/console ', $daemonsToStart).' start';
-        (new Process($command))->run();
-
-        $this->output->writeln('All daemons successfully checked and sated up');
     }
 }
