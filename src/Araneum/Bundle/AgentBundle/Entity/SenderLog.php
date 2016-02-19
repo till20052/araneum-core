@@ -9,11 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class SpotLog
  *
- * @ORM\Table("araneum_spot_log")
+ * @ORM\Table("araneum_sender_log")
  * @ORM\Entity(repositoryClass="Araneum\Bundle\AgentBundle\Repository\SpotLogRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class SpotLog
+class SenderLog
 {
     use DateTrait;
 
@@ -110,7 +110,7 @@ class SpotLog
      * Set status
      *
      * @param  int $status
-     * @return SpotLog
+     * @return SenderLog
      */
     public function setStatus($status)
     {
@@ -133,7 +133,7 @@ class SpotLog
      * Set request
      *
      * @param  string $request
-     * @return SpotLog
+     * @return SenderLog
      */
     public function setRequest($request)
     {
@@ -156,7 +156,7 @@ class SpotLog
      * Set response
      *
      * @param  string $response
-     * @return SpotLog
+     * @return SenderLog
      */
     public function setResponse($response)
     {

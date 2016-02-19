@@ -64,9 +64,9 @@ class CustomerLog
     /**
      * @var string
      *
-     * @ORM\Column(name="spot_response", type="text", nullable=true)
+     * @ORM\Column(name="response", type="text", nullable=true)
      */
-    private $spotResponse;
+    private $response;
 
     /**
      * @var int
@@ -180,28 +180,28 @@ class CustomerLog
     }
 
     /**
-     * Get Stop  Option response
+     * Get response
      *
      * @return string
      */
-    public function getSpotResponse()
+    public function getResponse()
     {
-        return $this->spotResponse;
+        return $this->response;
     }
 
     /**
-     * Set spot Option response
+     * Set response
      *
-     * @param  string $spotResponse
+     * @param  string $response
      * @return CustomerLog
      */
-    public function setSpotResponse($spotResponse)
+    public function setResponse($response)
     {
-        if (!is_string($spotResponse)) {
-            $spotResponse = json_encode($spotResponse);
+        if (!is_string($response)) {
+            $response = json_encode($response);
         }
 
-        $this->spotResponse = $spotResponse;
+        $this->response = $response;
 
         return $this;
     }
