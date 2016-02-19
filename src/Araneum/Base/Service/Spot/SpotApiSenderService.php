@@ -2,43 +2,17 @@
 
 namespace Araneum\Base\Service\Spot;
 
+use Araneum\Base\Service\AbstractApiSender;
+use Araneum\Bundle\AgentBundle\Entity;
 use Guzzle\Http\Message\Response;
-use Guzzle\Service\ClientInterface;
-use Doctrine\ORM\EntityManager;
-use Araneum\Bundle\AgentBundle\Entity\SpotLog;
-use Guzzle\Http\Exception\RequestException;
-use Guzzle\Http\Exception\CurlException;
 
 /**
  * Class SpotApiSenderService
  *
  * @package Araneum\Base\Service\Guzzle
  */
-class SpotApiSenderService
+class SpotApiSenderService extends AbstractApiSender
 {
-    /**
-     * @var ClientInterface
-     */
-    protected $guzzle;
-    protected $enableJsonResponse;
-
-    /**
-     * SpotApiService constructor.
-     *
-     * @param ClientInterface $guzzle
-     * @param EntityManager   $em
-     * @param boolean         $enableJsonResponse
-     */
-    public function __construct(
-        ClientInterface $guzzle,
-        EntityManager $em,
-        $enableJsonResponse
-    ) {
-        $this->guzzle = $guzzle;
-        $this->em = $em;
-        $this->enableJsonResponse = $enableJsonResponse;
-    }
-
     /**
      * Send request to spot public api url
      *
@@ -82,66 +56,48 @@ class SpotApiSenderService
     }
 
     /**
-     * Send request to core
+     * Get spotsession from cookies
      *
-     * @param array $requestData
-     * @param array $spotCredential
-     * @return \Guzzle\Http\Message\Response
+     * @param string $cookie
+     * @return mixed
      */
-    public function send(array $requestData, array $spotCredential)
+    public function getSpotSessionFromPublic($cookie)
     {
-        $log = array('request' => $requestData);
-        try {
-            if (!$this->isSpotCredentialValid($spotCredential)) {
-                $error = "Check spot credential data, some value invalid: ".print_r($spotCredential, true);
-                throw new \BadMethodCallException($error);
-            }
-
-            $this->guzzle->setBaseUrl($spotCredential['url']);
-            $body = array_merge(
-                [
-                    'api_username' => $spotCredential['userName'],
-                    'api_password' => $spotCredential['password'],
-                    'jsonResponse' => $this->enableJsonResponse ? 'true' : 'false',
-                ],
-                $requestData
-            );
-            $log['response'] = $body;
-            $response = $this->guzzle->post(null, null, $body)->send();
-            if (!empty($response)) {
-                $log['response'] = $response->getBody(true);
-            }
-            $this->createSpotLog($log, SpotLog::TYPE_OK);
-
-            return $response;
-
-        } catch (\BadMethodCallException $e) {
-            $log['response'] = $e->getMessage();
-            $this->createSpotLog($log, SpotLog::TYPE_BAD_METHOD_CALL);
-
-            return $e;
-        } catch (CurlException $e) {
-            $log['response'] = $e->getError();
-            $this->createSpotLog($log, SpotLog::TYPE_CURL);
-
-            return $e;
-        } catch (RequestException $e) {
-            $code = $e->getRequest()->getResponse()->getStatusCode();
-            $message = $e->getRequest()->getResponse()->getBody(true);
-            $log['response'] = $code.' : '.$message;
-            $this->createSpotLog($log, SpotLog::TYPE_REQUEST);
-
-            return $e;
-        } catch (\Exception $e) {
-            $log['response'] = $e->getCode().' : '.$e->getMessage();
-            $this->createSpotLog($log, SpotLog::TYPE_OTHER_EXCEPTION);
-
-            return $e;
+        preg_match('/spotsession.{10,15}=(.{32}); /', $cookie, $matches);
+        if (!array_key_exists(1, $matches)) {
+            throw new \BadMethodCallException('Cookie must contains spotsession, cookie: '.$cookie);
         }
+
+        return $matches[1];
     }
 
     /**
-     * Get errors from Spot response or null if no errors
+     * @param array $requestData
+     * @param array $spotCredential
+     * @return bool
+     */
+    public function prepareToSend($requestData, $spotCredential)
+    {
+        if (!$this->isSpotCredentialValid($spotCredential)) {
+            $error = "Check spot credential data, some value invalid: ".print_r($spotCredential, true);
+            throw new \BadMethodCallException($error);
+        }
+
+        $this->guzzle->setBaseUrl($spotCredential['url']);
+        $body = array_merge(
+            [
+                'api_username' => $spotCredential['userName'],
+                'api_password' => $spotCredential['password'],
+                'jsonResponse' => $this->enableJsonResponse ? 'true' : 'false',
+            ],
+            $requestData
+        );
+
+        return $this->guzzle->post(null, null, $body)->send();
+    }
+
+    /**
+     * Get errors from response or null if no errors
      *
      * @param Response $response
      * @return string|null
@@ -185,22 +141,6 @@ class SpotApiSenderService
     }
 
     /**
-     * Get spotsession from cookies
-     *
-     * @param string $cookie
-     * @return mixed
-     */
-    public function getSpotSessionFromPublic($cookie)
-    {
-        preg_match('/spotsession.{10,15}=(.{32}); /', $cookie, $matches);
-        if (!array_key_exists(1, $matches)) {
-            throw new \BadMethodCallException('Cookie must contains spotsession, cookie: '.$cookie);
-        }
-
-        return $matches[1];
-    }
-
-    /**
      * Validate spot credential
      *
      * @param array $spotCredential
@@ -215,31 +155,5 @@ class SpotApiSenderService
             filter_var($spotCredential['url'], FILTER_VALIDATE_URL) &&
             $spotCredential['userName'] !== null &&
             $spotCredential['password'] !== null;
-    }
-
-    /**
-     * Create and save spot log
-     *
-     * @param array  $log
-     * @param int    $status
-     * @throws \Doctrine\ORM\ORMException
-     */
-    private function createSpotLog(array $log, $status)
-    {
-        if (is_array($log['request'])) {
-            $log['request'] = json_encode($log['request']);
-        }
-        if (is_array($log['response'])) {
-            $log['response'] = json_encode($log['response']);
-        }
-
-        $spotLog = (new SpotLog())
-            ->setStatus($status)
-            ->setRequest($log['request'])
-            ->setResponse($log['response'])
-        ;
-
-        $this->em->persist($spotLog);
-        $this->em->flush();
     }
 }

@@ -23,7 +23,7 @@ Site_Manager:
             translate: admin.sidebar.nav.manager.CLUSTER
         Applications:
             text: Applications
-            sref: app.application
+            sref: app.applications
             icon: icon-screen-tablet
             translate: admin.sidebar.nav.manager.APPLICATION
         Connection:

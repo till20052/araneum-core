@@ -68,7 +68,7 @@ class SpotOptionService
     /**
      * SpotOption Login
      *
-     * @param Customer $customer
+     * @param  Customer $customer
      * @return array|bool
      */
     public function login(Customer $customer)
@@ -79,7 +79,7 @@ class SpotOptionService
     /**
      * Reset Customer Password on SpotOption
      *
-     * @param Customer $customer
+     * @param  Customer $customer
      * @return bool
      */
     public function customerResetPassword(Customer $customer)
@@ -97,7 +97,7 @@ class SpotOptionService
     /**
      * Send customer creation data to SpotOption with RabbitMQ
      *
-     * @param Customer $customer
+     * @param  Customer $customer
      * @return string|true
      */
     public function customerCreate(Customer $customer)
@@ -124,13 +124,15 @@ class SpotOptionService
     /**
      * Get countries method
      *
-     * @param string $appKey
+     * @param  string $appKey
      * @return mixed
      * @throws NotFoundHttpException in case if can't found by application appKey
      */
     public function getCountries($appKey)
     {
-        /** @var Application $application */
+        /**
+         * @var Application $application
+         */
         $application = $this->entityManager
             ->getRepository('AraneumMainBundle:Application')
             ->findOneByAppKey($appKey);
@@ -151,7 +153,7 @@ class SpotOptionService
     /**
      * Send Lead creation data to SpotOption with RabbitMQ
      *
-     * @param Lead $lead
+     * @param  Lead $lead
      * @return bool|string
      */
     public function leadCreate(Lead $lead)
@@ -167,5 +169,23 @@ class SpotOptionService
         ];
 
         return $this->spotProducerService->publish($leadData, $lead->getApplication()->getSpotCredential());
+    }
+
+    /**
+     * Get customers from spot by filter
+     *
+     * @param  Application $application
+     * @param  array       $filterOptions
+     * @return \Guzzle\Http\Message\Response
+     */
+    public function getCustomersByFilter($application, $filterOptions)
+    {
+        $data = [
+            'MODULE' => 'Customer',
+            'COMMAND' => 'view',
+            'FILTER' => $filterOptions,
+        ];
+
+        return $this->spotApiSenderService->send($data, $application->getSpotCredential());
     }
 }

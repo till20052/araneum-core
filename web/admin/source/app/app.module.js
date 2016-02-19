@@ -47,7 +47,8 @@
             'app.users',
             'app.clusters',
             'app.locales',
-            'app.dashboard'
+            'app.dashboard',
+            'app.applications',
         ]);
 })();
 
