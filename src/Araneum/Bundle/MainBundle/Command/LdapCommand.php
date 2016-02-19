@@ -58,13 +58,13 @@ class LdapCommand extends ContainerAwareCommand
     {
         $this->output = $output;
 
-        $filterGroup = ($input->getOption('group'))?$input->getOption('group'):false;
+        $filterGroup = $input->getOption('group');
         $addRole = ($input->getOption('role'))?$input->getOption('role'):self::DEFAULT_ROLE;
 
         $apiLdap = $this->getContainer()
             ->get('api.ldap.synchronization');
         $apiLdap->setLdapParameter(['default_user_roles' => $addRole]);
-        if ($filterGroup) {
+        if (!empty($filterGroup)) {
             $apiLdap->setFilterQuery(['cn' => $filterGroup]);
         }
         $completed = $apiLdap->runSynchronization();
