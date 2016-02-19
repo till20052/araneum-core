@@ -34,6 +34,7 @@ mik_software_daemon:
             appDescription: System Daemon for get Customers from spot
             appUser: %nginx_user%
             appGroup: %nginx_group%
+            appPidDir: %kernel.root_dir%/daemons
             logVerbosity: 6
 
         araneum_daemon_checker:
