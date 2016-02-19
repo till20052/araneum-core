@@ -1,5 +1,6 @@
 parameters:
     araneum_daemon_checker_iterate: 10 minutes
+    spot_customer_daemon_timeout: 300
 
 mik_software_daemon:
     daemons:
@@ -20,6 +21,13 @@ mik_software_daemon:
         araneum_consumer_customer:
             appName: customer-consumer
             appDescription: System Daemon for sending Customers to Spot
+            appUser: %nginx_user%
+            appGroup: %nginx_group%
+            logVerbosity: 6
+
+        araneum_daemon_get-customers:
+            appName: spot-customers
+            appDescription: System Daemon for get Customers from spot
             appUser: %nginx_user%
             appGroup: %nginx_group%
             logVerbosity: 6

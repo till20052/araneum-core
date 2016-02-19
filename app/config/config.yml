@@ -16,7 +16,6 @@ parameters:
     rabbitmq_message_ttl: '20000'
     spot_enable_json_responce: true
 
-
 framework:
     #esi:             ~
     translator:      { fallbacks: ["%locale%"] }
@@ -162,7 +161,19 @@ old_sound_rabbit_mq:
                 name: spot_login_%session_prefix%
                 arguments:
                     "message-ttl": ['I', %rabbitmq_message_ttl%]
-                    "dead-letter-exchange": ['S', 'araneum.base.rabbitmq.producer.spot_login']    
+                    "dead-letter-exchange": ['S', 'araneum.base.rabbitmq.producer.spot_login']
+        application_customer:
+            connection: default
+            exchange_options:
+                name: application_customer_%session_prefix%
+                type: direct
+                auto_delete: false
+                durable: true
+            queue_options:
+                name: application_customer_%session_prefix%
+                arguments:
+                    "message-ttl": ['I', %rabbitmq_message_ttl%]
+                    "dead-letter-exchange": ['S', 'araneum.base.rabbitmq.producer.application_customer']
     consumers:
         spot_customer:
             connection: default
@@ -194,6 +205,16 @@ old_sound_rabbit_mq:
              queue_options:
                  name: spot_login_%session_prefix%
              callback: araneum.base.rabbitmq.consumer.spot_login
+        application_customer:
+             connection: default
+             exchange_options:
+                 name: application_customer_%session_prefix%
+                 type: direct
+                 auto_delete: false
+                 durable: true
+             queue_options:
+                 name: application_customer_%session_prefix%
+             callback: araneum.base.rabbitmq.consumer.application_customer
 
 snc_redis:
     clients:
