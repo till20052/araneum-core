@@ -99,7 +99,7 @@ class StatisticsService
      *
      * @return array
      */
-    public function prepareResulForDailyApplications()
+    public function prepareResultForDailyApplications()
     {
         $statusesDaily = $this->getApplicationsStatusesDaily();
 
@@ -403,6 +403,7 @@ class StatisticsService
                 'data' => [],
             ];
         }
+
         foreach ($dataArray as $array) {
             foreach ($statuses as $status) {
                 array_push($chartArray[$status]['data'], [
@@ -411,6 +412,7 @@ class StatisticsService
                 ]);
             }
         }
+
         foreach ($chartArray as $array) {
             array_push($result, $array);
         }
