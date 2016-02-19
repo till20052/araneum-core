@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Repository;
 
+use Araneum\Base\Repository\AdminDataGridTrait;
 use Araneum\Base\Repository\CountableTrait;
 use Doctrine\ORM\EntityRepository;
 use Araneum\Bundle\MainBundle\Entity\Cluster;

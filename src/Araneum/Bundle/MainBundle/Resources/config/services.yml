@@ -47,3 +47,15 @@ services:
         arguments: [@router]
         tags:
             - { name: form.type }
+
+    araneum_main.cluster.filter.form:
+        class: Araneum\Bundle\MainBundle\Form\Filter\ClusterFilterType
+        arguments: [@doctrine, @service_container]
+        tags:
+            - { name: form.type, alias: araneum_cluster_filter }
+
+    araneum.main.cluster.form:
+        class: Araneum\Bundle\MainBundle\Form\Type\ClusterType
+        arguments: [@router]
+        tags:
+            - { name: form.type }
