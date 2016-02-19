@@ -7,12 +7,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Security\Acl\Exception\Exception;
 
 /**
- * Class SpotCustomersDaemonizedCommand
- * php app/console araneum:spot:customers stop
+ * Class DaemonSpotGetCustomersCommand
  *
  * @package Araneum\Bundle\MainBundle\Command\Spot
  */
-class SpotCustomersDaemonizedCommand extends AbstractBaseDaemon
+class DaemonSpotGetCustomersCommand extends AbstractBaseDaemon
 {
 
     /**
@@ -21,7 +20,7 @@ class SpotCustomersDaemonizedCommand extends AbstractBaseDaemon
     protected function configureDaemonCommand()
     {
         $this
-            ->setName('araneum:daemon:get-customers')
+            ->setName('araneum:daemon:spot-get-customers')
             ->setDescription('Daemonized araneum:spot:get-customers command')
             ->addOption(
                 'project',

@@ -13,7 +13,7 @@ use Symfony\Component\Process\Exception\ProcessTimedOutException;
  *
  * @package Araneum\Bundle\MainBundle\Command
  */
-class CheckerDaemonsCommand extends ContainerAwareCommand
+class CheckDaemonsCommand extends ContainerAwareCommand
 {
     const BROKEN_DAEMONS = [];
 
@@ -28,7 +28,7 @@ class CheckerDaemonsCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('check:daemons')
+            ->setName('araneum:check:daemons')
             ->setDescription('Check cluster or application state status.');
     }
 

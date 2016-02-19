@@ -9,7 +9,7 @@ use Araneum\Base\Command\AbstractBaseDaemon;
  *
  * @package Araneum\Bundle\MainBundle\Command
  */
-class DaemonCheckerCommand extends AbstractBaseDaemon
+class DaemonCheckSiteCommand extends AbstractBaseDaemon
 {
     protected static $COMMANDS = [
         'connection'    => 'AraneumMainBundle:Connection',
@@ -24,7 +24,7 @@ class DaemonCheckerCommand extends AbstractBaseDaemon
     protected function configureDaemonCommand()
     {
         $this
-            ->setName('araneum:daemon:checker')
+            ->setName('araneum:daemon:check-site')
             ->setDescription('Used for demonize. Checker check.')
             ->setHelp('Usage <info>php app/console <name> start|stop|restart</info>');
     }
@@ -45,7 +45,7 @@ class DaemonCheckerCommand extends AbstractBaseDaemon
         foreach (self::$COMMANDS as $command => $repository) {
             if ($items = $em->getRepository($repository)->findAll()) {
                 foreach ($items as $item) {
-                     $commandRunner->runSymfonyCommandInNewProcess("checker:check {$command} {$item->getId()}", $this);
+                     $commandRunner->runSymfonyCommandInNewProcess("araneum:check:site {$command} {$item->getId()}", $this);
                 }
             }
         }

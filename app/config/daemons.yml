@@ -1,11 +1,11 @@
 parameters:
     daemons_iterate:
-        araneum_daemon_checker: 10 minutes
-        araneum_daemon_get-customers: 5 minutes
+        araneum_daemon_check-site: 10 minutes
+        araneum_daemon_spot-get-customers: 5 minutes
 
 mik_software_daemon:
     daemons:
-        araneum_consumer_spot:
+        araneum_daemon_consumer_spot:
             appName: spot-consumer
             appDescription: System Daemon for runuing Spot consumer
             appUser: %nginx_user%
@@ -13,7 +13,7 @@ mik_software_daemon:
             appPidDir: %kernel.root_dir%/daemons
             logVerbosity: 6
 
-        araneum_consumer_login:
+        araneum_daemon_consumer_login:
             appName: login-consumer
             appDescription: System Daemon for login to Spot consumer
             appUser: %nginx_user%
@@ -21,7 +21,7 @@ mik_software_daemon:
             appPidDir: %kernel.root_dir%/daemons
             logVerbosity: 6
 
-        araneum_consumer_customer:
+        araneum_daemon_consumer_customer:
             appName: customer-consumer
             appDescription: System Daemon for sending Customers to Spot
             appUser: %nginx_user%
@@ -29,17 +29,17 @@ mik_software_daemon:
             appPidDir: %kernel.root_dir%/daemons
             logVerbosity: 6
 
-        araneum_daemon_get-customers:
-            appName: spot-customers
-            appDescription: System Daemon for get Customers from spot
+        araneum_daemon_check-site:
+            appName: check-site
+            appDescription: System Daemon checker check.
             appUser: %nginx_user%
             appGroup: %nginx_group%
             appPidDir: %kernel.root_dir%/daemons
             logVerbosity: 6
 
-        araneum_daemon_checker:
-            appName: araneum_daemon_checker
-            appDescription: System Daemon checker check.
+        araneum_daemon_spot-get-customers:
+            appName: spot-customers
+            appDescription: System Daemon for get Customers from spot
             appUser: %nginx_user%
             appGroup: %nginx_group%
             appPidDir: %kernel.root_dir%/daemons

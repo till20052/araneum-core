@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @package Araneum\Bundle\MainBundle\Command
  */
-class SendCustomersCommand extends ContainerAwareCommand
+class ApplicationSendCustomersCommand extends ContainerAwareCommand
 {
 
     /**

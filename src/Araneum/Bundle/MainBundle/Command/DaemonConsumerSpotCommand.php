@@ -5,11 +5,11 @@ namespace Araneum\Bundle\MainBundle\Command;
 use Araneum\Base\Command\AbstractBaseDaemon;
 
 /**
- * Class DeploymentCommand
+ * Class DaemonConsumerSpotCommand
  *
  * @package Araneum\Bundle\MainBundle\Command
  */
-class ConsumerSpotCommand extends AbstractBaseDaemon
+class DaemonConsumerSpotCommand extends AbstractBaseDaemon
 {
     /**
      * Configures command.
@@ -17,7 +17,7 @@ class ConsumerSpotCommand extends AbstractBaseDaemon
     protected function configureDaemonCommand()
     {
         $this
-            ->setName('araneum:consumer:spot')
+            ->setName('araneum:daemon:consumer-spot')
             ->setDescription('Used for demonize. Queue for Spot.')
             ->setHelp('Usage <info>php app/console <name> start|stop|restart|status</info>');
     }
