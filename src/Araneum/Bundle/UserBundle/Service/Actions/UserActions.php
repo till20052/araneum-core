@@ -18,8 +18,32 @@ class UserActions extends AbstractActions
      * @param ActionBuilderInterface $builder
      */
     public function buildActions(ActionBuilderInterface $builder)
-    {
+    { // araneum_main_api_ldap_users
         $builder
+            ->add(
+                'ldap',
+                [
+                    'resourceAll' => 'araneum_user_admin_users_ldap_sync',
+                    'callback' => 'refresh',
+                    'confirm' => [
+                        'title' => 'admin.general.SURE',
+                        'yes' => [
+                            'class' => 'confirm',
+                            'title' => 'admin.general.CONFIRM_LDAP_SYNC',
+                        ],
+                        'no' => [
+                            'class' => 'cancel',
+                            'title' => 'admin.general.CANCEL',
+                        ],
+                    ],
+                    'display' => [
+                        'btnClass' => 'btn-success',
+                        'icon' => 'icon-refresh',
+                        'label' => 'user.data_grid.LDAP_USERS',
+                    ],
+                    'position' => ActionBuilderInterface::POSITION_TOP,
+                ]
+            )
             ->add(
                 'delete',
                 [

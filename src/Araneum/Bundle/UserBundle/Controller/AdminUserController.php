@@ -28,6 +28,26 @@ class AdminUserController extends Controller
 {
 
     /**
+     * The LDAP Sync get all users
+     *
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/users/ldap.json", name="araneum_user_admin_users_ldap_sync")
+     * @return JsonResponse
+     */
+    public function ldapAction()
+    {
+        try {
+            $serviceLdap = $this->get('api.ldap.synchronization');
+            $result = $serviceLdap->runSynchronization();
+
+            return new JsonResponse($result, 200);
+        } catch (\Exception $e) {
+
+            return new JsonResponse("LDAP Error: ".$e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
      *
      */
     public function recoverPasswordAction()
