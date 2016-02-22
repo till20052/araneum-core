@@ -25,6 +25,25 @@ class AdminLocaleController extends Controller
     /**
      * Get locale by id
      *
+     * @ApiDoc(
+     *  resource = "Cluster",
+     *  section = "MainBundle",
+     *  description = "Get locale",
+     *  requirements={
+     *      {"name"="_format", "dataType"="json", "description"="Output format must be json"}
+     *  },
+     *  parameters={
+     *      {"name"="id", "dataType"="int", "required"=true, "description"="Id"},
+     *  },
+     *  statusCodes = {
+     *      200 = "Returned when reset customer password was successful",
+     *      400 = "Returned when validation failed",
+     *      403 = "Returned when authorization is failed",
+     *      404 = "Returned when Application or Customer not found by defined condition"
+     *  },
+     *  tags={"Agent"}
+     * )
+     *
      * @Security("has_role('ROLE_ADMIN')")
      * @Route(
      *      "/manage/locales/locale/{id}",
@@ -123,10 +142,11 @@ class AdminLocaleController extends Controller
      *      {"name"="encoding", "dataType"="string", "required"=true, "description"="Encoding example UTF-8"}
      *  },
      *  statusCodes = {
-     *      202 = "Returned when reset customer password was successful",
+     *      201 = "Returned when locale was created",
+     *      202 = "Returned when locale was updated",
      *      400 = "Returned when validation failed",
      *      403 = "Returned when authorization is failed",
-     *      404 = "Returned when Application or Customer not found by defined condition"
+     *      500 = "Returned when Application or Customer not found by defined condition"
      *  },
      *  tags={"Agent"}
      * )

@@ -26,6 +26,25 @@ class AdminClusterController extends Controller
     /**
      * Get cluster by id
      *
+     * @ApiDoc(
+     *  resource = "Cluster",
+     *  section = "MainBundle",
+     *  description = "Get cluster",
+     *  requirements={
+     *      {"name"="_format", "dataType"="json", "description"="Output format must be json"}
+     *  },
+     *  parameters={
+     *      {"name"="id", "dataType"="int", "required"=true, "description"="Id"},
+     *  },
+     *  statusCodes = {
+     *      200 = "Returned when reset customer password was successful",
+     *      400 = "Returned when validation failed",
+     *      403 = "Returned when authorization is failed",
+     *      404 = "Returned when Application or Customer not found by defined condition"
+     *  },
+     *  tags={"Agent"}
+     * )
+     *
      * @Security("has_role('ROLE_ADMIN')")
      * @Route(
      *      "/manage/clusters/cluster/{id}",
@@ -114,18 +133,16 @@ class AdminClusterController extends Controller
      *  requirements={
      *      {"name"="_format", "dataType"="json", "description"="Output format must be json"}
      *  },
-     *  parameters={
-     *      {"name"="id", "dataType"="int", "required"=true, "description"="Id"},
-     *      {"name"="name", "dataType"="string", "required"=true, "description"="Name"},
-     *      {"name"="type", "dataType"="int", "required"=true, "description"="Cluster parameter example en_US"},
-     *      {"name"="enabled", "dataType"="boolean", "required"=true, "description"="Enabled or disabled parameter"},
-     *      {"name"="status", "dataType"="int", "required"=true, "description"="Enabled or disabled parameter"},
+     *  input = {
+     *      "class"="Araneum\Bundle\MainBundle\Form\Type\ClusterType",
+     *      "name"=""
      *  },
      *  statusCodes = {
-     *      202 = "Returned when reset customer password was successful",
+     *      201 = "Returned when cluster was created",
+     *      202 = "Returned when cluster was updated",
      *      400 = "Returned when validation failed",
      *      403 = "Returned when authorization is failed",
-     *      404 = "Returned when Application or Customer not found by defined condition"
+     *      500 = "Returned when Application or Customer not found by defined condition"
      *  },
      *  tags={"Agent"}
      * )

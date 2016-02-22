@@ -1,23 +1,23 @@
 services:
     araneum.main.application.api_handler:
         class: Araneum\Bundle\MainBundle\Service\ApplicationApiHandlerService
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: ["@doctrine.orm.entity_manager"]
 
     araneum.main.cluster.api_handler:
         class: Araneum\Bundle\MainBundle\Service\ClusterApiHandlerService
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: ["@doctrine.orm.entity_manager"]
 
     araneum.main.application.manager:
         class: Araneum\Bundle\MainBundle\Service\ApplicationManagerService
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: ["@doctrine.orm.entity_manager"]
     
     araneum.main.application.remote_manager:
         class: Araneum\Bundle\MainBundle\Service\RemoteApplicationManagerService
-        arguments: [@guzzle.client, @doctrine.orm.entity_manager, %site_api%]
+        arguments: ["@guzzle.client", "@doctrine.orm.entity_manager", "%site_api%"]
 
     araneum.main.application.event_listener:
         class: Araneum\Bundle\MainBundle\Service\ApplicationEventListenerService
-        arguments: [@araneum.main.application.remote_manager]
+        arguments: ["@araneum.main.application.remote_manager"]
         tags:
             - { name: kernel.event_listener, event: araneum.main.application.event.post_persist, method: postPersist }
             - { name: kernel.event_listener, event: araneum.main.application.event.post_update, method: postUpdate }
@@ -25,26 +25,26 @@ services:
     
     araneum.main.application.checker:
         class: Araneum\Bundle\MainBundle\Service\ApplicationCheckerService
-        arguments: [@doctrine.orm.entity_manager, @guzzle.client]
+        arguments: ["@doctrine.orm.entity_manager", "@guzzle.client"]
         calls:
-            - [setAgentLogger, [@araneum.agent.logger]]
+            - [setAgentLogger, ["@araneum.agent.logger"]]
 
     araneum.main.statistics.service:
         class: Araneum\Bundle\MainBundle\Service\StatisticsService
-        arguments: [@doctrine.orm.entity_manager]
+        arguments: ["@doctrine.orm.entity_manager"]
 
     araneum.main.menu.generator:
         class: Araneum\Bundle\MainBundle\Service\MenuGeneratorService
 
     araneum_main.locale.filter.form:
         class: Araneum\Bundle\MainBundle\Form\Filter\LocaleFilterType
-        arguments: [@doctrine, @service_container]
+        arguments: ["@doctrine", "@service_container"]
         tags:
             - { name: form.type, alias: araneum_locale_filter }
 
     araneum.main.locale.form:
         class: Araneum\Bundle\MainBundle\Form\Type\LocaleType
-        arguments: [@router]
+        arguments: ["@router"]
         tags:
             - { name: form.type }
 
@@ -56,12 +56,12 @@ services:
 
     araneum_main.cluster.filter.form:
         class: Araneum\Bundle\MainBundle\Form\Filter\ClusterFilterType
-        arguments: [@doctrine, @service_container]
+        arguments: ["@doctrine", "@service_container"]
         tags:
             - { name: form.type, alias: araneum_cluster_filter }
 
     araneum.main.cluster.form:
         class: Araneum\Bundle\MainBundle\Form\Type\ClusterType
-        arguments: [@router]
+        arguments: ["@router"]
         tags:
             - { name: form.type }
