@@ -18,7 +18,7 @@ class UserActions extends AbstractActions
      * @param ActionBuilderInterface $builder
      */
     public function buildActions(ActionBuilderInterface $builder)
-    { // araneum_main_api_ldap_users
+    {
         $builder
             ->add(
                 'ldap',
