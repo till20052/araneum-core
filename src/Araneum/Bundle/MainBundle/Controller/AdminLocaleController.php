@@ -132,14 +132,9 @@ class AdminLocaleController extends Controller
      *  requirements={
      *      {"name"="_format", "dataType"="json", "description"="Output format must be json"}
      *  },
-     *  parameters={
-     *      {"name"="id", "dataType"="int", "required"=true, "description"="Id"},
-     *      {"name"="name", "dataType"="string", "required"=true, "description"="Name"},
-     *      {"name"="locale", "dataType"="string", "required"=true, "description"="Locale parameter example en_US"},
-     *      {"name"="enabled", "dataType"="boolean", "required"=true, "description"="Enabled or disabled parameter"},
-     *      {"name"="orientation", "dataType"="string", "required"=true, "description"="Left to right or right to
-     *     left"},
-     *      {"name"="encoding", "dataType"="string", "required"=true, "description"="Encoding example UTF-8"}
+     *  input = {
+     *      "class"="Araneum\Bundle\MainBundle\Form\Type\LocaleType",
+     *      "name"=""
      *  },
      *  statusCodes = {
      *      201 = "Returned when locale was created",
