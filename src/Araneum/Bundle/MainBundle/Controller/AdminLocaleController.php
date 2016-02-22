@@ -26,7 +26,7 @@ class AdminLocaleController extends Controller
      * Get locale by id
      *
      * @ApiDoc(
-     *  resource = "Cluster",
+     *  resource = "Locale",
      *  section = "MainBundle",
      *  description = "Get locale",
      *  requirements={
