@@ -142,7 +142,7 @@ class AdminClusterController extends Controller
      *      202 = "Returned when cluster was updated",
      *      400 = "Returned when validation failed",
      *      403 = "Returned when authorization is failed",
-     *      500 = "Returned when Application or Customer not found by defined condition"
+     *      500 = "Returned when internal error occurred"
      *  },
      *  tags={"Agent"}
      * )
@@ -282,10 +282,12 @@ class AdminClusterController extends Controller
      */
     public function checkClusterStatusAction(Request $request)
     {
+        die(var_dump($request->get('id')));
         $id = $request->request->get('data');
         if (is_array($id)) {
             $id = isset($id[0]) ? $id[0] : '';
         }
+
 
         $errors = $this->get('validator')->validate($id, new Regex('/^\d+$/'));
         if (count($errors) > 0) {
