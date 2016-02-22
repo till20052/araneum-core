@@ -34,7 +34,7 @@ class DaemonSpotGetCustomersCommand extends AbstractBaseDaemon
                 '-t',
                 InputOption::VALUE_REQUIRED,
                 'Period of customers registration',
-                'P1Y'
+                'P1D'
             )
             ->setHelp('Usage <infoaraneumDB>php app/console <name> <period>application_id</period> <period>time</period> start|stop|restart</infoaraneumDB>');
     }
