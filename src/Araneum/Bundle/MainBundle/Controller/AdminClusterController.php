@@ -282,10 +282,8 @@ class AdminClusterController extends Controller
      */
     public function checkClusterStatusAction(Request $request)
     {
-        $data = $request->get('data');
-        if (!empty($data)) {
-            $id = array_shift($data);
-        }
+        $data = (array) $request->get('data');
+        $id = array_shift($data);
 
         $errors = $this->get('validator')->validate($id, new Regex('/^\d+$/'));
         if (count($errors) > 0) {
