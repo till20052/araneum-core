@@ -96,6 +96,7 @@ general:
     DISABLE: 'Disable'
     SURE: 'Are you sure?'
     CONFIRM_DELETE: 'Yes, delete it'
+    LDAP_USERS: 'LDAP Synchronization'
     CONFIRM_LDAP_SYNC: 'Yes, Ldap sync'
     CURRENT_URL_NOT_VALID: 'Current URL is not valid more'
 datatables:
