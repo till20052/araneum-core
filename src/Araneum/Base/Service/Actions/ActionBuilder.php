@@ -68,7 +68,7 @@ class ActionBuilder implements ActionBuilderInterface
     {
         unset($actionDescription['position']);
 
-        foreach (['resource', 'form'] as $actionType) {
+        foreach (['resource', 'resourceAll', 'form'] as $actionType) {
             if (array_key_exists($actionType, $actionDescription)) {
                 $actionDescription[$actionType] = $this->router->generate($actionDescription[$actionType]);
             }

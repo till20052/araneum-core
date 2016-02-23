@@ -20,6 +20,7 @@ LAST_LOGIN: 'Last login'
 REGISTER: 'Register'
 
 data_grid:
+    LDAP_USERS: 'LDAP sync. all users'
     USERS: "Users"
     EDIT_USER: "Edit user"
     EDIT: "Save"

@@ -1,0 +1,41 @@
+parameters:
+    ldap:
+        default_user_roles: ROLE_ADMIN
+
+fr3d_ldap:
+    driver:
+        host:                %ldap_driver_host%
+        username:            %ldap_driver_username%
+        password:            %ldap_driver_password%
+        bindRequiresDn:      true
+        accountFilterFormat: (&(uid=%s))
+    user:
+        baseDn: %ldap_user_baseDn%
+        filter: (&(objectclass=Person))
+        attributes:
+           - { ldap_attr: uid,  user_method: setUsername }
+           - { ldap_attr: displayname,   user_method: setFullName }
+           - { ldap_attr: mail,   user_method: setEmail }
+           - { ldap_attr: mail,   user_method: setEmailCanonical }
+           - { ldap_attr: krblastpwdchange,   user_method: setLastChangeLdapPass }
+    service:
+        ldap_manager: api.ldap.ldap_manager
+
+services:
+    api.ldap.ldap_manager:
+        class: Araneum\Bundle\MainBundle\Service\Ldap\LdapUseManager
+        arguments:
+           - "@service_container"
+           - "@security.encoder_factory"
+           - "@fr3d_ldap.ldap_driver"
+           - "@fr3d_ldap.user_manager"
+           - %fr3d_ldap.ldap_manager.parameters%
+
+    api.ldap.synchronization:
+        class: Araneum\Bundle\MainBundle\Service\LdapSynchronizationService
+        arguments:
+           - "@service_container"
+           - "@security.encoder_factory"
+           - "@fr3d_ldap.ldap_driver"
+           - "@fr3d_ldap.user_manager"
+           - %fr3d_ldap.ldap_manager.parameters%

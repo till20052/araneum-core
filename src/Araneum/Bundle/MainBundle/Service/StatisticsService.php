@@ -10,8 +10,8 @@ use Araneum\Bundle\MailBundle\Repository\MailRepository;
 use Araneum\Bundle\MainBundle\Repository\ApplicationRepository;
 use Araneum\Bundle\AgentBundle\Repository\ApplicationLogRepository;
 use Araneum\Bundle\MainBundle\Repository\ClusterRepository;
+use Araneum\Bundle\MainBundle\Repository\RunnerRepository;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\Expr;
 use Araneum\Bundle\UserBundle\Entity\User;
 
@@ -32,19 +32,6 @@ class StatisticsService
      */
     private $hours;
 
-    const COLORS = [
-        '#5d9cec',
-        '#27c24c',
-        '#23b7e5',
-        '#ff902b',
-        '#f05050',
-        '#37bc9b',
-        '#f532e5',
-        '#7266ba',
-        '#fad732',
-        '#dde6e9',
-    ];
-
     /**
      * StatisticsService constructor.
      *
@@ -53,7 +40,7 @@ class StatisticsService
     public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->hours = $this->createTimeRange(date('Y-m-d H:s', time() - 86400), date('Y-m-d H:s', time()), '1 hour');
+        $this->hours = $this->createTimeRange(date('Y-m-d H:s', time() - 86400), date('Y-m-d H:s', time()));
     }
 
     /**
@@ -80,19 +67,19 @@ class StatisticsService
      *
      * @return array
      */
-    public function getApplicationsStatusesDayly()
+    public function getApplicationsStatusesDaily()
     {
-        return $this->getApplicationRepository()->getApplicationStatusesDayly();
+        return $this->getApplicationRepository()->getApplicationStatusesDaily();
     }
 
     /**
-     * Get average statuses dayly
+     * Get average statuses Daily
      *
      * @return array
      */
-    public function getAverageApplicationStatusesDayly()
+    public function getAverageApplicationStatusesDaily()
     {
-        return $this->getApplicationLogRepository()->getAverageApplicationStatusesDayly();
+        return $this->getApplicationLogRepository()->getAverageApplicationStatusesDaily();
     }
 
     /**
@@ -108,38 +95,38 @@ class StatisticsService
     }
 
     /**
-     * Prepare data for dayly application statuses chart
+     * Prepare data for Daily application statuses chart
      *
      * @return array
      */
-    public function prepareResulForDaylyApplications()
+    public function prepareResultForDailyApplications()
     {
-        $statusesDayly = $this->getApplicationsStatusesDayly();
+        $statusesDaily = $this->getApplicationsStatusesDaily();
 
         return
             [
-                'applications' => $this->getResultByColumnName($statusesDayly, 'name'),
-                'errors' => $this->getResultByColumnName($statusesDayly, 'errors'),
-                'problems' => $this->getResultByColumnName($statusesDayly, 'problems'),
-                'success' => $this->getResultByColumnName($statusesDayly, 'success'),
-                'disabled' => $this->getResultByColumnName($statusesDayly, 'disabled'),
+                'applications' => $this->getResultByColumnName($statusesDaily, 'name'),
+                'errors' => $this->getResultByColumnName($statusesDaily, 'errors'),
+                'problems' => $this->getResultByColumnName($statusesDaily, 'problems'),
+                'success' => $this->getResultByColumnName($statusesDaily, 'success'),
+                'disabled' => $this->getResultByColumnName($statusesDaily, 'disabled'),
             ];
     }
 
     /**
-     * Prepare data for dayly application average chart
+     * Prepare data for Daily application average chart
      *
      * @return array
      */
-    public function prepareResultForDaylyAverageStatuses()
+    public function prepareResultForDailyAverageStatuses()
     {
-        $statusesDaylyAverage = $this->getAverageApplicationStatusesDayly();
+        $statusesDailyAverage = $this->getAverageApplicationStatusesDaily();
 
         return [
-            'success' => $this->getStatusesByPeriod($statusesDaylyAverage, 'success'),
-            'problems' => $this->getStatusesByPeriod($statusesDaylyAverage, 'problems'),
-            'errors' => $this->getStatusesByPeriod($statusesDaylyAverage, 'errors'),
-            'disabled' => $this->getStatusesByPeriod($statusesDaylyAverage, 'disabled'),
+            'success' => $this->getStatusesByPeriod($statusesDailyAverage, 'success'),
+            'problems' => $this->getStatusesByPeriod($statusesDailyAverage, 'problems'),
+            'errors' => $this->getStatusesByPeriod($statusesDailyAverage, 'errors'),
+            'disabled' => $this->getStatusesByPeriod($statusesDailyAverage, 'disabled'),
         ];
     }
 
@@ -148,7 +135,7 @@ class StatisticsService
      *
      * @return array
      */
-    public function prepareResultForClusterAverage()
+    public function getResultForClusterAverage()
     {
         return $this->getChartStructure($this->getClusterLoadAverage(), 'apt');
     }
@@ -158,57 +145,11 @@ class StatisticsService
      *
      * @return array
      */
-    public function prepareResultForClusterUpTime()
+    public function getResultForClusterUpTime()
     {
-        $clusterUpTime = $this->getClusterUpTime();
+        $upTime = $this->getClusterRepository()->getClusterUpTime();
 
-        $success = [
-            'label' => 'Success',
-            'color' => '#27c24c',
-            'data' => [],
-        ];
-
-        $problem = [
-            'label' => 'Problem',
-            'color' => '#ff902b',
-            'data' => [],
-        ];
-
-        $offline = [
-            'label' => 'Offline',
-            'color' => '#f05050',
-            'data' => [],
-        ];
-
-        foreach ($clusterUpTime as $array) {
-            array_push(
-                $problem['data'],
-                [
-                    $array['name'],
-                    $array['problem'],
-                ]
-            );
-            array_push(
-                $offline['data'],
-                [
-                    $array['name'],
-                    $array['offline'],
-                ]
-            );
-            array_push(
-                $success['data'],
-                [
-                    $array['name'],
-                    $array['success'],
-                ]
-            );
-        }
-
-        return [
-            $success,
-            $problem,
-            $offline,
-        ];
+        return $this->prepareResultForUpTime($upTime, ['success', 'problem', 'offline']);
     }
 
     /**
@@ -254,6 +195,32 @@ class StatisticsService
                 'leadsCount'
             ),
         ];
+    }
+
+
+    /**
+     * Get UpTime from all Runners in last 24 hours
+     *
+     * @return array
+     */
+    public function getResultsForRunnersUpTime()
+    {
+        $upTime = $this->getRunnerRepository()->getRunnersUpTime();
+
+        return $this->prepareResultForUpTime($upTime, ['success', 'appProblem', 'problem', 'offline']);
+    }
+
+    /**
+     * Get Average for all Runners in last 24 hours
+     *
+     * @return array
+     */
+    public function getResultsForRunnersAverage()
+    {
+        return $this->getChartStructure(
+            $this->getRunnerRepository()->getRunnersLoadAverage(),
+            'apt'
+        );
     }
 
     /**
@@ -323,7 +290,6 @@ class StatisticsService
             if (!isset($data[$item['name']])) {
                 $data[$item['name']] = [
                     'label' => $item['name'],
-                    'color' => $this->getColor(),
                     'data' => $this->hours,
                 ];
             }
@@ -363,17 +329,11 @@ class StatisticsService
     }
 
     /**
-     * Get data from repository
-     */
-    private function getClusterUpTime()
-    {
-        return $this->getClusterRepository()->getClusterUpTime();
-    }
-
-    /**
      * Get errors by Application by hour
      *
-     * @param  array $pack
+     * @param  array  $pack
+     * @param  string $status
+     * @param  string $period
      * @return array
      */
     private function getStatusesByPeriod(array $pack, $status, $period = 'hours')
@@ -428,19 +388,36 @@ class StatisticsService
     }
 
     /**
-     * Get color
-     *
-     * @return mixed
+     * Prepare result for cluster Up time
+     * @param array $dataArray
+     * @param array $statuses
+     * @return array
      */
-    private function getColor()
+    private function prepareResultForUpTime($dataArray, $statuses)
     {
-        static $index = -1;
-
-        if ($index + 1 >= count($this::COLORS)) {
-            $index = -1;
+        $chartArray = [];
+        $result = [];
+        foreach ($statuses as $status) {
+            $chartArray[$status] = [
+                'label' => $status,
+                'data' => [],
+            ];
         }
 
-        return $this::COLORS[++$index];
+        foreach ($dataArray as $array) {
+            foreach ($statuses as $status) {
+                array_push($chartArray[$status]['data'], [
+                    $array['name'],
+                    $array[$status],
+                ]);
+            }
+        }
+
+        foreach ($chartArray as $array) {
+            array_push($result, $array);
+        }
+
+        return $result;
     }
 
     /**
@@ -471,5 +448,15 @@ class StatisticsService
     private function getApplicationRepository()
     {
         return $this->entityManager->getRepository('AraneumMainBundle:Application');
+    }
+
+    /**
+     * Get runner repositoty
+     *
+     * @return RunnerRepository
+     */
+    private function getRunnerRepository()
+    {
+        return $this->entityManager->getRepository('AraneumMainBundle:Runner');
     }
 }
