@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Form\DataTransformer;
+namespace Araneum\Bundle\AgentBundle\Form\DataTransformer;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\DataTransformerInterface;
