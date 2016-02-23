@@ -77,8 +77,7 @@
             return $('<div class="btn-group pull-right" />')
                 .append(
                     buttons.map(function (options) {
-                        return createButton(options)
-                            .setAction(options);
+                        return createButton(options);
                     })
                 );
         }

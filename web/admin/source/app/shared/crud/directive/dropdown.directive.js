@@ -86,7 +86,6 @@
                         container.push($('<li role="menuitem" />')
                             .append(
                                 $('<a href="javascript:void(0);" />')
-                                    .data({})
                                     .html('{{ "' + options.display.label + '" | translate }}')
                                     .prepend(
                                         $('<em class="mr" />').addClass(options.display.icon)

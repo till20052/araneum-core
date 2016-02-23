@@ -5,9 +5,9 @@
         .module('crud.form')
         .directive('form', form);
 
-    form.$inject = ['FormFactory'];
+    form.$inject = ['FormFactory', '$compile'];
 
-    function form(FormFactory) {
+    function form(FormFactory, $compile) {
         return {
             link: link,
             restrict: 'E',
@@ -25,10 +25,10 @@
         function link(scope, element) {
             if (!(scope.form instanceof Object))
                 return;
+
             manifest.call({
-                scope: scope,
                 insert: function (form) {
-                    element.replaceWith(form);
+                    element.replaceWith($compile(form)(scope));
                 }
             }, scope.form);
         }
@@ -55,46 +55,10 @@
              * @param {Object} data
              */
             function transform(data) {
-                angular.extend(form, transformer.transform(data));
                 delete form.transform;
-                self.insert(
-                    FormFactory.create(form)
-                        .build(self.scope)
-                );
+                angular.extend(form, transformer.transform(data));
+                self.insert(FormFactory.create(form));
             }
-        }
-
-        /**
-         * Create controls
-         *
-         * @param {object} data
-         * @returns {jQuery}
-         */
-        function controls(data) {
-            var buttons = [],
-                keys = Object.keys(data);
-            return $('<div />')
-                .addClass([bootstrap.col.offsetLeft, bootstrap.col.right].join(' '))
-                .append(
-                    angular.forEach(data, function (data, key) {
-                        console.log(data);
-                        var button = $('<button class="btn btn-default" />')
-                            .click(data.click)
-                            .html('{{ "' + data.label + '" | translate }}');
-
-                        if (data.hasOwnProperty('class'))
-                            button.removeClass('btn-default')
-                                .addClass(data.class);
-
-                        if (keys.indexOf(key) + 1 < keys.length)
-                            button.addClass('mr');
-
-                        if (data.hasOwnProperty('icon'))
-                            button.prepend($('<em class="mr" />').addClass(data.icon));
-
-                        this.push(button);
-                    }, buttons) && buttons
-                );
         }
 
     }

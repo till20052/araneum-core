@@ -5,58 +5,54 @@
         .module('crud')
         .controller('CRUDController', CRUDController);
 
-    CRUDController.$inject = ['$scope', '$state', 'supervisor', 'FormTransformer'];
+    CRUDController.$inject = ['$scope', '$state', 'supervisor', 'FormTransformer', 'Layout'];
 
     /**
      * CRUD Controller
      *
-     * @param $scope
-     * @param $state
-     * @param supervisor
      * @constructor
      */
-    function CRUDController($scope, $state, supervisor, FormTransformer) {
+    function CRUDController($scope, $state, supervisor, FormTransformer, Layout) {
         /* jshint validthis: true */
         var vm = this;
 
         $scope.icon = $state.$current.crud.icon;
         $scope.title = $state.$current.crud.title;
 
-        $scope.form = {
-            filter: {
-                children: [],
-                actions: {
-                    search: {
-                        icon: 'fa fa-search',
-                        title: 'admin.general.SEARCH',
-                        behavior: function () {
-                            console.log('behavior on: filter.search', this);
-                        }
-                    },
-                    refresh: {
-                        icon: 'fa fa-refresh',
-                        title: 'admin.general.RESET',
-                        behavior: function () {
-                            console.log('behavior on: filter.RESET', this);
-                        }
+        vm.filter = {
+            actions: {
+                search: {
+                    icon: 'fa fa-search',
+                    title: 'admin.general.SEARCH',
+                    class: 'primary',
+                    action: function () {
+                        console.log('search');
+                    }
+                },
+                refresh: {
+                    icon: 'fa fa-refresh',
+                    title: 'admin.general.RESET',
+                    action: function () {
+                        console.log('refresh');
                     }
                 }
-            }
-        };
-
-        vm.filter = {
+            },
             transformer: new FormTransformer('symfony-form-transformer'),
             view: {
-                layout: 'grid'
+                layout: new Layout('grid', 2)
             }
         };
 
+        vm.datatable = {};
+
         supervisor
-            .loader('form')
-            .load('/manage/locales/locale/1')
+            .loader('config')
+            .load($state.$current.initialize)
             .onLoaded({
                 onSuccess: function (response) {
-                    vm.filter.transform(response);
+                    vm.filter.transform(response.filter);
+                    vm.datatable.setColumns(response.grid.columns)
+                        .setSource(response.grid.source);
                 }
             });
     }

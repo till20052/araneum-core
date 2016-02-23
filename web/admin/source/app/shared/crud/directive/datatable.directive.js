@@ -18,10 +18,10 @@
     function CRUDDataTableDirective($compile, supervisor) {
         var controller;
 
-        $.fn = angular.extend($.fn, {
-            getSelectedRows: getSelectedRows,
-            selectRow: selectRow
-        });
+        //$.fn = angular.extend($.fn, {
+        //    getSelectedRows: getSelectedRows,
+        //    selectRow: selectRow
+        //});
 
         return {
             link: link,
@@ -29,6 +29,7 @@
             controller: 'CRUDDataTableController',
             controllerAs: 'controller',
             scope: {
+                datatable: '=manifest',
                 toolBarId: '@toolbar'
             }
         };
@@ -40,17 +41,42 @@
          * @param element
          */
         function link(scope, element) {
+            if (!(scope.datatable instanceof Object))
+                return;
+
             controller = scope.controller;
-            supervisor
-                .loader('config')
-                .onLoaded({
-                    onSuccess: function (data) {
-                        controller.options.sAjaxSource = data.grid.source;
-                        element.replaceWith($compile(createTable({
-                            columns: data.grid.columns
-                        }))(scope));
-                    }
-                });
+            scope.datatable = manifest(scope.datatable);
+
+            var stopWatch = scope.$watch(function () {
+                return controller.options.hasOwnProperty('sAjaxSource') && controller.options.sAjaxSource.length > 0;
+            }, function (ready) {
+                if (ready) {
+                    element.replaceWith($compile(createTable({
+                        columns: scope.datatable.columns
+                    }))(scope));
+                    stopWatch();
+                }
+            });
+        }
+
+        function manifest(datatable) {
+            /* jshint validthis: true */
+            return angular.extend(datatable, {
+                setColumns: setColumns,
+                setSource: setSource
+            });
+
+            function setColumns(columns) {
+                this.columns = columns;
+
+                return this;
+            }
+
+            function setSource(source) {
+                controller.options.sAjaxSource = source;
+
+                return this;
+            }
         }
 
         /**

@@ -139,7 +139,17 @@
         /**
          * Get child
          *
-         * @param {Object} data
+         * @param {{
+         *  name: String,
+         *  full_name: String,
+         *  label: String,
+         *  placeholder: String,
+         *  block_prefixes: Array<String>,
+         *  attr: {
+         *      translateLabel: String,
+         *      placeholder: String
+         *  }
+         * }} data
          * @returns {{
          *  id: String,
          *  name: String,
@@ -179,7 +189,7 @@
              */
             function type(value) {
                 /* jshint eqeqeq: false */
-                if(value == 'choice')
+                if (value == 'choice')
                     return 'select';
                 return value;
             }

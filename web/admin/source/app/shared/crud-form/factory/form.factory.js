@@ -5,22 +5,20 @@
         .module('crud.form')
         .factory('FormFactory', FormFactory);
 
-    FormFactory.$inject = ['$compile'];
+    FormFactory.$inject = [];
 
     /**
      *
      * @constructor
      */
-    function FormFactory($compile) {
-        return new FormService($compile);
+    function FormFactory() {
+        return new FormService();
     }
 
-    function FormService(compile) {
-        var jQFrom,
-            self = angular.extend(this, {
-                create: create,
-                build: build
-            });
+    function FormService() {
+        var self = angular.extend(this, {
+            create: create
+        });
 
         return self;
 
@@ -28,47 +26,63 @@
          * Create From
          *
          * @param {{
-         *  children: Array<Object>
+         *  actions: Object<String, Object>
+         *  children: Array<Object>,
+         *  view: {
+         *      layout: { render: Function }
+         *  }
          * }} data
          * @returns {self}
          */
         function create(data) {
-            data.children.forEach(function (data) {
-                /* jshint -W061, eqeqeq: false */
-                var type = data.type,
-                    child = assign({
-                        hidden: hidden,
-                        checkbox: checkbox,
-                        text: text,
-                        select: select
-                    }[type](data), {
-                        name: data.name
-                    });
+            var jFrom = form(data),
+                children = [];
 
-                if (type == 'hidden')
-                    return this.prepend(child);
+            data.children
+                .forEach(function (data) {
+                    /* jshint -W061, eqeqeq: false */
+                    var type = data.type,
+                        child = {
+                            hidden: hidden,
+                            checkbox: checkbox,
+                            text: text,
+                            select: select
+                        }[type](data);
 
-                this.append(formGroup(child));
+                    if (type == 'hidden')
+                        return this.prepend(child);
 
-            }, (jQFrom = form(data)));
-            return self;
+                    children.push(child);
+                }, jFrom);
+
+            // group of buttons
+            children.push([
+                Object.keys(data.actions)
+                    .map(function (key) {
+                        return button(data.actions[key]);
+                    })
+            ]);
+
+            return data.view.layout.render(jFrom, children);
         }
+    }
 
-        function assign(child, data) {
-            console.log($('input, select', formGroup(child)));
-
-            return child;
-        }
-
-        /**
-         * Compile Form
-         *
-         * @param scope
-         * @returns {jQuery}
-         */
-        function build(scope) {
-            return compile(jQFrom)(scope);
-        }
+    /**
+     * Create jQuery From Element
+     *
+     * @param {{
+     *  name: String,
+     *  action: String,
+     *  method: String
+     * }} data
+     * @returns {jQuery}
+     */
+    function form(data) {
+        return $('<form role="form" novalidate class="form-validate" />').attr({
+            name: data.name,
+            action: data.action,
+            method: data.method
+        });
     }
 
     /**
@@ -84,10 +98,10 @@
      * Create checkbox
      *
      * @param data
-     * @returns {jQuery}
+     * @returns {Array<jQuery>}
      */
     function checkbox(data) {
-        return $('<div class="col-lg-offset-3 col-lg-9" />').append(
+        return [
             $('<div class="checkbox c-checkbox pt0" />').css('minHeight', '0')
                 .append(
                     $('<label />').html(data.label)
@@ -96,7 +110,7 @@
                             $('<span class="fa fa-check" />')
                         )
                 )
-        );
+        ];
     }
 
     /**
@@ -107,12 +121,10 @@
      */
     function text(data) {
         return [
-            $('<label class="col-lg-3 control-label" />').html(data.label),
-            $('<div class="col-lg-9" />').append(
-                $('<input type="text" class="form-control" />').attr({
-                    placeholder: data.placeholder
-                })
-            )
+            $('<label class="control-label mt" />').html(data.label),
+            $('<input type="text" class="form-control" />').attr({
+                placeholder: data.placeholder
+            })
         ];
     }
 
@@ -124,34 +136,36 @@
      */
     function select(data) {
         return [
-            $('<label class="col-lg-3 control-label" />').html(data.label),
-            $('<div class="col-lg-9" />').append(
-                $('<select class="form-control" />').attr({
-                    placeholder: data.placeholder
-                    //'ng-options': 'option.data as option.label for option in controller.form.children.' + data.id + '.choices'
-                })
-            )
+            $('<label class="control-label mt" />').html(data.label),
+            $('<select class="form-control" />').attr({
+                placeholder: data.placeholder
+                //'ng-options': 'option.data as option.label for option in controller.form.children.' + data.id + '.choices'
+            })
         ];
     }
 
-    function formGroup(child) {
-        return $('<div class="form-group" />').append(
-            $('<div class="row" />').append(child)
-        );
-    }
-
     /**
-     * Create jQuery From Element
+     * Create button
      *
-     * @param {Object} data
+     * @param data
      * @returns {jQuery}
      */
-    function form(data) {
-        return $('<form role="form" novalidate class="form-validate" />').attr({
-            name: data.name,
-            action: data.action,
-            method: data.method
-        });
+    function button(data) {
+        var btn = $('<button class="btn btn-default" />').html('{{ "' + data.title + '" | translate }}');
+
+        if (data.hasOwnProperty('class'))
+            btn.removeClass('btn-default')
+                .addClass('btn-' + data.class);
+
+        if (data.hasOwnProperty('icon'))
+            btn.prepend(
+                $('<em class="mr-sm" />').addClass(data.icon)
+            );
+
+        if (data.hasOwnProperty('action'))
+            btn.click(data.action);
+
+        return btn;
     }
 
 })();
