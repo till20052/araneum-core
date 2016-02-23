@@ -1,12 +1,21 @@
 security:
     encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
         FOS\UserBundle\Model\UserInterface: sha512
+
 
     role_hierarchy:
             ROLE_ADMIN: [ROLE_USER]
             ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_API]
 
     providers:
+        chain_provider:
+            chain:
+                providers: [fos_userbundle, fr3d_ldapbundle]
+
+        fr3d_ldapbundle:
+            id: fr3d_ldap.security.user.provider
+
         fos_userbundle:
             id: fos_user.user_provider.username
 
@@ -14,9 +23,10 @@ security:
         manage:
             pattern: ^/manage
             anonymous: ~
+            fr3d_ldap: ~
             entry_point: araneum.auth.entry_point
             form_login:
-                provider: fos_userbundle
+                provider: chain_provider
                 csrf_provider: security.csrf.token_manager
                 login_path: araneum_manage_login
                 check_path: araneum_manage_login_check
@@ -28,7 +38,7 @@ security:
                 lifetime: 31536000
                 domain: ~
                 path: /
-                user_provider: fos_userbundle
+                user_provider: chain_provider
             logout:
                 path: araneum_manage_logout
                 target: araneum_manage_login
@@ -42,6 +52,7 @@ security:
 
         main:
             pattern: ^/
+            fr3d_ldap: ~
             form_login:
                 provider: fos_userbundle
                 login_path: fos_user_security_login
