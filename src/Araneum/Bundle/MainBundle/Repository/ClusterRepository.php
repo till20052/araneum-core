@@ -18,13 +18,14 @@ class ClusterRepository extends EntityRepository implements \Countable
     /**
      * Get statistic of all clusters average last 24 hours
      *
+     * @param  int $maxResults
      * @return array
      */
-    public function getClusterLoadAverage()
+    public function getClusterLoadAverage($maxResults = 4)
     {
         $qb = $this->createQueryBuilder('c');
 
-        $qb
+        return $qb
             ->select('c.name')
             ->addSelect('DATE_PART(hour, l.createdAt) AS hours')
             ->addSelect('SUM(l.averagePingTime)/count(l.averagePingTime) *100 AS apt')
@@ -51,11 +52,10 @@ class ClusterRepository extends EntityRepository implements \Countable
                     'start' => date('Y-m-d H:i:s', time() - 86400),
                     'end' => date('Y-m-d H:i:s', time()),
                 ]
-            )->setMaxResults(4);
-
-        $result = $qb->getQuery()->getResult();
-
-        return $result;
+            )
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
     }
 
     /**
@@ -68,7 +68,7 @@ class ClusterRepository extends EntityRepository implements \Countable
     {
         $qb = $this->createQueryBuilder('c');
 
-        $qb
+        return $qb
             ->select('c.name')
             ->addSelect(
                 'ROUND(SUM(CAST(CASE WHEN cl.status = :success THEN 1 ELSE 0 END AS NUMERIC))/count(c.id), 2)*100 AS success'
@@ -100,10 +100,8 @@ class ClusterRepository extends EntityRepository implements \Countable
                     'end' => date('Y-m-d H:i:s', time()),
                 ]
             )
-            ->setMaxResults($maxResults);
-
-        $result = $qb->getQuery()->getResult();
-
-        return $result;
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
     }
 }

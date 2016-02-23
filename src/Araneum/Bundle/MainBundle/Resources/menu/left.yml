@@ -10,7 +10,7 @@ Main:
         Users:
             text: Users
             sref: app.users
-            icon: icon-users
+            icon: icon-people
             translate: admin.sidebar.nav.USERS
 Site_Manager:
     text: Site manager

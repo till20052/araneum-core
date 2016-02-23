@@ -148,7 +148,7 @@
                     Statuses for last 24 hour by applications
                 </div>
             </div>
-            <div collapse="AppStatusesChartPanel" class="panel-wrapper">
+            <div uib-collapse="AppStatusesChartPanel" class="panel-wrapper">
                 <div class="panel-body">
                     <div class="container-fluid">
                         <div class="row mb-lg">
@@ -195,7 +195,7 @@
                         >{{error}}
                         </div>
 
-                        <div ng-show="lineData" collapse="StateAvgAppChartPanel" class="panel-wrapperl">
+                        <div ng-show="lineData" uib-collapse="StateAvgAppChartPanel" class="panel-wrapperl">
                             <div class="panel-body">
                                 <flot dataset="lineData" options="lineOptions"></flot>
                             </div>
@@ -226,7 +226,7 @@
                             Cluster load average by last 24 hours
                         </div>
                     </div>
-                    <div collapse="ClusterLoadAveragePanel" class="panel-wrapper">
+                    <div uib-collapse="ClusterLoadAveragePanel" class="panel-wrapper">
                         <div class="panel-body">
                             <flot dataset="splineData" options="splineOptions" class="ng-isolate-scope"
                                   height="300px"></flot>
@@ -248,7 +248,7 @@
                         <span class="ng-binding" translate="admin.dashboard.widget.CLUSTER_UP_TIME">Clusters UpTime by last 24 hours</span>
                     </div>
                 </div>
-                <div collapse="UpTimeClusterPanel" class="panel-wrapper">
+                <div uib-collapse="UpTimeClusterPanel" class="panel-wrapper">
                     <div class="panel-body">
                         <flot dataset="barData" options="barOptions" height="300px"></flot>
                     </div>
@@ -256,6 +256,44 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-7">
+        <div id="runnerAvgload" class="panel panel-default">
+            <div class="panel-heading">
+                <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                <div class="panel-title">
+                    <em class="icon-grid mr"></em>
+                    {{ 'admin.dashboard.chart.runner.avgload.HEAD' | translate }}
+                </div>
+            </div>
+            <div uib-collapse="runnerAvgload" class="panel-wrapper">
+                <div class="panel-body" ng-controller="ChartRunnerAvgloadController as vm">
+                    <flot dataset="vm.data" options="vm.options" height="300px"></flot>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div id="runnerUptime" class="panel panel-default">
+            <div class="panel-heading">
+                <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                <div class="panel-title">
+                    <em class="icon-grid mr"></em>
+                    {{ 'admin.dashboard.chart.runner.uptime.HEAD' | translate }}
+                </div>
+            </div>
+            <div uib-collapse="runnerUptime" class="panel-wrapper">
+                <div class="panel-body" ng-controller="ChartRunnerUptimeController as vm">
+                    <flot dataset="vm.data" options="vm.options" height="300px"></flot>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <div class="row">
@@ -297,7 +335,7 @@
                         <span translate="admin.dashboard.widget.CUSTOMERS_REGISTRATION">Customers registration received from applications (24 hours)</span>
                     </div>
                 </div>
-                <div collapse="RegisteredCustomersPanel" class="panel-wrapper">
+                <div uib-collapse="RegisteredCustomersPanel" class="panel-wrapper">
                     <div class="panel-body">
                         <flot dataset="vm.data" options="vm.options" height="300px"></flot>
                     </div>
@@ -322,7 +360,7 @@
                         <span translate="admin.dashboard.widget.RECEIVED_EMAILS_FROM_APPS_24H">Email received from applications (24 hours)</span>
                     </div>
                 </div>
-                <div collapse="ReceivedEmailsPanel" class="panel-wrapper">
+                <div uib-collapse="ReceivedEmailsPanel" class="panel-wrapper">
                     <div class="panel-body">
                         <flot dataset="vm.data" options="vm.options" height="300px"></flot>
                     </div>
@@ -353,7 +391,7 @@
                         <span translate="admin.dashboard.widget.REGISTERED_LEADS_FROM_APPS_24H">Leads registration received from applications (24 hours)</span>
                     </div>
                 </div>
-                <div collapse="leadsPanel" class="panel-wrapper">
+                <div uib-collapse="leadsPanel" class="panel-wrapper">
                     <div class="panel-body">
                         <flot dataset="vm.chart.data" options="vm.chart.options"
                               height="300px"></flot>
@@ -385,7 +423,7 @@
                         </span>
                     </div>
                 </div>
-                <div collapse="errorsPanel" class="panel-wrapper">
+                <div uib-collapse="errorsPanel" class="panel-wrapper">
                     <div class="panel-body">
                         <flot dataset="vm.chart.data" options="vm.chart.options"
                               height="300px"></flot>
