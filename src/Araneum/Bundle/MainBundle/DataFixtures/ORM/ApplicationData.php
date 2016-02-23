@@ -23,6 +23,7 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
     {
         $this->setDefault($manager);
         $this->setIxoption($manager);
+        $this->setTradersBot($manager);
     }
 
     /**
@@ -104,5 +105,39 @@ class ApplicationData extends AbstractFixture implements FixtureInterface, Depen
             $manager->flush();
         }
         $this->addReference('appIxoption', $app);
+    }
+
+    /**
+     * set Tradersbot add fixture
+     * @param ObjectManager $manager
+     */
+    private function setTradersBot(ObjectManager $manager)
+    {
+        $app = $manager
+            ->getRepository('AraneumMainBundle:Application')
+            ->findOneByName('Tradersbot');
+
+        if (empty($app)) {
+            $app = new Application();
+            $app->setName('Tradersbot');
+            $app->setDomain('tradersbot.com');
+            $app->setPublic(true);
+            $app->setEnabled(true);
+            $app->setStatus(Application::STATUS_OK);
+            $app->setTemplate('DefaultTemplate');
+            $app->setCluster($this->getReference('cluster'));
+            $app->setDb($this->getReference('connectionDb'));
+            $app->setLocales(new ArrayCollection([$this->getReference('locale')]));
+            $app->setOwner($this->getReference('userAdmin'));
+            $app->setComponents(new ArrayCollection([$this->getReference('component')]));
+            $app->setSpotApiPublicUrl('https://spotplatform.tradersbot.com');
+            $app->setAppKey('dc2e413437737725eab936a0d6c9532e507cec7156cc63f1bbd4e1.01384540');
+            $app->setSpotApiUrl('http://api-spotplatform.tradersbot.com/Api');
+            $app->setSpotApiUser('araneum');
+            $app->setSpotApiPassword('wU7tc2YKg2');
+            $manager->persist($app);
+            $manager->flush();
+        }
+        $this->addReference('appTradersbot', $app);
     }
 }
