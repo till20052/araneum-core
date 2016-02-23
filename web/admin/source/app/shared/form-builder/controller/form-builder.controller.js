@@ -134,6 +134,11 @@
                 return;
             }
 
+            if (type === 'resourceAll') {
+                resourceAll(actionConfig);
+                return;
+            }
+
             if (type === 'form') {
                 ngDialog.open({
                     template: 'fromId',
@@ -226,6 +231,59 @@
                 url: url,
                 data: data
             });
+        }
+
+        /**
+         * Called when click on simple action
+         * @param config
+         * @returns {boolean}
+         */
+        function resourceAll(config) {
+            if (config.title === undefined) {
+                sendData(config.url, [], function(result) {
+                    callbackManager(config.callback);
+                    vm.checkBoxData = [];
+                    if (result.sitem && result.uitem) {
+                        toaster.pop(
+                            'success',
+                            'Success'
+                        );
+                    } else {
+                        toaster.pop('error', 'Error', error.data.message);
+                    }
+
+                }, function(error) {
+                    toaster.pop('error', 'Error', error.data.message);
+                });
+
+                return;
+            }
+
+            ngSweetAlert.swal({
+                    title: $filter('translate')(config.title),
+                    //text: $translate('admin.pages.AREYOUSURETEXT'),
+                    type: 'warning',
+                    showCancelButton: true,
+                    cancelButtonText: $filter('translate')(config.no.title),
+                    confirmButtonColor: '#f05050',
+                    confirmButtonText: $filter('translate')(config.yes.title),
+                    closeOnConfirm: true
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        sendData(config.url, [], function(result) {
+                            callbackManager(config.callback);
+                            vm.checkBoxData = [];
+
+                            toaster.pop(
+                                'success',
+                                'Success'
+                            );
+                        }, function(error) {
+                            toaster.pop('error', 'Error', error.data.message);
+                        });
+                    }
+                });
         }
 
         /**
@@ -333,6 +391,9 @@
             $('#datatable').DataTable().rows('.selectedRow').remove().draw();
         };
 
+        vm.refresh = function() {
+            $('#datatable').DataTable().draw();
+        };
 
         vm.create = function(data, id) {
             var values = [id];
