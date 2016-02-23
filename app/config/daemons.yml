@@ -5,7 +5,7 @@ parameters:
 
 mik_software_daemon:
     daemons:
-        araneum_daemon_consumer_spot:
+        araneum_daemon_consumer-spot:
             appName: spot-consumer
             appDescription: System Daemon for runuing Spot consumer
             appUser: %nginx_user%
@@ -13,7 +13,7 @@ mik_software_daemon:
             appPidDir: %kernel.root_dir%/daemons
             logVerbosity: 6
 
-        araneum_daemon_consumer_login:
+        araneum_daemon_consumer-login:
             appName: login-consumer
             appDescription: System Daemon for login to Spot consumer
             appUser: %nginx_user%
@@ -21,7 +21,7 @@ mik_software_daemon:
             appPidDir: %kernel.root_dir%/daemons
             logVerbosity: 6
 
-        araneum_daemon_consumer_customer:
+        araneum_daemon_consumer-customer:
             appName: customer-consumer
             appDescription: System Daemon for sending Customers to Spot
             appUser: %nginx_user%
