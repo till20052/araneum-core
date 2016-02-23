@@ -69,12 +69,14 @@ sidebar:
         DASHBOARD: "Статистика"
         USERS: "Пользователи"
         LOCALES: "Локали"
+        LEADS: "Лиды"
         manager:
             CLUSTER: "Кластер"
             APPLICATION: "Приложения"
             CONNECTION: "Соединения"
             COMPONENT: "Компоненты"
             LOCALE: "Локали"
+            LEADS: "Лиды"
         received:
             CUSTOMER: "Участники"
             EMAIL: "Сообщения"

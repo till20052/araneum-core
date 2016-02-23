@@ -84,7 +84,7 @@ class Lead
     /**
      * @var Application
      *
-     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Application", inversedBy="leads")
+     * @ORM\ManyToOne(targetEntity="Araneum\Bundle\MainBundle\Entity\Application")
      * @ORM\JoinColumn(name="application_id", referencedColumnName="id")
      */
     private $application;

@@ -41,6 +41,11 @@ Site_Manager:
             sref: app.locales
             icon: icon-globe-alt
             translate: admin.sidebar.nav.manager.LOCALE
+        Lead:
+            text: Leads
+            sref: app.leads
+            icon: icon-globe-alt
+            translate: admin.sidebar.nav.manager.LEADS
 Received_data:
     text: Received_data
     translate: admin.sidebar.heading.RECEIVED

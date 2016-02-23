@@ -69,12 +69,14 @@ sidebar:
         DASHBOARD: "Dashboard"
         USERS: "Users"
         LOCALES: "Locales"
+        LEADS: "Leads"
         manager:
             CLUSTER: "Clusters"
             APPLICATION: "Applications"
             CONNECTION: "Connections"
             COMPONENT: "Components"
             LOCALE: "Locales"
+            LEADS: "Leads"
         received:
             CUSTOMER: "Customers"
             EMAIL: "Emails"

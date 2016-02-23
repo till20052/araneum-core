@@ -56,3 +56,15 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@araneum.base.spot_api"
             - "@araneum.base.rabbitmq.producer.spot"
+
+    araneum_agent.lead.filter.form:
+        class: Araneum\Bundle\AgentBundle\Form\Filter\LeadFilterType
+        arguments: [@doctrine, @service_container]
+        tags:
+            - { name: form.type, alias: araneum_lead_filter }
+
+    araneum.agent.lead.form:
+        class: Araneum\Bundle\AgentBundle\Form\Type\LeadType
+        arguments: [@router]
+        tags:
+            - { name: form.type }
