@@ -78,7 +78,7 @@ class SpotCustomerConsumerService implements ConsumerInterface
                 /** @var Customer $customer */
                 $customer = $this->em->getRepository("AraneumAgentBundle:Customer")->findOneById($log['customerId']);
                 $customer->setPassword($data->data->password);
-                $this->createCustomerEvent($customer, AgentEvents::CUSTOMER_NEW_IN_SPOT);
+                $this->createCustomerEvent($customer, AgentEvents::CUSTOMER_LOGIN);
             }
 
             $this->createCustomerLog($log, $spotResponse->getBody(true), CustomerLog::STATUS_OK);
