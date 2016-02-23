@@ -5,29 +5,19 @@
         .module('crud')
         .directive('crudDatatable', CRUDDataTableDirective);
 
-    CRUDDataTableDirective.$inject = ['$compile', 'supervisor'];
+    CRUDDataTableDirective.$inject = ['DTOptionsBuilder', '$compile', '$state'];
 
     /**
      * CRUD DataTable Directive
      *
-     * @param $compile
-     * @param supervisor
      * @returns {Object}
      * @constructor
      */
-    function CRUDDataTableDirective($compile, supervisor) {
-        var controller;
-
-        //$.fn = angular.extend($.fn, {
-        //    getSelectedRows: getSelectedRows,
-        //    selectRow: selectRow
-        //});
+    function CRUDDataTableDirective(DTOptionsBuilder, $compile, $state) {
 
         return {
             link: link,
             restrict: 'E',
-            controller: 'CRUDDataTableController',
-            controllerAs: 'controller',
             scope: {
                 datatable: '=manifest',
                 toolBarId: '@toolbar'
@@ -44,38 +34,157 @@
             if (!(scope.datatable instanceof Object))
                 return;
 
-            controller = scope.controller;
-            scope.datatable = manifest(scope.datatable);
+            var dt = manifest(scope);
 
             var stopWatch = scope.$watch(function () {
-                return controller.options.hasOwnProperty('sAjaxSource') && controller.options.sAjaxSource.length > 0;
+                return dt.options.hasOwnProperty('sAjaxSource') && dt.options.sAjaxSource.length > 0;
             }, function (ready) {
                 if (ready) {
                     element.replaceWith($compile(createTable({
-                        columns: scope.datatable.columns
+                        columns: dt.columns
                     }))(scope));
                     stopWatch();
                 }
             });
         }
 
-        function manifest(datatable) {
+        function manifest(scope) {
             /* jshint validthis: true */
-            return angular.extend(datatable, {
+            return angular.extend(scope.datatable, {
+                instance: {},
+                options: DTOptionsBuilder.newOptions()
+                    .withOption('processing', true)
+                    .withOption('serverSide', true)
+                    .withFnServerData(fnServerData)
+                    .withPaginationType('full_numbers'),
                 setColumns: setColumns,
-                setSource: setSource
+                setAjaxSource: setAjaxSource,
+                getAjaxSource: getAjaxSource
             });
 
+            /**
+             * Get data for datatable from server
+             *
+             * @param source
+             * @param data
+             * @param callback
+             * @param settings
+             */
+            function fnServerData(source, data, callback, settings) {
+                var actions = [
+                    '<crud-dropdown />',
+                    '<crud-checkbox />'
+                ];
+
+                settings.jqXHR = $.ajax({
+                    dataType: 'json',
+                    type: 'POST',
+                    url: source,
+                    data: data,
+                    success: function (data) {
+                        callback(angular.extend(data, {
+                            aaData: $.map(data.aaData, function (cols) {
+                                return [cols.splice(0, cols.length - 1).concat(actions)];
+                            })
+                        }));
+                        $compile($('> tbody > tr', scope.datatable.instance.dataTable)
+                            .data({
+                                selected: false
+                            })
+                            .find('> td > *')
+                            .filter(function () {
+                                return /^crud\-.*$/ig.test($(this).prop('tagName'));
+                            })
+                        )(scope);
+                    },
+                    error: function (response) {
+                        if (response.status !== 401)
+                            return;
+                        $state.go('login');
+                    }
+                });
+            }
+
+            /**
+             * Set columns
+             *
+             * @param columns
+             * @returns {setColumns}
+             */
             function setColumns(columns) {
                 this.columns = columns;
 
                 return this;
             }
 
-            function setSource(source) {
-                controller.options.sAjaxSource = source;
+            /**
+             * Set ajax source
+             *
+             * @param source
+             * @returns {Object}
+             */
+            function setAjaxSource(source) {
+                this.options.sAjaxSource = source;
+
+                if (this.instance.hasOwnProperty('dataTable'))
+                    this.instance.dataTable.fnDraw(false);
 
                 return this;
+            }
+
+            /**
+             * Get ajax source
+             *
+             * @returns {string|null|*}
+             */
+            function getAjaxSource() {
+                return this.options.sAjaxSource;
+            }
+
+            function reload(ajaxSource) {
+
+                //if (sNewSource !== undefined && sNewSource !== null) {
+                //    oSettings.sAjaxSource = sNewSource;
+                //}
+
+                // Server-side processing should just call fnDraw
+                //if (oSettings.oFeatures.bServerSide) {
+                //    this.fnDraw();
+                //    return;
+                //}
+
+                //this.oApi._fnProcessingDisplay(oSettings, true);
+                //var that = this;
+                //var iStart = oSettings._iDisplayStart;
+                //var aData = [];
+
+                //this.oApi._fnServerParams(oSettings, aData);
+
+                //oSettings.fnServerData.call(oSettings.oInstance, oSettings.sAjaxSource, aData, function (json) {
+                //    /* Clear the old information from the table */
+                //    that.oApi._fnClearTable(oSettings);
+                //
+                //    /* Got the data - add it to the table */
+                //    var aData = (oSettings.sAjaxDataProp !== "") ?
+                //        that.oApi._fnGetObjectDataFn(oSettings.sAjaxDataProp)(json) : json;
+                //
+                //    for (var i = 0; i < aData.length; i++) {
+                //        that.oApi._fnAddData(oSettings, aData[i]);
+                //    }
+                //
+                //    oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+                //
+                //    that.fnDraw();
+                //
+                //    if (bStandingRedraw === true) {
+                //        oSettings._iDisplayStart = iStart;
+                //        that.oApi._fnCalculateEnd(oSettings);
+                //        that.fnDraw(false);
+                //    }
+                //
+                //    that.oApi._fnProcessingDisplay(oSettings, false);
+                //
+                //}, oSettings);
             }
         }
 
@@ -83,14 +192,14 @@
          * Create table
          *
          * @param data
-         * @returns {JQuery|jQuery}
+         * @returns {jQuery}
          */
         function createTable(data) {
             return $('<table class="table-bordered table-striped hover" />')
                 .attr({
                     datatable: 'crud',
-                    'dt-instance': 'controller.instance',
-                    'dt-options': 'controller.options'
+                    'dt-instance': 'datatable.instance',
+                    'dt-options': 'datatable.options'
                 })
                 .append(createTableHead(data.columns));
         }
@@ -99,7 +208,7 @@
          * Create head of table
          *
          * @param columns
-         * @returns {JQuery|jQuery}
+         * @returns {jQuery}
          */
         function createTableHead(columns) {
             return $('<thead />').append(
@@ -126,7 +235,7 @@
         /**
          * Get selected rows
          *
-         * @returns {Array<JQuery|jQuery>}
+         * @returns {Array<jQuery>}
          */
         function getSelectedRows() {
             /* jshint validthis: true */

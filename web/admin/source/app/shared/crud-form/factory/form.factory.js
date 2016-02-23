@@ -3,7 +3,7 @@
 
     angular
         .module('crud.form')
-        .factory('FormFactory', FormFactory);
+        .factory('Form', FormFactory);
 
     FormFactory.$inject = [];
 
@@ -12,58 +12,60 @@
      * @constructor
      */
     function FormFactory() {
-        return new FormService();
-    }
-
-    function FormService() {
-        var self = angular.extend(this, {
-            create: create
-        });
-
-        return self;
+        return function (data) {
+            return render(data);
+        };
 
         /**
-         * Create From
+         * Get children
          *
          * @param {{
-         *  actions: Object<String, Object>
          *  children: Array<Object>,
-         *  view: {
-         *      layout: { render: Function }
-         *  }
-         * }} data
-         * @returns {self}
+         *  data: Object
+         * }} form
+         * @returns {Array}
          */
-        function create(data) {
-            var jFrom = form(data),
-                children = [];
+        function children(form) {
+            return form.children.map(function (child, i) {
+                /* jshint -W061, eqeqeq: false */
+                return {
+                    hidden: hidden,
+                    checkbox: checkbox,
+                    text: text,
+                    select: select
+                }[child.type](angular.extend({
+                    index: i,
+                    model: 'form.data().' + child.id
+                }, child));
+            });
+        }
 
-            data.children
-                .forEach(function (data) {
-                    /* jshint -W061, eqeqeq: false */
-                    var type = data.type,
-                        child = {
-                            hidden: hidden,
-                            checkbox: checkbox,
-                            text: text,
-                            select: select
-                        }[type](data);
+        /**
+         * Get actions
+         *
+         * @param data
+         * @returns {Array}
+         */
+        function actions(data) {
+            return Object.keys(data.actions)
+                .map(function (key, i) {
+                    var btn = button(data.actions[key]);
+                    if (i !== 0)
+                        btn.addClass('ml');
+                    return btn;
+                });
+        }
 
-                    if (type == 'hidden')
-                        return this.prepend(child);
-
-                    children.push(child);
-                }, jFrom);
-
-            // group of buttons
-            children.push([
-                Object.keys(data.actions)
-                    .map(function (key) {
-                        return button(data.actions[key]);
-                    })
-            ]);
-
-            return data.view.layout.render(jFrom, children);
+        /**
+         * Render form
+         *
+         * @param data
+         * @returns {jQuery}
+         */
+        function render(data) {
+            return form(data).append(
+                data.getView().layout.render(children(data).concat([[actions(data)]]))
+            );
         }
     }
 
@@ -78,20 +80,19 @@
      * @returns {jQuery}
      */
     function form(data) {
-        return $('<form role="form" novalidate class="form-validate" />').attr({
-            name: data.name,
-            action: data.action,
-            method: data.method
+        return $('<form class="form-validate" role="form" novalidate />').attr({
+            name: data.name
         });
     }
 
     /**
      * Create hidden input
      *
+     * @param data
      * @returns {jQuery}
      */
-    function hidden() {
-        return $('<input type="hidden" />');
+    function hidden(data) {
+        return $('<input type="hidden" />').attr('ng-model', data.model);
     }
 
     /**
@@ -106,7 +107,10 @@
                 .append(
                     $('<label />').html(data.label)
                         .prepend(
-                            $('<input type="hidden" />'),
+                            $('<input type="hidden" />').attr({
+                                name: data.name,
+                                'ng-model': data.model
+                            }),
                             $('<span class="fa fa-check" />')
                         )
                 )
@@ -121,9 +125,11 @@
      */
     function text(data) {
         return [
-            $('<label class="control-label mt" />').html(data.label),
+            $('<label class="control-label mt-sm" />').html(data.label),
             $('<input type="text" class="form-control" />').attr({
-                placeholder: data.placeholder
+                name: data.name,
+                placeholder: data.placeholder,
+                'ng-model': data.model
             })
         ];
     }
@@ -136,10 +142,11 @@
      */
     function select(data) {
         return [
-            $('<label class="control-label mt" />').html(data.label),
+            $('<label class="control-label mt-sm" />').html(data.label),
             $('<select class="form-control" />').attr({
-                placeholder: data.placeholder
-                //'ng-options': 'option.data as option.label for option in controller.form.children.' + data.id + '.choices'
+                name: data.name,
+                'ng-model': data.model,
+                'ng-options': 'option.id as option.text | translate for option in form.getChild(' + data.index + ').options'
             })
         ];
     }
@@ -163,7 +170,11 @@
             );
 
         if (data.hasOwnProperty('action'))
-            btn.click(data.action);
+            btn.data('action', data.action)
+                .click(function () {
+                    $(this).data('action')
+                        .call($(this), angular.element($(this)).scope());
+                });
 
         return btn;
     }

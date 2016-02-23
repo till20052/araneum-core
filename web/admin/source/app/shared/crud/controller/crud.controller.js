@@ -25,15 +25,23 @@
                     icon: 'fa fa-search',
                     title: 'admin.general.SEARCH',
                     class: 'primary',
-                    action: function () {
-                        console.log('search');
+                    action: function (scope) {
+                        vm.datatable.setAjaxSource([
+                            vm.datatable.getAjaxSource().split('?')[0],
+                            $.map(scope.form.data(), function (val, key) {
+                                if (val === undefined)
+                                    return;
+                                return vm.filter.name + '[' + key + ']=' + val;
+                            }).join('&')
+                        ].join('?'));
                     }
                 },
                 refresh: {
                     icon: 'fa fa-refresh',
                     title: 'admin.general.RESET',
-                    action: function () {
-                        console.log('refresh');
+                    action: function (scope) {
+                        scope.form.data({});
+                        vm.datatable.setAjaxSource(vm.datatable.getAjaxSource().split('?')[0]);
                     }
                 }
             },
@@ -52,7 +60,7 @@
                 onSuccess: function (response) {
                     vm.filter.transform(response.filter);
                     vm.datatable.setColumns(response.grid.columns)
-                        .setSource(response.grid.source);
+                        .setAjaxSource(response.grid.source);
                 }
             });
     }

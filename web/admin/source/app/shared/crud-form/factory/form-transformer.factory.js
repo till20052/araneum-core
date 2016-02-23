@@ -139,23 +139,17 @@
         /**
          * Get child
          *
-         * @param {{
-         *  name: String,
-         *  full_name: String,
-         *  label: String,
-         *  placeholder: String,
+         * @param {Object|{
          *  block_prefixes: Array<String>,
-         *  attr: {
-         *      translateLabel: String,
-         *      placeholder: String
-         *  }
+         *  full_name: String
          * }} data
          * @returns {{
          *  id: String,
+         *  type: String,
          *  name: String,
          *  label: String,
-         *  type: String,
-         *  placeholder: String
+         *  placeholder: String,
+         *  options: Array<Object>
          * }}
          */
         function child(data) {
@@ -174,11 +168,11 @@
             }).apply({
                 id: data.name,
                 type: type(data.block_prefixes[1]),
-                name: data.full_name,
-                value: null
+                name: data.full_name
             }, [
-                {label: value(data, 'label', 'translateLabel')},
-                {placeholder: value(data, 'placeholder')}
+                {label: label(data, 'label', 'translateLabel')},
+                {placeholder: label(data, 'placeholder')},
+                {options: options(data)}
             ]);
 
             /**
@@ -207,11 +201,34 @@
              * @param {String=} attr
              * @returns {String|*}
              */
-            function value(data, field, attr) {
+            function label(data, field, attr) {
                 field = attr !== undefined ? attr : field;
                 if (data.attr.hasOwnProperty(field))
                     return '{{ "' + data.attr[field] + '" | translate }}';
                 return data[field];
+            }
+
+            /**
+             * Get options
+             *
+             * @param {{
+             *  choices: Array<Object>,
+             *  placeholder: String
+             * }} data
+             * @returns {Array|undefined}
+             */
+            function options(data) {
+                if (!data.hasOwnProperty('choices') || !(data.choices instanceof Array))
+                    return;
+                return [{
+                    id: undefined,
+                    text: data.placeholder
+                }].concat(data.choices.map(function (choice) {
+                    return {
+                        id: choice.data,
+                        text: choice.label
+                    };
+                }));
             }
         }
     }

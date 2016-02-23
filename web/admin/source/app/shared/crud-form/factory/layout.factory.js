@@ -8,6 +8,7 @@
     LayoutFactory.$inject = [];
 
     /**
+     * Layout Factory
      *
      * @constructor
      */
@@ -34,35 +35,51 @@
         };
     }
 
+    /**
+     * Grid Form Layout
+     *
+     * @param {Number} colsCount
+     * @returns {{render: render}}
+     * @constructor
+     */
     function GridLayout(colsCount) {
-        var groupLayout = new GroupLayout(2, [3, 9]);
+        var groupLayout = new GroupLayout([3, 9]);
 
         return {
             render: render
         };
 
         /**
+         * Render layout
          *
-         * @param {jQuery} form
          * @param {Array} children
+         * @returns {jQuery}
          */
-        function render(form, children) {
-            return form.append($('<div class="row" />').append(
+        function render(children) {
+            return $('<div class="row" />').append(
                 children.map(function (child) {
                     return $('<div class="col-lg-' + parseInt(12 / colsCount) + '" />').append(
                         groupLayout.render(child)
                     );
                 })
-            ));
+            );
         }
     }
 
-    function GroupLayout(colsCount, ratio) {
+    /**
+     * Group Form Layout
+     *
+     * @param {Array} ratio
+     * @returns {{render: render}}
+     * @constructor
+     */
+    function GroupLayout(ratio) {
         return {
             render: render
         };
 
         /**
+         * Render layout
          *
          * @param {Array} children
          * @returns {jQuery}
