@@ -1,0 +1,14 @@
+MAILS: Письма
+DELETE_MAIL: Удалить письмо
+SHOW_MAIL: Показать письмо
+SENDER: Отправитель
+TARGET: Получатель
+HEADLINE: Заголовок
+STATUS: Статус
+SENT_AT: Отправлено в
+APPLICATION: Приложение
+placeholder:
+    HEADLINE: Введите заголовок
+    SENDER: Введите адрес отправителя
+    TARGET: Введите адрес получателя
+    EMPTY_VALUE: Выберите
