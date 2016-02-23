@@ -12,6 +12,7 @@ use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Araneum\Bundle\AgentBundle\Event\CustomerEvent;
 
 /**
  * Class SpotCustomerConsumerService
