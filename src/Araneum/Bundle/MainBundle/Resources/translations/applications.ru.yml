@@ -23,7 +23,7 @@ ENTER_SPOT_API_URL: Введите spot API URL
 SPOT_API_URL: Spot API URL
 ENTER_SPOT_API_PUBLIC_URL: Введите spot API публичный url
 SPOT_API_PUBLIC_URL: Spot API публичный url
-CHECK_STATUS: Статус
+CHECK_STATUS: Проверка приложений
 DISABLE_APPLICATION: Не активной
 ENABLE_APPLICATION: Активно
 placeholder:

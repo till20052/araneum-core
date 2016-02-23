@@ -27,7 +27,7 @@ class ApplicationActions extends AbstractActions
                     'callback' => 'editRow',
                     'display' => [
                         'btnClass' => 'btn btn-sm btn-default',
-                        'icon' => 'icon-lock-open',
+                        'icon' => 'icon-check',
                         'label' => 'applications.CHECK_STATUS',
                     ],
                     'position' => ActionBuilderInterface::POSITION_ALL,
@@ -80,7 +80,7 @@ class ApplicationActions extends AbstractActions
                     'display' => [
                         'btnClass' => 'btn-success',
                         'icon' => 'icon-user-follow',
-                        'label' => 'application.EDIT_APPLICATION',
+                        'label' => 'applications.EDIT_APPLICATION',
                     ],
                     'position' => ActionBuilderInterface::POSITION_ROW,
                 ]
