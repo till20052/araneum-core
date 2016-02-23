@@ -21,7 +21,7 @@ class ApplicationLogRepository extends EntityRepository
      *
      * @return array
      */
-    public function getAverageApplicationStatusesDayly()
+    public function getAverageApplicationStatusesDaily()
     {
         $qb = $this->createQueryBuilder('l');
         $qb->select('date_part( hour, l.createdAt) as hours')

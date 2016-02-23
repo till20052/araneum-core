@@ -8,6 +8,12 @@ dashboard :
         PROBLEM: "Проблема"
         ERROR: "Ошибка"
         DISABLED: "Выключен"
+    chart:
+        runner:
+            avgload:
+                HEAD: "Усредненная нагрузка по агентам за 24 часа"
+            uptime:
+                HEAD: "Время непрерырвной агента работы за 24 часа"
     widget:
         APPLICATION_STATUSES: "Статусы приложений за 24 часа"
         AVERAGE_APPLICATION_STATUSES: "Усредненные показатели состояний приложений за 24 часа"
