@@ -63,7 +63,7 @@ class SpotApiCustomerService
                     'min' => $date->format('Y-m-d H:i:s'),
                 ],
             ]
-        )->getBody(true);
+        );
 
         return json_decode($values, true);
     }
