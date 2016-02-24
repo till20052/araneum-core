@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
+use Araneum\Base\Command\AbstractBaseDaemon;
 
 /**
  * Class CheckerDaemonsCommand
@@ -57,18 +58,28 @@ class CheckDaemonsCommand extends ContainerAwareCommand
                 if (!in_array($daemon, self::BROKEN_DAEMONS)) {
                     $process = new Process('app/console '.$daemon.' status');
                     $process->run(function ($err, $data) use (&$daemon, &$daemonsToStart) {
+
                         if (Process::ERR === $err) {
                             $this->output->writeln('Cannot get daemon status: '.$daemon);
-                        } elseif ($data == 'Daemon doesn\'t work') {
+                        } elseif (trim($data) == AbstractBaseDaemon::DAEMON_STATUS['down']) {
                             array_push($daemonsToStart, $daemon) ;
                             $this->output->writeln($daemon.' was broken');
+                        } elseif (trim($data) == AbstractBaseDaemon::DAEMON_STATUS['up']) {
+                            $this->output->writeln($daemon.' is up. Doesn\'t need to restart');
                         }
+
                     });
                 }
             }
-            $this->output->writeln('Restarting broken daemons');
-            $command = 'app/console '.implode(' start && app/console ', $daemonsToStart).' start';
-            (new Process($command))->run();
+
+            if (!empty($daemonsToStart)) {
+                $this->output->writeln('Restarting broken daemons: '.implode(' , ',$daemonsToStart));
+                $command = 'app/console '.implode(' start && app/console ', $daemonsToStart).' start';
+                (new Process($command))->run();
+            } else {
+                $this->output->writeln('There are no daemons to restart!');
+            }
+
         } catch (ProcessTimedOutException $e) {
             $this->output->writeln('All daemons successfully checked and sated up');
         }

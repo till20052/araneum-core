@@ -11,6 +11,11 @@ abstract class AbstractBaseDaemon extends DaemonizedCommand
 {
     const BASE_METHODS = ['status'];
 
+    const DAEMON_STATUS = [
+        'up'   => 'Daemon is setting up',
+        'down' => 'Daemon doesn\'t work',
+    ];
+
     /**
      * {@inheritDoc}
      */
@@ -26,11 +31,11 @@ abstract class AbstractBaseDaemon extends DaemonizedCommand
     protected function status()
     {
         if ($this->getDaemon()->isRunning()) {
-            $this->getOutput()->write('Daemon is setting up');
+            $this->getOutput()->writeln(self::DAEMON_STATUS['up']);
 
             return true;
         }
-        $this->getOutput()->write('Daemon doesn\'t work');
+        $this->getOutput()->writeln(self::DAEMON_STATUS['down']);
 
         return false;
     }
