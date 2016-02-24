@@ -43,6 +43,18 @@ class LeadActions extends AbstractActions
                     ],
                     'position' => ActionBuilderInterface::POSITION_ALL,
                 ]
+            )
+            ->add(
+                'show',
+                [
+                    'info' => 'araneum_admin_agent_lead_get',
+                    'display' => [
+                        'btnClass' => 'btn-success',
+                        'icon' => 'icon-user-follow',
+                        'label' => 'mails.SHOW_MAIL',
+                    ],
+                    'position' => ActionBuilderInterface::POSITION_ROW,
+                ]
             );
     }
 }
