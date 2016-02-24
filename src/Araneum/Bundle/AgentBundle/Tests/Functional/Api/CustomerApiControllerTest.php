@@ -82,16 +82,7 @@ class CustomerApiControllerTest extends BaseController
         $client = self::createAdminAuthorizedClient('api');
 
         $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer');
-
-        $this->handlerService = $this
-            ->getMockBuilder('Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->handlerService->expects($this->once())
-        ->method('resetPassword')
-        ->will($this->returnValue($expectedCode));
-
-        $client->getContainer()->set('araneum.agent.customer.api_handler', $this->handlerService);
+        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot_customer');
 
         $client->request(
             'POST',
@@ -201,16 +192,7 @@ class CustomerApiControllerTest extends BaseController
         $client = self::createAdminAuthorizedClient('api');
 
         $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer');
-
-        $this->handlerService = $this
-            ->getMockBuilder('Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->handlerService->expects($this->once())
-            ->method('login')
-            ->will($this->returnValue($expectedCode));
-
-        $client->getContainer()->set('araneum.agent.customer.api_handler', $this->handlerService);
+        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot_login');
 
         $client->request(
             'POST',
