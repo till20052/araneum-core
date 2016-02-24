@@ -248,14 +248,19 @@ class CustomerApiControllerTest extends BaseController
      */
     public function mockHandlerService(Client $client)
     {
-        $client->getContainer()->set(
-            'araneum.base.rabbitmq.producer.spot_login',
-            $this->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService')->disableOriginalConstructor()->getMock()
+        $spotOptionService = $this->getMock(
+            '\Araneum\Bundle\AgentBundle\Service\SpotOptionService',
+            [],
+            [
+                $this->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService')->disableOriginalConstructor()->getMock(),
+                $this->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService')->disableOriginalConstructor()->getMock(),
+                $client->getContainer()->get('araneum.base.rabbitmq.producer.spot'),
+                $client->getContainer()->get('araneum.base.spot_api'),
+                $client->getContainer()->get('doctrine.orm.entity_manager'),
+            ]
         );
-        $client->getContainer()->set(
-            'araneum.base.rabbitmq.producer.spot_customer',
-            $this->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService')->disableOriginalConstructor()->getMock()
-        );
+
+        $client->getContainer()->set('araneum.agent.spotoption.service', $spotOptionService);
 
         $handlerMock = $this->getMock(
             '\Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService',
@@ -270,19 +275,5 @@ class CustomerApiControllerTest extends BaseController
         );
 
         $client->getContainer()->set('araneum.agent.customer.api_handler', $handlerMock);
-
-        $spotOptionService = $this->getMock(
-            '\Araneum\Bundle\AgentBundle\Service\SpotOptionService',
-            ['createCustomerEvent'],
-            [
-                $client->getContainer()->get('araneum.base.rabbitmq.producer.spot_customer'),
-                $client->getContainer()->get('araneum.base.rabbitmq.producer.spot_login'),
-                $client->getContainer()->get('araneum.base.rabbitmq.producer.spot'),
-                $client->getContainer()->get('araneum.base.spot_api'),
-                $client->getContainer()->get('doctrine.orm.entity_manager'),
-            ]
-        );
-
-        $client->getContainer()->set('araneum.agent.spotoption.service', $spotOptionService);
     }
 }
