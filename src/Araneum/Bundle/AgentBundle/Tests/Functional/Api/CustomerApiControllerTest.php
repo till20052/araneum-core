@@ -88,8 +88,10 @@ class CustomerApiControllerTest extends BaseController
             ->disableOriginalConstructor()
             ->getMock();
         $this->handlerService->expects($this->once())
-        ->method('login')
+        ->method('resetPassword')
         ->will($this->returnValue($expectedCode));
+
+        $client->getContainer()->set('araneum.agent.customer.api_handler', $this->handlerService);
 
         $client->request(
             'POST',
@@ -207,6 +209,8 @@ class CustomerApiControllerTest extends BaseController
         $this->handlerService->expects($this->once())
             ->method('login')
             ->will($this->returnValue($expectedCode));
+
+        $client->getContainer()->set('araneum.agent.customer.api_handler', $this->handlerService);
 
         $client->request(
             'POST',
