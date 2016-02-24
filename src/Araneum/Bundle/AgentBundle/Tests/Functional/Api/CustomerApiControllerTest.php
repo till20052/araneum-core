@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\AgentBundle\Test\Functional\Api;
 
 use Araneum\Base\Tests\Controller\BaseController;
+use Symfony\Bundle\FrameworkBundle\Client;
 use Araneum\Base\Tests\Fixtures\Agent\CustomerFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,12 +57,7 @@ class CustomerApiControllerTest extends BaseController
     {
         $client = self::createAdminAuthorizedClient('api');
 
-        $rabbitmqProducerMock = $this->getMockBuilder('\OldSound\RabbitMqBundle\RabbitMq\Producer')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $client->getContainer()->set('old_sound_rabbit_mq.spot_producer', $rabbitmqProducerMock);
-
+        $this->mockHandlerService($client);
 
         $client->request(
             'POST',
@@ -86,11 +82,7 @@ class CustomerApiControllerTest extends BaseController
     {
         $client = self::createAdminAuthorizedClient('api');
 
-        $rabbitmqProducerMock = $this->getMockBuilder('\OldSound\RabbitMqBundle\RabbitMq\Producer')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $client->getContainer()->set('old_sound_rabbit_mq.spot_producer', $rabbitmqProducerMock);
+        $this->mockHandlerService($client);
 
         $client->request(
             'POST',
@@ -199,11 +191,7 @@ class CustomerApiControllerTest extends BaseController
     {
         $client = self::createAdminAuthorizedClient('api');
 
-        $rabbitmqProducerMock = $this->getMockBuilder('\OldSound\RabbitMqBundle\RabbitMq\Producer')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $client->getContainer()->set('old_sound_rabbit_mq.spot_producer', $rabbitmqProducerMock);
+        $this->mockHandlerService($client);
 
         $client->request(
             'POST',
@@ -252,5 +240,25 @@ class CustomerApiControllerTest extends BaseController
                 Response::HTTP_BAD_REQUEST,
             ],
         ];
+    }
+
+    /**
+     * Mock Customer Api Handler
+     * @param Client $client
+     */
+    public function mockHandlerService(Client $client)
+    {
+        $handlerMock = $this->getMock(
+            '\Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService',
+            ['createCustomerEvent'],
+            [
+                $client->getContainer()->get('araneum.main.application.manager'),
+                $client->getContainer()->get('doctrine.orm.entity_manager'),
+                $client->getContainer()->get('event_dispatcher'),
+                $client->getContainer()->get('form.factory'),
+                $client->getContainer()->get('araneum.agent.spotoption.service'),
+            ]
+        );
+        $client->getContainer()->set('araneum.agent.customer.api_handler', $handlerMock);
     }
 }
