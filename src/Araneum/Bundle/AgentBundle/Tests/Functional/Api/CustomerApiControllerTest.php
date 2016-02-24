@@ -56,7 +56,7 @@ class CustomerApiControllerTest extends BaseController
     {
         $client = self::createAdminAuthorizedClient('api');
 
-        $rabbitmqProducerMock = $this->getMockBuilder('OldSound\RabbitMqBundle\RabbitMq\Producer')
+        $rabbitmqProducerMock = $this->getMockBuilder('\OldSound\RabbitMqBundle\RabbitMq\Producer')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -86,12 +86,11 @@ class CustomerApiControllerTest extends BaseController
     {
         $client = self::createAdminAuthorizedClient('api');
 
-        $rabbitmqProducerMock = $this->getMockBuilder('OldSound\RabbitMqBundle\RabbitMq\Producer')
+        $rabbitmqProducerMock = $this->getMockBuilder('\OldSound\RabbitMqBundle\RabbitMq\Producer')
             ->disableOriginalConstructor()
             ->getMock();
 
         $client->getContainer()->set('old_sound_rabbit_mq.spot_producer', $rabbitmqProducerMock);
-
 
         $client->request(
             'POST',
@@ -200,7 +199,7 @@ class CustomerApiControllerTest extends BaseController
     {
         $client = self::createAdminAuthorizedClient('api');
 
-        $rabbitmqProducerMock = $this->getMockBuilder('OldSound\RabbitMqBundle\RabbitMq\Producer')
+        $rabbitmqProducerMock = $this->getMockBuilder('\OldSound\RabbitMqBundle\RabbitMq\Producer')
             ->disableOriginalConstructor()
             ->getMock();
 
