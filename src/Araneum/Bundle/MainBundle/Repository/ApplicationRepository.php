@@ -18,6 +18,16 @@ class ApplicationRepository extends EntityRepository implements \Countable
     use CountableTrait;
 
     /**
+     * Return Applications Query Builder without any conditions
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getQueryBuilder()
+    {
+        return $this->createQueryBuilder('A');
+    }
+
+    /**
      * Get statistics of all applications by next conditions:
      *  - online
      *  - has problems
@@ -49,7 +59,7 @@ class ApplicationRepository extends EntityRepository implements \Countable
      * @param  int $maxResults
      * @return array
      */
-    public function getApplicationStatusesDayly($maxResults = 4)
+    public function getApplicationStatusesDaily($maxResults = 4)
     {
         $qb = $this->createQueryBuilder('a');
 

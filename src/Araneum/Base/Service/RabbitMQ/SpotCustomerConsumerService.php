@@ -62,7 +62,7 @@ class SpotCustomerConsumerService implements ConsumerInterface
             if ($this->spotApiSenderService->getErrors($spotResponse) !== null) {
                 throw new RequestException($this->spotApiSenderService->getErrors($spotResponse));
             }
-
+            $this->updateCustomer($log);
             $this->createCustomerLog($log, $spotResponse->getBody(true), CustomerLog::STATUS_OK);
         } catch (RequestException $e) {
             $this->createCustomerLog($log, $e->getMessage(), CustomerLog::STATUS_ERROR);
@@ -72,9 +72,9 @@ class SpotCustomerConsumerService implements ConsumerInterface
     /**
      * Create and save customer log
      *
-     * @param array  $log
-     * @param string $logMessage
-     * @param int    $status
+     * @param array   $log
+     * @param string  $logMessage
+     * @param int     $status
      * @throws \Doctrine\ORM\ORMException
      */
     private function createCustomerLog(array $log, $logMessage, $status)
@@ -83,10 +83,26 @@ class SpotCustomerConsumerService implements ConsumerInterface
             ->setAction($log['action'])
             ->setApplication($this->em->getReference('AraneumMainBundle:Application', $log['applicationId']))
             ->setCustomer($this->em->getReference('AraneumAgentBundle:Customer', $log['customerId']))
-            ->setSpotResponse($logMessage)
+            ->setResponse($logMessage)
             ->setStatus($status);
 
         $this->em->persist($customerLog);
         $this->em->flush();
+    }
+
+    /**
+     * Update customer $deliveredAt
+     *
+     * @param array   $log
+     * @throws \Doctrine\ORM\ORMException
+     */
+    private function updateCustomer(array $log)
+    {
+        if ($log['action'] == CustomerLog::ACTION_CREATE) {
+            $customer = $this->em->getRepository("AraneumAgentBundle:Customer")->findOneById($log['customerId']);
+            $customer->setDeliveredAt(new \DateTime());
+            $this->em->persist($customer);
+            $this->em->flush();
+        }
     }
 }

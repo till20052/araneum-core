@@ -34,7 +34,9 @@
         "misd/guzzle-bundle": "^1.1",
         "ali/datatable": "v2.0.2",
         "lexik/form-filter-bundle": "~4.0",
-        "miksoftware/daemon-bundle": "^0.9.3"
+        "miksoftware/daemon-bundle": "^0.9.3",
+        "fr3d/ldap-bundle": "2.0.*",
+        "gedmo/doctrine-extensions": "^2.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

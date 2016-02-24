@@ -146,6 +146,11 @@
                 actionConfig.config.type = 'resource';
             }
 
+            if (button.resourceAll) {
+                actionConfig.config.url = button.resourceAll;
+                actionConfig.config.type = 'resourceAll';
+            }
+
             if (button.form) {
                 actionConfig.config.url = button.form;
                 actionConfig.config.type = 'form';
