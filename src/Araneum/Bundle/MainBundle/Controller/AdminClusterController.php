@@ -282,15 +282,16 @@ class AdminClusterController extends Controller
      */
     public function checkClusterStatusAction(Request $request)
     {
-        $data = (array) $request->get('data');
-        $id = array_shift($data);
-
-        $errors = $this->get('validator')->validate($id, new Regex('/^\d+$/'));
+        $idx = (array) $request->get('data');
+        $errors = $this->get('validator')->validate($idx, new All([new Regex('/^\d+$/')]));
         if (count($errors) > 0) {
             return new JsonResponse((string) $errors);
         }
 
-        $this->get('araneum.main.application.checker')->checkCluster($id);
+        $appChecker = $this->get('araneum.main.application.checker');
+        foreach($idx as $id) {
+            $appChecker->checkCluster($id);
+        }
 
         return new JsonResponse('Success');
     }

@@ -103,10 +103,10 @@ class ClusterActions extends AbstractActions
                     'callback' => 'update',
                     'display' => [
                         'btnClass' => 'btn-success',
-                        'icon' => 'icon-user-follow',
+                        'icon' => 'icon-refresh',
                         'label' => 'clusters.CHECK_STATUS',
                     ],
-                    'position' => ActionBuilderInterface::POSITION_ROW,
+                    'position' => ActionBuilderInterface::POSITION_ALL,
                 ]
             );
     }
