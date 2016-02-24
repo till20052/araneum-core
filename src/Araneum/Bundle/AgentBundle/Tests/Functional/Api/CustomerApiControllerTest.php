@@ -82,7 +82,6 @@ class CustomerApiControllerTest extends BaseController
         $client = self::createAdminAuthorizedClient('api');
 
         $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer');
-        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot_customer');
 
         $client->request(
             'POST',
@@ -192,7 +191,6 @@ class CustomerApiControllerTest extends BaseController
         $client = self::createAdminAuthorizedClient('api');
 
         $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer');
-        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot_login');
 
         $client->request(
             'POST',
