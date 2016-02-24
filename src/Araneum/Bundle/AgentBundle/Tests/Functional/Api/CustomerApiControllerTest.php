@@ -21,6 +21,8 @@ class CustomerApiControllerTest extends BaseController
     protected $customerResetPassword = '/agent/api/customers/reset_password';
     protected $customerLogin         = 'agent/api/customers/login/';
 
+    protected $handlerService;
+
     /**
      * Settings up
      */
@@ -79,7 +81,15 @@ class CustomerApiControllerTest extends BaseController
     {
         $client = self::createAdminAuthorizedClient('api');
 
-        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot_customer');
+        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer');
+
+        $this->handlerService = $this
+            ->getMockBuilder('Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->handlerService->expects($this->once())
+        ->method('login')
+        ->will($this->returnValue($expectedCode));
 
         $client->request(
             'POST',
@@ -188,7 +198,15 @@ class CustomerApiControllerTest extends BaseController
     {
         $client = self::createAdminAuthorizedClient('api');
 
-        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot_login');
+        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer');
+
+        $this->handlerService = $this
+            ->getMockBuilder('Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->handlerService->expects($this->once())
+            ->method('login')
+            ->will($this->returnValue($expectedCode));
 
         $client->request(
             'POST',
