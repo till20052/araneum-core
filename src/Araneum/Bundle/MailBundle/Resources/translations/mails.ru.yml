@@ -4,6 +4,7 @@ SHOW_MAIL: Показать письмо
 SENDER: Отправитель
 TARGET: Получатель
 HEADLINE: Заголовок
+BODY: Содержимое
 STATUS: Статус
 SENT_AT: Отправлено в
 APPLICATION: Приложение

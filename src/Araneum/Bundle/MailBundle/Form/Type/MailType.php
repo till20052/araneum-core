@@ -49,7 +49,6 @@ class MailType extends AbstractType
                 [
                     'label' => 'Sender',
                     'attr' => [
-                        'placeholder' => 'mails.PLACEHOLDER',
                         'translateLabel' => 'mails.SENDER',
                     ],
                 ]
@@ -60,7 +59,6 @@ class MailType extends AbstractType
                 [
                     'label' => 'Target',
                     'attr' => [
-                        'placeholder' => 'mails.PLACEHOLDER',
                         'translateLabel' => 'mails.TARGET',
                     ],
                 ]
@@ -71,18 +69,25 @@ class MailType extends AbstractType
                 [
                     'label' => 'Headline',
                     'attr' => [
-                        'placeholder' => 'mails.PLACEHOLDER',
                         'translateLabel' => 'mails.HEADLINE',
                     ],
                 ]
             )
             ->add(
-                'status',
-                'choice',
+                'textBody',
+                'text',
                 [
-                    'label' => 'Orientation',
-                    'choices' => Mail::$statuses,
-                    'empty_value' => 'mails.EMPTY_VALUE',
+                    'label' => 'Body',
+                    'attr' => [
+                        'translateLabel' => 'mails.BODY',
+                    ]
+                ]
+            )
+            ->add(
+                'status',
+                'text',
+                [
+                    'label' => 'Status',
                     'attr' => [
                         'translateLabel' => 'mails.STATUS',
                     ],
@@ -93,7 +98,6 @@ class MailType extends AbstractType
                 'date',
                 [
                     'label' => 'Sent at',
-                    'widget' => 'single_text',
                     'attr' => [
                         'translateLabel' => 'mails.SENT_AT',
                     ],

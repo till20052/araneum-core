@@ -4,6 +4,7 @@ SHOW_MAIL: Show mail
 SENDER: Sender
 TARGET: Target
 HEADLINE: Headline
+BODY: Body
 STATUS: Status
 SENT_AT: Sent at
 APPLICATION: Application

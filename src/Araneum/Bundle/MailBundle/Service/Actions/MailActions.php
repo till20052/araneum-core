@@ -47,8 +47,7 @@ class MailActions extends AbstractActions
             ->add(
                 'show',
                 [
-                    'form' => 'araneum_mail_admin_mail_get',
-                    'callback' => 'update',
+                    'info' => 'araneum_mail_admin_mail_get',
                     'display' => [
                         'btnClass' => 'btn-success',
                         'icon' => 'icon-user-follow',
