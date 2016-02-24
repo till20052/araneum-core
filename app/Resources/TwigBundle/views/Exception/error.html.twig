@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html class="ng-scope js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths" lang="en">
+<html class="ng-scope js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"
+      lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -7,48 +8,45 @@
     <meta name="keywords" content="app, responsive, angular, bootstrap, dashboard, admin">
     <title>Angle - Angular Bootstrap Admin Template</title>
     <link rel="stylesheet" href="{{ asset('admin/build/css/bootstrap.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('admin/vendor/fontawesome/css/font-awesome.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('admin/vendor/simple-line-icons/css/simple-line-icons.css') }}">
     <!-- Application styles-->
     <link rel="stylesheet" href="{{ asset('admin/build/css/app.css') }}">
 </head>
 
 <body>
-<div data-preloader></div>
-<div class="wrapper ng-scope" data-autoscroll="false">
-    <div class="wrapper ng-scope" data-autoscroll="false">
-        <div class="ng-zoomBackDown ng-fluid ng-scope" autoscroll="false">
-            <div class="abs-center wd-xl ng-scope">
-                <div class="text-center mb-xl">
-                    <div class="text-lg mb-lg">{{ status_code }}</div>
-                    <p class="lead m0">{{ status_text }}</p>
-                </div>
-                <div class="input-group mb-xl">
-                    <input class="form-control" type="text" placeholder="Try with a search">
+<div class="ng-zoomBackDown ng-fluid ng-scope" autoscroll="false">
+    <div class="abs-center wd-xl ng-scope">
+        <div class="text-center mb-xl">
+            <div class="text-lg mb-lg">{{ status_code }}</div>
+            <p class="lead m0">{{ status_text }}</p>
+        </div>
+        <div class="input-group mb-xl">
+            <input class="form-control" type="text" placeholder="Try with a search">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">
-                            <em class="glyphicons glyphicons-search"></em>
+                            <em class="fa fa-search"></em>
                         </button>
                     </span>
-                </div>
-                <ul class="list-inline text-center text-sm mb-xl">
-                    <li>
-                        <a class="text-muted" href="{{ path('araneum_manage_main') }}">Go to App</a>
-                    </li>
-                    <li class="text-muted">|</li>
-                    <li>
-                        <a class="text-muted" href="{{ path('araneum_manage_login') }}">Login</a>
-                    </li>
-                    <li class="text-muted">|</li>
-                    <li>
-                        <a class="text-muted" href="{{ path('araneum_manage_login') }}">Register</a>
-                    </li>
-                </ul>
-                <div class="p-lg text-center">
-                    <span>©</span>
-                    <span class="ng-binding">{{ "now"|date("Y") }}</span>
-                    <span>-</span>
-                    <span class="ng-binding">Araneum</span>
-                </div>
-            </div>
+        </div>
+        <ul class="list-inline text-center text-sm mb-xl">
+            <li>
+                <a class="text-muted" href="{{ path('araneum_manage_main') }}">Go to App</a>
+            </li>
+            <li class="text-muted">|</li>
+            <li>
+                <a class="text-muted" href="{{ path('araneum_manage_login') }}">Login</a>
+            </li>
+            <li class="text-muted">|</li>
+            <li>
+                <a class="text-muted" href="{{ path('araneum_manage_login') }}">Register</a>
+            </li>
+        </ul>
+        <div class="p-lg text-center">
+            <span>©</span>
+            <span class="ng-binding">{{ "now"|date("Y") }}</span>
+            <span>-</span>
+            <span class="ng-binding">Araneum</span>
         </div>
     </div>
 </div>
