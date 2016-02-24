@@ -289,7 +289,7 @@ class AdminClusterController extends Controller
         }
 
         $appChecker = $this->get('araneum.main.application.checker');
-        foreach($idx as $id) {
+        foreach ($idx as $id) {
             $appChecker->checkCluster($id);
         }
 
