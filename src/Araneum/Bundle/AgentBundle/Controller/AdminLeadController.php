@@ -27,7 +27,7 @@ class AdminLeadController extends Controller
      *
      * @Security("has_role('ROLE_ADMIN')")
      * @Route(
-     *      "/leads/leads/{id}",
+     *      "/leads/lead/{id}",
      *      name="araneum_admin_agent_lead_get",
      *      requirements={"id" = "\d+"},
      *      defaults={"id" = null}
