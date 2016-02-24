@@ -58,7 +58,6 @@ class CheckDaemonsCommand extends ContainerAwareCommand
                 if (!in_array($daemon, self::BROKEN_DAEMONS)) {
                     $process = new Process('app/console '.$daemon.' status');
                     $process->run(function ($err, $data) use (&$daemon, &$daemonsToStart) {
-
                         if (Process::ERR === $err) {
                             $this->output->writeln('Cannot get daemon status: '.$daemon);
                         } elseif (trim($data) == AbstractBaseDaemon::DAEMON_STATUS['down']) {
@@ -67,13 +66,12 @@ class CheckDaemonsCommand extends ContainerAwareCommand
                         } elseif (trim($data) == AbstractBaseDaemon::DAEMON_STATUS['up']) {
                             $this->output->writeln($daemon.' is up. Doesn\'t need to restart');
                         }
-
                     });
                 }
             }
 
             if (!empty($daemonsToStart)) {
-                $this->output->writeln('Restarting broken daemons: '.implode(' , ',$daemonsToStart));
+                $this->output->writeln('Restarting broken daemons: '.implode(' , ', $daemonsToStart));
                 $command = 'app/console '.implode(' start && app/console ', $daemonsToStart).' start';
                 (new Process($command))->run();
             } else {
