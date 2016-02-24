@@ -65,6 +65,12 @@ class SpotApiCustomerService
             ]
         );
 
+        if ($values instanceof \Guzzle\Http\Message\Response) {
+            $values =  $values->getBody(true);
+        } else {
+            $values = [];
+        }
+
         return json_decode($values, true);
     }
 
