@@ -80,7 +80,7 @@ class MailType extends AbstractType
                     'label' => 'Body',
                     'attr' => [
                         'translateLabel' => 'mails.BODY',
-                    ]
+                    ],
                 ]
             )
             ->add(
