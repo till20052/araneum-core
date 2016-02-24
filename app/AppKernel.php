@@ -38,6 +38,7 @@ class AppKernel extends Kernel
             new Ali\DatatableBundle\AliDatatableBundle(),
             new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
             new MikSoftware\DaemonBundle\MikSoftwareDaemonBundle(),
+            new FR3D\LdapBundle\FR3DLdapBundle(),
 
             new Araneum\Bundle\MainBundle\AraneumMainBundle(),
             new Araneum\Bundle\UserBundle\AraneumUserBundle(),
