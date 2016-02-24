@@ -216,7 +216,7 @@ class CustomerApiControllerTest extends BaseController
                     'email' => CustomerFixtures::TEST_2_EMAIL,
                     'password' => 'mustBeMoreThat6',
                 ],
-                Response::HTTP_OK,
+                Response::HTTP_NO_CONTENT,
             ],
             'not linked customer and application' => [
                 [
