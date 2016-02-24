@@ -35,10 +35,10 @@ class DashboardController extends Controller
         $result = [
             'statistics' => [
                 'applicationsState' => $service->getApplicationsStatistics(),
-                'daylyApplications' => $service->prepareResulForDaylyApplications(),
-                'daylyAverageStatuses' => $service->prepareResultForDaylyAverageStatuses(),
-                'clusterLoadAverage' => $service->prepareResultForClusterAverage(),
-                'clusterUpTime' => $service->prepareResultForClusterUpTime(),
+                'daylyApplications' => $service->prepareResultForDailyApplications(),
+                'daylyAverageStatuses' => $service->prepareResultForDailyAverageStatuses(),
+                'clusterLoadAverage' => $service->getResultForClusterAverage(),
+                'clusterUpTime' => $service->getResultForClusterUpTime(),
                 'summary' => $service->getSummary(),
                 'registeredCustomers' => $service->getRegisteredCustomersFromApplications(),
                 'receivedEmails' => $service->getReceivedEmailsFromApplications(),
@@ -46,6 +46,10 @@ class DashboardController extends Controller
             'charts' => [
                 'leads' => $service->getRegisteredLeadsFromAppsInLast24H(),
                 'errors' => $service->getReceivedErrorsFromAppsInLast24H(),
+                'runners' => [
+                    'avgload' => $service->getResultsForRunnersAverage(),
+                    'uptime' => $service->getResultsForRunnersUpTime(),
+                ],
             ],
         ];
 
