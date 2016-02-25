@@ -59,7 +59,7 @@ class ApplicationRepository extends EntityRepository implements \Countable
      * @param  int $maxResults
      * @return array
      */
-    public function getApplicationStatusesDayly($maxResults = 4)
+    public function getApplicationStatusesDaily($maxResults = 4)
     {
         $qb = $this->createQueryBuilder('a');
 
