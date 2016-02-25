@@ -3,11 +3,13 @@
 namespace Araneum\Bundle\AgentBundle\Form\Filter;
 
 use Araneum\Bundle\AgentBundle\Entity\Lead;
+use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Lexik\Bundle\FormFilterBundle\Filter\Query\QueryInterface;
 
 /**
  * Class LeadFilterType

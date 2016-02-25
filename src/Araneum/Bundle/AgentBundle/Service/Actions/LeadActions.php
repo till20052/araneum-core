@@ -39,7 +39,7 @@ class LeadActions extends AbstractActions
                     'display' => [
                         'btnClass' => 'btn-danger',
                         'icon' => 'icon-user-unfollow',
-                        'label' => 'locales.DELETE_LEAD',
+                        'label' => 'leads.DELETE_LEAD',
                     ],
                     'position' => ActionBuilderInterface::POSITION_ALL,
                 ]
@@ -51,7 +51,7 @@ class LeadActions extends AbstractActions
                     'display' => [
                         'btnClass' => 'btn-success',
                         'icon' => 'icon-user-follow',
-                        'label' => 'mails.SHOW_MAIL',
+                        'label' => 'leads.SHOW_LEAD',
                     ],
                     'position' => ActionBuilderInterface::POSITION_ROW,
                 ]

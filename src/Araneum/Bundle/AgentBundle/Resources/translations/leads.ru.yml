@@ -6,6 +6,8 @@ EMAIL: Email
 APP_KEY: App KEY
 Application: приложение
 CREATED_AT: Дата создания
+DELETE_LEAD: Удалить лид
+SHOW_LEAD: Показать лид
 placeholder:
     FIRST_NAME: Введите имя
     LAST_NAME: Введите фамилию

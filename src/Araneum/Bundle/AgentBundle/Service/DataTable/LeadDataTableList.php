@@ -97,7 +97,6 @@ class LeadDataTableList extends AbstractList
             ->add(
                 'createdAt',
                 [
-                    'search_type' => 'datetime',
                     'render' => function ($value) {
                         return $value instanceof \DateTime ? $value->format('Y-m-d') : '';
                     },
