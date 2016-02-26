@@ -2,19 +2,12 @@
     'use strict';
 
     angular
-        .module('crud.form')
-        .directive('form', directive);
+        .module('crud.toolbar')
+        .directive('toolbar', toolbar);
 
-    directive.$inject = ['FormHandler', '$compile'];
+    toolbar.$inject = ['ToolBarHandler', '$compile'];
 
-    /**
-     * Form directive
-     *
-     * @param FormHandler
-     * @param $compile
-     * @returns {{link: link, restrict: string, scope: {manifest: string}}}
-     */
-    function directive(FormHandler, $compile) {
+    function toolbar(ToolBarHandler, $compile) {
         return {
             link: link,
             restrict: 'E',
@@ -39,11 +32,11 @@
              * Activation
              */
             function activate() {
-                scope.form = new FormHandler(defineEvents(scope.manifest, [{afterBuild: compile}]));
+                scope.toolbar = new ToolBarHandler(defineEvents(scope.manifest, [{afterBuild: compile}]));
             }
 
             /**
-             * Define Form Events
+             * Define ToolBar Events
              *
              * @param {Object} manifest
              * @param {Array} events
@@ -68,12 +61,13 @@
             }
 
             /**
-             * Compile Form
+             * Compile ToolBar
              *
-             * @param {jQuery} form
+             * @param {jQuery} toolbar
+             * @private
              */
-            function compile(form) {
-                element.replaceWith($compile(form)(scope));
+            function compile(toolbar) {
+                element.replaceWith($compile(toolbar)(scope));
             }
         }
     }

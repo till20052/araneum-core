@@ -2,19 +2,19 @@
     'use strict';
 
     angular
-        .module('crud.form')
-        .directive('form', directive);
+        .module('crud.datatable')
+        .directive('crudDatatable', CRUDDataTableDirective);
 
-    directive.$inject = ['FormHandler', '$compile'];
+    CRUDDataTableDirective.$inject = ['DTHandler', 'DTOptionsBuilder', '$compile', '$state'];
 
     /**
-     * Form directive
+     * CRUD DataTable Directive
      *
-     * @param FormHandler
-     * @param $compile
-     * @returns {{link: link, restrict: string, scope: {manifest: string}}}
+     * @returns {Object}
+     * @constructor
      */
-    function directive(FormHandler, $compile) {
+    function CRUDDataTableDirective(DTHandler, DTOptionsBuilder, $compile, $state) {
+
         return {
             link: link,
             restrict: 'E',
@@ -24,10 +24,7 @@
         };
 
         /**
-         * link
-         *
-         * @param scope
-         * @param element
+         * directive link
          */
         function link(scope, element) {
             if (!(scope.manifest instanceof Object))
@@ -39,11 +36,15 @@
              * Activation
              */
             function activate() {
-                scope.form = new FormHandler(defineEvents(scope.manifest, [{afterBuild: compile}]));
+                scope.dt = new DTHandler(defineEvents(scope.manifest, [{afterBuild: compile}]), {
+                    compile: function (element) {
+                        $compile(element)(scope);
+                    }
+                });
             }
 
             /**
-             * Define Form Events
+             * Define DataTable Events
              *
              * @param {Object} manifest
              * @param {Array} events
@@ -68,12 +69,13 @@
             }
 
             /**
-             * Compile Form
+             * Compile DataTable
              *
-             * @param {jQuery} form
+             * @param {jQuery} datatable
+             * @private
              */
-            function compile(form) {
-                element.replaceWith($compile(form)(scope));
+            function compile(datatable) {
+                element.replaceWith($compile(datatable)(scope));
             }
         }
     }

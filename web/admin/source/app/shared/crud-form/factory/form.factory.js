@@ -5,66 +5,64 @@
         .module('crud.form')
         .factory('Form', FormFactory);
 
-    FormFactory.$inject = [];
-
     /**
+     * Form Factory
      *
+     * @returns {getForm}
      * @constructor
      */
     function FormFactory() {
-        return function (data) {
-            return render(data);
-        };
+        return getForm;
+
+        /**
+         * Get form
+         *
+         * @param {FormHandler} $
+         * @returns {jQuery}
+         */
+        function getForm($) {
+            return form($.name)
+                .append(getChildren($.children))
+                .append(getActionBar($.actionBar));
+        }
 
         /**
          * Get children
          *
-         * @param {{
-         *  children: Array<Object>,
-         *  data: Object
-         * }} form
+         * @param {Array<Object>} children
          * @returns {Array}
          */
-        function children(form) {
-            return form.children.map(function (child, i) {
-                /* jshint -W061, eqeqeq: false */
-                return {
-                    hidden: hidden,
-                    checkbox: checkbox,
-                    text: text,
-                    select: select
-                }[child.type](angular.extend({
-                    index: i,
-                    model: 'form.data().' + child.id
-                }, child));
-            });
+        function getChildren(children) {
+            return $('<children />').append(
+                children.map(function (child, i) {
+                    /* jshint -W061, eqeqeq: false */
+                    return $('<child />').append({
+                        hidden: hidden,
+                        checkbox: checkbox,
+                        text: text,
+                        select: select
+                    }[child.type](angular.extend({
+                        index: i,
+                        model: 'form.data().' + child.id
+                    }, child)));
+                })
+            );
         }
 
         /**
          * Get actions
          *
-         * @param data
+         * @param {Array} actionBar
          * @returns {Array}
          */
-        function actions(data) {
-            return Object.keys(data.actions)
-                .map(function (key, i) {
-                    var btn = button(data.actions[key]);
+        function getActionBar(actionBar) {
+            return $('<action-bar />').append(
+                actionBar.map(function (data, i) {
+                    var btn = button(data);
                     if (i !== 0)
                         btn.addClass('ml');
                     return btn;
-                });
-        }
-
-        /**
-         * Render form
-         *
-         * @param data
-         * @returns {jQuery}
-         */
-        function render(data) {
-            return form(data).append(
-                data.getView().layout.render(children(data).concat([[actions(data)]]))
+                })
             );
         }
     }
@@ -72,17 +70,11 @@
     /**
      * Create jQuery From Element
      *
-     * @param {{
-     *  name: String,
-     *  action: String,
-     *  method: String
-     * }} data
+     * @param {{String}} name
      * @returns {jQuery}
      */
-    function form(data) {
-        return $('<form class="form-validate" role="form" novalidate />').attr({
-            name: data.name
-        });
+    function form(name) {
+        return $('<form class="form-validate" role="form" novalidate />').attr('name', name);
     }
 
     /**
@@ -92,29 +84,30 @@
      * @returns {jQuery}
      */
     function hidden(data) {
-        return $('<input type="hidden" />').attr('ng-model', data.model);
+        return $('<input type="hidden" />').attr({
+            name: data.name,
+            'ng-model': data.model
+        });
     }
 
     /**
      * Create checkbox
      *
      * @param data
-     * @returns {Array<jQuery>}
+     * @returns {jQuery}
      */
     function checkbox(data) {
-        return [
-            $('<div class="checkbox c-checkbox pt0" />').css('minHeight', '0')
-                .append(
-                    $('<label />').html(data.label)
-                        .prepend(
-                            $('<input type="hidden" />').attr({
-                                name: data.name,
-                                'ng-model': data.model
-                            }),
-                            $('<span class="fa fa-check" />')
-                        )
-                )
-        ];
+        return $('<div class="checkbox c-checkbox pt0" />').css('minHeight', '0')
+            .append(
+                $('<label />').html(data.label)
+                    .prepend(
+                        $('<input type="checkbox" />').attr({
+                            name: data.name,
+                            'ng-model': data.model
+                        }),
+                        $('<span class="fa fa-check" />')
+                    )
+            );
     }
 
     /**
@@ -169,12 +162,13 @@
                 $('<em class="mr-sm" />').addClass(data.icon)
             );
 
-        if (data.hasOwnProperty('action'))
-            btn.data('action', data.action)
-                .click(function () {
-                    $(this).data('action')
-                        .call($(this), angular.element($(this)).scope());
-                });
+        if (data.hasOwnProperty('$$'))
+            btn.data('$$', data.$$).click(function () {
+                var form = angular.element(this).scope().form,
+                    $$ = $(this).data('$$');
+
+                form.event($$).invoke(form);
+            });
 
         return btn;
     }

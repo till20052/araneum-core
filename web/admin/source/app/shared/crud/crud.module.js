@@ -3,7 +3,9 @@
 
     angular
         .module('crud', [
-            'crud.form'
+            'crud.form',
+            'crud.toolbar',
+            'crud.datatable'
         ]);
 
 })();

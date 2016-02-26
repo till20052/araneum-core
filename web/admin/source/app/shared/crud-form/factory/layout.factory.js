@@ -5,8 +5,6 @@
         .module('crud.form')
         .factory('Layout', LayoutFactory);
 
-    LayoutFactory.$inject = [];
-
     /**
      * Layout Factory
      *
@@ -52,17 +50,19 @@
         /**
          * Render layout
          *
+         * @param {jQuery} form
          * @param {Array} children
          * @returns {jQuery}
          */
-        function render(children) {
-            return $('<div class="row" />').append(
-                children.map(function (child) {
-                    return $('<div class="col-lg-' + parseInt(12 / colsCount) + '" />').append(
-                        groupLayout.render(child)
-                    );
+        function render(form, children) {
+            return form.append($('<div class="row" />').append(
+                children.map(function (child, i) {
+                    var fg = $(groupLayout.render(undefined, [child])[0]).addClass('col-lg-' + parseInt(12 / colsCount));
+                    if(i !== children.length - 1)
+                        fg.removeClass('mb0');
+                    return fg;
                 })
-            );
+            ));
         }
     }
 
@@ -81,25 +81,66 @@
         /**
          * Render layout
          *
-         * @param {Array} children
+         * @param {undefined|jQuery} form
+         * @param {Array<jQuery|Array>} children
+         * @returns {jQuery|Array}
+         */
+        function render(form, children) {
+            var layout = children.map(function (child, i) {
+                /* jshint eqeqeq: false */
+
+                if (child instanceof jQuery) {
+                    if (child.attr('type') == 'hidden') {
+                        form.prepend(child);
+                        return;
+                    }
+
+                    child = [child];
+                }
+
+                var fg = formGroup(child.map(function (element, i) {
+                    return bsCol(element, i, child.length === 1);
+                }));
+
+                if (i === children.length - 1)
+                    fg.addClass('mb0');
+
+                return fg;
+            });
+
+            if (form !== undefined)
+                return form.append(layout);
+
+            return layout;
+        }
+
+        /**
+         * Create Form Group
+         *
+         * @param {jQuery} child
          * @returns {jQuery}
          */
-        function render(children) {
+        function formGroup(child) {
             return $('<div class="form-group" />').append(
-                $('<div class="row" />').append(
-                    children.map(function (child, i) {
-                        var div = $('<div />').append(child);
-
-                        if (children.length > 1)
-                            div.addClass('col-lg-' + ratio[i]);
-                        else if (children.length > 0)
-                            div.addClass('col-lg-offset-' + ratio[0])
-                                .addClass('col-lg-' + ratio[1]);
-
-                        return div;
-                    })
-                )
+                $('<div class="row" />').append(child)
             );
+        }
+
+        /**
+         * Create Bootstrap Column
+         *
+         * @param {jQuery} child
+         * @param {Number} index
+         * @param {Boolean} offset
+         * @returns {jQuery}
+         */
+        function bsCol(child, index, offset) {
+            return $('<div />').append(child)
+                .addClass(
+                    offset ?
+                    'col-lg-offset-' + ratio[index] + ' col-lg-' + ratio[index + 1] :
+                    'col-lg-' + ratio[index]
+                );
         }
     }
 

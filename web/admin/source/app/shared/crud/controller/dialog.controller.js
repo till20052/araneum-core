@@ -5,68 +5,88 @@
         .module('crud')
         .controller('CRUDDialogController', CRUDDialogController);
 
-    CRUDDialogController.$inject = ['$scope'];
+    CRUDDialogController.$inject = ['$scope', 'transport', 'supervisor'];
 
-    function CRUDDialogController($scope) {
+    function CRUDDialogController($scope, transport, supervisor) {
         /* jshint -W004, validthis: true */
         var vm = this;
 
-        $scope.isLoaded = true;
-        $scope.icon = 'fa fa-file-o';
-        $scope.title = 'Dialog';
+        vm.isLoaded = false;
+        vm.icon = 'fa fa-file-o';
+        vm.title = 'Dialog';
+        vm.errors = [];
 
-        $scope.form = {
-            source: '#',
-            behavior: {
-                construct: function () {
-
-                }
-            },
-            buttons: {
-                submit: {
-                    icon: 'icon-ban',
-                    label: 'admin.general.CANCEL',
-                    behavior: function () {
-
-                    }
+        vm.form = {
+            useFormTransformer: 'symfony',
+            actionBar: [
+                {$$: 'save', icon: 'fa fa-check', title: 'admin.general.SAVE', class: 'primary'},
+                {$$: 'cancel', icon: 'fa fa-minus-circle', title: 'admin.general.CANCEL'}
+            ],
+            actions: {
+                save: function () {
+                    transport.send({
+                        url: this.action,
+                        method: this.method,
+                        data: this.data(),
+                        notify: {
+                            skipIf: 'error'
+                        }
+                    }, function () {
+                        $scope.closeThisDialog();
+                    }, function (data) {
+                        vm.errors = data.message.split(/\n/);
+                    });
                 },
-                cancel: {
-                    icon: 'icon-ban',
-                    label: 'admin.general.CANCEL',
-                    behavior: function () {
-
-                    }
+                cancel: function () {
+                    $scope.closeThisDialog();
                 }
-            },
-            options: {
-                style: 'columns'
             }
         };
 
         activate();
 
         /**
-         * Activation
+         * Controller Activation
          */
         function activate() {
-            ['icon', 'title', 'form']
+            if (
+                !$scope.hasOwnProperty('ngDialogData') || !($scope.ngDialogData instanceof Object)
+            )
+                throw console.error('[ERROR]: Controller cannot access required initialisation data.');
+
+            var $data = $scope.ngDialogData;
+
+            ['icon', 'title']
                 .forEach(function (key) {
-                    if (
-                        $scope.ngDialogData.hasOwnProperty(key) &&
-                        $scope.ngDialogData[key].length !== 0
-                    ) {
-                        $scope[key] = key == 'form' ?
-                            angular.extend($scope[key], $scope.ngDialogData[key]) :
-                            $scope.ngDialogData[key];
-                    }
+                    if (!$data.hasOwnProperty(key))
+                        return;
+                    vm[key] = $scope.ngDialogData[key];
                 });
+
+            if ($data.hasOwnProperty('form'))
+                activateForm($data.form);
         }
 
         /**
-         * Event of ngDialog Closing
+         * Form Activation
+         *
+         * @param {{
+         *  source: String
+         * }} data
          */
-        function close() {
-            $scope.closeThisDialog();
+        function activateForm(data) {
+            if (!(data instanceof Object) || !data.hasOwnProperty('source'))
+                return;
+
+            supervisor
+                .loader('form')
+                .load(data.source)
+                .onLoaded({
+                    onSuccess: function (response) {
+                        vm.isLoaded = true;
+                        vm.form.build(response);
+                    }
+                });
         }
     }
 

@@ -2,10 +2,10 @@
     'use strict';
 
     angular
-        .module('crud')
-        .directive('crudDropdown', CRUDDropdownDirective);
+        .module('crud.datatable')
+        .directive('dropdown', CRUDDropdownDirective);
 
-    CRUDDropdownDirective.$inject = ['$compile', 'supervisor'];
+    CRUDDropdownDirective.$inject = ['$compile', 'tf.action', 'supervisor'];
 
     /**
      * CRUD DropDown Directive
@@ -18,10 +18,11 @@
      * }}
      * @constructor
      */
-    function CRUDDropdownDirective($compile, supervisor) {
+    function CRUDDropdownDirective($compile, transformer, supervisor) {
         return {
             link: link,
-            restrict: 'E'
+            restrict: 'E',
+            scope: false
         };
 
         /**
@@ -86,6 +87,15 @@
                         container.push($('<li role="menuitem" />')
                             .append(
                                 $('<a href="javascript:void(0);" />')
+                                    .data('$$', transformer('symfony').transform(options))
+                                    .click(function () {
+                                        var dt = angular.element(this).scope().dt,
+                                            $$ = angular.extend(
+                                                {row: $(this).parents('tr').data('$$')},
+                                                $(this).data('$$')
+                                            );
+                                        dt.event($$.name).invoke(dt, $$);
+                                    })
                                     .html('{{ "' + options.display.label + '" | translate }}')
                                     .prepend(
                                         $('<em class="mr" />').addClass(options.display.icon)
