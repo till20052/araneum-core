@@ -68,12 +68,15 @@ class SpotCustomerConsumerService implements ConsumerInterface
     {
         $data = $this->msgConvertHelper->decodeMsg($message->body);
         $log = (array) $data->log;
+        echo 'Request: '.$data->data.PHP_EOL;
         try {
             $spotResponse = $this->spotApiSenderService->send((array) $data->data, (array) $data->spotCredential);
             if ($this->spotApiSenderService->getErrors($spotResponse) !== null) {
+                echo 'ERROR: '.$this->spotApiSenderService->getErrors($spotResponse).PHP_EOL;
                 throw new RequestException($this->spotApiSenderService->getErrors($spotResponse));
             }
 
+            echo 'Response: '.$spotResponse->getBody(true).PHP_EOL;
             $this->updateCustomer($log);
             if ($log['action'] == CustomerLog::ACTION_CREATE) {
                 /** @var Customer $customer */
@@ -84,6 +87,7 @@ class SpotCustomerConsumerService implements ConsumerInterface
 
             $this->createCustomerLog($log, $spotResponse->getBody(true), CustomerLog::STATUS_OK);
         } catch (RequestException $e) {
+            echo 'ERROR: '.$e->getMessage().PHP_EOL;
             $this->createCustomerLog($log, $e->getMessage(), CustomerLog::STATUS_ERROR);
         }
     }

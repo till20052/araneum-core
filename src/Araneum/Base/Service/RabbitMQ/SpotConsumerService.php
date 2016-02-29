@@ -49,7 +49,8 @@ class SpotConsumerService implements ConsumerInterface
     public function execute(AMQPMessage $message)
     {
         $data = $this->msgConvertHelper->decodeMsg($message->body);
+        echo 'Request: '.$data->data.PHP_EOL;
         $response = $this->spotApiSenderService->send((array) $data->data, (array) $data->spotCredential);
-        echo $response->getBody(true);
+        echo 'Response: '.$response->getBody(true).PHP_EOL;
     }
 }

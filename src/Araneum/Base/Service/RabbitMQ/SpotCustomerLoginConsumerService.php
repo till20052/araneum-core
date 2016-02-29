@@ -83,6 +83,7 @@ class SpotCustomerLoginConsumerService implements ConsumerInterface
         $data = $this->msgConvertHelper->decodeMsg($message->body);
         /** @var Customer $customer */
         $customer = $this->serializer->deserialize($data->data, 'Araneum\Bundle\AgentBundle\Entity\Customer', 'json');
+        echo 'Request: '.$data->data.PHP_EOL;
         try {
             $spotResponse = $this->spotApiSenderService->sendToPublicUrl(
                 Request::METHOD_POST,
@@ -95,18 +96,24 @@ class SpotCustomerLoginConsumerService implements ConsumerInterface
             );
 
             if ($this->spotApiSenderService->getErrorsFromPublic($spotResponse) !== null) {
+                echo 'ERROR: '.$this->spotApiSenderService->getErrorsFromPublic($spotResponse).PHP_EOL;
                 throw new RequestException($this->spotApiSenderService->getErrorsFromPublic($spotResponse));
             }
+
+            echo 'Response: '.$spotResponse->json();
 
             $decodedResponse = $spotResponse->json();
             $spotCustomerData = [
                 'spotsession' => $this->spotApiSenderService->getSpotSessionFromPublic($spotResponse->getSetCookie()),
                 'customerId' => $decodedResponse['customerId'],
             ];
-            $this->remoteApplicationManager->setSpotUserData($customer, $spotCustomerData);
+            echo 'Start send login data'.PHP_EOL;
+            $response = $this->remoteApplicationManager->setSpotUserData($customer, $spotCustomerData);
+            echo 'SetSpotUserData Response: '.$response.PHP_EOL;
 
             $this->createCustomerLog($customer, $spotResponse->getBody(true), CustomerLog::STATUS_OK);
         } catch (RequestException $e) {
+            echo 'ERROR: '.$e->getMessage().PHP_EOL;
             $this->createCustomerLog($customer, $e->getMessage(), CustomerLog::STATUS_ERROR);
         }
     }
@@ -123,7 +130,9 @@ class SpotCustomerLoginConsumerService implements ConsumerInterface
     {
         $customerLog = (new CustomerLog())
             ->setAction(CustomerLog::ACTION_LOGIN)
-            ->setApplication($this->em->getReference('AraneumMainBundle:Application', $customer->getApplication()->getId()))
+            ->setApplication(
+                $this->em->getReference('AraneumMainBundle:Application', $customer->getApplication()->getId())
+            )
             ->setCustomer($this->em->getReference('AraneumAgentBundle:Customer', $customer->getId()))
             ->setResponse($logMessage)
             ->setStatus($status);
