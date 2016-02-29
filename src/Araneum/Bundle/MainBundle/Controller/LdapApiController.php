@@ -4,6 +4,7 @@ namespace Araneum\Bundle\MainBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -48,12 +49,12 @@ class LdapApiController extends Controller
      *
      * @return array
      */
-    public function getLdapSynchronizationAction()
+    public function getLdapSynchronizationAction(Request $request)
     {
         try {
             $serviceLdap = $this->container
                 ->get('api.ldap.synchronization');
-            $result = $serviceLdap->runSynchronization($this->getRequest('testMod'));
+            $result = $serviceLdap->runSynchronization($request['testMod']);
 
             return new JsonResponse($result, 200);
         } catch (\Exception $e) {
