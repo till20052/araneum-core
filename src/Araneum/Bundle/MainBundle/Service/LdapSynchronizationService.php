@@ -93,32 +93,36 @@ class LdapSynchronizationService extends LdapManager
 
     /**
      * ldap Synchronization from LDAP service
+     *
+     * @param bool $testMod
      * @return int
      * @throws \Exception
      */
-    public function runSynchronization()
+    public function runSynchronization($testMod = false)
     {
         $result = [
             'sitem' => 0,
             'uitem' => 0,
         ];
-        $this->repositoryUser->setAllLdapUsersStatusOld();
-        $entries = $this->driver->search($this->params['baseDn'], $this->params['filter'], $this->ldapAttributes);
-        if (is_array($entries)) {
-            foreach ($entries as $entry) {
-                if (is_array($entry) && $status = $this->createUser($this->generateDataParam($entry))) {
-                    switch ($status) {
-                        case UserLdapLog::STATUS_NEW:
-                            $result['sitem'] += 1;
-                            break;
-                        case UserLdapLog::STATUS_UPDATE:
-                            $result['uitem'] += 1;
-                            break;
+        if (!$testMod) {
+            $this->repositoryUser->setAllLdapUsersStatusOld();
+            $entries = $this->driver->search($this->params['baseDn'], $this->params['filter'], $this->ldapAttributes);
+            if (is_array($entries)) {
+                foreach ($entries as $entry) {
+                    if (is_array($entry) && $status = $this->createUser($this->generateDataParam($entry))) {
+                        switch ($status) {
+                            case UserLdapLog::STATUS_NEW:
+                                $result['sitem'] += 1;
+                                break;
+                            case UserLdapLog::STATUS_UPDATE:
+                                $result['uitem'] += 1;
+                                break;
+                        }
                     }
                 }
             }
+            $this->repositoryUser->clearOldLdapUsers();
         }
-        $this->repositoryUser->clearOldLdapUsers();
 
         return $result;
     }
