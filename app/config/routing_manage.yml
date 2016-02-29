@@ -25,3 +25,7 @@ araneum_manage_logout:
 araneum_user:
     resource: "@AraneumUserBundle/Controller"
     type: annotation
+
+araneum_manage_mail:
+    resource: "@AraneumMailBundle/Controller/AdminMailController.php"
+    type: annotation
