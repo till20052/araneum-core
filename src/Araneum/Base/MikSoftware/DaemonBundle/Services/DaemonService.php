@@ -21,7 +21,6 @@ class DaemonService extends BaseService
     public function initialize($options)
     {
         parent::initialize($options);
-
         $this->setDaemon(new Daemon($this->getConfig()));
     }
 }
