@@ -87,6 +87,18 @@ class UserFilterType extends AbstractType
                 ]
             )
             ->add(
+                'useLdap',
+                'filter_choice',
+                [
+                    'label' => 'Use LDAP',
+                    'choices' => User::$useLdapStatus,
+                    'empty_value' => 'admin.general.SELECT',
+                    'attr' => [
+                        'translateLabel' => 'admin.general.USE_LDAP',
+                    ],
+                ]
+            )
+            ->add(
                 'lastLogin',
                 'filter_text',
                 [

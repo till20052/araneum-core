@@ -85,6 +85,7 @@ sidebar:
             CUSTOMER: "Customers"
             EMAIL: "Emails"
 general:
+    USE_LDAP: 'Use LDAP'
     SAVE: 'Save'
     CANCEL: 'Cancel'
     FILTERS: 'Filter'

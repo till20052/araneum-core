@@ -85,6 +85,7 @@ sidebar:
             CUSTOMER: "Участники"
             EMAIL: "Сообщения"
 general:
+    USE_LDAP: 'использует LDAP'
     SAVE: 'Сохранить'
     CANCEL: 'Отмена'
     RESET: 'Сброс'
