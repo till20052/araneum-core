@@ -4,15 +4,15 @@ namespace Araneum\Base\Service\RabbitMQ;
 
 use Araneum\Base\Service\Spot\SpotApiSenderService;
 use Araneum\Bundle\AgentBundle\AgentEvents;
+use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
+use Araneum\Bundle\AgentBundle\Event\CustomerEvent;
 use Doctrine\ORM\EntityManager;
 use Guzzle\Http\Exception\RequestException;
 use Guzzle\Service;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
-use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Araneum\Bundle\AgentBundle\Event\CustomerEvent;
 
 /**
  * Class SpotCustomerConsumerService
@@ -68,15 +68,12 @@ class SpotCustomerConsumerService implements ConsumerInterface
     {
         $data = $this->msgConvertHelper->decodeMsg($message->body);
         $log = (array) $data->log;
-        echo 'Request: '.$data->data.PHP_EOL;
         try {
             $spotResponse = $this->spotApiSenderService->send((array) $data->data, (array) $data->spotCredential);
             if ($this->spotApiSenderService->getErrors($spotResponse) !== null) {
-                echo 'ERROR: '.$this->spotApiSenderService->getErrors($spotResponse).PHP_EOL;
                 throw new RequestException($this->spotApiSenderService->getErrors($spotResponse));
             }
 
-            echo 'Response: '.$spotResponse->getBody(true).PHP_EOL;
             $this->updateCustomer($log);
             if ($log['action'] == CustomerLog::ACTION_CREATE) {
                 /** @var Customer $customer */
@@ -87,7 +84,6 @@ class SpotCustomerConsumerService implements ConsumerInterface
 
             $this->createCustomerLog($log, $spotResponse->getBody(true), CustomerLog::STATUS_OK);
         } catch (RequestException $e) {
-            echo 'ERROR: '.$e->getMessage().PHP_EOL;
             $this->createCustomerLog($log, $e->getMessage(), CustomerLog::STATUS_ERROR);
         }
     }
