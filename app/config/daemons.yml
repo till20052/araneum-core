@@ -19,7 +19,7 @@ mik_software_daemon:
             logVerbosity: 6
 
         araneum_consumer_customer:
-            appName: customer-consumer
+            appName: customer-consum
             appDescription: System Daemon for sending Customers to Spot
             appUser: %nginx_user%
             appGroup: %nginx_group%

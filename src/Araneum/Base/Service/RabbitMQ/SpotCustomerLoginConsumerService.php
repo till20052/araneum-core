@@ -95,6 +95,7 @@ class SpotCustomerLoginConsumerService implements ConsumerInterface
             );
 
             if ($this->spotApiSenderService->getErrorsFromPublic($spotResponse) !== null) {
+                echo 'ERROR: '.$this->spotApiSenderService->getErrorsFromPublic($spotResponse).PHP_EOL;
                 throw new RequestException($this->spotApiSenderService->getErrorsFromPublic($spotResponse));
             }
 
@@ -107,6 +108,7 @@ class SpotCustomerLoginConsumerService implements ConsumerInterface
 
             $this->createCustomerLog($customer, $spotResponse->getBody(true), CustomerLog::STATUS_OK);
         } catch (RequestException $e) {
+
             $this->createCustomerLog($customer, $e->getMessage(), CustomerLog::STATUS_ERROR);
         }
     }
@@ -123,7 +125,9 @@ class SpotCustomerLoginConsumerService implements ConsumerInterface
     {
         $customerLog = (new CustomerLog())
             ->setAction(CustomerLog::ACTION_LOGIN)
-            ->setApplication($this->em->getReference('AraneumMainBundle:Application', $customer->getApplication()->getId()))
+            ->setApplication(
+                $this->em->getReference('AraneumMainBundle:Application', $customer->getApplication()->getId())
+            )
             ->setCustomer($this->em->getReference('AraneumAgentBundle:Customer', $customer->getId()))
             ->setResponse($logMessage)
             ->setStatus($status);
