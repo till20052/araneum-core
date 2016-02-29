@@ -1,21 +1,20 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Service\DataTable;
+namespace Araneum\Bundle\MailBundle\Service\DataTable;
 
 use Araneum\Base\Ali\DatatableBundle\Builder\AbstractList;
 use Araneum\Base\Ali\DatatableBundle\Builder\ListBuilderInterface;
-use Araneum\Bundle\MainBundle\Entity\Application;
-use Araneum\Bundle\MainBundle\Repository\ApplicationRepository;
-use Araneum\Bundle\MainBundle\Repository\ClusterRepository;
+use Araneum\Bundle\MailBundle\Entity\Mail;
+use Araneum\Bundle\MailBundle\Repository\MailRepository;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class ApplicationDataTableList
+ * Class MailDataTableList
  *
- * @package Araneum\Bundle\MainBundle\Service\DataTable
+ * @package Araneum\Bundle\MailBundle\Service\DataTable
  */
-class ApplicationDataTableList extends AbstractList
+class MailDataTableList extends AbstractList
 {
     /**
      * Query Builder
@@ -32,7 +31,7 @@ class ApplicationDataTableList extends AbstractList
     private $container;
 
     /**
-     * ApplicationDataTableList constructor.
+     * MailDatatableList constructor.
      *
      * @param ContainerInterface $container
      */
@@ -52,61 +51,50 @@ class ApplicationDataTableList extends AbstractList
         $builder
             ->add('id')
             ->add(
-                'cluster.name',
+                'application.name',
                 [
                     'search_type' => 'like',
-                    'label' => 'applications.CLUSTER',
+                    'label' => 'mails.APPLICATION',
                 ]
             )
             ->add(
-                'name',
+                'sender',
                 [
                     'search_type' => 'like',
-                    'label' => 'applications.NAME',
+                    'label' => 'mails.SENDER',
                 ]
             )
             ->add(
-                'domain',
+                'target',
                 [
                     'search_type' => 'like',
-                    'label' => 'applications.DOMAIN',
+                    'label' => 'mails.TARGET',
                 ]
             )
             ->add(
-                'type',
+                'headline',
                 [
-                    'render' => function ($value) {
-                        return Application::getTypeDescription($value);
-                    },
-                    'label' => 'applications.TYPE',
+                    'label' => 'mails.HEADLINE',
                 ]
             )
             ->add(
                 'status',
                 [
                     'render' => function ($value) {
-                        return Application::getStatusIcons($value);
+                        return Mail::$statuses[$value];
                     },
-                    'label' => 'applications.STATUS',
+                    'label' => 'mails.STATUS',
                 ]
             )
             ->add(
-                'enabled',
+                'sentAt',
                 [
-                    'label' => 'applications.ENABLED',
-                ]
-            )
-            ->add(
-                'createdAt',
-                [
-                    'search_type' => 'datetime',
                     'render' => function ($value) {
-                        return $value instanceof \DateTime ? $value->format('Y-m-d') : '';
+                        return $value instanceof \DateTime ? $value->format('Y-m-d h:i:s') : '';
                     },
-                    'label' => 'applications.CREATED_AT',
+                    'label' => 'mails.SENT_AT',
                 ]
-            )
-        ;
+            );
     }
 
     /**
@@ -116,7 +104,7 @@ class ApplicationDataTableList extends AbstractList
      */
     public function getEntityClass()
     {
-        return 'AraneumMainBundle:Application';
+        return 'AraneumMailBundle:Mail';
     }
 
     /**
@@ -128,14 +116,14 @@ class ApplicationDataTableList extends AbstractList
     public function createQueryBuilder($doctrine)
     {
         /**
-         * @var ApplicationRepository $repository
+         * @var MailRepository $repository
          */
         $repository = $doctrine->getRepository($this->getEntityClass());
         if (empty($this->queryBuilder)) {
             $this->queryBuilder = $repository->getQueryBuilder();
 
             $filters = $this->container->get('form.factory')->create(
-                $this->container->get('araneum_main.application.filter.form')
+                $this->container->get('araneum.mail.mail.filter.form')
             );
 
             if ($this->container->get('request')->query->has($filters->getName())) {

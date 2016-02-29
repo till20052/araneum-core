@@ -47,6 +47,7 @@
             'app.locales',
             'app.dashboard',
             'app.applications',
+            'app.mails',
         ]);
 })();
 
