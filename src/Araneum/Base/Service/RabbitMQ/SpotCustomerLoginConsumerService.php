@@ -101,7 +101,6 @@ class SpotCustomerLoginConsumerService implements ConsumerInterface
             }
 
             echo 'Response: '.$spotResponse->json();
-
             $decodedResponse = $spotResponse->json();
             $spotCustomerData = [
                 'spotsession' => $this->spotApiSenderService->getSpotSessionFromPublic($spotResponse->getSetCookie()),
@@ -114,6 +113,7 @@ class SpotCustomerLoginConsumerService implements ConsumerInterface
             $this->createCustomerLog($customer, $spotResponse->getBody(true), CustomerLog::STATUS_OK);
         } catch (RequestException $e) {
             echo 'ERROR: '.$e->getMessage().PHP_EOL;
+
             $this->createCustomerLog($customer, $e->getMessage(), CustomerLog::STATUS_ERROR);
         }
     }
