@@ -124,7 +124,6 @@
              * @param data
              */
             function create(data) {
-                console.log(this, data);
                 Dialog.open({
                     template: 'crud/dialog.html',
                     controller: 'CRUDDialogController',

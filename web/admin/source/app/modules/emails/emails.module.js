@@ -2,6 +2,6 @@
     'use strict';
 
     angular
-        .module('app.applications', []);
+        .module('app.emails', []);
 
 })();

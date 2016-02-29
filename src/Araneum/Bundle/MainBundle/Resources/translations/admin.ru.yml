@@ -1,2 +1,5 @@
 locales:
-    TITLE: 'Языки'
+    TITLE: 'Локали'
+
+applications:
+    TITLE: 'Приложения'

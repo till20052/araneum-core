@@ -1,2 +1,5 @@
 locales:
     TITLE: 'Locales'
+
+applications:
+    TITLE: 'Applications'
