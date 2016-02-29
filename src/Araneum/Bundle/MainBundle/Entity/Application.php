@@ -37,6 +37,11 @@ class Application
         self::STATUS_DISABLED => 'disabled',
     ];
 
+    public static $enable = [
+        true => 'Enabled',
+        false => 'Disabled',
+    ];
+
     public static $statusesIcons = [
         self::STATUS_OK => '<em class="icon-check fa-2x"></em>',
         self::STATUS_CODE_INCORRECT => '<em class="fa fa-warning fa-2x"></em>',

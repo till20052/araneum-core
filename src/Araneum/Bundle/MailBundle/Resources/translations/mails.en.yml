@@ -1,0 +1,15 @@
+MAILS: Mails
+DELETE_MAIL: Delete mail
+SHOW_MAIL: Show mail
+SENDER: Sender
+TARGET: Target
+HEADLINE: Headline
+BODY: Body
+STATUS: Status
+SENT_AT: Sent at
+APPLICATION: Application
+placeholder:
+    HEADLINE: Enter headline
+    SENDER: Enter sender
+    TARGET: Enter target
+    EMPTY_VALUE: Choose

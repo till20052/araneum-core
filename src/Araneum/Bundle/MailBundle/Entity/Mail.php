@@ -23,6 +23,13 @@ class Mail
     const STATUS_SENT    = 3;
     const STATUS_READ    = 4;
 
+    public static $statuses = [
+      self::STATUS_NEW => 'New',
+      self::STATUS_PENDING => 'Pending',
+      self::STATUS_SENT => 'Sent',
+      self::STATUS_READ => 'Read',
+    ];
+
     /**
      * @var integer
      *
