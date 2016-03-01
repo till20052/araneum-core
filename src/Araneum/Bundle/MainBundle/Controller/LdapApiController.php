@@ -4,7 +4,6 @@ namespace Araneum\Bundle\MainBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -47,15 +46,15 @@ class LdapApiController extends Controller
      * @Security("has_role('ROLE_ADMIN')")
      * @Rest\View()
      *
-     * @param Request $request
      * @return array
      */
-    public function getLdapSynchronizationAction(Request $request)
+    public function getLdapSynchronizationAction()
     {
         try {
+            $request = $this->get('request');
             $serviceLdap = $this->container
                 ->get('api.ldap.synchronization');
-            $result = $serviceLdap->runSynchronization($request['testMod']);
+            $result = $serviceLdap->runSynchronization($request->get('testMod'));
 
             return new JsonResponse($result, 200);
         } catch (\Exception $e) {
