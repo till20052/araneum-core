@@ -63,7 +63,13 @@ class SpotApiCustomerService
                     'min' => $date->format('Y-m-d H:i:s'),
                 ],
             ]
-        )->getBody(true);
+        );
+
+        if ($values instanceof \Guzzle\Http\Message\Response) {
+            $values =  $values->getBody(true);
+        } else {
+            $values = [];
+        }
 
         return json_decode($values, true);
     }

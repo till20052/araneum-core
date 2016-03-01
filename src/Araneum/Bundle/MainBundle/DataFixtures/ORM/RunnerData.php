@@ -30,6 +30,7 @@ class RunnerData extends AbstractFixture implements FixtureInterface, DependentF
             $runner->setType(1);
             $runner->setEnabled(true);
             $runner->setStatus(1);
+            $runner->setUseSSL(false);
             $runner->setDomain('ultratrade.com');
             $manager->persist($runner);
             $manager->flush();

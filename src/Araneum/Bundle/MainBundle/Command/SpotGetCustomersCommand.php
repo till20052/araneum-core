@@ -13,7 +13,7 @@ use Symfony\Component\Security\Acl\Exception\Exception;
  *
  * @package Araneum\Bundle\MainBundle\Command
  */
-class SpotCustomersCommand extends ContainerAwareCommand
+class SpotGetCustomersCommand extends ContainerAwareCommand
 {
 
     /**
