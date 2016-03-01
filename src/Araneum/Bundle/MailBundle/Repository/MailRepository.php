@@ -5,6 +5,7 @@ namespace Araneum\Bundle\MailBundle\Repository;
 use Araneum\Base\Repository\CountableTrait;
 use Doctrine\ORM\EntityRepository;
 use Araneum\Bundle\MailBundle\Entity\Mail;
+use Araneum\Base\Repository\AdminDataGridTrait;
 
 /**
  * MailRepository
@@ -15,6 +16,17 @@ use Araneum\Bundle\MailBundle\Entity\Mail;
 class MailRepository extends EntityRepository implements \Countable
 {
     use CountableTrait;
+    use AdminDataGridTrait;
+
+    /**
+     * Return Mails Query Builder without any conditions
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getQueryBuilder()
+    {
+        return $this->createQueryBuilder('M');
+    }
 
     /**
      * Get Received Emails

@@ -1,21 +1,20 @@
 <?php
 
-namespace Araneum\Bundle\UserBundle\Service\DataTable;
+namespace Araneum\Bundle\MailBundle\Service\DataTable;
 
 use Araneum\Base\Ali\DatatableBundle\Builder\AbstractList;
 use Araneum\Base\Ali\DatatableBundle\Builder\ListBuilderInterface;
-use Araneum\Bundle\MainBundle\Entity\Locale;
-use Araneum\Bundle\MainBundle\Repository\LocaleRepository;
+use Araneum\Bundle\MailBundle\Entity\Mail;
+use Araneum\Bundle\MailBundle\Repository\MailRepository;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Doctrine\ORM\EntityManager;
 
 /**
- * Class UserDataTableList
+ * Class MailDataTableList
  *
- * @package Araneum\Bundle\UserBundle\Service\DataTable
+ * @package Araneum\Bundle\MailBundle\Service\DataTable
  */
-class UserDataTableList extends AbstractList
+class MailDataTableList extends AbstractList
 {
     /**
      * Query Builder
@@ -32,7 +31,7 @@ class UserDataTableList extends AbstractList
     private $container;
 
     /**
-     * UserDatatableList constructor.
+     * MailDatatableList constructor.
      *
      * @param ContainerInterface $container
      */
@@ -52,67 +51,50 @@ class UserDataTableList extends AbstractList
         $builder
             ->add('id')
             ->add(
-                'email',
+                'application.name',
                 [
-                'search_type' => 'like',
-                'label' => 'email',
+                    'search_type' => 'like',
+                    'label' => 'mails.APPLICATION',
                 ]
             )
             ->add(
-                'username',
+                'sender',
                 [
-                'search_type' => 'like',
-                'label' => 'user.LOGIN',
+                    'search_type' => 'like',
+                    'label' => 'mails.SENDER',
                 ]
             )
             ->add(
-                'fullName',
+                'target',
                 [
-                'search_type' => 'like',
-                'label' => 'user.FULLNAME',
+                    'search_type' => 'like',
+                    'label' => 'mails.TARGET',
                 ]
             )
             ->add(
-                'enabled',
+                'headline',
                 [
-                'label' => 'admin.general.ENABLE',
+                    'label' => 'mails.HEADLINE',
                 ]
             )
             ->add(
-                'roles.name',
-                [
-                'search_type' => 'like',
-                'label' => 'user.ROLE',
-                ]
-            )
-            ->add(
-                'lastLogin',
-                [
-                    'search_type' => 'datetime',
-                    'render' => function ($value) {
-                        return $value instanceof \DateTime ? $value->format('Y-m-d') : '';
-                    },
-                    'label' => 'user.LAST_LOGIN',
-                ]
-            )
-            ->add(
-                'useLdap',
+                'status',
                 [
                     'render' => function ($value) {
-                        return ($value)?'<em class="icon-check fa-2x"></em>':'<em class="icon-ban fa-2x"></em>';
+                        return Mail::$statuses[$value];
                     },
-                    'label' => 'admin.general.USE_LDAP',
+                    'label' => 'mails.STATUS',
                 ]
             )
             ->add(
-                'createdAt',
+                'sentAt',
                 [
-                    'label' => 'user.REGISTER',
-                    'search_type' => 'datetime',
+                    'render' => function ($value) {
+                        return $value instanceof \DateTime ? $value->format('Y-m-d h:i:s') : '';
+                    },
+                    'label' => 'mails.SENT_AT',
                 ]
-            )
-            ->setOrderBy('createdAt', 'desc')
-            ->setSearch(true);
+            );
     }
 
     /**
@@ -122,23 +104,26 @@ class UserDataTableList extends AbstractList
      */
     public function getEntityClass()
     {
-        return 'AraneumUserBundle:User';
+        return 'AraneumMailBundle:Mail';
     }
 
     /**
      * Create query builder
      *
-     * @param  EntityManager $em
+     * @param  Registry $doctrine
      * @return \Ali\DatatableBundle\Util\Factory\Query\QueryInterface
      */
-    public function createQueryBuilder($em)
+    public function createQueryBuilder($doctrine)
     {
-        $repository = $em->getRepository($this->getEntityClass());
+        /**
+         * @var MailRepository $repository
+         */
+        $repository = $doctrine->getRepository($this->getEntityClass());
         if (empty($this->queryBuilder)) {
             $this->queryBuilder = $repository->getQueryBuilder();
 
             $filters = $this->container->get('form.factory')->create(
-                $this->container->get('araneum_user.user.filter.form')
+                $this->container->get('araneum.mail.mail.filter.form')
             );
 
             if ($this->container->get('request')->query->has($filters->getName())) {
@@ -149,7 +134,6 @@ class UserDataTableList extends AbstractList
                 );
             }
         }
-
 
         return $this->queryBuilder;
     }

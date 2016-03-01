@@ -33,7 +33,10 @@ class CustomerApiController extends FOSRestController
      *      403 = "Returned when authorization is failed",
      *      404 = "Returned when Application not found"
      *   },
-     *   input="Araneum\Bundle\AgentBundle\Form\Type\CustomerType",
+     *   input = {
+     *      "class"="Araneum\Bundle\AgentBundle\Form\Type\CustomerType",
+     *      "name"=""
+     *    },
      *   tags={"Agent"}
      * )
      * @Security("has_role('ROLE_API')")
