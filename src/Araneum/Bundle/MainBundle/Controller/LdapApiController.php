@@ -47,6 +47,7 @@ class LdapApiController extends Controller
      * @Security("has_role('ROLE_ADMIN')")
      * @Rest\View()
      *
+     * @param Request $request
      * @return array
      */
     public function getLdapSynchronizationAction(Request $request)
