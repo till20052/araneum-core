@@ -47,6 +47,8 @@
              * Get Transformer Helper
              *
              * @returns {{
+             *  values: getValues,
+             *  multiple: isMultiple,
              *  type: getType,
              *  label: getLabel,
              *  options: getOptions,
@@ -57,6 +59,8 @@
              */
             function helper() {
                 return {
+                    values: getValues,
+                    multiple: isMultiple,
                     type: getType,
                     label: getLabel,
                     options: getOptions,
@@ -66,14 +70,71 @@
                 };
 
                 /**
+                 * Get form values
+                 *
+                 * @param data
+                 * return {Object}
+                 */
+                function getValues(data) {
+                    if (!(data instanceof Object))
+                        return {};
+
+                    var typesMap = {
+                        object: object,
+                        array: array
+                    };
+
+                    return Object.keys(data)
+                            .forEach(function (key) {
+                                var type = this[key].constructor.name.toLowerCase();
+                                if (!typesMap.hasOwnProperty(type))
+                                    return;
+                                this[key] = typesMap[type](this[key]);
+                            }, data) || data;
+
+                    /**
+                     * Object modification
+                     *
+                     * @param {Object} data
+                     * @returns {Number}
+                     */
+                    function object(data) {
+                        return data.id;
+                    }
+
+                    /**
+                     * Array modification
+                     *
+                     * @param {Array} data
+                     * @returns {Array}
+                     */
+                    function array(data) {
+                        return data.map(function (item) {
+                            return item.id;
+                        });
+                    }
+                }
+
+                /**
+                 * Is select multiple
+                 *
+                 * @param data
+                 * @returns {undefined|boolean}
+                 */
+                function isMultiple(data) {
+                    if (!data.hasOwnProperty('multiple'))
+                        return;
+                    return !!data.multiple;
+                }
+
+                /**
                  * Get child type
                  *
                  * @param {String} value
                  * @returns {String}
                  */
                 function getType(value) {
-                    /* jshint eqeqeq: false */
-                    if (value == 'choice')
+                    if (value === 'choice')
                         return 'select';
                     return value;
                 }
@@ -108,6 +169,11 @@
                  * @returns {Array|undefined}
                  */
                 function getOptions(data) {
+                    if (data.hasOwnProperty('choices') && data.choices instanceof Object) {
+                        data.choices = Object.keys(data.choices).map(function (key) {
+                            return data.choices[key];
+                        });
+                    }
                     if (!data.hasOwnProperty('choices') || !(data.choices instanceof Array))
                         return;
                     return [{
@@ -115,7 +181,7 @@
                         text: data.placeholder
                     }].concat(data.choices.map(function (choice) {
                         return {
-                            id: choice.data,
+                            id: choice.data instanceof Object ? choice.data.id : choice.data,
                             text: choice.label
                         };
                     }));
@@ -151,13 +217,14 @@
                             }, arguments);
                         return self;
                     }).apply({
-                        id: data.name,
+                        id: data.name.split(/(?=[A-Z])/).join('_').toLowerCase(),
                         type: $helper.type(data.block_prefixes[1]),
-                        name: data.full_name
+                        name: data.name
                     }, [
                         {label: $helper.label(data, 'label', 'translateLabel')},
                         {placeholder: $helper.label(data, 'placeholder')},
-                        {options: $helper.options(data)}
+                        {options: $helper.options(data)},
+                        {multiple: $helper.multiple(data)}
                     ]);
                 }
 
@@ -198,7 +265,7 @@
                         action: data.vars.action,
                         method: data.vars.method,
                         children: $helper.children(data),
-                        value: data.vars.data.constructor !== Array ? data.vars.data : {}
+                        values: $helper.values(data.vars.value)
                     };
                 }
             }

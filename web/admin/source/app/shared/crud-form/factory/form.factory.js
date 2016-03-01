@@ -17,7 +17,7 @@
         /**
          * Get form
          *
-         * @param {FormHandler} $
+         * @param {Object} $
          * @returns {jQuery}
          */
         function getForm($) {
@@ -36,15 +36,20 @@
             return $('<children />').append(
                 children.map(function (child, i) {
                     /* jshint -W061, eqeqeq: false */
-                    return $('<child />').append({
-                        hidden: hidden,
-                        checkbox: checkbox,
-                        text: text,
-                        select: select
-                    }[child.type](angular.extend({
-                        index: i,
-                        model: 'form.data().' + child.id
-                    }, child)));
+                    try {
+                        return $('<child />').append({
+                            hidden: hidden,
+                            checkbox: checkbox,
+                            text: text,
+                            select: select
+                        }[child.type](angular.extend({
+                            index: i,
+                            model: 'form.data().' + child.id
+                        }, child)));
+                    }
+                    catch (error) {
+                        throw console.error('Cannot find element by type: ' + child.type, child);
+                    }
                 })
             );
         }
@@ -136,12 +141,52 @@
     function select(data) {
         return [
             $('<label class="control-label mt-sm" />').html(data.label),
-            $('<select class="form-control" />').attr({
+            (function () {
+                if (data.hasOwnProperty('multiple') && data.multiple !== false)
+                    return multiple(data);
+                return single(data);
+            })(data)
+        ];
+
+        /**
+         * Create select with single selection
+         *
+         * @param data
+         * @returns {jQuery}
+         */
+        function single(data) {
+            return $('<select class="form-control" />').attr({
                 name: data.name,
                 'ng-model': data.model,
                 'ng-options': 'option.id as option.text | translate for option in form.getChild(' + data.index + ').options'
-            })
-        ];
+            });
+        }
+
+        /**
+         * Create select with multiple selection based on ui-select
+         *
+         * @param data
+         * @returns {jQuery}
+         */
+        function multiple(data) {
+            return $('<ui-select />').attr({
+                    name: data.name,
+                    'ng-model': data.model,
+                    theme: 'bootstrap',
+                    multiple: true
+                })
+                .append(
+                    $('<ui-select-match />').html('{{ $item.text }}')
+                        .attr({
+                            placeholder: data.placeholder
+                        }),
+                    $('<ui-select-choices />')
+                        .attr('repeat', 'option.id as option in (form.getChild(' + data.index + ').options | filter: $select.search)')
+                        .append(
+                            $('<div />').html('{{ option.text }}')
+                        )
+                );
+        }
     }
 
     /**

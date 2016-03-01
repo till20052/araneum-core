@@ -80,19 +80,12 @@
             };
 
             function search(form) {
-                vm.datatable.setAjaxSource([
-                    vm.datatable.getAjaxSource().split('?')[0],
-                    $.map(form.data(), function (val, key) {
-                        if (val === undefined)
-                            return;
-                        return vm.filter.name + '[' + key + ']=' + val;
-                    }).join('&')
-                ].join('?'));
+
             }
 
             function refresh() {
                 this.data({});
-                //vm.datatable.setAjaxSource(vm.datatable.getAjaxSource().split('?')[0]);
+                vm.datatable.refresh();
             }
         }
 

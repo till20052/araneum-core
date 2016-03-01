@@ -57,6 +57,11 @@ class ApplicationAdminType extends AbstractType
                 [
                     'label' => 'Cluster',
                     'class' => 'Araneum\Bundle\MainBundle\Entity\Cluster',
+                    'empty_value' => 'applications.EMPTY_VALUE',
+                    'attr' => [
+                        'placeholder' => 'applications.placeholder.CLUSTER',
+                        'translateLabel' => 'applications.CLUSTER',
+                    ],
                 ]
             )
             ->add(
@@ -94,11 +99,19 @@ class ApplicationAdminType extends AbstractType
             )
             ->add(
                 'useSsl',
-                'choice',
+                'checkbox',
                 [
                     'label' => 'UseSsl',
-                    'choices' => Application::$enable,
-                    'empty_value' => 'applications.EMPTY_VALUE',
+                    'attr' => [
+                        'translateLabel' => 'applications.USE_SSL',
+                    ],
+                ]
+            )
+            ->add(
+                'enabled',
+                'checkbox',
+                [
+                    'label' => 'Enabled',
                     'attr' => [
                         'translateLabel' => 'applications.ENABLED',
                     ],
@@ -106,9 +119,11 @@ class ApplicationAdminType extends AbstractType
             )
             ->add(
                 'type',
-                IntegerType::class,
+                'choice',
                 [
                     'label' => 'Type',
+                    'empty_value' => 'applications.EMPTY_VALUE',
+                    'choices' => Application::$types,
                     'attr' => [
                         'placeholder' => 'applications.ENTER_TYPE',
                         'translateLabel' => 'applications.TYPE',
@@ -121,18 +136,10 @@ class ApplicationAdminType extends AbstractType
                 [
                     'class' => 'Araneum\Bundle\MainBundle\Entity\Locale',
                     'property' => 'name',
-                    'multiple'  => true,
-                ]
-            )
-            ->add(
-                'enabled',
-                'choice',
-                [
-                    'label' => 'Enabled',
-                    'choices' => Application::$enable,
-                    'empty_value' => 'applications.EMPTY_VALUE',
+                    'multiple' => true,
                     'attr' => [
-                        'translateLabel' => 'applications.ENABLED',
+                        'placeholder' => 'applications.placeholder.LOCALE',
+                        'translateLabel' => 'applications.LOCALE',
                     ],
                 ]
             )

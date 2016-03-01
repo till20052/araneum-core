@@ -24,10 +24,13 @@
             ],
             actions: {
                 save: function () {
+                    var data = {};
                     transport.send({
                         url: this.action,
                         method: this.method,
-                        data: this.data(),
+                        data: Object.keys(this.data()).forEach(function(key){
+                            data[this.getChildById(key).name] = this.data(key);
+                        }, this) || data,
                         notify: {
                             skipIf: 'error'
                         }

@@ -33,6 +33,7 @@
                 options: {},
                 selectRow: selectRow,
                 getSelectedRows: getSelectedRows,
+                refresh: refresh,
                 build: build
             });
 
@@ -76,6 +77,7 @@
                  * @private
                  */
                 function fnServerData(source, data, callback, settings) {
+                    console.log(source);
                     settings.jqXHR = $.ajax({
                         dataType: 'json',
                         type: 'POST',
@@ -109,6 +111,16 @@
                         }
                     });
                 }
+            }
+
+            /**
+             * Refresh DataTable
+             */
+            function refresh() {
+                var dt = $this.instance.DataTable;
+
+                dt.ajax.reload();
+
             }
 
             /**

@@ -5,7 +5,7 @@
         .module('crud.form')
         .factory('FormHandler', FormHandlerFactory);
 
-    FormHandlerFactory.$inject = ['Form', 'EventsHandler', 'Layout', 'tf.form'];
+    FormHandlerFactory.$inject = ['Form', 'EventsHandler', 'FormRenderer', 'tf.form'];
 
     /**
      * Form Handler Factory
@@ -13,7 +13,7 @@
      * @returns {FormHandler}
      * @constructor
      */
-    function FormHandlerFactory(Form, EventsHandler, Layout, transformer) {
+    function FormHandlerFactory(Form, EventsHandler, FormRenderer, transformer) {
         return FormHandler;
 
         /**
@@ -29,7 +29,7 @@
          */
         function FormHandler(manifest) {
             /* jshint validthis: true */
-            var $data = {}, $layout, $transformer,
+            var $data = {}, $renderer, $transformer,
                 $this = angular.extend(this, {
                     name: '',
                     action: '',
@@ -39,6 +39,7 @@
                     data: data,
                     getChildren: getChildren,
                     getChild: getChild,
+                    getChildById: getChildById,
                     build: build
                 });
 
@@ -62,7 +63,7 @@
                     }).apply(manifest, parts);
                 }, $this);
 
-                $layout = new Layout(manifest.hasOwnProperty('layout') ? manifest.layout : 'group');
+                $renderer = new FormRenderer(manifest.hasOwnProperty('layout') ? manifest.layout : undefined);
 
                 if (manifest.hasOwnProperty('useFormTransformer'))
                     $transformer = transformer(manifest.useFormTransformer);
@@ -76,7 +77,7 @@
 
                 Object.keys($this)
                     .forEach(function (key) {
-                        if(key === 'event' || typeof this[key] !== 'function')
+                        if (key === 'event' || typeof this[key] !== 'function')
                             return;
                         manifest[key] = this[key];
                     }, $this);
@@ -95,7 +96,7 @@
                 if (key === undefined)
                     return $data;
 
-                if (key instanceof String) {
+                if (typeof key === 'string') {
                     if (val !== undefined) {
                         $data[key] = val;
 
@@ -104,6 +105,8 @@
 
                     if ($data.hasOwnProperty(key))
                         return $data[key];
+
+                    return undefined;
                 }
 
                 if (key instanceof Object)
@@ -125,10 +128,29 @@
              * Get child of form by index
              *
              * @param {Number} index
-             * @returns {Object}
+             * @returns {undefined|Object}
              */
             function getChild(index) {
                 return $this.children[index] !== undefined ? $this.children[index] : undefined;
+            }
+
+            /**
+             * Get child of form by index
+             *
+             * @param {String} id
+             * @returns {undefined|Object}
+             */
+            function getChildById(id) {
+                try {
+                    return $this.children.forEach(function (child) {
+                        if (child.id !== id)
+                            return;
+                        throw child;
+                    });
+                }
+                catch (child) {
+                    return child;
+                }
             }
 
             /**
@@ -141,15 +163,15 @@
                     data = $transformer.transform(data);
 
                 (angular.extend($this, data))
-                    .data(data.value)
+                    .data(data.values)
                     .event('afterBuild')
-                    .invoke(undefined, new Form($this));
+                    .invoke(undefined, $renderer.render(new Form($this)));
 
-                Object.keys($this.value)
+                Object.keys($this.values)
                     .forEach(function (key) {
-                        if(this.indexOf(key) > -1)
+                        if (this.indexOf(key) > -1)
                             return;
-                        delete $this.value[key];
+                        delete $this.values[key];
                     }, $this.children.map(function (child) {
                         return child.id;
                     }));

@@ -74,6 +74,10 @@
              */
             function compile(form) {
                 element.replaceWith($compile(form)(scope));
+                var ngDialogContend = $(form).parents('div.ngdialog-content');
+                if(ngDialogContend.length !== 1)
+                    return;
+                ngDialogContend.width(700);
             }
         }
     }
