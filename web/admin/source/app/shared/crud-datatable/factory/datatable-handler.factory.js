@@ -70,14 +70,24 @@
                 /**
                  * Get data for datatable from server
                  *
-                 * @param source
-                 * @param data
-                 * @param callback
-                 * @param settings
+                 * @param {String} source
+                 * @param {Array} data
+                 * @param {Function} callback
+                 * @param {Object} settings
                  * @private
                  */
                 function fnServerData(source, data, callback, settings) {
-                    console.log(source);
+                    if($this.instance.DataTable !== undefined){
+                        (function (options) {
+                            data.forEach(function (item, i) {
+                                if (!options.hasOwnProperty(item.name))
+                                    return;
+                                this[i].value = options[item.name];
+                                settings['_' + item.name] = this[i].value;
+                            }, data);
+                            console.log(data);
+                        })({iDisplayStart: $this.instance.DataTable.page() * settings._iDisplayLength});
+                    }
                     settings.jqXHR = $.ajax({
                         dataType: 'json',
                         type: 'POST',
@@ -117,10 +127,7 @@
              * Refresh DataTable
              */
             function refresh() {
-                var dt = $this.instance.DataTable;
-
-                dt.ajax.reload();
-
+                $this.instance.DataTable.draw();
             }
 
             /**
