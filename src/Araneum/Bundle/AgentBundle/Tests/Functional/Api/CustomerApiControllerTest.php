@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\AgentBundle\Test\Functional\Api;
 
 use Araneum\Base\Tests\Controller\BaseController;
+use Symfony\Bundle\FrameworkBundle\Client;
 use Araneum\Base\Tests\Fixtures\Agent\CustomerFixtures;
 use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,8 @@ class CustomerApiControllerTest extends BaseController
     protected $customerInsert        = '/agent/api/customers/insert/';
     protected $customerResetPassword = '/agent/api/customers/reset_password';
     protected $customerLogin         = 'agent/api/customers/login/';
+
+    protected $handlerService;
 
     /**
      * Settings up
@@ -54,7 +57,7 @@ class CustomerApiControllerTest extends BaseController
     {
         $client = self::createAdminAuthorizedClient('api');
 
-        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot');
+        $this->mockHandlerService($client);
 
         $client->request(
             'POST',
@@ -79,7 +82,7 @@ class CustomerApiControllerTest extends BaseController
     {
         $client = self::createAdminAuthorizedClient('api');
 
-        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot');
+        $this->mockHandlerService($client);
 
         $client->request(
             'POST',
@@ -188,7 +191,7 @@ class CustomerApiControllerTest extends BaseController
     {
         $client = self::createAdminAuthorizedClient('api');
 
-        $this->mockRabbitmqProducer($client, 'araneum.base.rabbitmq.producer.spot');
+        $this->mockHandlerService($client);
 
         $client->request(
             'POST',
@@ -213,7 +216,7 @@ class CustomerApiControllerTest extends BaseController
                     'email' => CustomerFixtures::TEST_2_EMAIL,
                     'password' => 'mustBeMoreThat6',
                 ],
-                Response::HTTP_OK,
+                Response::HTTP_NO_CONTENT,
             ],
             'not linked customer and application' => [
                 [
@@ -237,5 +240,40 @@ class CustomerApiControllerTest extends BaseController
                 Response::HTTP_BAD_REQUEST,
             ],
         ];
+    }
+
+    /**
+     * Mock Customer Api Handler
+     * @param Client $client
+     */
+    public function mockHandlerService(Client $client)
+    {
+        $spotOptionService = $this->getMock(
+            '\Araneum\Bundle\AgentBundle\Service\SpotOptionService',
+            [],
+            [
+                $this->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService')->disableOriginalConstructor()->getMock(),
+                $this->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService')->disableOriginalConstructor()->getMock(),
+                $client->getContainer()->get('araneum.base.rabbitmq.producer.spot'),
+                $client->getContainer()->get('araneum.base.spot_api'),
+                $client->getContainer()->get('doctrine.orm.entity_manager'),
+            ]
+        );
+
+        $client->getContainer()->set('araneum.agent.spotoption.service', $spotOptionService);
+
+        $handlerMock = $this->getMock(
+            '\Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService',
+            ['createCustomerEvent'],
+            [
+                $client->getContainer()->get('araneum.main.application.manager'),
+                $client->getContainer()->get('doctrine.orm.entity_manager'),
+                $client->getContainer()->get('event_dispatcher'),
+                $client->getContainer()->get('form.factory'),
+                $client->getContainer()->get('araneum.agent.spotoption.service'),
+            ]
+        );
+
+        $client->getContainer()->set('araneum.agent.customer.api_handler', $handlerMock);
     }
 }
