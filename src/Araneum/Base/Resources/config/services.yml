@@ -1,4 +1,10 @@
 services:
+    araneum.exception_controller:
+        class: Araneum\Base\Controller\CustomExceptionController
+        arguments: ['@twig', '%kernel.debug%']
+        calls:
+          - [setTranslator, ['@translator']]
+
     araneum.auth.entry_point:
         class: Araneum\Base\Symfony\Security\AuthenticationEntryPoint
 

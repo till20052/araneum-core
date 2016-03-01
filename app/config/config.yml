@@ -44,6 +44,7 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         locales: %locales%
+    exception_controller: araneum.exception_controller:showAction
 
 # Assetic Configuration
 assetic:

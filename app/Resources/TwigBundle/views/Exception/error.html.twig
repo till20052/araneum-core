@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html class="ng-scope js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"
       lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -13,13 +12,13 @@
     <!-- Application styles-->
     <link rel="stylesheet" href="{{ asset('admin/build/css/app.css') }}">
 </head>
-
 <body>
 <div class="ng-zoomBackDown ng-fluid ng-scope" autoscroll="false">
     <div class="abs-center wd-xl ng-scope">
         <div class="text-center mb-xl">
             <div class="text-lg mb-lg">{{ status_code }}</div>
             <p class="lead m0">{{ status_text }}</p>
+            <p>{{ exception_message }}</p>
         </div>
         <ul class="list-inline text-center text-sm mb-xl">
             <li>
