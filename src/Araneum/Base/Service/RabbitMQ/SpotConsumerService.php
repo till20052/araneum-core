@@ -3,9 +3,6 @@
 namespace Araneum\Base\Service\RabbitMQ;
 
 use Araneum\Base\Service\Spot\SpotApiSenderService;
-use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
-use Doctrine\ORM\EntityManager;
-use Guzzle\Http\Exception\RequestException;
 use Guzzle\Service;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
@@ -50,6 +47,6 @@ class SpotConsumerService implements ConsumerInterface
     {
         $data = $this->msgConvertHelper->decodeMsg($message->body);
         $response = $this->spotApiSenderService->send((array) $data->data, (array) $data->spotCredential);
-        echo $response->getBody(true);
+        echo 'Response: '.$response->getBody(true).PHP_EOL;
     }
 }

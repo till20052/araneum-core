@@ -2,14 +2,14 @@
 
 namespace Araneum\Bundle\MainBundle\Command;
 
-use MikSoftware\DaemonBundle\Commnad\DaemonizedCommand;
+use Araneum\Base\Command\AbstractBaseDaemon;
 
 /**
- * Class DeploymentCommand
+ * Class DaemonConsumerCustomerCommand
  *
  * @package Araneum\Bundle\MainBundle\Command
  */
-class ConsumerSpotCommand extends DaemonizedCommand
+class DaemonConsumerCustomerCommand extends AbstractBaseDaemon
 {
     /**
      * Configures command.
@@ -17,9 +17,9 @@ class ConsumerSpotCommand extends DaemonizedCommand
     protected function configureDaemonCommand()
     {
         $this
-            ->setName('araneum:consumer:spot')
-            ->setDescription('Used for demonize. Queue for Spot.')
-            ->setHelp('Usage <info>php app/console <name> start|stop|restart</info>');
+            ->setName('araneum:daemon:consumer-customer')
+            ->setDescription('Used for demonize. Queue for send Customer to Spot.')
+            ->setHelp('Usage <info>php app/console <name> start|stop|restart|status</info>');
     }
 
     /**
@@ -31,7 +31,7 @@ class ConsumerSpotCommand extends DaemonizedCommand
     {
         $commandRunner = $this->getContainer()->get('araneum.command_runner.service');
         $commandRunner->runSymfonyCommandInNewProcess(
-            'rabbitmq:consumer spot --no-debug',
+            'rabbitmq:consumer spot_customer --no-debug',
             $this
         );
     }
