@@ -4,15 +4,15 @@ namespace Araneum\Base\Service\RabbitMQ;
 
 use Araneum\Base\Service\Spot\SpotApiSenderService;
 use Araneum\Bundle\AgentBundle\AgentEvents;
+use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
+use Araneum\Bundle\AgentBundle\Event\CustomerEvent;
 use Doctrine\ORM\EntityManager;
 use Guzzle\Http\Exception\RequestException;
 use Guzzle\Service;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
-use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Araneum\Bundle\AgentBundle\Event\CustomerEvent;
 
 /**
  * Class SpotCustomerConsumerService

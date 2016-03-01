@@ -110,7 +110,7 @@ class Runner
     protected $connectionLogs;
 
     /**
-     * @ORM\Column(type="boolean", name="use_ssl")
+     * @ORM\Column(type="boolean", name="use_ssl", options={"default":false})
      * @Assert\Type(type="boolean")
      */
     protected $useSSL;
