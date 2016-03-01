@@ -30,7 +30,7 @@ class CheckDaemonsCommand extends ContainerAwareCommand
     {
         $this
             ->setName('araneum:check:daemons')
-            ->setDescription('Check cluster or application state status.');
+            ->setDescription('Check all daemons state status. And starts if some daemon is broken');
     }
 
     /**
