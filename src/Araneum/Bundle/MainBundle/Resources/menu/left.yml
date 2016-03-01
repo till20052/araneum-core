@@ -52,6 +52,6 @@ Received_data:
             translate: admin.sidebar.nav.received.CUSTOMER
         Email:
             text: Email
-            sref: app.emails
+            sref: app.mails
             icon: icon-layers
             translate: admin.sidebar.nav.received.EMAIL

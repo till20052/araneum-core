@@ -58,6 +58,14 @@ class User extends BaseUser implements LdapUserInterface
     ];
 
     /**
+     * @var array $enable
+     */
+    public static $useLdapStatus = [
+        true => 'yes',
+        false => 'no',
+    ];
+
+    /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
