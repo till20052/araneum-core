@@ -15,11 +15,9 @@
 <body>
 <div class="ng-zoomBackDown ng-fluid ng-scope" autoscroll="false">
     <div class="abs-center wd-xl ng-scope">
-        <div class="text-center mb-xl">
-            <div class="text-lg mb-lg">{{ status_code }}</div>
-            <p class="lead m0">{{ status_text }}</p>
-            <p>{{ exception_message }}</p>
-        </div>
+
+        {{ render(controller('AraneumMainBundle:Default:exceptionCustomMessages', {'code': status_code, 'text': status_text, 'message': exception.message})) }}
+
         <ul class="list-inline text-center text-sm mb-xl">
             <li>
                 <a class="text-muted" href="{{ path('araneum_manage_main') }}">Go to App</a>
