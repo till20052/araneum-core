@@ -32,10 +32,11 @@
              * @param {String} id
              */
             function (event, id) {
+                console.log(event, id);
                 $scope.$broadcast('removeSpinner', id);
                 if (id !== 'filter')
                     return;
-                vm.filter.actions.refresh.call(vm.filter);
+                vm.filter.actions.reset.call(vm.filter);
             }
         );
 

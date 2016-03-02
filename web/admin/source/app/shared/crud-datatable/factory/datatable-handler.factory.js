@@ -5,14 +5,14 @@
         .module('crud.datatable')
         .factory('DTHandler', DTHandlerFactory);
 
-    DTHandlerFactory.$inject = ['DataTable', 'EventsHandler', 'DTOptionsBuilder', '$state'];
+    DTHandlerFactory.$inject = ['DataTable', 'EventsHandler', 'DTOptionsBuilder', 'TranslateDatatablesService', '$state'];
 
     /**
      *
      * @returns {DTHandler}
      * @constructor
      */
-    function DTHandlerFactory(DataTable, EventsHandler, DTOptionsBuilder, $state) {
+    function DTHandlerFactory(DataTable, EventsHandler, DTOptionsBuilder, translate, $state) {
         return DTHandler;
 
         /**
@@ -59,6 +59,7 @@
                     .withOption('processing', true)
                     .withOption('serverSide', true)
                     .withOption('fnServerData', fnServerData)
+                    .withOption('language', translate.translateTable())
                     .withPaginationType('full_numbers');
 
                 Object.keys($this)

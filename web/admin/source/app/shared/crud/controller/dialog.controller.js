@@ -5,9 +5,9 @@
         .module('crud')
         .controller('CRUDDialogController', CRUDDialogController);
 
-    CRUDDialogController.$inject = ['$scope', 'transport', 'supervisor'];
+    CRUDDialogController.$inject = ['$scope', 'transport', 'supervisor', '$filter'];
 
-    function CRUDDialogController($scope, transport, supervisor) {
+    function CRUDDialogController($scope, transport, supervisor, $filter) {
         /* jshint -W004, validthis: true */
         var vm = this,
             dt;
@@ -30,7 +30,10 @@
                         url: this.action,
                         method: this.method,
                         data: Object.keys(this.data()).forEach(function (key) {
-                            data[this.getChildById(key).name] = this.data(key);
+                            var value = this.data(key);
+                            if(value instanceof Date)
+                                value = $filter('date')(value, 'dd/MM/yyyy');
+                            data[this.getChildById(key).name] = value;
                         }, this) || data,
                         notify: {
                             skipIf: 'error'

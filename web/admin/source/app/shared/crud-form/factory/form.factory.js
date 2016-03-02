@@ -41,11 +41,12 @@
                             hidden: hidden,
                             checkbox: checkbox,
                             text: text,
-                            select: select
-                        }[child.type](angular.extend({
+                            select: select,
+                            datePicker: datePicker
+                        }[child.type](angular.extend(child, {
                             index: i,
                             model: 'form.data().' + child.id
-                        }, child)));
+                        })));
                     }
                     catch (error) {
                         throw console.error('Cannot find element by type: ' + child.type, child);
@@ -187,6 +188,34 @@
                         )
                 );
         }
+    }
+
+    /**
+     *
+     */
+    function datePicker(data) {
+        angular.extend(data, {
+            isOpen: false,
+            options: {}
+        });
+        return [
+            $('<label class="control-label mt-sm" />').html(data.label),
+            $('<div class="input-group" />').append(
+                $('<input type="text" class="form-control" />').attr({
+                    'uib-datepicker-popup': 'dd-MMMM-yyyy',
+                    'datepicker-options': 'form.children[' + data.index + '].options',
+                    'close-text': 'Close',
+                    'is-open': 'form.children[' + data.index + '].isOpen',
+                    'ng-model': data.model
+                }),
+                $('<span class="input-group-btn">').append(
+                    $('<button class="btn btn-default" />').append($('<i class="fa fa-calendar" />'))
+                        .click(function () {
+                            data.isOpen = true;
+                        })
+                )
+            )
+        ];
     }
 
     /**

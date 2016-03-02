@@ -136,6 +136,8 @@
                 function getType(value) {
                     if (value === 'choice')
                         return 'select';
+                    else if(value === 'date')
+                        return 'datePicker';
                     return value;
                 }
 
