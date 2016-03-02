@@ -1,6 +1,6 @@
 <?php
 
-namespace Araneum\Bundle\MainBundle\Tests\Functional\Api;
+namespace Araneum\Bundle\MainBundle\Tests\Functional\Admin;
 
 use Araneum\Base\Tests\Controller\BaseController;
 use Symfony\Component\Filesystem\Filesystem;
@@ -10,7 +10,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * Class TranslatesApiGetTest
  *
- * @package Araneum\Bundle\MainBundle\Tests\Functional\Api
+ * @package Araneum\Bundle\MainBundle\Tests\Functional\Admin
  */
 class AdminDefaultControllerTest extends BaseController
 {
@@ -26,7 +26,7 @@ class AdminDefaultControllerTest extends BaseController
      */
     public function testGetTranslateList()
     {
-        $client = self::createAdminAuthorizedClient('api');
+        $client = self::createAdminAuthorizedClient('admin');
         $client->request(
             'GET',
             $this->configGetUri

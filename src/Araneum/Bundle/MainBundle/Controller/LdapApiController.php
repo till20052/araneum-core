@@ -51,9 +51,10 @@ class LdapApiController extends Controller
     public function getLdapSynchronizationAction()
     {
         try {
+            $request = $this->get('request');
             $serviceLdap = $this->container
                 ->get('api.ldap.synchronization');
-            $result = $serviceLdap->runSynchronization();
+            $result = $serviceLdap->runSynchronization($request->get('testMod'));
 
             return new JsonResponse($result, 200);
         } catch (\Exception $e) {
