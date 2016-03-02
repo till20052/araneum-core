@@ -25,8 +25,8 @@ class DefaultController extends Controller
     /**
      * Render custom exception messages if they are exists
      *
-     * @param string $code Exception code
-     * @param string $text Exception text
+     * @param string $code    Exception code
+     * @param string $text    Exception text
      * @param string $message Exception message
      * @return \Symfony\Component\HttpFoundation\Response
      */
