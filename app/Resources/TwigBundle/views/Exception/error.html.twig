@@ -8,16 +8,28 @@
     <title>Angle - Angular Bootstrap Admin Template</title>
     <link rel="stylesheet" href="{{ asset('admin/build/css/bootstrap.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ asset('admin/vendor/fontawesome/css/font-awesome.min.css') }}">
-    <link type="text/css" rel="stylesheet" href="{{ asset('admin/vendor/simple-line-icons/css/simple-line-icons.css') }}">
+    <link type="text/css" rel="stylesheet"
+          href="{{ asset('admin/vendor/simple-line-icons/css/simple-line-icons.css') }}">
     <!-- Application styles-->
     <link rel="stylesheet" href="{{ asset('admin/build/css/app.css') }}">
 </head>
 <body>
 <div class="ng-zoomBackDown ng-fluid ng-scope" autoscroll="false">
     <div class="abs-center wd-xl ng-scope">
+        <div class="text-center mb-xl">
+            <div class="text-lg mb-lg">{{ status_code }}</div>
 
-        {{ render(controller('AraneumMainBundle:Default:exceptionCustomMessages', {'code': status_code, 'text': status_text, 'message': exception.message})) }}
+            {% set alias = "#{status_code}.status_text" %}
+            {% set trans = alias|trans([], "exceptions") %}
+            {% set status_text = (trans == alias) ? status_text : trans %}
+            <p class="lead m0">{{ status_text }}</p>
 
+            {% set alias = "#{status_code}.exception_message" %}
+            {% set trans = alias|trans([], "exceptions") %}
+            {% set message = (trans == alias) ? exception.message : trans %}
+            <p>{{ message }}</p>
+
+        </div>
         <ul class="list-inline text-center text-sm mb-xl">
             <li>
                 <a class="text-muted" href="{{ path('araneum_manage_main') }}">Go to App</a>
