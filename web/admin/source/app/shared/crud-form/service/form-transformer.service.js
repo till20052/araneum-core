@@ -76,7 +76,7 @@
                  * return {Object}
                  */
                 function getValues(data) {
-                    if (!(data instanceof Object))
+                    if (data.constructor !== Object)
                         return {};
 
                     var typesMap = {

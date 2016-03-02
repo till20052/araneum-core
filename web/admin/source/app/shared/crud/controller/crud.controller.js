@@ -71,21 +71,25 @@
                 layout: 'grid',
                 actionBar: [
                     {$$: 'search', icon: 'fa fa-search', title: 'admin.general.SEARCH', class: 'primary'},
-                    {$$: 'refresh', icon: 'fa fa-refresh', title: 'admin.general.RESET'}
+                    {$$: 'reset', icon: 'fa fa-refresh', title: 'admin.general.RESET'}
                 ],
                 actions: {
                     search: search,
-                    refresh: refresh
+                    reset: reset
                 }
             };
 
-            function search(form) {
-
+            function search() {
+                var $this = this,
+                    data = {};
+                vm.datatable.filter(Object.keys(this.data()).forEach(function (key) {
+                    this[$this.name + '[' + key + ']'] = $this.data(key);
+                }, data) || data);
             }
 
-            function refresh() {
+            function reset() {
                 this.data({});
-                vm.datatable.refresh();
+                vm.datatable.reset();
             }
         }
 
@@ -124,6 +128,7 @@
                     data: {
                         icon: data.view.icon,
                         title: data.view.label,
+                        datatable: vm.datatable,
                         form: {
                             source: data.form.source
                         }
@@ -176,6 +181,7 @@
                     data: {
                         icon: data.view.icon,
                         title: data.view.label,
+                        datatable: vm.datatable,
                         form: {
                             source: data.form.source + '/' + data.row.id
                         }
@@ -209,7 +215,7 @@
                 },
                 notify: true
             }, function () {
-                // @todo refresh datatable
+                vm.datatable.refresh();
             });
         }
 
@@ -260,7 +266,7 @@
                     },
                     notify: true
                 }, function () {
-                    // @todo refresh datatable
+                    vm.datatable.refresh();
                 });
             });
         }

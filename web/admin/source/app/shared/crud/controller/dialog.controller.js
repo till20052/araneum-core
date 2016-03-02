@@ -9,7 +9,8 @@
 
     function CRUDDialogController($scope, transport, supervisor) {
         /* jshint -W004, validthis: true */
-        var vm = this;
+        var vm = this,
+            dt;
 
         vm.isLoaded = false;
         vm.icon = 'fa fa-file-o';
@@ -28,13 +29,14 @@
                     transport.send({
                         url: this.action,
                         method: this.method,
-                        data: Object.keys(this.data()).forEach(function(key){
+                        data: Object.keys(this.data()).forEach(function (key) {
                             data[this.getChildById(key).name] = this.data(key);
                         }, this) || data,
                         notify: {
                             skipIf: 'error'
                         }
                     }, function () {
+                        dt.refresh();
                         $scope.closeThisDialog();
                     }, function (data) {
                         vm.errors = data.message.split(/\n/);
@@ -66,6 +68,9 @@
                     vm[key] = $scope.ngDialogData[key];
                 });
 
+            if ($data.hasOwnProperty('datatable'))
+                activateDataTable($data.datatable);
+
             if ($data.hasOwnProperty('form'))
                 activateForm($data.form);
         }
@@ -90,6 +95,15 @@
                         vm.form.build(response);
                     }
                 });
+        }
+
+        /**
+         * DataTable Activation
+         *
+         * @param {Object} data
+         */
+        function activateDataTable(data) {
+            dt = data;
         }
     }
 

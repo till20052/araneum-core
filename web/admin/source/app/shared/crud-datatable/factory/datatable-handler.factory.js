@@ -5,14 +5,14 @@
         .module('crud.datatable')
         .factory('DTHandler', DTHandlerFactory);
 
-    DTHandlerFactory.$inject = ['DataTable', 'EventsHandler', 'DTOptionsBuilder'];
+    DTHandlerFactory.$inject = ['DataTable', 'EventsHandler', 'DTOptionsBuilder', '$state'];
 
     /**
      *
      * @returns {DTHandler}
      * @constructor
      */
-    function DTHandlerFactory(DataTable, EventsHandler, DTOptionsBuilder) {
+    function DTHandlerFactory(DataTable, EventsHandler, DTOptionsBuilder, $state) {
         return DTHandler;
 
         /**
@@ -33,7 +33,10 @@
                 options: {},
                 selectRow: selectRow,
                 getSelectedRows: getSelectedRows,
+                draw: draw,
+                filter: filter,
                 refresh: refresh,
+                reset: reset,
                 build: build
             });
 
@@ -77,17 +80,27 @@
                  * @private
                  */
                 function fnServerData(source, data, callback, settings) {
-                    if($this.instance.DataTable !== undefined){
-                        (function (options) {
-                            data.forEach(function (item, i) {
-                                if (!options.hasOwnProperty(item.name))
-                                    return;
-                                this[i].value = options[item.name];
-                                settings['_' + item.name] = this[i].value;
-                            }, data);
-                            console.log(data);
-                        })({iDisplayStart: $this.instance.DataTable.page() * settings._iDisplayLength});
+                    if ($this.instance.hasOwnProperty('drawAttrs')) {
+                        var attrs = $this.instance.drawAttrs;
+
+                        if (
+                            attrs.hasOwnProperty('filter') &&
+                            typeof attrs.filter === 'string' &&
+                            attrs.filter.length > 0
+                        )
+                            source += '?' + attrs.filter;
+
+                        if (attrs.hasOwnProperty('state')) {
+                            settings._iDisplayStart = attrs.state.start;
+                            data = data.map(function (item) {
+                                if (item.name === 'iDisplayStart')
+                                    item.value = attrs.state.start;
+                                return item;
+                            });
+                            delete attrs.state;
+                        }
                     }
+
                     settings.jqXHR = $.ajax({
                         dataType: 'json',
                         type: 'POST',
@@ -99,6 +112,7 @@
                                     return [cols.splice(0, cols.length - 1).concat(['<dropdown />', '<checkbox />'])];
                                 })
                             }));
+                            $('input[type="checkbox"]', settings.nTable).prop('checked', false);
                             $this.compile(
                                 $('> tbody > tr', settings.nTable)
                                     .each(function () {
@@ -115,19 +129,94 @@
                             $this.event('onRenderRows').invoke($this);
                         },
                         error: function (response) {
-                            //if (response.status !== 401)
-                            //    return;
-                            //$state.go('login');
+                            if (response.status !== 401)
+                                return;
+                            $state.go('login');
                         }
                     });
                 }
             }
 
             /**
+             * Draw DataTable
+             *
+             * @param {{
+             *  holdState: Boolean=
+             *  filter: Object=
+             * }} options
+             * @returns {*}
+             */
+            function draw(options) {
+                var dt = $this.instance.DataTable,
+                    drawAttrs = $this.instance.drawAttrs = {};
+
+                if (options instanceof Object) {
+                    ['filter', 'holdState'].forEach(function (key) {
+                        if (!options.hasOwnProperty(key))
+                            return;
+                        angular.extend(drawAttrs, ({
+                            filter: filter,
+                            holdState: holdState
+                        })[key](options[key]));
+                    });
+                }
+
+                return dt.draw();
+
+                /**
+                 * Convert filter data to params
+                 *
+                 * @param data
+                 */
+                function filter(data) {
+                    if (data.constructor !== Object)
+                        return;
+                    return {
+                        filter: $.param(data)
+                    };
+                }
+
+                /**
+                 * Get DataTable page info if is set holdState attr
+                 *
+                 * @param value
+                 */
+                function holdState(value) {
+                    if (value !== true)
+                        return;
+                    var $this = {state: {}};
+                    return Object.keys(dt.page.info())
+                            .forEach(function (key) {
+                                this[key] = dt.page.info()[key];
+                            }, $this.state) || $this;
+                }
+            }
+
+            /**
+             * Draw DataTable with filtering
+             *
+             * @param {Object} data
+             */
+            function filter(data) {
+                $this.draw({
+                    filter: data
+                });
+            }
+
+            /**
              * Refresh DataTable
              */
             function refresh() {
-                $this.instance.DataTable.draw();
+                $this.draw(angular.extend({
+                    holdState: true
+                }, $this.instance.drawAttrs));
+            }
+
+            /**
+             * Reset DataTable
+             */
+            function reset() {
+                $this.draw({});
             }
 
             /**
