@@ -23,7 +23,7 @@
                     title: 'admin.users.TITLE'
                 },
                 templateUrl: helper.basepath('crud.html'),
-                resolve: helper.resolveFor('datatables', 'oitozero.ngSweetAlert')
+                resolve: helper.resolveFor('datatables', 'oitozero.ngSweetAlert', 'ui.select')
             })
             .state('login', {
                 url: '/login',
