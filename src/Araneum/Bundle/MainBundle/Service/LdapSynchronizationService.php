@@ -104,7 +104,7 @@ class LdapSynchronizationService extends LdapManager
             'sitem' => 0,
             'uitem' => 0,
         ];
-        if (!$testMod) {
+        if (empty($testMod)) {
             $this->repositoryUser->setAllLdapUsersStatusOld();
             $entries = $this->driver->search($this->params['baseDn'], $this->params['filter'], $this->ldapAttributes);
             if (is_array($entries)) {
