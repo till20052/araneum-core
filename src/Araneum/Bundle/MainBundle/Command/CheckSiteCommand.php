@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @package Araneum\Bundle\MainBundle\Command
  */
-class CheckerCheckCommand extends ContainerAwareCommand
+class CheckSiteCommand extends ContainerAwareCommand
 {
     /**
      * @var OutputInterface
@@ -41,7 +41,7 @@ class CheckerCheckCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('checker:check')
+            ->setName('araneum:check:site')
             ->setDescription('Check cluster or application state status.')
             ->addArgument(
                 'target',

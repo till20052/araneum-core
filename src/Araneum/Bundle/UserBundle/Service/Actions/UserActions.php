@@ -21,6 +21,30 @@ class UserActions extends AbstractActions
     {
         $builder
             ->add(
+                'ldap',
+                [
+                    'resourceAll' => 'araneum_user_admin_users_ldap_sync',
+                    'callback' => 'refresh',
+                    'confirm' => [
+                        'title' => 'admin.general.SURE',
+                        'yes' => [
+                            'class' => 'confirm',
+                            'title' => 'admin.general.CONFIRM_LDAP_SYNC',
+                        ],
+                        'no' => [
+                            'class' => 'cancel',
+                            'title' => 'admin.general.CANCEL',
+                        ],
+                    ],
+                    'display' => [
+                        'btnClass' => 'btn-success',
+                        'icon' => 'icon-refresh',
+                        'label' => 'user.data_grid.LDAP_USERS',
+                    ],
+                    'position' => ActionBuilderInterface::POSITION_TOP,
+                ]
+            )
+            ->add(
                 'delete',
                 [
                     'resource' => 'araneum_user_admin_user_delete',

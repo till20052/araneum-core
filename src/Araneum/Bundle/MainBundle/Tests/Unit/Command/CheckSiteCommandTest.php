@@ -2,7 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Tests\Unit\Command;
 
-use Araneum\Bundle\MainBundle\Command\CheckerCheckCommand;
+use Araneum\Bundle\MainBundle\Command\CheckSiteCommand;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
 use Araneum\Bundle\MainBundle\Entity\Connection;
 use Araneum\Bundle\MainBundle\Entity\Application;
@@ -11,14 +11,14 @@ use Symfony\Component\Console\Tester\CommandTester;
 use \Symfony\Component\DependencyInjection\Container;
 
 /**
- * Class CheckerCheckCommandTest
+ * Class CheckSiteCommandTest
  *
  * @package Araneum\Bundle\MainBundle\Tests\Unit\Command
  */
-class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
+class CheckSiteCommandTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var CheckerCheckCommand
+     * @var CheckSiteCommand
      */
     private $command;
 
@@ -192,12 +192,12 @@ class CheckerCheckCommandTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $app = new App();
-        $app->add(new CheckerCheckCommand());
+        $app->add(new CheckSiteCommand());
 
         /**
-         * @var CheckerCheckCommand command
+         * @var CheckSiteCommand command
          */
-        $this->command = $app->find('checker:check');
+        $this->command = $app->find('araneum:check:site');
         $this->command->setContainer($this->getContainer());
 
         /**

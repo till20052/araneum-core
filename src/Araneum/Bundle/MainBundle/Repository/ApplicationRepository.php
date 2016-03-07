@@ -1,8 +1,8 @@
 <?php
-
 namespace Araneum\Bundle\MainBundle\Repository;
 
 use Araneum\Base\Repository\CountableTrait;
+use Araneum\Base\Repository\AdminDataGridTrait;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityRepository;
@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityRepository;
 class ApplicationRepository extends EntityRepository implements \Countable
 {
     use CountableTrait;
+    use AdminDataGridTrait;
 
     /**
      * Return Applications Query Builder without any conditions
@@ -59,7 +60,7 @@ class ApplicationRepository extends EntityRepository implements \Countable
      * @param  int $maxResults
      * @return array
      */
-    public function getApplicationStatusesDayly($maxResults = 4)
+    public function getApplicationStatusesDaily($maxResults = 4)
     {
         $qb = $this->createQueryBuilder('a');
 

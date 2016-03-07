@@ -49,6 +49,7 @@
             'app.dashboard',
             'app.applications',
             'app.leads',
+            'app.mails',
         ]);
 })();
 

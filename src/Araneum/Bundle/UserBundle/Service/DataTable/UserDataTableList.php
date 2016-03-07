@@ -96,6 +96,15 @@ class UserDataTableList extends AbstractList
                 ]
             )
             ->add(
+                'useLdap',
+                [
+                    'render' => function ($value) {
+                        return ($value)?'<em class="icon-check fa-2x"></em>':'<em class="icon-ban fa-2x"></em>';
+                    },
+                    'label' => 'admin.general.USE_LDAP',
+                ]
+            )
+            ->add(
                 'createdAt',
                 [
                     'label' => 'user.REGISTER',

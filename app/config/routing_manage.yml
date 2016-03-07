@@ -29,3 +29,7 @@ araneum_user:
 araneum_lead:
     resource: "@AraneumAgentBundle/Controller/AdminLeadController.php"
     type: annotation
+
+araneum_manage_mail:
+    resource: "@AraneumMailBundle/Controller/AdminMailController.php"
+    type: annotation

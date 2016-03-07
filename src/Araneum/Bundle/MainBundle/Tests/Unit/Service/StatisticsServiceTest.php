@@ -25,7 +25,7 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    private $applicationsDaylyStatistics;
+    private $applicationsDailyStatistics;
 
     /**
      * Test getting statistics of each application
@@ -39,13 +39,13 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test application statistics dayly
+     * Test application statistics daily
      */
-    public function testGetApplicationsStatusesDayly()
+    public function testGetApplicationsStatusesDaily()
     {
         $this->assertEquals(
-            $this->applicationsDaylyStatistics,
-            $this->service->getApplicationsStatusesDayly()
+            $this->applicationsDailyStatistics,
+            $this->service->getApplicationsStatusesDaily()
         );
     }
 
@@ -60,7 +60,7 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             $expected,
-            $this->service->getResultByColumnName($this->applicationsDaylyStatistics, $field)
+            $this->service->getResultByColumnName($this->applicationsDailyStatistics, $field)
         );
     }
 
@@ -101,9 +101,9 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test get application statuses dayly
+     * Test get application statuses daily
      */
-    public function testGetApplicationStatusesDayly()
+    public function testGetApplicationStatusesDaily()
     {
         $array = [
             'name' => '',
@@ -113,15 +113,15 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
             'disabled' => '',
         ];
 
-        $statuses = $this->service->getApplicationsStatusesDayly();
+        $statuses = $this->service->getApplicationsStatusesDaily();
 
         $this->assertEquals(array_keys($array), array_keys($statuses[0]));
     }
 
     /**
-     * Test get average application statuses dayly
+     * Test get average application statuses daily
      */
-    public function testGetAverageApplicationStatusesDayly()
+    public function testGetAverageApplicationStatusesDaily()
     {
 
         $array = [
@@ -139,7 +139,7 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $applicationLogRepository->expects($this->once())
-            ->method('getAverageApplicationStatusesDayly')
+            ->method('getAverageApplicationStatusesDaily')
             ->will($this->returnValue($array));
 
         $entityManagerLog = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
@@ -153,7 +153,7 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
 
         $service = new StatisticsService($entityManagerLog);
 
-        $statuses = $service->getAverageApplicationStatusesDayly();
+        $statuses = $service->getAverageApplicationStatusesDaily();
 
         $this->assertEquals(array_keys($array), array_keys($statuses));
     }
@@ -191,13 +191,13 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
 
         $service = new StatisticsService($entityManagerLog);
 
-        $clusterAverage = $service->prepareResultForClusterAverage();
+        $clusterAverage = $service->getResultForClusterAverage();
 
         $this->assertEquals(array_keys($array), array_keys($clusterAverage));
     }
 
     /**
-     * Test for
+     * Test for Cluster Up Time
      */
     public function testPrepareResultForClusterUpTime()
     {
@@ -205,17 +205,14 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
         $array = [
             [
                 'label' => '',
-                'color' => '',
                 'data' => [],
             ],
             [
                 'label' => '',
-                'color' => '',
                 'data' => [],
             ],
             [
                 'label' => '',
-                'color' => '',
                 'data' => [],
             ],
         ];
@@ -248,9 +245,106 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
 
         $service = new StatisticsService($entityManager);
 
-        $clusterUpTime = $service->prepareResultForClusterUpTime();
+        $clusterUpTime = $service->getResultForClusterUpTime();
 
         $this->assertEquals(array_keys($array), array_keys($clusterUpTime));
+    }
+
+    /**
+     * Test prepare result for runner average
+     */
+    public function testPrepareResultForRunnerAverage()
+    {
+
+        $array = [
+            [
+                'name' => 'name',
+                'hours' => '10',
+                'apt' => '1',
+            ],
+        ];
+
+        $runnerRepository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\RunnerRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $runnerRepository->expects($this->once())
+            ->method('getRunnersLoadAverage')
+            ->will($this->returnValue($array));
+
+        $entityManagerLog = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $entityManagerLog->expects($this->once())
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumMainBundle:Runner'))
+            ->will($this->returnValue($runnerRepository));
+
+        $service = new StatisticsService($entityManagerLog);
+
+        $clusterAverage = $service->getResultsForRunnersAverage();
+
+        $this->assertEquals(array_keys($array), array_keys($clusterAverage));
+    }
+
+    /**
+     * Test for Runner Up Time
+     */
+    public function testPrepareResultForRunnerUpTime()
+    {
+
+        $array = [
+            [
+                'label' => '',
+                'data' => [],
+            ],
+            [
+                'label' => '',
+                'data' => [],
+            ],
+            [
+                'label' => '',
+                'data' => [],
+            ],
+            [
+                'label' => '',
+                'data' => [],
+            ],
+        ];
+
+        $arrayForRunner = [
+            [
+                'name' => '',
+                'success' => '',
+                'appProblem' => '',
+                'problem' => '',
+                'offline' => '',
+            ],
+        ];
+
+        $runnerRepository = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Repository\RunnerRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $runnerRepository->expects($this->once())
+            ->method('getRunnersUpTime')
+            ->will($this->returnValue($arrayForRunner));
+
+        $entityManager = $this->getMockBuilder('\Doctrine\ORM\EntityManager')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $entityManager->expects($this->once())
+            ->method('getRepository')
+            ->with($this->equalTo('AraneumMainBundle:Runner'))
+            ->will($this->returnValue($runnerRepository));
+
+        $service = new StatisticsService($entityManager);
+
+        $runnerUpTime = $service->getResultsForRunnersUpTime();
+
+        $this->assertEquals(array_keys($array), array_keys($runnerUpTime));
     }
 
     /**
@@ -265,7 +359,7 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
             'disabled' => rand(),
         ];
 
-        $this->applicationsDaylyStatistics =
+        $this->applicationsDailyStatistics =
             [
                 [
                     'name' => 'Name',
@@ -299,8 +393,8 @@ class StatisticsServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->applicationsStatistics));
 
         $applicationRepository->expects($this->any())
-            ->method('getApplicationStatusesDayly')
-            ->will($this->returnValue($this->applicationsDaylyStatistics));
+            ->method('getApplicationStatusesDaily')
+            ->will($this->returnValue($this->applicationsDailyStatistics));
 
         $entityManager->expects($this->any())
             ->method('getRepository')
