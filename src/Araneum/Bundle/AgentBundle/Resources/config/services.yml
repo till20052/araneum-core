@@ -16,6 +16,7 @@ services:
             - @araneum.base.rabbitmq.producer.spot
             - @araneum.base.spot_api
             - @doctrine.orm.entity_manager
+            - @jms_serializer
 
     araneum.agent.logger:
         class: Araneum\Bundle\AgentBundle\Service\AgentLoggerService

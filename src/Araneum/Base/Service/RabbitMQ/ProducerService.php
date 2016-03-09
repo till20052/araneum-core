@@ -55,7 +55,7 @@ class ProducerService
     ) {
         $msg = $this->getStdClass();
         $msg->data = $msgBody;
-        $msg->spotCredential = $credential;
+        $msg->credential = $credential;
 
         try {
             $this->producer->publish(

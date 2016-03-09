@@ -1,0 +1,67 @@
+services:
+
+    araneum.base.rabbitmq.producer.spot:
+        class: Araneum\Base\Service\RabbitMQ\ProducerService
+        factory_class: Araneum\Base\Service\ProducerFactory
+        factory_method: createService
+        arguments:
+            - "@old_sound_rabbit_mq.spot_producer"
+            - "%rabbitmq_queue_expiration%"
+
+    araneum.base.rabbitmq.producer.spot_customer:
+        class: Araneum\Base\Service\RabbitMQ\ProducerService
+        factory_class: Araneum\Base\Service\ProducerFactory
+        factory_method: createService
+        arguments:
+            - "@old_sound_rabbit_mq.spot_customer_producer"
+            - "%rabbitmq_queue_expiration%"
+
+    araneum.base.rabbitmq.producer.spot_login:
+        class: Araneum\Base\Service\RabbitMQ\ProducerService
+        factory_class: Araneum\Base\Service\ProducerFactory
+        factory_method: createService
+        arguments:
+            - "@old_sound_rabbit_mq.spot_login_producer"
+            - "%rabbitmq_queue_expiration%"
+
+    araneum.base.rabbitmq.producer.application_customer:
+        class: Araneum\Base\Service\RabbitMQ\ProducerService
+        factory_class: Araneum\Base\Service\ProducerFactory
+        factory_method: createService
+        arguments:
+            - "@old_sound_rabbit_mq.application_customer_producer"
+            - "%rabbitmq_queue_expiration%"
+
+
+    araneum.base.rabbitmq.consumer.application_customer:
+        class: Araneum\Base\Service\RabbitMQ\ApiCustomerConsumerService
+        arguments:
+            - "@araneum.base.application_api"
+            - "@araneum.base.rabbitmq.msg_convert_helper"
+            - "@doctrine.orm.entity_manager"
+
+    araneum.base.rabbitmq.consumer.spot_login:
+        class: Araneum\Base\Service\RabbitMQ\SpotCustomerLoginConsumerService
+        arguments:
+            - "@araneum.base.spot_api"
+            - "@araneum.base.rabbitmq.msg_convert_helper"
+            - "@doctrine.orm.entity_manager"
+            - "@jms_serializer"
+            - "@araneum.main.application.remote_manager"
+            - "%spot_api_public_url_login%"
+
+
+
+    araneum.base.rabbitmq.consumer.spot:
+        class: Araneum\Base\Service\RabbitMQ\SpotConsumerService
+        arguments:
+            - "@araneum.base.spot_api"
+            - "@araneum.base.rabbitmq.msg_convert_helper"
+
+    araneum.base.rabbitmq.consumer.spot_customer:
+        class: Araneum\Base\Service\RabbitMQ\SpotCustomerConsumerService
+        arguments:
+            - "@araneum.base.spot_api"
+            - "@araneum.base.rabbitmq.msg_convert_helper"
+            - "@doctrine.orm.entity_manager"
+            - "@event_dispatcher"

@@ -7,119 +7,76 @@ services:
 
     araneum.auth.failure.handler:
         class: Araneum\Base\Symfony\Security\AuthenticationFailureHandler
-        arguments: [@security.csrf.token_manager]
+        arguments:
+            - "@security.csrf.token_manager"
 
     araneum_datatable:
         class: Araneum\Base\Ali\DatatableBundle\Util\AraneumDatatable
-        arguments: [@service_container, @araneum_datatable.query_bilder]
+        arguments:
+            - "@service_container"
+            - "@araneum_datatable.query_bilder"
 
     araneum_datatable.query_bilder:
         class: Araneum\Base\Ali\DatatableBundle\Util\Factory\Query\AraneumDoctrineBuilder
-        arguments: [@service_container, @doctrine.orm.default_entity_manager]
+        arguments:
+            - "@service_container"
+            - "@doctrine.orm.default_entity_manager"
         tags:
             - { name: xmlm_datatable_query_bilder }
 
     araneum_datatable.factory:
         class: Araneum\Base\Ali\DatatableBundle\Util\Factory\DatatableFactory
-        arguments: [@araneum_datatable, @doctrine, @templating, @annotation_reader, @security.token_storage]
+        arguments:
+            - "@araneum_datatable"
+            - "@doctrine"
+            - "@templating"
+            - "@annotation_reader"
+            - "@security.token_storage"
 
     araneum.base.form.handler:
         class: Araneum\Base\Service\FormHandlerService
 
     araneum.form_exporter.service:
         class: Araneum\Base\Service\FromExporterService
-        arguments: [@jms_serializer, @form.factory]
+        arguments:
+            - "@jms_serializer"
+            - "@form.factory"
 
     araneum.admin.initializer.service:
         class: Araneum\Base\Service\AdminInitializerService
-        arguments: [@araneum.form_exporter.service, @araneum_datatable.factory, @araneum.action.factory]
+        arguments:
+            - "@araneum.form_exporter.service"
+            - "@araneum_datatable.factory"
+            - "@araneum.action.factory"
 
     araneum.action.factory:
         class: Araneum\Base\Service\Actions\ActionFactory
-        arguments: [@araneum.action.builder]
+        arguments:
+            - "@araneum.action.builder"
 
     araneum.action.builder:
         class: Araneum\Base\Service\Actions\ActionBuilder
-        arguments: [@router]
+        arguments:
+            - "@router"
 
     araneum.command_runner.service:
         class: Araneum\Base\Service\CommandRunnerService
-        arguments: [%kernel.root_dir%]
+        arguments:
+            - "%kernel.root_dir%"
 
     araneum.base.rabbitmq.msg_convert_helper:
         class: Araneum\Base\Service\RabbitMQ\MessageConversionHelper
 
-    araneum.base.rabbitmq.producer.spot_customer:
-        class: Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService
-        arguments:
-            - "@old_sound_rabbit_mq.spot_customer_producer"
-            - "@araneum.base.rabbitmq.msg_convert_helper"
-            - "%rabbitmq_queue_expiration%"
-
-    araneum.base.rabbitmq.consumer.spot_customer:
-        class: Araneum\Base\Service\RabbitMQ\SpotCustomerConsumerService
-        arguments:
-            - "@araneum.base.spot_api"
-            - "@araneum.base.rabbitmq.msg_convert_helper"
-            - "@doctrine.orm.entity_manager"
-            - "@event_dispatcher"
-
     araneum.base.spot_api:
         class: Araneum\Base\Service\Spot\SpotApiSenderService
-        arguments: [@guzzle.client, @doctrine.orm.entity_manager, %spot_enable_json_responce%]
-
-    araneum.base.rabbitmq.producer.spot:
-        class: Araneum\Base\Service\RabbitMQ\SpotProducerService
         arguments:
-            - @old_sound_rabbit_mq.spot_producer
-            - @araneum.base.rabbitmq.msg_convert_helper
-            - %rabbitmq_queue_expiration%
-
-    araneum.base.rabbitmq.consumer.spot:
-        class: Araneum\Base\Service\RabbitMQ\SpotConsumerService
-        arguments: [@araneum.base.spot_api, @araneum.base.rabbitmq.msg_convert_helper]
-        
-    araneum.base.rabbitmq.producer.spot_login:
-        class: Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService
-        arguments:
-            - @old_sound_rabbit_mq.spot_login_producer
-            - @araneum.base.rabbitmq.msg_convert_helper
-            - @jms_serializer
-            - %rabbitmq_queue_expiration%
-
-    araneum.base.rabbitmq.consumer.spot_login:
-        class: Araneum\Base\Service\RabbitMQ\SpotCustomerLoginConsumerService
-        arguments:
-            - @araneum.base.spot_api
-            - @araneum.base.rabbitmq.msg_convert_helper
-            - @doctrine.orm.entity_manager
-            - @jms_serializer
-            - @araneum.main.application.remote_manager
-            - %spot_api_public_url_login%
+            - "@guzzle.client"
+            - "@doctrine.orm.entity_manager"
+            - "%spot_enable_json_responce%"
 
     araneum.base.application_api:
         class: Araneum\Base\Service\Application\ApplicationApiSenderService
-        arguments: ["@guzzle.client", "@doctrine.orm.entity_manager", "%spot_enable_json_responce%"]
-
-    araneum.base.rabbitmq.producer.application_customer:
-        class: Araneum\Base\Service\RabbitMQ\ApiCustomerProducerService
         arguments:
-            - "@old_sound_rabbit_mq.spot_producer"
-            - "@araneum.base.rabbitmq.msg_convert_helper"
-            - "%rabbitmq_queue_expiration%"
-
-    araneum.base.rabbitmq.consumer.application_customer:
-        class: Araneum\Base\Service\RabbitMQ\ApiCustomerConsumerService
-        arguments: ["@araneum.base.application_api", "@araneum.base.rabbitmq.msg_convert_helper", "@doctrine.orm.entity_manager"]
-
-
-    araneum.base.rabbitmq.producer.factory_service:
-        class: Araneum\Base\Service\ProducerFactory
-        arguments:
-            - "@service_container"
-            - "@araneum.base.rabbitmq.msg_convert_helper"
-            - "%rabbitmq_queue_expiration%"
-
-    araneum.base.rabbitmq.producer.new_service:
-        class: Araneum\Base\Service\RabbitMQ\ProducerService
-        factory: ["@araneum.base.rabbitmq.producer.factory_service", createProducer]
+            - "@guzzle.client"
+            - "@doctrine.orm.entity_manager"
+            - "%spot_enable_json_responce%"

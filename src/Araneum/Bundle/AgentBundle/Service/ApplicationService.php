@@ -62,12 +62,12 @@ class ApplicationService
      */
     public function createCustomer($customer, $application)
     {
-        $data = [
-            'customerData' => $this->getCustomerData($customer),
+        $credential = [
             'url' => $application->getDomain().$this->urls['create_user'],
             'customerId' => $customer->getId(),
         ];
-        $this->apiCustomerProducerService->publish($data);
+
+        $this->apiCustomerProducerService->publish($this->getCustomerData($customer), $credential);
     }
 
     /**

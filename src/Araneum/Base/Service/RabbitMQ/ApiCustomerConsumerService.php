@@ -56,7 +56,7 @@ class ApiCustomerConsumerService implements ConsumerInterface
     public function execute(AMQPMessage $message)
     {
         $data = $this->msgConvertHelper->decodeMsg($message->body);
-        $helper = ['url' => $data->url, 'customerId' => $data->customerId];
+        $helper = ['url' => $data->credential->url, 'customerId' => $data->credential->customerId];
         $this->applicationApiSenderService->send((array) $data->data, (array) $helper);
     }
 }
