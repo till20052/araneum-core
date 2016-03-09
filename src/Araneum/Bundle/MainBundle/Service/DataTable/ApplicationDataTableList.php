@@ -91,6 +91,12 @@ class ApplicationDataTableList extends AbstractList
                 ]
             )
             ->add(
+                'enabled',
+                [
+                    'label' => 'applications.ENABLED',
+                ]
+            )
+            ->add(
                 'createdAt',
                 [
                     'search_type' => 'datetime',

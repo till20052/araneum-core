@@ -3,12 +3,16 @@
 namespace Araneum\Base\Service\RabbitMQ;
 
 use Araneum\Base\Service\Spot\SpotApiSenderService;
+use Araneum\Bundle\AgentBundle\AgentEvents;
+use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
+use Araneum\Bundle\AgentBundle\Event\CustomerEvent;
 use Doctrine\ORM\EntityManager;
 use Guzzle\Http\Exception\RequestException;
 use Guzzle\Service;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class SpotCustomerConsumerService
@@ -22,29 +26,36 @@ class SpotCustomerConsumerService implements ConsumerInterface
      */
     protected $em;
     /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+    /**
      * @var SpotApiSenderService
      */
     private $spotApiSenderService;
     /**
-     * @var
+     * @var MessageConversionHelper
      */
     private $msgConvertHelper;
 
     /**
      * Consumer constructor.
      *
-     * @param SpotApiSenderService    $spotApiSenderService
-     * @param MessageConversionHelper $msgConvertHelper
-     * @param EntityManager           $em
+     * @param SpotApiSenderService     $spotApiSenderService
+     * @param MessageConversionHelper  $msgConvertHelper
+     * @param EntityManager            $em
+     * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(
         SpotApiSenderService $spotApiSenderService,
         MessageConversionHelper $msgConvertHelper,
-        EntityManager $em
+        EntityManager $em,
+        EventDispatcherInterface $dispatcher
     ) {
         $this->spotApiSenderService = $spotApiSenderService;
         $this->msgConvertHelper = $msgConvertHelper;
         $this->em = $em;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -62,7 +73,15 @@ class SpotCustomerConsumerService implements ConsumerInterface
             if ($this->spotApiSenderService->getErrors($spotResponse) !== null) {
                 throw new RequestException($this->spotApiSenderService->getErrors($spotResponse));
             }
+
             $this->updateCustomer($log);
+            if ($log['action'] == CustomerLog::ACTION_CREATE) {
+                /** @var Customer $customer */
+                $customer = $this->em->getRepository("AraneumAgentBundle:Customer")->findOneById($log['customerId']);
+                $customer->setPassword($data->data->password);
+                $this->createCustomerEvent($customer, AgentEvents::CUSTOMER_LOGIN);
+            }
+
             $this->createCustomerLog($log, $spotResponse->getBody(true), CustomerLog::STATUS_OK);
         } catch (RequestException $e) {
             $this->createCustomerLog($log, $e->getMessage(), CustomerLog::STATUS_ERROR);
@@ -72,9 +91,9 @@ class SpotCustomerConsumerService implements ConsumerInterface
     /**
      * Create and save customer log
      *
-     * @param array   $log
-     * @param string  $logMessage
-     * @param int     $status
+     * @param array  $log
+     * @param string $logMessage
+     * @param int    $status
      * @throws \Doctrine\ORM\ORMException
      */
     private function createCustomerLog(array $log, $logMessage, $status)
@@ -93,7 +112,7 @@ class SpotCustomerConsumerService implements ConsumerInterface
     /**
      * Update customer $deliveredAt
      *
-     * @param array   $log
+     * @param array $log
      * @throws \Doctrine\ORM\ORMException
      */
     private function updateCustomer(array $log)
@@ -104,5 +123,18 @@ class SpotCustomerConsumerService implements ConsumerInterface
             $this->em->persist($customer);
             $this->em->flush();
         }
+    }
+
+    /**
+     * Create and dispatch Customer event
+     *
+     * @param Customer $customer
+     * @param string   $eventName
+     */
+    private function createCustomerEvent(Customer $customer, $eventName)
+    {
+        $event = new CustomerEvent();
+        $event->setCustomer($customer);
+        $this->dispatcher->dispatch($eventName, $event);
     }
 }

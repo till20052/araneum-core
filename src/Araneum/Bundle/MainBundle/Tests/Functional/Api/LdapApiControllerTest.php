@@ -27,7 +27,8 @@ class LdapApiControllerTest extends BaseController
     {
         $this->client->request(
             'GET',
-            '/api/ldap/users/'
+            '/api/ldap/users/',
+            ['testMod' => true]
         );
         $response = $this->client->getResponse();
         $content = $response->getContent();
