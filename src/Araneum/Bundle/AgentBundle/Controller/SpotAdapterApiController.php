@@ -26,6 +26,7 @@ class SpotAdapterApiController extends FOSRestController
      *   resource = "Request",
      *   section = "SpotAdapter",
      *   description = "Sends request to spot",
+     *   output = "JSON",
      *   statusCodes = {
      *      201 = "Returned when request is successful",
      *      403 = "Returned when request is failed",
