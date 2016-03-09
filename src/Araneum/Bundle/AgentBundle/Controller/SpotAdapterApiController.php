@@ -26,7 +26,6 @@ class SpotAdapterApiController extends FOSRestController
      *   resource = "Request",
      *   section = "SpotAdapter",
      *   description = "Sends request to spot",
-     *   output = "JSON",
      *   statusCodes = {
      *      201 = "Returned when request is successful",
      *      403 = "Returned when request is failed",
@@ -47,22 +46,24 @@ class SpotAdapterApiController extends FOSRestController
      */
     public function spotRequestAction($appKey, Request $request)
     {
-        $postParameters = $request->request->all();
-        try {
-            $form = $this->container
-                ->get('araneum.agent.spot.adapter')
-                ->sendRequestToSpot($appKey, $postParameters);
-
-            return View::create($form, 201);
-        } catch (RequestException $e) {
-
-            return View::create($e->getMessage(), 403);
-        } catch (ContextErrorException $e) {
-
-            return View::create('Request data is not valid. Please, use JSON format', 403);
-        } catch (Exception $e) {
-
-            return View::create($e->getMessage(), 404);
-        }
+        $container = $this->get('araneum.base.rabbitmq.producer.factory_service');
+        return $this->getParameter('fucking_parametr');
+//        $postParameters = $request->request->all();
+//        try {
+//            $form = $this->container
+//                ->get('araneum.agent.spot.adapter')
+//                ->sendRequestToSpot($appKey, $postParameters);
+//
+//            return View::create($form, 201);
+//        } catch (RequestException $e) {
+//
+//            return View::create($e->getMessage(), 403);
+//        } catch (ContextErrorException $e) {
+//
+//            return View::create('Request data is not valid. Please, use JSON format', 403);
+//        } catch (Exception $e) {
+//
+//            return View::create($e->getMessage(), 404);
+//        }
     }
 }
