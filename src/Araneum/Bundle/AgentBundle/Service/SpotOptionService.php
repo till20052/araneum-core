@@ -55,7 +55,7 @@ class SpotOptionService
      * @param ProducerService      $spotProducerService
      * @param SpotApiSenderService $spotApiSenderService
      * @param EntityManager        $entityManager
-     * @param SerializerInterface $serializer
+     * @param SerializerInterface  $serializer
      */
     public function __construct(
         ProducerService $spotCustomerProducerService,
@@ -104,16 +104,18 @@ class SpotOptionService
             'customerId' => $customer->getSpotId(),
             'password' => $customer->getPassword(),
         ];
+
         $application = $customer->getApplication();
 
         $credentials = [
-            'spotCredentials' => $customer->getApplication()->getSpotCredential(),
+            'spotCredentials' => $application->getSpotCredential(),
             'log' => [
                 'action' => CustomerLog::ACTION_RESET_PASSWORD,
                 'customerId' => $customer->getId(),
                 'applicationId' => $application->getId(),
             ],
         ];
+
         return $this->spotCustomerProducerService->publish($customerData, $credentials);
     }
 
