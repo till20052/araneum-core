@@ -1,0 +1,16 @@
+CLUSTERS: Локали
+EDIT_CLUSTER: Редактирование кластера
+DELETE_CLUSTER: Удалить кластер
+ENABLE_CLUSTER: Активировать кластер
+DISABLE_CLUSTER: Сделать кластер не активным
+CREATE_NEW: Создать кластер
+CHECK_STATUS: Проверить статус
+NAME: Имя
+ENABLED: Активно
+TYPE: Тип
+STATUS: Статус
+CLUSTER: Кластер
+PLACEHOLDER: Введите имя кластера
+EMPTY_VALUE: Выберите
+ENTER_ENCODING: Введите кодировку
+ENTER_CLUSTER: Введите кластер

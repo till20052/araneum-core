@@ -45,6 +45,7 @@
          * Modules
          */
             'app.users',
+            'app.clusters',
             'app.locales',
             'app.dashboard',
             'app.applications',

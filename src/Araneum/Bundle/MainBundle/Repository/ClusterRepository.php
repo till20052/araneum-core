@@ -2,6 +2,7 @@
 
 namespace Araneum\Bundle\MainBundle\Repository;
 
+use Araneum\Base\Repository\AdminDataGridTrait;
 use Araneum\Base\Repository\CountableTrait;
 use Doctrine\ORM\EntityRepository;
 use Araneum\Bundle\MainBundle\Entity\Cluster;
@@ -14,6 +15,7 @@ use Araneum\Bundle\MainBundle\Entity\Cluster;
 class ClusterRepository extends EntityRepository implements \Countable
 {
     use CountableTrait;
+    use AdminDataGridTrait;
 
     /**
      * Get statistic of all clusters average last 24 hours

@@ -1,9 +1,9 @@
 <?php
 namespace Araneum\Bundle\MainBundle\Controller;
 
-use Araneum\Bundle\MainBundle\Entity\Locale;
-use Araneum\Bundle\MainBundle\Service\Actions\LocaleActions;
-use Araneum\Bundle\MainBundle\Service\DataTable\LocaleDataTableList;
+use Araneum\Bundle\MainBundle\Entity\Cluster;
+use Araneum\Bundle\MainBundle\Service\Actions\ClusterActions;
+use Araneum\Bundle\MainBundle\Service\DataTable\ClusterDataTableList;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,19 +16,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
- * Class AdminLocaleController
+ * Class AdminClusterController
  *
  * @package Araneum\Bundle\MainBundle\Controller
  */
-class AdminLocaleController extends Controller
+class AdminClusterController extends Controller
 {
+
     /**
-     * Get locale by id
+     * Get cluster by id
      *
      * @ApiDoc(
-     *  resource = "Locale",
+     *  resource = "Cluster",
      *  section = "MainBundle",
-     *  description = "Get locale",
+     *  description = "Get cluster",
      *  requirements={
      *      {"name"="_format", "dataType"="json", "description"="Output format must be json"}
      *  },
@@ -46,8 +47,8 @@ class AdminLocaleController extends Controller
      *
      * @Security("has_role('ROLE_ADMIN')")
      * @Route(
-     *      "/manage/locales/locale/{id}",
-     *      name="araneum_admin_main_locale_get",
+     *      "/manage/clusters/cluster/{id}",
+     *      name="araneum_admin_main_cluster_get",
      *      requirements={"id" = "\d+"},
      *      defaults={"id" = null}
      * )
@@ -55,15 +56,15 @@ class AdminLocaleController extends Controller
      * @param         int $id
      * @return        JsonResponse
      */
-    public function getLocaleJsonAction($id)
+    public function getClusterJsonAction($id)
     {
         $repository = $this
             ->getDoctrine()
-            ->getRepository('AraneumMainBundle:Locale');
+            ->getRepository('AraneumMainBundle:Cluster');
 
-        $locale = $repository->findOneById($id);
-        if (empty($locale)) {
-            $locale = new Locale();
+        $cluster = $repository->findOneById($id);
+        if (empty($cluster)) {
+            $cluster = new Cluster();
         };
 
         try {
@@ -71,8 +72,8 @@ class AdminLocaleController extends Controller
                 $this
                     ->get('araneum.form_exporter.service')
                     ->get(
-                        $this->get('araneum.main.locale.form'),
-                        $locale
+                        $this->get('araneum.main.cluster.form'),
+                        $cluster
                     ),
                 JsonResponse::HTTP_OK
             );
@@ -85,12 +86,12 @@ class AdminLocaleController extends Controller
     }
 
     /**
-     * Delete locales one or many
+     * Delete clusters one or many
      *
      * @ApiDoc(
-     *  resource = "Locale",
+     *  resource = "Cluster",
      *  section = "MainBundle",
-     *  description = "Delete locales",
+     *  description = "Delete clusters",
      *  requirements={
      *      {"name"="_format", "dataType"="json", "description"="Output format must be json"}
      *  },
@@ -106,82 +107,82 @@ class AdminLocaleController extends Controller
      *  tags={"Agent"}
      * )
      *
-     * @Route("/manage/locales/locale/delete", defaults={"_format"="json"}, name="araneum_main_admin_locale_delete")
+     * @Route("/manage/clusters/cluster/delete", defaults={"_format"="json"}, name="araneum_main_admin_cluster_delete")
      * @param                                  Request $request
      * @return                                 JsonResponse
      */
     public function deleteAction(Request $request)
     {
         $idx = $request->request->get('data');
-        $localeRepository = $this->getDoctrine()->getRepository('AraneumMainBundle:Locale');
+        $clusterRepository = $this->getDoctrine()->getRepository('AraneumMainBundle:Cluster');
 
         if (is_array($idx) && count($idx) > 0) {
-            $localeRepository->delete($idx);
+            $clusterRepository->delete($idx);
         }
 
         return new JsonResponse('Success');
     }
 
     /**
-     * Save locale
+     * Save cluster
      *
      * @ApiDoc(
-     *  resource = "Locale",
+     *  resource = "Cluster",
      *  section = "MainBundle",
-     *  description = "Save locale",
+     *  description = "Save cluster",
      *  requirements={
      *      {"name"="_format", "dataType"="json", "description"="Output format must be json"}
      *  },
      *  input = {
-     *      "class"="Araneum\Bundle\MainBundle\Form\Type\LocaleType",
+     *      "class"="Araneum\Bundle\MainBundle\Form\Type\ClusterType",
      *      "name"=""
      *  },
      *  statusCodes = {
-     *      201 = "Returned when locale was created",
-     *      202 = "Returned when locale was updated",
+     *      201 = "Returned when cluster was created",
+     *      202 = "Returned when cluster was updated",
      *      400 = "Returned when validation failed",
      *      403 = "Returned when authorization is failed",
-     *      500 = "Returned when Application or Customer not found by defined condition"
+     *      500 = "Returned when internal error occurred"
      *  },
      *  tags={"Agent"}
      * )
      *
      * @Security("has_role('ROLE_ADMIN')")
      * @Route(
-     *     "/manage/locales/locale/save",
-     *     name="araneum_admin_main_locale_post"
+     *     "/manage/clusters/cluster/save",
+     *     name="araneum_admin_main_cluster_post"
      * )
      * @Method("POST")
      *
      * @param  Request $request
      * @return JsonResponse
      */
-    public function saveLocalePostAction(Request $request)
+    public function saveClusterPostAction(Request $request)
     {
         $id = $request->get('id');
         $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('AraneumMainBundle:Locale');
+        $repository = $em->getRepository('AraneumMainBundle:Cluster');
 
         try {
             if (!empty($id)) {
-                $locale = $repository->findOneById($id);
+                $cluster = $repository->findOneById($id);
                 $code = JsonResponse::HTTP_ACCEPTED;
             } else {
-                $locale = new Locale();
+                $cluster = new Cluster();
                 $code = JsonResponse::HTTP_CREATED;
             }
 
-            $form = $this->createForm($this->get('araneum.main.locale.form'), $locale);
+            $form = $this->createForm($this->get('araneum.main.cluster.form'), $cluster);
             $form->submit($request->request->all());
 
             if ($form->isValid()) {
-                $em->persist($locale);
+                $em->persist($cluster);
                 $em->flush();
 
                 return new JsonResponse(
                     [
-                        'message' => 'Locale has been saved',
-                        'id' => $locale->getId(),
+                        'message' => 'Cluster has been saved',
+                        'id' => $cluster->getId(),
                     ],
                     $code
                 );
@@ -202,52 +203,52 @@ class AdminLocaleController extends Controller
     }
 
     /**
-     * Enable locales one or many
+     * Enable clusters one or many
      *
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/manage/locales/locale/enable", name="araneum_main_admin_locale_enable")
+     * @Route("/manage/clusters/cluster/enable", name="araneum_main_admin_cluster_enable")
      * @Method("POST")
      * @param          Request $request
      * @return         Response
      */
     public function enableAction(Request $request)
     {
-        return $this->updateLocaleEnableDisableAction($request, true);
+        return $this->updateClusterEnableDisableAction($request, true);
     }
 
     /**
-     * Disable locales one or many
+     * Disable clusters one or many
      *
-     * @param                                                                            Request $request
-     * @return                                                                           Response
+     * @param Request $request
+     * @return Response
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/manage/locales/locale/disable",name="araneum_main_admin_locale_disable")
+     * @Route("/manage/clusters/cluster/disable",name="araneum_main_admin_cluster_disable")
      */
     public function disableAction(Request $request)
     {
-        return $this->updateLocaleEnableDisableAction($request, false);
+        return $this->updateClusterEnableDisableAction($request, false);
     }
 
     /**
-     * Locales module initialization
+     * Clusters module initialization
      *
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/manage/locales/init.json", name="araneum_manage_locales_init")
+     * @Route("/manage/clusters/init.json", name="araneum_manage_clusters_init")
      * @return                             JsonResponse
      */
     public function initAction()
     {
         $initializer = $this->get('araneum.admin.initializer.service');
-        $filter = $this->get('araneum_main.locale.filter.form');
+        $filter = $this->get('araneum_main.cluster.filter.form');
         $code = JsonResponse::HTTP_OK;
 
         try {
             $initializer->setFilters($filter);
             $initializer->setGrid(
-                new LocaleDataTableList($this->container),
-                $this->generateUrl('araneum_manage_locales_grid')
+                new ClusterDataTableList($this->container),
+                $this->generateUrl('araneum_manage_clusters_grid')
             );
-            $initializer->setActions(new LocaleActions());
+            $initializer->setActions(new ClusterActions());
         } catch (\Exception $exception) {
             $code = JsonResponse::HTTP_INTERNAL_SERVER_ERROR;
             $initializer->setError($exception);
@@ -260,29 +261,53 @@ class AdminLocaleController extends Controller
      * Server/client datatable communication
      *
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/manage/locales/datatable.json", name="araneum_manage_locales_grid")
-     * @return                                  JsonResponse
+     * @Route("/manage/clusters/datatable.json", name="araneum_manage_clusters_grid")
+     * @return JsonResponse
      */
     public function datatableAction()
     {
         return $this
             ->get('araneum_datatable.factory')
-            ->create(new LocaleDataTableList($this->container))
+            ->create(new ClusterDataTableList($this->container))
             ->execute();
     }
 
     /**
-     * Update locale state
+     * Check cluster status
+     *
+     * @param Request $request
+     * @return JsonResponse
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/manage/clusters/cluster/status",name="araneum_main_admin_cluster_status")
+     */
+    public function checkClusterStatusAction(Request $request)
+    {
+        $idx = (array) $request->get('data');
+        $errors = $this->get('validator')->validate($idx, new All([new Regex('/^\d+$/')]));
+        if (count($errors) > 0) {
+            return new JsonResponse((string) $errors);
+        }
+
+        $appChecker = $this->get('araneum.main.application.checker');
+        foreach ($idx as $id) {
+            $appChecker->checkCluster($id);
+        }
+
+        return new JsonResponse('Success');
+    }
+
+    /**
+     * Update cluster state
      *
      * @param  Request $request
      * @param  bool    $state
      * @return JsonResponse
      */
-    private function updateLocaleEnableDisableAction(Request $request, $state)
+    private function updateClusterEnableDisableAction(Request $request, $state)
     {
         $idx = $request->request->get('data');
 
-        $localeRepository = $this->getDoctrine()->getRepository('AraneumMainBundle:Locale');
+        $clusterRepository = $this->getDoctrine()->getRepository('AraneumMainBundle:Cluster');
 
         if (!is_array($idx)) {
             return new JsonResponse('Data must be an array');
@@ -293,7 +318,7 @@ class AdminLocaleController extends Controller
             return new JsonResponse((string) $errors);
         }
 
-        $localeRepository->updateEnabled($idx, $state);
+        $clusterRepository->updateEnabled($idx, $state);
 
         return new JsonResponse('Success');
     }
