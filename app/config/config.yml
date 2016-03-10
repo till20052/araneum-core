@@ -2,7 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: ../../src/Araneum/Base/Resources/config/services.yml }
-    - { resource: rabbitmq.queue.yml }
+    - { resource: ../../src/Araneum/Base/Resources/config/rabbitmq.queue.yml }
     - { resource: daemons.yml }
     - { resource: ldap.yml }
 
