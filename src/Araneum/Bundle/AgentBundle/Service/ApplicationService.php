@@ -5,7 +5,7 @@ namespace Araneum\Bundle\AgentBundle\Service;
 use Araneum\Base\Service\Application\ApplicationApiSenderService;
 use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\MainBundle\Entity\Application;
-use Araneum\Base\Service\RabbitMQ\ApiCustomerProducerService;
+use Araneum\Base\Service\RabbitMQ\ProducerService;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Acl\Exception\Exception;
 
@@ -18,7 +18,7 @@ class ApplicationService
 {
 
     /**
-     * @var ApiCustomerProducerService
+     * @var ProducerService
      */
     protected $apiCustomerProducerService;
 
@@ -36,13 +36,13 @@ class ApplicationService
     /**
      * ApplicationOptionService constructor.
      *
-     * @param ApiCustomerProducerService  $apiCustomerProducerService
+     * @param ProducerService             $apiCustomerProducerService
      * @param ApplicationApiSenderService $applicationApiSenderService
      * @param EntityManager               $entityManager
      * @param array                       $urls
      */
     public function __construct(
-        ApiCustomerProducerService     $apiCustomerProducerService,
+        ProducerService $apiCustomerProducerService,
         ApplicationApiSenderService $applicationApiSenderService,
         EntityManager $entityManager,
         $urls
