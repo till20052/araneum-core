@@ -1,6 +1,7 @@
-(function(ng){
-	'use strict';
+(function () {
+    'use strict';
 
-	ng.module('app.clusters', []);
+    angular
+        .module('app.clusters', []);
 
-})(angular);
+})();

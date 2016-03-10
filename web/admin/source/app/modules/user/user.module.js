@@ -1,10 +1,7 @@
-(function (angular) {
-	'use strict';
+(function () {
+    'use strict';
 
-	angular
-		.module('app.users', [
-			'ngStorage',
-			'ngDialog'
-		]);
+    angular
+        .module('app.users', []);
 
-})(angular);
+})();

@@ -17,8 +17,12 @@
             .state('app.locales', {
                 url: '/locales',
                 initialize: '/manage/locales/init.json',
-                templateUrl: helper.basepath('grid-template.html'),
-                resolve: angular.extend(helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert', 'whirl', 'toaster'))
+                crud: {
+                    icon: 'icon-globe-alt',
+                    title: 'admin.locales.TITLE'
+                },
+                templateUrl: helper.basepath('crud.html'),
+                resolve: helper.resolveFor('datatables', 'oitozero.ngSweetAlert', 'ui.select')
             });
     }
 })();
