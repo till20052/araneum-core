@@ -1,0 +1,35 @@
+araneum_manage_main:
+    pattern: /{_params}
+    condition: "!request.isXmlHttpRequest()"
+    defaults:
+        _controller: AraneumMainBundle:Default:admin
+        _params: ~
+    requirements:
+        _params: .*
+
+araneum_manage_login:
+    pattern: /login
+    defaults:
+        _controller: FOSUserBundle:Security:login
+
+araneum_manage_login_check:
+    pattern: /login_check
+    defaults:
+        _controller: FOSUserBundle:Security:check
+
+araneum_manage_logout:
+    pattern: /logout
+    defaults:
+        _controller: FOSUserBundle:Security:logout
+
+araneum_user:
+    resource: "@AraneumUserBundle/Controller"
+    type: annotation
+
+araneum_lead:
+    resource: "@AraneumAgentBundle/Controller/AdminLeadController.php"
+    type: annotation
+
+araneum_manage_mail:
+    resource: "@AraneumMailBundle/Controller/AdminMailController.php"
+    type: annotation

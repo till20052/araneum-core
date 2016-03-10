@@ -1,0 +1,443 @@
+<h3>
+    <em class="icon-speedometer mr"></em>
+    <span translate="admin.dashboard.DASHBOARD">Dashboard</span>
+</h3>
+
+<!-- START widgets box-->
+<div class="row">
+    <div class="col-lg-3 col-sm-6">
+        <!-- START widget-->
+        <div
+                ng-class="{true: 'bg-success', false: 'white'}[statistics.applicationsState.online > 0]"
+                class="panel widget">
+            <div class="row row-table">
+                <div
+                        ng-class="{true: 'bg-success-dark', false: 'bg-success'}[statistics.applicationsState.online > 0]"
+                        class="col-xs-4 text-center pv-lg">
+                    <em class="icon-check fa-3x"></em>
+                </div>
+                <div class="col-xs-8 pv-lg">
+                    <div class="h2 mt0">{{statistics.applicationsState.online}}
+                        <div ng-hide="statistics" class="inline">
+                            <div class="sk-spinner sk-spinner-circle">
+                                <div
+                                        ng-repeat="n in [].constructor(12) track by $index"
+                                        ng-bind=""
+                                        class="sk-circle{{$index + 1}} sk-circle">
+                                </div>
+                            </div>
+                        </div>
+                        <small
+                                words-declension="{{ 'admin.dashboard.application.DECLENSION' | translate }}"
+                                wd-count="statistics.applicationsState.online"
+                        >application</small>
+                    </div>
+                    <div class="text-uppercase" translate="admin.dashboard.application.ONLINE">Online</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-6">
+        <!-- START widget-->
+        <div
+                ng-class="{true: 'bg-warning', false: 'white'}[statistics.applicationsState.hasProblems > 0]"
+                class="panel widget">
+            <div class="row row-table">
+                <div
+                        ng-class="{true: 'bg-warning-dark', false: 'bg-warning'}[statistics.applicationsState.hasProblems > 0]"
+                        class="col-xs-4 text-center bg-warning-dark pv-lg">
+                    <em class="fa fa-warning fa-3x"></em>
+                </div>
+                <div class="col-xs-8 pv-lg">
+                    <div class="h2 mt0">{{statistics.applicationsState.hasProblems}}
+                        <div ng-hide="statistics" class="inline">
+                            <div class="sk-spinner sk-spinner-circle">
+                                <div
+                                        ng-repeat="n in [].constructor(12) track by $index"
+                                        ng-bind=""
+                                        class="sk-circle{{$index + 1}} sk-circle"
+                                ></div>
+                            </div>
+                        </div>
+                        <small
+                                words-declension="{{ 'admin.dashboard.application.DECLENSION' | translate }}"
+                                wd-count="statistics.applicationsState.hasProblems"
+                        >application</small>
+                    </div>
+                    <div class="text-uppercase" translate="admin.dashboard.application.PROBLEM">Problem</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <!-- START widget-->
+        <div
+                ng-class="{true: 'bg-danger', false: 'white'}[statistics.applicationsState.hasErrors > 0]"
+                class="panel widget">
+            <div class="row row-table">
+                <div
+                        ng-class="{true: 'bg-danger-dark', false: 'bg-danger'}[statistics.applicationsState.hasErrors > 0]"
+                        class="col-xs-4 text-center bg-danger-dark pv-lg">
+                    <em class="icon-ban fa-3x"></em>
+                </div>
+                <div class="col-xs-8 pv-lg">
+                    <div class="h2 mt0">{{statistics.applicationsState.hasErrors}}
+                        <div ng-hide="statistics" class="inline">
+                            <div class="sk-spinner sk-spinner-circle">
+                                <div
+                                        ng-repeat="n in [].constructor(12) track by $index"
+                                        ng-bind=""
+                                        class="sk-circle{{$index + 1}} sk-circle"
+                                ></div>
+                            </div>
+                        </div>
+                        <small
+                                words-declension="{{ 'admin.dashboard.application.DECLENSION' | translate }}"
+                                wd-count="statistics.applicationsState.hasErrors"
+                        >application</small>
+                    </div>
+                    <div class="text-uppercase" translate="admin.dashboard.application.ERROR">Error</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <!-- START date widget-->
+        <div
+                ng-class="{true: 'bg-gray', false: 'white'}[statistics.applicationsState.disabled > 0]"
+                class="panel widget">
+            <div class="row row-table">
+                <div
+                        ng-class="{true: 'bg-gray-dark', false: 'bg-gray'}[statistics.applicationsState.disabled > 0]"
+                        class="col-xs-4 text-center bg-gray pv-lg">
+                    <em class="icon-lock fa-3x"></em>
+                </div>
+                <div class="col-xs-8 pv-lg">
+                    <div class="h2 mt0">{{statistics.applicationsState.disabled}}
+                        <div ng-hide="statistics" class="inline">
+                            <div class="sk-spinner sk-spinner-circle">
+                                <div
+                                        ng-repeat="n in [].constructor(12) track by $index"
+                                        ng-bind=""
+                                        class="sk-circle{{$index + 1}} sk-circle"
+                                ></div>
+                            </div>
+                        </div>
+                        <small
+                                words-declension="{{ 'admin.dashboard.application.DECLENSION' | translate }}"
+                                wd-count="statistics.applicationsState.disabled"
+                        >application</small>
+                    </div>
+                    <div class="text-uppercase" translate="admin.dashboard.application.DISABLED">Disabled</div>
+                </div>
+            </div>
+        </div>
+        <!-- END date widget    -->
+    </div>
+</div>
+<!-- END widgets box-->
+
+<div class="row">
+
+    <div class="col-lg-6" ng-controller="AppStatusesChartController">
+        <div id="AppStatusesChartPanel" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+            <div class="panel-heading">
+                <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                <div class="panel-title" translate="admin.dashboard.widget.APPLICATION_STATUSES">
+                    <em class="icon-screen-tablet mr"></em>
+                    Statuses for last 24 hour by applications
+                </div>
+            </div>
+            <div uib-collapse="AppStatusesChartPanel" class="panel-wrapper">
+                <div class="panel-body">
+                    <div class="container-fluid">
+                        <div class="row mb-lg">
+                            <div class="col-lg-12">
+
+                                <div
+                                        ng-repeat="error in errors"
+                                        class="bg-danger alert alert-error"
+                                >{{error}}
+                                </div>
+
+
+                                <div>
+                                    <canvas barchart="" options="barOptions" data="barData"
+                                            responsive="true"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6" ng-controller="StateAvgAppChartController">
+        <!-- START chart-->
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- START widget-->
+                <div class="container-fluid">
+                    <div id="StateAvgAppChartPanel" class="panel panel-default"
+                         ng-class="{'traditional whirl' : onLoading}">
+                        <div class="panel-heading">
+                            <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                            <div class="panel-title" translate="admin.dashboard.widget.AVERAGE_APPLICATION_STATUSES">
+                                <em class="icon-screen-tablet mr"></em>
+                                Average application statuses by last 24 hours
+                            </div>
+                        </div>
+
+                        <div
+                                ng-repeat="error in errors"
+                                class="bg-danger alert alert-error"
+                        >{{error}}
+                        </div>
+
+                        <div ng-show="lineData" uib-collapse="StateAvgAppChartPanel" class="panel-wrapperl">
+                            <div class="panel-body">
+                                <flot dataset="lineData" options="lineOptions"></flot>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END widget-->
+            </div>
+        </div>
+        <!-- END chart-->
+    </div>
+
+</div>
+
+<div class="row">
+    <!-- START dashboard main content-->
+    <div class="col-lg-9" ng-controller="ClusterLoadAverageController">
+        <!-- START chart-->
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- START widget-->
+                <div id="ClusterLoadAveragePanel" class="panel panel-default"
+                     ng-class="{'traditional whirl' : onLoading}">
+                    <div class="panel-heading">
+                        <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                        <div class="panel-title" translate="admin.dashboard.widget.CLUSTER_LOAD_AVERAGE">
+                            <em class="icon-grid mr"></em>
+                            Cluster load average by last 24 hours
+                        </div>
+                    </div>
+                    <div uib-collapse="ClusterLoadAveragePanel" class="panel-wrapper">
+                        <div class="panel-body">
+                            <flot dataset="splineData" options="splineOptions" class="ng-isolate-scope"
+                                  height="300px"></flot>
+                        </div>
+                    </div>
+                </div>
+                <!-- END widget-->
+            </div>
+        </div>
+        <!-- END chart-->
+    </div>
+    <div class="col-lg-3">
+        <div ng-controller="UpTimeClusterController" class="container-fluid">
+            <div id="UpTimeClusterPanel" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+                <div class="panel-heading">
+                    <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                    <div class="panel-title">
+                        <em class="icon-grid mr"></em>
+                        <span class="ng-binding" translate="admin.dashboard.widget.CLUSTER_UP_TIME">Clusters UpTime by last 24 hours</span>
+                    </div>
+                </div>
+                <div uib-collapse="UpTimeClusterPanel" class="panel-wrapper">
+                    <div class="panel-body">
+                        <flot dataset="barData" options="barOptions" height="300px"></flot>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-7">
+        <div id="runnerAvgload" class="panel panel-default">
+            <div class="panel-heading">
+                <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                <div class="panel-title">
+                    <em class="icon-grid mr"></em>
+                    {{ 'admin.dashboard.chart.runner.avgload.HEAD' | translate }}
+                </div>
+            </div>
+            <div uib-collapse="runnerAvgload" class="panel-wrapper">
+                <div class="panel-body" ng-controller="ChartRunnerAvgloadController as vm">
+                    <flot dataset="vm.data" options="vm.options" height="300px"></flot>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div id="runnerUptime" class="panel panel-default">
+            <div class="panel-heading">
+                <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                <div class="panel-title">
+                    <em class="icon-grid mr"></em>
+                    {{ 'admin.dashboard.chart.runner.uptime.HEAD' | translate }}
+                </div>
+            </div>
+            <div uib-collapse="runnerUptime" class="panel-wrapper">
+                <div class="panel-body" ng-controller="ChartRunnerUptimeController as vm">
+                    <flot dataset="vm.data" options="vm.options" height="300px"></flot>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div ng-controller="SummaryDashboardController" class="panel widget">
+            <div class="row row-table">
+                <div class="col-md-2 col-sm-3 col-xs-6 text-center bg-info pv-xl">
+                    <em class="icon-notebook fa-4x"></em>
+                </div>
+                <div
+                        ng-repeat="item in statistics"
+                        ng-class="{'whirl traditional': item.value == undefined}"
+                        class="col-md-2 col-sm-3 col-xs-6 pv text-center br">
+                    <div class="text-info text-sm" translate="{{ item.name }}">{{ item.name }}</div>
+                    <div class="text-muted text-md">
+                        <em ng-class="'icon-'+item.icon"></em>
+                    </div>
+                    <div
+                            ng-if="item.value != undefined"
+                            class="text-muted">
+                        {{ item.value }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- START dashboard main content-->
+    <div class="col-lg-6">
+        <div ng-controller="RegisteredCustomersController as vm" class="container-fluid">
+            <div id="RegisteredCustomersPanel" class="panel panel-default"
+                 ng-class="{'traditional whirl' : vm.onLoading}">
+                <div class="panel-heading">
+                    <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                    <div class="panel-title">
+                        <em class="icon-user-follow mr"></em>
+                        <span translate="admin.dashboard.widget.CUSTOMERS_REGISTRATION">Customers registration received from applications (24 hours)</span>
+                    </div>
+                </div>
+                <div uib-collapse="RegisteredCustomersPanel" class="panel-wrapper">
+                    <div class="panel-body">
+                        <flot dataset="vm.data" options="vm.options" height="300px"></flot>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <p class="text-muted">
+                        <em class="icon-cloud-upload mr-sm"></em>
+                        <span translate="admin.dashboard.widget.RECEIVED_FROM_APPLICATION">Received from all applications</span>
+                        <span class="text-dark">{{ vm.count }} <span translate="admin.dashboard.widget.CUSTOMERS">customers</span></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div ng-controller="ReceivedEmailsController as vm" class="container-fluid">
+            <div id="ReceivedEmailsPanel" class="panel panel-default" ng-class="{'traditional whirl' : vm.onLoading}">
+                <div class="panel-heading">
+                    <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                    <div class="panel-title">
+                        <em class="icon-layers mr"></em>
+                        <span translate="admin.dashboard.widget.RECEIVED_EMAILS_FROM_APPS_24H">Email received from applications (24 hours)</span>
+                    </div>
+                </div>
+                <div uib-collapse="ReceivedEmailsPanel" class="panel-wrapper">
+                    <div class="panel-body">
+                        <flot dataset="vm.data" options="vm.options" height="300px"></flot>
+                    </div>
+                    <div class="panel-footer">
+                        <p class="text-muted">
+                            <em class="icon-cloud-upload mr-sm"></em>
+                            <span translate="admin.dashboard.widget.RECEIVED_FROM_APPLICATION">Received from all applications</span>
+                            <span class="text-dark">{{ vm.count }} <span
+                                    translate="admin.dashboard.widget.EMAILS">emails</span></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-6">
+
+        <div ng-controller="LeadsChartController as vm">
+            <div id="leadsPanel" class="panel panel-default">
+                <div class="panel-heading">
+                    <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                    <div class="panel-title">
+                        <em class="icon-layers mr"></em>
+                        <span translate="admin.dashboard.widget.REGISTERED_LEADS_FROM_APPS_24H">Leads registration received from applications (24 hours)</span>
+                    </div>
+                </div>
+                <div uib-collapse="leadsPanel" class="panel-wrapper">
+                    <div class="panel-body">
+                        <flot dataset="vm.chart.data" options="vm.chart.options"
+                              height="300px"></flot>
+                    </div>
+                    <div class="panel-footer">
+                        <p class="text-muted">
+                            <em class="icon-cloud-upload mr-sm"></em>
+                            <span translate="admin.dashboard.widget.RECEIVED_FROM_APPLICATION">Received from all applications</span>
+                            <span class="text-dark">{{ vm.count }} <span
+                                    translate="admin.dashboard.widget.LEADS">leads</span></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+        <div ng-controller="ErrorsChartController as vm">
+            <div id="errorsPanel" class="panel panel-default">
+                <div class="panel-heading">
+                    <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
+                    <div class="panel-title">
+                        <em class="icon-layers mr"></em>
+                        <span translate="admin.dashboard.widget.RECEIVED_ERRORS_FROM_APPS_IN_LAST_24H">
+                            Errors which received from all applications in the last 24 hours
+                        </span>
+                    </div>
+                </div>
+                <div uib-collapse="errorsPanel" class="panel-wrapper">
+                    <div class="panel-body">
+                        <flot dataset="vm.chart.data" options="vm.chart.options"
+                              height="300px"></flot>
+                    </div>
+                    <div class="panel-footer">
+                        <p class="text-muted">
+                            <em class="icon-cloud-upload mr-sm"></em>
+                            <span translate="admin.dashboard.widget.RECEIVED_FROM_APPLICATION">Received from all applications</span>
+                            <span class="text-dark">{{ vm.count }} <span translate="admin.dashboard.widget.ERRORS">errors</span></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

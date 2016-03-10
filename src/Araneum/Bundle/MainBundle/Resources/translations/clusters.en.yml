@@ -1,0 +1,16 @@
+CLUSTERS: Clusters
+EDIT_CLUSTER: Edit cluster
+DELETE_CLUSTER: Delete cluster
+ENABLE_CLUSTER: Enable cluster
+DISABLE_CLUSTER: Disable cluster
+CREATE_NEW: Create new cluster
+CHECK_STATUS: Check status
+NAME: Name
+ENABLED: Enabled
+TYPE: Type
+STATUS: Status
+CLUSTER: Cluster
+PLACEHOLDER: Entre cluster name
+EMPTY_VALUE: Choose
+ENTER_ENCODING: Enter encoding
+ENTER_CLUSTER: Enter cluster

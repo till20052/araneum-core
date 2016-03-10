@@ -1,0 +1,91 @@
+<h3>
+    <em class={{titleClass}}></em>
+    <span translate="{{title}}"></span>
+</h3>
+
+<div ng-controller="FormBuilderController as vm">
+
+    <div id="filters.panel" class="panel panel-default">
+        <div class="panel-heading">
+            <div class="pull-right">
+                <a href="#"
+                   style="
+                        display: inline-block;
+                        color: #c1c2c3;
+                        width: 2em;
+                        text-align: center;"
+                       panel-collapse=""
+                       uib-tooltip="{{'admin.dashboard.widget.COLLAPSE' | translate}}"
+                       ng-click="filters.panel = !filters.panel"
+                       class="ng-scope">
+                    <em ng-show="!filters.panel" class="fa fa-plus" style=""></em>
+                    <em ng-show="filters.panel" class="fa fa-minus ng-hide"></em>
+                </a>
+                <a
+                        style="
+                        display: inline-block;
+                        color: #c1c2c3;
+                        width: 2em;
+                        text-align: center;"
+                        href="#" id="resetForm" class="ng-scope"
+                        uib-tooltip="{{'admin.dashboard.widget.REFRESH' | translate}}">
+                    <em
+                            ng-click="vm.reset($event, vm.resetConfig.url, vm.resetConfig.idForm)"
+                            class="fa fa-refresh"></em>
+                </a>
+            </div>
+            <h3 class="panel-title">
+                <em class="fa fa-filter mr-sm"></em>
+                <span translate="admin.general.FILTERS">Filters</span>
+            </h3>
+        </div>
+        <div class="form-horizontal">
+            <div collapse="!filters.panel" class="panel-wrapper">
+                <div class="panel-body pb">
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <div class="row">
+                                <form-builder data-type="filter"></form-builder>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading pb0">
+
+            <div class="row mt-sm mb0">
+
+                <div class="col-xs-6">
+                    <h3 class="panel-title mt">
+                        <em class="icon-layers mr-sm"></em>
+                        <span translate="admin.general.DATA_LIST">Data list</span>
+                    </h3>
+                </div>
+
+
+                <div class="col-xs-6">
+                    <action-builder data-item="top"></action-builder>
+                </div>
+            </div>
+        </div>
+
+        <hr class="mb0 mt-lg">
+        <datatable-dir></datatable-dir>
+    </div>
+</div>
+
+<script type="text/ng-template" id="fromId">
+    <div style="overflow: auto">
+        <h3 class="mt0 mb-lg">
+            <em class={{$parent.titleClass}}></em>
+            {{ actionName | translate}}
+        </h3>
+        <form-builder data-type="create-update" class="form-horizontal" id="data-table-form"></form-builder>
+    </div>
+</script>
+
+<toaster-container toaster-options="{'position-class': 'toast-bottom-right'}"></toaster-container>

@@ -1,0 +1,47 @@
+EDIT_PROFILE: 'Редактирование профиля'
+LOGIN: 'Логин'
+FULLNAME: 'Полное имя'
+PASSWORD_RESET: 'Сброс пароля'
+FILL_EMAIL: 'Заполните поле email и получите на почту дальнешие инструкции'
+NAME_OR_EMAIL: 'Имя или email'
+SIGN_IN: 'Войти'
+CONFIRM_AS_PASSWORD: 'Поля пароль и подтверждение пароля должны совпадать'
+SIGN_IN_TO_CONTINUE: 'Необходима авторизация'
+REMEMBER_ME: 'Запомнить меня'
+FORGOT_YOU_PASSWORD: 'Забыли пароль?'
+OPEN_PROFILE: 'Открыть профиль'
+LOGOUT: 'Выйти'
+ENTER_EMAIL: 'Введите email пользователя'
+ENTER_FULLNAME: 'Введите полное имя'
+ENTER_YOUR_PASSWD: 'Введите свой пароль'
+ENTER_YOUR_NAME_OR_EMAIL: 'Введите свой логин или email'
+ROLE: 'Роль'
+LAST_LOGIN: 'Последний удачный вход'
+REGISTER: 'Зарегистрирован'
+
+data_grid:
+    LDAP_USERS: 'LDAP синхронизация для всех пользователей'
+    USERS: "Пользователи"
+    EDIT_USER: "Изменить данные"
+    EDIT: "Сохранить"
+    DELETE_USER: "Удалить пользователя"
+    ENABLE_USER: "Активировать пользователя"
+    DISABLE_USER: "Сделать пользователя неактивным"
+    CREATE_NEW: "Создать пользователя"
+    NAME: "Имя"
+    FULL_NAME: "Полное имя"
+    EMAIL: "Email"
+    PASSWORD: "Введите пароль"
+    PASSWORD_REPEAT: "Введите пароль еще раз"
+    PASSWORD_PLACEHOLDER: "Поле для пароля"
+    ENABLED: "Активно"
+    ROLES: "Роль"
+    ENCODING: "Кодировка"
+    USER: "Пользователь"
+    ORIENTATION: "Ориентация"
+    PLACEHOLDER: "Введите имя пользователя"
+    EMPTY_VALUE: "Выберите"
+    ENTER_ENCODING: "Введите кодировку"
+    ENTER_USER: "Введите пользователя"
+    ROLES: "Права пользователя"
+    SELECT_ROLES: "Выберите права для пользователя"

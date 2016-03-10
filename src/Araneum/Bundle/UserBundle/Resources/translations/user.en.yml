@@ -1,0 +1,47 @@
+EDIT_PROFILE: 'Edit profile'
+LOGIN: 'Login'
+FULLNAME: 'Full name'
+PASSWORD_RESET: 'Password reset'
+FILL_EMAIL: 'Fill with your mail to receive instructions on how to reset your password'
+NAME_OR_EMAIL: 'Name or email'
+SIGN_IN: 'Sign in'
+CONFIRM_AS_PASSWORD: 'Value of confirm Password field should be same as value of Password field'
+SIGN_IN_TO_CONTINUE: 'SIGN IN TO CONTINUE'
+REMEMBER_ME: 'Remember me'
+FORGOT_YOU_PASSWORD: 'Forgot your password?'
+OPEN_PROFILE: 'Open profile'
+LOGOUT: 'Logout'
+ENTER_EMAIL: 'Enter email user'
+ENTER_FULLNAME: 'Enter full name'
+ENTER_YOUR_PASSWD: 'Enter your password'
+ENTER_YOUR_NAME_OR_EMAIL: 'Enter your name or email'
+ROLE: 'Role'
+LAST_LOGIN: 'Last login'
+REGISTER: 'Register'
+
+data_grid:
+    LDAP_USERS: 'LDAP sync. all users'
+    USERS: "Users"
+    EDIT_USER: "Edit user"
+    EDIT: "Save"
+    DELETE_USER: "Delete user"
+    ENABLE_USER: "Enable user"
+    DISABLE_USER: "Disable user"
+    CREATE_NEW: "Create new user"
+    NAME: "Name"
+    FULL_NAME: "Full name"
+    EMAIL: "Email"
+    PASSWORD: "Password"
+    PASSWORD_REPEAT: "Repeat password"
+    PASSWORD_PLACEHOLDER: "Type password here"
+    ROLES: "Role"
+    ENABLED: "Enabled"
+    ENCODING: "Encoding"
+    USER: "User"
+    ORIENTATION: "Orientation"
+    PLACEHOLDER: "Enter user name"
+    EMPTY_VALUE: "Choose"
+    ENTER_ENCODING: "Enter encoding"
+    ENTER_USER: "Enter user"
+    ROLES: "User role"
+    SELECT_ROLES: "Select user role"

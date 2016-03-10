@@ -1,0 +1,13 @@
+application: Сайт
+from: От
+to: Кому
+headline: Заголовок
+sent_at: Отправлено в
+text_body: Текстовое содержание
+html_body: HTML содержание
+attachment: Приложение
+new: Новый
+pending: Ожидаеться
+sent: Отправлено
+read: Прочитано
+id: ID

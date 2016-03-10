@@ -1,0 +1,16 @@
+services:
+  araneum.mail.mail.api_handler:
+    class: Araneum\Bundle\MailBundle\Service\MailApiHandlerService
+    arguments: ["@doctrine.orm.entity_manager", "@form.factory", "@araneum.main.application.manager"]
+
+  araneum.mail.mail.filter.form:
+    class: Araneum\Bundle\MailBundle\Form\Filter\MailFilterType
+    arguments: ["@doctrine", "@service_container"]
+    tags:
+       - { name: form.type, alias: araneum_locale_filter }
+
+  araneum.mail.mail.form:
+    class: Araneum\Bundle\MailBundle\Form\Type\MailType
+    arguments: ["@router"]
+    tags:
+       - { name: form.type }

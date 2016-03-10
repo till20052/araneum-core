@@ -1,0 +1,3 @@
+# Password resetting
+resetting:
+    check_email: An email has been sent to {{ email }}. It contains a link you must click to reset your password.

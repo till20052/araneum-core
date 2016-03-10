@@ -1,0 +1,61 @@
+{% extends "AraneumUserBundle:Resetting:resettingBase.html.twig" %}
+
+{% block panel_header %}
+    {{ 'recovery_password'|trans }}
+{% endblock panel_header %}
+
+{% block panel_body %}
+	<form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST"
+	      class="fos_user_resetting_reset" id="new_password_form">
+		<fieldset>
+			<div class="row">
+				<div class="col-sm-12 col-md-10  col-md-offset-1 ">
+					<div class="form-group">
+						{{ form_label(form.new.first) }}
+						<div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-lock"></i>
+							</span>
+							{{ form_widget(form.new.first, {'attr': {'class': 'form-control'}}) }}
+						</div>
+					</div>
+					<div class="form-group">
+						{{ form_label(form.new.second) }}
+						<div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-lock"></i>
+							</span>
+							{{ form_widget(form.new.second, {'attr': {'class': 'form-control'}}) }}
+						</div>
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-lg btn-primary btn-block" value="{{ 'resetting.reset.submit'|trans({}, 'FOSUserBundle') }}"/>
+					</div>
+				</div>
+			</div>
+			<div id="msgbox" class="alert alert-danger alert-dismissible" role="alert">
+				{{ form_errors(form.new.first) }}
+			</div>
+			{% if form_errors(form.new.first) or form_errors(form)%}
+				<div class="alert alert-danger alert-dismissible {{ form_errors(form.new.first) ? '' : 'hidden' }}" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    	<span aria-hidden="true">&times;</span>
+                    </button>
+					{{ form_errors(form.new.first) }}
+					{{ form_errors(form) }}
+                </div>
+			{% endif %}
+		</fieldset>
+	{{ form_end(form) }}
+{% endblock panel_body %}
+
+{% block panel_footer %}
+    <a href="{{ path('fos_user_security_login') }}">{{ 'sign_in'|trans }}</a>
+{% endblock panel_footer %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts  %}
+    	<script src="{{ asset('static/js/validateNewPassword.js') }}"></script>
+    {% endjavascripts %}
+{% endblock javascripts %}

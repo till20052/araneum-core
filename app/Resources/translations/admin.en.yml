@@ -1,0 +1,128 @@
+dashboard :
+    WELCOME: "Welcome to Site manager"
+    DASHBOARD: "Dashboard"
+    application:
+        DECLENSION: "['application','applications']"
+        APPLICATION: "application"
+        ONLINE: "Online"
+        PROBLEM: "Problem"
+        ERROR: "Error"
+        DISABLED: "Disabled"
+    chart:
+        runner:
+            avgload:
+                HEAD: "Average Load of each Runners by last 24 hours"
+            uptime:
+                HEAD: "Runner uptime by last 24 hours"
+    widget:
+        APPLICATION_STATUSES: "Statuses for last 24 hour by applications"
+        AVERAGE_APPLICATION_STATUSES: "Average application statuses by last 24 hours"
+        CLUSTER_LOAD_AVERAGE: "Cluster load average by last 24 hours"
+        CLUSTER_UP_TIME: "Clusters UpTime by last 24 hours"
+        CUSTOMERS_REGISTRATION: "Customers registration received from applications (24 hours)"
+        RECEIVED_EMAILS_FROM_APPS_24H: "Email received from applications (24 hours)"
+        RECEIVED_FROM_APPLICATION: "Received from all applications"
+        REGISTERED_LEADS_FROM_APPS_24H: "Leads registration received from applications (24 hours)"
+        RECEIVED_ERRORS_FROM_APPS_IN_LAST_24H: "Errors which received from all applications in the last 24 hours"
+        CUSTOMERS: "Customers"
+        EMAILS: "messages"
+        APPLICATIONS: "Applications"
+        ADMINS: "Admins"
+        CONNECTIONS: "Connections"
+        CLUSTERS: "Clusters"
+        LOCALES: "Locales"
+        COLLAPSE: "Collapse panel"
+        REFRESH: "Refresh panel"
+        CLOSE: "Close panel"
+        LEADS: "leads"
+        ERRORS: "errors"
+        CHART_IS_NOT_AVAILABLE: "This chart is not available"
+topbar:
+    messages:
+        UNREAD: "Unread messages"
+        MORE: "More messages"
+    search:
+        PLACEHOLDER: "Type and hit enter.."
+    notification:
+        MORE: "More notifications"
+offsidebar:
+    setting:
+        SETTINGS: "Settings"
+        THEMES: "Themes"
+        layout:
+            LAYOUT: "Layout"
+            FIXED: "Fixed"
+            BOXED: "Boxed"
+        aside:
+            ASIDE: "Aside"
+            COLLAPSED: "Collapsed"
+            FLOAT: "Float"
+            HOVER: "Hover"
+        chat:
+            CONNECTIONS: "Connections"
+            ONLINE: "Online"
+            OFFLINE: "Offline"
+            LOAD_MORE: "Load more"
+            TASK_COMPLETION: "Task competition"
+            QUOTA: "Quota"
+sidebar:
+    WELCOME: "Welcome"
+    heading:
+        HEADER: "Main Navigation"
+        MANAGER: "Site manager"
+        RECEIVED: "Received data"
+    nav:
+        DASHBOARD: "Dashboard"
+        USERS: "Users"
+        LOCALES: "Locales"
+        LEADS: "Leads"
+        manager:
+            CLUSTER: "Clusters"
+            APPLICATION: "Applications"
+            CONNECTION: "Connections"
+            COMPONENT: "Components"
+            LOCALE: "Locales"
+            LEADS: "Leads"
+        received:
+            CUSTOMER: "Customers"
+            EMAIL: "Emails"
+general:
+    USE_LDAP: 'Use LDAP'
+    SAVE: 'Save'
+    CANCEL: 'Cancel'
+    FILTERS: 'Filter'
+    LABEL_FOCUS: 'Label focus'
+    SELECT: 'Select'
+    SEARCH: 'Search'
+    ENABLED: 'Enabled'
+    DISABLED: 'Disabled'
+    DATA_LIST: 'Data list'
+    RESET: 'Reset'
+    EDIT: 'Edit'
+    ACTIONS: 'Actions'
+    DELETE: 'Delete'
+    ENABLE: 'Enable'
+    DISABLE: 'Disable'
+    SURE: 'Are you sure?'
+    CONFIRM_DELETE: 'Yes, delete it'
+    CONFIRM_LDAP_SYNC: 'Yes, Ldap sync'
+    CURRENT_URL_NOT_VALID: 'Current URL is not valid more'
+datatables:
+    PROCESSING: 'Processing...'
+    SEARCH: 'Search:'
+    LENGTH_MENU: 'Show _MENU_ entries'
+    INFO: 'Showing _START_ to _END_ of _TOTAL_ entries'
+    INFO_EMPTY: 'Showing 0 to 0 of 0 entries'
+    INFO_FILTERED: '(filtered from _MAX_ total entries)'
+    INFO_POSTFIX: ''
+    LOADING_RECORDS: 'Loading...'
+    ZERO_RECORDS: 'No matching records found.'
+    EMPTY_TABLE: 'No data available in table'
+    paginate:
+      FIRST: 'First'
+      PREVIOUS: 'Previous'
+      NEXT: 'Next'
+      LAST: 'Last'
+    aria:
+      SORTASCENDING: ': activate to sort column ascending'
+      SORTDESCENDINT: ': activate to sort column descending'

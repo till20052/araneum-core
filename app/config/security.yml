@@ -1,0 +1,73 @@
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        FOS\UserBundle\Model\UserInterface: sha512
+
+
+    role_hierarchy:
+            ROLE_ADMIN: [ROLE_USER]
+            ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_API]
+
+    providers:
+        chain_provider:
+            chain:
+                providers: [fos_userbundle, fr3d_ldapbundle]
+
+        fr3d_ldapbundle:
+            id: fr3d_ldap.security.user.provider
+
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        manage:
+            pattern: ^/manage
+            anonymous: ~
+            fr3d_ldap: ~
+            entry_point: araneum.auth.entry_point
+            form_login:
+                provider: chain_provider
+                csrf_provider: security.csrf.token_manager
+                login_path: araneum_manage_login
+                check_path: araneum_manage_login_check
+                success_handler: araneum.auth.success.handler
+                failure_handler: araneum.auth.failure.handler
+                remember_me: true
+            remember_me:
+                key: "%secret%"
+                lifetime: 31536000
+                domain: ~
+                path: /
+                user_provider: chain_provider
+            logout:
+                path: araneum_manage_logout
+                target: araneum_manage_login
+
+        api:
+            pattern: ^/.*api
+            anonymous: ~
+            http_basic:
+                realm: "Araneum.Core API secure"
+            stateless: true
+
+        main:
+            pattern: ^/
+            fr3d_ldap: ~
+            form_login:
+                provider: fos_userbundle
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
+                default_target_path: fos_user_security_login
+                csrf_provider: security.csrf.token_manager
+                success_handler: araneum.user.authentication_handler
+                failure_handler: araneum.user.authentication_handler
+            anonymous: true
+            logout:
+                path: fos_user_security_logout
+                target: fos_user_security_login
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/doc, role: ROLE_API }
+        - { path: ^/[a-zA-Z]+/admin/, role: ROLE_ADMIN }

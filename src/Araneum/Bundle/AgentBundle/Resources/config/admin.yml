@@ -1,0 +1,18 @@
+services:
+  araneum.agent.admin.customer:
+      class: Araneum\Bundle\AgentBundle\Admin\CustomerAdmin
+      tags:
+          - { name: sonata.admin, manager_type: orm, group: "Customer", label: "Customer" }
+      arguments:
+          - ~
+          - Araneum\Bundle\AgentBundle\Entity\Customer
+          - ~
+
+  araneum.main.admin.lead:
+      class: Araneum\Bundle\MainBundle\Admin\LeadAdmin
+      tags:
+          - { name: sonata.admin, manager_type: orm, group: "Main", label: "Lead" }
+      arguments:
+          - ~
+          - Araneum\Bundle\AgentBundle\Entity\Lead
+          - ~

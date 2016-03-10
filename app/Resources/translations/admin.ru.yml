@@ -1,0 +1,128 @@
+dashboard :
+    WELCOME: "Добро пожаловать в систему управления сайтом"
+    DASHBOARD: "Статистика"
+    application:
+        DECLENSION: "['сайт','сайта','сайтов']"
+        APPLICATION: "Сайт"
+        ONLINE: "Доступно"
+        PROBLEM: "Проблема"
+        ERROR: "Ошибка"
+        DISABLED: "Выключен"
+    chart:
+        runner:
+            avgload:
+                HEAD: "Усредненная нагрузка по агентам за 24 часа"
+            uptime:
+                HEAD: "Время непрерырвной агента работы за 24 часа"
+    widget:
+        APPLICATION_STATUSES: "Статусы приложений за 24 часа"
+        AVERAGE_APPLICATION_STATUSES: "Усредненные показатели состояний приложений за 24 часа"
+        CLUSTER_LOAD_AVERAGE: "Усредненная нагрузка по кластерам за 24 часа"
+        CLUSTER_UP_TIME: "Время непрерырвной работы за 24 часа"
+        CUSTOMERS_REGISTRATION: "Заявки на регистрацию от клиентов за последние 24 часа"
+        RECEIVED_EMAILS_FROM_APPS_24H: "Сообщений принято от сайтов за 24 часа"
+        RECEIVED_FROM_APPLICATION: "Принято ото всех приложений"
+        REGISTERED_LEADS_FROM_APPS_24H: "Регистация лидов принятых ото всех приложений (24 часа)"
+        RECEIVED_ERRORS_FROM_APPS_IN_LAST_24H: "Ошибки, полученные от приложений за последние 24 часа"
+        CUSTOMERS: "Клиентов"
+        EMAILS: "сообщений"
+        APPLICATIONS: "Сайтов"
+        ADMINS: "Администраторов"
+        CONNECTIONS: "Соединений"
+        CLUSTERS: "Кластеров"
+        LOCALES: "Локалей"
+        COLLAPSE: "Свернуть панель"
+        REFRESH: "Обновить панель"
+        CLOSE: "Закрыть панель"
+        LEADS: "лидов"
+        ERRORS: "ошибок"
+        CHART_IS_NOT_AVAILABLE: "Этот график еще не доступен"
+topbar:
+    messages:
+        UNREAD: "Непрочтенных сообщений"
+        MORE: "Больше сообщений"
+    search:
+        PLACEHOLDER: "Наберите и нажмите на клавишу Ввод"
+    notification:
+        MORE: "Больше уведомлений"
+offsidebar:
+    setting:
+        SETTINGS: "Настройки"
+        THEMES: "Шаблоны"
+        layout:
+            LAYOUT: 'Расположение'
+            FIXED: "Фиксированные"
+            BOXED: "Компактный"
+        aside:
+            ASIDE: 'Левое меню'
+            COLLAPSED: "Свернутое"
+            FLOAT: "Плавающее"
+            HOVER: "Наезжающее"
+        chat:
+            CONNECTIONS: "Соединения"
+            ONLINE: "Online"
+            OFFLINE: "Offline"
+            LOAD_MORE: "Загрузить еще"
+            TASK_COMPLETION: "Конкурентная задача"
+            QUOTA: "Лимит"
+sidebar:
+    WELCOME: "Добро пожаловать"
+    heading:
+        HEADER: "Главное меню"
+        MANAGER: "Управление сайтами"
+        RECEIVED: "Полученные данные"
+    nav:
+        DASHBOARD: "Статистика"
+        USERS: "Пользователи"
+        LOCALES: "Локали"
+        LEADS: "Лиды"
+        manager:
+            CLUSTER: "Кластер"
+            APPLICATION: "Приложения"
+            CONNECTION: "Соединения"
+            COMPONENT: "Компоненты"
+            LOCALE: "Локали"
+            LEADS: "Лиды"
+        received:
+            CUSTOMER: "Участники"
+            EMAIL: "Сообщения"
+general:
+    USE_LDAP: 'использует LDAP'
+    SAVE: 'Сохранить'
+    CANCEL: 'Отмена'
+    RESET: 'Сброс'
+    FILTERS: 'Фильтры'
+    LABEL_FOCUS: 'Строка для поиска'
+    SELECT: 'Выберите'
+    SEARCH: 'Поиск'
+    ENABLED: 'Активно'
+    DISABLED: 'Неактивно'
+    DATA_LIST: 'Список'
+    EDIT: 'Редактировать'
+    ACTIONS: 'Действия'
+    DELETE: 'Удалить'
+    ENABLE: 'Включить'
+    DISABLE: 'Выключить'
+    SURE: 'Вы уверены?'
+    CONFIRM_DELETE: 'Да, удалите это'
+    CONFIRM_LDAP_SYNC: 'Да, сделать LDAP синхронизацию'
+    CURRENT_URL_NOT_VALID: 'Текущий URL больше недоступен'
+datatables:
+    PROCESSING: 'Подождите...'
+    SEARCH: 'Поиск:'
+    LENGTH_MENU: 'Показать _MENU_ записей'
+    INFO: 'Записи с _START_ до _END_ из _TOTAL_ записей'
+    INFO_EMPTY: 'Записи с 0 до 0 из 0 записей'
+    INFO_FILTERED: '(отфильтровано из _MAX_ записей)'
+    INFO_POSTFIX: ''
+    LOADING_RECORDS: 'Загрузка записей...'
+    ZERO_RECORDS: 'Записи отсутствуют.'
+    EMPTY_TABLE: 'В таблице отсутствуют данные'
+    paginate:
+      FIRST: 'Первая'
+      PREVIOUS: 'Предыдущая'
+      NEXT: 'Следующая'
+      LAST: 'Последняя'
+    aria:
+      SORTASCENDING: ': активировать для сортировки столбца по возрастанию'
+      SORTDESCENDINT: ': активировать для сортировки столбца по убыванию'

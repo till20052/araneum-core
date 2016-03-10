@@ -1,0 +1,34 @@
+NAME: Имя
+DOMAIN: Домен
+EDIT_APPLICATION: Редактирование приложения
+CREATE_NEW: Создать приложение
+STATUS: Статус
+CLUSTER: Кластер
+CREATED_AT: Дата создания
+ENTER_DOMAIN: Не правильно ввели доменное имя
+ENABLED: Активно
+PLACEHOLDER: Введите имя приложения
+ALIASES: Aliases
+ENTER_ALIASES: Введите aliases
+EMPTY_VALUE: Выберите
+ENTER_TYPE: Введите тип
+TYPE: Тип
+ENTER_TEMPLATE: Введите шаблон
+TEMPLATE: Шаблон
+ENTER_SPOT_API_USER: Введите spot API пользователя
+SPOT_API_USER: Spot API пользователь
+ENTER_SPOT_API_PASSWORD: Введите spot API пароль
+SPOT_API_PASSWORD: Spot API пароль
+ENTER_SPOT_API_URL: Введите spot API URL
+SPOT_API_URL: Spot API URL
+ENTER_SPOT_API_PUBLIC_URL: Введите spot API публичный url
+SPOT_API_PUBLIC_URL: Spot API публичный url
+CHECK_STATUS: Проверка приложений
+DISABLE_APPLICATION: Не активной
+ENABLE_APPLICATION: Активно
+placeholder:
+    DOMAIN: Введите домен
+    NAME: Введите имя
+    TYPE: Введите тип
+    STATUS: Выберите статус
+    CLUSTER: Выберите кластер

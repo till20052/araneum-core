@@ -1,0 +1,21 @@
+imports:
+    - { resource: config_prod.yml }
+
+framework:
+    profiler: { only_exceptions: false }
+    test: ~
+    session:
+        storage_id: session.storage.mock_file
+doctrine:
+   dbal:
+       logging: "%kernel.debug%"
+
+swiftmailer:
+    disable_delivery: false
+
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug

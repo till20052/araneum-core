@@ -1,0 +1,41 @@
+# This file is a "template" of what your parameters.yml file should look like
+# Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
+# http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+parameters:
+    database_host:     127.0.0.1
+    database_port:     5432
+    database_name:     araneum_core
+    database_user:     postgres
+    database_password: 123
+
+    mailer_transport:  gmail
+    mailer_host:       smtp.gmail.com
+    mailer_user:       araneum.dev@gmail.com
+    mailer_password:   Araneum_Dev_Pass
+    mailer_encryption: ssl
+    mailer_auth_mode:  login
+
+    nginx_user: araneum_deployer
+    nginx_group: araneum
+
+    domain: http://core.mc.araneum.dev
+    session_prefix: core.mc.araneum.dev
+
+    application_api_url_create_user: /api/user/createUser
+
+    # A secret key that's used to generate certain security-related tokens
+    secret:            ThisTokenIsNotSoSecretChangeIt
+
+    rabbitmq_host: 'localhost'
+    rabbitmq_port: 5672
+    rabbitmq_user: 'guest'
+    rabbitmq_password: 'guest'
+    rabbitmq_queue_expiration: '3600000000' # Time to live message in queue 1 hour in milliseconds
+    
+    spot_api_public_url_login: '/Login/login/unusedRequiredParameter'
+
+    ldap_driver_host: nova.office.dev
+    ldap_driver_username: uid=araneum,cn=sysaccounts,cn=etc,dc=office,dc=dev
+    ldap_driver_password: LK8SoeTbffxFLDu5nOpY
+
+    ldap_user_baseDn: cn=accounts,dc=office,dc=dev

@@ -1,0 +1,70 @@
+services:
+    araneum.agent.customer.api_handler:
+        class: Araneum\Bundle\AgentBundle\Service\CustomerApiHandlerService
+        arguments:
+            - @araneum.main.application.manager
+            - @doctrine.orm.entity_manager
+            - @event_dispatcher
+            - @form.factory
+            - @araneum.agent.spotoption.service
+
+    araneum.agent.spotoption.service:
+        class: Araneum\Bundle\AgentBundle\Service\SpotOptionService
+        arguments:
+            - @araneum.base.rabbitmq.producer.spot_customer
+            - @araneum.base.rabbitmq.producer.spot_login
+            - @araneum.base.rabbitmq.producer.spot
+            - @araneum.base.spot_api
+            - @doctrine.orm.entity_manager
+
+    araneum.agent.logger:
+        class: Araneum\Bundle\AgentBundle\Service\AgentLoggerService
+        arguments: [@doctrine.orm.entity_manager]
+
+    araneum.agent.lead.api_handler:
+        class: Araneum\Bundle\AgentBundle\Service\LeadApiHandlerService
+        arguments: [@doctrine.orm.entity_manager, @form.factory, @araneum.main.application.manager, @event_dispatcher]
+
+    araneum.agent.customer.event_subscriber:
+        class: Araneum\Bundle\AgentBundle\EventListener\CustomerSubscriber
+        arguments: [@araneum.agent.spotoption.service]
+        tags:
+            - { name: kernel.event_subscriber}
+
+    araneum.agent.lead.event_listener:
+        class: Araneum\Bundle\AgentBundle\EventListener\LeadListener
+        arguments: [@araneum.agent.spotoption.service]
+        tags:
+            - { name: kernel.event_listener, event: araneum.agent.lead.new, method: onCreate }
+            
+    araneum.agent.error.api_handler:
+        class: Araneum\Bundle\AgentBundle\Service\ErrorApiHandlerService
+        arguments: [@doctrine.orm.entity_manager, @form.factory, @araneum.main.application.manager]
+
+    araneum.api.application.service:
+        class: Araneum\Bundle\AgentBundle\Service\ApplicationService
+        arguments:
+            - "@araneum.base.rabbitmq.producer.application_customer"
+            - "@araneum.base.application_api"
+            - "@doctrine.orm.entity_manager"
+            -
+              'create_user': "%application_api_url_create_user%"
+
+    araneum.agent.spot.adapter:
+        class: Araneum\Bundle\AgentBundle\Service\SpotAdapterService
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@araneum.base.spot_api"
+            - "@araneum.base.rabbitmq.producer.spot"
+
+    araneum_agent.lead.filter.form:
+        class: Araneum\Bundle\AgentBundle\Form\Filter\LeadFilterType
+        arguments: [@doctrine, @service_container]
+        tags:
+            - { name: form.type, alias: araneum_lead_filter }
+
+    araneum.agent.lead.form:
+        class: Araneum\Bundle\AgentBundle\Form\Type\LeadType
+        arguments: [@router]
+        tags:
+            - { name: form.type }

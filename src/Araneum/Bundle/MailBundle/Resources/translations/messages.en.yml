@@ -1,0 +1,13 @@
+application: Application
+from: From
+to: To
+headline: Headline
+sent_at: Sent At
+text_body: Text body
+html_body: HTML body
+attachment: Attachment
+new: New
+pending: Pending
+sent: Send
+read: Read
+id: ID

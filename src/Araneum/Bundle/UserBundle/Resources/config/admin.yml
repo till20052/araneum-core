@@ -1,0 +1,11 @@
+services:
+    araneum.user.admin.user:
+        class: Araneum\Bundle\UserBundle\Admin\UserAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "User", label: "User" }
+        arguments:
+            - ~
+            - Araneum\Bundle\UserBundle\Entity\User
+            - ~
+        calls:
+            - [setContainer, [@service_container]]
