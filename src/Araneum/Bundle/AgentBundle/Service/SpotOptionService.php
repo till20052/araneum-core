@@ -143,7 +143,18 @@ class SpotOptionService
             $customerData['birthday'] = $customer->getBirthday()->format('Y-m-d');
         }
 
-        return $this->spotCustomerProducerService->publish($customerData, $customer, CustomerLog::ACTION_CREATE);
+        $application = $customer->getApplication();
+
+        $credentials = [
+            'spotCredentials' => $application->getSpotCredential(),
+            'log' => [
+                'action' => CustomerLog::ACTION_CREATE,
+                'customerId' => $customer->getId(),
+                'applicationId' => $application->getId(),
+            ],
+        ];
+
+        return $this->spotCustomerProducerService->publish($customerData, $credentials);
     }
 
     /**

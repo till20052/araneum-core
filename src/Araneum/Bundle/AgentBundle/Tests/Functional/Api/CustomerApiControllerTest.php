@@ -252,8 +252,7 @@ class CustomerApiControllerTest extends BaseController
             '\Araneum\Bundle\AgentBundle\Service\SpotOptionService',
             [],
             [
-                $this->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService')->disableOriginalConstructor()->getMock(),
-                $this->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService')->disableOriginalConstructor()->getMock(),
+                $this->getMockBuilder('\Araneum\Base\Service\RabbitMQ\ProducerService')->disableOriginalConstructor()->getMock(),
                 $client->getContainer()->get('araneum.base.rabbitmq.producer.spot'),
                 $client->getContainer()->get('araneum.base.spot_api'),
                 $client->getContainer()->get('doctrine.orm.entity_manager'),

@@ -8,6 +8,8 @@ use Araneum\Bundle\AgentBundle\Entity\Lead;
 use Araneum\Bundle\AgentBundle\Service\SpotOptionService;
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Doctrine\ORM\EntityManager;
+use Araneum\Base\Tests\Fixtures\Main\ApplicationFixtures;
+use JMS\Serializer\Serializer;
 
 /**
  * Class SpotOptionService
@@ -42,12 +44,22 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
     protected $spotApiSenderMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $serializer;
+
+    /**
+     * @var Application
+     */
+    protected $application;
+
+    /**
      * Setup
      */
     protected function setUp()
     {
         $this->spotCustomerProducerServiceMock = $this
-            ->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService')
+            ->getMockBuilder('\Araneum\Base\Service\RabbitMQ\ProducerService')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -60,20 +72,32 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->customerLoginProducerService = $this
-            ->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService')
+            ->getMockBuilder('\Araneum\Base\Service\RabbitMQ\ProducerService')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->spotProducerServiceMock = $this->getMockBuilder('\Araneum\Base\Service\RabbitMQ\SpotProducerService')
+        $this->spotProducerServiceMock = $this->getMockBuilder('\Araneum\Base\Service\RabbitMQ\ProducerService')
             ->disableOriginalConstructor()
             ->getMock();
+
+        $this->serializer = $this->getMockBuilder('\JMS\Serializer\Serializer')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->application = (new Application())
+            ->setSpotApiUrl('url')
+            ->setSpotApiUser('user')
+            ->setSpotApiPassword('password')
+            ->setSpotApiPublicUrl('publicUrl')
+        ;
 
         $this->spotOptionService = new SpotOptionService(
             $this->spotCustomerProducerServiceMock,
             $this->customerLoginProducerService,
             $this->spotProducerServiceMock,
             $this->spotApiSenderMock,
-            $this->entityManagerMock
+            $this->entityManagerMock,
+            $this->serializer
         );
     }
 
@@ -82,9 +106,12 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCustomerResetNormal()
     {
+
         $customer = (new Customer())
             ->setSpotId(123)
-            ->setPassword('password');
+            ->setPassword('password')
+            ->setApplication($this->application)
+        ;
 
         $customerData = [
             'MODULE' => 'Customer',
@@ -93,13 +120,21 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
             'password' => $customer->getPassword(),
         ];
 
+        $credentials = [
+            'spotCredentials' => $this->application->getSpotCredential(),
+            'log' => [
+                'action' => CustomerLog::ACTION_RESET_PASSWORD,
+                'customerId' => $customer->getId(),
+                'applicationId' => $this->application->getId(),
+            ],
+        ];
+
         $this->spotCustomerProducerServiceMock
             ->expects($this->once())
             ->method('publish')
             ->with(
                 $this->equalTo($customerData),
-                $this->equalTo($customer),
-                $this->equalTo(CustomerLog::ACTION_RESET_PASSWORD)
+                $this->equalTo($credentials)
             )
             ->will($this->returnValue(true));
 
@@ -111,7 +146,6 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCustomerCreateNormal()
     {
-        $application = $this->getMock('\Araneum\Bundle\MainBundle\Entity\Application');
         $customer = (new Customer())
             ->setFirstName('firstName')
             ->setLastName('lastName')
@@ -120,7 +154,7 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
             ->setEmail('test@mail.com')
             ->setPhone('123-3213-142412')
             ->setPassword('password')
-            ->setApplication($application);
+            ->setApplication($this->application);
 
         $customerData = [
             'MODULE' => 'Customer',
@@ -134,13 +168,21 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
             'currency' => $customer->getCurrency(),
         ];
 
+        $credentials = [
+            'spotCredentials' => $this->application->getSpotCredential(),
+            'log' => [
+                'action' => CustomerLog::ACTION_CREATE,
+                'customerId' => $customer->getId(),
+                'applicationId' => $this->application->getId(),
+            ],
+        ];
+
         $this->spotCustomerProducerServiceMock
             ->expects($this->once())
             ->method('publish')
             ->with(
                 $this->equalTo($customerData),
-                $this->equalTo($customer),
-                $this->equalTo(CustomerLog::ACTION_CREATE)
+                $this->equalTo($credentials)
             )
             ->will($this->returnValue(true));
 
@@ -166,6 +208,7 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
         $application = $this->getMockBuilder('\Araneum\Bundle\MainBundle\Entity\Application')
             ->disableOriginalConstructor()
             ->getMock();
+
         $application->expects($this->once())
             ->method('getSpotCredential')
             ->will($this->returnValue($spotCredentials));
@@ -174,6 +217,7 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['findOneByAppKey'])
             ->getMock();
+
         $repository->expects($this->once())
             ->method('findOneByAppKey')
             ->with($this->equalTo($appKey))
