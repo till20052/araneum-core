@@ -18,9 +18,12 @@
                 url: '/users',
                 title: 'Users',
                 initialize: '/manage/users/init.json',
-                templateUrl: helper.basepath('grid-template.html'),
-                resolve: angular.extend(helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert', 'whirl', 'toaster')),
-                controller: 'UserTableController'
+                crud: {
+                    icon: 'icon-users',
+                    title: 'admin.sidebar.nav.USERS'
+                },
+                templateUrl: helper.basepath('crud.html'),
+                resolve: helper.resolveFor('datatables', 'oitozero.ngSweetAlert', 'ui.select')
             })
             .state('login', {
                 url: '/login',

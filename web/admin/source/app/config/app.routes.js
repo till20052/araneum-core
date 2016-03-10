@@ -18,7 +18,7 @@
             .state('app', {
                 abstract: true,
                 templateUrl: helper.basepath('app.html'),
-                resolve: helper.resolveFor('ngDialog', 'fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'slimscroll', 'classyloader', 'toaster', 'whirl')
+                resolve: helper.resolveFor('ngDialog', 'fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'slimscroll', 'classyloader', 'toaster', 'whirl', 'admin.user', 'admin.crud')
             });
     }
 
