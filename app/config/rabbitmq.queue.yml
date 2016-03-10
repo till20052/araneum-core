@@ -32,7 +32,6 @@ services:
             - "@old_sound_rabbit_mq.application_customer_producer"
             - "%rabbitmq_queue_expiration%"
 
-
     araneum.base.rabbitmq.consumer.application_customer:
         class: Araneum\Base\Service\RabbitMQ\ApiCustomerConsumerService
         arguments:
@@ -49,8 +48,6 @@ services:
             - "@jms_serializer"
             - "@araneum.main.application.remote_manager"
             - "%spot_api_public_url_login%"
-
-
 
     araneum.base.rabbitmq.consumer.spot:
         class: Araneum\Base\Service\RabbitMQ\SpotConsumerService
