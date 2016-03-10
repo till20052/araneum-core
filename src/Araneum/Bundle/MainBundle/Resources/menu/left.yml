@@ -18,7 +18,7 @@ Site_Manager:
     submenu:
         Cluster:
             text: Cluster
-            sref: app.table-standard
+            sref: app.clusters
             icon: icon-grid
             translate: admin.sidebar.nav.manager.CLUSTER
         Applications:
