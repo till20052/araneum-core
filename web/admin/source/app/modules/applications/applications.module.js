@@ -1,6 +1,7 @@
-(function(ng){
-	'use strict';
+(function () {
+    'use strict';
 
-	ng.module('app.applications', []);
+    angular
+        .module('app.applications', []);
 
-})(angular);
+})();
