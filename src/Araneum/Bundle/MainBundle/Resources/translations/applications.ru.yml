@@ -13,6 +13,8 @@ ENTER_ALIASES: Введите aliases
 EMPTY_VALUE: Выберите
 ENTER_TYPE: Введите тип
 TYPE: Тип
+LOCALE: Локаль
+USE_SSL: Использовать подключение по ssl
 ENTER_TEMPLATE: Введите шаблон
 TEMPLATE: Шаблон
 ENTER_SPOT_API_USER: Введите spot API пользователя
@@ -32,3 +34,4 @@ placeholder:
     TYPE: Введите тип
     STATUS: Выберите статус
     CLUSTER: Выберите кластер
+    LOCALE: Выберите локаль(и)

@@ -1,6 +1,7 @@
-(function(ng){
-	'use strict';
+(function () {
+    'use strict';
 
-	ng.module('app.locales', []);
+    angular
+        .module('app.locales', []);
 
-})(angular);
+})();

@@ -48,7 +48,8 @@
                     'admin.datatables.paginate.NEXT',
                     'admin.datatables.paginate.LAST',
                     'admin.datatables.aria.SORTASCENDING',
-                    'admin.datatables.aria.SORTDESCENDINT'
+                    'admin.datatables.aria.SORTDESCENDINT',
+                    'admin.datatables.FIRSTNAME'
 
                 ]).then(function (translations) {
                     service.language.processing = translations['admin.datatables.PROCESSING'];

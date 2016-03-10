@@ -3,7 +3,6 @@ namespace Araneum\Bundle\MainBundle\Controller;
 
 use Araneum\Bundle\MainBundle\Entity\Application;
 use Araneum\Bundle\MainBundle\Service\Actions\ApplicationActions;
-use Araneum\Bundle\MainBundle\Service\Actions\LocaleActions;
 use Araneum\Bundle\MainBundle\Service\DataTable\ApplicationDataTableList;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,7 +14,6 @@ use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\All;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class AdminApplicationController
@@ -29,7 +27,7 @@ class AdminApplicationController extends Controller
      *
      * @Security("has_role('ROLE_ADMIN')")
      * @Route(
-     *      "/manage/applications/application/save/{id}",
+     *      "/manage/applications/application/{id}",
      *      name="araneum_admin_main_application_get",
      *      requirements={"id" = "\d+"},
      *      defaults={"id" = null}
@@ -44,9 +42,9 @@ class AdminApplicationController extends Controller
             ->getDoctrine()
             ->getRepository('AraneumMainBundle:Application');
 
-        $locale = $repository->findOneById($id);
-        if (empty($locale)) {
-            $locale = new Application();
+        $application = $repository->findOneById($id);
+        if (empty($application)) {
+            $application = new Application();
         };
 
         try {
@@ -55,7 +53,7 @@ class AdminApplicationController extends Controller
                     ->get('araneum.form_exporter.service')
                     ->get(
                         $this->get('araneum.main.application.form'),
-                        $locale
+                        $application
                     ),
                 JsonResponse::HTTP_OK
             );
