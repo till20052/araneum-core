@@ -30,7 +30,8 @@
                         <small
                                 words-declension="{{ 'admin.dashboard.application.DECLENSION' | translate }}"
                                 wd-count="statistics.applicationsState.online"
-                        >application</small>
+                        >application
+                        </small>
                     </div>
                     <div class="text-uppercase" translate="admin.dashboard.application.ONLINE">Online</div>
                 </div>
@@ -62,7 +63,8 @@
                         <small
                                 words-declension="{{ 'admin.dashboard.application.DECLENSION' | translate }}"
                                 wd-count="statistics.applicationsState.hasProblems"
-                        >application</small>
+                        >application
+                        </small>
                     </div>
                     <div class="text-uppercase" translate="admin.dashboard.application.PROBLEM">Problem</div>
                 </div>
@@ -94,7 +96,8 @@
                         <small
                                 words-declension="{{ 'admin.dashboard.application.DECLENSION' | translate }}"
                                 wd-count="statistics.applicationsState.hasErrors"
-                        >application</small>
+                        >application
+                        </small>
                     </div>
                     <div class="text-uppercase" translate="admin.dashboard.application.ERROR">Error</div>
                 </div>
@@ -126,7 +129,8 @@
                         <small
                                 words-declension="{{ 'admin.dashboard.application.DECLENSION' | translate }}"
                                 wd-count="statistics.applicationsState.disabled"
-                        >application</small>
+                        >application
+                        </small>
                     </div>
                     <div class="text-uppercase" translate="admin.dashboard.application.DISABLED">Disabled</div>
                 </div>
@@ -139,8 +143,8 @@
 
 <div class="row">
 
-    <div class="col-lg-6" ng-controller="AppStatusesChartController">
-        <div id="AppStatusesChartPanel" class="panel panel-default" ng-class="{'traditional whirl' : onLoading}">
+    <div class="col-lg-6">
+        <div id="AppStatusesChartPanel" class="panel panel-default">
             <div class="panel-heading">
                 <paneltool tool-collapse="tool-collapse" tool-refresh="traditional"></paneltool>
                 <div class="panel-title" translate="admin.dashboard.widget.APPLICATION_STATUSES">
@@ -153,17 +157,12 @@
                     <div class="container-fluid">
                         <div class="row mb-lg">
                             <div class="col-lg-12">
-
-                                <div
-                                        ng-repeat="error in errors"
-                                        class="bg-danger alert alert-error"
-                                >{{error}}
-                                </div>
-
-
-                                <div>
-                                    <canvas barchart="" options="barOptions" data="barData"
-                                            responsive="true"></canvas>
+                                <div ng-controller="AppStatusesChartController as vm">
+                                    <div chartist=""
+                                         chartist-chart-type="Bar"
+                                         chartist-data="vm.data"
+                                         chartist-chart-options="vm.options"
+                                         class="ct-chart"></div>
                                 </div>
                             </div>
                         </div>
