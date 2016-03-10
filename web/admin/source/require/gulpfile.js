@@ -84,7 +84,10 @@ var source = {
         build: [paths.img + '/**/*.*']
     },
     template: {
-        build: [paths.template + '/**/*.*']
+        build: [
+            '../../vendor/crud/dest/*.html',
+            paths.template + '/**/*.*'
+        ]
     }
 
 };
