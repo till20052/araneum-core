@@ -2,9 +2,7 @@
 
 namespace Araneum\Bundle\AgentBundle\Service;
 
-use Araneum\Base\Service\RabbitMQ\SpotCustomerLoginProducerService;
-use Araneum\Base\Service\RabbitMQ\SpotCustomerProducerService;
-use Araneum\Base\Service\RabbitMQ\SpotProducerService;
+use Araneum\Base\Service\RabbitMQ\ProducerService;
 use Araneum\Bundle\AgentBundle\Entity\Customer;
 use Araneum\Bundle\AgentBundle\Entity\CustomerLog;
 use Araneum\Bundle\AgentBundle\Entity\Lead;
@@ -13,6 +11,8 @@ use Araneum\Base\Service\Spot\SpotApiSenderService;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\SerializerInterface;
 
 /**
  * Class SpotOptionService
@@ -24,7 +24,7 @@ class SpotOptionService
 
     protected $customerLoginProducerService;
     /**
-     * @var SpotCustomerProducerService
+     * @var ProducerService
      */
     protected $spotCustomerProducerService;
 
@@ -38,31 +38,39 @@ class SpotOptionService
      */
     protected $entityManager;
     /**
-     * @var SpotProducerService
+     * @var ProducerService
      */
     protected $spotProducerService;
 
     /**
+     * @var SerializerInterface
+     */
+    protected $serializer;
+
+    /**
      * SpotOptionService constructor.
      *
-     * @param SpotCustomerProducerService      $spotCustomerProducerService
-     * @param SpotCustomerLoginProducerService $customerLoginProducerService
-     * @param SpotProducerService              $spotProducerService
-     * @param SpotApiSenderService             $spotApiSenderService
-     * @param EntityManager                    $entityManager
+     * @param ProducerService      $spotCustomerProducerService
+     * @param ProducerService      $customerLoginProducerService
+     * @param ProducerService      $spotProducerService
+     * @param SpotApiSenderService $spotApiSenderService
+     * @param EntityManager        $entityManager
+     * @param SerializerInterface  $serializer
      */
     public function __construct(
-        SpotCustomerProducerService $spotCustomerProducerService,
-        SpotCustomerLoginProducerService $customerLoginProducerService,
-        SpotProducerService $spotProducerService,
+        ProducerService $spotCustomerProducerService,
+        ProducerService $customerLoginProducerService,
+        ProducerService $spotProducerService,
         SpotApiSenderService $spotApiSenderService,
-        EntityManager $entityManager
+        EntityManager $entityManager,
+        SerializerInterface $serializer
     ) {
         $this->customerLoginProducerService = $customerLoginProducerService;
         $this->spotCustomerProducerService = $spotCustomerProducerService;
         $this->spotProducerService = $spotProducerService;
         $this->spotApiSenderService = $spotApiSenderService;
         $this->entityManager = $entityManager;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -73,7 +81,13 @@ class SpotOptionService
      */
     public function login(Customer $customer)
     {
-        return $this->customerLoginProducerService->publish($customer);
+        $body = $this->serializer->serialize(
+            $customer,
+            'json',
+            SerializationContext::create()->setGroups(['rabbitMQ'])
+        );
+
+        return $this->customerLoginProducerService->publish($body, '');
     }
 
     /**
@@ -91,7 +105,18 @@ class SpotOptionService
             'password' => $customer->getPassword(),
         ];
 
-        return $this->spotCustomerProducerService->publish($customerData, $customer, CustomerLog::ACTION_RESET_PASSWORD);
+        $application = $customer->getApplication();
+
+        $credentials = [
+            'spotCredential' => $application->getSpotCredential(),
+            'log' => [
+                'action' => CustomerLog::ACTION_RESET_PASSWORD,
+                'customerId' => $customer->getId(),
+                'applicationId' => $application->getId(),
+            ],
+        ];
+
+        return $this->spotCustomerProducerService->publish($customerData, $credentials);
     }
 
     /**
@@ -118,7 +143,18 @@ class SpotOptionService
             $customerData['birthday'] = $customer->getBirthday()->format('Y-m-d');
         }
 
-        return $this->spotCustomerProducerService->publish($customerData, $customer, CustomerLog::ACTION_CREATE);
+        $application = $customer->getApplication();
+
+        $credentials = [
+            'spotCredential' => $application->getSpotCredential(),
+            'log' => [
+                'action' => CustomerLog::ACTION_CREATE,
+                'customerId' => $customer->getId(),
+                'applicationId' => $application->getId(),
+            ],
+        ];
+
+        return $this->spotCustomerProducerService->publish($customerData, $credentials);
     }
 
     /**

@@ -7,3 +7,12 @@ services:
           - ~
           - Araneum\Bundle\AgentBundle\Entity\Customer
           - ~
+
+  araneum.main.admin.lead:
+      class: Araneum\Bundle\MainBundle\Admin\LeadAdmin
+      tags:
+          - { name: sonata.admin, manager_type: orm, group: "Main", label: "Lead" }
+      arguments:
+          - ~
+          - Araneum\Bundle\AgentBundle\Entity\Lead
+          - ~

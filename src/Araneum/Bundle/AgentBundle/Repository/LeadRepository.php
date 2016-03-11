@@ -3,6 +3,7 @@
 namespace Araneum\Bundle\AgentBundle\Repository;
 
 use Araneum\Base\Repository\CountableTrait;
+use Araneum\Base\Repository\AdminDataGridTrait;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
@@ -15,6 +16,7 @@ use Symfony\Component\Routing\Exception\InvalidParameterException;
 class LeadRepository extends EntityRepository implements \Countable
 {
     use CountableTrait;
+    use AdminDataGridTrait;
 
     /**
      * Find list of leads by email and/or phone as optionality

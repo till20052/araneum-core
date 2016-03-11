@@ -39,6 +39,16 @@ class Cluster
     const TYPE_SINGLE   = 1;
     const TYPE_MULTIPLE = 2;
 
+    private static $types = [
+        self::TYPE_SINGLE => 'Single',
+        self::TYPE_MULTIPLE => 'Multiple',
+    ];
+
+    public static $enable = [
+        true => 'Enabled',
+        false => 'Disabled',
+    ];
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -116,6 +126,31 @@ class Cluster
         }
 
         return self::$statuses[$status];
+    }
+
+    /**
+     * Get list of Cluster types
+     *
+     * @return array
+     */
+    public static function getTypes()
+    {
+        return self::$types;
+    }
+
+    /**
+     * Get Cluster type description
+     *
+     * @param  integer $type
+     * @return string
+     */
+    public static function getTypeDescription($type)
+    {
+        if (!isset(self::$types[$type])) {
+            return '[undefined]';
+        }
+
+        return self::$types[$type];
     }
 
     /**

@@ -1,0 +1,13 @@
+APPLICATION_NAME: Application name
+FIRST_NAME: First name
+LAST_NAME: Last name
+PHONE: Phone
+EMAIL: Email
+APP_KEY: App KEY
+Application: Application
+CREATED_AT: Created At
+DELETE_LEAD: Delete lead
+SHOW_LEAD: Show lead
+placeholder:
+    FIRST_NAME: Enter first name
+    LAST_NAME: Enter last name

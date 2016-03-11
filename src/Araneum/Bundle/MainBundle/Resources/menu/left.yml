@@ -18,7 +18,7 @@ Site_Manager:
     submenu:
         Cluster:
             text: Cluster
-            sref: app.table-standard
+            sref: app.clusters
             icon: icon-grid
             translate: admin.sidebar.nav.manager.CLUSTER
         Applications:
@@ -41,6 +41,11 @@ Site_Manager:
             sref: app.locales
             icon: icon-globe-alt
             translate: admin.sidebar.nav.manager.LOCALE
+        Lead:
+            text: Leads
+            sref: app.leads
+            icon: icon-globe-alt
+            translate: admin.sidebar.nav.manager.LEADS
 Received_data:
     text: Received_data
     translate: admin.sidebar.heading.RECEIVED
