@@ -108,7 +108,7 @@ class SpotOptionService
         $application = $customer->getApplication();
 
         $credentials = [
-            'spotCredentials' => $application->getSpotCredential(),
+            'spotCredential' => $application->getSpotCredential(),
             'log' => [
                 'action' => CustomerLog::ACTION_RESET_PASSWORD,
                 'customerId' => $customer->getId(),
@@ -146,7 +146,7 @@ class SpotOptionService
         $application = $customer->getApplication();
 
         $credentials = [
-            'spotCredentials' => $application->getSpotCredential(),
+            'spotCredential' => $application->getSpotCredential(),
             'log' => [
                 'action' => CustomerLog::ACTION_CREATE,
                 'customerId' => $customer->getId(),
