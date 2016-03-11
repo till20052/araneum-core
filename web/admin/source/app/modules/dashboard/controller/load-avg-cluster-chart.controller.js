@@ -5,7 +5,7 @@
         .module('app.dashboard')
         .controller('ClusterLoadAverageController', ClusterLoadAverageController);
 
-    ClusterLoadAverageController.$inject = ['DashboardService', '$scope'];
+    ClusterLoadAverageController.$inject = ['DashboardService', '$scope', '$interpolate'];
 
     /**
      * Cluster Load Average Controller
@@ -14,7 +14,7 @@
      * @param $scope
      * @constructor
      */
-    function ClusterLoadAverageController(DashboardService, $scope) {
+    function ClusterLoadAverageController(DashboardService, $scope, $interpolate) {
 
         /**
          * Constructor
@@ -47,8 +47,15 @@
                 },
                 tooltip: true,
                 tooltipOpts: {
-                    content: function (label, x, y) {
-                        return x + ' : ' + y;
+                    content: function (label, x, y, p) {
+                        var data = p.series.data,
+                            hours = parseInt(data[data.length - 1][0]),
+                            offset = p.dataIndex - 23;
+                        return $interpolate('{{ label }}: {{ value }}% ({{ date | date : \'d MMM HH:mm\' }})')({
+                            label: label,
+                            value: y,
+                            date: (new Date()).setHours(hours + offset, 0)
+                        });
                     }
                 },
                 xaxis: {

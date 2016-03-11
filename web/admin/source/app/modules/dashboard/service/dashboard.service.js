@@ -10,7 +10,7 @@
      * Dashboard Service
      *
      * @param $http
-     * @param $q
+     * @param APP_COLORS
      * @returns {{appendSpinkit: appendSpinkit, onDataLoaded: onDataLoaded, loadData: loadData, refreshData: refreshData}}
      * @constructor
      */

@@ -149,7 +149,14 @@ class StatisticsService
     {
         $upTime = $this->getClusterRepository()->getClusterUpTime();
 
-        return $this->prepareResultForUpTime($upTime, ['success', 'problem', 'offline']);
+        return $this->prepareResultForUpTime(
+            $upTime,
+            [
+                'success',
+                'problem',
+                'offline',
+            ]
+        );
     }
 
     /**
@@ -197,7 +204,6 @@ class StatisticsService
         ];
     }
 
-
     /**
      * Get UpTime from all Runners in last 24 hours
      *
@@ -207,7 +213,14 @@ class StatisticsService
     {
         $upTime = $this->getRunnerRepository()->getRunnersUpTime();
 
-        return $this->prepareResultForUpTime($upTime, ['success', 'appProblem', 'problem', 'offline']);
+        return $this->prepareResultForUpTime(
+            $upTime,
+            [
+                'success',
+                'problem',
+                'offline',
+            ]
+        );
     }
 
     /**
@@ -292,6 +305,10 @@ class StatisticsService
                     'label' => $item['name'],
                     'data' => $this->hours,
                 ];
+            }
+
+            if (is_null($item['hours'])) {
+                continue;
             }
 
             $key = $item['hours'];
@@ -389,6 +406,7 @@ class StatisticsService
 
     /**
      * Prepare result for cluster Up time
+     *
      * @param array $dataArray
      * @param array $statuses
      * @return array
@@ -406,10 +424,13 @@ class StatisticsService
 
         foreach ($dataArray as $array) {
             foreach ($statuses as $status) {
-                array_push($chartArray[$status]['data'], [
-                    $array['name'],
-                    $array[$status],
-                ]);
+                array_push(
+                    $chartArray[$status]['data'],
+                    [
+                        $array['name'],
+                        $array[$status],
+                    ]
+                );
             }
         }
 
