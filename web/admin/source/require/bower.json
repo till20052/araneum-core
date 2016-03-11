@@ -108,8 +108,8 @@
     "textAngular": "1.4.1",
     "weather-icons": "2.0.10",
     "whirl": "1.0.0",
-    "crud": "ssh://git@stash.office.dev:7999/af/crud.git#master",
-    "user": "ssh://git@stash.office.dev:7999/af/user.git"
+    "crud": "http://stash.office.dev/scm/af/crud.git",
+    "user": "http://stash.office.dev/scm/af/crud.git"
   },
   "resolutions": {
     "angular": "1.4.8",
