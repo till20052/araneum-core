@@ -107,6 +107,7 @@ general:
     CONFIRM_DELETE: 'Да, удалите это'
     CONFIRM_LDAP_SYNC: 'Да, сделать LDAP синхронизацию'
     CURRENT_URL_NOT_VALID: 'Текущий URL больше недоступен'
+    LOADING: 'Загрузка...'
 datatables:
     PROCESSING: 'Подождите...'
     SEARCH: 'Поиск:'

@@ -54,35 +54,35 @@ class UserDataTableList extends AbstractList
             ->add(
                 'email',
                 [
-                'search_type' => 'like',
-                'label' => 'email',
+                    'search_type' => 'like',
+                    'label' => 'email',
                 ]
             )
             ->add(
                 'username',
                 [
-                'search_type' => 'like',
-                'label' => 'user.LOGIN',
+                    'search_type' => 'like',
+                    'label' => 'user.LOGIN',
                 ]
             )
             ->add(
                 'fullName',
                 [
-                'search_type' => 'like',
-                'label' => 'user.FULLNAME',
+                    'search_type' => 'like',
+                    'label' => 'user.FULLNAME',
                 ]
             )
             ->add(
                 'enabled',
                 [
-                'label' => 'admin.general.ENABLE',
+                    'label' => 'admin.general.ENABLE',
                 ]
             )
             ->add(
                 'roles.name',
                 [
-                'search_type' => 'like',
-                'label' => 'user.ROLE',
+                    'search_type' => 'like',
+                    'label' => 'user.ROLE',
                 ]
             )
             ->add(
@@ -99,7 +99,7 @@ class UserDataTableList extends AbstractList
                 'useLdap',
                 [
                     'render' => function ($value) {
-                        return ($value)?'<em class="icon-check fa-2x"></em>':'<em class="icon-ban fa-2x"></em>';
+                        return '<div class="text-center">'.(($value) ? '<em class="fa fa-check"></em>' : '<em class="fa fa-minus"></em>').'</div>';
                     },
                     'label' => 'admin.general.USE_LDAP',
                 ]
@@ -149,7 +149,6 @@ class UserDataTableList extends AbstractList
                 );
             }
         }
-
 
         return $this->queryBuilder;
     }

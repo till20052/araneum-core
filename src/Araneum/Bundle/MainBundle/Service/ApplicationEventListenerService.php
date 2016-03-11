@@ -3,7 +3,6 @@
 namespace Araneum\Bundle\MainBundle\Service;
 
 use Araneum\Bundle\MainBundle\Event\ApplicationEvent;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Araneum\Bundle\MainBundle\Entity\Application;
 
 /**
