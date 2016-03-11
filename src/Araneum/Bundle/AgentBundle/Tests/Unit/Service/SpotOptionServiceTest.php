@@ -121,7 +121,7 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
         ];
 
         $credentials = [
-            'spotCredentials' => $this->application->getSpotCredential(),
+            'spotCredential' => $this->application->getSpotCredential(),
             'log' => [
                 'action' => CustomerLog::ACTION_RESET_PASSWORD,
                 'customerId' => $customer->getId(),
@@ -169,7 +169,7 @@ class SpotOptionServiceTest extends \PHPUnit_Framework_TestCase
         ];
 
         $credentials = [
-            'spotCredentials' => $this->application->getSpotCredential(),
+            'spotCredential' => $this->application->getSpotCredential(),
             'log' => [
                 'action' => CustomerLog::ACTION_CREATE,
                 'customerId' => $customer->getId(),
