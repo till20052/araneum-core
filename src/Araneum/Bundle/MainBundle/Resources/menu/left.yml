@@ -24,7 +24,7 @@ Site_Manager:
         Applications:
             text: Applications
             sref: app.applications
-            icon: icon-screen-tablet
+            icon: icon-calculator
             translate: admin.sidebar.nav.manager.APPLICATION
         Locale:
             text: Locale
@@ -47,6 +47,6 @@ Received_data:
             translate: admin.sidebar.nav.received.CUSTOMER
         Email:
             text: Email
-            sref: app.mails
-            icon: icon-layers
+            sref: app.emails
+            icon: icon-envelope
             translate: admin.sidebar.nav.received.EMAIL

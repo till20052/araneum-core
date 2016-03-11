@@ -10,6 +10,8 @@ ENTER_ALIASES: Enter aliases
 EMPTY_VALUE: Choose
 ENTER_TYPE: Enter type
 TYPE: Type
+LOCALE: Locale
+USE_SSL: Use ssl
 ENTER_TEMPLATE: Enter template
 TEMPLATE: Template
 ENTER_SPOT_API_USER: Enter spot API user
@@ -32,3 +34,4 @@ placeholder:
     TYPE: Enter type
     STATUS: Select status
     CLUSTER: Select cluster
+    LOCALE: Select locale(s)
