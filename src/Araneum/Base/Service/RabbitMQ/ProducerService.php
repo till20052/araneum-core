@@ -49,7 +49,7 @@ class ProducerService
      */
     public function publish(
         $msgBody,
-        array $credential,
+        $credential,
         $routingKey = '',
         $additionalProperties = []
     ) {
