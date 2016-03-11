@@ -42,7 +42,7 @@ class ProducerService
      * Send msg to queue.
      *
      * @param mixed  $msgBody
-     * @param array  $credential
+     * @param mixed  $credential
      * @param string $routingKey
      * @param array  $additionalProperties
      * @return bool|string
