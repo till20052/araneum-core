@@ -16,7 +16,7 @@
      */
     function StateAvgAppChartController($scope, DashboardService, $filter) {
 
-        var current;
+        var current = new Date();
 
         /**
          * Constructor
@@ -63,16 +63,10 @@
                     content: function (label, x, y, point) {
                         var timeOffset = (point.dataIndex - 23) * 60 * 60 * 1000;
 
-                        if (current === undefined) {
-                            current = new Date();
+                        if (current.getMinutes() !== 0)
                             current.setHours(parseInt(point.series.data[point.series.data.length - 1][0]));
-                        }
 
-
-                        console.log(current.getTime() - timeOffset);
-                        //var newDate = new Date(current.getTime() - dateOffset);
-                        //
-                        //console.log($filter('date')(newDate, 'HH:mm (d MMM)'), date.getTime() - dateOffset);
+                        console.log($filter('date')((new Date(current.getTime() + timeOffset)), 'HH:mm (d MMM)'));
 
                         return x + ' : ' + y;
                     }
