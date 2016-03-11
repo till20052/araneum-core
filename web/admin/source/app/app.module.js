@@ -36,10 +36,9 @@
             'app.preloader',
             'app.loadingbar',
             'app.translate',
-            'app.formBuilder',
             'app.utils',
             'app.charts',
-            'app.action-builder',
+            'crud',
 
         /**
          * Modules
@@ -50,7 +49,7 @@
             'app.dashboard',
             'app.applications',
             'app.leads',
-            'app.mails',
+            'app.emails'
         ]);
 })();
 

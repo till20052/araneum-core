@@ -67,11 +67,9 @@ class LocaleType extends AbstractType
             )
             ->add(
                 'enabled',
-                'choice',
+                'checkbox',
                 [
                     'label' => 'Enabled',
-                    'choices' => Locale::$enable,
-                    'empty_value' => 'locales.EMPTY_VALUE',
                     'attr' => [
                         'translateLabel' => 'locales.ENABLED',
                     ],
