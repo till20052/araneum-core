@@ -5,16 +5,18 @@
         .module('app.dashboard')
         .controller('StateAvgAppChartController', StateAvgAppChartController);
 
-    StateAvgAppChartController.$inject = ['$scope', 'DashboardService'];
+    StateAvgAppChartController.$inject = ['$scope', 'DashboardService', '$filter'];
 
-	/**
+    /**
      * State Average Application Chart Controller
      *
      * @param $scope
      * @param DashboardService
      * @constructor
      */
-    function StateAvgAppChartController($scope, DashboardService) {
+    function StateAvgAppChartController($scope, DashboardService, $filter) {
+
+        var current;
 
         /**
          * Constructor
@@ -58,7 +60,18 @@
                 },
                 tooltip: true,
                 tooltipOpts: {
-                    content: function (label, x, y) {
+                    content: function (label, x, y, point) {
+
+                        if(current === undefined){
+                            current = new Date();
+                            current.setHours(parseInt(point.series.data[point.series.data.length - 1][0]));
+                        }
+
+                        var dateOffset = (point.dataIndex - 23) * 60 * 60 * 1000;
+                        var newDate = new Date(current.getTime() - dateOffset);
+
+                        console.log($filter('date')(newDate, 'HH:mm (d MMM)'), date.getTime() - dateOffset);
+
                         return x + ' : ' + y;
                     }
                 },
@@ -84,13 +97,13 @@
 
                 $scope.onLoading = false;
 
-                angular.forEach(['success', 'problems', 'errors', 'disabled'], function(value, i){
+                angular.forEach(['success', 'problems', 'errors', 'disabled'], function (value, i) {
                     this[i].data = response.data.statistics.daylyAverageStatuses[value];
                 }, $scope.lineData);
 
             }, function (error) {
                 $scope.onLoading = false;
-                $scope.errors.push('No data load: '+error.statusText);
+                $scope.errors.push('No data load: ' + error.statusText);
             });
         })();
 

@@ -19,7 +19,7 @@
                 title: 'Users',
                 initialize: '/manage/users/init.json',
                 crud: {
-                    icon: 'icon-users',
+                    icon: 'icon-people',
                     title: 'admin.sidebar.nav.USERS'
                 },
                 templateUrl: helper.basepath('crud.html'),

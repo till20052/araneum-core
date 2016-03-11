@@ -4,20 +4,38 @@
 
 .ngdialog {
 
-	&.ngdialog-theme-default {
+  &.ngdialog-theme-default {
 
-		.ngdialog-content {
-			background-color: #fff !important;
-			border-radius: @border-radius-base !important;
-			font-family: inherit !important;
-			font-size: inherit !important;
-			line-height: inherit !important;
-			padding: 0 !important;
+    .ngdialog-content {
+      background-color: #fff !important;
+      border-radius: @border-radius-base !important;
+      font-family: inherit !important;
+      font-size: inherit !important;
+      line-height: inherit !important;
+      padding: 0 !important;
 
-			>div {
-				padding: 1em;
-			}
-		}
+      > div {
+        padding: 1em;
+      }
 
-	}
+      div.whirl.traditional {
+        margin: -1em;
+
+        >div {
+          display: table;
+          width: 100%;
+          min-height: 300px;
+
+          >div {
+            display: table-cell;
+            padding-top: 5em;
+            text-align: center;
+            vertical-align: middle;
+          }
+        }
+      }
+
+    }
+
+  }
 }
