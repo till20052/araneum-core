@@ -61,16 +61,18 @@
                 tooltip: true,
                 tooltipOpts: {
                     content: function (label, x, y, point) {
+                        var timeOffset = (point.dataIndex - 23) * 60 * 60 * 1000;
 
-                        if(current === undefined){
+                        if (current === undefined) {
                             current = new Date();
                             current.setHours(parseInt(point.series.data[point.series.data.length - 1][0]));
                         }
 
-                        var dateOffset = (point.dataIndex - 23) * 60 * 60 * 1000;
-                        var newDate = new Date(current.getTime() - dateOffset);
 
-                        console.log($filter('date')(newDate, 'HH:mm (d MMM)'), date.getTime() - dateOffset);
+                        console.log(current.getTime() - timeOffset);
+                        //var newDate = new Date(current.getTime() - dateOffset);
+                        //
+                        //console.log($filter('date')(newDate, 'HH:mm (d MMM)'), date.getTime() - dateOffset);
 
                         return x + ' : ' + y;
                     }
