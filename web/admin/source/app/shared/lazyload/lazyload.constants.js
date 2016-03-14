@@ -148,7 +148,7 @@
                 {name: 'colorpicker.module',        files: ['/admin/vendor/angular-bootstrap-colorpicker/css/colorpicker.css',
                     '/admin/vendor/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js']},
                 {name: 'admin.user',                files: ['/admin/vendor/user/dest/user.min.js']},
-                {name: 'admin.crud',                files: ['/admin/vendor/crud/dest/crud.min.js']}
+                {name: 'admin.crud',                files: ['/admin/vendor/crud/dist/js/crud.min.js']}
             ]
         })
     ;

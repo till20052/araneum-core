@@ -131,6 +131,6 @@
   "bower_components/angular-bootstrap-colorpicker/img/*",
   "bower_components/user/dest/user.min.js",
   "bower_components/user/dest/users/**/*.html",
-  "bower_components/crud/dest/crud.min.js",
-  "bower_components/crud/dest/crud.html"
+  "bower_components/crud/dist/js/crud.min.js",
+  "bower_components/crud/dist/views/crud.html"
 ]
