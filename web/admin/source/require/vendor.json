@@ -129,6 +129,6 @@
   "bower_components/angular-bootstrap-colorpicker/css/colorpicker.css",
   "bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js",
   "bower_components/angular-bootstrap-colorpicker/img/*",
-  "bower_components/crud/dest/crud.min.js",
-  "bower_components/crud/dest/crud.html"
+  "bower_components/crud/dist/js/crud.min.js",
+  "bower_components/crud/dist/views/crud.html"
 ]

@@ -108,7 +108,7 @@
     "textAngular": "1.4.1",
     "weather-icons": "2.0.10",
     "whirl": "1.0.0",
-    "crud": "ssh://git@stash.office.dev:7999/af/crud.git"
+    "crud": "git@github.com:till20052/araneum-admin.git"
   },
   "resolutions": {
     "angular": "1.4.8",
