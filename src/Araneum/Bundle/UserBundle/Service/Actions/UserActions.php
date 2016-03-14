@@ -21,27 +21,55 @@ class UserActions extends AbstractActions
     {
         $builder
             ->add(
-                'ldap',
+                'create',
                 [
-                    'resourceAll' => 'araneum_user_admin_users_ldap_sync',
-                    'callback' => 'refresh',
-                    'confirm' => [
-                        'title' => 'admin.general.SURE',
-                        'yes' => [
-                            'class' => 'confirm',
-                            'title' => 'admin.general.CONFIRM_LDAP_SYNC',
-                        ],
-                        'no' => [
-                            'class' => 'cancel',
-                            'title' => 'admin.general.CANCEL',
-                        ],
-                    ],
+                    'form' => 'araneum_user_admin_user_get',
+                    'callback' => 'create',
                     'display' => [
                         'btnClass' => 'btn-success',
-                        'icon' => 'icon-refresh',
-                        'label' => 'user.data_grid.LDAP_USERS',
+                        'icon' => 'icon-user-follow',
+                        'label' => 'user.data_grid.CREATE_NEW',
                     ],
                     'position' => ActionBuilderInterface::POSITION_TOP,
+                ]
+            )
+            ->add(
+                'update',
+                [
+                    'form' => 'araneum_user_admin_user_get',
+                    'callback' => 'update',
+                    'display' => [
+                        'btnClass' => 'btn-success',
+                        'icon' => 'icon-user-follow',
+                        'label' => 'user.data_grid.EDIT_USER',
+                    ],
+                    'position' => ActionBuilderInterface::POSITION_ROW,
+                ]
+            )
+            ->add(
+                'enabledDisabled',
+                [
+                    'resource' => 'araneum_user_admin_user_enable',
+                    'callback' => 'editRow',
+                    'display' => [
+                        'btnClass' => 'btn btn-sm btn-default',
+                        'icon' => 'icon-lock-open',
+                        'label' => 'user.data_grid.ENABLE_USER',
+                    ],
+                    'position' => ActionBuilderInterface::POSITION_ALL,
+                ]
+            )
+            ->add(
+                'enabledDisabled',
+                [
+                    'resource' => 'araneum_user_admin_user_disable',
+                    'callback' => 'editRow',
+                    'display' => [
+                        'btnClass' => 'btn btn-sm btn-default',
+                        'icon' => 'icon-lock-open',
+                        'label' => 'user.data_grid.DISABLE_USER',
+                    ],
+                    'position' => ActionBuilderInterface::POSITION_ALL,
                 ]
             )
             ->add(
@@ -69,55 +97,27 @@ class UserActions extends AbstractActions
                 ]
             )
             ->add(
-                'enabledDisabled',
+                'ldap',
                 [
-                    'resource' => 'araneum_user_admin_user_disable',
-                    'callback' => 'editRow',
-                    'display' => [
-                        'btnClass' => 'btn btn-sm btn-default',
-                        'icon' => 'icon-lock-open',
-                        'label' => 'user.data_grid.DISABLE_USER',
+                    'resourceAll' => 'araneum_user_admin_users_ldap_sync',
+                    'callback' => 'refresh',
+                    'confirm' => [
+                        'title' => 'admin.general.SURE',
+                        'yes' => [
+                            'class' => 'confirm',
+                            'title' => 'admin.general.CONFIRM_LDAP_SYNC',
+                        ],
+                        'no' => [
+                            'class' => 'cancel',
+                            'title' => 'admin.general.CANCEL',
+                        ],
                     ],
-                    'position' => ActionBuilderInterface::POSITION_ALL,
-                ]
-            )
-            ->add(
-                'enabledDisabled',
-                [
-                    'resource' => 'araneum_user_admin_user_enable',
-                    'callback' => 'editRow',
-                    'display' => [
-                        'btnClass' => 'btn btn-sm btn-default',
-                        'icon' => 'icon-lock-open',
-                        'label' => 'user.data_grid.ENABLE_USER',
-                    ],
-                    'position' => ActionBuilderInterface::POSITION_ALL,
-                ]
-            )
-            ->add(
-                'create',
-                [
-                    'form' => 'araneum_user_admin_user_get',
-                    'callback' => 'create',
                     'display' => [
                         'btnClass' => 'btn-success',
-                        'icon' => 'icon-user-follow',
-                        'label' => 'user.data_grid.CREATE_NEW',
+                        'icon' => 'icon-refresh',
+                        'label' => 'user.data_grid.LDAP_USERS',
                     ],
                     'position' => ActionBuilderInterface::POSITION_TOP,
-                ]
-            )
-            ->add(
-                'update',
-                [
-                    'form' => 'araneum_user_admin_user_get',
-                    'callback' => 'update',
-                    'display' => [
-                        'btnClass' => 'btn-success',
-                        'icon' => 'icon-user-follow',
-                        'label' => 'user.data_grid.EDIT_USER',
-                    ],
-                    'position' => ActionBuilderInterface::POSITION_ROW,
                 ]
             );
     }

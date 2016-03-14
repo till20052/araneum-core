@@ -2,25 +2,25 @@
     'use strict';
 
     angular
-        .module('app.locales')
+        .module('app.emails')
         .config(routes);
 
     routes.$inject = ['$stateProvider', 'RouteHelpersProvider'];
 
     /**
-     * Routes of Locales
+     * Routes of Emails
      *
      * @param $stateProvider
      * @param helper
      */
     function routes($stateProvider, helper) {
         $stateProvider
-            .state('app.locales', {
-                url: '/locales',
-                initialize: '/manage/locales/init.json',
+            .state('app.emails', {
+                url: '/emails',
+                initialize: '/manage/mails/init.json',
                 crud: {
-                    icon: 'icon-globe-alt',
-                    title: 'admin.locales.TITLE'
+                    icon: 'icon-envelope',
+                    title: 'admin.emails.TITLE'
                 },
                 templateUrl: helper.basepath('crud.html'),
                 resolve: helper.resolveFor('datatables', 'oitozero.ngSweetAlert', 'ui.select')

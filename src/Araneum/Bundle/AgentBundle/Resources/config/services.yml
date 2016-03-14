@@ -11,11 +11,12 @@ services:
     araneum.agent.spotoption.service:
         class: Araneum\Bundle\AgentBundle\Service\SpotOptionService
         arguments:
-            - @araneum.base.rabbitmq.producer.spot_customer
-            - @araneum.base.rabbitmq.producer.spot_login
-            - @araneum.base.rabbitmq.producer.spot
-            - @araneum.base.spot_api
-            - @doctrine.orm.entity_manager
+            - "@araneum.base.rabbitmq.producer.spot_customer"
+            - "@araneum.base.rabbitmq.producer.spot_login"
+            - "@araneum.base.rabbitmq.producer.spot"
+            - "@araneum.base.spot_api"
+            - "@doctrine.orm.entity_manager"
+            - "@jms_serializer"
 
     araneum.agent.logger:
         class: Araneum\Bundle\AgentBundle\Service\AgentLoggerService

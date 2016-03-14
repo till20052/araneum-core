@@ -9,7 +9,6 @@
   }
 }
 
-
 // Select length filter
 .dataTables_length {
   select {
@@ -20,7 +19,7 @@
 table.dataTable {
   tfoot > tr > th {
     color: #a1a2a3;
-    background: #f1f2f3;    
+    background: #f1f2f3;
   }
 }
 
@@ -34,8 +33,7 @@ table.dataTable {
   }
 }
 
-
-// 
+//
 // Custom ColVis extensions styles
 // 
 
@@ -69,19 +67,19 @@ ul.ColVis_collection {
     box-shadow: 0 0 0 #000 !important;
     margin: 0;
     > label {
-        margin: 0;
-        > span {
-          color: #888;
-          vertical-align: top;
-          font-weight: normal;
-          &:hover {
-            color: #555;
-          }
+      margin: 0;
+      > span {
+        color: #888;
+        vertical-align: top;
+        font-weight: normal;
+        &:hover {
+          color: #555;
         }
-        input[type=checkbox]:checked + span, 
-        input[type=radio]:checked + span {
-          background-color: transparent;
-        }
+      }
+      input[type=checkbox]:checked + span,
+      input[type=radio]:checked + span {
+        background-color: transparent;
+      }
     }
   }
 }
@@ -94,7 +92,7 @@ table.dataTable {
   border-bottom: 1px solid @gray-light !important;
 }
 
-table.dataTable thead th, 
+table.dataTable thead th,
 table.dataTable thead td {
   border-bottom: 1px solid @gray-light !important;
 }
@@ -125,6 +123,38 @@ table.dataTable thead td {
   }
 }
 
+.dataTables_ovCase {
+  position: relative;
+  overflow-y: auto;
+  clear: both;
+
+  > table.dataTable {
+
+    > thead > tr > th:nth-child(3) {
+      width: auto !important;
+    }
+
+    > thead > tr > th.actions {
+      width: 1px !important;
+      margin: 0;
+      padding: 0;
+
+      > div {
+        width: 44px !important;
+        box-sizing: border-box;
+      }
+    }
+
+    > tbody > tr > td.actions {
+      position: absolute;
+      display: block;
+      box-sizing: border-box;
+      right: 0;
+      background: inherit;
+    }
+  }
+}
+
 body {
   .dataTable {
     .clearfix;
@@ -147,7 +177,7 @@ body {
   .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     color: @brand-primary !important;
   }
-  .dataTables_wrapper .dataTables_paginate .paginate_button.current, 
+  .dataTables_wrapper .dataTables_paginate .paginate_button.current,
   .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
     background-color: @brand-primary !important;
     color: #fff !important;
@@ -157,7 +187,7 @@ body {
     border-top-color: #eee;
   }
   table.dataTable tbody tr:nth-child(odd),
-  table.dataTable.hover tbody tr:hover, 
+  table.dataTable.hover tbody tr:hover,
   table.dataTable.display tbody tr:hover {
     background-color: #fafbfc;
   }

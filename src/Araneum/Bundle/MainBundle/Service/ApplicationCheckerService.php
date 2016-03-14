@@ -96,7 +96,7 @@ class ApplicationCheckerService
     /**
      * Check Connection
      *
-     * @param  integer $id        of Connection
+     * @param  integer $id of Connection
      * @param  integer $pingCount
      * @return integer
      *
@@ -273,9 +273,9 @@ class ApplicationCheckerService
                 ->setDescription(Application::getStatusDescription($status));
 
             $problems->add($problem);
-
-            $this->loggerService->logApplication($application, $status, $problems);
         }
+
+        $this->loggerService->logApplication($application, $status, $problems);
 
         return $status;
     }
@@ -343,9 +343,7 @@ class ApplicationCheckerService
         $cluster->setStatus($status);
         $this->entityManager->flush();
 
-        if ($status != Cluster::STATUS_OK) {
-            $this->loggerService->logCluster($cluster, $status, $problems);
-        }
+        $this->loggerService->logCluster($cluster, $status, $problems);
 
         return $status;
     }
@@ -418,9 +416,7 @@ class ApplicationCheckerService
         $runner->setStatus($status);
         $this->entityManager->flush();
 
-        if ($status != Runner::STATUS_OK) {
-            $this->loggerService->logRunner($runner, $runner->getCluster(), $status);
-        }
+        $this->loggerService->logRunner($runner, $runner->getCluster(), $status);
 
         return $status;
     }

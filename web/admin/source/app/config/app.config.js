@@ -5,8 +5,8 @@
         .module('app')
         .config(coreConfig);
 
-    coreConfig.$inject = ['$controllerProvider', '$compileProvider', '$filterProvider', '$provide', 'HTTPEventListenerProvider'];
-    function coreConfig($controllerProvider, $compileProvider, $filterProvider, $provide, HTTPEventListenerProvider) {
+    coreConfig.$inject = ['$controllerProvider', '$compileProvider', '$filterProvider', '$provide', '$uibTooltipProvider', 'HTTPEventListenerProvider'];
+    function coreConfig($controllerProvider, $compileProvider, $filterProvider, $provide, tooltips, HTTPEventListenerProvider) {
 
         var core = angular.module('app');
         // registering components after bootstrap
@@ -22,6 +22,10 @@
             if (httpEvent.content.status == 401) {
                 httpEvent.state.go('login');
             }
+        });
+
+        tooltips.options({
+            appendToBody: true
         });
 
     }

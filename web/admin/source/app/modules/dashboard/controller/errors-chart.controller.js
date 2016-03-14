@@ -4,7 +4,7 @@
     angular.module('app.dashboard')
         .controller('ErrorsChartController', ErrorsChartController);
 
-    ErrorsChartController.$inject = ['DashboardService', '$rootScope'];
+    ErrorsChartController.$inject = ['DashboardService', '$rootScope', '$interpolate'];
 
     /**
      * Controller of errors chart
@@ -13,7 +13,7 @@
      * @param $rootScope
      * @constructor
      */
-    function ErrorsChartController(dashboard, $rootScope) {
+    function ErrorsChartController(dashboard, $rootScope, $interpolate) {
         /* jshint validthis: true,
          eqeqeq: false,
          -W083 */
@@ -44,8 +44,15 @@
                 },
                 tooltip: true,
                 tooltipOpts: {
-                    content: function (label, x, y) {
-                        return x + ' : ' + y;
+                    content: function (label, x, y, p) {
+                        var data = p.series.data,
+                            hours = parseInt(data[data.length - 1][0]),
+                            offset = p.dataIndex - 23;
+                        return $interpolate('{{ label }}: {{ value }} {{ "admin.dashboard.widget.ERRORS" | translate }} ({{ date | date : \'d MMM HH:mm\' }})')({
+                            label: label,
+                            value: y,
+                            date: (new Date()).setHours(hours + offset, 0)
+                        });
                     }
                 },
                 xaxis: {

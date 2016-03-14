@@ -7,7 +7,7 @@
     angular.module('app.dashboard')
         .controller('ReceivedEmailsController', ReceivedEmailsController);
 
-    ReceivedEmailsController.$inject = ['DashboardService', '$scope', '$translate'];
+    ReceivedEmailsController.$inject = ['DashboardService', '$scope', '$translate', '$interpolate'];
 
     /**
      * Received Emails Controller
@@ -17,7 +17,7 @@
      * @param $translate
      * @constructor
      */
-    function ReceivedEmailsController(DashboardService, $scope, $translate) {
+    function ReceivedEmailsController(DashboardService, $scope, $translate, $interpolate) {
         /* jshint validthis: true */
         var vm = this;
 
@@ -43,8 +43,15 @@
             },
             tooltip: true,
             tooltipOpts: {
-                content: function (label, x, y) {
-                    return x + ' : ' + y;
+                content: function (label, x, y, p) {
+                    var data = p.series.data,
+                        hours = parseInt(data[data.length - 1][0]),
+                        offset = p.dataIndex - 23;
+                    return $interpolate('{{ label }}: {{ value }} {{ "admin.dashboard.widget.EMAILS" | translate }} ({{ date | date : \'d MMM HH:mm\' }})')({
+                        label: label,
+                        value: y,
+                        date: (new Date()).setHours(hours + offset, 0)
+                    });
                 }
             },
             xaxis: {

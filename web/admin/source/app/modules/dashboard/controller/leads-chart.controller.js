@@ -5,7 +5,7 @@
         .module('app.dashboard')
         .controller('LeadsChartController', LeadsChartController);
 
-    LeadsChartController.$inject = ['DashboardService', '$rootScope', '$translate'];
+    LeadsChartController.$inject = ['DashboardService', '$rootScope', '$translate', '$interpolate'];
 
     /**
      * Leads chart controller
@@ -15,7 +15,7 @@
      * @param $translate
      * @constructor
      */
-    function LeadsChartController(DashboardService, $rootScope, $translate) {
+    function LeadsChartController(DashboardService, $rootScope, $translate, $interpolate) {
         /* jshint validthis: true */
         var vm = this;
 
@@ -47,8 +47,15 @@
                 },
                 tooltip: true,
                 tooltipOpts: {
-                    content: function (label, x, y) {
-                        return x + ' : ' + y;
+                    content: function (label, x, y, p) {
+                        var data = p.series.data,
+                            hours = parseInt(data[data.length - 1][0]),
+                            offset = p.dataIndex - 23;
+                        return $interpolate('{{ label }}: {{ value }} {{ "admin.dashboard.widget.LEADS" | translate }} ({{ date | date : \'d MMM HH:mm\' }})')({
+                            label: label,
+                            value: y,
+                            date: (new Date()).setHours(hours + offset, 0)
+                        });
                     }
                 },
                 xaxis: {

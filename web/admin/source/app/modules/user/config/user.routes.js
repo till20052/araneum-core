@@ -1,26 +1,29 @@
-/**=========================================================
- * Module: routes.config.js
- * App routes and resources configuration
- =========================================================*/
-
-
 (function () {
     'use strict';
 
     angular
         .module('app.users')
-        .config(routesConfig);
+        .config(routes);
 
-    routesConfig.$inject = ['$stateProvider', 'RouteHelpersProvider'];
-    function routesConfig($stateProvider, helper) {
+    routes.$inject = ['$stateProvider', 'RouteHelpersProvider'];
+
+    /**
+     * Routes of Users
+     *
+     * @param $stateProvider
+     * @param helper
+     */
+    function routes($stateProvider, helper) {
         $stateProvider
             .state('app.users', {
                 url: '/users',
-                title: 'Users',
                 initialize: '/manage/users/init.json',
-                templateUrl: helper.basepath('grid-template.html'),
-                resolve: angular.extend(helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert', 'whirl', 'toaster')),
-                controller: 'UserTableController'
+                crud: {
+                    icon: 'icon-people',
+                    title: 'admin.users.TITLE'
+                },
+                templateUrl: helper.basepath('crud.html'),
+                resolve: helper.resolveFor('admin.crud', 'datatables', 'oitozero.ngSweetAlert', 'ui.select')
             })
             .state('login', {
                 url: '/login',

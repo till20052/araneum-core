@@ -17,8 +17,12 @@
             .state('app.clusters', {
                 url: '/clusters',
                 initialize: '/manage/clusters/init.json',
-                templateUrl: helper.basepath('grid-template.html'),
-                resolve: angular.extend(helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert', 'whirl', 'toaster'))
+                crud: {
+                    icon: 'icon-globe-alt',
+                    title: 'clusters.CLUSTERS'
+                },
+                templateUrl: helper.basepath('crud.html'),
+                resolve: helper.resolveFor('datatables', 'oitozero.ngSweetAlert', 'ui.select')
             });
     }
 })();

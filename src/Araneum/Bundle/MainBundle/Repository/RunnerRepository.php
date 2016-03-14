@@ -44,7 +44,7 @@ class RunnerRepository extends EntityRepository
             ->setParameters(
                 [
                     'start' => date('Y-m-d H:i:s', time() - 86400),
-                    'end' => date('Y-m-d H:i:s', time()),
+                    'end' => date('Y-m-d H:i:s'),
                 ]
             )
             ->setMaxResults($maxResults)
@@ -64,8 +64,7 @@ class RunnerRepository extends EntityRepository
         return $qb
             ->select('r.name')
             ->addSelect('ROUND(SUM(CAST(CASE WHEN r.status = :success THEN 1 ELSE 0 END AS NUMERIC))/count(r.id), 2)*100 AS success')
-            ->addSelect('ROUND(SUM(CAST(CASE WHEN r.status IN (:app_code_incorrect, :app_error) THEN 1 ELSE 0 END AS NUMERIC))/count(r.id), 2)*100 AS appProblem')
-            ->addSelect('ROUND(SUM(CAST(CASE WHEN r.status IN (:code_incorrect, :error, :slow_connection, :unstable_connection) THEN 1 ELSE 0 END AS NUMERIC))/count(r.id), 2)*100 AS problem')
+            ->addSelect('ROUND(SUM(CAST(CASE WHEN r.status IN (:code_incorrect, :error, :slow_connection, :unstable_connection, :app_code_incorrect, :app_error) THEN 1 ELSE 0 END AS NUMERIC))/count(r.id), 2)*100 AS problem')
             ->addSelect('ROUND(SUM(CAST(CASE WHEN r.status = :offline THEN 1 ELSE 0 END AS NUMERIC))/count(r.id), 2)*100 AS offline')
             ->leftJoin(
                 'AraneumAgentBundle:RunnerLog',
@@ -88,7 +87,7 @@ class RunnerRepository extends EntityRepository
                     'unstable_connection' => Runner::STATUS_HAS_UNSTABLE_CONNECTION,
                     'offline' => Runner::STATUS_OFFLINE,
                     'start' => date('Y-m-d H:i:s', time() - 86400),
-                    'end' => date('Y-m-d H:i:s', time()),
+                    'end' => date('Y-m-d H:i:s'),
                 ]
             )
             ->setMaxResults($maxResults)
