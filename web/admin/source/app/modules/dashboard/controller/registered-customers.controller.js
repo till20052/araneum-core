@@ -4,7 +4,7 @@
     angular.module('app.dashboard')
         .controller('RegisteredCustomersController', RegisteredCustomersController);
 
-    RegisteredCustomersController.$inject = ['DashboardService', '$scope', '$translate'];
+    RegisteredCustomersController.$inject = ['DashboardService', '$scope', '$translate', '$interpolate'];
 
     /**
      * Registered Customer Controller
@@ -14,7 +14,7 @@
      * @param $translate
      * @constructor
      */
-    function RegisteredCustomersController(DashboardService, $scope, $translate) {
+    function RegisteredCustomersController(DashboardService, $scope, $translate, $interpolate) {
         /* jshint validthis: true */
         var vm = this;
 
@@ -40,8 +40,15 @@
             },
             tooltip: true,
             tooltipOpts: {
-                content: function (label, x, y) {
-                    return x + ' : ' + y;
+                content: function (label, x, y, p) {
+                    var data = p.series.data,
+                        hours = parseInt(data[data.length - 1][0]),
+                        offset = p.dataIndex - 23;
+                    return $interpolate('{{ label }}: {{ value }} {{ "admin.dashboard.widget.CUSTOMERS" | translate }} ({{ date | date : \'d MMM HH:mm\' }})')({
+                        label: label,
+                        value: y,
+                        date: (new Date()).setHours(hours + offset, 0)
+                    });
                 }
             },
             xaxis: {

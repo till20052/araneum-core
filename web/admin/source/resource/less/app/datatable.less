@@ -123,16 +123,35 @@ table.dataTable thead td {
   }
 }
 
-.dataTables_ofpanel {
+.dataTables_ovCase {
   position: relative;
   overflow-y: auto;
   clear: both;
 
-  td.actions-column {
-    position: absolute;
-    display: block;
-    box-sizing: border-box;
-    right: 0;
+  > table.dataTable {
+
+    > thead > tr > th:nth-child(3) {
+      width: auto !important;
+    }
+
+    > thead > tr > th.actions {
+      width: 1px !important;
+      margin: 0;
+      padding: 0;
+
+      > div {
+        width: 44px !important;
+        box-sizing: border-box;
+      }
+    }
+
+    > tbody > tr > td.actions {
+      position: absolute;
+      display: block;
+      box-sizing: border-box;
+      right: 0;
+      background: inherit;
+    }
   }
 }
 

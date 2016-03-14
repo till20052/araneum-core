@@ -5,7 +5,7 @@
         .module('app.dashboard')
         .controller('ChartRunnerAvgloadController', ChartRunnerAvgloadController);
 
-    ChartRunnerAvgloadController.$inject = ['DashboardService', '$scope'];
+    ChartRunnerAvgloadController.$inject = ['DashboardService', '$interpolate'];
 
     /**
      * Chart of Runner's Average Load
@@ -13,7 +13,7 @@
      * @param DashboardService
      * @constructor
      */
-    function ChartRunnerAvgloadController(DashboardService) {
+    function ChartRunnerAvgloadController(DashboardService, $interpolate) {
         /* jshint validthis: true */
         var vm = this;
 
@@ -42,8 +42,15 @@
             },
             tooltip: true,
             tooltipOpts: {
-                content: function (label, x, y) {
-                    return x + ' : ' + y;
+                content: function (label, x, y, p) {
+                    var data = p.series.data,
+                        hours = parseInt(data[data.length - 1][0]),
+                        offset = p.dataIndex - 23;
+                    return $interpolate('{{ label }}: {{ value }}% ({{ date | date : \'d MMM HH:mm\' }})')({
+                        label: label,
+                        value: y,
+                        date: (new Date()).setHours(hours + offset, 0)
+                    });
                 }
             },
             xaxis: {

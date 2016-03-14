@@ -86,7 +86,7 @@ var source = {
     template: {
         build: [
             '../../vendor/user/dest/**/*.html',
-            '../../vendor/crud/dest/*.html',
+            '../../vendor/crud/dist/views/*.html',
             paths.template + '/**/*.*'
         ]
     }

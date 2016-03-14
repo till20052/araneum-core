@@ -38,7 +38,6 @@
             'app.translate',
             'app.utils',
             'app.charts',
-            'crud',
 
         /**
          * Modules
