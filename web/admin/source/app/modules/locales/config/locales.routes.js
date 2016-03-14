@@ -1,18 +1,19 @@
-/**=========================================================
- * Module: routes.config.js
- * App routes and resources configuration
- =========================================================*/
-
-
 (function () {
     'use strict';
 
     angular
         .module('app.locales')
-        .config(routesConfig);
+        .config(routes);
 
-    routesConfig.$inject = ['$stateProvider', 'RouteHelpersProvider'];
-    function routesConfig($stateProvider, helper) {
+    routes.$inject = ['$stateProvider', 'RouteHelpersProvider'];
+
+    /**
+     * Routes of Locales
+     *
+     * @param $stateProvider
+     * @param helper
+     */
+    function routes($stateProvider, helper) {
         $stateProvider
             .state('app.locales', {
                 url: '/locales',
@@ -25,4 +26,5 @@
                 resolve: helper.resolveFor('datatables', 'oitozero.ngSweetAlert', 'ui.select')
             });
     }
+
 })();

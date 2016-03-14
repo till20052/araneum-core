@@ -25,6 +25,18 @@ class SpotCustomerConsumerServiceTest extends \PHPUnit_Framework_TestCase
         'customerId' => 123,
         'applicationId' => 321,
     ];
+    protected static $credential  = [
+        'spotCredential' => [
+            'url' => 'spotUrl',
+            'userName' => 'spotUserName',
+            'password' => 'spotPassword',
+        ],
+        'log' => [
+            'action' => 'actionName',
+            'customerId' => 123,
+            'applicationId' => 321,
+        ],
+    ];
     protected static $data           = [
         'key' => 'value',
         'key2' => 'value',
@@ -78,7 +90,7 @@ class SpotCustomerConsumerServiceTest extends \PHPUnit_Framework_TestCase
         $this->spotApiSenderServiceMock
             ->expects($this->once())
             ->method('send')
-            ->with($this->equalTo(self::$data), $this->equalTo(self::$spotCredential))
+            ->with($this->equalTo(self::$data), $this->equalTo(self::$credential['spotCredential']))
             ->will($this->returnValue($response));
 
         $this->spotApiSenderServiceMock
@@ -103,7 +115,7 @@ class SpotCustomerConsumerServiceTest extends \PHPUnit_Framework_TestCase
         $this->spotApiSenderServiceMock
             ->expects($this->once())
             ->method('send')
-            ->with($this->equalTo(self::$data), $this->equalTo(self::$spotCredential))
+            ->with($this->equalTo(self::$data), $this->equalTo(self::$credential['spotCredential']))
             ->will($this->returnValue($response));
 
         $this->spotApiSenderServiceMock
@@ -179,8 +191,7 @@ class SpotCustomerConsumerServiceTest extends \PHPUnit_Framework_TestCase
     private static function getMessageObject()
     {
         $msg = new \stdClass();
-        $msg->spotCredential = (object) self::$spotCredential;
-        $msg->log = (object) self::$log;
+        $msg->credential = (object) self::$credential;
         $msg->data = (object) self::$data;
 
         return $msg;

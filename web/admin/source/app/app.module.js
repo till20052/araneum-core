@@ -38,6 +38,7 @@
             'app.translate',
             'app.utils',
             'app.charts',
+            'crud',
 
         /**
          * Modules
@@ -48,7 +49,7 @@
             'app.dashboard',
             'app.applications',
             'app.leads',
-            'app.mails'
+            'app.emails'
         ]);
 })();
 

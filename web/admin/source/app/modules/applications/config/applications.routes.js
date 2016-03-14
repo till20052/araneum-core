@@ -1,28 +1,30 @@
-/**=========================================================
- * Module: routes.config.js
- * App routes and resources configuration
- =========================================================*/
-
-
 (function () {
     'use strict';
 
     angular
         .module('app.applications')
-        .config(routesConfig);
+        .config(routes);
 
-    routesConfig.$inject = ['$stateProvider', 'RouteHelpersProvider'];
-    function routesConfig($stateProvider, helper) {
+    routes.$inject = ['$stateProvider', 'RouteHelpersProvider'];
+
+    /**
+     * Routes of Applications
+     *
+     * @param $stateProvider
+     * @param helper
+     */
+    function routes($stateProvider, helper) {
         $stateProvider
             .state('app.applications', {
                 url: '/applications',
                 initialize: '/manage/applications/init.json',
                 crud: {
-                    icon: 'icon-globe-alt',
-                    title: 'leads.LEADS'
+                    icon: 'icon-calculator',
+                    title: 'admin.applications.TITLE'
                 },
                 templateUrl: helper.basepath('crud.html'),
                 resolve: helper.resolveFor('datatables', 'oitozero.ngSweetAlert', 'ui.select')
             });
     }
+
 })();
