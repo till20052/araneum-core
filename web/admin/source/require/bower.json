@@ -107,7 +107,9 @@
     "spinkit": "1.2.5",
     "textAngular": "1.4.1",
     "weather-icons": "2.0.10",
-    "whirl": "1.0.0"
+    "whirl": "1.0.0",
+    "crud": "http://stash.office.dev/scm/af/crud.git",
+    "user": "http://stash.office.dev/scm/af/user.git"
   },
   "resolutions": {
     "angular": "1.4.8",
