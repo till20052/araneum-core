@@ -34,7 +34,7 @@ var paths = {
     scripts: '../app/',
     img: '../resource/img/',
     template: '../resource/html/'
-}
+};
 
 // VENDOR CONFIG
 var vendor = {
@@ -85,7 +85,8 @@ var source = {
     },
     template: {
         build: [
-            '../../vendor/crud/dist/views/*.html',
+            '../../vendor/user/dest/**/*.html',
+            '../../vendor/crud/dest/*.html',
             paths.template + '/**/*.*'
         ]
     }

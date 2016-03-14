@@ -17,8 +17,12 @@
             .state('app.leads', {
                 url: '/leads',
                 initialize: '/manage/leads/init.json',
-                templateUrl: helper.basepath('grid-template.html'),
-                resolve: angular.extend(helper.resolveFor('ngDialog', 'datatables', 'localytics.directives', 'oitozero.ngSweetAlert', 'whirl', 'toaster'))
+                crud: {
+                    icon: 'icon-globe-alt',
+                    title: 'leads.LEADS'
+                },
+                templateUrl: helper.basepath('crud.html'),
+                resolve: helper.resolveFor('datatables', 'oitozero.ngSweetAlert', 'ui.select')
             });
     }
 })();

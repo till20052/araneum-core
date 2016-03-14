@@ -2,9 +2,6 @@
     'use strict';
 
     angular
-        .module('app.users', [
-            'ngStorage',
-            'ngDialog'
-        ]);
+        .module('app.users', []);
 
 })();
